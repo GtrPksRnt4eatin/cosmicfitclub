@@ -1,4 +1,83 @@
 
 body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: "Helvetica Neue", Helvetica, Arial;
+  text-align: center;
+  color: rgba(255,255,255,0.8);
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7f3f7f+0,000000+5,000000+95,7f3f7f+100 */
+  background: rgb(127,63,127); /* Old browsers */
+  background: -moz-linear-gradient(left,  rgba(127,63,127,1) 0%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(127,63,127,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left,  rgba(127,63,127,1) 0%,rgba(0,0,0,1) 5%,rgba(0,0,0,1) 95%,rgba(127,63,127,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right,  rgba(127,63,127,1) 0%,rgba(0,0,0,1) 5%,rgba(0,0,0,1) 95%,rgba(127,63,127,1) 100%);     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f3f7f', endColorstr='#7f3f7f',GradientType=1 );          /* IE6-9 */
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0; right: 0;
+  margin: auto;
+  display: inline-block;
+  box-sizing: border-box;
   background: black;
+  box-shadow: 0 1em 2em black, 0 1em 2em black;
+  max-width: 90vw;
+  padding-bottom: 1vw;
+}
+
+ul {
+  list-style: none;
+}
+
+header ul {
+  margin: 0;
+  padding: 0;
+}
+
+#topinfo {
+  display: block;
+}
+
+#topinfo li {
+  display: inline-block;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+ul#menu li {
+  display: inline-block;
+  padding: 0.2em 0.5em;
+  vertical-align: middle;
+  box-sizing: border-box;
+  font-size: 20pt;
+  cursor: pointer;
+}
+
+ul#menu li:hover {
+  box-shadow: 0 -0.2em 0 blue inset;
+}
+
+.content {
+  height: 60vh;
+  max-width: 70vw;
+  margin: 35vh auto 0;
+  font-size: 18pt;
+  line-height: 1.5em;
+}
+
+#logo {
+  max-height: 18vh;
+}
+
+footer ul {
+  text-align: left;
+  display: inline-block;
+}
+
+footer li {
+  padding: 0.2em;
+  cursor: pointer;
 }

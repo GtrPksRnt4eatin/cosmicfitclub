@@ -9,7 +9,28 @@ html lang='en-us'
     script src="https://unpkg.com/react@15/dist/react.js"
     script src="https://unpkg.com/react-dom@15/dist/react-dom.js"
     script src="//cdn.muicss.com/mui-0.9.4/webcomponents/mui-webcomponents.js"	
-    ==js  ['lib','index']
+    ==js  ['jquery', 'lib','index']
 
   body
-    | Cosmic Fit Club
+    header
+      ul#topinfo
+        li Directions
+        | |
+        li xxx-xxx-xxxx
+        | |
+        li info@cosmicfitclub.com
+      img#logo src='logo.png'
+      ul#menu
+        li Classes
+        li Events
+        li Schedule
+        li Instructors
+      
+    .content
+      | The Mission of Cosmic Fit Club is to provide a space for interdisciplinary fitness classes, cutting edge personal training, innovative, exploratory events that celebrate art, music, crafts, food, fashion and fitness! Escape the ordinary and enter the new studio gym of the future
+
+    footer
+
+      ul
+        li Directions
+        li Contact Us
