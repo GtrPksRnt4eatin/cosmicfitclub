@@ -52,12 +52,13 @@ ul#menu li {
   padding: 0.2em 0.5em;
   vertical-align: middle;
   box-sizing: border-box;
-  font-size: 20pt;
+  font-size: 22pt;
   cursor: pointer;
+  width: 6em;
 }
 
 ul#menu li:hover {
-  box-shadow: 0 -0.2em 0 blue inset;
+  box-shadow: 0 -0.1em 0 rgba(255,255,255,0.8) inset;
 }
 
 .content {
@@ -80,4 +81,8 @@ footer ul {
 footer li {
   padding: 0.2em;
   cursor: pointer;
+}
+
+@media(max-width: 700px) {
+	ul#menu li { font-size: 3.5vw; }
 }
