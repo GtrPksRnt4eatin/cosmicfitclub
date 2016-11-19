@@ -6,17 +6,29 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial;
   text-align: center;
   color: rgba(255,255,255,0.8);
+  
+}
 
+#stars, #gradient {
+  position: fixed;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+}
 
+#stars {
+  z-index: -1;
+  background: url('background.jpg');
+}
 
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7f3f7f+0,000000+5,000000+95,7f3f7f+100 */
-  background: rgb(127,63,127); /* Old browsers */
-  background: -moz-linear-gradient(left,  rgba(127,63,127,1) 0%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(127,63,127,1) 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(left,  rgba(127,63,127,1) 0%,rgba(0,0,0,1) 5%,rgba(0,0,0,1) 95%,rgba(127,63,127,1) 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right,  rgba(127,63,127,1) 0%,rgba(0,0,0,1) 5%,rgba(0,0,0,1) 95%,rgba(127,63,127,1) 100%);     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f3f7f', endColorstr='#7f3f7f',GradientType=1 );          /* IE6-9 */
+#gradient {
+  z-index: -1;
 
-    background: url('background.jpg');
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7f3f7f+0,000000+5,000000+95,7f3f7f+100&1+0,0+5,0+95,1+100 */
+background: -moz-linear-gradient(left,  rgba(127,63,127,1) 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0) 95%, rgba(127,63,127,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left,  rgba(127,63,127,1) 0%,rgba(0,0,0,0) 5%,rgba(0,0,0,0) 95%,rgba(127,63,127,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right,  rgba(127,63,127,1) 0%,rgba(0,0,0,0) 5%,rgba(0,0,0,0) 95%,rgba(127,63,127,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f3f7f', endColorstr='#7f3f7f',GradientType=1 ); /* IE6-9 */
+
 }
 
 header {
@@ -28,7 +40,7 @@ header {
   box-sizing: border-box;
   background: black;
   box-shadow: 0 1em 2em black, 0 1em 2em black;
-  max-width: 90vw;
+  max-width: 87vw;
   padding-bottom: 1vw;
 }
 
@@ -75,6 +87,7 @@ ul#menu li:hover {
 
 #logo {
   max-height: 18vh;
+  max-width: 87vw;
 }
 
 footer ul {
@@ -87,6 +100,8 @@ footer li {
   cursor: pointer;
 }
 
-@media(max-width: 700px) {
+@media(max-width: 800px) {
 	ul#menu li { font-size: 3.5vw; }
+	ul#topinfo li { font-size: 2.5vw; }
+	.content { font-size: 3.5vw; }
 }
