@@ -6,6 +6,9 @@ get '*/:file.js'   do send_file "js/#{params[:file]}.js"   end
 get '*/:file.css'  do send_file "css/#{params[:file]}.css" end
 
 get /.*\.(jpeg|jpg|png|gif|ico|svg)/ do
+  puts request.path 
+  puts "img#{request.path}"
+  puts File.exist? "img#{request.path}"
   return 404 unless File.exist? "img#{request.path}"
   send_file "img#{request.path}"
 end

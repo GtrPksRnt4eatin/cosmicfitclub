@@ -27,6 +27,7 @@ def with_db
   end 
 end
 
+def no_scaling; "\n<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'/>" end
 def css(path) handleArray(path) { |x| "\n<link rel='stylesheet' type='text/css' href='#{x}.css'/>" } end
 def js(path)  handleArray(path) { |x| "\n<script src='#{x}.js'></script>" } end
 

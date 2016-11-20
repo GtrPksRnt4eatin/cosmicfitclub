@@ -1,15 +1,9 @@
-<!doctype html>
-html lang='en-us'
+html
   head
-    meta charset="utf-8"
-    meta http-equiv="X-UA-Compatible" content="IE=edge"
-    meta name="viewport" content="width=device-width, initial-scale=1"
-    ==css ['fonts','index']
+    == no_scaling
+    ==css ['fonts', 'index']
     title Cosmic Fit Club
-    script src="https://unpkg.com/react@15/dist/react.js"
-    script src="https://unpkg.com/react-dom@15/dist/react-dom.js"
-    script src="//cdn.muicss.com/mui-0.9.4/webcomponents/mui-webcomponents.js"	
-    ==js  ['jquery', 'lib','index']
+    ==js  ['jquery', 'rivets', 'lib', 'imagescroller', 'index']
 
   body
     #stars
@@ -32,6 +26,7 @@ html lang='en-us'
         li FAQ
       
     .content
+      #imgscroller_container
       | The Mission of Cosmic Fit Club is to provide a space for interdisciplinary fitness classes, cutting edge personal training, innovative, exploratory events that celebrate art, music, crafts, food, fashion and fitness! Escape the ordinary and enter the new studio gym of the future
 
     footer

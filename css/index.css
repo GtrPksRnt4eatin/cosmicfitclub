@@ -33,7 +33,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f3f7f', end
 }
 
 header {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0; right: 0;
   margin: auto;
@@ -110,6 +110,10 @@ footer ul {
 footer li {
   padding: 0.2em;
   cursor: pointer;
+}
+
+#ImageScroller {
+  height: 15vw;
 }
 
 @media(max-width: 800px) {
