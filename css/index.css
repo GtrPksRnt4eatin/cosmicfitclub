@@ -53,6 +53,7 @@ header {
   box-shadow: 0 1em 2em black, 0 1em 2em black;
   max-width: 87vw;
   padding-bottom: 1vw;
+  z-index: 1;
 }
 
 ul {
@@ -128,8 +129,12 @@ footer li {
   cursor: pointer;
 }
 
-#ImageScroller {
-  height: 15vw;
+#imgscroller {
+  height: 25vw;
+}
+
+.slick-dots {
+  background-color: white;
 }
 
 @media(max-width: 800px) {
