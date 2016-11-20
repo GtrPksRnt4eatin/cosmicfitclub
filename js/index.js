@@ -10,6 +10,7 @@ $(document).ready(function() {
   ];
 
   $('#imgscroller').slick({
+    variableHeight: true,
   	centerMode: true,
   	centerPadding: '60px',
   	variableWidth: true,
@@ -21,8 +22,6 @@ $(document).ready(function() {
   	
   });
 
-  images.forEach( function(path) { var elem =  $('#imgscroller').slick('slickAdd',`<div><img style='max-height: 100%; margin: 0 10px;' src='${ path }' /></div>`); });
+  images.forEach( function(path) { var elem =  $('#imgscroller').slick('slickAdd',`<div><img class='sliderimg' src='${ path }' /></div>`); });
 
-  //var imgscroller = new ImageScroller( id('imgscroller_container') );
-  //imgscroller.load_images(images);
 });
