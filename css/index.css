@@ -98,7 +98,6 @@ ul#menu li:hover:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5
 }
 
 #logo {
-  max-height: 18vh;
   max-width: 87vw;
 }
 
