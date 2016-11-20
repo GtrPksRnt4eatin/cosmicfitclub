@@ -101,9 +101,8 @@ ul#menu li:hover:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5
 
 
 .content {
-  height: 60vh;
   max-width: 70vw;
-  margin: 35vh auto 0;
+  margin: 70vw auto 0;
   font-size: 18pt;
   line-height: 1.5em;
 }
@@ -126,7 +125,7 @@ footer li {
   height: 15vw;
 }
 
-@media(max-width: 800px) {
+@media(max-width: 800px) {}
 	ul#menu li { font-size: 3.5vw; }
 	ul#topinfo li { font-size: 2.5vw; }
 	.content { font-size: 3.5vw; }
