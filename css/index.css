@@ -141,4 +141,5 @@ footer li {
 	ul#menu li { font-size: 3.5vw; }
 	ul#topinfo li { font-size: 2.5vw; }
 	.content { font-size: 3.5vw; margin-top: 45vw; }
+  #imgscroller { height: 40vw; }
 }
