@@ -74,9 +74,20 @@ ul#menu li {
   width: 6em;
 }
 
-ul#menu li:hover {
-  box-shadow: 0 -0.1em 0 rgba(255,255,255,0.8) inset;
-}
+ul#menu li:hover:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
+ul#menu li:hover:nth-child(2) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
+ul#menu li:hover:nth-child(3) { box-shadow: 0 -2px 0 rgb(100,255,100) inset; }
+ul#menu li:hover:nth-child(4) { box-shadow: 0 -2px 0 rgb(100,200,200) inset; }
+ul#menu li:hover:nth-child(5) { box-shadow: 0 -2px 0 rgb(100,100,255) inset; }
+ul#menu li:hover:nth-child(6) { box-shadow: 0 -2px 0 rgb(200,100,200) inset; }
+
+ul#menu li:hover:nth-child(1) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
+ul#menu li:hover:nth-child(2) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
+ul#menu li:hover:nth-child(3) { text-shadow: 0 0 0.5em rgb(100,255,100), 0 0 0.5em rgb(100,255,100); }
+ul#menu li:hover:nth-child(4) { text-shadow: 0 0 0.5em rgb(100,200,200), 0 0 0.5em rgb(100,200,200); }
+ul#menu li:hover:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255); }
+ul#menu li:hover:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5em rgb(200,100,200); }
+
 
 .content {
   height: 60vh;
