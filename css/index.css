@@ -140,5 +140,5 @@ footer li {
 @media(max-width: 800px) {
 	ul#menu li { font-size: 3.5vw; }
 	ul#topinfo li { font-size: 2.5vw; }
-	.content { font-size: 3.5vw; }
+	.content { font-size: 3.5vw; margin-top: 45vw; }
 }
