@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'early_times_thin';
+    src: url('early_times_thin_demo-webfont.woff2') format('woff2'),
+         url('early_times_thin_demo-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'district_pro';
+    src: url('distproth-webfont.woff2') format('woff2'),
+         url('distproth-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

@@ -6,7 +6,8 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial;
   text-align: center;
   color: rgba(255,255,255,0.8);
-  
+  font-family: 'district_pro';
+  font-weight: bold;
 }
 
 #stars, #gradient {
