@@ -17,6 +17,7 @@ body {
   color: rgba(255,255,255,0.8);
   font-family: 'district_pro';
   font-weight: bold;
+  background: black;
 }
 
 #stars, #gradient {
