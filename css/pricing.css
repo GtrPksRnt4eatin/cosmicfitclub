@@ -1,0 +1,6 @@
+#stars {
+  background: url('background2.jpg'); 
+}
+
+ul#menu li:nth-child(5) { box-shadow: 0 -2px 0 rgb(100,100,255) inset; }
+ul#menu li:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255); }

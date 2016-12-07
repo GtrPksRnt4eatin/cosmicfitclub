@@ -1,39 +1,18 @@
 html
   head
     == no_scaling
-    ==css ['fonts', 'slick', 'slick-theme', 'index']
+    ==css ['fonts', 'slick', 'slick-theme', 'header', 'footer', 'index']
     title Cosmic Fit Club
     ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'index']
 
   body
     #stars
-    #gradient
-    
-    header
-      img#logo src='logo.png'
-      ul#menu
-        li Classes
-        li Events
-        li Schedule
-        li Instructors
-        li Pricing
-        li FAQ
+
+    == include_slim('slim/partials/header')
       
     .content
       #imgscroller
       | The Mission of Cosmic Fit Club is to provide a space for interdisciplinary fitness classes, cutting edge personal training, innovative, exploratory events that celebrate art, music, crafts, food, fashion and fitness! Escape the ordinary and enter the new studio gym of the future
       br: br
-      | The Mission of Cosmic Fit Club is to provide a space for interdisciplinary fitness classes, cutting edge personal training, innovative, exploratory events that celebrate art, music, crafts, food, fashion and fitness! Escape the ordinary and enter the new studio gym of the future
-      br: br
-      | The Mission of Cosmic Fit Club is to provide a space for interdisciplinary fitness classes, cutting edge personal training, innovative, exploratory events that celebrate art, music, crafts, food, fashion and fitness! Escape the ordinary and enter the new studio gym of the future
-      br: br
-      | The Mission of Cosmic Fit Club is to provide a space for interdisciplinary fitness classes, cutting edge personal training, innovative, exploratory events that celebrate art, music, crafts, food, fashion and fitness! Escape the ordinary and enter the new studio gym of the future
-      br: br
 
-    footer
-      ul#topinfo
-        li Directions
-        | |
-        li xxx-xxx-xxxx
-        | |
-        li info@cosmicfitclub.com
+    == include_slim('slim/partials/footer')

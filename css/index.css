@@ -12,14 +12,17 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Helvetica Neue", Helvetica, Arial;
-  text-align: center;
   color: rgba(255,255,255,0.8);
   font-family: 'district_pro';
   font-weight: bold;
-  background: black;
 }
 
-#stars, #gradient {
+header, footer {
+  box-shadow: 0 0 5px white;
+  background: rgba(30,30,30,0.8);
+}
+
+#stars {
   position: fixed;
   top: 0; bottom: 0;
   left: 0; right: 0;
@@ -28,106 +31,25 @@ body {
 
 #stars {
   z-index: -1;
-  background: url('bg.png');
+  background: url('background2.jpg');
+  background-size: cover;
 }
 
-#gradient {
-  z-index: -1;
 
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7f3f7f+0,000000+5,000000+95,7f3f7f+100&1+0,0+5,0+95,1+100 */
-  background: -moz-linear-gradient(left,  rgba(127,63,127,1) 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0) 95%, rgba(127,63,127,1) 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(left,  rgba(127,63,127,1) 0%,rgba(0,0,0,0) 5%,rgba(0,0,0,0) 95%,rgba(127,63,127,1) 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right,  rgba(127,63,127,1) 0%,rgba(0,0,0,0) 5%,rgba(0,0,0,0) 95%,rgba(127,63,127,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f3f7f', endColorstr='#7f3f7f',GradientType=1 ); /* IE6-9 */
-
-}
-
-header {
-  background: url('bg.png');
-  position: fixed;
-  top: 0;
-  left: 0; right: 0;
-  margin: auto;
-  display: inline-block;
-  box-sizing: border-box;
-  box-shadow: 0 1em 2em black, 0 1em 2em black;
-  max-width: 87vw;
-  padding-bottom: 1vw;
-  z-index: 1;
-}
 
 ul {
   list-style: none;
 }
 
-header ul {
-  margin: 0;
-  padding: 0;
-}
-
-#topinfo li {
-  display: inline-block;
-  padding: 0.5em;
-  cursor: pointer;
-}
-
-ul#menu li {
-  display: inline-block;
-  padding: 0.2em 0.5em;
-  vertical-align: middle;
-  box-sizing: border-box;
-  font-size: 22pt;
-  cursor: pointer;
-  width: 6em;
-}
-
-ul#menu li:hover:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
-ul#menu li:hover:nth-child(2) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
-ul#menu li:hover:nth-child(3) { box-shadow: 0 -2px 0 rgb(100,255,100) inset; }
-ul#menu li:hover:nth-child(4) { box-shadow: 0 -2px 0 rgb(100,200,200) inset; }
-ul#menu li:hover:nth-child(5) { box-shadow: 0 -2px 0 rgb(100,100,255) inset; }
-ul#menu li:hover:nth-child(6) { box-shadow: 0 -2px 0 rgb(200,100,200) inset; }
-
-ul#menu li:hover:nth-child(1) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
-ul#menu li:hover:nth-child(2) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
-ul#menu li:hover:nth-child(3) { text-shadow: 0 0 0.5em rgb(100,255,100), 0 0 0.5em rgb(100,255,100); }
-ul#menu li:hover:nth-child(4) { text-shadow: 0 0 0.5em rgb(100,200,200), 0 0 0.5em rgb(100,200,200); }
-ul#menu li:hover:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255); }
-ul#menu li:hover:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5em rgb(200,100,200); }
 
 
 .content {
   max-width: 70vw;
-  margin: 25vw auto 0;
+  margin: 0 auto 0;
   font-size: 18pt;
   line-height: 1.5em;
 }
 
-#logo {
-  max-width: 87vw;
-}
-
-footer {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  text-align: center;
-  margin: 1vw auto 0;
-  width: 70vw;
-  background: rgb(50,50,50);
-}
-
-footer ul {
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-  display: inline-block;
-}
-
-footer li {
-  padding: 0.2em;
-  cursor: pointer;
-}
 
 #imgscroller {
   height: 25vw;
@@ -147,6 +69,19 @@ footer li {
   height: 40vw;
   width: 70vw;
   margin: auto;
+}
+
+
+
+.tile {
+  box-shadow: 0 0 5px white;
+  background: rgba(30,30,30,0.8);
+}
+
+.tile {
+  padding: .1em;
+  text-align: center; 
+  height: 50vh;
 }
 
 @media(max-width: 800px) {

@@ -1,0 +1,17 @@
+html
+  head
+    == no_scaling
+    ==css ['fonts', 'slick', 'slick-theme', 'header', 'footer', 'index', 'faq']
+    title Cosmic Fit Club
+    ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'index']
+
+  body
+    #stars
+    
+    == include_slim('slim/partials/header')
+      
+    .content
+      .tile 
+        H1 Frequently Asked Questions
+
+    == include_slim('slim/partials/footer')

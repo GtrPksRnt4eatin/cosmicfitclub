@@ -1,0 +1,24 @@
+footer {
+  text-align: center;
+  margin: 2em auto 0;
+  border-top: 1px solid black;
+}
+
+.footbox {
+  display: inline-block;
+  width: 30%;
+  margin: 0 1em;
+}
+
+.footbox {
+	position: relative;
+	vertical-align: top;
+}
+
+.footbox .heading {
+    font-size: 16pt;
+}
+
+#map {
+	width: 15vw;
+}
