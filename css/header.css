@@ -13,7 +13,7 @@ header {
 
 #logo {
   cursor: pointer;
-  max-width: 20vw;
+  max-width: 18em;
   vertical-align: bottom;
   margin: 1em;
 }
@@ -23,7 +23,7 @@ ul#menu li {
   padding: 0.2em 0.5em;
   vertical-align: middle;
   box-sizing: border-box;
-  font-size: 22pt;
+  font-size: 20pt;
   cursor: pointer;
   width: 6em;
 }

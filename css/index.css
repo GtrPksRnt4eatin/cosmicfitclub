@@ -11,9 +11,10 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial;
-  color: rgba(255,255,255,0.8);
   font-family: 'district_pro';
+  font-family: "Industry-Light";
+  color: rgba(255,255,255,0.8);
+
   font-weight: bold;
 }
 
@@ -44,15 +45,17 @@ ul {
 
 
 .content {
-  max-width: 70vw;
+  max-width: 80vw;
   margin: 0 auto 0;
   font-size: 18pt;
   line-height: 1.5em;
+  min-height: 48vh;
 }
 
 
 #imgscroller {
   height: 25vw;
+  opacity: 0.6;
 }
 
 .slick-dots {
@@ -79,9 +82,13 @@ ul {
 }
 
 .tile {
+  margin: 1em;
   padding: .1em;
-  text-align: center; 
-  height: 50vh;
+  text-align: center;
+}
+
+#mission,#scroller {
+  padding: 1em;
 }
 
 @media(max-width: 800px) {

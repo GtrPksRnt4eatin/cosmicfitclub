@@ -1,4 +1,128 @@
-@font-face {
+
+
+/**
+ * @license
+ * MyFonts Webfont Build ID 3317657, 2016-12-06T20:29:37-0500
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: Industry-Black by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/black/
+ * 
+ * Webfont: Industry-BookItalic by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/book-italic/
+ * 
+ * Webfont: Industry-Book by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/book/
+ * 
+ * Webfont: Industry-Bold by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/bold/
+ * 
+ * Webfont: Industry-BoldItalic by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/bold-italic/
+ * 
+ * Webfont: Industry-BlackItalic by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/black-italic/
+ * 
+ * Webfont: Industry-DemiItalic by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/demi-italic/
+ * 
+ * Webfont: Industry-Demi by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/demi/
+ * 
+ * Webfont: Industry-LightItalic by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/light-italic/
+ * 
+ * Webfont: Industry-Light by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/light/
+ * 
+ * Webfont: Industry-MediumItalic by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/medium-italic/
+ * 
+ * Webfont: Industry-Medium by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/medium/
+ * 
+ * Webfont: Industry-ThinItalic by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/thin-italic/
+ * 
+ * Webfont: Industry-Thin by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/thin/
+ * 
+ * Webfont: Industry-UltraItalic by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/ultra-italic/
+ * 
+ * Webfont: Industry-Ultra by Fort Foundry
+ * URL: http://www.myfonts.com/fonts/fort-foundry/industry/ultra/
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=3317657
+ * Licensed pageviews: 10,000
+ * Webfonts copyright: Copyright &#x00A9; 2014 by Mattox Shuler. All rights reserved.
+ * 
+ * © 2016 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/329f99");
+
+  
+@font-face {font-family: 'Industry-Black';src: url('webfonts/329F99_0_0.eot');src: url('webfonts/329F99_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_0_0.woff2') format('woff2'),url('webfonts/329F99_0_0.woff') format('woff'),url('webfonts/329F99_0_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-BookItalic';src: url('webfonts/329F99_1_0.eot');src: url('webfonts/329F99_1_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_1_0.woff2') format('woff2'),url('webfonts/329F99_1_0.woff') format('woff'),url('webfonts/329F99_1_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-Book';src: url('webfonts/329F99_2_0.eot');src: url('webfonts/329F99_2_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_2_0.woff2') format('woff2'),url('webfonts/329F99_2_0.woff') format('woff'),url('webfonts/329F99_2_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-Bold';src: url('webfonts/329F99_3_0.eot');src: url('webfonts/329F99_3_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_3_0.woff2') format('woff2'),url('webfonts/329F99_3_0.woff') format('woff'),url('webfonts/329F99_3_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-BoldItalic';src: url('webfonts/329F99_4_0.eot');src: url('webfonts/329F99_4_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_4_0.woff2') format('woff2'),url('webfonts/329F99_4_0.woff') format('woff'),url('webfonts/329F99_4_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-BlackItalic';src: url('webfonts/329F99_5_0.eot');src: url('webfonts/329F99_5_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_5_0.woff2') format('woff2'),url('webfonts/329F99_5_0.woff') format('woff'),url('webfonts/329F99_5_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-DemiItalic';src: url('webfonts/329F99_6_0.eot');src: url('webfonts/329F99_6_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_6_0.woff2') format('woff2'),url('webfonts/329F99_6_0.woff') format('woff'),url('webfonts/329F99_6_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-Demi';src: url('webfonts/329F99_7_0.eot');src: url('webfonts/329F99_7_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_7_0.woff2') format('woff2'),url('webfonts/329F99_7_0.woff') format('woff'),url('webfonts/329F99_7_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-LightItalic';src: url('webfonts/329F99_8_0.eot');src: url('webfonts/329F99_8_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_8_0.woff2') format('woff2'),url('webfonts/329F99_8_0.woff') format('woff'),url('webfonts/329F99_8_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-Light';src: url('webfonts/329F99_9_0.eot');src: url('webfonts/329F99_9_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_9_0.woff2') format('woff2'),url('webfonts/329F99_9_0.woff') format('woff'),url('webfonts/329F99_9_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-MediumItalic';src: url('webfonts/329F99_A_0.eot');src: url('webfonts/329F99_A_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_A_0.woff2') format('woff2'),url('webfonts/329F99_A_0.woff') format('woff'),url('webfonts/329F99_A_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-Medium';src: url('webfonts/329F99_B_0.eot');src: url('webfonts/329F99_B_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_B_0.woff2') format('woff2'),url('webfonts/329F99_B_0.woff') format('woff'),url('webfonts/329F99_B_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-ThinItalic';src: url('webfonts/329F99_C_0.eot');src: url('webfonts/329F99_C_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_C_0.woff2') format('woff2'),url('webfonts/329F99_C_0.woff') format('woff'),url('webfonts/329F99_C_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-Thin';src: url('webfonts/329F99_D_0.eot');src: url('webfonts/329F99_D_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_D_0.woff2') format('woff2'),url('webfonts/329F99_D_0.woff') format('woff'),url('webfonts/329F99_D_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-UltraItalic';src: url('webfonts/329F99_E_0.eot');src: url('webfonts/329F99_E_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_E_0.woff2') format('woff2'),url('webfonts/329F99_E_0.woff') format('woff'),url('webfonts/329F99_E_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Industry-Ultra';src: url('webfonts/329F99_F_0.eot');src: url('webfonts/329F99_F_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329F99_F_0.woff2') format('woff2'),url('webfonts/329F99_F_0.woff') format('woff'),url('webfonts/329F99_F_0.ttf') format('truetype');}
+ 
+
+
+
+
+ @font-face {
     font-family: 'early_times_thin';
     src: url('early_times_thin_demo-webfont.woff2') format('woff2'),
          url('early_times_thin_demo-webfont.woff') format('woff');

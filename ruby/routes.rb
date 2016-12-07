@@ -11,7 +11,9 @@ get /.*\.(jpeg|jpg|png|gif|ico|svg)/ do
 end
 
 get /.*\.(ttf|woff)/ do
-  path = request.path.gsub('fonts/', '');
+  puts request.path	
+  path = request.path.gsub('/fonts/', '/');
+
   puts "fonts#{path}"
   return 404 unless File.exist? "fonts#{path}"
   send_file "fonts#{path}"

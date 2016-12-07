@@ -1,0 +1,53 @@
+  "colors": [
+    {
+      "percentRounded": 30,
+      "rgb": "61, 123, 177",
+      "hex": "3D7BB1"
+    },
+    {
+      "percentRounded": 17,
+      "rgb": "81, 162, 203",
+      "hex": "51A2CB"
+    },
+    {
+      "percentRounded": 7,
+      "rgb": "39, 82, 166",
+      "hex": "2752A6"
+    },
+    {
+
+      "percentRounded": 1,
+      "rgb": "53, 76, 190",
+      "hex": "354CBE"
+    },
+    {
+      "percentRounded": 14,
+      "rgb": "34, 93, 145",
+      "hex": "225D91"
+    },
+    {
+      "percentRounded": 8,
+      "rgb": "85, 152, 207",
+      "hex": "5598CF"
+    },
+    {
+      "percentRounded": 7,
+      "rgb": "55, 132, 172",
+      "hex": "3784AC"
+    },
+    {
+      "percentRounded": 7,
+      "rgb": "74, 170, 201",
+      "hex": "4AAAC9"
+    },
+    {
+      "percentRounded": 5,
+      "rgb": "69, 112, 197",
+      "hex": "4570C5"
+    },
+    {
+      "percentRounded": 4,
+      "rgb": "55, 119, 195",
+      "hex": "3777C3"
+    }
+  ]
