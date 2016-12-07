@@ -28,12 +28,14 @@ header, footer {
   top: 0; bottom: 0;
   left: 0; right: 0;
   height: 100%;
+
 }
 
 #stars {
   z-index: -1;
   background: url('background2.jpg');
-  background-size: cover;
+  background-size: cover !important;
+  background-position: center !important;
 }
 
 
@@ -94,15 +96,16 @@ ul {
 @media(max-width: 800px) {
 
   header { padding-top: 0.5em; }
-  #logo { margin: auto; display: block; }
 
-	ul#menu li    { font-size: 3.5vw; }
-	ul#topinfo li { font-size: 2.5vw; }
-	.content      { font-size: 3.5vw; }
+	.content      { font-size: 2.5vw; }
   #imgscroller  { height: 40vw; }
 
   .footbox { display: block; margin: auto; padding: 1em 0; width: 80%; }
 
 
   .content { max-width: 100vw; }
+
+  #map {
+    width: 100%;
+  }
 }

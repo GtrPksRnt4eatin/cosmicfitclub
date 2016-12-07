@@ -41,3 +41,17 @@ ul#menu li:hover:nth-child(3) { text-shadow: 0 0 0.5em rgb(100,255,100), 0 0 0.5
 ul#menu li:hover:nth-child(4) { text-shadow: 0 0 0.5em rgb(100,200,200), 0 0 0.5em rgb(100,200,200); }
 ul#menu li:hover:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255); }
 ul#menu li:hover:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5em rgb(200,100,200); }
+
+@media(max-width: 800px) {
+  #logo  { 
+    margin: auto; 
+    display: block;  
+    max-width: 16em;
+  }
+
+  ul#menu li {
+    font-size: 1.2em;
+    margin: 0.2em 0.2em 0;
+  }
+
+}
