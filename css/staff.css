@@ -1,0 +1,32 @@
+#stars { background: url('background2.jpg');  }
+
+ul#menu li:nth-child(5) { box-shadow: 0 -2px 0 rgb(100,100,255) inset; }
+ul#menu li:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255); }
+
+
+
+.headshot {
+  vertical-align: middle;
+  position: relative;
+  display: inline-block;
+  width: 30%;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+.headshot img {
+  width: 100%;
+}
+
+.headshot .name {
+  margin-top: 0.5em;
+}
+
+.bio {
+  vertical-align: middle;
+  box-sizing: border-box;
+  padding: 1em;
+  font-size: 14pt;
+  display: inline-block;
+  width: 70%;
+}

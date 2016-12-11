@@ -1,19 +1,17 @@
 html
   head
     == no_scaling
-    ==css ['fonts', 'slick', 'slick-theme', 'header', 'footer', 'index']
+    ==css ['fonts', 'slick', 'slick-theme', 'header', 'footer', 'index', 'store']
     title Cosmic Fit Club
     ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'index']
 
   body
     #stars
-    #gradient
     
     == include_slim('slim/partials/header')
       
     .content
       .tile 
         H1 Store
-        
-    == include_slim('slim/partials/footer')
 
+    == include_slim('slim/partials/footer')
