@@ -43,8 +43,9 @@ ul#menu li:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb
 
   .bio {
     padding-top: 0;
-    font-size: 3vw;
+    font-size: 3.5vw;
     width: 100%;
+    line-height: 1.2em;
   }
 
   .headshot img {
