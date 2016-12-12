@@ -11,7 +11,66 @@ html
     == include_slim('slim/partials/header')
       
     .content
-      .tile 
-        H1 Pricing
+      .tile
+        p
+          | We are currently offering special promotional pricing! <br>
+          | This offer is for people who preorder class packages and memberships<br>
+          | prior to our Grand Opening on April 1st 2017. <br>
+          | Thanks for your early support on this exciting new venture!
+
+        hr width="60%"
+        .heading Memberships
+        table
+          tr
+            th One Year 
+            td $85.00 Per Month
+            td: button Buy Now
+          tr
+            th 6-11 Months
+            td $95.00 Per Month
+            td: button Buy Now
+          tr
+            th 1-5 Months
+            td $105.00 Per Month
+            td: button Buy Now
+          tr
+            th After Opening
+            td $125.00 Per Month
+        
+        hr width="60%"
+        .heading Class Packages
+        table
+          tr
+            th 10 Classes
+            td $10.00 Per Class
+            td: button Buy Now
+          tr
+            th 5 Classes
+            td $15.00 Per Class
+            td: button Buy Now
+          tr
+            th Single Class
+            td $20.00 Per Class
+            td: button Buy Now
+          tr
+            th After Opening
+            td $28.00 Per Class
+        
+        hr width="60%"
+        .heading Personal Training Sessions
+        table
+          tr
+            th 1 Hour with Phil
+            td $60.00 Per Hour
+            td: button Buy Now
+          tr
+            th 1 Hour with Joy
+            td $60.00 Per Hour
+            td: button Buy Now
+          tr
+            th After Opening
+            td $75.00 Per Hour
+        br
+        br
 
     == include_slim('slim/partials/footer')
