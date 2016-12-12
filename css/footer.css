@@ -26,7 +26,7 @@ footer {
   margin: 1em 0;
 }
 
-.row {
+.footer .row {
   height: 2em;
   line-height: 2em;
 }
@@ -54,4 +54,55 @@ footer {
 .social {
   height: 3em;
   margin: 0.5em 1em;
+}
+
+.footbox .pad {
+  margin-top: 1.6em;
+}
+
+@media(max-width: 800px) {
+  footer {
+    margin-top: 1em;
+  }
+
+  .footbox { 
+    display: block; 
+    margin: auto; 
+    padding: 0; 
+    width: 80%; 
+  }
+
+  .footbox .heading {
+    margin-top: 0.2em;
+    font-size: 6vw;
+  }
+
+  .footbox span {
+    font-size: 4vw;
+    line-height: 1.2em;
+  }
+
+  .footer .pad {
+    margin-top: 0;
+  }
+
+  .subways {
+    width: 5em;
+    margin-right: 0.3em;
+    height: auto;
+  }
+
+  .subway {
+    height: 1.5em
+  }
+
+  .footer .row {
+    height: auto;
+    line-height: 1.2em;
+  }
+  
+  .social {
+    height: 2.5em;
+  }
+
 }

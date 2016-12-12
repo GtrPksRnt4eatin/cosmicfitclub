@@ -101,15 +101,8 @@ ul {
     margin-bottom: 1em;
   }
 
-  footer {
-    margin-top: 1em;
-  }
-
 	.content      { font-size: 2.5vw; }
   #imgscroller  { height: 40vw; }
-
-  .footbox { display: block; margin: auto; padding: 1em 0; width: 80%; }
-
 
   .content { max-width: 100vw; }
 
