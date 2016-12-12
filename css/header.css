@@ -54,7 +54,7 @@ ul#menu li:hover:nth-child(8) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5
   }
 
   ul#menu li {
-    font-size: 1.2em;
+    font-size: 1em;
     margin: 0.2em 0.2em 0;
   }
 
