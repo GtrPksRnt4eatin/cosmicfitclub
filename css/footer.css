@@ -75,6 +75,7 @@ footer {
   .footbox .heading {
     margin-top: 0.2em;
     font-size: 6vw;
+    padding: 0.6em 0;
   }
 
   .footbox span {
