@@ -13,7 +13,6 @@ ul#menu li:nth-child(7) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
 .faq {
 	padding: 1em;
 	box-sizing: border-box;
-	text-align: left;
 }
 
 .question {
@@ -26,5 +25,9 @@ ul#menu li:nth-child(7) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
 @media(max-width: 800px) {
     .faq {
       font-size: 3.5vw
+    }
+
+    .question {
+      line-height: 1.2em;
     }
 }
