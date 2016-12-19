@@ -1,0 +1,13 @@
+html
+  head
+  body
+    form action="/charge" method="post" class="payment"
+      article
+        label class="amount"
+          span Amount: $5.00
+
+      script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="#{ENV['STRIPE_PUBLIC']}"
+        data-description="A month's subscription"
+        data-amount="500"
+        data-locale="auto"

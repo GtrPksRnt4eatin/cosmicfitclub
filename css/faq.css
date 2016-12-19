@@ -4,3 +4,21 @@
 
 ul#menu li:nth-child(7) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
 ul#menu li:nth-child(7) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
+
+.tile {
+	max-width: 80%;
+	margin: 1em auto;
+}
+
+.faq {
+	padding: 1em;
+	box-sizing: border-box;
+	text-align: left;
+}
+
+.question {
+	text-align: center;
+	font-family: 'Industry-DemiItalic';
+	font-size: 1.1em;
+	padding-bottom: 0.6em;
+}

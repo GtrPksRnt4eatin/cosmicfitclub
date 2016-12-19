@@ -3,15 +3,22 @@ html
     == no_scaling
     ==css ['fonts', 'slick', 'slick-theme', 'header', 'footer', 'index', 'faq']
     title Cosmic Fit Club
-    ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'index']
+    ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'faq']
+
+    javascript:
+      data = #{{JSON.generate Sheets.read_sheet}}
 
   body
     #stars
     
     == include_slim('slim/partials/header')
       
-    .content
-      .tile 
-        H1 Frequently Asked Questions
+    .content  
 
-    == include_slim('slim/partials/footer')
+      .faq.tile rv-each-faq='data'
+        .question 
+          | {faq.question}
+        .answer   
+          | {faq.answer}
+
+    == include_slim('slim/partials/footer') 

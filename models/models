@@ -1,0 +1,43 @@
+Clients
+  #id
+  #first_name
+  #last_name
+  #phone
+  #email
+
+Plan
+  #id
+  #name
+  #price
+  #renewal_price
+  #family
+  #term
+
+Membership
+  #id
+  #plan_id
+  #client_id
+  #initiation_date
+  #expiration_date
+  #auto_renewal
+
+Package
+  #id
+  #name
+  #price
+  #class_type
+  #num_classes
+
+Passes
+  #id
+
+Events
+  #id
+  #name
+
+Tickets
+  #id
+
+Class
+
+ClassType
