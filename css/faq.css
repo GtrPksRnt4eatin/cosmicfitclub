@@ -22,3 +22,9 @@ ul#menu li:nth-child(7) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
 	font-size: 1.1em;
 	padding-bottom: 0.6em;
 }
+
+@media(max-width: 800px) {
+    .faq {
+      font-size: 2.5vw
+    }
+}
