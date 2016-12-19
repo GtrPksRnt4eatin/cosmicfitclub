@@ -9,7 +9,7 @@ module Sheets
 
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
   APPLICATION_NAME = 'Other client 1'
-  CREDENTIALS_PATH = File.join(Dir.home, '.credentials', "sheets.googleapis.com-ruby-quickstart.yaml")
+  CREDENTIALS_PATH = File.join(File.dirname(__FILE__), "tokens.yaml")
   SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS_READONLY
 
   def Sheets.authorize
