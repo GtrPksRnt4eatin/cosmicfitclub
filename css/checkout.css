@@ -1,7 +1,17 @@
 
 
 #stars {
-
   background: url('/background2.jpg');
+}
 
+#checkout {
+	cursor: pointer;
+}
+
+td, th {
+  padding: .5em;
+}
+
+table {
+  display: inline-block;
 }
