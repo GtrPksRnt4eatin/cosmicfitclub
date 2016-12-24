@@ -21,7 +21,7 @@ html
         hr width="60%"
         .heading Annual Plans
         table
-          - for plan in Plan.where(:min_term_months => 12).order(:child).order_append(Sequel.desc(:presale)).all
+          - for plan in Plan.where(:term_months => 12).order(:child).order_append(Sequel.desc(:presale)).all
             tr
               th #{ plan[:name] }
               td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
@@ -33,7 +33,7 @@ html
         hr width="60%"
         .heading Monthly Plans
         table
-          - for plan in Plan.where(:min_term_months => 1).order(:child).order_append(Sequel.desc(:presale)).all
+          - for plan in Plan.where(:term_months => 1).order(:child).order_append(Sequel.desc(:presale)).all
             tr
               th #{ plan[:name] }
               td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
