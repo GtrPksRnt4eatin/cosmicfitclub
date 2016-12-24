@@ -15,7 +15,7 @@ html
           zipCode: true,
           billingAddress: true,
           token: function(token) {
-            $.post('/charge', JSON.stringify( { "type": "plan", "id": #{plan.id} , "token": token } ) )
+            $.post('/charge', JSON.stringify( { "type": "plan", "plan_id": #{plan.id} , "token": token } ) )
           }
         });
 

@@ -10,10 +10,10 @@ post '/charge' do
 
 #  @amount = 500
 
-#  customer = Stripe::Customer.create(
-#    :email => 'customer@example.com',
-#    :source  => params[:stripeToken]
-#  )
+  customer = Stripe::Customer.create(
+    :source  => data['token']['id'],
+    :plan    => data['plan_id']
+  )
 
 #  charge = Stripe::Charge.create(
 #    :amount      => @amount,
