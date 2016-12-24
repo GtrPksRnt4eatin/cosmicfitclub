@@ -12,6 +12,8 @@ html
         var handler = StripeCheckout.configure({
           key: "#{ENV['STRIPE_PUBLIC']}",
           locale: 'auto',
+          zipCode: true,
+          billingAddress: true,
           token: function(token) {
             $.post('/charge', JSON.stringify( { "type": "plan", "id": #{plan.id} , "token": token } ) )
           }
