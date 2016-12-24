@@ -5,21 +5,24 @@ Stripe.api_key = ENV['STRIPE_SECRET']
 
 post '/charge' do
 
-  @amount = 500
+  data = JSON.parse document.body.read
+  p data
 
-  customer = Stripe::Customer.create(
-    :email => 'customer@example.com',
-    :source  => params[:stripeToken]
-  )
+#  @amount = 500
 
-  charge = Stripe::Charge.create(
-    :amount      => @amount,
-    :description => 'Sinatra Charge',
-    :currency    => 'usd',
-    :customer    => customer.id
-  )
+#  customer = Stripe::Customer.create(
+#    :email => 'customer@example.com',
+#    :source  => params[:stripeToken]
+#  )
 
-  slim :charged
+#  charge = Stripe::Charge.create(
+#    :amount      => @amount,
+#    :description => 'Sinatra Charge',
+#    :currency    => 'usd',
+#    :customer    => customer.id
+#  )
+
+#  slim :charged
 end
 
 error Stripe::CardError do

@@ -1,4 +1,4 @@
-class Subscription < Sequel::Model
+class Membership < Sequel::Model
 
 end
 

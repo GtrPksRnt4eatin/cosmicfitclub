@@ -1,13 +1,48 @@
+- plan = Plan[params[:id]]
+
 html
   head
-  body
-    form action="/charge" method="post" class="payment"
-      article
-        label class="amount"
-          span Amount: $5.00
+    == css ['fonts', 'site', 'checkout']
+    == js  ['https://checkout.stripe.com/checkout']
+    == js  [ 'jquery', 'lib' ]
 
-      script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="#{ENV['STRIPE_PUBLIC']}"
-        data-description="A month's subscription"
-        data-amount="500"
-        data-locale="auto"
+    javascript:
+      $(document).ready( function() {
+        
+        var handler = StripeCheckout.configure({
+          key: "#{ENV['STRIPE_PUBLIC']}",
+          locale: 'auto',
+          token: function(token) {
+            $.post('/charge', JSON.stringify( { "type": "plan", "id": plan.id , "token": token } ) )
+          }
+        });
+
+        id('checkout').addEventListener('click', function(e) {
+          handler.open({
+            name: 'Cosmic Fit Club',
+            description: "#{plan.name}",
+            image: '/background2.jpg',
+            amount: "#{plan.full_price}"
+          })
+        });
+
+      });
+
+  body
+    #stars
+
+    .content
+    
+      .tile
+        table
+          tr
+            th Plan
+            td #{ plan.name }
+          tr
+            th Monthly Price
+            td $#{ plan.month_price / 100 }.00
+          tr
+            th Full Price 
+            td $#{ plan.full_price / 100 }.00 
+
+        button#checkout Checkout Now

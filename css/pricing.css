@@ -15,10 +15,17 @@ table {
 }
 
 th, td {
-  width: 10em;
+  width: 11em;
   padding: 0.2em 2em; 
-  text-align: center;
   height: 1.8em;
+}
+
+th {
+  text-align: left;
+}
+
+button {
+  cursor: pointer;
 }
 
 @media(max-width: 800px) {

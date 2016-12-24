@@ -43,6 +43,7 @@ GEM
     multipart-post (2.0.0)
     netrc (0.11.0)
     os (0.9.6)
+    pg (0.19.0)
     rack (1.6.5)
     rack-protection (1.5.3)
       rack
@@ -53,6 +54,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (2.1.0)
+    sequel (4.41.0)
     signet (0.7.3)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -84,6 +86,8 @@ PLATFORMS
 DEPENDENCIES
   google-api-client
   json
+  pg
+  sequel
   sinatra
   slim
   stripe

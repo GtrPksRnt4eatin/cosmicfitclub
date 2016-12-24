@@ -17,55 +17,42 @@ html
           | This offer is for people who preorder class packages and memberships<br>
           | prior to our Grand Opening on April 1st 2017. <br>
           | Thanks for your early support on this exciting new venture!
+        
+        hr width="60%"
+        .heading Annual Plans
+        table
+          - for plan in Plan.where(:min_term_months => 12).order(:child).order_append(Sequel.desc(:presale)).all
+            tr
+              th #{ plan[:name] }
+              td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
+              td
+                - if plan[:presale]
+                  a href='plans/checkout?id=#{plan[:id]}'
+                    button Buy Now
 
         hr width="60%"
-        .heading Individual Memberships
+        .heading Monthly Plans
         table
-          tr
-            th One Year 
-            td $85.00 Per Month
-            td: button Buy Now
-          tr
-            th 6-11 Months
-            td $95.00 Per Month
-            td: button Buy Now
-          tr
-            th 1-5 Months
-            td $105.00 Per Month
-            td: button Buy Now
-          tr
-            th After Opening
-            td $125.00 Per Month
-
-        hr width="60%"
-        .heading Family Memberships
-        table
-          tr
-            th One Year 
-            td $300.00 Per Month
-            td: button Buy Now
-          tr
-            th After Opening
-            td $400.00 Per Month
+          - for plan in Plan.where(:min_term_months => 1).order(:child).order_append(Sequel.desc(:presale)).all
+            tr
+              th #{ plan[:name] }
+              td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
+              td
+                - if plan[:presale]
+                  a href='plans/checkout?id=#{plan[:id]}'
+                    button Buy Now
         
         hr width="60%"
         .heading Class Packages
         table
-          tr
-            th 10 Classes
-            td $10.00 Per Class
-            td: button Buy Now
-          tr
-            th 5 Classes
-            td $15.00 Per Class
-            td: button Buy Now
-          tr
-            th Single Class
-            td $20.00 Per Class
-            td: button Buy Now
-          tr
-            th After Opening
-            td $28.00 Per Class
+          - for pack in Package.reverse_order(:num_passes).order_append(:presale).all
+            tr
+              th #{ pack[:name] }
+              td $ #{ pack[:pass_price].to_i / 100 }.00 Per Class
+              td
+                - if pack[:presale]
+                  a href='packages/checkout?id=#{plan[:id]}'
+                    button Buy Now
         
         hr width="60%"
         .heading Personal Training Sessions

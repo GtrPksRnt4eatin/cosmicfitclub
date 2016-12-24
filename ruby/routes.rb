@@ -1,4 +1,6 @@
-get '/'            do slim :index end
+get '/'               do slim :index end
+
+get '/plans/checkout' do slim :checkout end
 
 get '*/:file.html' do slim params[:file].to_sym end
 
@@ -13,6 +15,7 @@ end
 get /.*\.(ttf|woff)/ do
   puts request.path	
   path = request.path.gsub('/fonts/', '/');
+  path = request.path.gsub('/plans', '/');
 
   puts "fonts#{path}"
   return 404 unless File.exist? "fonts#{path}"
