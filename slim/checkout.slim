@@ -13,7 +13,7 @@ html
           key: "#{ENV['STRIPE_PUBLIC']}",
           locale: 'auto',
           token: function(token) {
-            $.post('/charge', JSON.stringify( { "type": "plan", "id": plan.id , "token": token } ) )
+            $.post('/charge', JSON.stringify( { "type": "plan", "id": #{plan.id} , "token": token } ) )
           }
         });
 
