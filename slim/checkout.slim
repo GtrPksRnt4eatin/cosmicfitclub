@@ -34,10 +34,11 @@ html
     #stars
 
     .content
-    
-      - if params[:type] == 'plan'
 
-        .tile
+      .tile
+    
+        - if params[:type] == 'plan'
+          h1 Membership Plan
           table
             tr
               th Plan
@@ -49,13 +50,12 @@ html
               th Full Price 
               td $#{ plan.full_price / 100 }.00 
 
-      - if params[:type] == 'package'
-
-        .tile
+        - if params[:type] == 'package'
+          h1 Class Package
           table
             tr
               th 
-              td
+              td 
       
       div
         button#checkout Checkout
