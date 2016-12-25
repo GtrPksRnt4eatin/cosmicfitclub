@@ -40,3 +40,9 @@ end
 def include_slim(name, options = {}, &block)
   Slim::Template.new("#{name}.slim", options).render(self, &block)
 end
+
+def fb_image(path)  "\n<meta property='og:image'  content='#{path}'  />" end
+def fb_title(title) "\n<meta property='og:title'  content='#{title}' />" end
+def fb_type(type)   "\n<meta property='og:type'   content='#{type}'  />" end
+def fb_url(url)     "\n<meta property='og:url'    content='#{url}'   />" end
+def fb_appid(id)    "\n<meta property='fb:app_id' content='#{id}'    />" end

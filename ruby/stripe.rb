@@ -24,7 +24,7 @@ post '/charge' do
 #  )
 
 #  slim :charged
-end
+end 
 
 error Stripe::CardError do
   env['sinatra.error'].message
