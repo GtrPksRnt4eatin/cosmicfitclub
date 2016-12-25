@@ -35,17 +35,27 @@ html
 
     .content
     
-      .tile
-        table
-          tr
-            th Plan
-            td #{ plan.name }
-          tr
-            th Monthly Price
-            td $#{ plan.month_price / 100 }.00
-          tr
-            th Full Price 
-            td $#{ plan.full_price / 100 }.00 
+      - if params[:type] == 'plan'
 
-        div
-          button#checkout Checkout
+        .tile
+          table
+            tr
+              th Plan
+              td #{ plan.name }
+            tr
+              th Monthly Price
+              td $#{ plan.month_price / 100 }.00
+            tr
+              th Full Price 
+              td $#{ plan.full_price / 100 }.00 
+
+      - if params[:type] == 'package'
+
+        .tile
+          table
+            tr
+              th 
+              td
+      
+      div
+        button#checkout Checkout
