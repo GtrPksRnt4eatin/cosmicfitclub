@@ -1,4 +1,8 @@
-- plan = Plan[params[:id]]
+- if params[:type] == 'plan'
+  - plan = Plan[ params[:id] ]
+
+- if params[:type] == 'package'
+  - pack = Package[ params[:id] ]
 
 html
   head
@@ -10,21 +14,31 @@ html
       $(document).ready( function() {
         
         var handler = StripeCheckout.configure({
-          key: "#{ENV['STRIPE_PUBLIC']}",
-          locale: 'auto',
           zipCode: true,
+          locale: 'auto',
           billingAddress: true,
+          key: "#{ENV['STRIPE_PUBLIC']}",
+
           token: function(token) {
-            $.post('/charge', JSON.stringify( { "type": "plan", "plan_id": #{plan.id} , "token": token } ) )
+            data = {
+              "type":  #{ params[:type] },
+              "id":    #{ params[:id] },
+              "token": token
+            }
+
+            $.post('/charge', JSON.stringify( data ) );
           }
         });
+
+        var name = "#{ !plan.nil? ? plan.name : !pack.nil? ? pack.name : 'hmm' }";
+        var price = parseInt( "#{ !plan.nil? ? plan.full_price : !pack.nil? ? pack.price : 'hmm' }");
 
         id('checkout').addEventListener('click', function(e) {
           handler.open({
             name: 'Cosmic Fit Club',
-            description: "#{plan.name}",
+            description: name,
             image: 'https://cosmicfit.herokuapp.com/background2.jpg',
-            amount: parseInt("#{plan.full_price}")
+            amount: price
           })
         });
 
@@ -45,17 +59,22 @@ html
               td #{ plan.name }
             tr
               th Monthly Price
-              td $#{ plan.month_price / 100 }.00
+              td #{ plan.formatted_month_price }
             tr
               th Full Price 
-              td $#{ plan.full_price / 100 }.00 
+              td #{ plan.formatted_full_price }
+          div
+            button#checkout Checkout
 
         - if params[:type] == 'package'
           h1 Class Package
           table
             tr
-              th 
-              td 
+              th Package
+              td #{ pack.name }
+            tr
+              th Price
+              td #{ pack.formatted_price }
+          div
+            button#checkout Checkout
       
-      div
-        button#checkout Checkout
