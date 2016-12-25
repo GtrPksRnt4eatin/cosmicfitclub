@@ -5,15 +5,16 @@ Stripe.api_key = ENV['STRIPE_SECRET']
 
 post '/charge' do
 
-  data = JSON.parse document.body.read
-  p data
-
-#  @amount = 500
-
-  customer = Stripe::Customer.create(
-    :source  => data['token']['id'],
-    :plan    => data['plan_id']
-  )
+  data = JSON.parse request.body.read
+  
+  if data['type'] == 'plan' then
+    customer = Stripe::Customer.create(
+      :source   => data['token']['id'],
+      :plan     => data['plan_id'],
+      :email    => data['token']['email'],
+      :metadata => { :name => data['token']['card']['name'] } 
+    )
+  end
 
 #  charge = Stripe::Charge.create(
 #    :amount      => @amount,

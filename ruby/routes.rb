@@ -1,6 +1,5 @@
-get '/'               do slim :index end
-
-get '/plans/checkout' do slim :checkout end
+get '/'               do slim :index    end
+get '/checkout'       do slim :checkout end
 
 get '*/:file.html' do slim params[:file].to_sym end
 
