@@ -45,7 +45,8 @@ function val_or_null(obj) {
   return val_or_default(obj,null);
 }
   
-function display_time(time_s, options = {}) {
+function display_time(time_s, options) {
+  options = typeof options !== 'undefined' ? options : {};
   if( empty(time_s) ) return '';
 
   var hrs,mins,secs,ms;
