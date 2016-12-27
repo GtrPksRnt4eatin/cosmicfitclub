@@ -3,6 +3,7 @@ footer {
   margin: 2em auto 0;
   border-top: 1px solid black;
   background: rgba(30,30,30,0.8);
+  box-shadow: 0 0 5px white;
 }
 
 .footbox {
