@@ -1,48 +1,6 @@
-* {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Chrome/Safari/Opera */
-     -khtml-user-select: none; /* Konqueror */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently not supported by any browser */
-}
-
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'district_pro';
-  font-family: "Industry-Light";
-  color: rgba(255,255,255,0.8);
-
-  font-weight: bold;
-}
-
-header, footer {
-  box-shadow: 0 0 5px white;
-  background: rgba(30,30,30,0.8);
-}
-
 h1 {
   margin: 0.3em;
 }
-
-#stars {
-  position: fixed;
-  top: 0; bottom: 0;
-  left: 0; right: 0;
-  height: 100%;
-
-}
-
-#stars {
-  z-index: -1;
-  background: url('background2.jpg');
-  background-size: cover !important;
-  background-position: center !important;
-}
-
-
 
 ul {
   list-style: none;

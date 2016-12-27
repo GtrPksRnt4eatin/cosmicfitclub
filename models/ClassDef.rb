@@ -1,3 +1,10 @@
 class ClassDef < Sequel::Model
 
-end	
+  include ImageUploader[:image]
+
+  def after_save
+  	self.id
+  	super
+  end
+
+end

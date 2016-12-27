@@ -61,3 +61,24 @@ form {
 .slide .delete:active {
   box-shadow: none;
 }
+
+.dropzone {
+  z-index: 1;
+}
+
+@media(max-width: 800px) {
+
+  #slides {
+    margin-top: 0;
+    margin-bottom: 200px;
+  }
+
+  .slide {
+    font-size: 2.2vw;
+  }
+
+  .slide span {
+    font-size: 1.4em;
+  }
+
+}

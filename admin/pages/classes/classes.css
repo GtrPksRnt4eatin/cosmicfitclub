@@ -1,0 +1,19 @@
+#newclass {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(200,200,200);
+  padding: 1em;
+  text-align: center;
+}
+
+#newclasspreview {
+  height: 3em;
+}
+
+@media(max-width: 800px) {
+  #newclass {
+  	font-size: 2vw;
+  }
+}

@@ -8,11 +8,11 @@ class CFCAdmin < Sinatra::Base
 
   set :root, File.dirname(__FILE__)
 
-  get( '/' )         { render_page :index    }
+  get( '/'         ) { render_page :index    }
   get( '/carousel' ) { render_page :carousel }
-  get( '/classes' )  { render_page :classes  }
+  get( '/classes'  ) { render_page :classes  }
 
-  post '/slides/upload' do
+  post '/slides' do
     Slide.create(image: params[:file])
     status 200
   end
@@ -25,6 +25,19 @@ class CFCAdmin < Sinatra::Base
     halt 404 if Slide[params[:id]].nil?
     Slide[params[:id]].destroy
     status 200
+  end
+
+  get '/classdefs' do
+    JSON.generate ClassDef.all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :img_url => c.image_url } }
+  end
+  
+  post '/classdefs' do
+    data = JSON.parse request.body.read
+    ClassDef.create(name: params[:name], description: params[:description], )
+  end
+
+  delete '/classdefs/id' do
+    
   end
 
 end

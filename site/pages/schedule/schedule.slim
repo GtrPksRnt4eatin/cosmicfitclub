@@ -1,11 +1,14 @@
 html
   head
     == no_scaling
-    ==css ['fonts', 'slick', 'slick-theme', 'header', 'footer', 'index', 'schedule']
     title Cosmic Fit Club
-    ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'index']
+    
+    ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'schedule']
+    
+    ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'schedule']
 
   body
+
     #stars
 
     == include_slim('slim/partials/header')

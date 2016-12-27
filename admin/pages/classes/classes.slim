@@ -6,3 +6,21 @@ html
     #stars
 
     == include_slim('slim/partials/admin_header')
+
+    #content
+
+      #classes
+        .class rv-each-class='data.classes'
+          img rv-src='class.image_url'
+          span.classname 
+            | { class.name }
+          span.classdescription
+            | { class.description }
+
+      #newclass
+        img#newclasspreview
+        input#newclasspic type='file'
+        label Class Name:
+        input type='text'
+        label Description:
+        input type='textarea'
