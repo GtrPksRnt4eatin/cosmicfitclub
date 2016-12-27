@@ -1,5 +1,4 @@
 require 'sinatra/base'
-require 'pry'
 
 class CFC < Sinatra::Base
 
