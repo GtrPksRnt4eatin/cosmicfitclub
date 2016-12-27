@@ -1,0 +1,9 @@
+def with_catch
+  yield
+rescue Exception => e
+  p "////////////////////////////////////"
+  p e
+  p "////////////////////////////////////"
+  status 500
+  e.message
+end

@@ -1,0 +1,17 @@
+html
+  head
+    == css ['fonts', 'site', 'dropzone', 'header', '/admin/carousel']
+    == js  ['jquery', 'rivets', 'lib', 'dropzone', '/admin/carousel']  
+  body
+    #stars
+
+    == include_slim('slim/partials/admin_header')
+ 
+    form#myDropzone.dropzone action='/admin/slides/upload'
+
+    #slides
+      .slide rv-each-slide='data.slides'
+        img rv-src='slide.url'
+        span 
+          | {slide.data.filename}
+        .delete rv-on-click='ctrl.del'
