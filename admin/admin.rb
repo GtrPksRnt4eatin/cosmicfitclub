@@ -1,4 +1,3 @@
-require 'pry'
 require 'sinatra/base'
 
 class CFCAdmin < Sinatra::Base
