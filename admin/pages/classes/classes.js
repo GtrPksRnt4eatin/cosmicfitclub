@@ -1,11 +1,12 @@
 var data = {
-  classes: []
+  classes: [],
+  newclass: {}
 }
 
 var ctrl = {
   del: function(e,m) {
-    $.del(`/admin/classes/${m.slide.id}`, function() {
-      data.classes.splice(data.slides.indexOf(m.slide),1);
+    $.del(`/admin/classdefs/${m.class.id}`, function() {
+      data.classes.splice(data.classes.indexOf(m.class),1);
     });
   }
 }
@@ -20,11 +21,13 @@ $(document).ready(function() {
 
   get_saved_classes();
 
-  id("newclasspic").onchange = function () {
+  id("newpic").onchange = function () {
     var reader = new FileReader();
-    reader.onload = function (e) { id("newclasspreview").src = e.target.result; };
+    reader.onload = function (e) { id("newpreview").src = e.target.result; };
     reader.readAsDataURL(this.files[0]);
   };
+
+
   
 });
 
@@ -33,3 +36,9 @@ function get_saved_classes() {
     data.classes = JSON.parse(classes);
   })
 } 
+
+function post_new_class(){
+  $.post('/admin/classes', $('#newclass').serialize(), function() {
+    
+  });
+}

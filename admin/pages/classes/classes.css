@@ -1,14 +1,93 @@
 #newclass {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgb(200,200,200);
+  left: 0; right: 0;
   padding: 1em;
+  text-align: center;
+  margin-bottom: 0;
+  box-shadow: 0 0 5px white;
+  background: rgba(30,30,30,0.8);
+}
+
+#newclass:before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+#newpreview,
+#newpic,
+#newclass label,
+#newclass input,
+textarea,
+#upload {
+  vertical-align: middle;
+  padding: 0 1em;
+}
+
+#newpreview {
+  height: 3em;
+}
+
+.classdef {
+  position: relative;
+  display: inline-block;
+  width: 75%;
+}
+
+.classdef img {
+  width: 20%;
+}
+
+.classdef .classnfo {
+  display: inline-block;
+  width: 80%;
+}
+
+.classnfo {
+  vertical-align: top;
+}
+
+.classname {
+  font-size: 1.5em;
+  padding: .5em;
+}
+
+#content {
   text-align: center;
 }
 
-#newclasspreview {
+.delete {
+  cursor: pointer;
+  font-size: 2em;
+  position: absolute;
+  top: -.75em; left: -.75em;
+  background-image: url('/closecircle.png');
+  width: 1.5em; height: 1.5em;
+  background-size: contain;
+  border-radius: 1em;
+  box-shadow: 0 0 0.1em white;
+  transition: all .2s ease-in-out;
+}
+
+.delete:hover {
+  transform: scale(1.1);
+}
+
+.delete:active {
+  box-shadow: none;
+}
+
+#upload {
+  display: inline-block;
+  box-shadow: 0 0 0.1em white;
+  padding: .5em;
+  margin-left: 1em;
+  cursor: pointer;
+}
+
+textarea {
   height: 3em;
 }
 

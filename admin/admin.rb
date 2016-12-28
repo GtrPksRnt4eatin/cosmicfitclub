@@ -1,3 +1,4 @@
+require 'pry'
 require 'sinatra/base'
 
 class CFCAdmin < Sinatra::Base
@@ -28,16 +29,18 @@ class CFCAdmin < Sinatra::Base
   end
 
   get '/classdefs' do
-    JSON.generate ClassDef.all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :img_url => c.image_url } }
+    JSON.generate ClassDef.all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :image_url => c.image_url } }
   end
   
   post '/classdefs' do
-    data = JSON.parse request.body.read
-    ClassDef.create(name: params[:name], description: params[:description], )
+    ClassDef.create(name: params[:name], description: params[:description], image: params[:image] )
+    status 200
   end
 
-  delete '/classdefs/id' do
-    
+  delete '/classdefs/:id' do
+    halt 404 if ClassDef[params[:id]].nil?
+    ClassDef[params[:id]].destroy
+    status 200
   end
 
 end

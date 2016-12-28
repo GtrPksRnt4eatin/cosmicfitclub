@@ -9,18 +9,21 @@ html
 
     #content
 
-      #classes
-        .class rv-each-class='data.classes'
-          img rv-src='class.image_url'
-          span.classname 
-            | { class.name }
-          span.classdescription
-            | { class.description }
+      .tile.classdef rv-each-class='data.classes'
+        img rv-src='class.image_url'
+          div.classnfo
+            .classname 
+              | { class.name }
+            .classdescription
+              | { class.description }
+        .delete rv-on-click='ctrl.del'
 
-      #newclass
-        img#newclasspreview
-        input#newclasspic type='file'
+      form#newclass action='/admin/classdefs' method='post' enctype="multipart/form-data"
+        
+        input#newpic type='file' accept="image/*" name='image'
+        img#newpreview
         label Class Name:
-        input type='text'
+        input type='text' name='name'
         label Description:
-        input type='textarea'
+        textarea name='description'
+        span#upload Upload
