@@ -17,37 +17,6 @@ class CFC < Sinatra::Base
   get( '/pricing')  { render_page :pricing  }
   get( '/faq')      { render_page :faq      }
   get( '/store')    { render_page :store    }
-  get( '/checkout') { slim :checkout        }
-
-  post '/charge' do
-
-    data = JSON.parse request.body.read
-  
-    if data['type'] == 'plan' then
-      customer = Stripe::Customer.create(
-        :source   => data['token']['id'],
-        :plan     => data['plan_id'],
-        :email    => data['token']['email'],
-        :metadata => { :name => data['token']['card']['name'] } 
-      )
-    end
-
-#  charge = Stripe::Charge.create(
-#    :amount      => @amount,
-#    :description => 'Sinatra Charge',
-#    :currency    => 'usd',
-#    :customer    => customer.id
-#  )
-
-#  slim :charged
-  end 
-
-  error Stripe::CardError do
-    env['sinatra.error'].message
-  end
-
-  get '/slides' do
-    JSON.generate Slide.all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image_url } }
-  end
+  get( '/checkout') { render_page :checkout }
 
 end

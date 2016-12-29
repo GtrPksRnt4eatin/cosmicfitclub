@@ -30,3 +30,7 @@ end
 map "/models/events" do
   run EventRoutes
 end
+
+map "/stripe" do
+  run StripeRoutes
+end
