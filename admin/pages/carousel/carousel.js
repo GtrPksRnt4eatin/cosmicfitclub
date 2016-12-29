@@ -4,7 +4,7 @@ var data = {
 
 var ctrl = {
   del: function(e,m) {
-    $.del(`/admin/slides/${m.slide.id}`, function() {
+    $.del(`/models/slides/${m.slide.id}`, function() {
       data.slides.splice(data.slides.indexOf(m.slide),1);
     });
   }
@@ -23,7 +23,7 @@ $(document).ready(function() {
 });
 
 function get_saved_slides() {
-  $.get('/admin/slides', function(slides) {
+  $.get('/models/slides', function(slides) {
     data.slides = JSON.parse(slides);
   })
 }

@@ -1,4 +1,4 @@
-#newclass {
+#new {
   position: fixed;
   bottom: 0;
   left: 0; right: 0;
@@ -9,7 +9,7 @@
   background: rgba(30,30,30,0.8);
 }
 
-#newclass:before {
+#new:before {
   content: '';
   display: inline-block;
   vertical-align: middle;
@@ -18,8 +18,8 @@
 
 #newpreview,
 #newpic,
-#newclass label,
-#newclass input,
+#new label,
+#new input,
 textarea,
 #upload {
   vertical-align: middle;
@@ -30,26 +30,26 @@ textarea,
   height: 3em;
 }
 
-.classdef {
+.event {
   position: relative;
   display: inline-block;
   width: 75%;
 }
 
-.classdef img {
+.event img {
   width: 20%;
 }
 
-.classdef .classnfo {
+.event .nfo {
   display: inline-block;
   width: 80%;
 }
 
-.classnfo {
+.nfo {
   vertical-align: top;
 }
 
-.classname {
+.eventname {
   font-size: 1.5em;
   padding: .5em;
 }
@@ -92,7 +92,7 @@ textarea {
 }
 
 @media(max-width: 800px) {
-  #newclass {
+  #new {
   	font-size: 2.5vw;
     line-height: 3em;
   }
@@ -125,6 +125,5 @@ textarea {
     padding: .25em;
     margin: .5em 0;
   }
-
 
 }

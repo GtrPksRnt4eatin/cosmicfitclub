@@ -4,3 +4,27 @@
 
 ul#menu li:nth-child(1) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
 ul#menu li:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
+
+.classdef {
+  position: relative;
+  display: inline-block;
+  width: 75%;
+}
+
+.classdef img {
+  width: 20%;
+}
+
+.classdef .classnfo {
+  display: inline-block;
+  width: 80%;
+}
+
+.classnfo {
+  vertical-align: top;
+}
+
+.classname {
+  font-size: 1.5em;
+  padding: .5em;
+}

@@ -1,9 +1,29 @@
 class Slide < Sequel::Model
+
   include ImageUploader[:image]
 
   def after_save
   	self.id
   	super
+  end
+
+end
+
+class SlideRoutes < Sinatra::Base
+
+  post '/' do
+    Slide.create(image: params[:file])
+    status 200
+  end
+
+  get '/' do
+  	JSON.generate Slide.all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image_url } }
+  end
+
+  delete '/:id' do
+    halt 404 if Slide[params[:id]].nil?
+    Slide[params[:id]].destroy
+    status 200
   end
 
 end

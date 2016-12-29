@@ -6,13 +6,6 @@ header {
   margin-bottom: 2em;
 }
 
-#menu {
-  text-align: center;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-}
-
 #logo {
   cursor: pointer;
   max-width: 18em;
@@ -20,7 +13,14 @@ header {
   margin: 1em;
 }
 
-ul#menu li {
+#menu {
+  text-align: center;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+#menu li {
   display: inline-block;
   padding: 0.2em 0.5em;
   vertical-align: middle;
@@ -28,34 +28,36 @@ ul#menu li {
   font-size: 18pt;
   cursor: pointer;
   width: 6em;
+  margin-right: 2px;
 }
 
-ul#menu li:hover:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
-ul#menu li:hover:nth-child(2) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
-ul#menu li:hover:nth-child(3) { box-shadow: 0 -2px 0 rgb(100,255,100) inset; }
-ul#menu li:hover:nth-child(4) { box-shadow: 0 -2px 0 rgb(100,200,200) inset; }
-ul#menu li:hover:nth-child(5) { box-shadow: 0 -2px 0 rgb(100,100,255) inset; }
-ul#menu li:hover:nth-child(6) { box-shadow: 0 -2px 0 rgb(200,100,200) inset; }
-ul#menu li:hover:nth-child(7) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
-ul#menu li:hover:nth-child(8) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
+#menu li:hover:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
+#menu li:hover:nth-child(2) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
+#menu li:hover:nth-child(3) { box-shadow: 0 -2px 0 rgb(100,255,100) inset; }
+#menu li:hover:nth-child(4) { box-shadow: 0 -2px 0 rgb(100,200,200) inset; }
+#menu li:hover:nth-child(5) { box-shadow: 0 -2px 0 rgb(100,100,255) inset; }
+#menu li:hover:nth-child(6) { box-shadow: 0 -2px 0 rgb(200,100,200) inset; }
+#menu li:hover:nth-child(7) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
+#menu li:hover:nth-child(8) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
 
-ul#menu li:hover:nth-child(1) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
-ul#menu li:hover:nth-child(2) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
-ul#menu li:hover:nth-child(3) { text-shadow: 0 0 0.5em rgb(100,255,100), 0 0 0.5em rgb(100,255,100); }
-ul#menu li:hover:nth-child(4) { text-shadow: 0 0 0.5em rgb(100,200,200), 0 0 0.5em rgb(100,200,200); }
-ul#menu li:hover:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255); }
-ul#menu li:hover:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5em rgb(200,100,200); }
-ul#menu li:hover:nth-child(7) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
-ul#menu li:hover:nth-child(8) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
+#menu li:hover:nth-child(1) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
+#menu li:hover:nth-child(2) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
+#menu li:hover:nth-child(3) { text-shadow: 0 0 0.5em rgb(100,255,100), 0 0 0.5em rgb(100,255,100); }
+#menu li:hover:nth-child(4) { text-shadow: 0 0 0.5em rgb(100,200,200), 0 0 0.5em rgb(100,200,200); }
+#menu li:hover:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255); }
+#menu li:hover:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5em rgb(200,100,200); }
+#menu li:hover:nth-child(7) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
+#menu li:hover:nth-child(8) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
 
 @media(max-width: 800px) {
-  #logo  { 
+
+  #logo { 
     margin: auto; 
     display: block;  
     max-width: 16em;
   }
 
-  ul#menu li {
+  #menu li {
     font-size: 1em;
     margin: 0.2em 0.2em 0;
   }

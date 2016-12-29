@@ -18,3 +18,15 @@ end
 map "/admin" do
   run CFCAdmin
 end
+
+map "/models/slides" do
+  run SlideRoutes
+end
+
+map "/models/classdefs" do
+  run ClassDefRoutes
+end
+
+map "/models/events" do
+  run EventRoutes
+end

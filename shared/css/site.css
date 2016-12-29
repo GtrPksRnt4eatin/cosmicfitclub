@@ -42,6 +42,7 @@ body {
   font-size: 18pt;
   line-height: 1.5em;
   min-height: 48vh;
+  text-align: center;
 }
 
 @media(max-width: 800px) {

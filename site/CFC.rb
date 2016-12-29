@@ -17,6 +17,7 @@ class CFC < Sinatra::Base
   get( '/pricing')  { render_page :pricing  }
   get( '/faq')      { render_page :faq      }
   get( '/store')    { render_page :store    }
+  get( '/checkout') { slim :checkout        }
 
   post '/charge' do
 
