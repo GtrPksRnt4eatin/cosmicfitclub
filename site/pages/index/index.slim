@@ -1,4 +1,5 @@
 html
+
   head
 
     == fb_type  'website'
@@ -7,11 +8,15 @@ html
     == fb_image 'http://cosmicfitclub.com/banner.png'   
 
     == no_scaling
-    ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'index']
+
     title Cosmic Fit Club
-    ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'index']
+
+    ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'index']
+    
+    ==js  ['jquery', 'slick', 'rivets', 'lib', 'index']
 
   body
+  
     #stars
 
     == include_slim('slim/partials/header')

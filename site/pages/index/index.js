@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  $.get('slides', function(slides) {
+  $.get('/models/slides', function(slides) {
     slides = JSON.parse(slides);
     slides.forEach( function(slide) {
       $('#imgscroller').slick('slickAdd',`<div><img class='sliderimg' src='${ slide.url }' /></div>`);

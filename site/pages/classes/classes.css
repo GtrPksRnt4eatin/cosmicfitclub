@@ -6,13 +6,16 @@ ul#menu li:nth-child(1) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb
 ul#menu li:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
 
 .classdef {
+  vertical-align: top;
   position: relative;
   display: inline-block;
-  width: 75%;
+  width: 16em;
+  padding-bottom: 0.5em;
 }
 
 .classdef img {
-  width: 20%;
+  display: block;
+  width: 100%;
 }
 
 .classdef .classnfo {
@@ -25,6 +28,18 @@ ul#menu li:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
 }
 
 .classname {
-  font-size: 1.5em;
-  padding: .5em;
+  padding: .5em 0 0 0;
+}
+
+@media(max-width: 800px) {
+
+  .classdef {
+    width: auto;
+    display: block;
+  }
+
+  .content {
+    font-size: 3.5vw;
+  }
+
 }
