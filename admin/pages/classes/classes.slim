@@ -1,10 +1,16 @@
 html
+
   head
+
     == no_scaling
+
     title Cosmicfit Admin
+
     == css ['fonts', 'site', 'header', '/admin/classes']
-    == js  ['jquery', 'rivets', 'lib', '/admin/classes']  
-  body
+    == js  ['jquery', 'rivets', 'lib', '/admin/classes'] 
+
+  body.p2
+
     #stars
 
     == include_slim('slim/partials/admin_header')
@@ -22,7 +28,6 @@ html
         .delete rv-on-click='ctrl.del'
 
       form#newclass action='/admin/classdefs' method='post' enctype="multipart/form-data"
-        
         img#newpreview
         input#newpic type='file' accept="image/*" name='image'
         label Class Name:

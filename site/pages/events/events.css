@@ -1,6 +1,43 @@
-#stars {
-  background: url('background2-grn.jpg'); 
+.event {
+  position: relative;
+  vertical-align: top;
+  display: inline-block;
+  width: 16em;
+  text-align: center;
 }
 
-ul#menu li:nth-child(3) { box-shadow: 0 -2px 0 rgb(100,255,100) inset; }
-ul#menu li:nth-child(3) { text-shadow: 0 0 0.5em rgb(100,255,100), 0 0 0.5em rgb(100,255,100); }
+.event img {
+  display: block;
+  width: 100%;
+}
+
+.event .datecircle {
+  width: 5em;
+  height: 5em;
+  border-radius: 2.5em;
+  background: rgba(0,0,0,0.3);
+  line-height: 5em;
+  display: inline-block;
+  box-shadow: 0 0 .2em white;
+  margin-top: .5em;
+  z-index: 1;
+  position: absolute;
+}
+
+.eventname {
+  padding: .5em 0 0 0;
+}
+
+.eventdescription {
+  padding-bottom: 0.5em;
+}
+
+.eventfoot {
+  background: rgba(0,0,0,0.3);
+  padding: .25em 0;
+}
+
+.weekday, .date, .time {
+  display: inline-block;
+  width: 32%;
+}

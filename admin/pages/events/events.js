@@ -17,7 +17,7 @@ var ctrl = {
     request.open("POST", "/models/events");
     request.send(data);
     ctrl.get();
-  },
+  },  
 
   del: function(e,m) {
     $.del(`/models/events/${m.event.id}`, function() {
@@ -30,6 +30,10 @@ var ctrl = {
 $(document).ready(function() {
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
+  rivets.formatters.dayofwk  = function(val) { return moment(val).format('ddd') };
+  rivets.formatters.date     = function(val) { return moment(val).format('MMM Do') };
+  rivets.formatters.time     = function(val) { return moment(val).format('h:mm a') };
+  rivets.formatters.fulldate = function(val) { return moment(val).format('ddd MMM Do hh:mm a') };
 
   $('#menu li').on('click', function(e) { window.location.href = e.target.getAttribute('href'); });
 
@@ -42,22 +46,7 @@ $(document).ready(function() {
   };
 
   id('upload').onclick  = ctrl.add;
+
+  flatpickr(".flatpickr", { enableTime: true } );
   
 });
-
-
-/*
-function get_saved_classes() {
-  $.get('/models/classdefs', function(classes) {
-    data.classes = JSON.parse(classes);
-  })
-} 
-
-function post_new_class(e){
-  var data = new FormData( id('newclass') );
-  var request = new XMLHttpRequest();
-  request.open("POST", "/models/classdefs");
-  request.send(data);
-  get_saved_classes();
-}
-*/

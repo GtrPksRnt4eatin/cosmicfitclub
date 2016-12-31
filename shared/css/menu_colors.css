@@ -1,36 +1,3 @@
-header {
-  box-shadow: 0 0 5px white;
-  background: rgba(30,30,30,0.8);
-  box-sizing: border-box;
-  border-bottom: 1px solid black;
-  margin-bottom: 2em;
-}
-
-#logo {
-  cursor: pointer;
-  max-width: 18em;
-  vertical-align: bottom;
-  margin: 1em;
-}
-
-#menu {
-  text-align: center;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-}
-
-#menu li {
-  display: inline-block;
-  padding: 0.2em 0.5em;
-  vertical-align: middle;
-  box-sizing: border-box;
-  font-size: 18pt;
-  cursor: pointer;
-  width: 6em;
-  margin-right: 2px;
-}
-
 .p1 #menu li:nth-child(1), #menu li:hover:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
 .p2 #menu li:nth-child(2), #menu li:hover:nth-child(2) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
 .p3 #menu li:nth-child(3), #menu li:hover:nth-child(3) { box-shadow: 0 -2px 0 rgb(100,255,100) inset; }
@@ -49,27 +16,12 @@ header {
 .p7 #menu li:nth-child(7), #menu li:hover:nth-child(7) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
 .p8 #menu li:nth-child(8), #menu li:hover:nth-child(8) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
 
-.p1 #stars { background: url('background-red.jpg'); }
-.p2 #stars { background: url('background-yel.jpg'); }
-.p3 #stars { background: url('background-grn.jpg'); }
-.p4 #stars { background: url('background-cya.jpg'); }
-.p5 #stars { background: url('background-blu.jpg'); }
-.p6 #stars { background: url('background-pur.jpg'); }
-.p7 #stars { background: url('background-red.jpg'); }
-.p8 #stars { background: url('background-yel.jpg'); }
-
-
-@media(max-width: 800px) {
-
-  #logo { 
-    margin: auto; 
-    display: block;  
-    max-width: 16em;
-  }
-
-  #menu li {
-    font-size: 1em;
-    margin: 0.2em 0.2em 0;
-  }
-
-}
+    #stars { background: url('/background-blu.jpg'); }
+.p1 #stars { background: url('/background-red.jpg'); }
+.p2 #stars { background: url('/background-yel.jpg'); }
+.p3 #stars { background: url('/background-grn.jpg'); }
+.p4 #stars { background: url('/background-cya.jpg'); }
+.p5 #stars { background: url('/background-blu.jpg'); }
+.p6 #stars { background: url('/background-pur.jpg'); }
+.p7 #stars { background: url('/background-red.jpg'); }
+.p8 #stars { background: url('/background-yel.jpg'); }

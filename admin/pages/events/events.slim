@@ -6,10 +6,10 @@ html
 
     title Cosmicfit Admin
 
-    == css ['fonts', 'site', 'header', '/admin/events']
-    == js  ['jquery', 'rivets', 'lib', '/admin/events']  
+    == css ['fonts', 'site', 'header', 'flatpickr', '/admin/events' ]
+    == js  ['jquery', 'rivets', 'lib', 'moment', 'flatpickr', '/admin/events' ]  
 
-  body
+  body.p3
 
     #stars
 
@@ -19,11 +19,20 @@ html
 
       .tile.event rv-each-event='data.events'
         img rv-src='event.image_url'
-          div.nfo
-            .eventname 
-              | { event.name }
-            .eventdescription
-              | { event.description }
+        .eventname 
+          | { event.name }
+        hr width='60%'
+        .eventdescription
+          | { event.description }
+        .eventfoot
+          .weekday
+            | { event.starttime | dayofwk }
+          | |
+          .date
+            | { event.starttime | date }
+          | |
+          .time
+            | { event.starttime | time }
         .delete rv-on-click='ctrl.del'
 
       form#new
@@ -34,4 +43,8 @@ html
         input type='text' name='name'
         label Description:
         textarea name='description'
+        label Start Time:
+        input.flatpickr name='starttime'
         span#upload Upload
+
+        

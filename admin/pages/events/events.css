@@ -30,30 +30,6 @@ textarea,
   height: 3em;
 }
 
-.event {
-  position: relative;
-  display: inline-block;
-  width: 75%;
-}
-
-.event img {
-  width: 20%;
-}
-
-.event .nfo {
-  display: inline-block;
-  width: 80%;
-}
-
-.nfo {
-  vertical-align: top;
-}
-
-.eventname {
-  font-size: 1.5em;
-  padding: .5em;
-}
-
 #content {
   text-align: center;
 }
@@ -126,4 +102,49 @@ textarea {
     margin: .5em 0;
   }
 
+}
+
+.event {
+  position: relative;
+  vertical-align: top;
+  display: inline-block;
+  width: 16em;
+  text-align: center;
+}
+
+.event img {
+  display: block;
+  width: 100%;
+}
+
+.event .datecircle {
+  width: 5em;
+  height: 5em;
+  border-radius: 2.5em;
+  background: rgba(0,0,0,0.3);
+  line-height: 5em;
+  display: inline-block;
+  box-shadow: 0 0 .2em white;
+  margin-top: .5em;
+  z-index: 1;
+  position: absolute;
+}
+
+.eventname {
+  padding: .5em 0 0 0;
+  font-size: 1.5em;
+}
+
+.eventdescription {
+  padding-bottom: 0.5em;
+}
+
+.eventfoot {
+  background: rgba(0,0,0,0.3);
+  padding: .25em 0;
+}
+
+.weekday, .date, .time {
+  display: inline-block;
+  width: 32%;
 }

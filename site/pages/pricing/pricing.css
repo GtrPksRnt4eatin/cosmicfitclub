@@ -1,10 +1,3 @@
-#stars {
-  background: url('background2-pur.jpg'); 
-}
-
-ul#menu li:nth-child(6) { box-shadow: 0 -2px 0 rgb(200,100,200) inset; }
-ul#menu li:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5em rgb(200,100,200); }
-
 p {
 	font-size: 16pt;
 	line-height: 1.4em;

@@ -15,7 +15,7 @@ module Sinatra
       end
     
       app.get /(?<file>.*)\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
-        send_file "shared/img/#{params[:file]}.#{params[:ext]}"
+        send_file "#{$root_folder}/shared/img#{params[:file]}.#{params[:ext]}"
       end
 
       app.get /(?<file>[^\/]*)\.(?<ext>ttf|woff)/ do

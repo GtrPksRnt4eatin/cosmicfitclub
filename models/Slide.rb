@@ -17,7 +17,7 @@ class SlideRoutes < Sinatra::Base
   end
 
   get '/' do
-  	JSON.generate Slide.all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image[:original].url } }
+  	JSON.generate Slide.all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image[:original].url, :thumb => s.image[:medium].url } }
   end
 
   delete '/:id' do
