@@ -5,6 +5,10 @@ module Sinatra
   module SharedResources
 
     def self.registered(app)
+
+      app.get '/elements/:file.js' do
+        send_file "shared/js/elements/#{params[:file]}.js"
+      end
       
       app.get '*/:file.js' do
       	send_file "shared/js/#{params[:file]}.js"

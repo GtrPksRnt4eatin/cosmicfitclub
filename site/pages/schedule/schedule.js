@@ -8,4 +8,6 @@ $(document).ready(function() {
     window.location.href = e.target.getAttribute('href');
   });
 
+  schedule = new Schedule( id('schedule_container') );
+
 });

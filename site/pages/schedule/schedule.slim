@@ -5,7 +5,7 @@ html
     
     ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'schedule']
     
-    ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'schedule']
+    ==js  ['jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', 'moment', '/elements/cfcschedule', 'schedule']
 
   body.p3
 
@@ -15,6 +15,6 @@ html
       
     .content
       .tile 
-        H1 Schedule
+        #schedule_container
 
     == include_slim('slim/partials/footer')
