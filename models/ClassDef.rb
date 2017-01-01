@@ -12,7 +12,7 @@ end
 class ClassDefRoutes < Sinatra::Base
 
   get '/' do
-    JSON.generate ClassDef.all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :image_url => c.image[:small].url } }
+    JSON.generate ClassDef.order(:order).all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :image_url => c.image[:small].url } }
   end
   
   post '/' do
