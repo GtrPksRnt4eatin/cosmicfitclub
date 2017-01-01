@@ -18,3 +18,25 @@ ul {
 .content {
   width: 80%;
 }
+
+@media(max-width: 800px) {
+
+  .classdef {
+    width: auto;
+    display: block;
+  }
+
+  .content {
+    font-size: 3vw;
+    width: 100%;
+  }
+
+  .content img {
+  	width: 80%;
+  }
+
+  p {
+  	padding: 0 5%;
+  }
+
+}
