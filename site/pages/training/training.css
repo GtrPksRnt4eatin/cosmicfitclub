@@ -1,0 +1,20 @@
+p {
+  padding: 0 4em;
+}
+
+ul {
+	margin: 0;
+	display: inline-block;
+}
+
+.tile {
+	padding-bottom: 1em;
+}
+
+.content img {
+  width: 25em;
+}
+
+.content {
+  width: 80%;
+}
