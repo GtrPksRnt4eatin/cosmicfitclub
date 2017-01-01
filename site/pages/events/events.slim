@@ -18,13 +18,7 @@ html
     .content
 
       .tile.event rv-each-event='data.events'
-        img rv-src='event.image_url'
-        .eventname 
-          | { event.name }
-        hr width='60%'
-        .eventdescription
-          | { event.description }
-        .eventfoot
+        .eventhead
           .weekday
             | { event.starttime | dayofwk }
           | |
@@ -33,6 +27,12 @@ html
           | |
           .time
             | { event.starttime | time }
-        .delete rv-on-click='ctrl.del'
+        img rv-src='event.image_url'
+        .nfo
+          .eventname 
+            | { event.name }
+          hr width='60%'
+          .eventdescription
+            | { event.description }
 
     == include_slim('slim/partials/footer')
