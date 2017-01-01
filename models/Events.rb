@@ -12,7 +12,7 @@ end
 class EventRoutes < Sinatra::Base
 
   get '/' do
-    JSON.generate Event.all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :starttime => c.starttime, :image_url => c.image[:small].url } }
+    JSON.generate Event.order(:starttime).all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :starttime => c.starttime, :image_url => c.image[:small].url } }
   end
   
   post '/' do
