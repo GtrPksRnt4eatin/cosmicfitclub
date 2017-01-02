@@ -7,15 +7,28 @@ class StripeRoutes < Sinatra::Base
   post '/charge' do
 
     data = JSON.parse request.body.read
-  
-    if data['type'] == 'plan' then
-      customer = Stripe::Customer.create(
-        :source   => data['token']['id'],
-        :plan     => data['plan_id'],
-        :email    => data['token']['email'],
-        :metadata => { :name => data['token']['card']['name'] } 
-      )
+
+    customer = Stripe::Customer.create(
+      :source   => data['token']['id'],
+      :plan     => data['plan_id'],
+      :email    => data['token']['email'],
+      :metadata => { :name => data['token']['card']['name'] } 
+    )
+
+    client = Client.find_or_create(:stripe_id => customer.id) do |cust|
+      cust.name  = data['token']['card']['name']
+      cust.email = data['token']['email']
     end
+
+    if data['type'] == 'plan' then
+      
+    end
+
+
+
+
+
+
 
 #  charge = Stripe::Charge.create(
 #    :amount      => @amount,
@@ -31,4 +44,4 @@ class StripeRoutes < Sinatra::Base
     env['sinatra.error'].message
   end
 
-end 
+end   

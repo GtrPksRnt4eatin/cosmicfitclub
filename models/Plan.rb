@@ -1,4 +1,5 @@
 class Plan < Sequel::Model
+  one_through_one :client, :join_table => :memberships
 	
   plugin :json_serializer
 
