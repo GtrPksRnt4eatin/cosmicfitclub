@@ -12,9 +12,6 @@ class StripeRoutes < Sinatra::Base
     
     client = Client.find( :email => data['token']['email'] )
 
-    require 'pry'
-    binding.pry
-
     if client.nil? then
 
       customer = Stripe::Customer.create(
