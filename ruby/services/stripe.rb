@@ -8,40 +8,42 @@ class StripeRoutes < Sinatra::Base
 
     data = JSON.parse request.body.read
 
-    customer = Stripe::Customer.create(
-      :source   => data['token']['id'],
-      :plan     => data['plan_id'],
-      :email    => data['token']['email'],
-      :metadata => { :name => data['token']['card']['name'] } 
+    client = Client.find_or_create(:email => data['token']['email']) do |cust|
+      cust.name  = data['token']['card']['name']
+      customer = Stripe::Customer.create(
+        :source   => data['token']['id'],
+        :email    => data['token']['email'],
+        :metadata => { :name => data['token']['card']['name'] } 
+      )
+      cust.stripe_id = customer.id
+    end
+    
+    subs = Stripe::Subscription.create(
+      :plan => data['plan_id'].to_s,
+      :customer => client.stripe_id
     )
 
-    client = Client.find_or_create(:stripe_id => customer.id) do |cust|
-      cust.name  = data['token']['card']['name']
-      cust.email = data['token']['email']
-    end
+    client.update(:plan => data['plan_id'])
 
-    if data['type'] == 'plan' then
-      
-    end
+  end
 
-
-
-
-
-
-
-#  charge = Stripe::Charge.create(
-#    :amount      => @amount,
-#    :description => 'Sinatra Charge',
-#    :currency    => 'usd',
-#    :customer    => customer.id
-#  )
-
-#  slim :charged
-  end 
+  post '/webhook' do
+    data = JSON.parse request.body.read
+    p data
+  end
 
   error Stripe::CardError do
     env['sinatra.error'].message
   end
+
+  def find_client_by_email(email)
+
+  end
+
+  def find_client_by_card(token)
+    token = Stripe::Token.retrieve(token['id'])
+  end
+
+
 
 end   
