@@ -31,7 +31,7 @@ class StripeRoutes < Sinatra::Base
     end
 
     subs = Stripe::Subscription.create(
-      :plan => data['plan_id'].to_s,
+      :plan => Plan[data['plan_id']].stripe_id,
       :customer => customer_id
     )
 
