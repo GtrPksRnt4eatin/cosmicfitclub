@@ -28,7 +28,6 @@ button {
   }
 
   .tile {
-    margin: 0;
     padding: .5em 1em;
   }
 
@@ -38,7 +37,8 @@ button {
   }
 
   .content {
-    padding 0 .5em;
+    padding: 0 .5em;
+    font-size: 2.3vw;
   }
 
   .content hr {
@@ -58,6 +58,7 @@ button {
 
   th:nth-child(1) {
     width: 12em;
+    font-size: .9em;
   }
 
   td:nth-child(2) {
@@ -65,7 +66,12 @@ button {
   }
 
   td:nth-child(3) {
-    width: 6em;
+    width: 5em;
+    
+  }
+
+  td button {
+    font-size: .8em;
   }
 
 }
