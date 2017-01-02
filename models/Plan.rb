@@ -1,5 +1,5 @@
 class Plan < Sequel::Model
-  one_through_one :client, :join_table => :memberships
+  one_through_one :client, :join_table => :subscriptions
 	
   plugin :json_serializer
 

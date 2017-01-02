@@ -1,6 +1,6 @@
 class Client < Sequel::Model
-  one_through_one :plan, :join_table => :memberships
-  one_to_one :membership
+  one_through_one :plan, :join_table => :subscriptions
+  one_to_one :subscription
 end
 
 #id
