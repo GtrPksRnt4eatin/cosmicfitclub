@@ -23,13 +23,22 @@ button {
 
 @media(max-width: 800px) {
   p {
-  	font-size: 2.8vw;
+  	font-size: 3.5vw;
   	line-height: 1.8em;
+  }
+
+  .tile {
+    margin: 0;
+    padding: .5em 1em;
   }
 
   .heading {
   	font-size: 5vw;
   	padding: 0.8em 0 0.5em;
+  }
+
+  .content {
+    padding 0 .5em;
   }
 
   .content hr {
@@ -39,9 +48,24 @@ button {
   table {
   	font-size: 3.2vw;
   	padding-bottom: 0.3em;
+    width: 100%;
   }
 
   th, td {
   	padding: 0.3em 0;
+    height: 3em;
   }
+
+  th:nth-child(1) {
+    width: 12em;
+  }
+
+  td:nth-child(2) {
+    width: 10em;
+  }
+
+  td:nth-child(3) {
+    width: 6em;
+  }
+
 }
