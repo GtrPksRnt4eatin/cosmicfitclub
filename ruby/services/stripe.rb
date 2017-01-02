@@ -32,7 +32,7 @@ class StripeRoutes < Sinatra::Base
 
     subs = Stripe::Subscription.create(
       :plan => data['plan_id'].to_s,
-      :customer => client.stripe_id
+      :customer => customer_id
     )
 
     status 204
@@ -82,7 +82,7 @@ end
 module StripeMethods
 
   def StripeMethods::sync_plans
-    
+
     stripe_plans = Stripe::Plan.list['data']
 
     stripe_plans.each do |plan|
