@@ -11,7 +11,7 @@ class StripeRoutes < Sinatra::Base
     customer_id = nil;
     
     client = Client.find( :email => data['token']['email'] )
-  
+
     if client.nil? then
 
       customer = Stripe::Customer.create(
@@ -26,7 +26,7 @@ class StripeRoutes < Sinatra::Base
 
       halt 409 if client.plan != nil  
 
-      customer_id = client['stripe_id']
+      customer_id = client.stripe_id
 
     end
 
