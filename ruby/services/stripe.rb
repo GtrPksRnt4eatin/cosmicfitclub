@@ -12,6 +12,9 @@ class StripeRoutes < Sinatra::Base
     
     client = Client.find( :email => data['token']['email'] )
 
+    require 'pry'
+    binding.pry
+
     if client.nil? then
 
       customer = Stripe::Customer.create(
@@ -41,6 +44,8 @@ class StripeRoutes < Sinatra::Base
 
   post '/webhook' do
     event = JSON.parse request.body.read
+
+    p "webhook received #{event['type']}"
     
     case event['type']
     
@@ -58,6 +63,8 @@ class StripeRoutes < Sinatra::Base
       client.destroy unless client.nil?
 
     when 'customer.subscription.created'
+
+      p 'subscription created!!'
 
       client = Client.find( :stripe_id => event['data']['object']['id'] )
     
