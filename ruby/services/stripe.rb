@@ -51,22 +51,58 @@ class StripeRoutes < Sinatra::Base
         client.email = event['data']['object']['email']
       end
     
+    when 'customer.deleted'
+      
+      client = Client.find( :stripe_id => event['data']['object']['id'] )
+
+      client.destroy unless client.nil?
+
     when 'customer.subscription.created'
 
-      client = Client.find( :stripe_id => event['data']['object'] )
+      client = Client.find( :stripe_id => event['data']['object']['id'] )
     
       client.update( :plan => Plan[event['data']['object']['plan']['id']] ) unless client.nil?
 
+    when 'customer.subscription.deleted'
+      
+      client = Client.find( :stripe_id => event['data']['object']['id'] )
+
+      client.update( :plan => nil )
+
     end
-    
+
   end
 
   error Stripe::CardError do
     env['sinatra.error'].message
   end
 
-  def create_new_membership(token)
+end 
+
+module StripeMethods
+
+  def StripeMethods::sync_plans
+
+    stripe_plans = Stripe::Plan.list['data']
+
+    stripe_plans.each do |plan|
+      plan.delete unless Plan.find( :stripe_id => plan['id'] )
+    end
+
+    Plan.all.each do |plan|
+      next unless plan['stripe_id'] && stripe_plans.find_index { |p| p['id'] == plan['stripe_id'] }
+      plan['stripe_id'] = generateToken
+      Stripe::Plan.create(
+        :id       => plan['stripe_id'],
+        :name     => plan['name'],
+        :amount   => plan.full_price,
+        :interval => plan['term_months'] == 1 ? "month" : "year", 
+        :currency => "usd"
+      )
+    end
 
   end
 
-end   
+  def generateToken; @token = rand(36**8).to_s(36) end
+
+end

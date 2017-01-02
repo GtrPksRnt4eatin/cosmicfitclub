@@ -36,3 +36,5 @@ end
 map "/stripe" do
   run StripeRoutes
 end
+
+StripeMethods::sync_plans
