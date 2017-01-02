@@ -82,7 +82,7 @@ end
 module StripeMethods
 
   def StripeMethods::sync_plans
-
+    
     stripe_plans = Stripe::Plan.list['data']
 
     stripe_plans.each do |plan|
@@ -90,19 +90,20 @@ module StripeMethods
     end
 
     Plan.all.each do |plan|
-      next unless plan['stripe_id'] && stripe_plans.find_index { |p| p['id'] == plan['stripe_id'] }
-      plan['stripe_id'] = generateToken
+      next unless plan['stripe_id'].nil? || stripe_plans.find_index { |p| p['id'] == plan['stripe_id'] }.nil?
+      plan.update(:stripe_id => StripeMethods::generateToken)
+
       Stripe::Plan.create(
-        :id       => plan['stripe_id'],
-        :name     => plan['name'],
+        :id       => plan.stripe_id,
+        :name     => plan.name,
         :amount   => plan.full_price,
-        :interval => plan['term_months'] == 1 ? "month" : "year", 
+        :interval => plan.term_months == 1 ? "month" : "year", 
         :currency => "usd"
       )
     end
 
   end
 
-  def generateToken; @token = rand(36**8).to_s(36) end
+  def StripeMethods::generateToken; @token = rand(36**8).to_s(36) end
 
 end
