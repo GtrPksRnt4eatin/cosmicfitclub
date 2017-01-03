@@ -42,8 +42,6 @@ class StripeRoutes < Sinatra::Base
   post '/webhook' do
     event = JSON.parse request.body.read
 
-    p "webhook received #{event['type']}"
-    
     case event['type']
     
     when 'customer.created'
@@ -61,15 +59,9 @@ class StripeRoutes < Sinatra::Base
 
     when 'customer.subscription.created'
 
-      p "subscription created!! #{event['data']['object']['id']}"
-
-      client = Client.find( :stripe_id => event['data']['object']['id'] )
-
-      p client
+      client = Client.find( :stripe_id => event['data']['object']['customer'] )
     
       client.update( :plan => Plan[event['data']['object']['plan']['id']] ) unless client.nil?
-
-
 
     when 'customer.subscription.deleted'
       
