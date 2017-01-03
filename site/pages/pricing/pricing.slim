@@ -27,7 +27,7 @@ html
               td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
               td
                 - if plan[:presale]
-                  a href="https://cosmicfit.herokuapp.com/checkout?type=plan&id=#{plan[:id]}"
+                  a href="https://cosmicfit.herokuapp.com/checkout/plans/#{plan[:id]}"
                     button Buy Now
 
         hr width="60%"
@@ -39,7 +39,7 @@ html
               td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
               td
                 - if plan[:presale]
-                  a href="https://cosmicfit.herokuapp.com/checkout?type=plan&id=#{plan[:id]}"
+                  a href="https://cosmicfit.herokuapp.com/checkout/plans/#{plan[:id]}"
                     button Buy Now
         
         hr width="60%"
@@ -51,7 +51,7 @@ html
               td $ #{ pack[:pass_price].to_i / 100 }.00 Per Class
               td
                 - if pack[:presale]
-                  a href="https://cosmicfit.herokuapp.com/checkout?type=package&id=#{pack[:id]}"
+                  a href="https://cosmicfit.herokuapp.com/checkout/packages/#{pack[:id]}"
                     button Buy Now
         
         hr width="60%"
@@ -60,7 +60,9 @@ html
           tr
             th 1 Hour Presale
             td $60.00 Per Hour
-            td: button Buy Now
+            td
+              a href="https://cosmicfit.herokuapp.com/checkout/training"
+                button Buy Now
           tr
             th 1 Hour
             td $100.00 Per Hour

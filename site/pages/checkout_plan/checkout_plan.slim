@@ -1,0 +1,36 @@
+- plan = Plan[ params[:id] ]
+
+html
+  head
+    == css ['fonts', 'site', 'menu_colors', 'checkout_plan']
+    == js  ['https://checkout.stripe.com/checkout']
+    == js  [ 'jquery', 'lib', 'checkout_plan' ]
+
+    javascript:
+
+      PLAN              = "#{ plan.to_json }";
+      STRIPE_PUBLIC_KEY = "#{ ENV['STRIPE_PUBLIC'] }";
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+
+          h1 Membership Plan
+
+          table
+            tr
+              th Plan
+              td #{ plan.name }
+            tr
+              th Monthly Price
+              td #{ plan.formatted_month_price }
+            tr
+              th Full Price 
+              td #{ plan.formatted_full_price }
+
+          div
+            button#checkout Checkout

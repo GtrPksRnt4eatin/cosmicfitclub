@@ -1,0 +1,34 @@
+- pack = Package[ params[:id] ]
+
+html
+  head
+    == css ['fonts', 'site', 'menu_colors', 'checkout_pack']
+    == js  ['https://checkout.stripe.com/checkout']
+    == js  [ 'jquery', 'lib', 'checkout_pack' ]
+
+    javascript:
+
+      PACKAGE           = "#{ pack.to_json }";
+      STRIPE_PUBLIC_KEY = "#{ ENV['STRIPE_PUBLIC'] }";
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+
+          h1 Class Package
+
+          table
+            tr
+              th Package
+              td #{ pack.name }
+            tr
+              th Price
+              td #{ pack.formatted_price }
+              
+          div
+            button#checkout Checkout
+      
