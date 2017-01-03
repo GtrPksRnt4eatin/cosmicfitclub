@@ -9,8 +9,8 @@ html
 
     javascript:
 
-      PLAN              = "#{ plan.to_json }";
-      STRIPE_PUBLIC_KEY = "#{ ENV['STRIPE_PUBLIC'] }";
+      PLAN              = "#{{ plan.to_json }}";
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
 
   body
 
