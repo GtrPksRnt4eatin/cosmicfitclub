@@ -19,7 +19,7 @@ class CFC < Sinatra::Base
   get( '/store')    { render_page :store    }
   get( '/checkout') { render_page :checkout }
 
-  get( '/checkout/plans/:id' )    { render_page :checkout_plans }
-  get( '/checkout/packages/:id' ) { render_page :checkout_pack  }
+  get( '/checkout/plans/:id' )    { render_page :checkout_plan }
+  get( '/checkout/packages/:id' ) { render_page :checkout_pack }
 
 end
