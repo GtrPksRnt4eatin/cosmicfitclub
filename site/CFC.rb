@@ -5,6 +5,7 @@ class CFC < Sinatra::Base
   helpers  Sinatra::ViewHelpers
   register Sinatra::PageFolders
   register Sinatra::SharedResources
+  register Sinatra::Auth
 
   set :root, File.dirname(__FILE__)
 

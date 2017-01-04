@@ -1,0 +1,17 @@
+body {
+	position: relative;
+	text-align: center;
+}
+
+body:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+
+#login_container {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 14pt;
+}	

@@ -24,6 +24,10 @@ class StripeRoutes < Sinatra::Base
 
     else
 
+      p "CLIENT: #{client}"
+      require 'pry'
+      binding.pry
+
       halt 409 if client.plan != nil  
 
       customer_id = client.stripe_id
@@ -59,7 +63,11 @@ class StripeRoutes < Sinatra::Base
 
     when 'customer.subscription.created'
 
+      p "SUBSCRIPTION_CREATED: #{event['data']['object']['plan']['id']} #{Plan[event['data']['object']['plan']['id']]}"
+
       client = Client.find( :stripe_id => event['data']['object']['customer'] )
+
+      p "CLIENT: #{client}"
     
       client.update( :plan => Plan[event['data']['object']['plan']['id']] ) unless client.nil?
 

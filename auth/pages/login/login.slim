@@ -1,0 +1,14 @@
+html
+  head
+    title Login To Fretx
+    == js  [ 'jquery', 'rivets', 'lib', 'element', 'event_channel', 'elements/loginform', 'login' ]
+    == css [ 'fonts', 'site', 'layout', 'menu', 'login']
+
+    javascript:
+      $(document).ready(function() {
+        var login = new LoginForm( id('login_container') );
+      });
+
+  body
+
+    #login_container

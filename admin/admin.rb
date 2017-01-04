@@ -2,6 +2,8 @@ require 'sinatra/base'
 
 class CFCAdmin < Sinatra::Base
 
+  enable :sessions	
+
   helpers  Sinatra::ViewHelpers
   register Sinatra::PageFolders
   register Sinatra::SharedResources

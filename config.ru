@@ -10,8 +10,9 @@ Dir["models/*.rb"].each        { |file| require_relative file }
 Dir["ruby/services/*.rb"].each { |file| require_relative file }
 Dir["ruby/*.rb"].each          { |file| require_relative file }
 
-require_relative 'site/CFC.rb'
+require_relative 'auth/auth.rb'
 require_relative 'admin/admin.rb'
+require_relative 'site/CFC.rb'
 
 map "/" do
   run CFC
@@ -20,6 +21,16 @@ end
 map "/admin" do
   run CFCAdmin
 end
+
+map "/auth" do
+  run CFCAuth
+end
+
+map "/stripe" do
+  run StripeRoutes
+end
+
+#StripeMethods::sync_plans
 
 map "/models/slides" do
   run SlideRoutes
@@ -32,9 +43,3 @@ end
 map "/models/events" do
   run EventRoutes
 end
-
-map "/stripe" do
-  run StripeRoutes
-end
-
-#StripeMethods::sync_plans
