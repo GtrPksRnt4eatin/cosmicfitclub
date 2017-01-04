@@ -65,7 +65,7 @@ class StripeRoutes < Sinatra::Base
 
       p "CLIENT: #{client}"
     
-      client.update( :plan => Plan[event['data']['object']['plan']['id']] ) unless client.nil?
+      client.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) unless client.nil?
 
     when 'customer.subscription.deleted'
       
