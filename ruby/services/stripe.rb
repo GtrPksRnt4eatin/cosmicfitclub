@@ -59,11 +59,7 @@ class StripeRoutes < Sinatra::Base
 
     when 'customer.subscription.created'
 
-      p "SUBSCRIPTION_CREATED: #{event['data']['object']['plan']['id']} #{Plan.find( :stripe_id => event['data']['object']['plan']['id'] )}"
-
       client = Client.find( :stripe_id => event['data']['object']['customer'] )
-
-      p "CLIENT: #{client}"
     
       client.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) ) unless client.nil?
 

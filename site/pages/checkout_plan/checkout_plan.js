@@ -13,7 +13,13 @@ $(document).ready( function() {
         "token": token
       }
 
-      $.post('/stripe/charge', JSON.stringify( data ) );
+      $.post('/stripe/charge', JSON.stringify( data ) )
+        .done(function() {
+          window.location.href = 'checkout/complete';
+        })
+        .fail(function() {
+          alert('Your Card Has not Been Charged. You already have a Membership, Sign in to Modify it.')
+        });
     }
 
   });
