@@ -24,10 +24,6 @@ class StripeRoutes < Sinatra::Base
 
     else
 
-      p "CLIENT: #{client}"
-      require 'pry'
-      binding.pry
-
       halt 409 if client.plan != nil  
 
       customer_id = client.stripe_id
