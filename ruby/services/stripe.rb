@@ -24,6 +24,8 @@ class StripeRoutes < Sinatra::Base
 
     else
 
+      p client.plan
+
       halt 409 if client.plan != nil  
 
       customer_id = client.stripe_id

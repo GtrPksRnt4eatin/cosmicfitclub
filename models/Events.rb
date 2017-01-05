@@ -16,7 +16,7 @@ class EventRoutes < Sinatra::Base
       { :id => c.id, 
         :name => c.name, 
         :description => c.description, 
-        :starttime => c.starttime, 
+        :starttime => c.starttime.iso8601, 
         :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) )
       }
     end
