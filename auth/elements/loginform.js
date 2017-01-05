@@ -35,12 +35,12 @@ LoginForm.prototype.HTML = `
     </div>
     <hr>
     <div class='section'>
-      <a href='/auth/facebook'>
+      <a href='omni/facebook'>
         <img src='login-facebook.png'/>
       </a>
     </div>
     <div class='section' style='display: none;'>
-      <a href='/auth/google_oauth2'>
+      <a href='omni/google_oauth2'>
         <img src='login-google.png'/>
       </a>
     </div>
@@ -52,13 +52,9 @@ LoginForm.prototype.CSS = `
   #LoginForm {
     display: inline-block;
     text-align: center;
-    background: rgba(255,255,255,0.2);
     padding: 20px;
     border: 1px solid black;
     padding: 1em;
-    background: rgba(255,255,255,0.9);
-}
-
   }
 
   #LoginForm .section {

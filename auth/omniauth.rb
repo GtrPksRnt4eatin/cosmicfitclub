@@ -9,6 +9,7 @@ module Sinatra
     def self.registered(app)
       
       app.use OmniAuth::Builder do
+        configure { |config| config.path_prefix = '/omni' }
         provider :facebook, ENV['FACEBOOK_ID'], ENV['FACEBOOK_SECRET']
         #provider :google_oauth2, ENV['GOOGLE_ID'], ENV['GOOGLE_SECRET'], {access_type: "offline", prompt: "consent", scope: 'userinfo.email, userinfo.profile'}
       end

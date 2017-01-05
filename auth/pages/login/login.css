@@ -15,3 +15,15 @@ body:before {
 	vertical-align: middle;
 	font-size: 14pt;
 }	
+
+
+
+
+body {
+  background-image: url('background-blu.jpg');
+}
+
+#LoginForm {
+  box-shadow: 0 0 5px white;
+  background: rgba(30,30,30,0.8);
+}

@@ -26,6 +26,12 @@ module Sinatra
         send_file path
       end
 
+      app.get '*/elements/:file.js' do
+        path = "#{app.root}/elements/#{params[:file]}.js"
+        pass unless File.exists? path
+        send_file path  
+      end
+
     end
 
   end
