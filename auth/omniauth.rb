@@ -38,7 +38,7 @@ module Sinatra
 
         session[:user] = user
 
-        redirect '/userpage'
+        redirect '/userpage '
       end
 
       app.get 'omni/:provider/deauthorized' do
