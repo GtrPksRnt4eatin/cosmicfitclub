@@ -1,0 +1,20 @@
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmic Fit Club
+
+    ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'userpage']
+    ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'userpage']
+
+  body.p7
+  
+    #stars
+    
+    == include_slim('slim/partials/header')
+      
+    .content
+
+    == include_slim('slim/partials/footer')
