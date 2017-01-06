@@ -112,3 +112,13 @@ function _ajax_request(url, data, callback, type, method) {
         dataType: type
         });
 }
+
+jQuery.fn.shake = function() {
+    this.each(function(i){
+        $(this).css({"position":"relative"});
+        for(var i=1; i<=3; i++) {
+            $(this).animate({left: -10}, 10).animate({left: 0}, 50).animate({left: 10}, 10).animate({left: 0}, 50);
+        }
+    });
+    return this;
+}
