@@ -5,7 +5,7 @@ element = {
     mount(parent)      { if(!empty(parent)) { parent.innerHTML = ''; parent.appendChild(this.dom); } },
     bind_handlers(arr) { 
     	for( var i=0; i < arr.length; i++ ) { 
-    		arr[i] = arr[i].bind(this); 
+    		this[arr[i]] = this[arr[i]].bind(this); 
     	}         
     }
 }
