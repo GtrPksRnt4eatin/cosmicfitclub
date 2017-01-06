@@ -31,6 +31,11 @@ header {
   margin-right: 2px;
 }
 
+#userview_container {
+  position: absolute;
+  top: 1em; right: 1em;
+}
+
 .p1 #menu li:nth-child(1), #menu li:hover:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
 .p2 #menu li:nth-child(2), #menu li:hover:nth-child(2) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
 .p3 #menu li:nth-child(3), #menu li:hover:nth-child(3) { box-shadow: 0 -2px 0 rgb(100,255,100) inset; }

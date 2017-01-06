@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  userview = new UserView( id('userview_container'));
+
   $.get('/models/slides', function(slides) {
     slides = JSON.parse(slides);
     slides.forEach( function(slide) {

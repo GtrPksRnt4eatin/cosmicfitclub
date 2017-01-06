@@ -25,4 +25,6 @@ class CFC < Sinatra::Base
   get( '/checkout/plans/:id' )        { render_page :checkout_plan }
   get( '/checkout/packages/:id' )     { render_page :checkout_pack }
 
+  get( '/login' ) { redirect('/auth/login') }
+
 end
