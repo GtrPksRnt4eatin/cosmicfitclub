@@ -86,6 +86,17 @@ LoginForm.prototype.HTML = `
         <div class='submit' rv-on-click='this.login'>Login</div>
       </div>
       <hr>
+      <div class='section'>
+        <a href='omni/facebook'>
+          <img src='login-facebook.png'/>
+        </a>
+      </div>
+      <div class='section' style='display: none;'>
+        <a href='omni/google_oauth2'>
+          <img src='login-google.png'/>
+        </a>
+      </div>
+      <hr>
       <div class='fineprint'>Not Registered?<span rv-on-click='this.register_mode'>Create An Account</span></div>
       <div class='fineprint' rv-if="state.failed">
         Forgot Password?

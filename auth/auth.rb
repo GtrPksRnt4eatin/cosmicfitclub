@@ -1,5 +1,8 @@
 require 'sinatra/base'
 require_relative './omniauth'
+require_relative './models/User'
+require_relative './models/Role'
+require_relative './models/Omniaccount'
 
 class CFCAuth < Sinatra::Base
   register Sinatra::Omni
