@@ -8,7 +8,7 @@ class CFCAuth < Sinatra::Base
   register Sinatra::Omni
   register Sinatra::PageFolders
   register Sinatra::SharedResources
-  helpers Sinatra::ViewHelpers
+  helpers  Sinatra::ViewHelpers
   
   enable :sessions
 
@@ -17,6 +17,7 @@ class CFCAuth < Sinatra::Base
   get( '/login'    ) { render_page :login    }
   get( '/reset'    ) { render_page :reset    }
   get( '/register' ) { render_page :register }
+  get( '/activate' ) { render_page :activate }
 
   post '/login' do
     data = JSON.parse(request.body.read)

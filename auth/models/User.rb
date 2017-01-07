@@ -1,14 +1,59 @@
+require 'bcrypt'
+
 class User < Sequel::Model
+    plugin :validation_helpers
+    attr_accessor :password, :confirmation
 
-	one_to_many :omniaccounts
-	many_to_many :roles
+    one_to_one  :client
+    one_to_many :omniaccounts
+    many_to_many :roles
 
-	def has_role?(role)
+    def has_role?(role)
       roles.include? Role[:name => role]
-	end
+    end
 
-	def photo_url
+    def photo_url
       omniaccounts.first.photo_url
-	end
+    end
+
+    def before_save
+      encrypt_password
+      super 
+    end
+
+    def after_save
+      clear_password
+      super
+    end
+    
+    def validate
+      super
+      validates_presence :name
+      validates_presence :email
+      errors.add(:password, 'cannot be blank') if !password || password.empty?
+      errors.add(:confirmation, 'must match password') if confirmation != password
+    end
+
+    def encrypt_password
+      self.salt = BCrypt::Engine.generate_salt
+      self.encrypted_password = BCrypt::Engine.hash_secret( password, salt )
+    end
+
+    def clear_password
+      self.password = nil
+    end
+
+    def match_password(login_password="")
+      encrypted_password == BCrypt::Engine.hash_secret( login_password, salt )
+    end
+
+    def self.authenticate(username_or_email="", login_password="")
+      user = ( User[:username=>username_or_email] || User[:email=>username_or_email] )
+      return ( user && user.match_password(login_password) ) ? user : false 
+    end
+
+    def activated?
+      return !user.encrypted_password.nil?
+    end 
 
 end
