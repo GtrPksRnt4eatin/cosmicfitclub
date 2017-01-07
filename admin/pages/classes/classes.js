@@ -4,11 +4,21 @@ var data = {
 }
 
 var ctrl = {
+
   del: function(e,m) {
     $.del(`/models/classdefs/${m.class.id}`, function() {
       data.classes.splice(data.classes.indexOf(m.class),1);
     });
+  },
+
+  moveup: function(e,m) {
+    $.post(`/models/classdefs/${m.class.id}/moveup`, function() { get_saved_classes(); });
+  },
+
+  movedn: function(e,m) {
+    $.post(`/models/classdefs/${m.class.id}/movedn`, function() { get_saved_classes(); });
   }
+
 }
 
 $(document).ready(function() {

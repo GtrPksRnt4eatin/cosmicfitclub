@@ -93,6 +93,11 @@ textarea {
   height: 3em;
 }
 
+.positionbtns span {
+  padding: .5em;
+  cursor: pointer;
+}
+
 @media(max-width: 800px) {
   #newclass {
   	font-size: 2.5vw;

@@ -5,24 +5,44 @@ class ClassDef < Sequel::Model
   def after_save
   	self.id
   	super
-  end
+  end 
 
 end
 
 class ClassDefRoutes < Sinatra::Base
 
   get '/' do
-    JSON.generate ClassDef.order(:order).all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :image_url => c.image[:small].url } }
+    JSON.generate ClassDef.order(:position).all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :image_url => c.image[:small].url } }
   end
   
   post '/' do
-    ClassDef.create(name: params[:name], description: params[:description], image: params[:image] )
+    ClassDef.create(name: params[:name], description: params[:description], image: params[:image], position: ClassDef.max(:position) + 1)
     status 200
   end
 
   delete '/:id' do
     halt 404 if ClassDef[params[:id]].nil?
     ClassDef[params[:id]].destroy
+    status 200
+  end
+
+  post '/:id/moveup' do
+    current  = ClassDef[params[:id]]
+    currentpos = current.position
+    prev = ClassDef.where("position < #{current.position}").reverse_order(:position).first
+    prevpos = prev.position
+    current.update(:position => prevpos )
+    prev.update(:position => currentpos )
+    status 200
+  end
+
+  post '/:id/movedn' do
+    current  = ClassDef[params[:id]]
+    currentpos = current.position
+    nextclass = ClassDef.where("position > #{current.position}").order(:position).first
+    nextpos = nextclass.position
+    current.update(:position => nextpos )
+    nextclass.update(:position => currentpos )
     status 200
   end
 
