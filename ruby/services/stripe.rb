@@ -70,7 +70,7 @@ class StripeRoutes < Sinatra::Base
       Mail.send_membership_welcome(client.email, {
         :name => client.name, 
         :plan_name => client.plan.name,
-        :login_url => ( client.user.activated? "https://cosmicfitclub.com/login" : "https://cosmicfitclub.com/auth/activate?token=#{client.user.token}" )
+        :login_url => client.user.activated? ? "https://cosmicfitclub.com/login" : "https://cosmicfitclub.com/auth/activate?token=#{client.user.token}"
       })
 
     when 'customer.subscription.deleted'
@@ -90,6 +90,16 @@ class StripeRoutes < Sinatra::Base
 end 
 
 module StripeMethods
+
+  def StripeMethods::sync_plans
+
+    stripe_plans = Stripe::Plan.list['data']
+
+    stripe_plans.each do |plan|
+      plan.delete unless Plan.find( :stripe_id => plan['id'] )
+    end
+
+    Plan.all.each do |plan|
       next unless plan['stripe_id'].nil? || stripe_plans.find_index { |p| p['id'] == plan['stripe_id'] }.nil?
       plan.update(:stripe_id => StripeMethods::generateToken)
 
@@ -100,6 +110,7 @@ module StripeMethods
         :interval => plan.term_months == 1 ? "month" : "year", 
         :currency => "usd"
       )
+      
     end
 
   end
