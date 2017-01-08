@@ -13,11 +13,11 @@ function UserView(parent) {
 UserView.prototype = {
 	constructor: UserView,
 
-  login()  { document.cookie = "loc=" + window.location.pathname; window.location = '/login'; },
-  logout() { $.post('/logout', function() { window.location = '/'; } ); },
+  login()  { document.cookie = "loc=" + window.location.pathname; window.location = '/auth/login'; },
+  logout() { $.post('/auth/logout', function() { window.location = '/'; } ); },
 
   get_user() {
-    $.get('/current_user')
+    $.get('/auth/current_user')
       .fail( function()     { this.state.user = null; }.bind(this))
       .done( function(user) { this.state.user = user; }.bind(this));
   }

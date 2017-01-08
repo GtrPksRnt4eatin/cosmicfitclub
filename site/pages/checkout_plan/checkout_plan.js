@@ -15,7 +15,7 @@ $(document).ready( function() {
 
       $.post('/stripe/charge', JSON.stringify( data ) )
         .done(function() {
-          window.location.href = 'checkout/complete';
+          window.location.href = '/checkout/complete';
         })
         .fail(function(e) {
           switch (e.status) {
