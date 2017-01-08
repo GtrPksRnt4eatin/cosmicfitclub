@@ -62,42 +62,41 @@ class StripeRoutes < Sinatra::Base
   end
 
   post '/webhook' do
+    
     event = JSON.parse request.body.read
 
     case event['type']
     
     when 'customer.created'
 
-      client = Client.find_or_create( :stripe_id => event['data']['object']['id'] ) do |client|
-        client.name  = event['data']['object']['metadata']['name']
-        client.email = event['data']['object']['email']
+      customer = Customer.find_or_create( :stripe_id => event['data']['object']['id'] ) do |customer|
+        customer.name  = event['data']['object']['metadata']['name']
+        customer.email = event['data']['object']['email']
+        customer.data  = JSON.generate(event['data']['object'])
       end
 
-      client.user = User.create( :reset_token => StripeMethods.generateToken ) if client.user.nil?
+      customer.user = User.create( :reset_token => StripeMethods.generateToken ) if customer.user.nil?
     
     when 'customer.deleted'
       
-      client = Client.find( :stripe_id => event['data']['object']['id'] )
-
-      client.destroy unless client.nil?
+      customer = Customer.find( :stripe_id => event['data']['object']['id'] )
+      customer.destroy unless customer.nil?
 
     when 'customer.subscription.created'
 
-      client = Client.find( :stripe_id => event['data']['object']['customer'] )
-    
-      client.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) ) unless client.nil?
+      customer = Customer.find( :stripe_id => event['data']['object']['customer'] )   
+      customer.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) ) unless customer.nil?
 
       Mail.send_membership_welcome(client.email, {
-        :name => client.name, 
-        :plan_name => client.plan.name,
-        :login_url => client.user.activated? ? "https://cosmicfitclub.com/login" : "https://cosmicfitclub.com/auth/activate?token=#{client.user.token}"
+        :name => customer.name, 
+        :plan_name => customer.plan.name,
+        :login_url => customer.user.activated? ? "https://cosmicfitclub.com/login" : "https://cosmicfitclub.com/auth/activate?token=#{customer.user.token}"
       })
 
     when 'customer.subscription.deleted'
       
-      client = Client.find( :stripe_id => event['data']['object']['id'] )
-
-      client.update( :plan => nil )
+      customer = Customer.find( :stripe_id => event['data']['object']['id'] )
+      customer.update( :plan => nil )
 
     end
 

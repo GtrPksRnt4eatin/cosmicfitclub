@@ -13,6 +13,7 @@ Dir["ruby/*.rb"].each          { |file| require_relative file }
 require_relative 'auth/auth.rb'
 require_relative 'admin/admin.rb'
 require_relative 'site/CFC.rb'
+require_relative 'checkout/checkout.rb'
 
 map "/" do
   run CFC
@@ -24,6 +25,10 @@ end
 
 map "/auth" do
   run CFCAuth
+end
+
+map "/checkout" do
+  run Checkout
 end
 
 map "/stripe" do
