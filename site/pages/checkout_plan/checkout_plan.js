@@ -17,7 +17,7 @@ $(document).ready( function() {
         .done(function() {
           window.location.href = 'checkout/complete';
         })
-        .fail(function() {
+        .fail(function(e) {
           alert('Your Card Has not Been Charged. You already have a Membership, Sign in to Modify it.')
         });
     }
