@@ -42,8 +42,9 @@ class StripeRoutes < Sinatra::Base
       p "creating client"
       client.name  = data['token']['name']
       client.email = data['token']['email']
-      client.user = User.create( :reset_token => StripeMethods.generateToken )
     end
+
+    client.user = User.create( :reset_token => StripeMethods.generateToken ) if client.user.nil?
 
     p "client : #{client}"
 
