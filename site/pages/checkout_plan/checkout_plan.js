@@ -18,7 +18,11 @@ $(document).ready( function() {
           window.location.href = 'checkout/complete';
         })
         .fail(function(e) {
-          alert('Your Card Has not Been Charged. You already have a Membership, Sign in to Modify it.')
+          switch (e.status) {
+            case 409: alert('Your Card Has not Been Charged. You already have a Membership, Sign in to Modify it.'); break;
+            case 500: alert('An Error Occurred!'); break;
+            default: alert('huh???'); break;
+          }
         });
     }
 

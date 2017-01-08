@@ -28,9 +28,6 @@ class User < Sequel::Model
     
     def validate
       super
-      validates_presence :name
-      validates_presence :email
-      errors.add(:password, 'cannot be blank') if !password || password.empty?
       errors.add(:confirmation, 'must match password') if confirmation != password
     end
 
