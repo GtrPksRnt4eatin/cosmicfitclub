@@ -50,7 +50,7 @@ class User < Sequel::Model
     end
 
     def activated?
-      return !user.encrypted_password.nil?
+      return !encrypted_password.nil?
     end 
 
 end
