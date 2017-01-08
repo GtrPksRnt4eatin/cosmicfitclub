@@ -8,6 +8,7 @@ GEM
       jmespath (~> 1.0)
     aws-sdk-resources (2.5.7)
       aws-sdk-core (= 2.5.7)
+    bcrypt (3.1.11)
     daemons (1.2.4)
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
@@ -123,6 +124,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk
+  bcrypt
   google-api-client
   image_processing
   json
