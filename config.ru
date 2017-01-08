@@ -43,6 +43,3 @@ end
 map "/models/events" do
   run EventRoutes
 end
-
-require 'pry'
-binding.pry
