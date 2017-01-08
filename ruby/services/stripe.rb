@@ -55,9 +55,7 @@ class StripeRoutes < Sinatra::Base
 
     p "Stripe Subscription: #{subs}"
 
-    user = User.find_or_create( :email => data['token']['email'] )
-
-    p "User: #{user}"
+    p "User: #{client.user}"
 
     status 204
     nil
