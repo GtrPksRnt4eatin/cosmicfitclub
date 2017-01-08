@@ -1,11 +1,16 @@
 html
+
   head
+
     == no_scaling
-    ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'staff']
+
     title Cosmic Fit Club
-    ==js  ['jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'staff']
+
+    ==css [ 'fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'staff' ]
+    ==js  [ 'jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'element', 'ev_channel', '/auth/elements/userview', 'staff' ]
 
   body.p6
+
     #stars
     
     == include_slim('slim/partials/header')
@@ -28,4 +33,4 @@ html
 
 
 
-    == include_slim('slim/partials/footer')
+    == include_slim('slim/partials/footer') 

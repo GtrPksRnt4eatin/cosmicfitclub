@@ -12,8 +12,7 @@ module Mail
       template_model: {
          name:      data[:name],
          plan_name: data[:plan_name],
-         login_url: data[:login_url],
-         username:  data[:username]
+         login_url: data[:login_url]
       },
       track_opens: true,
       track_links: 'HtmlAndText'

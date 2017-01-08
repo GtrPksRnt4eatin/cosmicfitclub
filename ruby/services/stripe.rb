@@ -6,6 +6,8 @@ class StripeRoutes < Sinatra::Base
 	
   post '/charge' do
 
+    p "Charge Posted!"
+
     data = JSON.parse request.body.read
 
     customer_id = nil;
@@ -13,6 +15,8 @@ class StripeRoutes < Sinatra::Base
     client = Client.find( :email => data['token']['email'] )
 
     if client.nil? then
+
+      p "Client Doesnt Exist, Creating Stripe Customer"
 
       customer = Stripe::Customer.create(
         :source   => data['token']['id'],
@@ -24,18 +28,35 @@ class StripeRoutes < Sinatra::Base
 
     else
 
+      p "Client already has a plan: #{client.plan}" if client.plan != nil
+
       halt 409 if client.plan != nil  
 
       customer_id = client.stripe_id
 
     end
 
+    p "stripe customer id = #{customer_id}, find or create client"
+
+    client = Client.find_or_create( :stripe_id => customer_id ) do |client|
+      p "creating client"
+      client.name  = data['token']['name']
+      client.email = data['token']['email']
+      client.user = User.create( :reset_token => StripeMethods.generateToken )
+    end
+
+    p "client : #{client}"
+
     subs = Stripe::Subscription.create(
       :plan => Plan[data['plan_id']].stripe_id,
       :customer => customer_id
     )
 
+    p "Stripe Subscription: #{subs}"
+
     user = User.find_or_create( :email => data['token']['email'] )
+
+    p "User: #{user}"
 
     status 204
     nil
@@ -53,7 +74,7 @@ class StripeRoutes < Sinatra::Base
         client.email = event['data']['object']['email']
       end
 
-      client.user = User.create( :reset_token => generateToken ) if client.user.nil?
+      client.user = User.create( :reset_token => StripeMethods.generateToken ) if client.user.nil?
     
     when 'customer.deleted'
       
@@ -110,7 +131,7 @@ module StripeMethods
         :interval => plan.term_months == 1 ? "month" : "year", 
         :currency => "usd"
       )
-      
+
     end
 
   end
