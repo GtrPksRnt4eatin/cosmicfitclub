@@ -10,3 +10,7 @@ td, th {
 table {
   display: inline-block;
 }
+
+.tile {
+	padding-bottom: .6em;
+}
