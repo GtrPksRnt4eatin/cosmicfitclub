@@ -5,7 +5,7 @@ class Customer < Sequel::Model
 
   def Customer.get_from_token(token)
     customer = find_or_create( :email => token['email'] ) { |cust| cust.name = token['card']['name'] }
-    customer.update( :stripe_id => StripeMehods::create_customer(token) ) if customer.stripe_id.nil?
+    customer.update( :stripe_id => StripeMethods::create_customer(token) ) if customer.stripe_id.nil?
     customer.update( :login => User.create ) if customer.login.nil? 
     return customer
   end
