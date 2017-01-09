@@ -13,9 +13,9 @@ $(document).ready( function() {
         "token": token
       }
 
-      $.post('/stripe/charge', JSON.stringify( data ) )
+      $.post('charge', JSON.stringify( data ) )
         .done(function() {
-          window.location.href = '/checkout/complete';
+          window.location.href = 'complete';
         })
         .fail(function(e) {
           switch (e.status) {

@@ -1,22 +1,19 @@
 class Customer < Sequel::Model
   one_through_one :plan, :join_table => :subscriptions
   one_to_one :subscription
-  one_to_one :user
+  one_to_one :login, :class=>:User
 
-  def exists_in_stripe?
-    return false if stripe_id.nil?
-    cust = Stripe::Customer.retrieve(stripe_id)
-    !cust.nil?
+  def Customer.get_from_token(token)
+    customer = find_or_create( :email => token['email'] ) { |cust| cust.name = token['card']['name'] }
+    customer.update( :stripe_id => StripeMehods::create_customer(token) ) if customer.stripe_id.nil?
+    customer.update( :login => User.create ) if customer.login.nil? 
+    return customer
   end
 
-  def create_in_stripe
-    
+  def add_subscription(plan_id)
+    plan = Plan[plan_id]
+    StripeMethods::create_subscription(plan.stripe_id, stripe_id)
+    self.update( :plan => plan )    
   end
 
 end
-
-#id
-#first_name
-#last_name
-#phone
-#email

@@ -17,7 +17,8 @@ class User < Sequel::Model
     end
 
     def before_save
-      encrypt_password
+      generateResetToken if password.nil?
+      encrypt_password unless password.nil?
       super 
     end
 
@@ -52,5 +53,7 @@ class User < Sequel::Model
     def activated?
       return !encrypted_password.nil?
     end 
+
+    def generateResetToken() self.reset_token = rand(36**8).to_s(36) end
 
 end

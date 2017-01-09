@@ -4,63 +4,6 @@ Stripe.api_key = ENV['STRIPE_SECRET']
 
 class StripeRoutes < Sinatra::Base
 	
-  post '/charge' do
-
-    p "Charge Posted!"
-
-    data = JSON.parse request.body.read
-
-    customer_id = nil;
-    
-    client = Client.find( :email => data['token']['email'] )
-
-    if client.nil? then
-
-      p "Client Doesnt Exist, Creating Stripe Customer"
-
-      customer = Stripe::Customer.create(
-        :source   => data['token']['id'],
-        :email    => data['token']['email'],
-        :metadata => { :name => data['token']['card']['name'] } 
-      )
-
-      customer_id = customer['id']
-
-    else
-
-      p "Client already has a plan: #{client.plan}" if client.plan != nil
-
-      halt 409 if client.plan != nil  
-
-      customer_id = client.stripe_id
-
-    end
-
-    p "stripe customer id = #{customer_id}, find or create client"
-
-    client = Client.find_or_create( :stripe_id => customer_id ) do |client|
-      p "creating client"
-      client.name  = data['token']['name']
-      client.email = data['token']['email']
-    end
-
-    client.user = User.create( :reset_token => StripeMethods.generateToken ) if client.user.nil?
-
-    p "client : #{client}"
-
-    subs = Stripe::Subscription.create(
-      :plan => Plan[data['plan_id']].stripe_id,
-      :customer => customer_id
-    )
-
-    p "Stripe Subscription: #{subs}"
-
-    p "User: #{client.user}"
-
-    status 204
-    nil
-  end
-
   post '/webhook' do
     
     event = JSON.parse request.body.read
@@ -109,6 +52,21 @@ class StripeRoutes < Sinatra::Base
 end 
 
 module StripeMethods
+
+  def StripeMethods::create_customer(token)
+    Stripe::Customer.create(
+      :source   => token['id'],
+      :email    => token['email'],
+      :metadata => { :name => token['card']['name'] } 
+    )['id']
+  end
+
+  def StripeMethods::create_subscription(plan_id,customer_id)
+    Stripe::Subscription.create(
+      :plan => plan_id,
+      :customer => customer_id
+    )['id']
+  end
 
   def StripeMethods::sync_plans
 
