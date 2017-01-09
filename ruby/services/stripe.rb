@@ -18,7 +18,7 @@ class StripeRoutes < Sinatra::Base
         customer.data  = JSON.generate(event['data']['object'])
       end
 
-      customer.user = User.create( :reset_token => StripeMethods.generateToken ) if customer.user.nil?
+      customer.login = User.create( :reset_token => StripeMethods.generateToken ) if customer.login.nil?
     
     when 'customer.deleted'
       
