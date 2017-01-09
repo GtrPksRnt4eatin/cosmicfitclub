@@ -33,7 +33,7 @@ class StripeRoutes < Sinatra::Base
       Mail.send_membership_welcome(customer.email, {
         :name => customer.name, 
         :plan_name => customer.plan.name,
-        :login_url => customer.user.activated? ? "https://cosmicfitclub.com/login" : "https://cosmicfitclub.com/auth/activate?token=#{customer.user.token}"
+        :login_url => customer.login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{customer.login.reset_token}"
       })
 
     when 'customer.subscription.deleted'
