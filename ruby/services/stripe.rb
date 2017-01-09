@@ -30,7 +30,7 @@ class StripeRoutes < Sinatra::Base
       customer = Customer.find( :stripe_id => event['data']['object']['customer'] )   
       customer.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) ) unless customer.nil?
 
-      Mail.send_membership_welcome(client.email, {
+      Mail.send_membership_welcome(customer.email, {
         :name => customer.name, 
         :plan_name => customer.plan.name,
         :login_url => customer.user.activated? ? "https://cosmicfitclub.com/login" : "https://cosmicfitclub.com/auth/activate?token=#{customer.user.token}"

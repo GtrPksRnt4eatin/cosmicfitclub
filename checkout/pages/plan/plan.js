@@ -15,7 +15,7 @@ $(document).ready( function() {
 
       $.post('charge', JSON.stringify( data ) )
         .done(function() {
-          window.location.href = 'complete';
+          window.location.href = '/complete';
         })
         .fail(function(e) {
           switch (e.status) {
