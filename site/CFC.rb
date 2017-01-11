@@ -2,6 +2,8 @@ require 'sinatra/base'
 
 class CFC < Sinatra::Base
 
+  enable :sessions
+
   helpers  Sinatra::ViewHelpers
   register Sinatra::PageFolders
   register Sinatra::SharedResources
@@ -20,11 +22,11 @@ class CFC < Sinatra::Base
   get( '/store')             { render_page :store    }
   get( '/checkout')          { render_page :checkout }
 
-  get( '/userpage', :auth => 'user' ) { render_page :userpage }
+  get( '/user', :auth => 'user' ) { render_page :user }
 
-  get( '/checkout/plans/:id' )        { render_page :checkout_plan }
-  get( '/checkout/packages/:id' )     { render_page :checkout_pack }
-  get( '/checkout/complete')          { render_page :checkout_complete }
+  get( '/checkout/plans/:id' )    { render_page :checkout_plan }
+  get( '/checkout/packages/:id' ) { render_page :checkout_pack }
+  get( '/checkout/complete')      { render_page :checkout_complete }
 
   get( '/login' ) { redirect('/auth/login') }
 

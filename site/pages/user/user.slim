@@ -1,0 +1,16 @@
+html
+
+  head
+
+    title Activate Your Membership
+
+    == js  [ 'jquery', 'rivets', 'lib', 'element', 'ev_channel', 'user' ]
+    == css [ 'fonts', 'site', 'user']
+
+  body
+
+    .tile
+      
+      | #{session[:user].customer.name}
+
+      | Waiver

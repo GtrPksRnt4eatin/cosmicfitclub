@@ -4,18 +4,26 @@ class User < Sequel::Model
     plugin :validation_helpers
     attr_accessor :password, :confirmation
 
-    one_to_one  :client
+    many_to_one  :customer
     one_to_many :omniaccounts
     many_to_many :roles
+
+    def before_create
+      self.add_role Role[1]
+    end
 
     def has_role?(role)
       roles.include? Role[:name => role]
     end
 
+    def name 
+      customer.name
+    end
+
     def photo_url
       omniaccounts.first.photo_url
     end
-
+    
     def before_save
       generateResetToken if password.nil?
       encrypt_password unless password.nil?
@@ -45,8 +53,9 @@ class User < Sequel::Model
       encrypted_password == BCrypt::Engine.hash_secret( login_password, salt )
     end
 
-    def self.authenticate(username_or_email="", login_password="")
-      user = ( User[:username=>username_or_email] || User[:email=>username_or_email] )
+    def self.authenticate(email="", login_password="")
+      customer = Customer[:email => email]
+      user = customer.login[0]
       return ( user && user.match_password(login_password) ) ? user : false 
     end
 

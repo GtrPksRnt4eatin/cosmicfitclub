@@ -1,3 +1,72 @@
 body {
   background-image: url('background-blu.jpg');
+  text-align: center;
+}
+
+body:before {
+  content: '';
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.tile {
+  vertical-align: middle;
+  padding: 2em;
+  line-height: 1.5em;
+  font-size: 1em;
+  display: inline-block;
+}
+
+.instructions {
+  font-size: 1.4em;
+  line-height: 1.5em;
+  padding-bottom: .5em;
+}
+
+.field {
+  position: relative;
+  padding-top: 1em;
+}
+
+.field label {
+  display: inline-block;
+  width: 10em;
+}
+
+.field input { 
+  display: inline-block;
+  width: 15em;
+}
+
+input {
+	background: transparent;
+	border: 0;
+	border-bottom: 2px solid white;
+	font-family: "Industry-Light";
+    color: rgba(255,255,255,0.8);
+    font-weight: bold;
+    font-size: 1em;
+    line-height: 1.5em;
+    padding-left: .5em;
+}
+
+input:focus {outline: none; }	
+
+.submit {
+	margin-top: 3em;
+	border: 2px solid white;
+	padding: 1em;
+	cursor: pointer;
+}
+
+.submit:hover {
+	background: rgba(255,255,255,0.1);
+	box-shadow: 0 0 .5em white;
+	color: white;
+}
+
+.submit:active {
+	background: rgba(255,255,255,0.2);
+	box-shadow: 0 0 1em white;
 }

@@ -2,7 +2,7 @@ class Customer < Sequel::Model
   
   one_through_one :plan, :join_table => :subscriptions
   one_to_one :subscription
-  one_to_one :login, :class=>:User
+  one_to_many :login, :class=>:User
 
   def Customer.get_from_token(token)
     customer = find_or_create( :email => token['email'] ) { |cust| cust.name = token['card']['name'] }

@@ -1,3 +1,5 @@
+- @user = User.find( :reset_token => params[:token] )
+
 html
 
   head
@@ -10,14 +12,26 @@ html
   body
 
     .tile
+      
+      form action='/auth/password' method='post'
+      
+        input type='hidden' name='token' value='#{@user.reset_token}'
 
-      | Hi Name, time to activate your account.<br>
-      | First choose a password!
+        .instructions
+          | #{@user.customer.name}, <br>
+          | Choose a password!
 
-      .field
-        label EMAIL: 
-        input 
+        .field
+          label EMAIL: 
+          input readonly='readonly' value="#{@user.customer.email}"
 
-      .field
-        label PASSWORD:
-        input
+        .field
+          label PASSWORD:
+          input name='password' type='password'
+
+        .field
+          label CONFIRMATION:
+          input name='confirmation' type='password'
+
+        button.submit type='submit' SUBMIT
+ 

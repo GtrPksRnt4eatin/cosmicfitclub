@@ -29,7 +29,7 @@ LoginForm.prototype = {
   login() {
     $.post('login', JSON.stringify(this.state))
       .fail( function(req,msg,status) { $(this.dom).shake();  this.state.failed=true; }.bind(this) )
-      .success( function() { window.location = '/'; } );
+      .success( function() { window.location = '/user'; } );
   },
 
   register() {
@@ -87,12 +87,12 @@ LoginForm.prototype.HTML = `
       </div>
       <hr>
       <div class='section'>
-        <a href='omni/facebook'>
+        <a class='omni' href='omni/facebook'>
           <img src='login-facebook.png'/>
         </a>
       </div>
       <div class='section' style='display: none;'>
-        <a href='omni/google_oauth2'>
+        <a class='omni' href='omni/google_oauth2'>
           <img src='login-google.png'/>
         </a>
       </div>
@@ -211,5 +211,9 @@ LoginForm.prototype.CSS = `
     color: rgba(255,150,150,1);
     text-shadow: 0 0 .5em black;
     font-size: 0.7em;
+  }
+
+  #LoginForm .omni img {
+    width: 60%;
   }
 `.untab(2);

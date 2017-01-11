@@ -38,6 +38,13 @@ class CFCAuth < Sinatra::Base
     return 200
   end
 
+  post '/password' do
+    user = User.find( :reset_token  => params[:token] )
+    user.set( :password => params[:password], :confirmation => params[:confirmation] ).save
+    session[:user] = user
+    redirect '/user'
+  end
+
   post '/reset' do
 
   end
@@ -46,7 +53,7 @@ class CFCAuth < Sinatra::Base
     content_type :json
     user = session[:user]
     halt 404 if user.nil?
-    JSON.generate({ :name => user.name, :photo_url => user.photo_url }) 
+    JSON.generate({ :name => user.name, :photo_url => '' }) 
   end
 
 end
