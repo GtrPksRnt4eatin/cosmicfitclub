@@ -1,3 +1,3 @@
-class Passes < Sequel::Model
+class Pass < Sequel::Model
 
 end

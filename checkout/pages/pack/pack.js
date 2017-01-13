@@ -9,16 +9,20 @@ $(document).ready( function() {
     token: function(token) {
       data = {
         "type":  "package",
-        "plan_id": PACKAGE['id'],
+        "pack_id": PACKAGE['id'],
         "token": token
       }
 
-      $.post('/stripe/charge', JSON.stringify( data ) )
+      $.post('charge', JSON.stringify( data ) )
         .done(function() {
           window.location.href = 'checkout/complete';
         })
-        .fail(function() {
-          alert('Your Card Has not Been Charged. You already have a Membership, Sign in to Modify it.')
+        .fail(function(e) {
+          switch (e.status) {
+            case 400: alert('There was an error processing the payment. Your Card Has not been charged.'); break;
+            case 500: alert('An Error Occurred!'); break;
+            default: alert('huh???'); break;        
+          }
         });
     }
 

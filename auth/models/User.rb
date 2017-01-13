@@ -8,7 +8,7 @@ class User < Sequel::Model
     one_to_many :omniaccounts
     many_to_many :roles
 
-    def before_create
+    def after_create
       self.add_role Role[1]
     end
 

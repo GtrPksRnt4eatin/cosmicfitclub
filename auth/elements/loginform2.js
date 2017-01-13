@@ -3,7 +3,6 @@ function LoginForm(parent) {
   this.state = {
     "name"         : "",
     "email"        : "",
-    "username"     : "",
     "password"     : "",
     "confirmation" : "",
     "mode"         : "login",
@@ -38,7 +37,8 @@ LoginForm.prototype = {
         .fail( function(req,msg,status) { 
           $(this.dom).shake(); 
           this.state.errors=[req.responseText];
-        }.bind(this) );
+        }.bind(this) )
+        .success( function() { this.login(); }.bind(this) } );
     }
   },
 
@@ -54,12 +54,11 @@ LoginForm.prototype = {
     this.state.errors = [];
     if(empty(this.state.name))              { this.state.errors.push("Name Cannot Be Blank");     }
     if(this.state.email.indexOf('@') == -1) { this.state.errors.push("Email Is Not Valid");       }
-    if(empty(this.state.username))          { this.state.errors.push("Username Cannot Be Blank"); }
     if(empty(this.state.password))          { this.state.errors.push("Password Cannot Be Blank"); }
     if(this.state.password.length < 5)      { this.state.errors.push("Password Must Be Greater than 5 Characters"); }
     if(this.state.password != this.state.confirmation) { this.state.errors.push("Passwords Must Match"); }
 
-    if(empty(this.state.errors))  { return true; }
+    if(this.state.errors.length == 0)  { return true; }
     $(this.dom).shake();
     return false;
   }
@@ -114,10 +113,6 @@ LoginForm.prototype.HTML = `
       <div class='section'>
         <label>E-Mail:</label>
         <input rv-value='state.email'></input>
-      </div>
-      <div class='section'>
-        <label>Username:</label>
-        <input rv-value='state.username'></input>
       </div>
       <div class='section'>
         <label>Password:</label>

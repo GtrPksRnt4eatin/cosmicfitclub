@@ -12,6 +12,8 @@ module Sinatra
     def buy_pack
       data = JSON.parse request.body.read
       customer = Customer.get_from_token( data['token'] )
+      customer.buy_pack( data['pack_id'] )
+      status 204
     end
   
   end

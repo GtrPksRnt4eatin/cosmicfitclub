@@ -68,6 +68,22 @@ module StripeMethods
     )['id']
   end
 
+  def StripeMethods::buy_pack(pack_id, customer_id) 
+    p pack_id
+    p customer_id
+    Stripe::Order.create(
+      :currency => 'usd',
+      :customer => customer_id,
+      :items => [ { :type => 'sku', :parent => pack_id } ]
+    ) 
+  end
+
+  def StripeMethods::get_customer(customer_id)
+    Stripe::Customer.retrieve(customer_id)
+  end
+
+  ##########################################################################
+
   def StripeMethods::sync_plans
 
     stripe_plans = Stripe::Plan.list['data']
@@ -78,9 +94,9 @@ module StripeMethods
 
     Plan.all.each do |plan|
       next unless plan['stripe_id'].nil? || stripe_plans.find_index { |p| p['id'] == plan['stripe_id'] }.nil?
-      plan.update(:stripe_id => StripeMethods::generateToken)
+      plan.update( :stripe_id => StripeMethods::generateToken )
 
-      Stripe::Plan.create(
+      stripe_plan = Stripe::Plan.create(
         :id       => plan.stripe_id,
         :name     => plan.name,
         :amount   => plan.full_price,
@@ -88,6 +104,38 @@ module StripeMethods
         :currency => "usd"
       )
 
+      plan.update( :stripe_id => stripe_plan['id'] )
+
+    end
+
+  end
+
+
+  def StripeMethods::sync_packages
+
+    product = Stripe::Product.create(
+      :id => StripeMethods::generateToken,
+      :name => "Class Package",
+      :attributes => ['name', 'num_passes', 'pass_price'],
+      :shippable => false
+    )
+    
+    Package.all.each do |pack|
+      next unless pack['stripe_id'].nil? || stripe_products.find_index { |p| p['id'] == pack['stripe_id'] }.nil?
+
+      sku = Stripe::SKU.create(
+        :currency  => 'usd',
+        :price     => pack.num_passes * pack.pass_price,
+        :inventory => { 'type' => 'infinite' },
+        :product   => product['id'],
+        :attributes => {
+          :name => pack.name,
+          :num_passes => pack.num_passes,
+          :pass_price => pack.pass_price
+        }
+      )
+
+      pack.update( :stripe_id => sku['id'] )
     end
 
   end

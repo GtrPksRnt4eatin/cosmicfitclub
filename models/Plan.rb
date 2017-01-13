@@ -7,15 +7,4 @@ class Plan < Sequel::Model
   def formatted_full_price;  "$#{ full_price / 100 }.00"  end
   def formatted_month_price; "$#{ month_price / 100 }.00" end
 
-  def subscribe(customer) 
-    
-  end
-
 end
-
-#id
-#name
-#price
-#renewal_price
-#family
-#term

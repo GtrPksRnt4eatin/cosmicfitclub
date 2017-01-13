@@ -13,8 +13,9 @@ function UserView(parent) {
 UserView.prototype = {
 	constructor: UserView,
 
-  login()  { document.cookie = "loc=" + window.location.pathname; window.location = '/auth/login'; },
-  logout() { $.post('/auth/logout', function() { window.location = '/'; } ); },
+  login()    { document.cookie = "loc=" + window.location.pathname; window.location = '/auth/login'; },
+  logout()   { $.post('/auth/logout', function() { window.location = '/'; } ); },
+  userpage() { window.location = '/user'; },
 
   get_user() {
     $.get('/auth/current_user')
@@ -31,9 +32,8 @@ UserView.prototype.HTML = `
 
   <div id="UserView">
     <div rv-if='state.user'>
-      <div class='name'>Hi, {state.user.name}</div>
-      <img rv-src='state.user.photo_url'/>
-      <div class='logout' rv-on-click='this.logout'>Hi, {state.user.name} | Logout</div>
+      <div class='name' rv-on-click='this.userpage'>{state.user.name}</div> |
+      <div class='logout' rv-on-click='this.logout'>Logout</div>
     </div>
     <div rv-unless='state.user'>
       <div class='login' rv-on-click='this.login'>LOG IN</div>
@@ -59,9 +59,8 @@ UserView.prototype.CSS = `
   #UserView .name {
     line-height: 1.6em;
     display: inline-block;
-    padding: 0 1em;
-    border-radius: .25em 0 0 .25em;
-    display: none;
+    padding: 0 .5em;
+    cursor: pointer;
   }
 
   #UserView .logout {
@@ -79,21 +78,15 @@ UserView.prototype.CSS = `
   }
 
   #UserView .login:hover,
-  #UserView .logout:hover {
-    color: #B00;
+  #UserView .logout:hover,
+  #UserView .name:hover {
+    text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255);
   }
 
   #UserView .login {
     padding: .5em 1em !important;
-    color: grey;
     font-weight: bold;
     line-height: 1em !important;
-  }
-
-  #UserView .logout {
-    border-radius: 1.5em;
-    color: grey;
-    border: 2px solid grey;
   }
 
 `.untab(2);

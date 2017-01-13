@@ -23,6 +23,8 @@ class CFCAuth < Sinatra::Base
     data = JSON.parse(request.body.read)
     session[:user] = User.authenticate( data['username'], data['password'] )
     halt 401 unless session[:user]
+    session[:customer] = session[:user].customer
+    status 204
   end
 
   post '/logout' do
@@ -32,9 +34,11 @@ class CFCAuth < Sinatra::Base
 
   post '/register' do
     data = JSON.parse(request.body.read)
-    halt 409, 'Username is Already in Use' unless User[:username => data['username'] ].nil?
-    halt 409, 'Email is Already in Use' unless User[:email => data['email'] ].nil?
-    user = User.create(:name => data['name'], :email => data['email'], :username => data['username'], :password => data['password'], :confirmation => data['confirmation']);
+    #halt 409, 'Username is Already in Use' unless User[:username => data['username'] ].nil?
+    halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
+    customer = Customer.create( :name => data['name'], :email => data['email'] )
+    user = User.create( :password => data['password'], :confirmation => data['confirmation'] );
+    user.customer = customer
     return 200
   end
 
@@ -65,6 +69,8 @@ module Sinatra
     module Helpers
 
       def logged_in? ; !session[:user].nil? end
+      def user ; session[:user] end
+      def customer ; session[:customer] end
 
     end
   

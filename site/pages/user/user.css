@@ -1,0 +1,15 @@
+.tile { 
+  text-align: center;
+}
+
+table {
+  display: inline-block;
+}
+
+td {
+  padding: .5em;
+}
+
+#UserView .name {
+  text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255);
+}

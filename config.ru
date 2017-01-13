@@ -35,8 +35,6 @@ map "/stripe" do
   run StripeRoutes
 end
 
-#StripeMethods::sync_plans
-
 map "/models/slides" do
   run SlideRoutes
 end
@@ -48,5 +46,9 @@ end
 map "/models/events" do
   run EventRoutes
 end
+
+
+#StripeMethods::sync_plans
+#StripeMethods::sync_packages
 
 #require 'pry'; binding.pry

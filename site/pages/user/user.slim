@@ -2,15 +2,50 @@ html
 
   head
 
-    title Activate Your Membership
+    == no_scaling
 
-    == js  [ 'jquery', 'rivets', 'lib', 'element', 'ev_channel', 'user' ]
-    == css [ 'fonts', 'site', 'user']
+    title Cosmic Fit Club
+
+    ==css ['fonts', 'site', 'header', 'footer', 'user']
+    ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'user']
 
   body
-
-    .tile
+  
+    #stars
+    
+    == include_slim('slim/partials/header')
       
-      | #{session[:user].customer.name}
+    .content
 
-      | Waiver
+      .tile
+
+        | #{ session[:user].customer.name }
+
+
+      .tile
+        .header Link Your Account to Social Media
+        img.social src='facebook.png' 
+
+      .tile
+        .header Membership Status:
+        table
+          tr
+            td #{ customer.plan.name }
+            td $#{ customer.plan.month_price * customer.plan.term_months / 100 }.00 / #{ customer.plan.term_months == 1 ? 'month' : 'year' }
+            td: button Cancel
+
+      .tile
+        .header Passes:
+        | #{ customer.num_passes }
+
+      .tile
+        .header Stored Cards:
+        table
+          - customer.payment_sources.each do |source|
+            tr
+              td #{ source['brand'] }
+              td 
+                | **** **** **** #{ source['last4'] }
+              td #{source['exp_month']} / #{source['exp_year']}
+
+    == include_slim('slim/partials/footer')
