@@ -29,7 +29,7 @@ body {
 }
 
 #LoginForm input {
-	background: transparent !important;
+	background-color: transparent !important;
 	border: 0;
 	border-bottom: 2px solid white;
 	font-family: "Industry-Light";
@@ -38,6 +38,10 @@ body {
   font-size: 1em;
   line-height: 1.5em;
   padding-left: .5em;
+}
+
+#LoginForm input:-webkit-autofill {
+  background-color: transparent !important;
 }
 
 #LoginForm input:focus { outline: none; }	
@@ -55,6 +59,7 @@ body {
 @media(max-width: 800px) {
   
   #login_container {
+    width: 90%;
     font-size: 4vw;  
   }
 
