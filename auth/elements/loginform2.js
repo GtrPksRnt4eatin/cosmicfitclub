@@ -38,7 +38,7 @@ LoginForm.prototype = {
           $(this.dom).shake(); 
           this.state.errors=[req.responseText];
         }.bind(this) )
-        .success( function() { this.login(); }.bind(this) } );
+        .success( function() { this.login(); }.bind(this) );
     }
   },
 
@@ -69,12 +69,13 @@ Object.assign( LoginForm.prototype, ev_channel);
 
 LoginForm.prototype.HTML = `
   <div id='LoginForm' >
+
     <div rv-if="state.mode | equals 'login'">
       <div class='section'>Login To Continue</div>
       <hr>
       <div class='section'>
-        <label>Username:</label>
-        <input class='username' rv-value='state.username'></input>
+        <label>Email:</label>
+        <input class='email' rv-value='state.email'></input>
       </div>
       <div class='section'>
         <label>Password:</label>
@@ -102,6 +103,7 @@ LoginForm.prototype.HTML = `
         <span rv-on-click='this.reset_mode'>Reset Password</span>
       </div>
     </div>
+
     <div rv-if="state.mode | equals 'register'">
       <span class='backbtn' rv-on-click="this.login_mode"></span>
       <div class='section'>Enter Your Information</div>
@@ -131,6 +133,7 @@ LoginForm.prototype.HTML = `
         <div class='error' rv-each-err='this.state.errors'> {err} </div>
       </div>
     </div>
+
     <div rv-if="state.mode | equals 'reset'">
       <span class='backbtn' rv-on-click="this.login_mode"></span>
       <div class='section'>Reset Your Password</div>
@@ -144,6 +147,7 @@ LoginForm.prototype.HTML = `
         <div class='submit' rv-on-click='this.reset'>Reset</div>
       </div>
     </div>
+
   </div>
 `.untab(2);
 

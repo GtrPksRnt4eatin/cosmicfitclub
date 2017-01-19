@@ -18,10 +18,11 @@ class CFCAuth < Sinatra::Base
   get( '/reset'    ) { render_page :reset    }
   get( '/register' ) { render_page :register }
   get( '/activate' ) { render_page :activate }
+  get( '/reset'    ) { render_page :activate }
 
   post '/login' do
     data = JSON.parse(request.body.read)
-    session[:user] = User.authenticate( data['username'], data['password'] )
+    session[:user] = User.authenticate( data['email'], data['password'] )
     halt 401 unless session[:user]
     session[:customer] = session[:user].customer
     status 204
@@ -34,7 +35,6 @@ class CFCAuth < Sinatra::Base
 
   post '/register' do
     data = JSON.parse(request.body.read)
-    #halt 409, 'Username is Already in Use' unless User[:username => data['username'] ].nil?
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
     customer = Customer.create( :name => data['name'], :email => data['email'] )
     user = User.create( :password => data['password'], :confirmation => data['confirmation'] );
@@ -44,13 +44,16 @@ class CFCAuth < Sinatra::Base
 
   post '/password' do
     user = User.find( :reset_token  => params[:token] )
-    user.set( :password => params[:password], :confirmation => params[:confirmation] ).save
+    user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user] = user
+    session[:customer] = session[:user].customer
     redirect '/user'
   end
 
   post '/reset' do
-
+    data = JSON.parse request.body.read
+    customer = Customer.find( :email => data['email'] )
+    customer.login.reset_password
   end
 
   get '/current_user' do
@@ -69,8 +72,8 @@ module Sinatra
     module Helpers
 
       def logged_in? ; !session[:user].nil? end
-      def user ; session[:user] end
-      def customer ; session[:customer] end
+      def user       ; session[:user]       end
+      def customer   ; session[:customer]   end
 
     end
   

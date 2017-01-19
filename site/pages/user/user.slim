@@ -29,10 +29,14 @@ html
       .tile
         .header Membership Status:
         table
-          tr
-            td #{ customer.plan.name }
-            td $#{ customer.plan.month_price * customer.plan.term_months / 100 }.00 / #{ customer.plan.term_months == 1 ? 'month' : 'year' }
-            td: button Cancel
+          - if customer.plan.nil?
+            | #{customer.plan}
+            button Sign Up For A Plan!
+          - unless customer.plan.nil?
+            tr
+              td #{ customer.plan.name }
+              td $#{ customer.plan.month_price * customer.plan.term_months / 100 }.00 / #{ customer.plan.term_months == 1 ? 'month' : 'year' }
+              td: button Cancel
 
       .tile
         .header Passes:

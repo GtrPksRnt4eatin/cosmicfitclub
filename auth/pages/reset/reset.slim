@@ -1,0 +1,37 @@
+- @user = User.find( :reset_token => params[:token] )
+
+html
+
+  head
+
+    title Activate Your Membership
+
+    == js  [ 'jquery', 'rivets', 'lib', 'element', 'ev_channel', 'activate' ]
+    == css [ 'fonts', 'site', 'activate']
+
+  body
+
+    .tile
+      
+      form action='/auth/password' method='post'
+      
+        input type='hidden' name='token' value='#{@user.reset_token}'
+
+        .instructions
+          | #{@user.customer.name}, <br>
+          | Choose a password!
+
+        .field
+          label EMAIL: 
+          input readonly='readonly' value="#{@user.customer.email}"
+
+        .field
+          label PASSWORD:
+          input name='password' type='password'
+
+        .field
+          label CONFIRMATION:
+          input name='confirmation' type='password'
+
+        button.submit type='submit' SUBMIT
+ 

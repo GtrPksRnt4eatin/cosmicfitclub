@@ -9,7 +9,7 @@ class User < Sequel::Model
     many_to_many :roles
 
     def after_create
-      self.add_role Role[1]
+      add_role Role[1]
     end
 
     def has_role?(role)
@@ -55,13 +55,26 @@ class User < Sequel::Model
 
     def self.authenticate(email="", login_password="")
       customer = Customer[:email => email]
-      user = customer.login[0]
+      return false if customer.nil?
+      user = customer.login
       return ( user && user.match_password(login_password) ) ? user : false 
     end
 
     def activated?
       return !encrypted_password.nil?
     end 
+
+    def reset_password
+      self.password = nil
+      self.encrypted_password = nil
+      self.salt = nil
+      self.save
+      self.send_password_email 
+    end
+
+    def send_password_email
+      Mail.send_password_reset(customer.email, { :name => customer.name, :reset_url => "https://cosmicfitclub.com/auth/activate?token=#{reset_token}" } )
+    end
 
     def generateResetToken() self.reset_token = rand(36**8).to_s(36) end
 
