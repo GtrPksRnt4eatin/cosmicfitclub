@@ -39,6 +39,7 @@ module Sinatra
 
         user.add_omniaccount(omni)
 
+        session[:customer] = customer
         session[:user] = user
 
         redirect '/user'
