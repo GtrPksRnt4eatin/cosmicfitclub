@@ -29,12 +29,15 @@ module Sinatra
           obj.photo_url = data[:photo_url]
         end
 
-        user = User.find_or_create( :email => data[:email] ) do |obj|
+        customer = Customer.find_or_create( :email => data[:email] ) do |obj|
           obj.name = data[:name]
         end
 
+        customer.create_login if customer.login.nil? 
+
+        login = customer.login
+
         user.add_omniaccount(omni)
-        user.add_role Role[1]
 
         session[:user] = user
 
@@ -49,7 +52,7 @@ module Sinatra
         "App Deauthorized"
       end
 
-      app.get 'omni/failure' do
+      app.get '/omni/failure' do
         render_page :omnifailure
       end
 
