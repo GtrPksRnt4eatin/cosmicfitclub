@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-  userview = new UserView( id('userview_container'));
-
   $.get('/models/slides', function(slides) {
     slides = JSON.parse(slides);
     slides.forEach( function(slide) {
@@ -21,14 +19,6 @@ $(document).ready(function() {
   });
 
   //images.forEach( function(path) { var elem =  $('#imgscroller').slick('slickAdd',`<div><img class='sliderimg' src='${ path }' /></div>`); });
-
-  $('#logo').on('click', function(e) {
-    window.location.href = '/';
-  });
-
-  $('#menu li').on('click', function(e) {
-    window.location.href = e.target.getAttribute('href');
-  });
 
 });
 

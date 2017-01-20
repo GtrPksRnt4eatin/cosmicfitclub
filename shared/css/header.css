@@ -64,18 +64,59 @@ header {
 .p7 #stars { background: url('background-red.jpg'); }
 .p8 #stars { background: url('background-yel.jpg'); }
 
+.menubtn { display: none; }
+
 
 @media(max-width: 800px) {
 
+  header {
+    padding: 0 !important;
+    text-align: center;
+  }
+
   #logo { 
-    margin: auto; 
-    display: block;  
-    max-width: 16em;
+    margin: 1vw 0;
+    display: inline-block;  
+    width: 60vw;
   }
 
   #menu li {
     font-size: 1em;
     margin: 0.2em 0.2em 0;
+  }
+
+  #userview_container {
+    position: relative;
+    top: auto; right: auto;
+    display: none;
+    border-top: 1px solid rgba(255,255,255,0.8);
+    padding: 2vw 0;
+  }
+
+  #menu {
+    width: 100%;
+    display: none;
+    line-height: 1.8em;
+    margin-bottom: 2vw;
+  }
+
+  #menu li {
+    text-align: center;
+    width: 30%;
+    margin: 1px;
+  }
+
+  #UserView {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .menubtn {
+    display: block;
+    position: relative;
+    font-size: 8vw;
+    cursor: pointer;
+    margin-top: -4vw;
   }
 
 }
