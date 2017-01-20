@@ -14,6 +14,10 @@ class CFCAuth < Sinatra::Base
 
   set :public_folder, File.dirname(__FILE__)
 
+  before do
+    p request.path_info
+  end
+
   get( '/login'    ) { render_page :login    }
   get( '/reset'    ) { render_page :reset    }
   get( '/register' ) { render_page :register }
