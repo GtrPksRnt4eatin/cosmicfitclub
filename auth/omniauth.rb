@@ -35,7 +35,7 @@ module Sinatra
 
         customer.create_login if customer.login.nil? 
 
-        login = customer.login
+        user = customer.login
 
         user.add_omniaccount(omni)
 
