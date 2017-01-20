@@ -41,7 +41,7 @@ module Sinatra
 
         session[:user] = user
 
-        redirect '/userpage'
+        redirect '/user'
       end
 
       app.get '/omni/test' do
