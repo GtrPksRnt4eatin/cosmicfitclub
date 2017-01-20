@@ -14,7 +14,7 @@ module Sinatra
         #provider :google_oauth2, ENV['GOOGLE_ID'], ENV['GOOGLE_SECRET'], {access_type: "offline", prompt: "consent", scope: 'userinfo.email, userinfo.profile'}
       end
 
-      app.get '/auth/omni/:provider/callback' do
+      app.get 'omni/:provider/callback' do
         auth = request.env['omniauth.auth']
 
         data = {
@@ -39,6 +39,10 @@ module Sinatra
         session[:user] = user
 
         redirect '/userpage'
+      end
+
+      app.get 'omni/test' do
+        'TESTING'
       end
 
       app.get 'omni/:provider/deauthorized' do
