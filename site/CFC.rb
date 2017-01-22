@@ -20,10 +20,11 @@ class CFC < Sinatra::Base
   get( '/pricing')           { render_page :pricing  }
   get( '/faq')               { render_page :faq      }
   get( '/store')             { render_page :store    }
-  get( '/checkout')          { render_page :checkout }
 
-  get( '/user', :auth => 'user' ) { render_page :user }
+  get( '/waiver', :auth => 'user' ) { render_page :waiver }
+  get( '/user'  , :auth => 'user' ) { render_page :user   }
 
+  get( '/checkout')               { render_page :checkout }
   get( '/checkout/plans/:id' )    { render_page :checkout_plan }
   get( '/checkout/packages/:id' ) { render_page :checkout_pack }
   get( '/checkout/complete')      { render_page :checkout_complete }
