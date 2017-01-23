@@ -3,5 +3,8 @@
 }
 
 #signaturepad {
+	display: inline-block;
+	margin: 2em;
 	background: white;
+	width: 60vw;
 }
