@@ -44,13 +44,16 @@ footer .row {
   line-height: 2em;
   text-align: right;
   display: inline-block;
-  width: 6em;
+  width: 7em;
   margin-right: 0.5em;
 }
 
 .subway {
   height: 2em;
   vertical-align: middle;
+  padding: 0 2px;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 .social {
@@ -60,6 +63,17 @@ footer .row {
 
 .footbox .pad {
   margin-top: 1.6em;
+}
+
+#donut {
+  height: 4em;
+  vertical-align: top;
+  padding: 0 1em;
+}
+
+.contactnfo {
+  display: inline-block;
+  vertical-align: top;
 }
 
 @media(max-width: 800px) {

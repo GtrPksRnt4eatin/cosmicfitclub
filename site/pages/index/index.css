@@ -14,6 +14,7 @@ ul {
   font-size: 18pt;
   line-height: 1.5em;
   min-height: 48vh;
+  text-align: center;
 }
 
 
@@ -46,10 +47,15 @@ ul {
   margin: 1em;
   padding: .1em;
   text-align: center;
+  display: inline-block;
 }
 
 #mission,#scroller {
   padding: 1em;
+}
+
+.quote {
+  width: 68vw;
 }
 
 @media(max-width: 800px) {
