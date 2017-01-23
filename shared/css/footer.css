@@ -44,14 +44,14 @@ footer .row {
   line-height: 2em;
   text-align: right;
   display: inline-block;
-  width: 7em;
+  width: 6em;
   margin-right: 0.5em;
 }
 
 .subway {
-  height: 2em;
+  height: 1.9em;
   vertical-align: middle;
-  padding: 0 2px;
+  padding: .1em;
   box-sizing: border-box;
   cursor: pointer;
 }
