@@ -44,7 +44,7 @@ ul {
 }
 
 .tile {
-  margin: 1em;
+  margin-bottom: 0;
   padding: .1em;
   text-align: center;
   display: inline-block;
@@ -79,5 +79,10 @@ ul {
   #mission {
     font-size: 3.5vw;
     line-height: 1.4em;
+  }
+
+  .tile {
+    width: 90vw;
+    padding: 1em;
   }
 }
