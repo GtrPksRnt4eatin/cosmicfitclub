@@ -1,5 +1,6 @@
 .tile { 
   text-align: center;
+  display: inline-block;
 }
 
 table {
@@ -12,4 +13,8 @@ td {
 
 #UserView .name {
   text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255);
+}
+
+#signature {
+  background: white;
 }

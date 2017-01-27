@@ -57,6 +57,7 @@ html
         - if customer.waiver.nil?
           a href='/waiver' Sign A Waiver
         - unless customer.waiver.nil?
-          == customer.waiver.signature
+          #signature
+            == customer.waiver.signature
 
     == include_slim('slim/partials/footer')
