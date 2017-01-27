@@ -18,8 +18,9 @@ html
     .content
 
       .tile
+        .header User Information
 
-        | #{ session[:user].customer.name }
+        | Name: #{ session[:user].customer.name }
 
 
       .tile
@@ -39,7 +40,7 @@ html
               td: button Cancel
 
       .tile
-        .header Passes:
+        .header Class Passes:
         | #{ customer.num_passes }
 
       .tile
