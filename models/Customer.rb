@@ -39,6 +39,13 @@ class Customer < Sequel::Model
     pack = Package[pack_id]
     StripeMethods::buy_pack( pack.stripe_id, stripe_id )
     pack.num_passes.times { self.add_pass( Pass.create() ) }
+
+    Mail.package_welcome(email,
+      :name => name,
+      :pack_name => pack.name,
+      :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
+    )
+    
   end
 
   def payment_sources
