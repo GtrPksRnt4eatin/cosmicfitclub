@@ -7,4 +7,13 @@
 	margin: 2em;
 	background: white;
 	width: 60vw;
+	color: black;
+}
+
+#submit {
+	font-family: "Industry-Light";;
+	cursor: pointer;
+	margin-top: 1em;
+	padding: .5em;
+	font-size: 1.2em;
 }

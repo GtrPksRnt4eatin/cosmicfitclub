@@ -1,3 +1,7 @@
 $(document).ready(function() {
-  $("#signaturepad").jSignature()
+  pad = $("#signaturepad").jSignature()
+
+  id('submit').addEventListener('click', function() {
+    $.post('/waiver', pad.jSignature("getData", "svg")[1] );
+  })
 });

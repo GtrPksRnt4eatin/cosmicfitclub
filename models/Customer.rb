@@ -4,6 +4,7 @@ class Customer < Sequel::Model
   one_to_one :subscription
   one_to_one :login, :class=>:User
   one_to_many :passes
+  one_to_one :waiver
 
   def Customer.is_new? (email)
     customer = Customer[ :email => email ]
@@ -45,7 +46,7 @@ class Customer < Sequel::Model
       :pack_name => pack.name,
       :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
     )
-    
+
   end
 
   def payment_sources
