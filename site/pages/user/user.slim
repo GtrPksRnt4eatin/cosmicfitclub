@@ -20,16 +20,19 @@ html
 
       .tile
         .header User Information
+        hr
 
         | Name: #{ session[:user].customer.name }
 
 
       .tile
         .header Link Your Account to Social Media
+        hr
         img.social src='facebook.png' 
 
       .tile
-        .header Membership Status:
+        .header Membership Status
+        hr
         table
           - if customer.plan.nil?
             | #{customer.plan}
@@ -41,11 +44,13 @@ html
               td: button Cancel
 
       .tile
-        .header Class Passes:
+        .header Class Passes
+        hr
         | #{ customer.num_passes }
 
       .tile
-        .header Stored Cards:
+        .header Stored Cards
+        hr
         table
           - customer.payment_sources.each do |source|
             tr
@@ -55,7 +60,8 @@ html
               td #{source['exp_month']} / #{source['exp_year']}
 
       .tile
-        .header Waiver:
+        .header Waiver
+        hr
         - if customer.waiver.nil?
           a href='/waiver' Sign A Waiver
         - unless customer.waiver.nil?
