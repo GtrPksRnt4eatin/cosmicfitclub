@@ -16,7 +16,11 @@ table {
 	vertical-align: middle;
 }
 
-body:before {
+.content {
+  height: 100%;
+}
+
+.content:before {
   display: inline-block;
   content: '';
   height: 100%;
