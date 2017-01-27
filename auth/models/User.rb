@@ -10,7 +10,7 @@ class User < Sequel::Model
 
     def after_create
       add_role Role[1]
-      send_new_account_email
+      #send_new_account_email
     end
 
     def has_role?(role)
