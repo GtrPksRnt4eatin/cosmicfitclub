@@ -27,12 +27,12 @@ class Customer < Sequel::Model
     StripeMethods::create_subscription( plan.stripe_id, stripe_id )
     self.update( :plan => plan )
 
-    Mail.membership_welcome(customer.email, {
+    Mail.membership_welcome(email, {
       :name => name, 
       :plan_name => plan.name,
       :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{customer.login.reset_token}"
     })
-    
+
   end
 
   def buy_pack(pack_id)
