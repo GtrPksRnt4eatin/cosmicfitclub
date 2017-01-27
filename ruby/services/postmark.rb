@@ -4,33 +4,32 @@ $postmark_client = Postmark::ApiClient.new(ENV['POSTMARK_KEY'])
 
 module Mail
 
-  def Mail.send_membership_welcome(recipient, data)
-    $postmark_client.deliver_with_template(
-      from: 'Donut <donut@cosmicfitclub.com>',
-      to: recipient,
-      template_id: 1202161,
-      template_model: {
-         name:      data[:name],
-         plan_name: data[:plan_name],
-         login_url: data[:login_url]
-      },
-      track_opens: true,
-      track_links: 'HtmlAndText'
-    )
+  def Mail.account_created(recipient, model)
+    Mail.send_template( 1250101, recipient, model )
   end
 
-  def Mail.send_password_reset(recipient, data)
+  def Mail.password_reset(recipient, model)
+    Mail.send_template( 1229081, recipient, model )
+  end
+
+  def Mail.membership_welcome(recipient, model)
+    Mail.send_template( 1202161, recipient, model )
+  end
+
+  def Mail.package_welcome(recipient, model)
+    Mail.send_template( 1202281, recipient, model)
+  end
+
+  def Mail.training_welcome(recipient, model)
+    Mail.send_template( 1206822, recipient, model)
+  end
+
+  def Mail.send_template(template_id, recipient, model)
     $postmark_client.deliver_with_template(
       from: 'Donut <donut@cosmicfitclub.com>',
       to: recipient,
-      template_id: 1229081,
-      template_model: {
-        name: data[:name],
-        action_url: data[:reset_url],
-        operating_system: "some OS",
-        browser_name: "some Browser",
-        support_url: "http://suckmyballs.com"
-      },
+      template_id: template_id,
+      template_model: model,
       track_opens: true,
       track_links: 'HtmlAndText'
     )

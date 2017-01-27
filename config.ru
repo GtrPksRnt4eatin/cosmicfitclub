@@ -46,9 +46,3 @@ end
 map "/models/events" do
   run EventRoutes
 end
-
-
-#StripeMethods::sync_plans
-#StripeMethods::sync_packages
-
-#require 'pry'; binding.pry

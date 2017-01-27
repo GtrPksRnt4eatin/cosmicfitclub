@@ -31,4 +31,16 @@ class CFC < Sinatra::Base
 
   get( '/login' ) { redirect('/auth/login') }
 
+  get( '/resetData' ) do
+    $DB[:customers].truncate( :restart=>true )
+    $DB[:omniaccounts].truncate(:restart=>true )
+    $DB[:passes].truncate( :restart=>true )
+    $DB[:roles_users].truncate( :restart=>true )
+    $DB[:subscriptions].truncate( :restart=>true )
+    $DB[:users].truncate( :restart=>true, :cascade=>true )
+    StripeMethods::sync_plans
+    StripeMethods::sync_packages
+    return 200
+  end
+
 end

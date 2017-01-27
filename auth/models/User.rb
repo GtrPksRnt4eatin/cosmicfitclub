@@ -10,6 +10,7 @@ class User < Sequel::Model
 
     def after_create
       add_role Role[1]
+      send_new_account_email
     end
 
     def has_role?(role)
@@ -73,7 +74,11 @@ class User < Sequel::Model
     end
 
     def send_password_email
-      Mail.send_password_reset(customer.email, { :name => customer.name, :reset_url => "https://cosmicfitclub.com/auth/activate?token=#{reset_token}" } )
+      Mail.send_password_reset(customer.email, { :name => customer.name, :url => "https://cosmicfitclub.com/auth/activate?token=#{reset_token}" } )
+    end
+
+    def send_new_account_email
+      Mail.account_created(customer.email, { :name => customer.name, :url => "https://cosmicfitclub.com/auth/activate?token=#{reset_token}" } )
     end
 
     def generateResetToken() self.reset_token = rand(36**8).to_s(36) end

@@ -5,6 +5,11 @@ class Customer < Sequel::Model
   one_to_one :login, :class=>:User
   one_to_many :passes
 
+  def Customer.is_new? (email)
+    customer = Customer[ :email => email ]
+    customer.nil?
+  end
+
   def Customer.get_from_token(token)
     customer = find_or_create( :email => token['email'] ) { |cust| cust.name = token['card']['name'] }
     customer.update( :stripe_id => StripeMethods::create_customer(token) ) if customer.stripe_id.nil?
@@ -15,7 +20,6 @@ class Customer < Sequel::Model
   def create_login
     return unless login.nil?
     update( :login => User.create )
-    login.send_password_email
   end
 
   def add_subscription(plan_id)
