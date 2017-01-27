@@ -20,7 +20,7 @@ $(document).ready( function() {
         .fail(function(e) {
           switch (e.status) {
             case 400: alert('There was an error processing the payment. Your Card Has not been charged.'); break;
-            case 409: alert('Your Card Has not Been Charged. You already have a Membership, Sign in to Modify it.'); break;
+            case 409: alert('Your Card Has not Been Charged. You already have a Membership, Sign in to Modify it.'); window.location.href = '/login'; break;
             case 500: alert('An Error Occurred!'); break;
             default: alert('huh???'); break;
           }
