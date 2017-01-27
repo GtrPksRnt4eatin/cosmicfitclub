@@ -12,8 +12,9 @@ table {
 }
 
 .tile {
-	padding-bottom: .6em;
+	padding: 2em;
 	vertical-align: middle;
+	display: inline-block;
 }
 
 .content {
