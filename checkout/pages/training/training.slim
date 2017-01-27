@@ -1,15 +1,12 @@
-- plan = Plan[ params[:id] ]
-
 html
 
   head
-    == css ['fonts', 'site', 'menu_colors', 'plan']
+    == css ['fonts', 'site', 'menu_colors', 'training']
     == js  ['https://checkout.stripe.com/checkout']
-    == js  [ 'jquery', 'lib', 'plan' ]
+    == js  [ 'jquery', 'lib', 'training' ]
 
     javascript:
 
-      PLAN              = #{{ plan.to_json }};
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
 
   body
@@ -20,18 +17,18 @@ html
 
       .tile
 
-          h1 Membership Plan
+          h1 Personal Training
 
           table
             tr
-              th Plan
-              td #{ plan.name }
+              th Training
+              td asdf
             tr
               th Monthly Price
-              td #{ plan.formatted_month_price }
+              td asdf
             tr
               th Full Price 
-              td #{ plan.formatted_full_price }
+              td asd
 
           div
             button#checkout Checkout
