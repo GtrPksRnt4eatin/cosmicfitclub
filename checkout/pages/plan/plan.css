@@ -13,8 +13,12 @@ table {
 
 .tile {
 	padding-bottom: .6em;
+	vertical-align: middle;
 }
 
-body::before {
-	
+body:before {
+  display: inline-block;
+  content: '';
+  height: 100%;
+  vertical-align: middle;
 }
