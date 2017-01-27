@@ -42,6 +42,7 @@ class Customer < Sequel::Model
   end
 
   def payment_sources
+    return [] if stripe_id.nil?
     StripeMethods.get_customer(stripe_id)['sources']['data']
   end
 
