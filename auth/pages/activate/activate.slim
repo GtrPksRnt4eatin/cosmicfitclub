@@ -13,7 +13,7 @@ html
 
     .tile
       
-      form action='/auth/password' method='post'
+      form#myform action='/auth/password' method='post'
       
         input type='hidden' name='token' value='#{@user.reset_token}'
 
