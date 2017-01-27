@@ -30,7 +30,7 @@ class Customer < Sequel::Model
     Mail.membership_welcome(email, {
       :name => name, 
       :plan_name => plan.name,
-      :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{customer.login.reset_token}"
+      :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
     })
 
   end
