@@ -7,7 +7,7 @@ $(document).ready( function() {
         type:'post',
         data:$('#myform').serialize(),
         success:function() { window.location.href = '/user';  },
-        error: function()  { $('#myform').shake(); }
+        error: function()  { $('.tile').shake(); }
       });
     });
 

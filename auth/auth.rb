@@ -47,6 +47,7 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/password' do
+    halt 400 if params[:password].length < 5
     user = User.find( :reset_token  => params[:token] )
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user] = user
