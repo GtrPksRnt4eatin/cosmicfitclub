@@ -19,7 +19,7 @@ class Customer < Sequel::Model
 
   def create_login
     return unless login.nil?
-    update( :login => User.create )
+    User.create( :customer => self )
   end
 
   def add_subscription(plan_id)
