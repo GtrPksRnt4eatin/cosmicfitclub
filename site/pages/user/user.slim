@@ -35,7 +35,8 @@ html
         table
           - if customer.plan.nil?
             | #{customer.plan}
-            a href='/pricing' Sign Up For A Plan!
+            a href='/pricing' 
+              button Sign Up For A Plan!
           - unless customer.plan.nil?
             tr
               td #{ customer.plan.name }
@@ -43,9 +44,11 @@ html
               td: button Cancel
 
       .tile
-        .header Class Passes
+        .header Prepaid Class Passes
         hr
-        | #{ customer.num_passes }
+        | You currently have #{ customer.num_passes } visits prepaid<br>
+        a href='/pricing'
+          button Buy More
 
       .tile
         .header Stored Cards

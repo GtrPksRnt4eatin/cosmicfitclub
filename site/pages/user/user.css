@@ -3,6 +3,8 @@
   display: inline-block;
   padding: 1em;
   vertical-align: top;
+  min-height: 9em;
+  width: 25%;
 }
 
 table {
@@ -19,4 +21,12 @@ td {
 
 #signature {
   background: white;
+}
+
+button {
+  font-family: "Industry-Light";;
+  cursor: pointer;
+  margin-top: 1em;
+  padding: .5em;
+  font-size: 1.2em;
 }
