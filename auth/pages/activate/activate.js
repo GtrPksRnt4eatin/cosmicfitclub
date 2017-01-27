@@ -8,6 +8,7 @@ $(document).ready( function() {
         data:$('#myform').serialize(),
         success:function() { window.location.href = '/user';  },
         fail: function()   { $('#myform').shake(); }
+      });
     });
-
+    
 });
