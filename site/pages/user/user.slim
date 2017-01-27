@@ -1,4 +1,3 @@
-- customer.refresh
 html
 
   head
@@ -36,7 +35,7 @@ html
         table
           - if customer.plan.nil?
             | #{customer.plan}
-            button Sign Up For A Plan!
+            a href='/pricing' Sign Up For A Plan!
           - unless customer.plan.nil?
             tr
               td #{ customer.plan.name }
