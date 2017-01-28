@@ -68,6 +68,6 @@ html
           a href='/waiver' Sign A Waiver
         - unless customer.waiver.nil?
           #signature
-            == customer.waiver.signature
+            img src="/waiver.svg"
 
     == include_slim('slim/partials/footer')

@@ -45,8 +45,13 @@ class CFC < Sinatra::Base
   end
 
   post( '/waiver', :auth => 'user' ) do
-    customer.waiver = Waiver.create(:signature => request.body.read)
+    session[:customer].waiver = Waiver.create(:signature => request.body.read )
     return 204
+  end
+
+  get( '/waiver.svg', :auth => 'user' ) do
+    
+    return session[:customer].waiver
   end
 
 end 
