@@ -88,4 +88,8 @@ ul {
     padding: 1em;
     font-size: 4vw;
   }
+
+  #imgscroller button {
+    display: none;
+  }
 }
