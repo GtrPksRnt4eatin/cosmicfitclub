@@ -114,10 +114,10 @@ header {
   .menubtn {
     display: block;
     position: relative;
-    font-size: 15vw;
+    font-size: 40vw;
     font-weight: bold;
     cursor: pointer;
-    margin-top: -6vw;
+    margin-top: -20vw;
   }
 
 }

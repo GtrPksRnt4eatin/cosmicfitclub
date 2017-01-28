@@ -83,8 +83,8 @@ ul {
   }
 
   .tile {
-    width: 90vw;
-    max-width: 90vw;
+    width: 80vw;
+    max-width: 80vw;
     padding: 1em;
     font-size: 4vw;
   }
