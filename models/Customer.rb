@@ -36,9 +36,9 @@ class Customer < Sequel::Model
 
   end
 
-  def buy_pack(pack_id)
+  def buy_pack(pack_id, token)
     pack = Package[pack_id]
-    StripeMethods::buy_pack( pack.stripe_id, stripe_id )
+    StripeMethods::buy_pack( pack.stripe_id, stripe_id, token )
     pack.num_passes.times { self.add_pass( Pass.create() ) }
 
     Mail.package_welcome(email,

@@ -62,14 +62,12 @@ module StripeMethods
     )['id']
   end
 
-  def StripeMethods::buy_pack(pack_id, customer_id) 
-    p pack_id
-    p customer_id
+  def StripeMethods::buy_pack(pack_id, customer_id, token) 
     Stripe::Order.create(
       :currency => 'usd',
       :customer => customer_id,
       :items => [ { :type => 'sku', :parent => pack_id } ]
-    ) 
+    ).pay( :source => token['id'] )
   end
 
   def StripeMethods::get_customer(customer_id)
