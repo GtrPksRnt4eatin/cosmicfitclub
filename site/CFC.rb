@@ -32,6 +32,7 @@ class CFC < Sinatra::Base
   get( '/login' ) { redirect('/auth/login') }
 
   get( '/resetData' ) do
+    $DB[:waivers].truncate( :restart=>true )
     $DB[:customers].truncate( :restart=>true )
     $DB[:omniaccounts].truncate(:restart=>true )
     $DB[:passes].truncate( :restart=>true )
