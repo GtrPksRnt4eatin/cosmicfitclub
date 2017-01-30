@@ -73,10 +73,6 @@ ul {
 
   .content { max-width: 100vw; }
 
-  #map {
-    width: 100%;
-  }
-
   #mission {
     font-size: 3.5vw;
     line-height: 1.4em;
