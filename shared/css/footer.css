@@ -85,7 +85,7 @@ footer .row {
     display: block; 
     margin: auto; 
     padding: 0; 
-    width: 80%; 
+    width: 90%; 
   }
 
   .footbox .heading {
@@ -113,13 +113,17 @@ footer .row {
     height: 1.5em
   }
 
-  .footer .row {
-    height: auto;
+  footer .row {
+    height: auto !important;
     line-height: 1.2em;
   }
   
   .social {
-    height: 2.5em;
+    height: 2.2em;
+  }
+
+  .contactnfo .row {
+    line-height: 2em;
   }
 
 }
