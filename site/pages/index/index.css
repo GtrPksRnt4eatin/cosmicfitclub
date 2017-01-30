@@ -87,6 +87,7 @@ ul {
     max-width: 80vw;
     padding: 1em;
     font-size: 4vw;
+    line-height: 1.4em;
   }
 
   #imgscroller button {
