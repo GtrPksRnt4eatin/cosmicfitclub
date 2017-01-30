@@ -3,7 +3,7 @@ html
   head
     == css ['fonts', 'site', 'menu_colors', 'training']
     == js  ['https://checkout.stripe.com/checkout']
-    == js  [ 'jquery', 'lib', 'training' ]
+    == js  [ 'jquery', 'lib', 'rivets', 'training' ]
 
     javascript:
 
@@ -27,7 +27,12 @@ html
                   option Joy
                   option Phil
             tr
-              th Monthly Price
+              th Number of Passes
+              td 
+                input#num_passes value='1'
+
+            tr
+              th Price Per Pass
               td asdf
             tr
               th Full Price 
