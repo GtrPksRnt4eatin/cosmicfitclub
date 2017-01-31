@@ -22,7 +22,7 @@ class CFC < Sinatra::Base
   get( '/store')             { render_page :store    }
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
-  get( '/user'  , :auth => 'user' ) { render_page :user   }
+  get( '/user'  , :auth => 'user' ) { require 'pry'; binding.pry; render_page :user   }
 
   get( '/checkout')               { render_page :checkout }
   get( '/checkout/plans/:id' )    { render_page :checkout_plan }

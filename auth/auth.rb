@@ -41,8 +41,8 @@ class CFCAuth < Sinatra::Base
     data = JSON.parse(request.body.read)
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
     customer = Customer.create( :name => data['name'], :email => data['email'] )
-    user = User.create( :password => data['password'], :confirmation => data['confirmation'] );
-    user.customer = customer
+    customer.login = User.create
+    customer.send_new_account_email
     return 200
   end
 

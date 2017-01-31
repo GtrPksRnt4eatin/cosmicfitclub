@@ -116,14 +116,6 @@ LoginForm.prototype.HTML = `
         <label>E-Mail:</label>
         <input rv-value='state.email'></input>
       </div>
-      <div class='section'>
-        <label>Password:</label>
-        <input type="password" rv-value='state.password'></input>
-      </div>
-      <div class='section'>
-        <label>Confirm Password:</label>
-        <input type="password" rv-value='state.confirmation'></input>
-      </div>
       <hr>
       <div class='section'>
         <div class='submit' rv-on-click='this.register'>Register</div>

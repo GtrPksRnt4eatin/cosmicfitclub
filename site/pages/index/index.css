@@ -59,6 +59,11 @@ ul {
   padding: 1em; 
 }
 
+.quote div {
+  margin-top: 0.5em;
+  text-align: right;
+}
+
 @media(max-width: 800px) {
 
   header { 
@@ -88,10 +93,5 @@ ul {
 
   #imgscroller button {
     display: none;
-  }
-
-  .quote div {
-    margin-top: 0.5em;
-    text-align: right;
   }
 }

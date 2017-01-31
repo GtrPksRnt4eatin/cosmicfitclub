@@ -23,6 +23,13 @@ class Customer < Sequel::Model
     User.create( :customer => self )
   end
 
+  def send_new_account_email
+    Mail.account_created(email, {
+      :name => name,
+      :url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
+    })
+  end
+
   def add_subscription(plan_id)
     plan = Plan[plan_id]
     StripeMethods::create_subscription( plan.stripe_id, stripe_id )
@@ -41,11 +48,11 @@ class Customer < Sequel::Model
     StripeMethods::buy_pack( pack.stripe_id, stripe_id, token )
     pack.num_passes.times { self.add_pass( Pass.create() ) }
 
-    Mail.package_welcome(email,
+    Mail.package_welcome(email, {
       :name => name,
       :pack_name => pack.name,
       :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
-    )
+    })
 
   end
 
