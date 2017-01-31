@@ -10,6 +10,7 @@ function Schedule(parent) {
   this.build_dom(parent);
   this.load_styles();
   this.bind_dom();
+  this.set_formatted_date();
 }
 
 Schedule.prototype = {
@@ -26,12 +27,13 @@ Schedule.prototype = {
 
   set_formatted_date() {
     this.state.formatted_date = this.state.current_date.format('ddd MMM Do YYYY');
+    this.ev_fire( 'day_of_week', this.state.current_date.format('ddd') );
   }
 
 }
 
-Object.assign( Schedule.prototype, element);
-Object.assign( Schedule.prototype, ev_channel);
+Object.assign( Schedule.prototype, element );
+Object.assign( Schedule.prototype, ev_channel );
 
 Schedule.prototype.HTML = `
   <div id='Schedule'>
