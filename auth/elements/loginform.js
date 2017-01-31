@@ -11,7 +11,7 @@ function LoginForm(parent) {
   }
 
   this.set_formatters();
-  this.bind_handlers(['login','register','reset','login_mode','register_mode','reset_mode']);
+  this.bind_handlers(['login','register','reset','login_mode','register_mode','reset_mode', 'email_mode']);
   this.build_dom(parent);
   this.load_styles();
   this.bind_dom();
@@ -38,7 +38,7 @@ LoginForm.prototype = {
           $(this.dom).shake(); 
           this.state.errors=[req.responseText];
         }.bind(this) )
-        .success( function() { this.login(); }.bind(this) );
+        .success( this.email_mode );
     }
   },
 
@@ -49,15 +49,12 @@ LoginForm.prototype = {
   login_mode()    { this.state.mode = "login";    },
   register_mode() { this.state.mode = "register"; },
   reset_mode()    { this.state.mode = "reset";    },
+  email_mode()    { this.state.mode = "email";    },
 
   validate_registration() {
     this.state.errors = [];
     if(empty(this.state.name))              { this.state.errors.push("Name Cannot Be Blank");     }
     if(this.state.email.indexOf('@') == -1) { this.state.errors.push("Email Is Not Valid");       }
-    if(empty(this.state.password))          { this.state.errors.push("Password Cannot Be Blank"); }
-    if(this.state.password.length < 5)      { this.state.errors.push("Password Must Be Greater than 5 Characters"); }
-    if(this.state.password != this.state.confirmation) { this.state.errors.push("Passwords Must Match"); }
-
     if(this.state.errors.length == 0)  { return true; }
     $(this.dom).shake();
     return false;
@@ -65,7 +62,7 @@ LoginForm.prototype = {
 }
 
 Object.assign( LoginForm.prototype, element);
-Object.assign( LoginForm.prototype, ev_channel);
+Object.assign( LoginForm.prototype, ev_channel); 
 
 LoginForm.prototype.HTML = `
   <div id='LoginForm' >
@@ -137,6 +134,16 @@ LoginForm.prototype.HTML = `
       <hr>
       <div class='section'>
         <div class='submit' rv-on-click='this.reset'>Reset</div>
+      </div>
+    </div>
+
+    <div rv-if="state.mode | equals 'email'">
+      <span class='backbtn' rv-on-click="this.login_mode"></span>
+      <div class="section">Check Your Email</div>
+      <hr>
+      <div class="section">
+        <div>Check your E-Mail for a message from Donut!</div>
+        <img class='donut' src='donut_desk.png'/>
       </div>
     </div>
 
@@ -216,6 +223,10 @@ LoginForm.prototype.CSS = `
 
   #LoginForm .omni img {
     width: 60%;
+  }
+
+  #LoginForm img.donut {
+    margin-top: 1em;
   }
 
 `.untab(2);
