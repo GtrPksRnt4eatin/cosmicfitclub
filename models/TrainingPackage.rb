@@ -1,4 +1,4 @@
-class TrainingPackage < Sequel::Model
+class TrainingPackage < Sequel::Model(:training_packages)
   
   plugin :json_serializer
 

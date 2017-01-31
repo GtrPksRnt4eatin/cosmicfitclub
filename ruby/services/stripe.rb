@@ -121,7 +121,7 @@ module StripeMethods
     )
     
     Package.all.each do |pack|
-      next unless pack['stripe_id'].nil? || stripe_products.find_index { |p| p['id'] == pack['stripe_id'] }.nil?
+      next unless pack['stripe_id'].nil?
 
       sku = Stripe::SKU.create(
         :currency  => 'usd',
@@ -149,7 +149,7 @@ module StripeMethods
     )
 
     TrainingPackage.all.each.do |pack|
-      next unless pack['stripe_id'].nil? || stripe_products.find_index { |p| p['id'] == pack['stripe_id'] }.nil?
+      next unless pack['stripe_id'].nil?
 
       sku = Stripe::SKU.create(
         :currency => 'usd',
