@@ -161,6 +161,9 @@ module StripeMethods
         }
       )
 
+      pack.update( :stripe_id => sku['id'] )
+    end
+
   end
 
   def StripeMethods::generateToken; @token = rand(36**8).to_s(36) end
