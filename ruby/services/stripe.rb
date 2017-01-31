@@ -69,6 +69,14 @@ module StripeMethods
       :items => [ { :type => 'sku', :parent => pack_id } ]
     ).pay( :source => token['id'] )
   end
+  
+  def StripeMethods::buy_training(quantity, pack_id, customer_id, token)
+    Stripe::Order.create(
+      :currency => 'usd',
+      :customer => customer_id,
+      :items => [ { :type => 'sku', :parent => pack_id, :quantity => quantity } ]
+    ).pay( :source => token['id'] )
+  end
 
   def StripeMethods::get_customer(customer_id)
     Stripe::Customer.retrieve(customer_id)
@@ -129,6 +137,29 @@ module StripeMethods
 
       pack.update( :stripe_id => sku['id'] )
     end
+
+  end
+
+  def StripeMethods::sync_training
+    
+    product = Stripe::Product.create(
+      :id => StripeMethods::generateToken,
+      :name => "Personal Training",
+      :attributes => ['name']
+    )
+
+    TrainingPackage.all.each.do |pack|
+      next unless pack['stripe_id'].nil? || stripe_products.find_index { |p| p['id'] == pack['stripe_id'] }.nil?
+
+      sku = Stripe::SKU.create(
+        :currency => 'usd',
+        :price => pack.pass_price,
+        :inventory => { 'type' => 'infinite' },
+        :product => product['id'],
+        :attributes => {
+          :name => pack.name
+        }
+      )
 
   end
 

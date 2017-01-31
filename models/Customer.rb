@@ -40,7 +40,6 @@ class Customer < Sequel::Model
       :plan_name => plan.name,
       :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
     })
-
   end
 
   def buy_pack(pack_id, token)
@@ -53,7 +52,11 @@ class Customer < Sequel::Model
       :pack_name => pack.name,
       :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
     })
+  end
 
+  def buy_training(quantity, pack_id, token)
+    pack = TrainingPackage[pack_id]
+    StripeMethods::buy_training( quantity, pack.stripe_id, stripe_id, token )
   end
 
   def payment_sources
