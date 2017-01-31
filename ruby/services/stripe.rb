@@ -148,7 +148,7 @@ module StripeMethods
       :attributes => ['name']
     )
 
-    TrainingPackage.all.each.do |pack|
+    TrainingPackage.all.each do |pack|
       next unless pack['stripe_id'].nil?
 
       sku = Stripe::SKU.create(
