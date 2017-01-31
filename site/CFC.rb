@@ -41,6 +41,7 @@ class CFC < Sinatra::Base
     $DB[:users].truncate( :restart=>true, :cascade=>true )
     StripeMethods::sync_plans
     StripeMethods::sync_packages
+    StripeMethods::sync_training
     return 200
   end
 
