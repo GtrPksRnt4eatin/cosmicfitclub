@@ -120,7 +120,9 @@ footer .row {
   }
   
   .social {
-    height: 2.2em;
+    width: 15%;
+    margin: 0.5em 2.5%;
+    box-sizing: border-box;
   }
 
   .contactnfo .row {
