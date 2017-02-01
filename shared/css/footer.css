@@ -17,6 +17,11 @@ footer {
 	vertical-align: top;
 }
 
+.footbox a {
+  text-decoration: none;
+  color: rgba(255,255,255,0.8);
+}
+
 .footbox .heading {
   font-family: Industry-MediumItalic;
   margin-top: 0.4em;
