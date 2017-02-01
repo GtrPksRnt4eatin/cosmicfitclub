@@ -67,9 +67,9 @@ footer .row {
 }
 
 #donut {
-  height: 4em;
+  height: 3.5em;
   vertical-align: top;
-  padding: 0 1em;
+  padding: .25em 1em;
 }
 
 .contactnfo {
