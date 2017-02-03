@@ -17,14 +17,21 @@ html
 
     #content
 
-      .tile.event rv-each-event='data.events'
-        img rv-src='event.image_url'
+      .tile.event rv-each-staff='data.staff'
+        .headshot
+          img src='joy.jpg'
+          .name Joy Chen
+        .bio rv
+        .delete rv-on-click='ctrl.del'
+
+
+        img rv-src='staff.image_url'
           div.nfo
-            .eventname 
+            .name 
               | { event.name }
             .eventdescription
               | { event.description }
-        .delete rv-on-click='ctrl.del'
+        
 
       form#new
         

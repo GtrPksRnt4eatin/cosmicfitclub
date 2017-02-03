@@ -39,6 +39,7 @@ class CFC < Sinatra::Base
     $DB[:roles_users].truncate( :restart=>true )
     $DB[:subscriptions].truncate( :restart=>true )
     $DB[:users].truncate( :restart=>true, :cascade=>true )
+    $DB[:training_passes].truncate( :restart=>true )
     StripeMethods::sync_plans
     StripeMethods::sync_packages
     StripeMethods::sync_training

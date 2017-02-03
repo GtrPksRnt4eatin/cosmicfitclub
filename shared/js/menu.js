@@ -15,4 +15,17 @@ $(document).ready(function() {
 
   userview = new UserView( id('userview_container'));
 
+  $('a.intent').on('click', function (e) {
+    linkWithFallback($(this).data('scheme'), $(this).attr('href'));
+  });
+
 });
+
+function linkWithFallback(uri, fallback) {
+  var start, end, elapsed;
+  start = new Date().getTime();
+  document.location = uri;
+  end = new Date.getTime();
+  elapsed = (end - start);
+  if(elapsed<1) window.open(fallback);
+}

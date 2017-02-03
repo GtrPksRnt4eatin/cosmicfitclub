@@ -50,6 +50,7 @@ body {
     margin-bottom: 1em;
   }
 
-  .content      { font-size: 3vw; }
+  .content,
+  .content td { font-size: 3vw; }
 
 }
