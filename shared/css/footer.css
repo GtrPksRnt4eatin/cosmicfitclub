@@ -64,8 +64,9 @@ footer .row {
 }
 
 .social {
-  height: 3em;
-  margin: 0.5em 1em;
+  width: 15%;
+  margin: 0.5em 2.5%;
+  box-sizing: border-box;
 }
 
 .footbox .pad {
@@ -123,12 +124,6 @@ footer .row {
   footer .row {
     height: auto !important;
     line-height: 1.2em;
-  }
-  
-  .social {
-    width: 15%;
-    margin: 0.5em 2.5%;
-    box-sizing: border-box;
   }
 
   .contactnfo .row {
