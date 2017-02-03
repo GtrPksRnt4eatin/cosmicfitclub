@@ -27,5 +27,5 @@ function linkWithFallback(uri, fallback) {
   document.location = uri;
   end = new Date.getTime();
   elapsed = (end - start);
-  if(elapsed<1) window.open(fallback);
+  if(elapsed<1) window.open(fallback,'_blank');
 }
