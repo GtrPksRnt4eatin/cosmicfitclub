@@ -1,4 +1,15 @@
+data = {
+  trainer: 'Phil',
+  num_hours: 1,
+  hour_price: 6000,
+  total: 6000
+}
+
 $(document).ready( function() {
+
+  rivets.formatters.currency = function(val) { return `$ ${(val/100).toFixed(2)}`; }
+  rivets.bind( document.body, { data: data } )
+
   
   var handler = StripeCheckout.configure({
     zipCode: true,
@@ -38,8 +49,16 @@ $(document).ready( function() {
     })
   });
 
-  id('num_passes').addEventListener('change', function(e) {
-    
+  id('num_hours').addEventListener('change', function(e) {
+    data['num_hours'] = e.target.value;
+    update_total();
   });
 
+  $('.up').on('click', function(e) { data['num_hours'] += 1; update_total(); } )
+  $('.dn').on('click', function(e) { data['num_hours'] = ( data['num_hours'] < 1 ? 1 : data['num_hours'] - 1 ); update_total(); } )
 });
+
+
+function update_total() {
+  data['total'] = data['num_hours'] * data['hour_price'];
+}

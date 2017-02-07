@@ -1,6 +1,8 @@
 html
 
   head
+    == no_scaling
+
     == css ['fonts', 'site', 'menu_colors', 'training']
     == js  ['https://checkout.stripe.com/checkout']
     == js  [ 'jquery', 'lib', 'rivets', 'training' ]
@@ -23,20 +25,29 @@ html
             tr
               th Select Trainer
               td
-                select
-                  option Joy
-                  option Phil
+                select rv-value='data.trainer'
+                  option value='Phil' Phil
+                  option value='Joy' Joy
             tr
-              th Number of Passes
-              td 
-                input#num_passes value='1'
+              th Number of Hours
+              td
+                .spinner
+                  input#num_hours rv-value='data.num_hours'
+                  .spinctrl
+                    button
+                      .up
+                    button
+                      .dn
 
             tr
-              th Price Per Pass
-              td asdf
+              th Price Per Hour
+              td rv-data-value='data.hour_price | currency'
+                | { data.hour_price | currency }
+
             tr
               th Full Price 
-              td asd
+              td rv-data-value='data.total | currency'
+                | { data.total | currency }
 
           div
             button#checkout Checkout

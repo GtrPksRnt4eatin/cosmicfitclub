@@ -1,5 +1,5 @@
 #checkout {
-	font-family: "Industry-Light";;
+	font-family: "Industry-Light";
 	cursor: pointer;
 	margin-top: 1em;
 	padding: .5em;
@@ -9,6 +9,22 @@
 td, th {
   padding: .5em;
   text-align: left;
+}
+
+.content select {
+  height: 2em;
+}
+
+.content td,
+.content input,
+.content select {
+	padding-left: .5em;
+	font-size: 1.1em;
+	font-family: "Industry-Light";
+}
+
+.content input {
+  width: 100%;
 }
 
 table {
@@ -30,4 +46,45 @@ table {
   content: '';
   height: 100%;
   vertical-align: middle;
+}
+
+select {
+  width: 100%;
+}
+
+
+.spinner {
+	display: flex;	
+	font-size: 1.2em;
+}
+
+.spinctrl {
+	display: inline-block;
+	position: relative;
+}
+
+.spinctrl button {
+	font-size: inherit;
+	width: 100%;
+	height: 1em;
+	position: center;
+	cursor: pointer;
+}
+
+.up {
+  display: inline-block;
+  width: 0; 
+  height: 0; 
+  border-left: .5em solid transparent;
+  border-right: .5em solid transparent;
+  border-bottom: .5em solid black;
+}
+
+.dn {
+  display: inline-block;
+  width: 0; 
+  height: 0; 
+  border-left: .5em solid transparent;
+  border-right: .5em solid transparent; 
+  border-top: .5em solid black;
 }
