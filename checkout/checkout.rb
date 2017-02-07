@@ -18,7 +18,8 @@ class Checkout < Sinatra::Base
   get('/complete')      { render_page :complete }
   get('/training')      { render_page :training }
 
-  post('/plan/charge')  { buy_plan }
-  post('/pack/charge')  { buy_pack }
+  post('/plan/charge')     { buy_plan }
+  post('/pack/charge')     { buy_pack }
+  post('/training/charge') { buy_training }
 
 end

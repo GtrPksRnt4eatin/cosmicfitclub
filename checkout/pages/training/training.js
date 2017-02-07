@@ -19,8 +19,7 @@ $(document).ready( function() {
 
     token: function(token) {
       data = {
-        "type":  "plan",
-        "plan_id": PLAN['id'],
+        "type":  "training",
         "token": token
       }
 
@@ -55,7 +54,7 @@ $(document).ready( function() {
   });
 
   $('.up').on('click', function(e) { data['num_hours'] += 1; update_total(); } )
-  $('.dn').on('click', function(e) { data['num_hours'] = ( data['num_hours'] < 1 ? 1 : data['num_hours'] - 1 ); update_total(); } )
+  $('.dn').on('click', function(e) { data['num_hours'] = ( data['num_hours'] < 1 ? 1 : data['num_hours'] - 1 ); update_total();   } )
 });
 
 

@@ -19,7 +19,7 @@ module Sinatra
     def buy_training
       data = JSON.parse request.body.read
       customer = Customer.get_from_token( data['token'] )
-      customer.buy_training( data['quantity'], data['pack_id'], data['token'] )
+      customer.buy_training( data['num_hours'], 1, data['token'] )
       status 204
     end
   

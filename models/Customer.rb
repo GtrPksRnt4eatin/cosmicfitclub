@@ -4,6 +4,7 @@ class Customer < Sequel::Model
   one_to_one :subscription
   one_to_one :login, :class=>:User
   one_to_many :passes
+  one_to_many :training_passes
   one_to_one :waiver
 
   def Customer.is_new? (email)
@@ -57,6 +58,12 @@ class Customer < Sequel::Model
   def buy_training(quantity, pack_id, token)
     pack = TrainingPackage[pack_id]
     StripeMethods::buy_training( quantity, pack.stripe_id, stripe_id, token )
+    quantity.times { self.add_training_pass( TrainingPass.create() ) }
+
+    Mail.training_welcome(email, {
+      :name => name,
+      :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
+    })
   end
 
   def payment_sources
