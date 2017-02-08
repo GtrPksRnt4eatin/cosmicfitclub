@@ -7,7 +7,7 @@ html
     title Cosmic Fit Club
 
     ==css [ 'fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'staff' ]
-    ==js  [ 'jquery', 'slick', 'rivets', 'lib', 'imagescroller', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'staff' ]
+    ==js  [ 'jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'staff' ]
 
   body.p6
 
@@ -16,21 +16,21 @@ html
     == include_slim('slim/partials/header')
       
     .content
-    
-      .tile
-        .headshot
-          img src='joy.jpg'
-          .name Joy Chen
-        .bio
-          | Joy S. Chen is co-founder with Phillip Schiefer of Cosmic Fit Club. Born and raised in Manhattan's Chinatown, Joy grew up dancing, running, drawing, writing, and performing. A graduate of Cornell University but a non-conformist at heart, Joy trained as a dancer, yogi and acrobat; As a top instructor at Brooklyn Boulders for the past 6+ years, Joy developed popular group exercise classes in a variety of formats while teaching up to 15 yoga and acroyoga classes weekly, planning sold-out acrobatics festivals, retreats and workshops and holding a day job as an urban planner. Always moving and on the move, Joy is thrilled to open her first fitness studio (a "gym" that is "not-a-gym"), a space for creative expression and physical exploration in multiple disciplines. 
 
-      .tile
+      .tile.staff rv-each-item='data.items'
         .headshot
-          img src='phil.jpg'
-          .name Phill Schiefer
+          img.pic rv-src='item.image_url'
+          .name 
+            | { item.name }
+          .title.m
+            | { item.title }
+          br.m
+          img.more src='menu.svg'
         .bio
-          | Phill Schiefer is co-founder of Cosmic Fit Club, along with Joy Chen. A native of Queens and an Air Force veteran, Phill played baseball and basketball as a youth and has maintained an active lifestyle ever since. He has been a Personal Trainer since 2011.  His training style is unique and unconventional, which adds an element of unpredictability and fun to each workout.  As a dedicated personal trainer, he is constantly seeking new ways to further educate himself and create new workouts.  Phill is also an adjunct college professor and teaches classes in mathematics and health education.  His passion for learning and helping others to reach their goals is what motivated him to take the next step in the co-creation of Cosmic Fit Club. 
-
+          .title.d
+            | { item.title }
+          br.d
+          | { item.bio }
 
 
     == include_slim('slim/partials/footer') 

@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 
-.headshot img {
+.headshot .pic {
   width: 100%;
 }
 
@@ -18,32 +18,58 @@
 .bio {
   vertical-align: middle;
   box-sizing: border-box;
-  padding: 1em;
+  padding: 0 1em 1em;
   font-size: 14pt;
-  display: inline-block;
   width: 70%;
 }
 
+.more {
+  display: none;
+}
 
+.d { display: inline-block; }
+.m { display: none; }
+
+@media(min-width: 800px) { 
+  .bio { display: inline-block !important;  }
+}
 
 @media(max-width: 800px) {
+
   .headshot { 
     display: block;
     width: 100%;
   }
 
   .headshot .name {
-    font-size: 4vw;
+    font-size: 5vw;
   }
 
   .bio {
     padding-top: 0;
-    font-size: 3.5vw;
+    font-size: 3.8vw;
     width: 100%;
-    line-height: 1.2em;
+    line-height: 1.5em;
+    text-align: justify;
+    display: none;
   }
 
-  .headshot img {
+  .headshot .pic {
     box-shadow: 0 0 0.2em white;
   }
+
+  .more {
+    display: inline-block;
+    height: 2.5em;
+    margin-top: .5em;
+    box-shadow: none;
+  }
+
+  .title {
+    margin: .25em 0;
+  }
+
+  .m { display: inline-block; }
+  .d { display: none; }
+
 }

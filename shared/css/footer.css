@@ -64,9 +64,9 @@ footer .row {
 }
 
 .social {
-  width: 15%;
   margin: 0.5em 2.5%;
   box-sizing: border-box;
+  height: 3em;
 }
 
 .footbox .pad {
@@ -85,6 +85,12 @@ footer .row {
 }
 
 @media(max-width: 800px) {
+
+  .social {
+    width: 15%;
+    height: auto;
+  }
+
   footer {
     margin-top: 1em;
   }

@@ -6,7 +6,7 @@ html
 
     title Cosmicfit Admin
 
-    == css ['fonts', 'site', 'header', '/admin/staff']
+    == css ['fonts', 'site', 'header', '/admin/staff', 'admin_footer']
     == js  ['jquery', 'rivets', 'lib', '/admin/staff']  
 
   body.p4
@@ -17,28 +17,29 @@ html
 
     #content
 
-      .tile.event rv-each-staff='data.staff'
+      .tile.staff rv-each-item='data.items'
         .headshot
-          img src='joy.jpg'
-          .name Joy Chen
-        .bio rv
+          img.pic rv-src='item.image_url'
+          .name 
+            | { item.name }
+        .bio
+          .title
+            | { item.title }
+          br
+          | { item.bio }
+        .positionbtns
+          span rv-on-click='ctrl.moveup' <
+          span rv-on-click='ctrl.movedn' >
         .delete rv-on-click='ctrl.del'
-
-
-        img rv-src='staff.image_url'
-          div.nfo
-            .name 
-              | { event.name }
-            .eventdescription
-              | { event.description }
-        
 
       form#new
         
         img#newpreview
         input#newpic type='file' accept="image/*" name='image'
-        label Event Name:
+        label Name:
         input type='text' name='name'
-        label Description:
-        textarea name='description'
+        label Title:
+        input type='text' name='title'
+        label Bio:
+        textarea name='bio'
         span#upload Upload

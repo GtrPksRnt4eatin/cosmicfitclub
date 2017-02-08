@@ -1,0 +1,66 @@
+.staff {
+  position: relative;
+  margin: 2em;
+}
+
+.bio {
+    vertical-align: middle;
+    box-sizing: border-box;
+    padding: 1em;
+    font-size: 14pt;
+    display: inline-block;
+    width: 70%;
+}
+
+.headshot .pic {
+    width: 100%;
+}
+
+.headshot .name {
+    margin-top: 0.5em;
+}
+
+.title {
+  display: inline-block;
+  font-size: 1.5em;
+  margin-bottom: .5em;
+}
+
+.headshot {
+    vertical-align: middle;
+    position: relative;
+    display: inline-block;
+    width: 30%;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+#content {
+  margin-bottom: 8em;
+}
+
+.delete {
+  cursor: pointer;
+  font-size: 2em;
+  position: absolute;
+  top: -.75em; left: -.75em;
+  background-image: url('/closecircle.png');
+  width: 1.5em; height: 1.5em;
+  background-size: contain;
+  border-radius: 1em;
+  box-shadow: 0 0 0.1em white;
+  transition: all .2s ease-in-out;
+}
+
+.delete:hover {
+  transform: scale(1.1);
+}
+
+.delete:active {
+  box-shadow: none;
+}
+
+.positionbtns span {
+  padding: .5em;
+  cursor: pointer;
+}

@@ -46,3 +46,7 @@ end
 map "/models/events" do
   run EventRoutes
 end
+
+map "/models/staff" do
+  run StaffRoutes
+end
