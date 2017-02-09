@@ -79,6 +79,7 @@ module Sinatra
       def logged_in? ; !session[:user].nil? end
       def user       ; session[:user]       end
       def customer   ; session[:customer]   end
+      def ref_cust   ; session[:user] = User[user[:id]]; session[:customer] = Customer[customer[:id]] end
 
     end
   

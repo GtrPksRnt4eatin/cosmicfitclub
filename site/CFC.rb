@@ -22,7 +22,7 @@ class CFC < Sinatra::Base
   get( '/store')             { render_page :store    }
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
-  get( '/user'  , :auth => 'user' ) { render_page :user   }
+  get( '/user'  , :auth => 'user' ) { ref_cust; render_page :user   }
 
   get( '/checkout')               { render_page :checkout }
   get( '/checkout/plans/:id' )    { render_page :checkout_plan }
@@ -52,7 +52,6 @@ class CFC < Sinatra::Base
   end
 
   get( '/waiver.svg', :auth => 'user' ) do
-    
     return session[:customer].waiver
   end
 

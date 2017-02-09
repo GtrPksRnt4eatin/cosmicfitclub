@@ -14,3 +14,5 @@ end
 
 args = get_heroku_pg_args
 $DB = Sequel.postgres(args[:dbname], args )
+Sequel.application_timezone = :local
+Sequel.database_timezone = :local

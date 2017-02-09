@@ -1,4 +1,5 @@
 data = {
+  id: 1,
   trainer: 'Phil',
   num_hours: 1,
   hour_price: 6000,
@@ -20,6 +21,9 @@ $(document).ready( function() {
     token: function(token) {
       data = {
         "type":  "training",
+        "id": data.id,
+        "trainer": data.trainer,
+        "num_hours": data.num_hours,
         "token": token
       }
 
@@ -42,9 +46,9 @@ $(document).ready( function() {
   id('checkout').addEventListener('click', function(e) {
     handler.open({
       name: 'Cosmic Fit Club',
-      description: PLAN['name'],
+      description: `${data.num_hours} Personal Training Hours with ${data.trainer}`,
       image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
-      amount: PLAN['price'] * PLAN['term_months']
+      amount: data.total
     })
   });
 
@@ -54,7 +58,7 @@ $(document).ready( function() {
   });
 
   $('.up').on('click', function(e) { data['num_hours'] += 1; update_total(); } )
-  $('.dn').on('click', function(e) { data['num_hours'] = ( data['num_hours'] < 1 ? 1 : data['num_hours'] - 1 ); update_total();   } )
+  $('.dn').on('click', function(e) { data['num_hours'] = ( data['num_hours'] <= 1 ? 1 : data['num_hours'] - 1 ); update_total();   } )
 });
 
 

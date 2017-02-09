@@ -145,7 +145,8 @@ module StripeMethods
     product = Stripe::Product.create(
       :id => StripeMethods::generateToken,
       :name => "Personal Training",
-      :attributes => ['name']
+      :attributes => ['name'],
+      :shippable => false
     )
 
     TrainingPackage.all.each do |pack|

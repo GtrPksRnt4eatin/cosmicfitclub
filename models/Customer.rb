@@ -55,10 +55,10 @@ class Customer < Sequel::Model
     })
   end
 
-  def buy_training(quantity, pack_id, token)
+  def buy_training(quantity, pack_id, token, trainer)
     pack = TrainingPackage[pack_id]
     StripeMethods::buy_training( quantity, pack.stripe_id, stripe_id, token )
-    quantity.times { self.add_training_pass( TrainingPass.create() ) }
+    quantity.times { self.add_training_pass( TrainingPass.create( :trainer => trainer ) ) }
 
     Mail.training_welcome(email, {
       :name => name,
@@ -73,6 +73,10 @@ class Customer < Sequel::Model
 
   def num_passes
     passes.count
+  end
+
+  def num_trainings
+    training_passes.count
   end
 
 end

@@ -18,8 +18,9 @@ module Sinatra
 
     def buy_training
       data = JSON.parse request.body.read
+      require 'pry'; binding.pry
       customer = Customer.get_from_token( data['token'] )
-      customer.buy_training( data['num_hours'], 1, data['token'] )
+      customer.buy_training( data['num_hours'], 1, data['token'], data['trainer'] )
       status 204
     end
   

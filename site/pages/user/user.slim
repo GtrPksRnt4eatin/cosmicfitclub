@@ -51,6 +51,13 @@ html
           button Buy More
 
       .tile
+        .header Personal Training Sessions
+        hr
+        | You currently have #{ customer.num_trainings } training sessions prepaid<br>
+        a href='/checkout/training/1'
+          button Buy More
+        
+      .tile
         .header Stored Cards
         hr
         table
@@ -69,5 +76,6 @@ html
         - unless customer.waiver.nil?
           #signature
             img src="/waiver.svg"
+
 
     == include_slim('slim/partials/footer')
