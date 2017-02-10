@@ -57,15 +57,15 @@ $(document).ready( function() {
     update_total();
   });
 
-  $('.up').on('click', function(e) { 
+  $('.up')[0].addEventListener('click', function(e) { 
     data['num_hours'] += 1; update_total(); 
   })
   
-  $('.dn').on('click', function(e) { 
+  $('.dn')[0].addEventListener('click', function(e) { 
     data['num_hours'] = ( data['num_hours'] <= 1 ? 1 : data['num_hours'] - 1 );
     update_total();   
   })
-  
+
 });
 
 
