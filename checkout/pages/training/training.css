@@ -71,7 +71,7 @@ select {
 	cursor: pointer;
 }
 
-.up {
+.up div {
   display: inline-block;
   width: 0; 
   height: 0; 
@@ -80,7 +80,7 @@ select {
   border-bottom: .5em solid black;
 }
 
-.dn {
+.dn div {
   display: inline-block;
   width: 0; 
   height: 0; 
