@@ -50,6 +50,3 @@ end
 map "/models/staff" do
   run StaffRoutes
 end
-
-require 'pry'
-binding.pry
