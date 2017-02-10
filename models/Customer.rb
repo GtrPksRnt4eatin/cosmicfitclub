@@ -80,6 +80,8 @@ class Customer < Sequel::Model
 
     model = {
       :name => name,
+      :instructor => trainer,
+      :quantity => quantity,
       :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
     }
 
