@@ -23,12 +23,6 @@ html
 
         | Name: #{ session[:user].customer.name }
 
-
-      .tile
-        .header Link Your Account to Social Media
-        hr
-        img.social src='facebook.png' 
-
       .tile
         .header Membership Status
         hr
@@ -46,14 +40,15 @@ html
       .tile
         .header Prepaid Class Passes
         hr
-        | You currently have #{ customer.num_passes } visits prepaid<br>
+        | You have #{ customer.num_passes } prepaid classes<br>
         a href='/pricing'
           button Buy More
 
       .tile
         .header Personal Training Sessions
         hr
-        | You currently have #{ customer.num_trainings } training sessions prepaid<br>
+        - customer.trainings_by_instructor.each do |instructor, count|
+          | You have #{ count } trainings with #{ instructor }<br>
         a href='/checkout/training/1'
           button Buy More
         

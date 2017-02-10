@@ -19,6 +19,18 @@ class Customer < Sequel::Model
     return customer
   end
 
+  def payment_sources
+    return [] if stripe_id.nil?
+    StripeMethods.get_customer(stripe_id)['sources']['data']
+  end
+
+  def num_passes;    passes.count          end
+  def num_trainings; training_passes.count end
+
+  def trainings_by_instructor
+    training_passes.group_by(&:trainer).map { |k,v| [k,v.count] }.to_h
+  end
+
   def create_login
     return unless login.nil?
     User.create( :customer => self )
@@ -36,11 +48,14 @@ class Customer < Sequel::Model
     StripeMethods::create_subscription( plan.stripe_id, stripe_id )
     self.update( :plan => plan )
 
-    Mail.membership_welcome(email, {
+    model = {
       :name => name, 
       :plan_name => plan.name,
       :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
-    })
+    }
+
+    Mail.membership_welcome(email, model) unless login.activated?
+    Mail.membership(email, model) if login.activated?
   end
 
   def buy_pack(pack_id, token)
@@ -48,11 +63,14 @@ class Customer < Sequel::Model
     StripeMethods::buy_pack( pack.stripe_id, stripe_id, token )
     pack.num_passes.times { self.add_pass( Pass.create() ) }
 
-    Mail.package_welcome(email, {
+    model = {
       :name => name,
       :pack_name => pack.name,
       :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
-    })
+    }
+
+    Mail.package_welcome(email, model) unless login.activated?
+    Mail.package(email, model) if login.activated?
   end
 
   def buy_training(quantity, pack_id, token, trainer)
@@ -60,23 +78,13 @@ class Customer < Sequel::Model
     StripeMethods::buy_training( quantity, pack.stripe_id, stripe_id, token )
     quantity.times { self.add_training_pass( TrainingPass.create( :trainer => trainer ) ) }
 
-    Mail.training_welcome(email, {
+    model = {
       :name => name,
       :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
-    })
-  end
+    }
 
-  def payment_sources
-    return [] if stripe_id.nil?
-    StripeMethods.get_customer(stripe_id)['sources']['data']
-  end
-
-  def num_passes
-    passes.count
-  end
-
-  def num_trainings
-    training_passes.count
+    Mail.training_welcome(email, model) unless login.activated?
+    Mail.training(email, model) if login.activated?
   end
 
 end
