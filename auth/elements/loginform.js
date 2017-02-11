@@ -83,7 +83,7 @@ LoginForm.prototype.HTML = `
         <div class='submit' rv-on-click='this.login'>Login</div>
       </div>
       <hr>
-      <div class='section'>
+      <div class='section' style='display: none;' >
         <a class='omni' href='omni/facebook'>
           <img src='login-facebook.png'/>
         </a>

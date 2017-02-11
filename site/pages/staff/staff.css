@@ -32,6 +32,7 @@
 
 @media(min-width: 800px) { 
   .bio { display: inline-block !important;  }
+  title { font-size: 1.2em; }
 }
 
 @media(max-width: 800px) {
