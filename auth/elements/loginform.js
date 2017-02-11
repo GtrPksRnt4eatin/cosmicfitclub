@@ -78,11 +78,11 @@ LoginForm.prototype.HTML = `
         <label>Password:</label>
         <input class='password' type='password' rv-value='state.password'></input>
       </div>
-      <hr>
+      <hr style='display: none;' >
       <div class='section'>
         <div class='submit' rv-on-click='this.login'>Login</div>
       </div>
-      <hr>
+      <hr style='display: none;' >
       <div class='section' style='display: none;' >
         <a class='omni' href='omni/facebook'>
           <img src='login-facebook.png'/>
