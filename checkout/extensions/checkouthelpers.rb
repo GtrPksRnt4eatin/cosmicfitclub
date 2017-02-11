@@ -12,14 +12,14 @@ module Sinatra
     def buy_pack
       data = JSON.parse request.body.read
       customer = Customer.get_from_token( data['token'] )
-      customer.buy_pack( data['pack_id'], data['token'] )
+      customer.buy_pack( data['pack_id'] )
       status 204
     end
 
     def buy_training
       data = JSON.parse request.body.read
       customer = Customer.get_from_token( data['token'] )
-      customer.buy_training( data['num_hours'], 1, data['token'], data['trainer'] )
+      customer.buy_training( data['num_hours'], 1, data['trainer'] )
       status 204
     end
   

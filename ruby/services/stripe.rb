@@ -1,4 +1,4 @@
-require 'stripe'
+  require 'stripe'
 
 Stripe.api_key = ENV['STRIPE_SECRET']
 
@@ -55,27 +55,27 @@ module StripeMethods
     )['id']
   end
 
-  def StripeMethods::create_subscription(plan_id,customer_id)
+  def StripeMethods::create_subscription(plan_id, customer_id)
     Stripe::Subscription.create(
       :plan => plan_id,
       :customer => customer_id
     )['id']
   end
 
-  def StripeMethods::buy_pack(pack_id, customer_id, token) 
+  def StripeMethods::buy_pack(pack_id, customer_id) 
     Stripe::Order.create(
       :currency => 'usd',
       :customer => customer_id,
       :items => [ { :type => 'sku', :parent => pack_id } ]
-    ).pay( :source => token['id'] )
+    ).pay( :customer => customer_id )
   end
   
-  def StripeMethods::buy_training(quantity, pack_id, customer_id, token)
+  def StripeMethods::buy_training(quantity, pack_id, customer_id)
     Stripe::Order.create(
       :currency => 'usd',
       :customer => customer_id,
       :items => [ { :type => 'sku', :parent => pack_id, :quantity => quantity } ]
-    ).pay( :source => token['id'] )
+    ).pay( :customer => customer_id )
   end
 
   def StripeMethods::get_customer(customer_id)

@@ -58,9 +58,9 @@ class Customer < Sequel::Model
     Mail.membership(email, model) if login.activated?
   end
 
-  def buy_pack(pack_id, token)
+  def buy_pack(pack_id)
     pack = Package[pack_id]
-    StripeMethods::buy_pack( pack.stripe_id, stripe_id, token )
+    StripeMethods::buy_pack( pack.stripe_id, stripe_id )
     pack.num_passes.times { self.add_pass( Pass.create() ) }
 
     model = {
@@ -73,9 +73,9 @@ class Customer < Sequel::Model
     Mail.package(email, model) if login.activated?
   end
 
-  def buy_training(quantity, pack_id, token, trainer)
+  def buy_training(quantity, pack_id, trainer)
     pack = TrainingPackage[pack_id]
-    StripeMethods::buy_training( quantity, pack.stripe_id, stripe_id, token )
+    StripeMethods::buy_training( quantity, pack.stripe_id, stripe_id )
     quantity.times { self.add_training_pass( TrainingPass.create( :trainer => trainer ) ) }
 
     model = {
