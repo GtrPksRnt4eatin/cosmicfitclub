@@ -1,0 +1,39 @@
+- event = Event[ params[:id] ]
+
+html
+
+  head
+    == no_scaling
+    
+    == css ['fonts', 'site', 'menu_colors', 'event']
+    == js  ['https://checkout.stripe.com/checkout']
+    == js  [ 'jquery', 'lib', 'event' ]
+
+    javascript:
+
+      EVENT             = #{{ event.to_json }};
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+
+          h1 Event
+
+          table
+            tr
+              th Plan
+              td #{ plan.name }
+            tr
+              th Monthly Price
+              td #{ plan.formatted_month_price }
+            tr
+              th Full Price 
+              td #{ plan.formatted_full_price }
+
+          div
+            button#checkout Checkout

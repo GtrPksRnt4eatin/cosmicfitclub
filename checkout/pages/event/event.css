@@ -1,0 +1,33 @@
+#checkout {
+	font-family: "Industry-Light";;
+	cursor: pointer;
+	margin-top: 1em;
+	padding: .5em;
+	font-size: 1.2em;
+}
+
+td, th {
+  padding: .5em;
+  text-align: left;
+}
+
+table {
+  display: inline-block;
+}
+
+.tile {
+	padding: 2em;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.content {
+  height: 100%;
+}
+
+.content:before {
+  display: inline-block;
+  content: '';
+  height: 100%;
+  vertical-align: middle;
+}

@@ -22,6 +22,10 @@ module Sinatra
       customer.buy_training( data['num_hours'], 1, data['trainer'] )
       status 204
     end
+
+    def buy_event
+      data = JSON.parse request.body.read
+    end
   
   end
 end
