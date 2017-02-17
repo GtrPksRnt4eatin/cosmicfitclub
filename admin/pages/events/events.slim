@@ -34,17 +34,73 @@ html
           .time
             | { event.starttime | time }
         .delete rv-on-click='ctrl.del'
+        .edit   rv-on-click='ctrl.edit'
 
       form#new
-        
-        img#newpreview
-        input#newpic type='file' accept="image/*" name='image'
-        label Event Name:
-        input type='text' name='name'
-        label Description:
-        textarea name='description'
-        label Start Time:
-        input.flatpickr name='starttime'
-        span#upload Upload
+        input type='hidden' name='id' rv-value='data.newevent.id'
+        .section
+          .row
+            label Event Image
+          .row
+            img#newpreview rv-src='data.newevent.image_url'
+          .row
+            input#newpic type='file' accept="image/*" name='image'
+        .section.eventdetail
+          .row
+            label Event Name:
+            textarea.name name='name' rv-value='data.newevent.name'
+          .row
+            label Description:
+            textarea.description name='description' rv-value='data.newevent.description'
+          .row
+            label Start Time:
+            input.flatpickr name='starttime' rv-value='data.newevent.starttime'
+          .row
+            label End Time:
+            input.flatpickr name='endtime' rv-value='data.newevent.endtime'
+
+        .section
+          .row
+            label Sessions
+            table 
+              tr
+                th starttime
+                th endtime
+                th title
+                th description
+              tr rv-each-sess='data.newevent.sessions'
+                td { sess.starttime   }
+                td { sess.endtime     }
+                td { sess.title       }
+                td { sess.description }
+              tr
+                td: input.flatpickr
+                td: input.flatpickr
+                td: input
+                td: input
+                td: button +
+
+          .row
+            label Prices
+            table
+              tr
+                th title
+                th sessions
+                th member_price
+                th price
+              tr rv-each-price='data.newevent.prices'
+                td { price.title             }
+                td { price.included_sessions }
+                td { price.member_price      }
+                td { price.full_price        }
+              tr
+                td: input
+                td: input
+                td: input
+                td: input
+                td: button +
+
+          .row
+            span#upload Upload
 
         

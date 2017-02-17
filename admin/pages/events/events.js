@@ -23,6 +23,10 @@ var ctrl = {
     $.del(`/models/events/${m.event.id}`, function() {
       data.events.splice( data.events.indexOf( m.event ), 1 );
     });
+  },
+
+  edit: function(e,m) {
+    data['newevent'] = m.event;
   }
 
 }

@@ -27,13 +27,13 @@ html
           table
             tr
               th Plan
-              td #{ plan.name }
+              td #{ event.name }
             tr
-              th Monthly Price
-              td #{ plan.formatted_month_price }
+              th Member Price
+              td #{ event.member_price }
             tr
               th Full Price 
-              td #{ plan.formatted_full_price }
+              td #{ event.price }
 
           div
             button#checkout Checkout

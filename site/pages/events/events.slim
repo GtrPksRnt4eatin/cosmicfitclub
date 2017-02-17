@@ -34,5 +34,7 @@ html
           hr width='60%'
           .eventdescription
             | { event.description }
+          a rv-href='event.id | eventpath' Sign Up Now!
+
 
     == include_slim('slim/partials/footer')
