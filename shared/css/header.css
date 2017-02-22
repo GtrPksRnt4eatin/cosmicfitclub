@@ -54,15 +54,15 @@ header {
 .p7 #menu li:nth-child(7), #menu li:hover:nth-child(7) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
 .p8 #menu li:nth-child(8), #menu li:hover:nth-child(8) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
 
-    #stars { background: url('background-blu.jpg'); }
-.p1 #stars { background: url('background-red.jpg'); }
-.p2 #stars { background: url('background-yel.jpg'); }
-.p3 #stars { background: url('background-grn.jpg'); }
-.p4 #stars { background: url('background-cya.jpg'); }
-.p5 #stars { background: url('background-blu.jpg'); }
-.p6 #stars { background: url('background-pur.jpg'); }
-.p7 #stars { background: url('background-red.jpg'); }
-.p8 #stars { background: url('background-yel.jpg'); }
+    #stars { background: url('/background-blu.jpg'); }
+.p1 #stars { background: url('/background-red.jpg'); }
+.p2 #stars { background: url('/background-yel.jpg'); }
+.p3 #stars { background: url('/background-grn.jpg'); }
+.p4 #stars { background: url('/background-cya.jpg'); }
+.p5 #stars { background: url('/background-blu.jpg'); }
+.p6 #stars { background: url('/background-pur.jpg'); }
+.p7 #stars { background: url('/background-red.jpg'); }
+.p8 #stars { background: url('/background-yel.jpg'); }
 
 .menubtn { display: none; }
 

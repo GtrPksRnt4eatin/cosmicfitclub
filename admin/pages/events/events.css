@@ -85,7 +85,7 @@
 }
 
 #new table input {
-  width: 8em;
+  width: 12em;
 }
 
 #newpreview,
@@ -100,6 +100,11 @@ textarea,
 
 #newpreview {
   height: 10em;
+}
+
+.sess_row td {
+  text-align: center;
+  font-size: 0.8em;
 }
 
 #upload {

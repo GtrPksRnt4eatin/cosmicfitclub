@@ -1,5 +1,7 @@
 class Event < Sequel::Model
 
+  plugin :json_serializer
+
   one_to_many :sessions, :class => :EventSession
   one_to_many :prices, :class => :EventPrice
   
@@ -10,9 +12,17 @@ class Event < Sequel::Model
   	super
   end
 
+  def to_json(options = {})
+    val = JSON.parse super
+    val['image_url'] = image.nil? ? '' : image[:original].url
+    JSON.generate val
+  end
+
 end
 
 class EventSession < Sequel::Model
+
+  plugin :json_serializer
   
   many_to_one :event
   one_to_many :prices, :class => :EventPrice
@@ -20,6 +30,8 @@ class EventSession < Sequel::Model
 end
 
 class EventPrice < Sequel::Model
+
+  plugin :json_serializer
 
   many_to_one :event
   many_to_one :sessions, :class => :EventSession
@@ -35,10 +47,24 @@ class EventRoutes < Sinatra::Base
         :description => c.description, 
         :starttime => c.starttime.iso8601, 
         :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
-        :sessions => c.sessions.to_json,
-        :prices => c.prices.to_json
+        :sessions => c.sessions,
+        :prices => c.prices
       }
     end
+    JSON.generate data
+  end
+
+  get '/:id' do
+    c = Event[params[:id]]
+    data = { 
+      :id => c.id, 
+      :name => c.name, 
+      :description => c.description, 
+      :starttime => c.starttime.iso8601, 
+      :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
+      :sessions => c.sessions,
+      :prices => c.prices
+    }
     JSON.generate data
   end
   

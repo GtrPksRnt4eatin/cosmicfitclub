@@ -54,10 +54,10 @@ html
             textarea.description name='description' rv-value='data.newevent.description'
           .row
             label Start Time:
-            input.flatpickr name='starttime' rv-value='data.newevent.starttime'
+            input name='starttime' rv-datefield='data.newevent.starttime'
           .row
             label End Time:
-            input.flatpickr name='endtime' rv-value='data.newevent.endtime'
+            input name='endtime' rv-datefield='data.newevent.endtime'
 
         .section
           .row
@@ -68,17 +68,21 @@ html
                 th endtime
                 th title
                 th description
-              tr rv-each-sess='data.newevent.sessions'
-                td { sess.starttime   }
-                td { sess.endtime     }
-                td { sess.title       }
-                td { sess.description }
+              tr.sess_row rv-each-sess='data.newevent.sessions'
+                td 
+                  | { sess.starttime | simpledate }
+                td 
+                  | { sess.endtime | simpledate }
+                td 
+                  | { sess.title       }
+                td 
+                  | { sess.description }
               tr
-                td: input.flatpickr
-                td: input.flatpickr
-                td: input
-                td: input
-                td: button +
+                td: input#session_start rv-datefield='data.newsession.starttime' 
+                td: input#session_end rv-datefield='data.newsession.endtime'
+                td: input rv-value='data.newsession.title'
+                td: input rv-value='data.newsession.description'
+                td: span rv-on-click='ctrl.add_session' +
 
           .row
             label Prices
@@ -94,11 +98,11 @@ html
                 td { price.member_price      }
                 td { price.full_price        }
               tr
-                td: input
-                td: input
-                td: input
-                td: input
-                td: button +
+                td: input rv-value='data.newprice.title'
+                td: input rv-value='data.newprice.included_sessions'
+                td: input rv-value='data.newprice.member_price'
+                td: input rv-value='data.newprice.full_price'
+                td: span +
 
           .row
             span#upload Upload

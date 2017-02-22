@@ -1,0 +1,92 @@
+#content {
+  text-align: center;
+  font-size: 18pt;
+}
+
+.tile { 
+  display: inline-block;
+  padding: 1em;
+}
+
+.tuplet {
+  margin: .5em 0;
+}
+
+label {
+  text-align: right;
+  margin-right: 2em;
+  display: inline-block;
+  width: 6em;
+  vertical-align: middle;
+}
+
+textarea {
+  vertical-align: middle;
+  font-size: 18pt;
+  width: 45em;
+  box-shadow: 0 0 .1em white;
+  padding: .5em;
+}
+
+textarea {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.8);
+}
+
+textarea.edit {
+  background: white;
+  color: black;
+}
+
+textarea#details {
+  height: 12em;
+}
+
+.imgbox {
+  width: 45em;
+  max-height: 20em;
+  vertical-align: middle;
+  position: relative;
+  display: inline-block;
+  box-shadow: 0 0 .1em white;
+}
+
+.imgbox img {
+  max-width: 100%;
+  max-height: 20em;
+}
+
+table {
+  vertical-align: middle;
+  box-sizing: border-box;
+  padding: .5em;
+  display: inline-block;
+  width: 45em;
+  font-size: 18pt;
+  box-shadow: 0 0 .1em white;
+}
+
+th {
+  width: 25%;
+}
+
+td input {
+  width:  100%;
+}
+
+.sessions {
+  vertical-align: middle;
+  padding: .5em;
+  box-sizing: border-box;
+  box-shadow: 0 0 .1em white;
+  display: inline-block;
+  width: 45em;
+}
+
+.session {
+  margin: .5em;
+  padding: .5em;
+  display: inline-block;
+  box-shadow: 0 0 .1em white;
+}

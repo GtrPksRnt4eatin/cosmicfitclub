@@ -8,11 +8,13 @@ class CFCAdmin < Sinatra::Base
   helpers  Sinatra::ViewHelpers
   register Sinatra::PageFolders
   register Sinatra::SharedResources
-
-  get( '/'         ) { render_page :index    }
-  get( '/carousel' ) { render_page :carousel }
-  get( '/classes'  ) { render_page :classes  }
-  get( '/events'   ) { render_page :events   }
-  get( '/staff'    ) { render_page :staff    }
+  register Sinatra::Auth
+  
+  get( '/',           :auth=> 'admin' ) { render_page :index      }
+  get( '/carousel',   :auth=> 'admin' ) { render_page :carousel   }
+  get( '/classes',    :auth=> 'admin' ) { render_page :classes    }
+  get( '/events',     :auth=> 'admin' ) { render_page :events     }
+  get( '/staff',      :auth=> 'admin' ) { render_page :staff      }
+  get( '/events/:id' ) { render_page :event_edit }
 
 end
