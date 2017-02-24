@@ -10,7 +10,7 @@ $(document).ready(function() {
   });
 
   $('#menu li').on('click', function(e) {
-    window.location.href = e.target.getAttribute('href');
+    window.location.href = e.target.getAttribute('data-href');
   });
 
   userview = new UserView( id('userview_container'));
