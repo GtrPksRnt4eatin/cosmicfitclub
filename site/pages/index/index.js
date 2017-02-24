@@ -3,7 +3,7 @@ $(document).ready(function() {
   $.get('/models/slides', function(slides) {
     slides = JSON.parse(slides);
     slides.forEach( function(slide) {
-      $('#imgscroller').slick('slickAdd',`<div><img class='sliderimg' src='${ slide.url }' /></div>`);
+      $('#imgscroller').slick('slickAdd',`<div><img alt='carousel' class='sliderimg' src='${ slide.url }' /></div>`);
     }); 
   });
 
