@@ -12,7 +12,8 @@ html
       data['event']['image_data'] = JSON.parse(data['event']['image_data']);
 
     == css [ 'fonts', 'site', 'flatpickr',  'header', '/admin/event_edit' ]
-    == js  [ 'jquery', 'rivets', 'lib', 'moment', 'flatpickr', '/admin/event_edit'  ]
+    == js  [ 'jquery', 'rivets', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel']
+    == js  [ 'elements/session_form', 'elements/popup_menu', '/admin/event_edit' ]
 
   html
     #stars
@@ -25,7 +26,7 @@ html
           textarea#name rv-value='event.name'
         .tuplet
           label Image:
-          .imgbox
+          .imgbox rv-on-click='ctrl.choose_img'
             img rv-src='event.image_url'
         .tuplet
           label Details:
@@ -35,39 +36,43 @@ html
         div.tuplet
           label Sessions:
           .sessions
+            .add rv-on-click='ctrl.add_session'
+              .plus +
             .session rv-each-sess='event.sessions'
               .tuplet
                 label Start Time:
-                input#session_start rv-datefield='data.newsession.starttime'
+                input#session_start rv-datefield='sess.starttime'
               .tuplet
                 label End Time:
-                input#session_end rv-datefield='data.newsession.endtime'
+                input#session_end rv-datefield='sess.endtime'
               .tuplet
                 label Title:
-                input rv-value='data.newsession.title'
+                input rv-value='sess.title'
               .tuplet
                 label Description:
-                input rv-value='data.newsession.description'
-            div rv-on-click='ctrl.add_session'
-              | Add A Session
-
+                input rv-value='sess.description'
+              .delete rv-on-click='ctrl.del_session'
 
         div.tuplet
           label Prices:
-          table
-            tr
-              th title
-              th sessions
-              th member_price
-              th price
-            tr rv-each-price='event.prices'
-              td { price.title             }
-              td { price.included_sessions }
-              td { price.member_price      }
-              td { price.full_price        }
-            tr
-              td: input rv-value='data.newprice.title'
-              td: input rv-value='data.newprice.included_sessions'
-              td: input rv-value='data.newprice.member_price'
-              td: input rv-value='data.newprice.full_price'
-              td: span +
+          .prices
+            .add rv-on-click='ctrl.add_price'
+              .plus +
+            .price rv-each-price='event.prices'
+              .tuplet
+                label Title:
+                input rv-value='price.title'
+              .tuplet
+                label Sessions:
+                select rv-value='price.included_sessions'
+                  option rv-each-sess='event.sessions' rv-value='sess.id' 
+                    | {sess.title}
+              .tuplet
+                label Member Price:
+                input rv-value='price.member_price'
+              .tuplet
+                label Full Price:
+                input rv-value='price.full_price'
+              .delete rv-on-click='ctrl.del_price'
+
+    #popupmenu_container

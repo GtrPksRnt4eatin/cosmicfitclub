@@ -23,7 +23,7 @@ label {
 textarea {
   vertical-align: middle;
   font-size: 18pt;
-  width: 45em;
+  width: 40em;
   box-shadow: 0 0 .1em white;
   padding: .5em;
 }
@@ -44,12 +44,13 @@ textarea#details {
 }
 
 .imgbox {
-  width: 45em;
+  width: 40em;
   max-height: 20em;
   vertical-align: middle;
   position: relative;
   display: inline-block;
   box-shadow: 0 0 .1em white;
+  cursor: pointer;
 }
 
 .imgbox img {
@@ -57,36 +58,69 @@ textarea#details {
   max-height: 20em;
 }
 
-table {
-  vertical-align: middle;
-  box-sizing: border-box;
-  padding: .5em;
-  display: inline-block;
-  width: 45em;
-  font-size: 18pt;
-  box-shadow: 0 0 .1em white;
-}
-
-th {
-  width: 25%;
-}
-
-td input {
-  width:  100%;
-}
-
-.sessions {
+.sessions,
+.prices {
   vertical-align: middle;
   padding: .5em;
   box-sizing: border-box;
   box-shadow: 0 0 .1em white;
   display: inline-block;
-  width: 45em;
+  width: 40em;
+  position: relative;
+  min-height: 11.5em;
 }
 
-.session {
-  margin: .5em;
+.session,
+.price {
+  margin: 1em;
   padding: .5em;
   display: inline-block;
   box-shadow: 0 0 .1em white;
+  position: relative;
+}
+
+.add {
+  cursor: pointer;
+  position: absolute;
+  font-size: 1em;
+  top: 0; left: -.75em;
+  bottom: 0;
+  background: green;
+  width: 1.5em; height: 1.5em;
+  background-size: contain;
+  border-radius: 1em;
+  box-shadow: 0 0 0.1em white;
+  transition: all .2s ease-in-out;
+  margin: auto;
+}
+
+.add .plus {
+  font-size: 1.5em;
+  display: inline-block;
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  margin: auto;
+}
+
+.delete {
+  cursor: pointer;
+  font-size: 1em;
+  position: absolute;
+  top: -.75em; left: -.75em;
+  background-image: url('/closecircle.png');
+  width: 1.5em; height: 1.5em;
+  background-size: contain;
+  border-radius: 1em;
+  box-shadow: 0 0 0.1em white;
+  transition: all .2s ease-in-out;
+}
+
+.delete:hover,
+.add:hover {
+  transform: scale(1.1);
+}
+
+.delete:active {
+  box-shadow: none;
 }

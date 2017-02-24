@@ -18,6 +18,18 @@ class Event < Sequel::Model
     JSON.generate val
   end
 
+  def create_session
+    new_session = EventSession.create
+    add_session(new_session)
+    new_session
+  end
+
+  def create_price
+    new_price = EventPrice.create
+    add_price(new_price)
+    new_price
+  end
+
 end
 
 class EventSession < Sequel::Model
@@ -74,6 +86,32 @@ class EventRoutes < Sinatra::Base
     else
       Event[params[:id]].update_fields(params, [ :name, :description, :starttime ])
     end
+    status 200
+  end
+
+  post '/:id/sessions' do
+    data = JSON.parse(request.body.read)
+    session = Event[params[:id]].create_session     if     data['id'] == 0 
+    session = EventSession[data['id']].update(data) unless data['id'] == 0
+    session.to_json
+  end 
+
+  delete '/sessions/:id' do
+    halt 404 if EventSession[params[:id]].nil?
+    EventSession[params[:id]].destroy
+    status 200
+  end
+
+  post '/:id/prices' do
+    data = JSON.parse(request.body.read)
+    price = Event[params[:id]].create_price     if     data['id'] == 0 
+    price = EventPrice[data['id']].update(data) unless data['id'] == 0
+    price.to_json
+  end 
+
+  delete '/prices/:id' do
+    halt 404 if EventPrice[params[:id]].nil?
+    EventPrice[params[:id]].destroy
     status 200
   end
 

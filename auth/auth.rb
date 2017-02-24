@@ -5,18 +5,15 @@ require_relative './models/Role'
 require_relative './models/Omniaccount'
 
 class CFCAuth < Sinatra::Base
+
+  enable :sessions
+
   register Sinatra::Omni
   register Sinatra::PageFolders
   register Sinatra::SharedResources
   helpers  Sinatra::ViewHelpers
-  
-  enable :sessions
 
   set :public_folder, File.dirname(__FILE__)
-
-  before do
-    p request.path_info
-  end
 
   get( '/login'    ) { render_page :login    }
   get( '/reset'    ) { render_page :reset    }

@@ -1,21 +1,26 @@
 var data = {
+
   events: [],
+
   newevent: {
     sessions: [],
     prices: []
   },
+
   newsession: {
     starttime: '',
     endtime: '',
     title: '',
     description: ''
   },
+
   newprice: {
     title: '',
     included_sessions: [],
     member_price: 0,
     full_price: 0
   }
+
 }
 
 var ctrl = {
@@ -53,9 +58,9 @@ var ctrl = {
 
 $(document).ready(function() {
 
-  rivets.formatters.dayofwk    = function(val) { return moment(val).format('ddd') };
-  rivets.formatters.date       = function(val) { return moment(val).format('MMM Do') };
-  rivets.formatters.time       = function(val) { return moment(val).format('h:mm a') };
+  rivets.formatters.dayofwk    = function(val) { return moment(val).format('ddd')                };
+  rivets.formatters.date       = function(val) { return moment(val).format('MMM Do')             };
+  rivets.formatters.time       = function(val) { return moment(val).format('h:mm a')             };
   rivets.formatters.fulldate   = function(val) { return moment(val).format('ddd MMM Do hh:mm a') };
   rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
   

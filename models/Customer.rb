@@ -6,6 +6,7 @@ class Customer < Sequel::Model
   one_to_many :passes
   one_to_many :training_passes
   one_to_one :waiver
+  one_to_many :nfc_tags
 
   def Customer.is_new? (email)
     customer = Customer[ :email => email ]
