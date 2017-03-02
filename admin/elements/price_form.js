@@ -1,4 +1,4 @@
-function SessionForm() {
+function PriceForm() {
 
   this.state = {
     "session": { }
@@ -10,32 +10,32 @@ function SessionForm() {
   this.bind_dom();
 }
 
-SessionForm.prototype = {
-  constructor: SessionForm,
+PriceForm.prototype = {
+  constructor: PriceForm,
 
   show_new()  { 
-  	this.state.session = { "id": 0 };
+  	this.state.price = { "id": 0 };
   	this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
   },
 
-  show_edit(sess) { 
-  	this.state.session = sess;
+  show_edit(price) { 
+  	this.state.price = price;
   	this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
   },
 
   save(e) {
-    $.post(`/models/events/${data['event'].id}/sessions`, JSON.stringify(this.state.session), function(sess) {
+    $.post(`/models/events/${data['event'].id}/prices`, JSON.stringify(this.state.price), function(price) {
       this.ev_fire('after_post', price );
-    }.bind(this));  
+    }.bind(this));
   }
 
 }
 
-Object.assign( SessionForm.prototype, element);
-Object.assign( SessionForm.prototype, ev_channel); 
+Object.assign( PriceForm.prototype, element);
+Object.assign( PriceForm.prototype, ev_channel); 
 
-SessionForm.prototype.HTML = `
-  <div class='sessionform form'>
+PriceForm.prototype.HTML = `
+  <div class='PriceForm form'>
     <div class='tuplet'>
       <label>Start Time:</label>
       <input rv-datefield='state.session.start_time'/>
@@ -56,18 +56,18 @@ SessionForm.prototype.HTML = `
   </div>
 `.untab(2);
 
-SessionForm.prototype.CSS = `
-  .sessionform {
+PriceForm.prototype.CSS = `
+  .PriceForm {
     
   }
 
-  .sessionform input,
-  .sessionform textarea {
+  .PriceForm input,
+  .PriceForm textarea {
     font-size: 1em !important;
     width: 20em;
   }
 
-  .sessionform .done {
+  .PriceForm .done {
     cursor: pointer;
   }
 

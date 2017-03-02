@@ -91,8 +91,10 @@ class EventRoutes < Sinatra::Base
 
   post '/:id/sessions' do
     data = JSON.parse(request.body.read)
-    session = Event[params[:id]].create_session     if     data['id'] == 0 
-    session = EventSession[data['id']].update(data) unless data['id'] == 0
+    session = Event[params[:id]].create_session if data['id'] == 0 
+    session = EventSession[data['id']]          unless data['id'] == 0
+    data.delete('id')
+    session.update(data)
     session.to_json
   end 
 

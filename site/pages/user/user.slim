@@ -20,8 +20,11 @@ html
       .tile
         .header User Information
         hr
-
         | Name: #{ session[:user].customer.name }
+        
+        - if user.has_role? "admin"
+          div
+            a href='/admin' Administration
 
       .tile
         .header Membership Status

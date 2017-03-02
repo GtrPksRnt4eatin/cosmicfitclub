@@ -1,26 +1,19 @@
 ctrl = {
 
-  add_session(e,m) {
-    sessionform.show_new();
-    //$.post(`/models/events/${data['event'].id}/sessions`, JSON.stringify({ id: 0 }), function(sess) {
-    //  data['event']['sessions'].push(JSON.parse(sess));
-    //});  
-  },
+  add_session(e,m) { sessionform.show_new(); cancelEvent(e); },
+  add_price(e,m)   { priceform.show_new();   cancelEvent(e); },
+
+  edit_session(e,m) { sessionform.show_edit(m.sess); cancelEvent(e); },
+  edit_price(e,m)   { priceform.show_edit(m.price);  cancelEvent(e); },
 
   del_session(e,m) {
-    $.del(`/models/events/sessions/${m.sess.id}`);
-    data['event']['sessions'].splice(m.index,1);
-  },
-
-  add_price(e,m) {
-    $.post(`/models/events/${data['event'].id}/prices`, JSON.stringify({ id: 0 }), function(price) {
-      data['event']['prices'].push(JSON.parse(price));
-    }); 
+    $.del(`/models/events/sessions/${m.sess.id}`)
+      .done( function() { data['event']['sessions'].splice(m.index,1); } );
   },
 
   del_price(e,m) {
-    $.del(`/models/events/prices/${m.price.id}`);
-    data['event']['prices'].splice(m.index,1);  
+    $.del(`/models/events/prices/${m.price.id}`)
+      .done( function() { data['event']['prices'].splice(m.index,1); } ); 
   },
 
   choose_img(e,m) {
@@ -30,9 +23,6 @@ ctrl = {
 }
 
 $(document).ready(function() { 
-
-  sessionform = new SessionForm();
-  popupmenu   = new PopupMenu(id('popupmenu_container'));
   
   rivets.formatters.dayofwk    = function(val) { return moment(val).format('ddd') };
   rivets.formatters.date       = function(val) { return moment(val).format('MMM Do') };
@@ -64,21 +54,32 @@ $(document).ready(function() {
     getValue: function(el) {
       return el.value;
     }
-
   }
 
-  rivets.bind(document.body, { event: data['event'], ctrl: ctrl } );
+  rivets.bind($('#content'), { event: data['event'], ctrl: ctrl } );
 
   $('textarea').on('focus', function(e) { $(e.target).addClass('edit'); } );
   $('textarea').on('blur',  function(e) { $(e.target).removeClass('edit'); } );
 
+  popupmenu   = new PopupMenu(id('popupmenu_container'));
+  sessionform = new SessionForm();
+  priceform   = new PriceForm();
+
   sessionform.ev_sub('show', popupmenu.show );
-  sessionform.ev_sub('done', post_session);
+  priceform.ev_sub('show',   popupmenu.show );
+
+  priceform.ev_sub('after_post', function(price) {
+    var i = data['event']['prices'].findIndex( function(obj) { obj['id'] == price['id']; });
+    if(i != -1) { data['event']['prices'][i] = price;  }
+    else        { data['event']['prices'].push(price); }
+    popupmenu.hide();
+  });
+
+  sessionform.ev_sub('after_post', function(sess) {
+    var i = data['event']['sessions'].findIndex( function(obj) { obj['id'] == sess['id']; });
+    if(i != -1) { data['event']['sessions'][i] = sess;  }
+    else        { data['event']['sessions'].push(sess); }
+    popupmenu.hide();
+  });
 
 });
-
-function post_session(sess) {
-  $.post(`/models/events/${data['event'].id}/sessions`, JSON.stringify(sess), function(sess) {
-    data['event']['sessions'].push(JSON.parse(sess));
-  });  
-}

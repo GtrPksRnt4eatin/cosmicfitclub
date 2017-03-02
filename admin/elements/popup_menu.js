@@ -1,21 +1,17 @@
 function PopupMenu(parent) {
 
   this.state = {
-    path: '',
-      items: [],
-      row_template: `<span>{item}</span>`,
-      showing: false,
+    showing: false,
     position: 'top left',
-    callback: null,
     content: null
   }
   
-  this.bind_handlers( [ 'show' ] );
+  this.bind_handlers( [ 'show', 'hide' ] );
   this.parent = parent;
   this.build_dom();
   this.mount(parent,false);
   this.load_styles();
-  this.bind_dom();
+  //this.bind_dom();
   this.set_close_listener();
 
 }
@@ -25,68 +21,47 @@ PopupMenu.prototype = {
 
   show(args) {
     if(this.state.content == args['dom']) { this.state.content=null; this.hide(); return; }
-    this.state.position = args['position'];
+    this.dom.className = args['position'];
     this.state.content = args['dom'] || this.state.content;
     if( empty( this.state.content ) ) return;
     this.dom.innerHTML = '';
     this.dom.appendChild(this.state.content);
     this.state.showing = true;
+    $(this.dom).show();
   },
 
-  hide() { this.state.content=null; this.state.showing = false; },
-
-  item_selected(e,m) {
-    if(this.state.callback == null) return;
-    if(this.state.close) this.hide();
-    this.state.callback(e,m.index,m.item);
-    cancelEvent(e);
-  },
+  hide() { this.state.showing = false; this.state.content=null; $(this.dom).hide(); },
 
   set_close_listener() {
-    document.onclick = function(e) {
-      if( this.state.showing == false ) return;
-      this.hide();
+    this.dom.onclick = function(e) { 
+      if( e.target.id=='PopupMenu' ) this.hide(); 
     }.bind(this);
-  },
-
-  set items(items)  { this.state.items = items;  },
-  set position(pos) { this.state.position = pos; },
-  set callback(cb)  { this.state.callback = cb;  },
-
-  set row_template(template) {
-    this.state.row_template = template;
-    this.unbind_dom();
-    this.build_dom();
-    this.mount(this.parent);
-    this.bind_dom();
   }
+
 }
 
 Object.assign( PopupMenu.prototype, element);
 
-Object.defineProperty(PopupMenu.prototype, 'HTML', {
-  get: function() { return `
-    <div id='PopupMenu' rv-class='state.position' rv-if='state.showing'>
-    </div>
-  `.untab(4); }
-});
+PopupMenu.prototype.HTML = `
+  <div id='PopupMenu'></div>
+`.untab(2);
+
 
 PopupMenu.prototype.CSS = `
 
   #PopupMenu {
-      font-size: 16pt;
-      position: absolute;
-      left: 0; right: 0;
-      margin: auto;
-      text-align: center;
-
+    font-size: 16pt;
+    position: fixed;
+    left: 0; right: 0;
+    margin: auto;
+    text-align: center; 
     border: 1px solid rgba(0,0,0,0.6);
     max-width: 20%;
   }
 
   #PopupMenu.modal {
     top: 0; bottom: 0;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.5);
     border: none;
     max-width: none;
     box-shadow: none;
@@ -97,6 +72,16 @@ PopupMenu.prototype.CSS = `
     height: 90%;
     vertical-align: middle;
     content: '';
+  }
+
+  #PopupMenu.modal .form {
+    display: inline-block;
+    left: 0; right: 0;
+    margin: auto;
+    vertical-align: middle;
+    background: rgb(100,100,100);
+    padding: 1em;
+    box-shadow: 0 0 0.5em white; 
   }
 
   #PopupMenu.modal .menu {

@@ -50,3 +50,7 @@ end
 map "/models/staff" do
   run StaffRoutes
 end
+
+map "/autoforme" do
+  run Autoforme
+end
