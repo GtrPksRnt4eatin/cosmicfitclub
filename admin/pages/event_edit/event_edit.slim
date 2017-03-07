@@ -26,8 +26,10 @@ html
           textarea#name rv-value='event.name'
         .tuplet
           label Image:
-          .imgbox rv-on-click='ctrl.choose_img'
-            img rv-src='event.image_url'
+          label.imgbox for='pic'
+            input#pic type='file' accept="image/*" name='image' rv-on-change='ctrl.choose_img'
+            img#picpreview rv-src='event.image_url'
+            #nopic rv-unless='event.image_url'
         .tuplet
           label Details:
           textarea#details rv-value='event.description'
@@ -72,8 +74,8 @@ html
               tr rv-each-price='event.prices'
                 td
                   | { price.title }
-                td
-                  | { price.included_sessions }
+                td rv-title='price.included_sessions | session_names'
+                  | { price.included_sessions | session_names }
                 td
                   | { price.member_price }
                 td
@@ -81,5 +83,7 @@ html
                 td
                   .edit   rv-on-click='ctrl.edit_price'
                   .delete rv-on-click='ctrl.del_price'
+
+        button#submit rv-on-click='ctrl.save_changes' Save Event
 
     #popupmenu_container

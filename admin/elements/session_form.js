@@ -8,9 +8,11 @@ function SessionForm() {
   this.build_dom();
   this.load_styles();
   this.bind_dom();
+
 }
 
 SessionForm.prototype = {
+
   constructor: SessionForm,
 
   show_new()  { 
@@ -25,7 +27,7 @@ SessionForm.prototype = {
 
   save(e) {
     $.post(`/models/events/${data['event'].id}/sessions`, JSON.stringify(this.state.session), function(sess) {
-      this.ev_fire('after_post', price );
+      this.ev_fire('after_post', JSON.parse(sess) );
     }.bind(this));  
   }
 
@@ -35,6 +37,7 @@ Object.assign( SessionForm.prototype, element);
 Object.assign( SessionForm.prototype, ev_channel); 
 
 SessionForm.prototype.HTML = `
+
   <div class='sessionform form'>
     <div class='tuplet'>
       <label>Start Time:</label>
@@ -54,9 +57,11 @@ SessionForm.prototype.HTML = `
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
+  
 `.untab(2);
 
 SessionForm.prototype.CSS = `
+
   .sessionform {
     
   }

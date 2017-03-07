@@ -1,5 +1,9 @@
 $(document).ready( function() {
-  
+
+  rivets.formatters.multiple = function(val) { 
+    return val.length > 1; }
+  rivets.bind( $('body'), { event: EVENT } );
+
   var handler = StripeCheckout.configure({
     zipCode: true,
     locale: 'auto',

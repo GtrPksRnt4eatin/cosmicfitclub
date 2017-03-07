@@ -1,5 +1,17 @@
 ctrl = {
 
+  save_changes(e,m) {
+    var data = new FormData();
+    data.set('id', m.event.id);
+    data.set('name', m.event.name);
+    data.set('description', m.event.description);
+    data.set('starttime', m.event.sessions[0].start_time);
+    if(!empty($('#pic')[0].files[0])) { data.set('image', $('#pic')[0].files[0] ); }
+    var request = new XMLHttpRequest();
+    request.open("POST", "/models/events");
+    request.send(data);
+  },
+
   add_session(e,m) { sessionform.show_new(); cancelEvent(e); },
   add_price(e,m)   { priceform.show_new();   cancelEvent(e); },
 
@@ -17,7 +29,7 @@ ctrl = {
   },
 
   choose_img(e,m) {
-    
+    if(e.target.value) { m.event.image_url = e.target.value; }
   }
 	
 }
@@ -29,6 +41,12 @@ $(document).ready(function() {
   rivets.formatters.time       = function(val) { return moment(val).format('h:mm a') };
   rivets.formatters.fulldate   = function(val) { return moment(val).format('ddd MMM Do hh:mm a') };
   rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
+
+  rivets.formatters.session_names = function(arr) {
+    return arr.map(function(id) {
+      return data.event.sessions.find(function(sess) { return sess.id == id }).title;
+    }).join(',');
+  }
   
   rivets.binders['datefield'] = {
     bind: function(el) {
@@ -69,17 +87,32 @@ $(document).ready(function() {
   priceform.ev_sub('show',   popupmenu.show );
 
   priceform.ev_sub('after_post', function(price) {
-    var i = data['event']['prices'].findIndex( function(obj) { obj['id'] == price['id']; });
+    var i = data['event']['prices'].findIndex( function(obj) { return obj['id'] == price['id']; });
     if(i != -1) { data['event']['prices'][i] = price;  }
     else        { data['event']['prices'].push(price); }
     popupmenu.hide();
   });
 
   sessionform.ev_sub('after_post', function(sess) {
-    var i = data['event']['sessions'].findIndex( function(obj) { obj['id'] == sess['id']; });
+    var i = data['event']['sessions'].findIndex( function(obj) { return obj['id'] == sess['id']; });
     if(i != -1) { data['event']['sessions'][i] = sess;  }
     else        { data['event']['sessions'].push(sess); }
+    sortSessions();
     popupmenu.hide();
   });
 
+  id("pic").onchange = function () {
+    var reader = new FileReader();
+    reader.onload = function (e) { id("picpreview").src = e.target.result; };
+    reader.readAsDataURL(this.files[0]);
+  };
+
+  sortSessions();
+
 });
+
+function sortSessions() {
+  data['event']['sessions'].sort( function(a,b) {
+    return moment(a.start_time) - moment(b.start_time); 
+  });
+}

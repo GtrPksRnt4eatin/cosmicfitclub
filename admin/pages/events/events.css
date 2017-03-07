@@ -37,7 +37,7 @@
 }
 
 
-#new {
+footer {
   position: fixed;
   bottom: 0;
   left: 0; right: 0;
@@ -46,10 +46,10 @@
   margin-bottom: 0;
   box-shadow: 0 0 5px white;
   background: rgba(30,30,30,0.8);
-  height: 20em;
+  height: 2em;
 }
 
-#new:before {
+footer:before {
   content: '';
   display: inline-block;
   vertical-align: middle;
@@ -57,7 +57,7 @@
 }
 
 
-#new .section {
+footer .section {
   padding: 1em;
   vertical-align: middle;
   display: inline-block;
@@ -67,7 +67,7 @@
   height: 18em;
 }
 
-#new .section .row {
+footer .section .row {
   padding: .5em 1em;
 }
 
@@ -88,26 +88,18 @@
   width: 12em;
 }
 
-#newpreview,
-#newpic,
-#new label,
-#new input,
-textarea,
-#upload {
+#new2 {
   vertical-align: middle;
   padding: 0 1em;
 }
 
-#newpreview {
-  height: 10em;
-}
 
 .sess_row td {
   text-align: center;
   font-size: 0.8em;
 }
 
-#upload {
+#new2 {
   display: inline-block;
   box-shadow: 0 0 0.1em white;
   padding: .5em;
@@ -124,19 +116,6 @@ textarea,
 }
 
 @media(max-width: 800px) {
-  #new {
-  	font-size: 2.5vw;
-    line-height: 3em;
-  }
-
-  #newpic {
-    width: 65%;
-  }
-
-  #newpreview {
-    width: 15%;
-    margin-right: 10%;
-  }
 
   label {
     display: inline-block;
@@ -152,7 +131,7 @@ textarea,
     width: 70%;
   }
 
-  #upload {
+  #new2 {
     width: 90%;
     padding: .25em;
     margin: .5em 0;

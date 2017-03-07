@@ -19,6 +19,7 @@ table {
 	padding: 2em;
 	vertical-align: middle;
 	display: inline-block;
+	max-width: 40em;
 }
 
 .content {
@@ -30,4 +31,14 @@ table {
   content: '';
   height: 100%;
   vertical-align: middle;
+}
+
+.description {
+  padding: 1em;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+td {
+  background: rgba(255,255,255,0.1);
 }

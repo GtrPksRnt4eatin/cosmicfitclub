@@ -30,6 +30,10 @@ class Event < Sequel::Model
     new_price
   end
 
+  def sessions
+    super.sort{ |a,b| a.start_time <=> b.start_time }
+  end
+
 end
 
 class EventSession < Sequel::Model
@@ -38,6 +42,9 @@ class EventSession < Sequel::Model
   
   many_to_one :event
   one_to_many :prices, :class => :EventPrice
+
+  def start_time; super.iso8601 end
+  def end_time;   super.iso8601 end
 
 end
 
@@ -57,7 +64,7 @@ class EventRoutes < Sinatra::Base
       { :id => c.id, 
         :name => c.name, 
         :description => c.description, 
-        :starttime => c.starttime.iso8601, 
+        :starttime => c.starttime.nil? ? nil : c.starttime.iso8601, 
         :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
         :sessions => c.sessions,
         :prices => c.prices
@@ -82,11 +89,13 @@ class EventRoutes < Sinatra::Base
   
   post '/' do
     if Event[params[:id]].nil?
-      Event.create(name: params[:name], description: params[:description], :starttime => params[:starttime], image: params[:image] )
+      event = Event.create(name: params[:name], description: params[:description], :starttime => params[:starttime], image: params[:image] )
     else
-      Event[params[:id]].update_fields(params, [ :name, :description, :starttime ])
+      event = Event[params[:id]].update_fields(params, [ :name, :description, :starttime ] )
+      event.update( :image => params[:image] ) unless params[:image].nil?
     end
     status 200
+    event.to_json
   end
 
   post '/:id/sessions' do
@@ -106,8 +115,10 @@ class EventRoutes < Sinatra::Base
 
   post '/:id/prices' do
     data = JSON.parse(request.body.read)
-    price = Event[params[:id]].create_price     if     data['id'] == 0 
-    price = EventPrice[data['id']].update(data) unless data['id'] == 0
+    price = Event[params[:id]].create_price if     data['id'] == 0 
+    price = EventPrice[data['id']]          unless data['id'] == 0
+    data.delete('id')
+    price.update(data)
     price.to_json
   end 
 
