@@ -45,38 +45,6 @@ function val_or_null(obj) {
   return val_or_default(obj,null);
 }
   
-function display_time(time_s, options) {
-  options = typeof options !== 'undefined' ? options : {};
-  if( empty(time_s) ) return '';
-
-  var hrs,mins,secs,ms;
-
-  ms   = ( time_s * 1000 ).toFixed();
-  hrs  = Math.floor( ms / 3600000 );
-  ms   = ms - hrs * 3600000;
-  mins = Math.floor( ms / 60000 );
-  ms   = ms - mins * 60000;
-  secs = Math.floor( ms / 1000 );
-  ms   = ms - secs * 1000;
-
-  hrs  =  hrs.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-  mins = mins.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-  secs = secs.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-  ms   =   ms.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false });
-  
-  if(val_or_default(options.tenths,   false)) { ms = ms.slice(0,1); }
-  if(val_or_default(options.no_hours, false)) { hrs = null; }
-  if(val_or_default(options.no_ms,    false)) { ms = null; }
-
-  return ( hrs ? hrs + ':' : '' ) + mins + ':' + secs + ( ms ? '.' + ms : '' );
-}
-/*
-Object.prototype._bind_handlers = function(arr_of_handlers) {
-  for(var i; i<arr_of_handlers.length; i++) {
-    this.arr_of_handlers[i] = this.arr_of_handlers[i].bind(this)
-  } 
-}
-*/
 Array.prototype.for_each = function foreach(arr, func) {
   for(var i=0; i<arr.length; i++) { func(arr[i]); }
 }
@@ -113,16 +81,30 @@ function _ajax_request(url, data, callback, type, method) {
         });
 }
 
-jQuery.fn.shake = function() {
-    this.each(function(i){
-        $(this).css({"position":"relative"});
-        for(var i=1; i<=3; i++) {
-            $(this).animate({left: -10}, 10).animate({left: 0}, 50).animate({left: 10}, 10).animate({left: 0}, 50);
-        }
-    });
-    return this;
-}
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+jQuery.fn.shake = function() {
+  this.each(function(i){
+    $(this).css({"position":"relative"});
+    for(var i=1; i<=3; i++) {
+      $(this).animate({left: -10}, 10).animate({left: 0}, 50).animate({left: 10}, 10).animate({left: 0}, 50);
+    }
+  });
+  return this;
+}
 
 /////////////////////// Object.assign Polyfill for ES5 ///////////////////////////////
 

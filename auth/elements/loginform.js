@@ -28,7 +28,10 @@ LoginForm.prototype = {
   login() {
     $.post('login', JSON.stringify(this.state))
       .fail( function(req,msg,status) { $(this.dom).shake();  this.state.failed=true; }.bind(this) )
-      .success( function() { window.location = '/user'; } );
+      .success( function() { 
+        var page = getUrlParameter('page');
+        window.location = empty(page) ? '/user' : page;
+      });
   },
 
   register() {

@@ -12,6 +12,7 @@ class Checkout < Sinatra::Base
   register Sinatra::PageFolders
   register Sinatra::SharedResources
   helpers  Sinatra::ViewHelpers
+  register Sinatra::Auth
 
   get('/plan/:id')      { render_page :plan     }
   get('/pack/:id')      { render_page :pack     }

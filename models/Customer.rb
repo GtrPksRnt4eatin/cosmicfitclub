@@ -1,4 +1,6 @@
 class Customer < Sequel::Model
+
+  plugin :json_serializer
   
   one_through_one :plan, :join_table => :subscriptions
   one_to_one :subscription
