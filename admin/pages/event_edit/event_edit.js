@@ -8,6 +8,7 @@ ctrl = {
     data.set('starttime', m.event.sessions[0].start_time);
     if(!empty($('#pic')[0].files[0])) { data.set('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();
+    request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) { alert('changes saved'); } }
     request.open("POST", "/models/events");
     request.send(data);
   },
@@ -19,11 +20,13 @@ ctrl = {
   edit_price(e,m)   { priceform.show_edit(m.price);  cancelEvent(e); },
 
   del_session(e,m) {
+    if(!confirm('really delete this session?')) return;
     $.del(`/models/events/sessions/${m.sess.id}`)
       .done( function() { data['event']['sessions'].splice(m.index,1); } );
   },
 
   del_price(e,m) {
+    if(!confirm('really delete this price?')) return;
     $.del(`/models/events/prices/${m.price.id}`)
       .done( function() { data['event']['prices'].splice(m.index,1); } ); 
   },

@@ -50,7 +50,6 @@ PopupMenu.prototype.HTML = `
 PopupMenu.prototype.CSS = `
 
   #PopupMenu {
-    font-size: 16pt;
     position: fixed;
     left: 0; right: 0;
     margin: auto;
