@@ -85,3 +85,13 @@ tr[data-selected="true"] td:last-child:after {
   border-bottom: .5em solid transparent;
   border-right: .5em solid green;
 }
+
+@media(max-width: 800px) {
+
+  .content:before { display: none; }
+
+  .tile img { max-width: 100%; }
+
+
+  .description { font-size: 1.2em }
+}
