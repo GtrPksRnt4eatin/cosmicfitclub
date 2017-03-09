@@ -8,7 +8,7 @@ ctrl = {
     data.set('starttime', m.event.sessions[0].start_time);
     if(!empty($('#pic')[0].files[0])) { data.set('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) { alert('changes saved'); } }
+    request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/events';  }
     request.open("POST", "/models/events");
     request.send(data);
   },
@@ -118,4 +118,8 @@ function sortSessions() {
   data['event']['sessions'].sort( function(a,b) {
     return moment(a.start_time) - moment(b.start_time); 
   });
+}
+
+function after_save() {
+
 }

@@ -76,4 +76,9 @@ SessionForm.prototype.CSS = `
     cursor: pointer;
   }
 
+  .sesionform textarea {
+    width: 20em;
+    background: white;
+  }
+
 `.untab(2);

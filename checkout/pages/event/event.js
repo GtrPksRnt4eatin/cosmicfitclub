@@ -3,7 +3,8 @@
 var STRIPE_HANDLER;
 
 var data = {
-  selected_price: {}
+  selected_price: {},
+  mode: ''
 }
 
 $(document).ready( function() {
@@ -11,6 +12,8 @@ $(document).ready( function() {
   initialize_stripe();
   initialize_rivets();
   set_event_listeners();
+  set_first_price();
+  choose_mode();
 
 });
 
@@ -30,10 +33,23 @@ function initialize_rivets() {
 
   include_rivets_dates();
   include_rivets_money();
-  rivets.formatters.multiple = function(val) { return val.length > 1; }
-  rivets.formatters.empty    = function(val) { return empty(val);     }
+  rivets.formatters.multiple = function(val)      { return val.length > 1; }
+  rivets.formatters.empty    = function(val)      { return empty(val);     }
+  rivets.formatters.equals   = function(val,val2) { return val== val2;     }
   rivets.bind( $('body'), { event: EVENT, customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
+}
+
+function choose_mode() {
+  let num_sessions = EVENT.sessions.length;
+  
+}
+
+function set_first_price() {
+  clear_selected_price();
+  EVENT.prices[0].selected = true;
+  data.selected_price = EVENT.prices[0];
+  set_included_sessions(EVENT.prices[0].included_sessions);
 }
 
 /////////////////////////////////////// INITIALIZATION //////////////////////////////////////////////////
@@ -45,13 +61,9 @@ function set_event_listeners() {
 
   id('checkout').addEventListener('click', checkout );
 
-  $('tr.price').on('click', select_price );
-
 }
 
-function select_price(e) {
 
-}
 
 var ctrl = {
   choose_price(e,m) {

@@ -43,8 +43,8 @@ class EventSession < Sequel::Model
   many_to_one :event
   one_to_many :prices, :class => :EventPrice
 
-  def start_time; super.iso8601 end
-  def end_time;   super.iso8601 end
+  def start_time; val=super; val.nil? ? nil : val.iso8601 end
+  def end_time;   val=super; val.nil? ? nil : val.iso8601 end
 
 end
 
