@@ -4,7 +4,10 @@ var STRIPE_HANDLER;
 
 var data = {
   selected_price: {},
-  mode: ''
+  one_session: false,
+  one_price: false,
+  free_event: false
+
 }
 
 $(document).ready( function() {
@@ -41,8 +44,10 @@ function initialize_rivets() {
 }
 
 function choose_mode() {
-  let num_sessions = EVENT.sessions.length;
-  
+  data.one_session = EVENT.sessions.length == 1;
+  data.one_price   = EVENT.prices.length   == 1;
+  data.free_event = EVENT.prices
+
 }
 
 function set_first_price() {
