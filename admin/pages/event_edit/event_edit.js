@@ -46,6 +46,7 @@ $(document).ready(function() {
   rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
 
   rivets.formatters.session_names = function(arr) {
+    if(empty(arr)) return arr;
     return arr.map(function(id) {
       return data.event.sessions.find(function(sess) { return sess.id == id }).title;
     }).join(',');

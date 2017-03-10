@@ -31,7 +31,7 @@ class Event < Sequel::Model
   end
 
   def sessions
-    super.sort{ |a,b| a.start_time <=> b.start_time }
+    super.sort
   end
 
 end
@@ -45,6 +45,13 @@ class EventSession < Sequel::Model
 
   def start_time; val=super; val.nil? ? nil : val.iso8601 end
   def end_time;   val=super; val.nil? ? nil : val.iso8601 end
+
+  def <=> other
+    return 0 if !start_time && !other.start_time
+    return 1 if !start_time
+    return -1 if !other.start_time
+    start_time <=> other.start_time
+  end
 
 end
 
