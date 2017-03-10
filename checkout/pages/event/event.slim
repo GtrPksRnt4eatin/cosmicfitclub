@@ -34,9 +34,11 @@ html
         hr width='75%'
 
         #prices rv-unless='event.prices | multiple'
-          div rv-each-price='event.prices' 
-            | { price.member_price | money }
-            | { price.full_price | money }
+          div rv-each-price='event.prices'
+            div
+              | Full Price: { price.member_price | money }
+            div
+              | Member Price: { price.full_price | money }
        
         #prices rv-if='event.prices | multiple'
           h4 Choose a Ticket Option

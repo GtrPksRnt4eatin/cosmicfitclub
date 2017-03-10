@@ -6,8 +6,6 @@ ul {
   list-style: none;
 }
 
-
-
 .content {
   max-width: 95vw;
   margin: 0 auto 0;
@@ -33,7 +31,7 @@ ul {
 }
 
 #imgscroller {
-  height: 40vw;
+  height: 46vw;
   width: 70vw;
   margin: auto;
 }

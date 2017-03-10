@@ -46,7 +46,7 @@ function initialize_rivets() {
 function choose_mode() {
   data.one_session = EVENT.sessions.length == 1;
   data.one_price   = EVENT.prices.length   == 1;
-  data.free_event = EVENT.prices
+  data.free_event  = EVENT.prices[0].full_price == 0;
 
 }
 
