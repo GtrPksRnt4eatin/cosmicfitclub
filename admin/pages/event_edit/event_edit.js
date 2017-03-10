@@ -5,7 +5,7 @@ ctrl = {
     data.set('id', m.event.id);
     data.set('name', m.event.name);
     data.set('description', m.event.description);
-    if( !empty(m.event.sessions[0]    ) { data.set('starttime', m.event.sessions[0].start_time); }
+    if( !empty(m.event.sessions[0])   ) { data.set('starttime', m.event.sessions[0].start_time); }
     if( !empty($('#pic')[0].files[0]) ) { data.set('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/events';  }
