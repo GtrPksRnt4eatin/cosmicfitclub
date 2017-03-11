@@ -36,9 +36,9 @@ function initialize_rivets() {
 
   include_rivets_dates();
   include_rivets_money();
-  rivets.formatters.multiple = function(val)      { return val.length > 1; }
-  rivets.formatters.empty    = function(val)      { return empty(val);     }
-  rivets.formatters.equals   = function(val,val2) { return val== val2;     }
+  rivets.formatters.multiple = function(val)      { return val.length > 1;        }
+  rivets.formatters.empty    = function(val)      { return empty(val) || val==''; }
+  rivets.formatters.equals   = function(val,val2) { return val== val2;            }
   rivets.bind( $('body'), { event: EVENT, customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
 }
@@ -46,12 +46,13 @@ function initialize_rivets() {
 function choose_mode() {
   data.one_session = EVENT.sessions.length == 1;
   data.one_price   = EVENT.prices.length   == 1;
-  data.free_event  = EVENT.prices[0].full_price == 0;
+  //data.free_event  = EVENT.prices[0].full_price == 0;
 
 }
 
 function set_first_price() {
   clear_selected_price();
+  if(empty(EVENT.prices[0])) return;
   EVENT.prices[0].selected = true;
   data.selected_price = EVENT.prices[0];
   set_included_sessions(EVENT.prices[0].included_sessions);
