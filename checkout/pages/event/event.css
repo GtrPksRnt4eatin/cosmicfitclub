@@ -99,8 +99,41 @@ h4 {
 
 @media(max-width: 800px) {
   .content:before { display: none; }
-  .tile img { max-width: 100%; }
-  .description { font-size: 1.2em }
+  .tile img       { max-width: 100%; }
+
+  .description { 
+    font-size: 4.5vw;
+    line-height: 1.5em;
+    padding: 1em 0;
+  }
+
+  h4 {
+    font-size: 4.5vw;
+  }
+
+  .singletime,
+  #prices {
+    font-size: 4.5vw;
+    line-height: 1.5em;
+  }
+
+  .fineprint {
+    font-size: 3.5vw;
+  }
+
+  #checkout,
+  #register {
+    font-size: 4.5vw;
+  }
+
+  .tile {
+    padding: 4vw;
+    margin: 1em 0;
+  }
+
+  hr {
+    width: 90%;
+  }
 }
 
 #emailbox {
