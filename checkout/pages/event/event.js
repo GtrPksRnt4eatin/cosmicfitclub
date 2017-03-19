@@ -182,8 +182,6 @@ function checkout() {
   
   if(data.total_price==0) { register(); return; }
 
-  if()
-
   STRIPE_HANDLER.open({
     name: 'Cosmic Fit Club',
     description: EVENT['title'],
