@@ -182,6 +182,8 @@ function checkout() {
   
   if(data.total_price==0) { register(); return; }
 
+  if()
+
   STRIPE_HANDLER.open({
     name: 'Cosmic Fit Club',
     description: EVENT['title'],
@@ -212,7 +214,11 @@ function on_token_received(token) {
     "event_id": EVENT['id'], 
     "total_price": data.total_price,
     "included_sessions": data.included_sessions,
-    "selected_price": data.selected_price,
+    "metadata": {
+      "event_id": EVENT['id'], 
+      "included_sessions": data.included_sessions.join(','),
+      "selected_price": empty(data.selected_price) ? 0 : data.selected_price.id
+    },
     "token": token 
   });
 

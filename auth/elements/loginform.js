@@ -30,7 +30,7 @@ LoginForm.prototype = {
       .fail( function(req,msg,status) { $(this.dom).shake();  this.state.failed=true; }.bind(this) )
       .success( function() { 
         var page = getUrlParameter('page');
-        window.location = empty(page) ? '/user' : page;
+        window.location.replace( empty(page) ? '/user' : page );
       });
   },
 

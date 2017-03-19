@@ -1,4 +1,4 @@
-  require 'stripe'
+require 'stripe'
 
 Stripe.api_key = ENV['STRIPE_SECRET']
 
@@ -76,6 +76,26 @@ module StripeMethods
       :customer => customer_id,
       :items => [ { :type => 'sku', :parent => pack_id, :quantity => quantity } ]
     ).pay( :customer => customer_id )
+  end
+
+  def StripeMethods::charge_customer(customer_id, amount, description, metadata)
+    Stripe::Charge.create(
+      :amount      => amount,
+      :currency    => 'usd',
+      :customer    => customer_id,
+      :description => description,
+      :metadata    => metadata
+    )
+  end
+
+  def StripeMethods::charge_card(token, amount, description, metadata)
+    charge = Stripe::Charge.create(
+      :amount      => amount,
+      :currency    => 'usd',
+      :source        => token,
+      :description => description, 
+      :metadata    => metadata  
+    )
   end
 
   def StripeMethods::get_customer(customer_id)

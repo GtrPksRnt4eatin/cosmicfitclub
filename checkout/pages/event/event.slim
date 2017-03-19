@@ -60,8 +60,6 @@ html
         #free_member_event    rv-if="data.mode | equals 'memberfree' "
           h4 This Event Is Free For Members!
 
-
-
         #registration rv-if='data.total_price | equals 0'
 
           div#emailbox.tuplet rv-if='customer | empty'
@@ -86,7 +84,8 @@ html
           #prices rv-if='event.prices | multiple'
             h4 Choose a Ticket Option
             .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
-              .fine ( or build your own by clicking on the sessions above )
+              .fine 
+                | ( or build your own by clicking on the sessions above )
             table
               tr.price rv-each-price='event.prices' rv-on-click='ctrl.choose_price' rv-data-selected='price.selected'
                 td
@@ -105,10 +104,10 @@ html
           hr width='75%'
 
           div
-            button#checkout Buy For { data.total_price | money }
+            button#checkout rv-on-click='ctrl.checkout' Buy For { data.total_price | money }
 
           .fineprint rv-if='customer | empty'
             a.signin href='/pricing' Sign Up
             | /
-            a.signin href='/auth/login?page=#{request.path}' Sign In
+            a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
             | to receive member pricing

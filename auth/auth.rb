@@ -31,6 +31,7 @@ class CFCAuth < Sinatra::Base
 
   post '/logout' do
     session[:user] = nil
+    session[:customer] = nil
     redirect '/login'
   end
 
