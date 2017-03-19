@@ -48,6 +48,15 @@ html
           button Buy More
 
       .tile
+        .header Upcoming Events
+        hr
+          table
+            - customer.upcoming_events.each do |tic|
+              tr
+                td #{ tic.event.starttime.strftime('%m/%d') }
+                td #{ tic.event.name }
+
+      .tile
         .header Personal Training Sessions
         hr
         - customer.trainings_by_instructor.each do |instructor, count|

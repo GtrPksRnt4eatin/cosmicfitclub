@@ -30,3 +30,15 @@ button {
   padding: .5em;
   font-size: 1.2em;
 }
+
+a:visited {
+  color: white;
+}
+
+
+@media(max-width: 800px) {
+  .tile {
+    width: auto;
+    display: block;
+  }
+}

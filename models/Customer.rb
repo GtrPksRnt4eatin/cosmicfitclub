@@ -6,6 +6,7 @@ class Customer < Sequel::Model
   one_to_one :subscription
   one_to_one :login, :class=>:User
   one_to_many :passes
+  one_to_many :tickets, :class=>:EventTicket
   one_to_many :training_passes
   one_to_one :waiver
   one_to_many :nfc_tags
@@ -27,6 +28,10 @@ class Customer < Sequel::Model
     StripeMethods.get_customer(stripe_id)['sources']['data']
   end
 
+  def upcoming_events
+    tickets.select { |tic| tic.event.starttime > Time.now }
+  end
+
   def num_passes;    passes.count          end
   def num_trainings; training_passes.count end
 
@@ -40,6 +45,7 @@ class Customer < Sequel::Model
   end
 
   def send_new_account_email
+    create_login
     Mail.account_created(email, {
       :name => name,
       :url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"

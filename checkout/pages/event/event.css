@@ -1,9 +1,12 @@
-#checkout {
+#checkout, #register {
 	font-family: "Industry-Light";;
 	cursor: pointer;
-	margin-top: 1em;
 	padding: .5em;
-	font-size: 1.2em;
+  font-size: 1.2em;
+}
+
+#checkout {
+  margin-top: .7em;
 }
 
 td, th {
@@ -45,7 +48,7 @@ td {
 
 .fineprint {
   font-size: .7em;
-  padding: .5em;
+  margin-top: 2em;
 }
 
 a.signin {
@@ -98,4 +101,28 @@ h4 {
   .content:before { display: none; }
   .tile img { max-width: 100%; }
   .description { font-size: 1.2em }
+}
+
+#emailbox {
+  margin-bottom: 1.5em;
+}
+
+#total {
+  font-size: 1.2em;
+}
+
+.a_la_carte {
+  margin-bottom: 1em;
+}
+
+.a_la_carte h4 {
+  margin-bottom: 0;
+}
+
+.a_la_carte .fine {
+  font-size: .7em;
+}
+
+.selectable {
+  cursor: pointer;
 }

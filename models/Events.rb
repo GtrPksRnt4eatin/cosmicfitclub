@@ -2,6 +2,7 @@ class Event < Sequel::Model
 
   plugin :json_serializer
 
+  one_to_many :tickets, :class => :EventTicket
   one_to_many :sessions, :class => :EventSession
   one_to_many :prices, :class => :EventPrice
   
@@ -34,6 +35,10 @@ class Event < Sequel::Model
     super.sort
   end
 
+  def attending?(customer) 
+    
+  end
+
 end
 
 class EventSession < Sequel::Model
@@ -61,6 +66,29 @@ class EventPrice < Sequel::Model
 
   many_to_one :event
   many_to_one :sessions, :class => :EventSession
+
+end
+
+class EventTicket < Sequel::Model
+
+  many_to_one :event
+  many_to_one :customer
+
+  def generate_code
+    rand(36**8).to_s(36)
+  end
+
+  def after_create
+    super
+    update( :code => generate_code )
+    model = {
+      :event_name => event.name,
+      :event_date => event.starttime.strftime('%a %m/%d'),
+      :event_time => event.starttime.strftime('%I:%M %p'),
+      :code => code
+    }
+    Mail.event_purchase(customer.email, model)
+  end
 
 end
 

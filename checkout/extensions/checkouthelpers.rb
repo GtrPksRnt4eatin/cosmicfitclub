@@ -25,6 +25,33 @@ module Sinatra
 
     def buy_event
       data = JSON.parse request.body.read
+      customer = Customer.get_from_token( data['token'] )
+
+
+      if data.total_price==0 then
+        ( status 400; return; ) unless logged_in?
+        require 'pry'; binding.pry
+        customer.add_ticket
+      end
+      ( status 400; return; ) if !logged_in && data.total_price==0
+      ( )
+      #new_custy = Customer.is_new? data['token']['email']
+
+      #customer = Customer.get_from_token( data['token'] )
+      #customer.send_new_account_email if new_custy
+      #customer.buy_event(data['event_id'])
+      status 204
+    end
+
+    def register_event
+      data = JSON.parse request.body.read
+      custy = logged_in? ? customer : Customer.find( :email => data['email'] )
+      if custy.nil? then
+        custy = Customer.create( :email => data['email'] )
+        custy.send_new_account_email
+      end
+      EventTicket.create( :customer => custy, :event_id => data['event_id'], :included_sessions => data['included_sessions'], :price => 0 )
+      status 204
     end
   
   end

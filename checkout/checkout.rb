@@ -20,9 +20,10 @@ class Checkout < Sinatra::Base
   get('/event/:id')     { render_page :event    }
   get('/complete')      { render_page :complete }
 
-  post('/plan/charge')     { buy_plan     }
-  post('/pack/charge')     { buy_pack     }
-  post('/training/charge') { buy_training }
-  post('/event/charge')    { buy_event    }
+  post('/plan/charge')     { buy_plan       }
+  post('/pack/charge')     { buy_pack       }
+  post('/training/charge') { buy_training   }
+  post('/event/charge')    { buy_event      }
+  post('/event/register')  { register_event }
 
 end
