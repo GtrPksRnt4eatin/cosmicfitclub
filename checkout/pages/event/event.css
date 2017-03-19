@@ -128,7 +128,9 @@ h4 {
 
   .tile {
     padding: 4vw;
-    margin: 1em 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 2em;
   }
 
   hr {
