@@ -129,7 +129,7 @@ function set_included_sessions(sessions) {
 
 function toggle_included_session(session) {
   sessions = data.included_sessions;
-  let i = sessions.indexOf(session.id);
+  var i = sessions.indexOf(session.id);
   if(i==-1) { sessions.push(session.id); }
   else      { sessions.splice(i, 1); }
   set_included_sessions(sessions);
