@@ -122,14 +122,14 @@ function calculate_custom_prices() {
 
 function set_included_sessions(sessions) {
   for(var i=0; i<EVENT.sessions.length; i++) { 
-    EVENT.sessions[i].selected = sessions.includes(EVENT.sessions[i].id);
+    EVENT.sessions[i].selected = sessions.indexOf(EVENT.sessions[i].id)!=-1;
   }
   data.included_sessions = sessions.slice(0);
 }
 
 function toggle_included_session(session) {
   sessions = data.included_sessions;
-  let i = sessions.indexOf(session.id);
+  var i = sessions.indexOf(session.id);
   if(i==-1) { sessions.push(session.id); }
   else      { sessions.splice(i, 1); }
   set_included_sessions(sessions);
