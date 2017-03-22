@@ -1,58 +1,10 @@
-#content {
-  text-align: center;
-  font-size: 18pt;
-}
-
-.tile { 
-  display: inline-block;
-  padding: 1em;
-}
 
 .tuplet {
   margin: .5em 0;
 }
 
-label {
-  text-align: right;
-  margin-right: 2em;
-  display: inline-block;
-  width: 6em;
-  vertical-align: middle;
-}
-
-textarea {
-  vertical-align: middle;
-  font-size: 18pt;
-  width: 40em;
-  box-shadow: 0 0 .1em white;
-  padding: .5em;
-}
-
-textarea {
-  background: transparent;
-  border: none;
-  color: rgba(255,255,255,0.8);
-}
-
-textarea.edit {
-  background: white;
-  color: black;
-}
-
 textarea#details {
   height: 12em;
-}
-
-.imgbox {
-  width: 40em;
-  max-height: 20em;
-  vertical-align: middle;
-  position: relative;
-  display: inline-block;
-  box-shadow: 0 0 .1em white;
-  cursor: pointer;
-  margin-right: 0;
-  text-align: center;
 }
 
 .imgbox img {
@@ -81,6 +33,11 @@ textarea#details {
   min-height: 11.5em;
 }
 
+.sessions table,
+.prices table {
+  font-size: .6em;
+}
+
 .session,
 .price {
   margin: 1em;
@@ -89,6 +46,8 @@ textarea#details {
   box-shadow: 0 0 .1em white;
   position: relative;
 }
+
+
 
 .add {
   cursor: pointer;
@@ -177,15 +136,7 @@ th:nth-child(5){
   width: 8%;
 }
 
-#submit {
-  margin: .25em;
-  padding: .25em 1em;
-  color: rgba(255,255,255,0.8);
-  font-size: 2em;
-  background: transparent;
-  box-shadow: 0 0 .1em white;
-  cursor: pointer;
-}
+
 
 #nopic:before {
   content: 'Add A Picture';

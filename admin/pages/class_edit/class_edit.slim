@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    javascript:
+      data = {};
+      data['class'] = #{{ ClassDef[params[:id]].to_json() }};
+      data['class']['image_data'] = JSON.parse(data['class']['image_data']);
+
+    == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', '/admin/class_edit' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel']
+    == js  [ 'elements/session_form', 'elements/price_form', 'elements/popup_menu', '/admin/class_edit' ]
+
+  html
+    #stars
+
+    #content
+
+      .tile
+
+        .tuplet
+          label Class Name: 
+          textarea#name rv-value='class.name'
+
+        .tuplet
+          label Image:
+          label.imgbox for='pic'
+            input#pic type='file' accept="image/*" name='image' rv-on-change='ctrl.choose_img'
+            img#picpreview rv-src='class.image_url'
+            #nopic rv-unless='class.image_url'
+
+        .tuplet
+          label Details:
+          textarea#details rv-value='class.description'
+
+        button#submit rv-on-click='ctrl.save_changes' Save Class
+
+    #popupmenu_container
+
+    == analytics

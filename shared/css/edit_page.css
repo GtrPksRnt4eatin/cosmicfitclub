@@ -1,0 +1,80 @@
+#content {
+  text-align: center;
+  font-size: 18pt;
+}
+
+.tile { 
+  display: inline-block;
+  padding: 1em;
+}
+
+.tuplet {
+  margin: .5em 0;
+}
+
+.tuplet label {
+  text-align: right;
+  margin-right: 2em;
+  display: inline-block;
+  width: 6em;
+  vertical-align: middle;
+}
+
+.tuplet textarea {
+  vertical-align: middle;
+  font-size: 18pt;
+  width: 40em;
+  box-shadow: 0 0 .1em white;
+  padding: .5em;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  box-sizing: border-box;
+}
+
+.tuplet textarea.edit {
+  background: white;
+  color: black;
+}
+
+.tuplet .imgbox {
+  width: 40em;
+  max-height: 20em;
+  vertical-align: middle;
+  position: relative;
+  display: inline-block;
+  box-shadow: 0 0 .1em white;
+  cursor: pointer;
+  margin-right: 0;
+  text-align: center;
+}
+
+.tuplet .imgbox img {
+  max-width: 100%;
+  max-height: 20em;
+}
+
+.tuplet #pic {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.tuplet #nopic:before {
+  content: 'Add A Picture';
+  display: inline-block;
+  padding: .5em;
+}
+
+#submit {
+  margin: .25em;
+  padding: .25em 1em;
+  color: rgba(255,255,255,0.8);
+  font-size: 2em;
+  background: transparent;
+  box-shadow: 0 0 .1em white;
+  cursor: pointer;
+}

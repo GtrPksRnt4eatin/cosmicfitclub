@@ -1,5 +1,7 @@
 class ClassDef < Sequel::Model
 
+  plugin :json_serializer
+
   include ImageUploader[:image]
 
   def after_save

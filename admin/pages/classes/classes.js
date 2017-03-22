@@ -11,6 +11,10 @@ var ctrl = {
     });
   },
 
+  edit: function(e,m) {
+    location.href = `classes/${m.class.id}`;
+  },
+
   moveup: function(e,m) {
     $.post(`/models/classdefs/${m.class.id}/moveup`, function() { get_saved_classes(); });
   },
