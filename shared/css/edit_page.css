@@ -20,6 +20,14 @@
   vertical-align: middle;
 }
 
+.tuplet .control {
+  width: 40em;
+  box-shadow: 0 0 .1em white;
+  display: inline-block;
+  padding: .5em;
+  box-sizing: border-box;
+}
+
 .tuplet textarea {
   vertical-align: middle;
   font-size: 18pt;

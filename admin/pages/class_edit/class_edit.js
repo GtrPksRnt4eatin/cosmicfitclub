@@ -2,6 +2,10 @@ ctrl = {
 
   save_changes(e,m) {
     
+  },
+
+  choose_img(e,m) {
+
   }
 
 }
@@ -40,6 +44,30 @@ $(document).ready(function() {
     }
   }
 
-  rivets.bind($('#content'), { class: data['class'], ctrl: ctrl } );
+  rivets.binders['multiselect'] = {
+    bind: function(el) {
+      this.chosen_instance = $(el).chosen()
+      this.chosen_instance.change(function(val) {
+        this.publish(val);
+        if(this.el.onchange) { this.el.onchange(); }
+      }.bind(this));
+    },
+    unbind: function(el) {
+      $(el).chosen("destroy");
+    },
+    routine: function(el,value) {
+      $(el).val(value);
+      $(this.chosen_instance).trigger("chosen:updated");
+    },
+    getValue: function(el) {
+      return $(this.chosen_instance).val();
+    }
+
+  }
+
+  rivets.bind($('#content'), { data: data, class: data['class'], ctrl: ctrl } );
+
+  $('textarea').on('focus', function(e) { $(e.target).addClass('edit'); } );
+  $('textarea').on('blur',  function(e) { $(e.target).removeClass('edit'); } );
 
 });

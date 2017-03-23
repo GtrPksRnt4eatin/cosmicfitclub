@@ -9,6 +9,12 @@ class ClassDef < Sequel::Model
   	super
   end 
 
+  def to_json(options = {})
+    val = JSON.parse super
+    val['image_url'] = image.nil? ? '' : image[:original].url
+    JSON.generate val
+  end
+
 end
 
 class ClassDefRoutes < Sinatra::Base
