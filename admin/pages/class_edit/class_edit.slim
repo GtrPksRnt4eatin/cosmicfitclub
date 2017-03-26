@@ -14,9 +14,9 @@ html
       data['class']['image_data'] = JSON.parse(data['class']['image_data']);
       data['instructors'] = #{{ Staff.all.to_json() }};
 
-    == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'chosen', '/admin/class_edit' ]
-    == js  [ 'jquery', 'rivets', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel', 'jquery.chosen.min']
-    == js  [ 'elements/session_form', 'elements/price_form', 'elements/popup_menu', '/admin/class_edit' ]
+    == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'chosen', 'jquery.timepicker', '/admin/class_edit' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min' ]
+    == js  [ 'elements/schedule_form', 'elements/popup_menu', '/admin/class_edit' ]
 
   html
     #stars
@@ -48,20 +48,26 @@ html
                 | { inst.name }
 
         .tuplet
-          label Schedule:
+          label Schedules:
           .control
-            
-            input rv-time='class.starttime'
-
-
-            button Mon
-            button Tue
-            button Wed
-            button Thu
-            button Fri
-            button Sat
-            button Sun
-
+            table.reflections
+              tr
+                th rrule
+                th start_time
+                th end_time
+                th
+                  .add rv-on-click='ctrl.add_schedule'
+                    .plus +
+              tr rv-each-sched='class.schedules'
+                td
+                  | { sched.rrule }
+                td
+                  | { sched.start_time }
+                td 
+                  | { sched.end_time } 
+                td
+                  .edit   rv-on-click='ctrl.edit_schedule'
+                  .delete rv-on-click='ctrl.del_schedule'
 
         button#submit rv-on-click='ctrl.save_changes' Save Class
 

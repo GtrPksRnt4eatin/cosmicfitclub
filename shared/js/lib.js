@@ -49,6 +49,13 @@ Array.prototype.for_each = function foreach(arr, func) {
   for(var i=0; i<arr.length; i++) { func(arr[i]); }
 }
 
+Array.prototype.replace_or_add_by_id = function replace_or_add_by_id(item) {
+  var i = this.findIndex( function(obj) { return obj['id'] == item['id']; });
+  if(i != -1) { this[i] = item;  }
+  else        { this.push(item); }
+}
+
+
 String.prototype.untab = function(spacing) {
   var lines = this.split("\n");
   lines = lines.filter(function(el) { return el.length > spacing; } )

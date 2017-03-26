@@ -5,13 +5,41 @@ ctrl = {
   },
 
   choose_img(e,m) {
+    if(e.target.value) { m.class.image_url = e.target.value; }
+  },
 
+  add_schedule(e,m)  { scheduleform.show_new();         cancelEvent(e); },
+  edit_schedule(e,m) { scheduleform.show_edit(m.sched); cancelEvent(e); },
+  del_schedule(e,m)  {
+    if(!confirm('really delete this schedule?')) return;
+    $.del(`/models/classdefs/schedules/${m.sched.id}`)
+     .done( function() { data['class']['schedules'].splice(m.index,1); } ); 
   }
 
 }
 
 $(document).ready(function() { 
   
+  initialize_rivets();
+
+  rivets.bind($('#content'), { data: data, class: data['class'], ctrl: ctrl } );
+
+  $('textarea').on('focus', function(e) { $(e.target).addClass('edit'); } );
+  $('textarea').on('blur',  function(e) { $(e.target).removeClass('edit'); } );
+  
+  popupmenu = new PopupMenu( id('popupmenu_container') );
+
+  scheduleform = new ScheduleForm();
+  scheduleform.ev_sub('show', popupmenu.show );
+  scheduleform.ev_sub('after_post', function(schedule) { 
+    data['class']['schedules'].replace_or_add_by_id(schedule); 
+    popupmenu.hide();
+  });
+
+});
+
+function initialize_rivets() {
+
   rivets.formatters.dayofwk    = function(val) { return moment(val).format('ddd') };
   rivets.formatters.date       = function(val) { return moment(val).format('MMM Do') };
   rivets.formatters.time       = function(val) { return moment(val).format('h:mm a') };
@@ -24,6 +52,34 @@ $(document).ready(function() {
         enableTime: true, 
         altInput: true, 
         altFormat: 'm/d/Y h:i K',
+        onChange: function(val) {
+          this.publish(val);
+          if(this.el.onchange) { this.el.onchange(); }
+        }.bind(this)
+      })
+    },
+    unbind: function(el) {
+      this.flatpickrInstance.destroy();
+    },
+    routine: function(el,value) {
+      if(value) { 
+        this.flatpickrInstance.setDate( value ); 
+        this.flatpickrInstance.jumpToDate(value);
+      }
+    },
+    getValue: function(el) {
+      return el.value;
+    }
+  }
+
+  rivets.binders['timefield'] = {
+    bind: function(el) {
+      this.flatpickrInstance = $(el).flatpickr({
+        enableTime: true, 
+        altInput: true, 
+        altFormat: 'h:i K',
+        inline: true,
+        noCalendar: true,
         onChange: function(val) {
           this.publish(val);
           if(this.el.onchange) { this.el.onchange(); }
@@ -62,12 +118,5 @@ $(document).ready(function() {
     getValue: function(el) {
       return $(this.chosen_instance).val();
     }
-
   }
-
-  rivets.bind($('#content'), { data: data, class: data['class'], ctrl: ctrl } );
-
-  $('textarea').on('focus', function(e) { $(e.target).addClass('edit'); } );
-  $('textarea').on('blur',  function(e) { $(e.target).removeClass('edit'); } );
-
-});
+}
