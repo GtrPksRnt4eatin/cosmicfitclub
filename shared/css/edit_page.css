@@ -133,6 +133,14 @@ table.reflections .delete {
   background-size: contain;
 }
 
+@media(max-width: 800px) {
+
+  table.reflections               { font-size: .4em; }
+  table.reflections td            { max-width: 15%;  }
+  table.reflections th:last-child { width: 4em; }
+
+}
+
 /* REFLECTIONS TABLE */
 
 
@@ -163,3 +171,47 @@ table.reflections .delete {
 }
 
 /* CRUD BUTTONS */
+
+@media(max-width: 800px) {
+
+  #content {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    padding: .5em;
+  }
+
+  .tile {
+    margin: 0;
+    box-sizing: border-box;
+    padding: .5em;
+    width: 100%;
+  }
+
+  .tuplet textarea {
+    width: 100%;
+    font-size: .8em;
+  }
+
+  .tuplet label {
+    margin: 0;
+    display: block;
+    width: auto;
+    text-align: center;
+  }
+
+  .tuplet .imgbox,
+  .tuplet .control {
+    width: 100%;
+  }
+
+  .tuplet .imgbox img {
+    max-width: 100%;
+    max-height: 10em; 
+  } 
+
+  #submit {
+    font-size: .8em;
+  }
+
+}

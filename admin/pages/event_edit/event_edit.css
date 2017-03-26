@@ -72,64 +72,15 @@ th:nth-child(5){
 
 
 @media(max-width: 800px) {
-  
-  textarea {
-    width: 100%;
-    font-size: .8em;
-  }
 
-  #content {
-    width: 100%;
-    position: relative;
-    box-sizing: border-box;
-    padding: .5em;
-  }
-
-  label {
-    margin: 0;
-    display: block;
-    width: auto;
-    text-align: center;
-  }
-
-  .tile {
-    margin: 0;
-    box-sizing: border-box;
-    padding: .5em;
-  }
-
-  .tile,
   .sessions,
-  .prices,
-  .imgbox {
+  .prices {
     width: 100%;
   }
-
-  .imgbox img {
-    max-width: 100%;
-    max-height: 10em; 
-  } 
 
   .sessions, .prices {
     padding: 0;
     min-height: 5em;
-  }
-
-  table {
-    table-layout: fixed;
-    font-size: .4em;
-  }
-
-  td {
-    max-width: 15%;
-  }
-
-  th:last-child {
-    width: 4em;
-  }
-
-  #submit {
-    font-size: .8em;
   }
 
 }
