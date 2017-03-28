@@ -79,9 +79,6 @@ $(document).ready(function() {
 
   rivets.bind($('#content'), { event: data['event'], ctrl: ctrl } );
 
-  $('textarea').on('focus', function(e) { $(e.target).addClass('edit'); } );
-  $('textarea').on('blur',  function(e) { $(e.target).removeClass('edit'); } );
-
   popupmenu   = new PopupMenu(id('popupmenu_container'));
 
   sessionform = new SessionForm();

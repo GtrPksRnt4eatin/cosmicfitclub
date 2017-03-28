@@ -2,7 +2,7 @@ class ClassDef < Sequel::Model
 
   plugin :json_serializer
 
-  one_to_many :schedules, :class => :ClassdefSchedule
+  one_to_many :schedules, :class => :ClassdefSchedule, :key => :classdef_id
 
   include ImageUploader[:image]
 
@@ -29,19 +29,32 @@ class ClassdefSchedule < Sequel::Model
   
   plugin :json_serializer
 
-  many_to_one :classdef
+  many_to_one :classdef, :key => :classdef_id
 
 end
 
 class ClassDefRoutes < Sinatra::Base
 
   get '/' do
-    JSON.generate ClassDef.order(:position).all.map { |c| { :id => c.id, :name => c.name, :description => c.description, :image_url => c.image[:small].url } }
+    data = ClassDef.order(:position).all.map do |c| 
+      { :id => c.id, 
+        :name => c.name, 
+        :description => c.description,
+        :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
+      }
+    end
+    JSON.generate data
   end
-  
+
   post '/' do
-    ClassDef.create(name: params[:name], description: params[:description], image: params[:image], position: ClassDef.max(:position) + 1)
+    if ClassDef[params[:id]].nil?
+      classdef = ClassDef.create(name: params[:name], description: params[:description], image: params[:image], position: ClassDef.max(:position) + 1)
+    else
+      classdef = ClassDef[params[:id]].update_fields(params, [ :name, :description ] )
+      classdef.update( :image => params[:image] ) unless params[:image].nil?
+    end
     status 200
+    classdef.to_json
   end
 
   delete '/:id' do

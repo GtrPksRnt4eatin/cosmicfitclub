@@ -40,7 +40,7 @@
   box-sizing: border-box;
 }
 
-.tuplet textarea.edit {
+.tuplet textarea:focus {
   background: white;
   color: black;
 }

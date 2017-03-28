@@ -1,7 +1,16 @@
 ctrl = {
 
   save_changes(e,m) {
-    
+    var data = new FormData();
+    data.set('id', m.class.id);
+    data.set('name', m.class.name);
+    data.set('description', m.class.description);
+    data.set('instructors', m.class.instructors);
+    if( !empty($('#pic')[0].files[0]) ) { data.set('image', $('#pic')[0].files[0] ); }
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/classes';  }
+    request.open("POST", "/models/classdefs");
+    request.send(data); 
   },
 
   choose_img(e,m) {
@@ -23,13 +32,11 @@ $(document).ready(function() {
   initialize_rivets();
 
   rivets.bind($('#content'), { data: data, class: data['class'], ctrl: ctrl } );
-
-  $('textarea').on('focus', function(e) { $(e.target).addClass('edit'); } );
-  $('textarea').on('blur',  function(e) { $(e.target).removeClass('edit'); } );
   
   popupmenu = new PopupMenu( id('popupmenu_container') );
 
   scheduleform = new ScheduleForm();
+  scheduleform.instructors = data['instructors'];
   scheduleform.ev_sub('show', popupmenu.show );
   scheduleform.ev_sub('after_post', function(schedule) { 
     data['class']['schedules'].replace_or_add_by_id(schedule); 

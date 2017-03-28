@@ -10,7 +10,7 @@ html
 
     javascript:
       data = {};
-      data['class'] = #{{ ClassDef[params[:id]].to_json() }};
+      data['class'] = #{{ ClassDef[params[:id]].to_json( :include => [ :schedules ]) }};
       data['class']['image_data'] = JSON.parse(data['class']['image_data']);
       data['instructors'] = #{{ Staff.all.to_json() }};
 

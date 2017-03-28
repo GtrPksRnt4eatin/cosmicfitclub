@@ -1,7 +1,8 @@
 function ScheduleForm() {
 
   this.state = {
-  	"schedule": {}
+  	"schedule": {},
+    "instructors": []
   }
 
   this.bind_handlers(['save']);
@@ -29,7 +30,9 @@ ScheduleForm.prototype = {
     $.post(`/models/classdefs/${data['class'].id}/schedules`, JSON.stringify(this.state.schedule), function(sched) {
       this.ev_fire('after_post', JSON.parse(sched) );
     }.bind(this));  
-  }
+  },
+
+  set instructors(val) { this.state.instructors = val; }
 
 }
 
@@ -41,6 +44,10 @@ ScheduleForm.prototype.HTML = `
   
   <div class='scheduleform form'>
     <div class='tuplet'>
+      <label>Instructor:</label>
+      <select multiple='multiple' rv-multiselect='state.schedule.instructors'>
+        <option rv-each-inst='state.instructors' rv-value='inst.id'> { inst.name } </option>
+      </select>
       <label>Weekday:</label>
       <select rv-value='state.schedule.rrule'>
         <option value='FREQ=WEEKLY;BYDAY=MO;INTERVAL=1' >Mondays</option>

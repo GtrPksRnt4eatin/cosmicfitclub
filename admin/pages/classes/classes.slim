@@ -33,13 +33,7 @@ html
         .delete rv-on-click='ctrl.del'
         .edit rv-on-click='ctrl.edit'
 
-      form#newclass action='/admin/classdefs' method='post' enctype="multipart/form-data"
-        img#newpreview
-        input#newpic type='file' accept="image/*" name='image'
-        label Class Name:
-        input type='text' name='name'
-        label Description:
-        textarea name='description'
-        span#upload Upload
+      footer
+        #new2 Create New Class
 
     == analytics
