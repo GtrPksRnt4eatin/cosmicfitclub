@@ -47,7 +47,7 @@ html
         hr width="60%"
         .heading Class Packages
         table
-          - for pack in Package.reverse_order(:num_passes).order_append(:presale).all
+          - for pack in Package.where(:available=>true).reverse_order(:num_passes).order_append(:presale).all
             tr
               th #{ pack[:name] }
               td $ #{ pack[:pass_price].to_i / 100 }.00 Per Class

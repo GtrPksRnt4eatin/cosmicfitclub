@@ -141,7 +141,7 @@ module StripeMethods
 
 
   def StripeMethods::sync_packages
-
+    
     product = Stripe::Product.create(
       :id => StripeMethods::generateToken,
       :name => "Class Package",
