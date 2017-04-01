@@ -34,7 +34,7 @@ $(document).ready( function() {
       name: 'Cosmic Fit Club',
       description: PLAN['name'],
       image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
-      amount: PLAN['price'] * PLAN['term_months']
+      amount: PLAN['month_price'] * PLAN['term_months']
     })
   });
 
