@@ -105,18 +105,27 @@ module StripeMethods
   ##########################################################################
 
   def StripeMethods::sync_plans
-
-    stripe_plans = Stripe::Plan.list['data']
+    
+    p "getting plans from Stripe"
+    stripe_plans = Stripe::Plan.list(limit: 100)['data']
+    p "#{stripe_plans.count} plans found" 
 
     stripe_plans.each do |plan|
-      plan.delete unless Plan.find( :stripe_id => plan['id'] )
+      next if Plan.find( :stripe_id => plan['id'] )
+      puts "Plan #{plan['id']} Not Found...Delete From Stripe (y/n)" 
+      resp = gets 
+      p plan.delete if resp.chomp=="y"
     end
 
     Plan.all.each do |plan|
-      next unless plan['stripe_id'].nil? || stripe_plans.find_index { |p| p['id'] == plan['stripe_id'] }.nil?
+      next unless plan[:stripe_id].nil? || stripe_plans.find_index { |p| p['id'] == plan[:stripe_id] }.nil?
+      p plan
+      puts "Create on Stripe?(y/n)"
+      next unless gets.chomp=="y"
+
       plan.update( :stripe_id => StripeMethods::generateToken )
 
-      stripe_plan = Stripe::Plan.create(
+      p stripe_plan = Stripe::Plan.create(
         :id       => plan.stripe_id,
         :name     => plan.name,
         :amount   => plan.full_price,
@@ -132,7 +141,7 @@ module StripeMethods
 
 
   def StripeMethods::sync_packages
-
+    
     product = Stripe::Product.create(
       :id => StripeMethods::generateToken,
       :name => "Class Package",
