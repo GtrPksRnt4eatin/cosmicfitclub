@@ -1,3 +1,5 @@
+require 'ice_cube'
+
 class ClassDef < Sequel::Model
 
   plugin :json_serializer
@@ -23,6 +25,12 @@ class ClassDef < Sequel::Model
     new_sched
   end
 
+  def get_occurences(start,end)
+    schedules.map do |sched|
+      
+    end
+  end
+
 end
 
 class ClassdefSchedule < Sequel::Model
@@ -30,6 +38,10 @@ class ClassdefSchedule < Sequel::Model
   plugin :json_serializer
 
   many_to_one :classdef, :key => :classdef_id
+
+  def get_occurences(start,end) 
+    
+  end
 
 end
 
@@ -96,6 +108,9 @@ class ClassDefRoutes < Sinatra::Base
     halt 404 if ClassdefSchedule[params[:id]].nil?
     ClassdefSchedule[params[:id]].destroy
     status 200
+  end
+
+  get '/schedule/:start/:end' do
   end
 
 end
