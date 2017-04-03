@@ -1,6 +1,8 @@
 p {
 	font-size: 16pt;
 	line-height: 1.4em;
+  max-width: 60%;
+  display: inline-block;
 }
 
 table {
@@ -25,6 +27,7 @@ button {
   p {
   	font-size: 3.5vw;
   	line-height: 1.8em;
+    max-width: none;
   }
 
   .tile {
