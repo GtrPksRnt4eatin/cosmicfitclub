@@ -25,10 +25,10 @@ class ClassDef < Sequel::Model
     new_sched
   end
 
-  def get_occurences(start,end)
+  def get_occurences(from, to)
     schedules.map do |sched|
-      
-    end
+      sched.get_occurences(from,to)
+    end.flatten
   end
 
 end
@@ -39,8 +39,10 @@ class ClassdefSchedule < Sequel::Model
 
   many_to_one :classdef, :key => :classdef_id
 
-  def get_occurences(start,end) 
-    
+  def get_occurences(from,to) 
+    IceCube::Schedule.new(start_time) do |sched|
+      sched.add_recurrence_rule IceCube::Rule.from_ical(rrule)
+    end.occurrences_between(Time.parse(from),Time.parse(to))
   end
 
 end
