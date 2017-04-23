@@ -71,6 +71,7 @@ class EventTicket < Sequel::Model
 
   many_to_one :event
   many_to_one :customer
+  one_to_many :checkins, :class => :EventCheckin
 
   def generate_code
     rand(36**8).to_s(36)
