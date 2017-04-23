@@ -35,10 +35,6 @@ class Event < Sequel::Model
     super.sort
   end
 
-  def attending?(customer) 
-    
-  end
-
 end
 
 class EventSession < Sequel::Model
@@ -71,6 +67,8 @@ end
 
 class EventTicket < Sequel::Model
 
+  plugin :json_serializer
+
   many_to_one :event
   many_to_one :customer
 
@@ -89,6 +87,21 @@ class EventTicket < Sequel::Model
     }
     Mail.event_purchase(customer.email, model)
   end
+
+  def to_json(args)
+    super( :include => [ :checkins, :customer => { :only => [ :id, :name, :email ] } ] )
+  end
+
+end
+
+class EventCheckin < Sequel::Model
+  
+  plugin :json_serializer
+
+  many_to_one :event
+  many_to_one :customer
+  many_to_one :session, :class => :EventSession
+  many_to_one :ticket, :class => :EventTicket
 
 end
 
@@ -167,6 +180,18 @@ class EventRoutes < Sinatra::Base
     halt 404 if Event[params[:id]].nil?
     Event[params[:id]].destroy
     status 200
-  end 
+  end
+
+  get '/:id/attendance' do
+    Event[params[:id]].tickets.to_json
+  end
+
+  post '/tickets/:id/checkin' do
+    ticket = EventTicket[params[:id]]
+    halt 404 if ticket.nil?
+    halt 500 unless ticket.included_sessions.include? params[:session_id]
+    EventCheckin.create( :ticket_id => ticket.id, :event_id => ticket.event.id, :session_id => params[:session_id], :customer_id => params[:customer_id])
+    status 204
+  end
 
 end

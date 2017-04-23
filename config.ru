@@ -55,4 +55,4 @@ map "/autoforme" do
   run Autoforme
 end
 
-require 'pry'; Binding.pry
+#require 'pry'; Binding.pry

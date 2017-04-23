@@ -50,6 +50,12 @@ module Sinatra
       EventTicket.create( :customer => custy, :event_id => data['event_id'], :included_sessions => data['included_sessions'], :price => 0 )
       status 204
     end
+
+    def buy_misc
+      data = JSON.parse request.body.read
+      token = data['token']
+      p StripeMethods::find_customer_by_card(token)
+    end
   
   end
 end

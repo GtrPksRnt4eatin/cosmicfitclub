@@ -26,5 +26,6 @@ class Checkout < Sinatra::Base
   post('/training/charge') { buy_training   }
   post('/event/charge')    { buy_event      }
   post('/event/register')  { register_event }
+  post('/misc/charge')     { buy_misc       }
 
 end
