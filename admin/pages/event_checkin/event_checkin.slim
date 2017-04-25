@@ -38,7 +38,7 @@ html
           | { session.description }
 
         table#tickets
-          tr rv-each-tic='data.list' rv-show='tic | has_session session'
+          tr rv-each-tic='data.list' rv-show='tic | has_session session' rv-on-click='ctrl.check_in'
             td
               | { tic.customer.name }
             td

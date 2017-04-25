@@ -60,7 +60,6 @@ function render(html) {
   throw `Error Rendering HTML: ${html}`;
 }
 
-
 function load_css(id,css) {
   var elem = document.createElement('style');
   elem.id = id;
@@ -83,6 +82,12 @@ function val_or_default(obj,def) {
 function val_or_null(obj) {
   return val_or_default(obj,null);
 }
+
+function obj_to_formdata(obj) {
+  var form_data = new FormData();
+  for ( var key in obj ) { form_data.append(key, obj[key]); }
+  return form_data;
+}  
   
 Array.prototype.for_each = function foreach(arr, func) {
   for(var i=0; i<arr.length; i++) { func(arr[i]); }

@@ -71,7 +71,7 @@ class EventTicket < Sequel::Model
 
   many_to_one :event
   many_to_one :customer
-  one_to_many :checkins, :class => :EventCheckin
+  one_to_many :checkins, :class => :EventCheckin, :key => :ticket_id
 
   def generate_code
     rand(36**8).to_s(36)
@@ -90,7 +90,7 @@ class EventTicket < Sequel::Model
   end
 
   def to_json(args)
-    super( :include => [ :checkins, :customer => { :only => [ :id, :name, :email ] } ] )
+    super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] } } )
   end
 
 end
@@ -190,6 +190,7 @@ class EventRoutes < Sinatra::Base
   post '/tickets/:id/checkin' do
     ticket = EventTicket[params[:id]]
     halt 404 if ticket.nil?
+    require 'pry'; binding.pry
     halt 500 unless ticket.included_sessions.include? params[:session_id]
     EventCheckin.create( :ticket_id => ticket.id, :event_id => ticket.event.id, :session_id => params[:session_id], :customer_id => params[:customer_id])
     status 204
