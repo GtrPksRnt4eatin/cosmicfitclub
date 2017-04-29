@@ -33,3 +33,13 @@
 #tickets tr {
 	cursor: pointer;
 }
+
+.checkedin {
+	color: rgba(0,255,0,1);
+	cursor: pointer;
+}
+
+.checkedout:hover {
+	cursor: pointer;
+	background-color: rgba(255,255,255,0.1);
+}

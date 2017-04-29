@@ -37,11 +37,14 @@ html
         .subtitle
           | { session.description }
 
+        .subtitle
+          | Headcount: { session | headcount }
+
         table#tickets
-          tr rv-each-tic='data.list' rv-show='tic | has_session session' rv-on-click='ctrl.check_in'
+          tr rv-each-tic='data.list' rv-show='tic | has_session session' 
             td
               | { tic.customer.name }
             td
               | { tic.customer.email }
-            td
+            td.checkin rv-class='tic | checked_in_class session' rv-on-click='ctrl.check_in'
               | { tic | checked_in session }

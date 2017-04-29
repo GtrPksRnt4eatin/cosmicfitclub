@@ -110,6 +110,8 @@ class EventRoutes < Sinatra::Base
 
   get '/' do
     data = Event.order(:starttime).all.map do |c|
+      next if c.starttime.nil?
+      next if c.starttime < Time.now
       { :id => c.id, 
         :name => c.name, 
         :description => c.description, 
@@ -118,7 +120,7 @@ class EventRoutes < Sinatra::Base
         :sessions => c.sessions,
         :prices => c.prices
       }
-    end
+    end.compact!
     JSON.generate data
   end
 
@@ -190,9 +192,15 @@ class EventRoutes < Sinatra::Base
   post '/tickets/:id/checkin' do
     ticket = EventTicket[params[:id]]
     halt 404 if ticket.nil?
-    require 'pry'; binding.pry
-    halt 500 unless ticket.included_sessions.include? params[:session_id]
-    EventCheckin.create( :ticket_id => ticket.id, :event_id => ticket.event.id, :session_id => params[:session_id], :customer_id => params[:customer_id])
+    halt 500 unless ticket.included_sessions.include? params[:session_id].to_i
+    EventCheckin.create( :ticket_id => ticket.id, :event_id => ticket.event.id, :session_id => params[:session_id], :customer_id => params[:customer_id], :timestamp => DateTime.now )
+    status 204
+  end
+
+  post '/tickets/:tic_id/checkout' do
+    checkin = EventCheckin[params[:id]]
+    halt 404 if checkin.nil?
+    checkin.destroy
     status 204
   end
 

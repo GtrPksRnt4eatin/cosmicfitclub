@@ -85,7 +85,8 @@ function val_or_null(obj) {
 
 function obj_to_formdata(obj) {
   var form_data = new FormData();
-  for ( var key in obj ) { form_data.append(key, obj[key]); }
+  for ( var key in obj ) { 
+    form_data.append(key, obj[key]); }
   return form_data;
 }  
   
