@@ -189,6 +189,39 @@ class EventRoutes < Sinatra::Base
     Event[params[:id]].tickets.to_json
   end
 
+  get '/:id/accounting' do
+    tickets = JSON.parse Event[params[:id]].tickets.to_json
+    tickets.map! do |tic|
+      tic['charge'] = Stripe::Charge.retrieve(tic['stripe_payment_id'])
+      tic['balance_transaction'] = Stripe::BalanceTransaction.retrieve( tic['charge']['balance_transaction'] )
+      tic['charge']['refunds']['data'].map! do |refund|
+        refund['balance_transaction'] = Stripe::BalanceTransaction.retrieve( refund['balance_transaction'] )
+      end
+      tic
+    end
+    JSON.pretty_generate tickets
+  end
+
+  get '/:id/total' do
+    balance = 0
+    tickets = Event[params[:id]].tickets
+    tickets.each do |tic|
+      charge =  Stripe::Charge.retrieve(tic.stripe_payment_id)
+      transaction = Stripe::BalanceTransaction.retrieve charge.balance_transaction
+      balance = balance + transaction.net
+      puts " + #{transaction.net}"
+      puts " = #{balance}"
+
+      charge.refunds.data.each do |refund|
+        transaction = Stripe::BalanceTransaction.retrieve refund.balance_transaction
+        balance = balance + transaction.net
+        puts " + #{transaction.net}"
+        puts " = #{balance}"
+      end
+    end
+    ""
+  end
+
   post '/tickets/:id/checkin' do
     ticket = EventTicket[params[:id]]
     halt 404 if ticket.nil?
