@@ -35,10 +35,6 @@ class Event < Sequel::Model
     super.sort
   end
 
-  def attending?(customer) 
-    
-  end
-
 end
 
 class EventSession < Sequel::Model
@@ -71,8 +67,11 @@ end
 
 class EventTicket < Sequel::Model
 
+  plugin :json_serializer
+
   many_to_one :event
   many_to_one :customer
+  one_to_many :checkins, :class => :EventCheckin, :key => :ticket_id
 
   def generate_code
     rand(36**8).to_s(36)
@@ -90,12 +89,29 @@ class EventTicket < Sequel::Model
     Mail.event_purchase(customer.email, model)
   end
 
+  def to_json(args)
+    super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] } } )
+  end
+
+end
+
+class EventCheckin < Sequel::Model
+  
+  plugin :json_serializer
+
+  many_to_one :event
+  many_to_one :customer
+  many_to_one :session, :class => :EventSession
+  many_to_one :ticket, :class => :EventTicket
+
 end
 
 class EventRoutes < Sinatra::Base
 
   get '/' do
     data = Event.order(:starttime).all.map do |c|
+      next if c.starttime.nil?
+      next if c.starttime < Time.now
       { :id => c.id, 
         :name => c.name, 
         :description => c.description, 
@@ -104,7 +120,7 @@ class EventRoutes < Sinatra::Base
         :sessions => c.sessions,
         :prices => c.prices
       }
-    end
+    end.compact!
     JSON.generate data
   end
 
@@ -167,6 +183,58 @@ class EventRoutes < Sinatra::Base
     halt 404 if Event[params[:id]].nil?
     Event[params[:id]].destroy
     status 200
-  end 
+  end
+
+  get '/:id/attendance' do
+    Event[params[:id]].tickets.to_json
+  end
+
+  get '/:id/accounting' do
+    tickets = JSON.parse Event[params[:id]].tickets.to_json
+    tickets.map! do |tic|
+      tic['charge'] = Stripe::Charge.retrieve(tic['stripe_payment_id'])
+      tic['balance_transaction'] = Stripe::BalanceTransaction.retrieve( tic['charge']['balance_transaction'] )
+      tic['charge']['refunds']['data'].map! do |refund|
+        refund['balance_transaction'] = Stripe::BalanceTransaction.retrieve( refund['balance_transaction'] )
+      end
+      tic
+    end
+    JSON.pretty_generate tickets
+  end
+
+  get '/:id/total' do
+    balance = 0
+    tickets = Event[params[:id]].tickets
+    tickets.each do |tic|
+      charge =  Stripe::Charge.retrieve(tic.stripe_payment_id)
+      transaction = Stripe::BalanceTransaction.retrieve charge.balance_transaction
+      balance = balance + transaction.net
+      puts " + #{transaction.net}"
+      puts " = #{balance}"
+
+      charge.refunds.data.each do |refund|
+        transaction = Stripe::BalanceTransaction.retrieve refund.balance_transaction
+        balance = balance + transaction.net
+        puts " + #{transaction.net}"
+        puts " = #{balance}"
+      end
+    end
+    ""
+  end
+
+  post '/tickets/:id/checkin' do
+    ticket = EventTicket[params[:id]]
+    halt 404 if ticket.nil?
+    halt 500 unless ticket.included_sessions.include? params[:session_id].to_i
+    EventCheckin.create( :ticket_id => ticket.id, :event_id => ticket.event.id, :session_id => params[:session_id], :customer_id => params[:customer_id], :timestamp => DateTime.now )
+    status 204
+  end
+
+  post '/tickets/:tic_id/checkout' do
+    checkin = EventCheckin[params[:id]]
+    halt 404 if checkin.nil?
+    checkin.destroy
+    status 204
+  end
 
 end

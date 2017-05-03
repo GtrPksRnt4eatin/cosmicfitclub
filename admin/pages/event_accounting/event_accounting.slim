@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    javascript:
+      data = {};
+      data['event'] = #{{ Event[params[:id]].to_json( :include => [ :tickets ] ) }};
+      data['list']  = [];
+
+    == css [ 'fonts', 'site', 'header', 'edit_page', '/admin/event_accounting' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'moment', '/admin/event_accounting' ]
+
+  body
+    #stars
+
+    #content
+
+      .tile
+
+        .title
+          | { data.event.name }

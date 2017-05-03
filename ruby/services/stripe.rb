@@ -92,10 +92,24 @@ module StripeMethods
     charge = Stripe::Charge.create(
       :amount      => amount,
       :currency    => 'usd',
-      :source        => token,
+      :source        => token.id,
       :description => description, 
       :metadata    => metadata  
     )
+  end
+
+  def StripeMethods::find_customer_by_card(token)
+    tok = Stripe::Token.retrieve(token['id'])
+    ( p "Couldn't find token"; return nil ) if tok.nil?
+    Customer.all.each do |custy|
+      next if custy.stripe_id.nil?
+      stripe_custy = Stripe::Customer.retrieve(custy.stripe_id)
+      next if stripe_custy.nil?
+      stripe_custy.sources.each do |source|
+        return stripe_custy.id if source.fingerprint == tok.card.fingerprint
+      end
+    end
+    return nil
   end
 
   def StripeMethods::get_customer(customer_id)

@@ -1,58 +1,10 @@
-#content {
-  text-align: center;
-  font-size: 18pt;
-}
-
-.tile { 
-  display: inline-block;
-  padding: 1em;
-}
 
 .tuplet {
   margin: .5em 0;
 }
 
-label {
-  text-align: right;
-  margin-right: 2em;
-  display: inline-block;
-  width: 6em;
-  vertical-align: middle;
-}
-
-textarea {
-  vertical-align: middle;
-  font-size: 18pt;
-  width: 40em;
-  box-shadow: 0 0 .1em white;
-  padding: .5em;
-}
-
-textarea {
-  background: transparent;
-  border: none;
-  color: rgba(255,255,255,0.8);
-}
-
-textarea.edit {
-  background: white;
-  color: black;
-}
-
 textarea#details {
   height: 12em;
-}
-
-.imgbox {
-  width: 40em;
-  max-height: 20em;
-  vertical-align: middle;
-  position: relative;
-  display: inline-block;
-  box-shadow: 0 0 .1em white;
-  cursor: pointer;
-  margin-right: 0;
-  text-align: center;
 }
 
 .imgbox img {
@@ -90,80 +42,13 @@ textarea#details {
   position: relative;
 }
 
-.add {
-  cursor: pointer;
-  font-size: 1em;
-  background: green;
-  width: 1.5em; height: 1.5em;
-  background-size: contain;
-  border-radius: 1em;
-  box-shadow: 0 0 0.1em white;
-  transition: all .2s ease-in-out;
-  position: relative;
-  display: inline-block;
-}
-
-.add .plus {
-  font-size: 1.5em;
-  display: inline-block;
-  position: absolute;
-  top: 0; bottom: 0;
-  left: 0; right: 0;
-  margin: auto;
-}
-
-.delete {
-  cursor: pointer;
-  font-size: 1em;
-  background-image: url('/closecircle.png');
-  width: 1.5em; height: 1.5em;
-  background-size: contain;
-  border-radius: 1em;
-  box-shadow: 0 0 0.1em white;
-  transition: all .2s ease-in-out;
-  display: inline-block;
-}
-
-div.edit {
-  cursor: pointer;
-  font-size: 1em;
-  background-image: url('/edit.svg');
-  width: 1.5em; height: 1.5em;
-  transition: all .2s ease-in-out;
-  background-size: contain;
-  display: inline-block;
-  margin: 0 .3em;
-}
-
-.delete:hover,
-.add:hover,
-div.edit:hover {
-  transform: scale(1.1);
-}
-
 .delete:active {
   box-shadow: none;
-}
-
-table {
-  width: 100%;
-  table-layout: fixed;
-}
-
-th, td {
-  padding: .5em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 th:last-child,
 td:last-child {
   text-align: center;
-}
-
-tr {
-  background: rgba(255,255,255,0.1);
 }
 
 th:nth-child(1),
@@ -177,15 +62,7 @@ th:nth-child(5){
   width: 8%;
 }
 
-#submit {
-  margin: .25em;
-  padding: .25em 1em;
-  color: rgba(255,255,255,0.8);
-  font-size: 2em;
-  background: transparent;
-  box-shadow: 0 0 .1em white;
-  cursor: pointer;
-}
+
 
 #nopic:before {
   content: 'Add A Picture';
@@ -195,64 +72,15 @@ th:nth-child(5){
 
 
 @media(max-width: 800px) {
-  
-  textarea {
-    width: 100%;
-    font-size: .8em;
-  }
 
-  #content {
-    width: 100%;
-    position: relative;
-    box-sizing: border-box;
-    padding: .5em;
-  }
-
-  label {
-    margin: 0;
-    display: block;
-    width: auto;
-    text-align: center;
-  }
-
-  .tile {
-    margin: 0;
-    box-sizing: border-box;
-    padding: .5em;
-  }
-
-  .tile,
   .sessions,
-  .prices,
-  .imgbox {
+  .prices {
     width: 100%;
   }
-
-  .imgbox img {
-    max-width: 100%;
-    max-height: 10em; 
-  } 
 
   .sessions, .prices {
     padding: 0;
     min-height: 5em;
-  }
-
-  table {
-    table-layout: fixed;
-    font-size: .4em;
-  }
-
-  td {
-    max-width: 15%;
-  }
-
-  th:last-child {
-    width: 4em;
-  }
-
-  #submit {
-    font-size: .8em;
   }
 
 }

@@ -13,28 +13,27 @@ ctrl = {
     request.send(data);
   },
 
-  add_session(e,m) { sessionform.show_new(); cancelEvent(e); },
-  add_price(e,m)   { priceform.show_new();   cancelEvent(e); },
-
-  edit_session(e,m) { sessionform.show_edit(m.sess); cancelEvent(e); },
-  edit_price(e,m)   { priceform.show_edit(m.price);  cancelEvent(e); },
-
-  del_session(e,m) {
-    if(!confirm('really delete this session?')) return;
-    $.del(`/models/events/sessions/${m.sess.id}`)
-      .done( function() { data['event']['sessions'].splice(m.index,1); } );
-  },
-
-  del_price(e,m) {
+  
+  add_price(e,m)  { priceform.show_new();          cancelEvent(e); },
+  edit_price(e,m) { priceform.show_edit(m.price);  cancelEvent(e); },
+  del_price(e,m)  {
     if(!confirm('really delete this price?')) return;
     $.del(`/models/events/prices/${m.price.id}`)
-      .done( function() { data['event']['prices'].splice(m.index,1); } ); 
+     .done( function() { data['event']['prices'].splice(m.index,1); } ); 
+  },
+
+  add_session(e,m)  { sessionform.show_new();        cancelEvent(e); },
+  edit_session(e,m) { sessionform.show_edit(m.sess); cancelEvent(e); },
+  del_session(e,m)  {
+    if(!confirm('really delete this session?')) return;
+    $.del(`/models/events/sessions/${m.sess.id}`)
+     .done( function() { data['event']['sessions'].splice(m.index,1); } );
   },
 
   choose_img(e,m) {
     if(e.target.value) { m.event.image_url = e.target.value; }
   }
-	
+  
 }
 
 $(document).ready(function() { 
@@ -80,28 +79,24 @@ $(document).ready(function() {
 
   rivets.bind($('#content'), { event: data['event'], ctrl: ctrl } );
 
-  $('textarea').on('focus', function(e) { $(e.target).addClass('edit'); } );
-  $('textarea').on('blur',  function(e) { $(e.target).removeClass('edit'); } );
-
   popupmenu   = new PopupMenu(id('popupmenu_container'));
+
   sessionform = new SessionForm();
-  priceform   = new PriceForm();
-
   sessionform.ev_sub('show', popupmenu.show );
-  priceform.ev_sub('show',   popupmenu.show );
-
-  priceform.ev_sub('after_post', function(price) {
-    var i = data['event']['prices'].findIndex( function(obj) { return obj['id'] == price['id']; });
-    if(i != -1) { data['event']['prices'][i] = price;  }
-    else        { data['event']['prices'].push(price); }
-    popupmenu.hide();
-  });
-
   sessionform.ev_sub('after_post', function(sess) {
     var i = data['event']['sessions'].findIndex( function(obj) { return obj['id'] == sess['id']; });
     if(i != -1) { data['event']['sessions'][i] = sess;  }
     else        { data['event']['sessions'].push(sess); }
     sortSessions();
+    popupmenu.hide();
+  });
+
+  priceform   = new PriceForm();
+  priceform.ev_sub('show',   popupmenu.show );
+  priceform.ev_sub('after_post', function(price) {
+    var i = data['event']['prices'].findIndex( function(obj) { return obj['id'] == price['id']; });
+    if(i != -1) { data['event']['prices'][i] = price;  }
+    else        { data['event']['prices'].push(price); }
     popupmenu.hide();
   });
 

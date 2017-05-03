@@ -1,0 +1,217 @@
+#content {
+  text-align: center;
+  font-size: 18pt;
+}
+
+.tile { 
+  display: inline-block;
+  padding: 1em;
+}
+
+.tuplet {
+  margin: .5em 0;
+}
+
+.tuplet label {
+  text-align: right;
+  margin-right: 2em;
+  display: inline-block;
+  width: 6em;
+  vertical-align: middle;
+}
+
+.tuplet .control {
+  width: 40em;
+  box-shadow: 0 0 .1em white;
+  display: inline-block;
+  padding: .5em;
+  box-sizing: border-box;
+}
+
+.tuplet textarea {
+  vertical-align: middle;
+  font-size: 18pt;
+  width: 40em;
+  box-shadow: 0 0 .1em white;
+  padding: .5em;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  box-sizing: border-box;
+}
+
+.tuplet textarea:focus {
+  background: white;
+  color: black;
+}
+
+.tuplet .imgbox {
+  width: 40em;
+  max-height: 20em;
+  vertical-align: middle;
+  position: relative;
+  display: inline-block;
+  box-shadow: 0 0 .1em white;
+  cursor: pointer;
+  margin-right: 0;
+  text-align: center;
+}
+
+.tuplet .imgbox img {
+  max-width: 100%;
+  max-height: 20em;
+}
+
+.tuplet #pic {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.tuplet #nopic:before {
+  content: 'Add A Picture';
+  display: inline-block;
+  padding: .5em;
+}
+
+#submit {
+  margin: .25em;
+  padding: .25em 1em;
+  color: rgba(255,255,255,0.8);
+  font-size: 2em;
+  background: transparent;
+  box-shadow: 0 0 .1em white;
+  cursor: pointer;
+}
+
+
+/* REFLECTIONS TABLE */
+
+table.reflections {
+  width: 100%;
+  font-size: .6em;
+  table-layout: fixed;
+}
+
+table.reflections tr {
+  background: rgba(255,255,255,0.1);
+}
+
+table.reflections th, 
+table.reflections td {
+  padding: .5em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+table.reflections .add {
+  background: green;
+  border-radius: 1em;
+  box-shadow: 0 0 0.1em white;
+  position: relative;
+}
+
+table.reflections .edit {
+  background-image: url('/edit.svg');
+  margin: 0 .3em;
+}
+
+table.reflections .delete {
+  background-image: url('/closecircle.png');
+  border-radius: 1em;
+  box-shadow: 0 0 0.1em white;
+}
+
+table.reflections .add,
+table.reflections .edit,
+table.reflections .delete {
+  width: 1.5em; height: 1.5em;
+  background-size: contain;
+}
+
+@media(max-width: 800px) {
+
+  table.reflections               { font-size: .4em; }
+  table.reflections td            { max-width: 15%;  }
+  table.reflections th:last-child { width: 4em; }
+
+}
+
+/* REFLECTIONS TABLE */
+
+
+/* CRUD BUTTONS */
+
+.add,
+.edit,
+.delete {
+  cursor: pointer;
+  font-size: 1em;
+  transition: all .2s ease-in-out;
+  display: inline-block;
+}
+
+.add .plus {
+  font-size: 1.5em;
+  display: inline-block;
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  margin: auto;
+}
+
+.add:hover,
+.edit:hover,
+.delete:hover {
+  transform: scale(1.1);
+}
+
+/* CRUD BUTTONS */
+
+@media(max-width: 800px) {
+
+  #content {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    padding: .5em;
+  }
+
+  .tile {
+    margin: 0;
+    box-sizing: border-box;
+    padding: .5em;
+    width: 100%;
+  }
+
+  .tuplet textarea {
+    width: 100%;
+    font-size: .8em;
+  }
+
+  .tuplet label {
+    margin: 0;
+    display: block;
+    width: auto;
+    text-align: center;
+  }
+
+  .tuplet .imgbox,
+  .tuplet .control {
+    width: 100%;
+  }
+
+  .tuplet .imgbox img {
+    max-width: 100%;
+    max-height: 10em; 
+  } 
+
+  #submit {
+    font-size: .8em;
+  }
+
+}

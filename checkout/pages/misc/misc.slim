@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+html
+
+  head
+    == no_scaling
+    
+    == css [ 'fonts', 'site', 'menu_colors', 'misc' ]
+    == js  [ 'https://checkout.stripe.com/checkout' ]
+    == js  [ 'jquery', 'lib', 'misc' ]
+
+    javascript:
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+
+          h1 Miscellaneous Charge
+
+          table
+            tr
+              th Reason
+              td 
+                textarea#reason
+            tr
+              th Amount
+              td 
+                input#amount
+
+          div
+            button#checkout Checkout
+
+    == analytics

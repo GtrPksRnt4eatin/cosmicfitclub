@@ -13,11 +13,11 @@ html
       data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
       data['event']['image_data'] = JSON.parse(data['event']['image_data']);
 
-    == css [ 'fonts', 'site', 'flatpickr',  'header', '/admin/event_edit' ]
+    == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', '/admin/event_edit' ]
     == js  [ 'jquery', 'rivets', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel']
     == js  [ 'elements/session_form', 'elements/price_form', 'elements/popup_menu', '/admin/event_edit' ]
 
-  html
+  body
     #stars
 
     #content
@@ -39,7 +39,7 @@ html
         div.tuplet
           label Sessions:
           .sessions
-            table
+            table.reflections
               tr
                 th Start
                 th End
@@ -64,7 +64,7 @@ html
         div.tuplet
           label Prices:
           .prices
-            table
+            table.reflections
               tr
                 th Title
                 th Sessions

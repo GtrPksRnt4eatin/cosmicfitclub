@@ -1,5 +1,7 @@
 class Staff < Sequel::Model(:staff)
 
+  plugin :json_serializer
+
   include ImageUploader[:image]
 
   def after_save

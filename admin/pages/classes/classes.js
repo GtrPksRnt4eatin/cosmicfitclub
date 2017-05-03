@@ -11,6 +11,10 @@ var ctrl = {
     });
   },
 
+  edit: function(e,m) {
+    location.href = `classes/${m.class.id}`;
+  },
+
   moveup: function(e,m) {
     $.post(`/models/classdefs/${m.class.id}/moveup`, function() { get_saved_classes(); });
   },
@@ -31,18 +35,12 @@ $(document).ready(function() {
 
   get_saved_classes();
 
-  id("newpic").onchange = function () {
-    var reader = new FileReader();
-    reader.onload = function (e) { id("newpreview").src = e.target.result; };
-    reader.readAsDataURL(this.files[0]);
+  id('new2').onclick = function(e) {
+    $.post('/models/classdefs', JSON.stringify( { id: 0 } ) )
+      .done( function(resp) { 
+        window.location = `classes/${JSON.parse(resp).id}` 
+      }) 
   };
-
-  //id('upload').addEventListener( 'click', function() { id('newclass').submit(); });
-  id('newclass').onsubmit = function(e) { 
-    cancelEvent(e); 
-    return false; 
-  };
-  id('upload').onclick  = post_new_class;
   
 });
 

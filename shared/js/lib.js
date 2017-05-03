@@ -1,3 +1,42 @@
+function updateModel(model, data, nested_arr){
+    if(model==null) { return data;  }
+    if(data==null)  { return model; }
+    if(typeof data == 'number' || typeof data == 'string' || typeof data == 'boolean')
+        { model = data; }
+    for(var prop in model) {
+        if(data.hasOwnProperty(prop)) {
+            if(data[prop]==null) { continue; }
+            if( typeof model[prop]=='object')
+            {   if ( Object.prototype.toString.call( model[prop] ) == '[object Array]' )
+                {   if(nested_arr) {
+                        if( nested_arr[prop] ) { fill_array( model[prop], data[prop], nested_arr[prop], nested_arr ); }
+                        else                   { fill_array( model[prop], data[prop], null, nested_arr ); }           
+                    }   else                   { fill_array( model[prop], data[prop]); }
+                }         
+                else 
+                {   updateModel(model[prop], data[prop], nested_arr); }
+            }
+            else { model[prop] = data[prop]; }
+        }
+    }
+    model.update && model.update();
+    return model;
+}
+
+function fill_array(array, data, cls, nested_arr) {
+    try {
+        while(array.length>data.length) 
+        {   remove_ref(array,array[array.length-1]); }
+        for(var i=0; i<array.length; i++)
+        {   array[i] = updateModel(array[i],data[i], nested_arr); }
+        for(var i=array.length; i<data.length; i++)
+        {   if(cls)   {   array.push(updateModel(new cls(), data[i], nested_arr)); }
+            else      {   array.splice(array.length,0,data[i]); }
+        }
+        if(typeof array[0]=='number') { array.push(array.pop()); }
+    }   catch(e) { console.log('error while filling array: ' + e.message + e.stack + array + data + cls + nested_arr ); }
+}
+
 function make(tag, cls, parent) {
   var element = document.createElement(tag);
   element.className = cls;
@@ -21,7 +60,6 @@ function render(html) {
   throw `Error Rendering HTML: ${html}`;
 }
 
-
 function load_css(id,css) {
   var elem = document.createElement('style');
   elem.id = id;
@@ -44,10 +82,24 @@ function val_or_default(obj,def) {
 function val_or_null(obj) {
   return val_or_default(obj,null);
 }
+
+function obj_to_formdata(obj) {
+  var form_data = new FormData();
+  for ( var key in obj ) { 
+    form_data.append(key, obj[key]); }
+  return form_data;
+}  
   
 Array.prototype.for_each = function foreach(arr, func) {
   for(var i=0; i<arr.length; i++) { func(arr[i]); }
 }
+
+Array.prototype.replace_or_add_by_id = function replace_or_add_by_id(item) {
+  var i = this.findIndex( function(obj) { return obj['id'] == item['id']; });
+  if(i != -1) { this[i] = item;  }
+  else        { this.push(item); }
+}
+
 
 String.prototype.untab = function(spacing) {
   var lines = this.split("\n");
