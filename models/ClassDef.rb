@@ -37,7 +37,7 @@ class ClassdefSchedule < Sequel::Model
   
   plugin :json_serializer
 
-  many_to_one :classdef, :key => :classdef_id
+  many_to_one :classdef, :key => :classdef_id, :class => ClassDef
 
   def get_occurences(from,to) 
     IceCube::Schedule.new(start_time) do |sched|
@@ -113,6 +113,13 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   get '/schedule/:start/:end' do
+    items = []
+    ClassdefSchedule.all.each do |sched|
+      sched.get_occurences(params[:start], params[:end]).each do |starttime|
+        items << { :classdef => sched.classdef, :sched => sched, :starttime => starttime, :instructors => sched.instructors }
+      end
+    end
+    JSON.generate items.sort_by { |x| x[:starttime] }
   end
 
 end

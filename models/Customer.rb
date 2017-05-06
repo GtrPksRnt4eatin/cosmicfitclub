@@ -99,3 +99,32 @@ class Customer < Sequel::Model
   end
 
 end
+
+################################################################ ROUTES ###########################################################################
+
+class CustomerRoutes < Sinatra::Base
+
+  get '/' do
+    Customer.all.to_json
+  end
+
+  get '/:id/payment_sources' do
+    custy = Customer[params[:id]]
+    halt 404 if custy.nil?
+    JSON.generate custy.payment_sources
+  end
+
+  get '/:id/class_passes' do
+    custy = Customer[params[:id]]
+    halt 404 if custy.nil?
+    custy.passes.to_json
+  end
+
+  get '/:id/status' do
+    custy = Customer[params[:id]]
+    halt 404 if custy.nil?
+    return '{ "plan": { "name": "None" }}' if custy.subscription.nil? 
+    custy.subscription.to_json(:include => [ :plan ] )
+  end
+
+end

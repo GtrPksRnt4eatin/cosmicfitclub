@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+html
+  head
+    == no_scaling
+    title Cosmic Fit Club
+    
+    ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'schedule']
+    
+    ==js  ['jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', 'moment', '/auth/elements/userview', '/elements/cfcschedule', 'menu', 'schedule']
+
+  body.p3
+
+    #stars
+
+    == include_slim('slim/partials/header')
+      
+    .content
+      .tile 
+        #schedule_container
+            
+    == include_slim('slim/partials/footer')
+
+    == analytics

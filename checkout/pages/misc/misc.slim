@@ -3,14 +3,20 @@
 html
 
   head
+
     == no_scaling
     
-    == css [ 'fonts', 'site', 'menu_colors', 'misc' ]
-    == js  [ 'https://checkout.stripe.com/checkout' ]
-    == js  [ 'jquery', 'lib', 'misc' ]
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen', 'misc' ]
+
+    script src='https://js.stripe.com/v3/'
+
+    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
+    == js  [ 'rivets', 'rv_money' ]
+    == js  [ 'lib', 'misc' ]
 
     javascript:
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
 
   body
 
@@ -22,17 +28,50 @@ html
 
           h1 Miscellaneous Charge
 
-          table
-            tr
-              th Reason
-              td 
-                textarea#reason
-            tr
-              th Amount
-              td 
-                input#amount
+          form action='/element_charge' method='post' id='payment-form'
 
-          div
-            button#checkout Checkout
+            table
+              tr
+                th Customer
+                td
+                  select#customers
+                    option value='0'
+                      | No Customer
+                    - Customer.all.each do |cust|
+                      option value="#{cust.id}"
+                        | #{ cust.name } ( #{ cust.email } )
+
+              tr
+                th Reason
+                td 
+                  textarea#reason
+              tr
+                th Amount
+                td 
+                  input#amount rv-moneyfield='data.amount'
+
+              tr
+                th Card
+                td 
+                  .saved_card rv-each-card='data.payment_sources'
+                    span 
+                      input type='radio'
+                    span 
+                      | {card.brand}
+                    span 
+                      | **** **** **** {card.last4}
+                    span 
+                      | {card.exp_month}/{card.exp_year}
+              tr
+                th New Card
+                td: #card-element
+              tr
+                th
+                td colspan='2'
+                  #card-errors
+              tr
+                th
+                td
+                  button#checkout Submit Payment
 
     == analytics

@@ -1,7 +1,11 @@
 data = {
   customers: [],
-  amount: 0,
-  payment_sources: []
+  customer: {
+    payment_sources: [],
+    class_passes: [],
+    membership_status: null
+  },
+  amount: 0
 }
 
 $(document).ready( function() {
@@ -13,13 +17,26 @@ $(document).ready( function() {
 
   include_rivets_money();
 
+  rivets.formatters.count = function(val) { return val.length; }
+
   rivets.bind( $('body'), { data: data } );
 
   $.get('/models/customers', on_custylist, 'json');
 
   $('#customers').chosen();
+  $('#classes').chosen();
 
   $('#customers').on('change', on_customer_selected );
+
+  $('ul.tabs li').click(function(){
+    var tab_id = $(this).attr('data-tab');
+
+    $('ul.tabs li').removeClass('current');
+    $('.tab-content').removeClass('current');
+
+    $(this).addClass('current');
+    $("#"+tab_id).addClass('current');
+  });
 
 });
 
@@ -92,9 +109,24 @@ function on_custylist(list) {
 }
 
 function on_customer_selected(e) {
-  console.log(parseInt(e.target.value));
+  resetCustomer();
   $.get(`/models/customers/${parseInt(e.target.value)}/payment_sources`,function(resp) {
-    console.log(resp);
-    data.payment_sources = resp;
+    data.customer.payment_sources = resp;
   }, 'json');
+
+  $.get(`/models/customers/${parseInt(e.target.value)}/class_passes`, function(resp) {
+    data.customer.class_passes = resp;
+  }, 'json');
+
+  $.get(`/models/customers/${parseInt(e.target.value)}/status`, function(resp) {
+    console.log(resp);
+    data.customer.membership_status = resp;
+    console.log(data.customer.membership_status);
+  }, 'json');
+}
+
+function resetCustomer() {
+  data.customer.payment_sources = [];
+  data.customer.class_passes = [];
+  data.customer.membership_status = null;
 }

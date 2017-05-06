@@ -51,7 +51,36 @@ function initialize_rivets() {
   rivets.formatters.date       = function(val) { return moment(val).format('MMM Do') };
   rivets.formatters.time       = function(val) { return moment(val).format('h:mm a') };
   rivets.formatters.fulldate   = function(val) { return moment(val).format('ddd MMM Do hh:mm a') };
-  rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
+  rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') };
+  rivets.formatters.onlytime   = function(val) { return moment(val, ['H:m:s', 'h:m a', 'H:m'] ).format('h:mm a')};
+
+  rivets.formatters.rrule = function(val) {
+    switch(val) {
+      case 'FREQ=WEEKLY;BYDAY=MO;INTERVAL=1': 
+        return "Mondays";
+      case 'FREQ=WEEKLY;BYDAY=TU;INTERVAL=1':
+        return "Tuesdays";
+      case 'FREQ=WEEKLY;BYDAY=WE;INTERVAL=1':
+        return "Wednesdays";
+      case 'FREQ=WEEKLY;BYDAY=TH;INTERVAL=1':
+        return "Thursdays";
+      case 'FREQ=WEEKLY;BYDAY=FR;INTERVAL=1':
+        return "Fridays";
+      case 'FREQ=WEEKLY;BYDAY=SA;INTERVAL=1':
+        return "Saturdays";
+      case 'FREQ=WEEKLY;BYDAY=SU;INTERVAL=1':
+        return "Sundays";
+      default:
+        return val;
+    }
+  }
+
+  rivets.formatters.instructors = function(val) {
+    return val.map( function(o) { 
+      obj = data['instructors'].find( function(val) { return val.id == o; })
+      return obj.name;
+    })
+  }
 
   rivets.binders['datefield'] = {
     bind: function(el) {
@@ -120,7 +149,7 @@ function initialize_rivets() {
     },
     routine: function(el,value) {
       $(el).val(value);
-      $(this.chosen_instance).trigger("chosen:updated");
+      //$(this.chosen_instance).trigger("chosen:updated");
     },
     getValue: function(el) {
       return $(this.chosen_instance).val();

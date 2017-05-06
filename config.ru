@@ -51,6 +51,6 @@ map "/models/staff" do
   run StaffRoutes
 end
 
-map "/autoforme" do
-  run Autoforme
+map "/models/customers" do
+  run CustomerRoutes
 end

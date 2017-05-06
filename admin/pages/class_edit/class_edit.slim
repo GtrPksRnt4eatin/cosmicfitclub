@@ -41,17 +41,11 @@ html
           textarea#details rv-value='class.description'
 
         .tuplet
-          label Instructors:
-          .control
-            select.chosen multiple='multiple' rv-multiselect='class.instructors'
-              option rv-each-inst='data.instructors' rv-value='inst.id'
-                | { inst.name }
-
-        .tuplet
           label Schedules:
           .control
             table.reflections
               tr
+                th instructors
                 th rrule
                 th start_time
                 th end_time
@@ -60,11 +54,13 @@ html
                     .plus +
               tr rv-each-sched='class.schedules'
                 td
-                  | { sched.rrule }
+                  | { sched.instructors | instructors }
                 td
-                  | { sched.start_time }
+                  | { sched.rrule | rrule }
+                td
+                  | { sched.start_time | onlytime }
                 td 
-                  | { sched.end_time } 
+                  | { sched.end_time | onlytime } 
                 td
                   .edit   rv-on-click='ctrl.edit_schedule'
                   .delete rv-on-click='ctrl.del_schedule'
