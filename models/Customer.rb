@@ -82,6 +82,21 @@ class Customer < Sequel::Model
     Mail.package(email, model) if login.activated?
   end
 
+  def buy_pack_card(pack_id, token)
+    pack = Package[pack_id]
+    StripeMethods::charge_card( stripe_id, token, pack.price, pack.name )
+    pack.num_passes.times { self.add_pass( Pass.create() ) }
+
+    model = {
+      :name => name,
+      :pack_name => pack.name,
+      :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
+    }
+
+    Mail.package_welcome(email, model) unless login.activated?
+    Mail.package(email, model) if login.activated?
+  end
+
   def buy_training(quantity, pack_id, trainer)
     pack = TrainingPackage[pack_id]
     StripeMethods::buy_training( quantity, pack.stripe_id, stripe_id )
