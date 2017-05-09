@@ -131,7 +131,7 @@ class ClassDefRoutes < Sinatra::Base
     end
     items = items.group_by { |x| x[:day] }
     arr = []
-    items.each { |k,v| arr << { :day => k, :occurrences_between => v.sort_by { |x| x[:starttime] } } }
+    items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
     JSON.generate arr.sort_by { |x| x[:day] }
   end
 
