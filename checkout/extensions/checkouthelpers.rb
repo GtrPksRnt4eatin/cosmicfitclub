@@ -15,7 +15,7 @@ module Sinatra
         customer.buy_pack_card( data['pack_id'], data['token'] )
       else
         custy = Customer.get_from_token( data['token'] )
-        custy.buy_pack( data['pack_id'], data['token'] )
+        custy.buy_pack( data['pack_id'] )
         status 204
       end
     end
