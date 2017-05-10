@@ -92,10 +92,9 @@ module StripeMethods
     charge = Stripe::Charge.create(
       :amount      => amount,
       :currency    => 'usd',
-      :source        => token.id,
+      :source        => token['id'],
       :description => description, 
-      :metadata    => metadata,
-      :customer    => customer_id 
+      :metadata    => metadata
     )
   end
 

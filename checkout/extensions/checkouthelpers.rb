@@ -11,11 +11,12 @@ module Sinatra
 
     def buy_pack
       data = JSON.parse request.body.read
+      require 'pry'; binding.pry
       if logged_in? then
         customer.buy_pack_card( data['pack_id'], data['token'] )
       else
         custy = Customer.get_from_token( data['token'] )
-        custy.buy_pack( data['pack_id'], data['token'] )
+        custy.buy_pack_card( data['pack_id'], data['token'] )
         status 204
       end
     end
