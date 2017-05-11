@@ -27,8 +27,20 @@
   background-size: contain;
 }
 
+.list {
+  cursor: pointer;
+  font-size: 2em;
+  position: absolute;
+  top: -.75em; left: 4em;
+  width: 1.5em; height: 1.5em;
+  transition: all .2s ease-in-out;
+  background-size: contain;
+  background-image: url('/list.svg');
+}
+
 .delete:hover,
-.edit:hover {
+.edit:hover,
+.list:hover {
   transform: scale(1.1);
 }
 

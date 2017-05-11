@@ -49,6 +49,10 @@ var ctrl = {
     location.href = `events/${m.event.id}`;
   },
 
+  list: function(e,m) {
+    location.href = `events/${m.event.id}/checkin`;
+  },
+
   add_session: function(e,m) {
     data['newevent']['sessions'].push( data['newsession'] );
     data['newsession'] = {};
