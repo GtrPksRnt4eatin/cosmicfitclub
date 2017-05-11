@@ -5,8 +5,8 @@ ctrl = {
     fd.append('id', m.event.id);
     fd.append('name', m.event.name);
     fd.append('description', m.event.description);
-    if( !empty(m.event.sessions[0])   ) { fd.set('starttime', m.event.sessions[0].start_time); }
-    if( !empty($('#pic')[0].files[0]) ) { fd.set('image', $('#pic')[0].files[0] ); }
+    if( !empty(m.event.sessions[0])   ) { fd.append('starttime', m.event.sessions[0].start_time); }
+    if( !empty($('#pic')[0].files[0]) ) { fd.append('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/events';  }
     request.open("POST", "/models/events");
