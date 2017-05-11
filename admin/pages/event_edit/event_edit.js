@@ -2,9 +2,9 @@ ctrl = {
 
   save_changes(e,m) {
     var fd = new FormData();
-    fd.set('id', m.event.id);
-    fd.set('name', m.event.name);
-    fd.set('description', m.event.description);
+    fd.append('id', m.event.id);
+    fd.append('name', m.event.name);
+    fd.append('description', m.event.description);
     if( !empty(m.event.sessions[0])   ) { fd.set('starttime', m.event.sessions[0].start_time); }
     if( !empty($('#pic')[0].files[0]) ) { fd.set('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();
