@@ -1,16 +1,16 @@
 ctrl = {
 
   save_changes(e,m) {
-    var data = new FormData();
-    data.set('id', m.event.id);
-    data.set('name', m.event.name);
-    data.set('description', m.event.description);
-    if( !empty(m.event.sessions[0])   ) { data.set('starttime', m.event.sessions[0].start_time); }
-    if( !empty($('#pic')[0].files[0]) ) { data.set('image', $('#pic')[0].files[0] ); }
+    var fd = new FormData();
+    fd.set('id', m.event.id);
+    fd.set('name', m.event.name);
+    fd.set('description', m.event.description);
+    if( !empty(m.event.sessions[0])   ) { fd.set('starttime', m.event.sessions[0].start_time); }
+    if( !empty($('#pic')[0].files[0]) ) { fd.set('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/events';  }
     request.open("POST", "/models/events");
-    request.send(data);
+    request.send(fd);
   },
 
   
