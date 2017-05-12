@@ -26,6 +26,7 @@ $(document).ready(function() {
   rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
 
   rivets.formatters.has_session = function(val,session) {
+    if(empty(val)) { return false; }
   	return val.included_sessions.includes(session.id);
   }
 
@@ -38,7 +39,6 @@ $(document).ready(function() {
   }
 
   rivets.formatters.headcount = function(val) {
-    
     var x = 5;
   }
 
