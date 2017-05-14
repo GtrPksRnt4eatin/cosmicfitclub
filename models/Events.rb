@@ -111,7 +111,7 @@ class EventRoutes < Sinatra::Base
   get '/' do
     data = Event.order(:starttime).all.map do |c|
       next if c.starttime.nil?
-      next if c.starttime < Time.now
+      next if c.starttime < Date.today.to_time
       { :id => c.id, 
         :name => c.name, 
         :description => c.description, 

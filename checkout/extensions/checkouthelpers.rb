@@ -29,7 +29,7 @@ module Sinatra
       custy = Customer.get_from_token( data['token'] )
       custy.send_new_account_email if new_custy
       eventname = Event[data['metadata']['event_id']].name
-      charge = StripeMethods::charge_customer(custy.stripe_id, data['total_price'], eventname, data['metadata']);
+      charge = StripeMethods::charge_card(data['token']['id'], data['total_price'], eventname, data['metadata']);
       EventTicket.create( 
         :customer => custy, 
         :event_id => data['event_id'], 

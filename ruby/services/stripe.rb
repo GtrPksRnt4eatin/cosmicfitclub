@@ -88,11 +88,11 @@ module StripeMethods
     )
   end
 
-  def StripeMethods::charge_card(customer_id, token, amount, description, metadata)
+  def StripeMethods::charge_card(token_id, amount, description, metadata)
     charge = Stripe::Charge.create(
       :amount      => amount,
       :currency    => 'usd',
-      :source        => token['id'],
+      :source        => token_id,
       :description => description, 
       :metadata    => metadata
     )

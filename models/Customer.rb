@@ -84,7 +84,7 @@ class Customer < Sequel::Model
 
   def buy_pack_card(pack_id, token)
     pack = Package[pack_id]
-    StripeMethods::charge_card( stripe_id, token, pack.price, pack.name, { :pack_id => pack_id } )
+    StripeMethods::charge_card( token['id'], pack.price, pack.name, { :pack_id => pack_id } )
     pack.num_passes.times { self.add_pass( Pass.create() ) }
 
     model = {
