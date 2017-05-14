@@ -5,6 +5,14 @@
 html
 
   head
+    
+    == fb_type  'website'
+    == fb_title 'Cosmic Fit Club'
+    == fb_url   "http://cosmicfitclub.com/checkout/events/#{event.id}"
+    == fb_image "#{ event.image.nil? ? '' : ( event.image.is_a?(ImageUploader::UploadedFile) ? event.image_url : event.image[:small].url )}"
+
+    meta name="description" content="#{event.name} @ Cosmic Fit Club" 
+
     == no_scaling
     
     == css [ 'fonts', 'site', 'menu_colors', 'event' ]

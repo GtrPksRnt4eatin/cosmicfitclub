@@ -221,7 +221,7 @@ class EventRoutes < Sinatra::Base
     end
     ""
   end
-
+  
   post '/tickets/:id/checkin' do
     ticket = EventTicket[params[:id]]
     halt 404 if ticket.nil?
