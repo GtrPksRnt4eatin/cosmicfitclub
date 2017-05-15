@@ -1,11 +1,3 @@
-data = {
-  id: 1,
-  trainer: 'Phil',
-  num_hours: 1,
-  hour_price: 6000,
-  total: 6000
-}
-
 $(document).ready( function() {
 
   rivets.formatters.currency = function(val) { return `$ ${(val/100).toFixed(2)}`; }

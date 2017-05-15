@@ -10,8 +10,15 @@ html
     == js  [ 'jquery', 'lib', 'rivets', 'training' ]
 
     javascript:
-
+      data = {
+        id: 1,
+        trainer: 'Phil Schiefer',
+        num_hours: 1,
+        hour_price: 8000,
+        total: 8000
+      }
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      data['instructors'] = #{{ Staff.all.to_json() }};
 
   body
 
@@ -28,8 +35,8 @@ html
               th Select Trainer
               td
                 select rv-value='data.trainer'
-                  option value='Phil' Phil
-                  option value='Joy' Joy
+                  option rv-each-inst='data.instructors' rv-value='inst.name'
+                    | { inst.name }
             tr
               th Number of Hours
               td
