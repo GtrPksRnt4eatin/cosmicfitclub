@@ -202,6 +202,12 @@ class EventRoutes < Sinatra::Base
     JSON.pretty_generate tickets
   end
 
+  get '/:id/thumbnail' do
+    event = Event[params[:id]]
+    content_type event.image[:small].mime_type
+    send_file event.image[:small].download.path
+  end
+
   get '/:id/total' do
     balance = 0
     tickets = Event[params[:id]].tickets

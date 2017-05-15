@@ -9,7 +9,7 @@ html
     == fb_type  'website'
     == fb_title 'Cosmic Fit Club'
     == fb_url   "http://cosmicfitclub.com/checkout/events/#{event.id}"
-    == fb_image "#{ event.image.nil? ? '' : ( event.image.is_a?(ImageUploader::UploadedFile) ? event.image_url : event.image[:small].url )}"
+    == fb_image "/models/events/#{event.id}/thumbnail"
 
     meta name="description" content="#{event.name} @ Cosmic Fit Club" 
 
@@ -51,6 +51,9 @@ html
 
         #sessions rv-if='event.sessions | multiple' rv-data-selectable='event.prices | multiple'
           h4 Sessions
+          .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
+              .fine 
+                | ( Build your own ticket by clicking on individual sessions or choose a package deal from below )
           table#sessions_list
             tr rv-each-sess='event.sessions' rv-data-selected='sess.selected' rv-on-click='ctrl.tog_session'
               td 
@@ -95,7 +98,7 @@ html
             h4 Choose a Ticket Option
             .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
               .fine 
-                | ( or build your own by clicking on the sessions above )
+                | ( Choose a package deal or build your own by clicking on the sessions shown above )
             table
               tr.price rv-each-price='event.prices' rv-on-click='ctrl.choose_price' rv-data-selected='price.selected'
                 td

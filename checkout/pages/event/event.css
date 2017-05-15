@@ -159,10 +159,12 @@ h4 {
   cursor: pointer;
 }
 
-#prices h4 {
+#prices h4,
+#sessions h4 {
   margin-bottom: 0;
 }
 
-#prices table {
+#prices table,
+#sessions table {
   margin-top: 1em;
 }

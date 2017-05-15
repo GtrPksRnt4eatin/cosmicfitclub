@@ -11,12 +11,14 @@ html
     script src='https://js.stripe.com/v3/'
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
-    == js  [ 'rivets', 'rv_money' ]
+    == js  [ 'rivets', 'rv_dates', 'rv_money' ]
     == js  [ 'lib', 'class_checkin' ]
 
     javascript:
+      data = {}
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
-      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      data['classes'] = #{{ ClassDef.all.to_json }}
+      data['staff']   = #{{ Staff.all.to_json }}
 
   body
 
@@ -28,94 +30,22 @@ html
 
         h1 Class Checkin
 
-        form action='/element_charge' method='post' id='payment-form'
+        .headerval
+          label for='classname' Class
+          select#classname rv-value='data.classdef_id'
+            option rv-each-cls='data.classes' rv-value='cls.id'
+              | { cls.name }
 
-          table
-            tr
-              th Customer
-              td
-                select#customers
-                  option value='0'
-                    | No Customer
-                  - Customer.all.each do |cust|
-                    option value="#{cust.id}"
-                      | #{ cust.name } ( #{ cust.email } )
-            tr
-              th Saved Cards
-              td 
-                .saved_card rv-each-card='data.customer.payment_sources'
-                  span 
-                    input type='radio'
-                  span 
-                    | {card.brand}
-                  span 
-                    | **** **** **** {card.last4}
-                  span 
-                    | {card.exp_month}/{card.exp_year}
-            tr
-              th New Card
-              td: #card-element
+        .headerval
+          label for='instructor' Instructor
+          select#instructor rv-value='data.instructor_id'
+            option rv-each-staff='data.staff' rv-value='staff.id'
+              | { staff.name }
 
-            tr
-              th
-              td colspan='2'
-                #card-errors
-            tr
-              th
-              td
-                button#checkout Submit Payment
-     
-        .tabs_container
+        .headerval
+          label for='classtime' Time
+          input rv-timefield='data.starttime'
 
-          ul.tabs
-            li.current data-tab='status' Status
-            li data-tab='page_one'   Buy Class Passes
-            li data-tab='class_checkin'   Check In For Class
-            li data-tab='page_three' Miscelaneous Charge
-
-          #status.tab-content.current  
-            table
-              tr
-                th Membership:
-                td
-                  | { data.customer.membership_status.plan.name }
-              tr 
-                th Class Passes:
-                td
-                  | { data.customer.class_passes | count }
-                td
-                  button +1
-                  button +5
-                  button +10
-
-          #page_one.tab-content
-
-          #class_checkin.tab-content
-
-            table
-              tr
-                th Class:
-                td
-                  select#classes
-                    - ClassDef.all.each do |classdef|
-                      option value="#{classdef.id}"
-                        | #{ classdef.name }
-              tr
-                th Timeslot:
-                td
-                  
-
-
-          #page_three.tab-content
-            table
-              tr
-                th Reason
-                td 
-                  textarea#reason
-              tr
-                th Amount
-                td 
-                  input#amount rv-moneyfield='data.amount'
 
 
     == analytics
