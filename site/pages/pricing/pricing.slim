@@ -17,49 +17,27 @@ html
       
     .content
       .tile
-        p
-          | We are now open for business! <br>
-          | We are still offering tier two promotional pricing for a limited time, but it will not last long <br>
-          | Thanks for your early support on this exciting new venture!
-        
-        hr width="60%"
-        .heading Annual Plans
+        .heading Membership Plans
         table
-          - for plan in Plan.where(:term_months => 12, :hidden => false).order(:month_price).all
+          - for plan in Plan.where(:hidden => false).order(:month_price).all
             tr
               th #{ plan[:name] }
               td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
               td
-                - if plan[:presale]
-                  a href="https://cosmicfitclub.com/checkout/plan/#{plan[:id]}"
-                    button Buy Now
-
-        hr width="60%"
-        .heading Monthly Plans
-        table
-          - for plan in Plan.where(:term_months => 1, :hidden => false).order(:month_price).all
-            tr
-              th #{ plan[:name] }
-              td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
-              td
-                - if plan[:presale]
-                  a href="https://cosmicfitclub.com/checkout/plan/#{plan[:id]}"
-                    button Buy Now
-        
-        hr width="60%"
-        .heading Class Packages
+                a href="https://cosmicfitclub.com/checkout/plan/#{plan[:id]}"
+                  button Buy Now
+      .tile
+        .heading Class Packages       
         table
           - for pack in Package.where(:available=>true).reverse_order(:num_passes).order_append(:presale).all
             tr
               th #{ pack[:name] }
               td $ #{ pack[:pass_price].to_i / 100 }.00 Per Class
               td
-                - if pack[:presale]
-                  a href="https://cosmicfitclub.com/checkout/pack/#{pack[:id]}"
-                    button Buy Now
-        
-        hr width="60%"
-        .heading Personal Training Sessions
+                a href="https://cosmicfitclub.com/checkout/pack/#{pack[:id]}"
+                  button Buy Now
+      .tile
+        .heading Personal Training Sessions 
         table
           tr
             th Training Session
