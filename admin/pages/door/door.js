@@ -1,17 +1,21 @@
 $(document).ready(function() {
-  $('#up').on('mousedown touchdown', function(e) {
+  $('#up').on('mousedown touchstart', function(e) {
+  	cancelEvent(e);
     $.post('/door/up');
   });
 
-  $('#down').on('mousedown touchdown', function(e) {
+  $('#down').on('mousedown touchstart', function(e) {
+  	cancelEvent(e);
     $.post('/door/down', 'val=1' );
   });
 
-  $('#down').on('mouseup touchup mouseout', function(e) {
+  $('#down').on('mouseup touchend mouseout', function(e) {
+  	cancelEvent(e);
   	$.post('/door/down', 'val=0' );
   });
 
-  $('#stop').on('mousedown touchdown', function(e) {
+  $('#stop').on('mousedown touchend', function(e) {
+  	cancelEvent(e);
     $.post('/door/stop');
   });
 
