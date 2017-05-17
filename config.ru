@@ -54,3 +54,8 @@ end
 map "/models/customers" do
   run CustomerRoutes
 end
+
+map "/door" do
+  run Door
+end
+
