@@ -11,7 +11,7 @@ module Sinatra
 
     def buy_pack
       data = JSON.parse request.body.read
-      custy = logged_in? ? customer : Customer.get_from_token( data['token'] )
+      custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
       custy.buy_pack_card( data['pack_id'], data['token'] )
       status 204
     end

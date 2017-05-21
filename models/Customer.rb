@@ -23,13 +23,19 @@ class Customer < Sequel::Model
     return customer
   end
 
+  def Customer.get_from_email(email, name)
+    customer = find_or_create( :email => email ) { |cust| cust.name = name }
+    customer.create_login if customer.login.nil? 
+    return customer
+  end
+
   def payment_sources
     return [] if stripe_id.nil?
     StripeMethods.get_customer(stripe_id)['sources']['data']
   end
 
   def upcoming_events
-    tickets.select { |tic| tic.event.starttime > Time.now }
+    tickets.select { |tic| tic.event.nil? ? false : tic.event.starttime > Time.now }
   end
 
   def num_passes;    passes.count          end
@@ -84,7 +90,7 @@ class Customer < Sequel::Model
 
   def buy_pack_card(pack_id, token)
     pack = Package[pack_id]
-    StripeMethods::charge_card( token['id'], pack.price, pack.name, { :pack_id => pack_id } )
+    p StripeMethods::charge_card( token['id'], pack.price, pack.name, { :pack_id => pack_id } )
     pack.num_passes.times { self.add_pass( Pass.create() ) }
 
     model = {

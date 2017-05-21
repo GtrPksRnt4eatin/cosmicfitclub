@@ -24,5 +24,15 @@ button:active {
 }
 
 #doorcam {
+  width: 30em;
+}
+
+
+
+@media(max-width: 800px) {
+
+  #doorcam {
 	width: 10em;
+  }
+
 }
