@@ -6,11 +6,11 @@ html
 
     == no_scaling
     
-    == css [ 'fonts', 'site', 'menu_colors', 'chosen', 'class_checkin' ]
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen', 'flatpickr', 'class_checkin' ]
 
     script src='https://js.stripe.com/v3/'
 
-    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
+    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr' ]
     == js  [ 'rivets', 'rv_dates', 'rv_money' ]
     == js  [ 'lib', 'class_checkin' ]
 
@@ -30,21 +30,39 @@ html
 
         h1 Class Checkin
 
-        .headerval
-          label for='classname' Class
-          select#classname rv-value='data.classdef_id'
-            option rv-each-cls='data.classes' rv-value='cls.id'
-              | { cls.name }
+        table
+          tr
+            td
+              label for='classname' Class
+              select#classname rv-value='data.classdef_id'
+                option rv-each-cls='data.classes' rv-value='cls.id'
+                  | { cls.name }
+            td
+              label for='instructor' Instructor
+              select#instructor rv-value='data.instructor_id'
+                option rv-each-staff='data.staff' rv-value='staff.id'
+                  | { staff.name }
+            td
+              label for='classtime' Time
+              input rv-datefield='data.starttime'
 
-        .headerval
-          label for='instructor' Instructor
-          select#instructor rv-value='data.instructor_id'
-            option rv-each-staff='data.staff' rv-value='staff.id'
-              | { staff.name }
-
-        .headerval
-          label for='classtime' Time
-          input rv-timefield='data.starttime'
+          tr
+            td colspan='3'
+              select#customers
+                option value='0'
+                  | No Customer
+                - Customer.all.each do |cust|
+                  option value="#{cust.id}"
+                    | #{ cust.name } ( #{ cust.email } )
+          tr
+            td
+              label 
+                | Membership:
+              | { data.customer.membership_status.plan.name }
+            td
+              label
+                | Class Passes:
+              | { data.customer.class_passes | count }
 
 
 

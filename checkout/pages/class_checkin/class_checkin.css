@@ -1,0 +1,23 @@
+.tile {
+	text-align: center;
+	padding-bottom: 2em;
+}
+
+table {
+	display: inline-block;
+}
+
+label {
+	margin-right: 1em;
+}
+
+td {
+	padding: 1em;
+	box-shadow: 0 0 .5em rgba(255,255,255,0.8);
+}
+
+select,
+input {
+	font-size: 1em;
+	padding: .1em;
+}
