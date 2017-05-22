@@ -66,7 +66,3 @@ def import_passes
   end
 
 end
-
-require 'pry'
-binding.pry
-
