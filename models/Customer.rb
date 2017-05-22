@@ -10,6 +10,7 @@ class Customer < Sequel::Model
   one_to_many :training_passes
   one_to_one :waiver
   one_to_many :nfc_tags
+  many_to_one :wallet
 
   def Customer.is_new? (email)
     customer = Customer[ :email => email ]
@@ -38,7 +39,7 @@ class Customer < Sequel::Model
     tickets.select { |tic| tic.event.nil? ? false : tic.event.starttime > Time.now }
   end
 
-  def num_passes;    passes.count          end
+  def num_passes;    wallet.pass_balance   end
   def num_trainings; training_passes.count end
 
   def trainings_by_instructor
@@ -92,6 +93,7 @@ class Customer < Sequel::Model
     pack = Package[pack_id]
     p StripeMethods::charge_card( token['id'], pack.price, pack.name, { :pack_id => pack_id } )
     pack.num_passes.times { self.add_pass( Pass.create() ) }
+    self.add_passes( pack.num_passes, "Bought #{pack.name}", "" )
 
     model = {
       :name => name,
@@ -101,6 +103,7 @@ class Customer < Sequel::Model
 
     Mail.package_welcome(email, model) unless login.activated?
     Mail.package(email, model) if login.activated?
+
   end
 
   def buy_training(quantity, pack_id, trainer)
@@ -117,6 +120,18 @@ class Customer < Sequel::Model
 
     Mail.training_welcome(email, model) unless login.activated?
     Mail.training(email, model) if login.activated?
+  end
+
+  def add_passes( number, reason, notes )
+    ( self.wallet = Wallet.create; self.save ) if self.wallet.nil?
+    self.wallet.add_passes( number, reason, notes )
+
+  end
+
+  def rem_passes( number, reason, notes )
+    return false if self.wallet.nil?
+    self.wallet.rem_passes( number, reason, notes )
+    return true
   end
 
 end

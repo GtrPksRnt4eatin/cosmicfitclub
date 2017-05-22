@@ -59,3 +59,14 @@ map "/door" do
   run Door
 end
 
+def import_passes
+  
+  Pass.list_all.each do |k,v|
+    Customer[k].add_passes( v[:count], "Imported From Old System", "" ) 
+  end
+
+end
+
+require 'pry'
+binding.pry
+

@@ -21,7 +21,8 @@ class CFCAdmin < Sinatra::Base
   get( '/events/:id/checkin' )          { render_page :event_checkin    }
   get( '/events/:id/accounting')        { render_page :event_accounting }
   get( '/classes/:id')                  { render_page :class_edit       }
-  get( '/door',       :auth=> 'door' )  { render_page :door             }
+  get( '/door',       :auth=> 'door'  ) { render_page :door             }
+  get( '/balance',                    ) { render_page :balance_sheet    }
 
 end
 
