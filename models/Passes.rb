@@ -3,11 +3,8 @@ class Pass < Sequel::Model
   many_to_one :customer
 
   def Pass.list_all
-
-  	h = {} 
-    passes = Pass.all.map { |p| { :id => p.id, :customer_id => p.customer_id, :customer_name => p.customer.name } }.group_by { |p| p[:customer_id] }
-    passes.each { |k,v| passes[k] = { :customer_name => v[0][:customer_name], :count => v.count } }
-
+    list = Wallet.all.map { |w| { :id => w.id, :customer_id => w.customers[0].id, :customer_name => w.customers[0].name, :customer_email => w.customers[0].email, :pass_balance => w[:pass_balance] } }
+    list.sort { |a,b| a[:customer_name] <=> b[:customer_name] }.to_json
   end
 
 end
@@ -38,6 +35,14 @@ class PassTransaction < Sequel::Model
   def before_create
     self.timestamp = Time.now
     super
+  end
+
+end
+
+class PassRoutes < Sinatra::Base
+
+  get '/all' do
+    Pass.list_all
   end
 
 end
