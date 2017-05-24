@@ -49,6 +49,26 @@ class ClassdefSchedule < Sequel::Model
 
 end
 
+class ClassOccurrence < Sequel::Model
+
+  many_to_one :definition, :class => :ClassDef 
+  many_to_one :teacher, :class => :Staff
+  one_to_many :reservations, :class => :ClassReservation
+
+  def ClassOccurrence.get( class_id, staff_id, starttime ) 
+    find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
+  end
+
+end
+
+class ClassReservation < Sequel::Model
+
+  many_to_one :occurrence, :class => :ClassOccurrence
+  one_to_one :transaction, :class => :PassTransaction
+  many_to_one :customer
+
+end
+
 class ClassDefRoutes < Sinatra::Base
 
   get '/' do
@@ -133,6 +153,24 @@ class ClassDefRoutes < Sinatra::Base
     arr = []
     items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
     JSON.generate arr.sort_by { |x| x[:day] }
+  end
+
+  get '/occurrences' do
+    
+  end
+
+  post '/occurrences' do 
+    data = JSON.parse request.body.read
+    occurrence = ClassOccurrence.get(data['class_id'], data['staff_id'], data['starttime'])
+    occurrence.to_json( :include => :reservations )
+  end
+
+  get '/occurrence/:id/reservations' do
+    
+  end
+
+  post '/reservations/' do
+    
   end
 
 end
