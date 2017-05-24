@@ -39,7 +39,7 @@ class Customer < Sequel::Model
     tickets.select { |tic| tic.event.nil? ? false : tic.event.starttime > Time.now }
   end
 
-  def num_passes;    wallet.pass_balance   end
+  def num_passes;    wallet.nil? ? 0 : wallet.pass_balance end
   def num_trainings; training_passes.count end
 
   def trainings_by_instructor
