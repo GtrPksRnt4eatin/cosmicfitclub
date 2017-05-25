@@ -46,7 +46,12 @@ LoginForm.prototype = {
   },
 
   reset() {
-    $.post('reset', JSON.stringify(this.state));
+    $.post('reset', JSON.stringify(this.state))
+      .fail( function(req,msg,status) {
+        $(this.dom).shake();
+        this.state.errors=["Account Not Found!"]
+      }.bind(this) )
+      .success( this.email_mode );
   },
 
   login_mode()    { this.state.mode = "login";    },
@@ -137,6 +142,10 @@ LoginForm.prototype.HTML = `
       <hr>
       <div class='section'>
         <div class='submit' rv-on-click='this.reset'>Reset</div>
+      </div>
+      <div rv-unless='this.state.errors | empty'>
+        <hr>
+        <div class='error' rv-each-err='this.state.errors'> {err} </div>
       </div>
     </div>
 

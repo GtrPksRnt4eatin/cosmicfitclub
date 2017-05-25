@@ -55,8 +55,12 @@ class CFCAuth < Sinatra::Base
 
   post '/reset' do
     data = JSON.parse request.body.read
-    customer = Customer.find( :email => data['email'] )
-    customer.login.reset_password
+    p data['email']
+    customer = Customer.find_by_email(data['email'])
+    p customer
+    halt 404 if customer.nil?
+    customer.reset_password
+    status 204
   end
 
   get '/current_user' do
