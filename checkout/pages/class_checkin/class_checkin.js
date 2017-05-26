@@ -8,6 +8,9 @@ $(document).ready( function() {
   $('#customers').chosen();
 
   $('#customers').on('change', on_customer_selected );
+
+  $('#create_sheet').on('click', on_create_sheet );
+  
 });
 
 function on_customer_selected(e) {
