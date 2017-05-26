@@ -69,6 +69,12 @@ class ClassReservation < Sequel::Model
 
 end
 
+class ClassException < Sequel::Model
+  
+  
+
+end
+
 class ClassDefRoutes < Sinatra::Base
 
   get '/' do

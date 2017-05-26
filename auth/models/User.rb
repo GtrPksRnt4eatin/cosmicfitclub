@@ -55,7 +55,7 @@ class User < Sequel::Model
     end
 
     def self.authenticate(email="", login_password="")
-      customer = Customer[:email => email]
+      customer = Customer.find_by_email(email)
       return false if customer.nil?
       user = customer.login
       return ( user && user.match_password(login_password) ) ? user : false 

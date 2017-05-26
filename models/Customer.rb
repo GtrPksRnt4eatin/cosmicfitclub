@@ -13,7 +13,7 @@ class Customer < Sequel::Model
   many_to_one :wallet
 
   def Customer.is_new? (email)
-    customer = Customer[ :email => email ]
+    customer = Customer[ :email => email.downcase ]
     customer.nil?
   end
 
@@ -25,9 +25,22 @@ class Customer < Sequel::Model
   end
 
   def Customer.get_from_email(email, name)
-    customer = find_or_create( :email => email ) { |cust| cust.name = name }
+    customer = find_or_create( :email => email.downcase ) { |cust| cust.name = name }
     customer.create_login if customer.login.nil? 
     return customer
+  end
+
+  def Customer.find_by_email(email)
+    Customer[ :email => email.downcase ]
+  end
+
+  def email
+    super.downcase
+  end
+
+  def before_save
+    self.email = self.email.downcase
+    super
   end
 
   def payment_sources
@@ -49,6 +62,11 @@ class Customer < Sequel::Model
   def create_login
     return unless login.nil?
     User.create( :customer => self )
+  end
+
+  def reset_password
+    create_login
+    login.reset_password
   end
 
   def send_new_account_email

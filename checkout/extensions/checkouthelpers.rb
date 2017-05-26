@@ -25,9 +25,8 @@ module Sinatra
 
     def buy_event
       data = JSON.parse request.body.read
-      new_custy = Customer.is_new? data['token']['email']
-      custy = Customer.get_from_token( data['token'] )
-      custy.send_new_account_email if new_custy
+      custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
+      custy.send_new_account_email if custy.login.nil?
       eventname = Event[data['metadata']['event_id']].name
       charge = StripeMethods::charge_card(data['token']['id'], data['total_price'], eventname, data['metadata']);
       EventTicket.create( 
