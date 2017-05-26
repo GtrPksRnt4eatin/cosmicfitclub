@@ -10,7 +10,7 @@ $(document).ready( function() {
   $('#customers').on('change', on_customer_selected );
 
   $('#create_sheet').on('click', on_create_sheet );
-  
+
 });
 
 function on_customer_selected(e) {
@@ -23,4 +23,8 @@ function on_customer_selected(e) {
     data.customer.membership_status = resp;
     console.log(data.customer.membership_status);
   }, 'json');
+}
+
+function on_create_sheet(e) {
+  $.post(``)
 }
