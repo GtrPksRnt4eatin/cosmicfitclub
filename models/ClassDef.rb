@@ -2,8 +2,6 @@ require 'ice_cube'
 
 class ClassDef < Sequel::Model
 
-  plugin :json_serializer
-
   one_to_many :schedules, :class => :ClassdefSchedule, :key => :classdef_id
 
   include ImageUploader[:image]
@@ -35,7 +33,6 @@ end
 
 class ClassdefSchedule < Sequel::Model
   
-  plugin :json_serializer
   plugin :pg_array_associations
   pg_array_to_many :teachers, :key => :instructors, :class => :Staff
 
@@ -51,8 +48,8 @@ end
 
 class ClassOccurrence < Sequel::Model
 
-  many_to_one :definition, :class => :ClassDef 
-  many_to_one :teacher, :class => :Staff
+  many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
+  many_to_one :teacher, :key => :staff_id, :class => :Staff
   one_to_many :reservations, :class => :ClassReservation
 
   def ClassOccurrence.get( class_id, staff_id, starttime ) 
@@ -162,13 +159,12 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   get '/occurrences' do
-    
+    ClassOccurrence.all.to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end
 
   post '/occurrences' do 
-    data = JSON.parse request.body.read
-    occurrence = ClassOccurrence.get(data['class_id'], data['staff_id'], data['starttime'])
-    occurrence.to_json( :include => :reservations )
+    occurrence = ClassOccurrence.get(params['classdef_id'], params['staff_id'], params['starttime'])
+    occurrence.to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end
 
   get '/occurrence/:id/reservations' do

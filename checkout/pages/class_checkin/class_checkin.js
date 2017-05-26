@@ -1,3 +1,10 @@
+data['newsheet'] = {
+  classdef_id: 0,
+  staff_id: 0,
+  starttime: null
+}
+
+
 $(document).ready( function() {
 
   include_rivets_dates();
@@ -11,6 +18,7 @@ $(document).ready( function() {
 
   $('#create_sheet').on('click', on_create_sheet );
 
+  $.get('/models/classdefs/occurrences', on_occurrences);
 });
 
 function on_customer_selected(e) {
@@ -26,5 +34,13 @@ function on_customer_selected(e) {
 }
 
 function on_create_sheet(e) {
-  $.post(``)
+  $.post(`/models/classdefs/occurrences`, data.newsheet,
+
+  function(data) {
+    console.log(data);
+  }, 'json');
+}
+
+function on_occurrences(resp) {
+  data['occurrences'] = JSON.parse(resp);
 }
