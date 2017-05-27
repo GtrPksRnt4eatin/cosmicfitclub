@@ -1,3 +1,10 @@
+data['newsheet'] = {
+  classdef_id: 0,
+  staff_id: 0,
+  starttime: null
+}
+
+
 $(document).ready( function() {
 
   include_rivets_dates();
@@ -8,6 +15,10 @@ $(document).ready( function() {
   $('#customers').chosen();
 
   $('#customers').on('change', on_customer_selected );
+
+  $('#create_sheet').on('click', on_create_sheet );
+
+  $.get('/models/classdefs/occurrences', on_occurrences);
 });
 
 function on_customer_selected(e) {
@@ -20,4 +31,16 @@ function on_customer_selected(e) {
     data.customer.membership_status = resp;
     console.log(data.customer.membership_status);
   }, 'json');
+}
+
+function on_create_sheet(e) {
+  $.post(`/models/classdefs/occurrences`, data.newsheet,
+
+  function(data) {
+    console.log(data);
+  }, 'json');
+}
+
+function on_occurrences(resp) {
+  data['occurrences'] = JSON.parse(resp);
 }

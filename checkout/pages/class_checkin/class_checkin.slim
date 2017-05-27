@@ -10,15 +10,15 @@ html
 
     script src='https://js.stripe.com/v3/'
 
-    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr' ]
-    == js  [ 'rivets', 'rv_dates', 'rv_money' ]
-    == js  [ 'lib', 'class_checkin' ]
-
     javascript:
       data = {}
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
       data['classes'] = #{{ ClassDef.all.to_json }}
       data['staff']   = #{{ Staff.all.to_json }}
+
+    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr' ]
+    == js  [ 'rivets', 'rv_dates', 'rv_money' ]
+    == js  [ 'lib', 'class_checkin' ]
 
   body
 
@@ -34,18 +34,21 @@ html
           tr
             td
               label for='classname' Class
-              select#classname rv-value='data.classdef_id'
+              select#classname rv-value='data.newsheet.classdef_id'
                 option rv-each-cls='data.classes' rv-value='cls.id'
                   | { cls.name }
             td
               label for='instructor' Instructor
-              select#instructor rv-value='data.instructor_id'
+              select#instructor rv-value='data.newsheet.staff_id'
                 option rv-each-staff='data.staff' rv-value='staff.id'
                   | { staff.name }
             td
               label for='classtime' Time
-              input rv-datefield='data.starttime'
-
+              input rv-datefield='data.newsheet.starttime'
+            td
+              button#create_sheet Create Sheet
+        
+        table
           tr
             td colspan='3'
               select#customers
@@ -63,6 +66,16 @@ html
               label
                 | Class Passes:
               | { data.customer.class_passes | count }
+      
+      .tile rv-each-sheet='data.occurrences'
+        table
+          tr
+            td
+              | { sheet.classdef.name }
+            td
+              | { sheet.teacher.name }
+            td
+              | { sheet.starttime }
 
 
 
