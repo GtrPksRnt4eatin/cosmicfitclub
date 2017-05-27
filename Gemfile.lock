@@ -14,6 +14,7 @@ GEM
     aws-sdk-resources (2.5.7)
       aws-sdk-core (= 2.5.7)
     bcrypt (3.1.11)
+    builder (3.2.2)
     daemons (1.2.4)
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
@@ -122,6 +123,10 @@ GEM
       eventmachine (~> 1.0, >= 1.0.4)
       rack (>= 1, < 3)
     tilt (2.0.5)
+    twilio-ruby (4.13.0)
+      builder (>= 2.1.2)
+      jwt (~> 1.0)
+      multi_json (>= 1.3.0)
     uber (0.0.15)
     unf (0.1.4)
       unf_ext
@@ -151,6 +156,7 @@ DEPENDENCIES
   slim
   stripe
   thin
+  twilio-ruby
 
 BUNDLED WITH
    1.12.4
