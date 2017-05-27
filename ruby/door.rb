@@ -1,5 +1,7 @@
 require 'rest-client'
 
+require_relative '../auth/auth.rb'
+
 class Door < Sinatra::Base
 
   register Sinatra::Auth
