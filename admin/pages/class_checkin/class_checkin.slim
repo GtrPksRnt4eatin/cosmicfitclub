@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    javascript:
+      data = {};
+      data['classes'] = #{{ ClassDef.all.to_json }}
+
+    == css [ 'fonts', 'site', 'header', 'edit_page', '/admin/class_checkin' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'moment', '/admin/class_checkin' ]
+
+  body
+    #stars
+
+    #content
+
+      .tile
+
+        table
+          tr
+            th Class
+            th Instructor
+            th Time 
+            th &nbsp;
+          tr
+            td 
+            td
+            td
+            td
+              button Create
+
+        

@@ -6,6 +6,7 @@ class Door < Sinatra::Base
     RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/14', '{ "value": 0 }', :content_type => 'application/json' )
     sleep(0.5)
     RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/14',  '{ "value": 1 }', :content_type => 'application/json' )
+    send_sms "#{Time.now.strftime("%m/%d/%Y %I:%M:%S %p")} Door Opened By #{customer.nil? ? "Unknown" : customer.name}"
   end
 
   post '/down' do

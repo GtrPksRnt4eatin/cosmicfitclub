@@ -23,6 +23,7 @@ class CFCAdmin < Sinatra::Base
   get( '/classes/:id')                  { render_page :class_edit       }
   get( '/door',       :auth=> 'door'  ) { render_page :door             }
   get( '/balance',                    ) { render_page :balance_sheet    }
+  get( '/class_checkin'               ) { render_page :class_checkin    }
 
 end
 

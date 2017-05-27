@@ -110,6 +110,7 @@ function on_custylist(list) {
 
 function on_customer_selected(e) {
   resetCustomer();
+  data.customer.id = parseInt(e.target.value);
   $.get(`/models/customers/${parseInt(e.target.value)}/payment_sources`,function(resp) {
     data.customer.payment_sources = resp;
   }, 'json');
