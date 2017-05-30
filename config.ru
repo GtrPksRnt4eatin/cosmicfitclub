@@ -58,6 +58,10 @@ end
 map "/models/passes" do
   run PassRoutes
 end
+
+map "/models/settings" do
+  run SettingRoutes
+end
  
 map "/door" do
   run Door

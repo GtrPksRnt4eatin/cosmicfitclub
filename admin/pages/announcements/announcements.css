@@ -1,0 +1,16 @@
+td {
+	padding:1em;
+	background: rgba(255,255,255,0.2);
+}
+
+input,
+textarea {
+	font-size: 1em;
+	padding:.25em;
+	width: 20em;
+}
+
+input[type='checkbox'] {
+	cursor: pointer;
+	transform: scale(2.5);
+}
