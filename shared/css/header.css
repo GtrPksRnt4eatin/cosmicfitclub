@@ -81,6 +81,7 @@ header {
   header {
     padding: 2vw 0 0 0 !important;
     text-align: center;
+    margin-bottom: 1em;
   }
 
   #logo { 

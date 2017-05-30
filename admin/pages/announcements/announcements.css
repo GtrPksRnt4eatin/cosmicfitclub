@@ -14,3 +14,19 @@ input[type='checkbox'] {
 	cursor: pointer;
 	transform: scale(2.5);
 }
+
+@media(max-width: 800px) {
+  #banner {
+  	margin-top: -1em;
+  }
+  
+  input,
+  textarea {
+  	width: 100%;
+  }
+
+  textarea {
+  	height: 10em;
+  }
+
+}
