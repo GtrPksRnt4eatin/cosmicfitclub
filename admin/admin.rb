@@ -12,20 +12,20 @@ class CFCAdmin < Sinatra::Base
   register Sinatra::SharedResources
   register Sinatra::Auth
   
-  get( '/',              :auth=> 'admin' ) { render_page :index            }
-  get( '/carousel',      :auth=> 'admin' ) { render_page :carousel         }
-  get( '/classes',       :auth=> 'admin' ) { render_page :classes          }
-  get( '/events',        :auth=> 'admin' ) { render_page :events           }
-  get( '/staff',         :auth=> 'admin' ) { render_page :staff            }
-  get( '/events/:id'                     ) { render_page :event_edit       }
-  get( '/events/:id/checkin'             ) { render_page :event_checkin    }
-  get( '/events/:id/accounting'          ) { render_page :event_accounting }
-  get( '/classes/:id'                    ) { render_page :class_edit       }
-  get( '/door',          :auth=> 'door'  ) { render_page :door             }
-  get( '/balance',                       ) { render_page :balance_sheet    }
-  get( '/class_checkin'                  ) { render_page :class_checkin    }
-  get( '/announcements', :auth=> 'admin' ) { render_page :announcements    }
-  get( '/nathan_checkin' :auth=> 'nathan') { params[:id] = 95; render_page :event_checkin }
+  get( '/',              :auth=> 'admin'  ) { render_page :index            }
+  get( '/carousel',      :auth=> 'admin'  ) { render_page :carousel         }
+  get( '/classes',       :auth=> 'admin'  ) { render_page :classes          }
+  get( '/events',        :auth=> 'admin'  ) { render_page :events           }
+  get( '/staff',         :auth=> 'admin'  ) { render_page :staff            }
+  get( '/events/:id'                      ) { render_page :event_edit       }
+  get( '/events/:id/checkin'              ) { render_page :event_checkin    }
+  get( '/events/:id/accounting'           ) { render_page :event_accounting }
+  get( '/classes/:id'                     ) { render_page :class_edit       }
+  get( '/door',          :auth=> 'door'   ) { render_page :door             }
+  get( '/balance',                        ) { render_page :balance_sheet    }
+  get( '/class_checkin'                   ) { render_page :class_checkin    }
+  get( '/announcements', :auth=> 'admin'  ) { render_page :announcements    }
+  get( '/nathan_checkin', :auth=> 'nathan') { params[:id] = 95; render_page :event_checkin }
 
 end
 
