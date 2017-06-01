@@ -1,6 +1,4 @@
 require 'sinatra/base'
-require 'autoforme'
-require 'forme/bs3'
 
 class CFCAdmin < Sinatra::Base
 
@@ -24,23 +22,8 @@ class CFCAdmin < Sinatra::Base
   get( '/door',          :auth=> 'door'   ) { render_page :door             }
   get( '/balance',                        ) { render_page :balance_sheet    }
   get( '/class_checkin'                   ) { render_page :class_checkin    }
-  get( '/announcements', :auth=> 'admin'  ) { render_page :announcements    }
+  get( '/announcements',  :auth=> 'admin'  ) { render_page :announcements    }
+
   get( '/nathan_checkin', :auth=> 'nathan') { params[:id] = 95; render_page :event_checkin }
-
-end
-
-class Autoforme < Sinatra::Base
-  
-  AutoForme.for(:sinatra, self) do
-
-    order [:name]
-
-    model Event
-    model EventSession
-    model EventPrice
-
-    association_links :all
-
-  end
 
 end
