@@ -6,12 +6,12 @@ html
 
     == no_scaling
     
-    == css [ 'fonts', 'site', 'menu_colors', 'chosen', 'front_desk' ]
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'front_desk' ]
 
     script src='https://js.stripe.com/v3/'
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
-    == js  [ 'rivets', 'rv_money' ]
+    == js  [ 'rivets', 'rv_money', 'flatpickr', 'rv_dates' ]
     == js  [ 'lib', 'front_desk' ]
 
     javascript:
@@ -76,7 +76,7 @@ html
             table
               tr
                 th Class:
-                td
+                td.class_field
                   select#classes
                     - ClassDef.all.each do |classdef|
                       option value="#{classdef.id}"
@@ -84,16 +84,12 @@ html
               tr
                 th Timeslot:
                 td
-              tr 
-                th Class Passes:
-                td
-                  | { data.customer.class_passes | count }
-                td
-                  button +1
-                  button +5
-                  button +10
-                  
-
+                  input rv-datefield='data.starttime'
+              tr                  
+                th
+                td.class_checkout
+                  button rv-enabled='data.customer.class_passes | count' Use a Class Pass ( { data.customer.class_passes | count } Remaining )
+                  button Pay $25 Now
 
           #page_three.tab-content
             table

@@ -5,7 +5,8 @@ data = {
     class_passes: [],
     membership_status: null
   },
-  amount: 0
+  amount: 0,
+  starttime: null
 }
 
 $(document).ready( function() {
@@ -16,6 +17,7 @@ $(document).ready( function() {
   form.addEventListener('submit', onFormSubmit );
 
   include_rivets_money();
+  include_rivets_dates();
 
   rivets.formatters.count = function(val) { return val.length; }
 
