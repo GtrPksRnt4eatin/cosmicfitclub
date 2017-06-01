@@ -28,6 +28,7 @@ module Sinatra
       custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
       custy.send_new_account_email if custy.login.nil?
       eventname = Event[data['metadata']['event_id']].name
+      data['metadata']['name'] = data['token']['card']['name']
       charge = StripeMethods::charge_card(data['token']['id'], data['total_price'], data['token']['email'], eventname, data['metadata']);
       EventTicket.create( 
         :customer => custy, 
