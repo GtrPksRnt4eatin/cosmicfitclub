@@ -74,6 +74,8 @@ header {
   font-size: 1.5em;
   background: rgba(0,0,160,0.5);
   padding: .5em;
+  color: white;
+  text-decoration: none;
 }
 
 @media(max-width: 800px) {

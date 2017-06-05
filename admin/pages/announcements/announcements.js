@@ -17,6 +17,12 @@ ctrl = {
   	var val = $(e.target).val();
     $('#banner').text(val);
     $.post('/models/settings/announcement_message', JSON.stringify(val), 'json' );
+  },
+
+  href: function(e,m) {
+    var val = $(e.target).val();
+    $('#banner').attr("href", val);
+    $.post('/models/settings/announcement_href', JSON.stringify(val), 'json' );
   }
   	
 }

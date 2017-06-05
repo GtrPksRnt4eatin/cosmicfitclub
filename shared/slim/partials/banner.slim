@@ -1,2 +1,2 @@
-#banner style='background-color: #{Setting["announcement_background"].val['val']}; display: #{Setting["announcement_active"].val['val'] ? "inherit" : "none"}'
+a#banner href='#{ Setting["announcement_href"].nil? ? "#" : Setting["announcement_href"].val['val'] }' style='background-color: #{Setting["announcement_background"].val['val']}; display: #{Setting["announcement_active"].val['val'] ? "inherit" : "none"}'
   | #{Setting["announcement_message"].val['val']}

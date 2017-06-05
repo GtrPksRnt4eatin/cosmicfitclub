@@ -13,6 +13,7 @@ html
       data['announcement_active'] = #{{Setting["announcement_active"].to_json}};
       data['announcement_background'] = #{{Setting["announcement_background"].to_json}};
       data['announcement_message'] = #{{Setting["announcement_message"].to_json}};
+      data['announcement_href'] = #{{Setting["announcement_href"].to_json}};
 
     == css [ 'fonts', 'site', 'header', 'edit_page', 'spectrum', '/admin/announcements' ]
     == js  [ 'jquery', 'rivets', 'lib', 'spectrum', 'rv_color', 'element', 'ev_channel', '/auth/elements/userview', 'menu', '/admin/announcements' ]
@@ -46,4 +47,10 @@ html
               | Message
             td
               textarea rv-value='data.announcement_message.val' rv-on-change='ctrl.message'
+
+          tr
+            td
+              | Link To
+            td
+              input rv-value='data.announcement_href.val' rv-on-change='ctrl.href'
         
