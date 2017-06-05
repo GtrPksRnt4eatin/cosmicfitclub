@@ -76,6 +76,7 @@ header {
   padding: .5em;
   color: white;
   text-decoration: none;
+  white-space: pre-wrap;
 }
 
 @media(max-width: 800px) {
