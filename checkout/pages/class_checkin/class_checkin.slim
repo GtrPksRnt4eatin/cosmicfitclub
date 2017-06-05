@@ -76,6 +76,26 @@ html
               | { sheet.teacher.name }
             td
               | { sheet.starttime }
+          tr rv-each-res='sheet.reservations'
+            td
+              | { res.name }
+          tr
+            td colspan='3'
+              select#customers
+                option value='0'
+                  | No Customer
+                - Customer.all.each do |cust|
+                  option value="#{cust.id}"
+                    | #{ cust.name } ( #{ cust.email } )
+            td
+              label 
+                | Membership:
+              | { data.customer.membership_status.plan.name }
+            td
+              label
+                | Class Passes:
+              | { data.customer.class_passes | count }
+
 
 
 

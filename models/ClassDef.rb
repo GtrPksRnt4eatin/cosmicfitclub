@@ -56,6 +56,10 @@ class ClassOccurrence < Sequel::Model
     find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
   end
 
+  def to_full_json
+    to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
+  end
+
 end
 
 class ClassReservation < Sequel::Model
@@ -89,7 +93,8 @@ class ClassDefRoutes < Sinatra::Base
     if ClassDef[params[:id]].nil?
       classdef = ClassDef.create(name: params[:name], description: params[:description], image: params[:image], position: ClassDef.max(:position) + 1)
     else
-      classdef = ClassDef[params[:id]].update_fields(params, [ :name, :description ] )
+      classdef = ClassDef[params[:id]]
+      classdef.update_fields(params, [ :name, :description ] )
       classdef.update( :image => params[:image] ) unless params[:image].nil?
     end
     status 200
@@ -159,7 +164,13 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   get '/occurrences' do
-    ClassOccurrence.all.to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
+    ClassOccurrence.to_json( 
+      :include => {
+        :reservations => {},
+        :classdef => { :only => [ :id, :name ] },
+        :teacher  => { :only => [ :id, :name ] }
+      }
+    )
   end
 
   post '/occurrences' do 

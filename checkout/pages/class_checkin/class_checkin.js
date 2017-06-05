@@ -7,9 +7,8 @@ data['newsheet'] = {
 
 $(document).ready( function() {
 
-  include_rivets_dates();
-  
-  var binding = rivets.bind( $('body'), { data: data } );
+  setup_bindings();
+
   var stripe  = Stripe(STRIPE_PUBLIC_KEY);
 
   $('#customers').chosen();
@@ -20,6 +19,13 @@ $(document).ready( function() {
 
   $.get('/models/classdefs/occurrences', on_occurrences);
 });
+
+function setup_bindings() {
+
+  include_rivets_dates();
+  var binding = rivets.bind( $('body'), { data: data } );
+
+}
 
 function on_customer_selected(e) {
   $.get(`/models/customers/${parseInt(e.target.value)}/class_passes`, function(resp) {
@@ -42,5 +48,6 @@ function on_create_sheet(e) {
 }
 
 function on_occurrences(resp) {
+  console.log(resp);
   data['occurrences'] = JSON.parse(resp);
 }
