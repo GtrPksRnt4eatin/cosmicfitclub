@@ -6,7 +6,8 @@ function include_rivets_dates() {
   rivets.formatters.padtime    = function(val) { return moment(val).format('hh:mm A')            };
   rivets.formatters.fulldate   = function(val) { return moment(val).format('ddd MMM Do hh:mm a') };
   rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
-  rivets.formatters.eventstart = function(val) { return moment(val).format('ddd M/DD hh:mm A')   };
+  rivets.formatters.eventstart = function(val) { 
+    return moment(val).format('ddd M/DD hh:mm A')   };
   rivets.formatters.unmilitary = function(val) { return moment(val, "HH:mm:ss").format('h:mm A') };
 
   rivets.binders['datefield'] = {

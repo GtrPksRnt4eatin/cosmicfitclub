@@ -6,18 +6,19 @@ html
 
     == no_scaling
     
-    == css [ 'fonts', 'site', 'menu_colors', 'chosen', 'flatpickr', 'class_checkin' ]
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'class_checkin' ]
 
     script src='https://js.stripe.com/v3/'
 
     javascript:
       data = {}
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
-      data['classes'] = #{{ ClassDef.all.to_json }}
-      data['staff']   = #{{ Staff.all.to_json }}
+      data['classes'] = #{{ ClassDef.all.to_json }};
+      data['staff']   = #{{ Staff.all.to_json }};
+      data['customer'] = {};
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr' ]
-    == js  [ 'rivets', 'rv_dates', 'rv_money' ]
+    == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
     == js  [ 'lib', 'class_checkin' ]
 
   body
@@ -28,10 +29,14 @@ html
 
       .tile
 
-        h1 Class Checkin
+        h1 Class Checkin Sheets
 
         table
           tr
+            td
+              label for='classtime' Time
+              input rv-datefield='data.newsheet.starttime'
+              
             td
               label for='classname' Class
               select#classname rv-value='data.newsheet.classdef_id'
@@ -43,50 +48,42 @@ html
                 option rv-each-staff='data.staff' rv-value='staff.id'
                   | { staff.name }
             td
-              label for='classtime' Time
-              input rv-datefield='data.newsheet.starttime'
-            td
-              button#create_sheet Create Sheet
-        
-        table
-          tr
-            td colspan='3'
-              select#customers
-                option value='0'
-                  | No Customer
-                - Customer.all.each do |cust|
-                  option value="#{cust.id}"
-                    | #{ cust.name } ( #{ cust.email } )
-          tr
-            td
-              label 
-                | Membership:
-              | { data.customer.membership_status.plan.name }
-            td
-              label
-                | Class Passes:
-              | { data.customer.class_passes | count }
+              button#create_sheet Create New Sheet
       
-      .tile rv-each-sheet='data.occurrences'
+      .tile.sheet rv-each-sheet='data.occurrences'
+        .field 
+          | { sheet.starttime | eventstart }
+        .field 
+          | { sheet.classdef.name }
+        | w/ 
+        .field 
+          | { sheet.teacher.name }
+
+        .hidden
+          
+          table 
+            tr
+              td colspan="2" Reservations   
+            tr rv-each-res='sheet.reservations'
+              td
+                | { res.name }
+              td
+                | Check In Now
+            tr
+              td
+                button Add Reservation
+
+      .tile
         table
           tr
-            td
-              | { sheet.classdef.name }
-            td
-              | { sheet.teacher.name }
-            td
-              | { sheet.starttime }
-          tr rv-each-res='sheet.reservations'
-            td
-              | { res.name }
-          tr
-            td colspan='3'
+            td colspan='2'
               select#customers
                 option value='0'
                   | No Customer
                 - Customer.all.each do |cust|
                   option value="#{cust.id}"
                     | #{ cust.name } ( #{ cust.email } )
+          tr
             td
               label 
                 | Membership:

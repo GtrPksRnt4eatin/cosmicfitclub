@@ -17,10 +17,14 @@ $(document).ready( function() {
 
   $('#create_sheet').on('click', on_create_sheet );
 
+  $('.sheet').on('click', on_sheet_click);
+
   $.get('/models/classdefs/occurrences', on_occurrences);
 });
 
 function setup_bindings() {
+
+  rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
 
   include_rivets_dates();
   var binding = rivets.bind( $('body'), { data: data } );
@@ -43,11 +47,15 @@ function on_create_sheet(e) {
   $.post(`/models/classdefs/occurrences`, data.newsheet,
 
   function(data) {
-    console.log(data);
+    $.get('/models/classdefs/occurrences', on_occurrences);
   }, 'json');
 }
 
 function on_occurrences(resp) {
   console.log(resp);
   data['occurrences'] = JSON.parse(resp);
+}
+
+function on_sheet_click(e) {
+  $(e.target).find('.hidden').toggle();
 }

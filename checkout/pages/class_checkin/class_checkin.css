@@ -21,3 +21,27 @@ input {
 	font-size: 1em;
 	padding: .1em;
 }
+
+.sheet {
+	padding-bottom: 0;
+	width: 60em;
+	margin-left: auto;
+	margin-right: auto;
+	cursor: pointer;
+}
+
+.sheet .field {
+	padding: .5em 1em;
+	display: inline-block;
+	width: 10em;
+}
+
+.sheet .field:nth-child(2) {
+	width: 15em;
+}
+
+.hidden { display: none; }
+
+button {
+	font-size: 1em;
+}
