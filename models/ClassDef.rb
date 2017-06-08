@@ -39,7 +39,7 @@ class ClassdefSchedule < Sequel::Model
   many_to_one :classdef, :key => :classdef_id, :class => ClassDef
 
   def get_occurences(from,to)
-    return [] if rrule.nil
+    return [] if rrule.nil?
     IceCube::Schedule.new(start_time) do |sched|
       sched.add_recurrence_rule IceCube::Rule.from_ical(rrule) unless rrule.nil?
     end.occurrences_between(Time.parse(from),Time.parse(to))
