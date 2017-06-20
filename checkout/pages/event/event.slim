@@ -47,8 +47,7 @@ html
         #sessions rv-unless='event.sessions | multiple'
           h4 Event Time
           div.singletime rv-each-sess='event.sessions'
-            | { sess.start_time | dayofwk } { sess.start_time | date } 
-            | { sess.start_time | time } - { sess.end_time | time }
+            | { sess.start_time | dtrange sess.end_time }
 
         #sessions rv-if='event.sessions | multiple' rv-data-selectable='event.prices | multiple'
           h4 Sessions
