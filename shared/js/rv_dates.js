@@ -35,10 +35,9 @@ function include_rivets_dates() {
     },
 
     routine: function(el,value) {
-      if(value) { 
-        this.flatpickrInstance.setDate( value ); 
-        this.flatpickrInstance.jumpToDate(value);
-      }
+      if(!value) { this.flatpickrInstance.clear(); return; }
+      this.flatpickrInstance.setDate( value ); 
+      this.flatpickrInstance.jumpToDate(value);
     },
 
     getValue: function(el) {

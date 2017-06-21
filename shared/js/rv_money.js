@@ -25,36 +25,4 @@ function include_rivets_money() {
     }
 
   }
-
-  rivets.binders['cardfield'] = {
-
-    bind: function(el) {
-      this.flatpickrInstance = $(el).flatpickr({
-        enableTime: true, 
-        altInput: true, 
-        altFormat: 'm/d/Y h:i K',
-        onChange: function(val) {
-          this.publish(val);
-          if(this.el.onchange) { this.el.onchange(); }
-        }.bind(this)
-      })
-    },
-
-    unbind: function(el) {
-      this.flatpickrInstance.destroy();
-    },
-
-    routine: function(el,value) {
-      if(value) { 
-        this.flatpickrInstance.setDate( value ); 
-        this.flatpickrInstance.jumpToDate(value);
-      }
-    },
-
-    getValue: function(el) {
-      return el.value;
-    }
-
-  }
-
 }

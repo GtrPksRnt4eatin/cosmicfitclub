@@ -40,8 +40,9 @@ class ClassdefSchedule < Sequel::Model
 
   def get_occurences(from,to)
     return [] if rrule.nil?
+    return [] if start_time.nil?
     IceCube::Schedule.new(start_time) do |sched|
-      sched.add_recurrence_rule IceCube::Rule.from_ical(rrule) unless rrule.nil?
+      sched.add_recurrence_rule IceCube::Rule.from_ical(rrule)
     end.occurrences_between(Time.parse(from),Time.parse(to))
   end
 
@@ -61,19 +62,23 @@ class ClassOccurrence < Sequel::Model
     to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end
 
+  def make_reservation(customer_id, transaction)
+    reservation = ClassReservation.create( :customer_id => customer_id )
+    reservation.transaction = transaction unless transaction.nil?
+    add_reservation reservation
+  end
+
 end
 
 class ClassReservation < Sequel::Model
 
-  many_to_one :occurrence, :class => :ClassOccurrence
-  one_to_one :transaction, :class => :PassTransaction
+  many_to_one :occurrence, :class => :ClassOccurrence, :key => :class_occurrence_id
+  many_to_one :transaction, :class => :PassTransaction, :key => :pass_transaction_id
   many_to_one :customer
 
 end
 
-class ClassException < Sequel::Model
-  
-  
+class ClassException < Sequel::Model  
 
 end
 
@@ -183,8 +188,12 @@ class ClassDefRoutes < Sinatra::Base
     
   end
 
-  post '/reservations/' do
-    
+  post '/reservation' do
+    occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime])
+    custy = Customer[ params[:customer_id] ]
+    transaction = custy.rem_passes( 1, "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}", "" ) or halt 400
+    occurrence.make_reservation( params[:customer_id], transaction )
+    status 201
   end
 
 end

@@ -11,7 +11,7 @@ html
     script src='https://js.stripe.com/v3/'
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
-    == js  [ 'rivets', 'rv_money', 'flatpickr', 'rv_dates' ]
+    == js  [ 'rivets', 'moment', 'rv_money', 'flatpickr', 'rv_dates', 'rv_select' ]
     == js  [ 'lib', 'front_desk' ]
 
     javascript:
@@ -38,7 +38,7 @@ html
                   option value='0'
                     | No Customer
                   - Customer.all.each do |cust|
-                    option value="#{cust.id}"
+                    option value='#{cust.id}'
                       | #{ cust.name } ( #{ cust.email } )
      
         .tabs_container
@@ -56,41 +56,59 @@ html
                 td
                   | { data.customer.id }
               tr
-                th Name:
-                td 
-                  | { data.customer.name }
-              tr
-                th Email:
-                td
-                  | { data.customer.email }
-              tr
-
                 th Membership:
                 td
                   | { data.customer.membership_status.plan.name }
+              tr
+                th Class Passes:
+                td
+                  | { data.customer.class_passes } 
 
           #page_one.tab-content
 
           #class_checkin.tab-content
 
-            table
+            table#class_checkin_table
               tr
                 th Class:
-                td.class_field
-                  select#classes
+                td
+                  select#classes rv-idselect='data.reservation.classdef_id'
+                    option value='0' None
                     - ClassDef.all.each do |classdef|
-                      option value="#{classdef.id}"
+                      option value='#{classdef.id}'
                         | #{ classdef.name }
+              tr
+                th Instructor:
+                td
+                  select#staff rv-idselect='data.reservation.staff_id'
+                    option value='0' None
+                    - Staff.all.each do |staff|
+                      option value='#{staff.id}'
+                        | #{ staff.name }
               tr
                 th Timeslot:
                 td
-                  input rv-datefield='data.starttime'
+                  input rv-datefield='data.reservation.starttime'
+
               tr                  
                 th
                 td.class_checkout
-                  button Use Membership
-                  button rv-enabled='data.customer.class_passes | count' Use a Class Pass <br>( { data.customer.class_passes | count } Remaining )
+                  button rv-enabled='data.customer.membership_status.plan | has_membership' Use Membership <br>( { data.customer.membership_status.plan.name } ) 
+                  button rv-on-click='ctrl.reserve_class_pass' rv-enabled='data.customer.class_passes | zero_if_null' Use a Class Pass <br>( { data.customer.class_passes | zero_if_null } Remaining )
                   button Pay $25 Now
+            br
+            table.classreservations
+              tr
+                th colspan='3' Upcoming Reservations
+              tr rv-each-res='data.customer.reservations'
+                td 
+                  | { res.starttime | eventstart }
+                td
+                  | { res.classname } w/ { res.instructor }
+                td 
+                  .res_checkin rv-on-click='reservation_checkin' Check In
+
+
 
           #page_three.tab-content
             table
@@ -102,33 +120,34 @@ html
                 th Amount
                 td 
                   input#amount rv-moneyfield='data.amount'
-        br
-        br
-        table
-          tr
-            th Saved Cards
-            td 
-              .saved_card rv-each-card='data.customer.payment_sources'
-                span 
-                  input type='radio'
-                span 
-                  | {card.brand}
-                span 
-                  | **** **** **** {card.last4}
-                span 
-                  | {card.exp_month}/{card.exp_year}
-          tr
-            th New Card
-            td: #card-element
 
-          tr
-            th
-            td colspan='2'
-              #card-errors
-          tr
-            th
-            td
-              button#checkout Submit Payment
+
+    #payment_popup
+      table
+        tr
+          th Saved Cards
+          td 
+            .saved_card rv-each-card='data.customer.payment_sources'
+              span 
+                input type='radio'
+              span 
+                | {card.brand}
+              span 
+                | **** **** **** {card.last4}
+              span 
+                | {card.exp_month}/{card.exp_year}
+        tr
+          th New Card
+          td: #card-element
+
+        tr
+          th
+          td colspan='2'
+            #card-errors
+        tr
+          th
+          td
+            button#checkout Submit Payment
 
 
     == analytics

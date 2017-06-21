@@ -11,6 +11,7 @@ class Customer < Sequel::Model
   one_to_one :waiver
   one_to_many :nfc_tags
   many_to_one :wallet
+  one_to_many :reservations, :class=>:ClassReservation
 
   def Customer.is_new? (email)
     customer = Customer[ :email => email.downcase ]
@@ -143,13 +144,11 @@ class Customer < Sequel::Model
   def add_passes( number, reason, notes )
     ( self.wallet = Wallet.create; self.save ) if self.wallet.nil?
     self.wallet.add_passes( number, reason, notes )
-
   end
 
   def rem_passes( number, reason, notes )
     return false if self.wallet.nil?
-    self.wallet.rem_passes( number, reason, notes )
-    return true
+    return self.wallet.rem_passes( number, reason, notes )
   end
 
 end
@@ -171,7 +170,7 @@ class CustomerRoutes < Sinatra::Base
   get '/:id/class_passes' do
     custy = Customer[params[:id]]
     halt 404 if custy.nil?
-    custy.passes.to_json
+    custy.num_passes.to_json
   end
 
   get '/:id/status' do
@@ -179,6 +178,12 @@ class CustomerRoutes < Sinatra::Base
     halt 404 if custy.nil?
     return '{ "plan": { "name": "None" }}' if custy.subscription.nil? 
     custy.subscription.to_json(:include => [ :plan ] )
+  end
+
+  get '/:id/reservations' do
+    custy = Customer[params[:id]]
+    halt 404 if custy.nil?
+    JSON.generate custy.reservations.map { |res| { :id => res.id, :classname => res.occurrence.classdef.name, :instructor=> res.occurrence.teacher.name, :starttime => res.occurrence.starttime } }
   end
 
 end

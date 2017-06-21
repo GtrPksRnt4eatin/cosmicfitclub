@@ -46,7 +46,7 @@ select,
   box-sizing: border-box;
 }
 
-.class_field .chosen-container {
+#class_checkin_table .chosen-container {
   width: 100% !important; 
 }
 
@@ -163,4 +163,26 @@ ul.tabs li.current{
 
 .tab-content.current {
   display: inherit;
+}
+
+#payment_popup {
+  visibility: hidden;
+}
+
+.classreservations {
+}
+
+.classreservations th,
+.classreservations td {
+  text-align: center;
+  padding: .5em;
+}
+
+.res_checkin {
+  color: rgb(100,100,255);
+  cursor: pointer;
+}
+
+.classreservations tr:odd() {
+  background-color: rgba(255,255,255,0.2);
 }

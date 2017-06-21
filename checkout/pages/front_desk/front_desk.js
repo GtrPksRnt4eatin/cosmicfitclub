@@ -5,8 +5,39 @@ data = {
     class_passes: [],
     membership_status: null
   },
+  reservation: {
+    customer_id: 0,
+    classdef_id: 0,
+    staff_id: 0,
+    starttime: null,
+  },
   amount: 0,
   starttime: null
+}
+
+ctrl = {
+
+  reserve_class_pass: function(e,m) {
+    $.post('/models/classdefs/reservation', data.reservation)
+     .done( function(e) { refresh_customer_data(); clear_reservations(); } )
+     .fail( function(e) { alert('reservation failed!'); });
+  },
+
+  reserve_membership: function(e,m) {
+    data = {
+      
+    }
+    $.post('models/classdefs/reservation', data, 'json');
+  },
+
+  reserve_card: function(e,m) {
+
+  },
+
+  reserve_cash: function(e,m) {
+
+  }
+
 }
 
 $(document).ready( function() {
@@ -16,17 +47,13 @@ $(document).ready( function() {
   var form = document.getElementById('payment-form');
   form.addEventListener('submit', onFormSubmit );
 
-  include_rivets_money();
-  include_rivets_dates();
-
-  rivets.formatters.count = function(val) { return val.length; }
-
-  rivets.bind( $('body'), { data: data } );
+  setupBindings();
 
   $.get('/models/customers', on_custylist, 'json');
 
   $('#customers').chosen();
   $('#classes').chosen();
+  $('#staff').chosen();
 
   $('#customers').on('change', on_customer_selected );
 
@@ -42,7 +69,20 @@ $(document).ready( function() {
 
 });
 
+function setupBindings() {
+  include_rivets_money();
+  include_rivets_dates();
+  include_rivets_select();
+
+  rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
+  rivets.formatters.zero_if_null = function(val) { return empty(val) ? 0 : val; }
+  rivets.formatters.has_membership = function(val) { return( empty(val) ? false : val.name != 'None' ); }
+
+  rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+}
+
 /////////////////////// CARD /////////////////////////////////////////
+
 
 function setupCard() {
   var elements = stripe.elements();
@@ -112,20 +152,22 @@ function on_custylist(list) {
 
 function on_customer_selected(e) {
   resetCustomer();
+  data.reservation.customer_id = e.target.value;
   data.customer.id = parseInt(e.target.value);
-  $.get(`/models/customers/${parseInt(e.target.value)}/payment_sources`,function(resp) {
-    data.customer.payment_sources = resp;
-  }, 'json');
+  refresh_customer_data();
+}
 
-  $.get(`/models/customers/${parseInt(e.target.value)}/class_passes`, function(resp) {
-    data.customer.class_passes = resp;
-  }, 'json');
+function clear_reservations() {
+  data.reservation.classdef_id=0;
+  data.reservation.staff_id=0;
+  data.reservation.starttime=null;
+}
 
-  $.get(`/models/customers/${parseInt(e.target.value)}/status`, function(resp) {
-    console.log(resp);
-    data.customer.membership_status = resp;
-    console.log(data.customer.membership_status);
-  }, 'json');
+function refresh_customer_data() {
+  $.get(`/models/customers/${data.customer.id}/payment_sources`, function(resp) { data.customer.payment_sources   = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/class_passes`,    function(resp) { data.customer.class_passes      = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/status`,          function(resp) { data.customer.membership_status = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/reservations`,    function(resp) { data.customer.reservations      = resp; }, 'json');
 }
 
 function resetCustomer() {
