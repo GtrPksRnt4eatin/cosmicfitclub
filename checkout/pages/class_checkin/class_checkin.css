@@ -1,4 +1,4 @@
-.tile {
+	.tile {
 	text-align: center;
 	padding-bottom: 2em;
 }
@@ -40,6 +40,23 @@ input {
 	width: 15em;
 }
 
+.sheet td.field {
+	width: 15em;
+}
+
+.reservations {
+	box-shadow: 0 0 .5em white;
+}
+
+.sheet tr:nth-child(odd) {
+  background: rgba(255,255,255,0.2);
+}
+
+.sheet td {
+	padding: .25em;
+	box-shadow: none;
+}
+	
 .hidden { display: none; }
 
 button {

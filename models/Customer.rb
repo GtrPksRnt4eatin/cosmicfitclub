@@ -151,6 +151,17 @@ class Customer < Sequel::Model
     return self.wallet.rem_passes( number, reason, notes )
   end
 
+  def use_class_pass(reason, &block)
+    self.wallet.use_pass(reason, &block)
+  end
+
+  def use_membership(reason, &block)
+    return false if self.subscription.nil?
+    MembershipUse.create( :reason=> reason, :membership=>self.subscription ) do |use|
+      use.reservation = block.call
+    end
+  end
+
 end
 
 ################################################################ ROUTES ###########################################################################

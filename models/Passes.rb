@@ -14,6 +14,8 @@ class Wallet < Sequel::Model
   one_to_many :customers
   one_to_many :pass_transactions
 
+  def empty?; self.pass_balance == 0 end
+
   def add_passes(number, description, notes)
     add_pass_transaction( PassTransaction.create( :delta => number, :description => description, :notes => notes ) )
     self.pass_balance = self.pass_balance + number
@@ -29,10 +31,20 @@ class Wallet < Sequel::Model
     return transaction
   end
 
+  def use_pass(reason)
+    return false if self.empty?
+    transaction = PassTransaction.create( :delta=>-1, :description=>reason, :notes=>"" ) { |trans| trans.reservation = yield }
+    add_pass_transaction( transaction )
+    self.pass_balance = self.pass_balance - 1
+    self.save
+    return transaction
+  end
+
 end
 
 class PassTransaction < Sequel::Model
 
+  many_to_one :reservation, :class => :ClassReservation, :id => :reservation_id
   many_to_one :wallet
 
   def before_create

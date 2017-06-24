@@ -62,9 +62,8 @@ class ClassOccurrence < Sequel::Model
     to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end
 
-  def make_reservation(customer_id, transaction)
+  def make_reservation(customer_id)
     reservation = ClassReservation.create( :customer_id => customer_id )
-    reservation.transaction = transaction unless transaction.nil?
     add_reservation reservation
   end
 
@@ -73,7 +72,6 @@ end
 class ClassReservation < Sequel::Model
 
   many_to_one :occurrence, :class => :ClassOccurrence, :key => :class_occurrence_id
-  many_to_one :transaction, :class => :PassTransaction, :key => :pass_transaction_id
   many_to_one :customer
 
 end
@@ -170,13 +168,16 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   get '/occurrences' do
-    ClassOccurrence.reverse(:starttime).to_json( 
-      :include => {
-        :reservations => {},
-        :classdef => { :only => [ :id, :name ] },
-        :teacher  => { :only => [ :id, :name ] }
+    sheets = ClassOccurrence.reverse(:starttime).all.map do |occ|
+      { 
+        :id           => occ.id,
+        :starttime    => occ.starttime,
+        :classdef     => { :id => occ.classdef.id, :name => occ.classdef.name },
+        :teacher      => { :id => occ.teacher.id, :name => occ.teacher.name },
+        :reservations => occ.reservations.map { |res| { :id => res.id, :customer => { :id => res.customer.id, :name => res.customer.name } } }
       }
-    )
+    end
+    JSON.generate sheets
   end
 
   post '/occurrences' do 
@@ -191,8 +192,17 @@ class ClassDefRoutes < Sinatra::Base
   post '/reservation' do
     occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime])
     custy = Customer[ params[:customer_id] ]
-    transaction = custy.rem_passes( 1, "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}", "" ) or halt 400
-    occurrence.make_reservation( params[:customer_id], transaction )
+    message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"
+    halt 400 if params[:transaction_type].nil?
+    case params[:transaction_type]
+    when "class_pass"
+      custy.use_class_pass(message) { occurrence.make_reservation( params[:customer_id] ) } or halt 400
+      #pass_transaction = custy.rem_passes( 1, message, "" ) or halt 400
+      #pass_transaction.reservation = occurrence.make_reservation( params[:customer_id] )
+      #transaction.save
+    when "membership"
+      custy.use_membership(message) { occurrence.make_reservation( params[:customer_id] ) } or halt 400
+    end
     status 201
   end
 

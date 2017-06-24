@@ -62,7 +62,7 @@ end
 map "/models/settings" do
   run SettingRoutes
 end
- 
+
 map "/door" do
   run Door
 end

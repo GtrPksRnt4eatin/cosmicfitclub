@@ -18,16 +18,17 @@ data = {
 ctrl = {
 
   reserve_class_pass: function(e,m) {
+    data.reservation.transaction_type = "class_pass";
     $.post('/models/classdefs/reservation', data.reservation)
      .done( function(e) { refresh_customer_data(); clear_reservations(); } )
      .fail( function(e) { alert('reservation failed!'); });
   },
 
   reserve_membership: function(e,m) {
-    data = {
-      
-    }
-    $.post('models/classdefs/reservation', data, 'json');
+    data.reservation.transaction_type = "membership";
+    $.post('/models/classdefs/reservation', data.reservation)
+     .done( function(e) { refresh_customer_data(); clear_reservations(); } )
+     .fail( function(e) { alert('reservation failed!'); });
   },
 
   reserve_card: function(e,m) {
@@ -46,6 +47,8 @@ $(document).ready( function() {
 
   var form = document.getElementById('payment-form');
   form.addEventListener('submit', onFormSubmit );
+
+  payment_form = new PaymentForm();
 
   setupBindings();
 

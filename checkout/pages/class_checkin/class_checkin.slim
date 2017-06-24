@@ -50,28 +50,29 @@ html
             td
               button#create_sheet Create New Sheet
       
-      .tile.sheet rv-each-sheet='data.occurrences'
-        .field 
-          | { sheet.starttime | eventstart }
-        .field 
-          | { sheet.classdef.name }
-        | w/ 
-        .field 
-          | { sheet.teacher.name }
+      .sheets
+        .tile.sheet rv-each-occur='data.occurrences'
+          .field 
+            | { occur.starttime | eventstart }
+          .field 
+            | { occur.classdef.name }
+          | w/ 
+          .field 
+            | { occur.teacher.name }
 
-        .hidden
-          
-          table 
-            tr
-              td colspan="2" Reservations   
-            tr rv-each-res='sheet.reservations'
-              td
-                | { res.name }
-              td
-                | Check In Now
-            tr
-              td
-                button Add Reservation
+          .hidden
+            
+            table.reservations
+              tr
+                td colspan="2" Reservations   
+              tr rv-each-res='occur.reservations'
+                td.field
+                  | { res.customer.name }
+                td.field
+                  | Check In Now
+              tr
+                td colspan="2"
+                  button Add Reservation
 
       .tile
         table

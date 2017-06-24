@@ -17,7 +17,7 @@ $(document).ready( function() {
 
   $('#create_sheet').on('click', on_create_sheet );
 
-  $('.sheet').on('click', on_sheet_click);
+  $('.sheets').on('click', '.sheet', on_sheet_click);
 
   $.get('/models/classdefs/occurrences', on_occurrences);
 });
@@ -32,15 +32,8 @@ function setup_bindings() {
 }
 
 function on_customer_selected(e) {
-  $.get(`/models/customers/${parseInt(e.target.value)}/class_passes`, function(resp) {
-    data.customer.class_passes = resp;
-  }, 'json');
-
-  $.get(`/models/customers/${parseInt(e.target.value)}/status`, function(resp) {
-    console.log(resp);
-    data.customer.membership_status = resp;
-    console.log(data.customer.membership_status);
-  }, 'json');
+  $.get(`/models/customers/${parseInt(e.target.value)}/class_passes`, function(resp) { data.customer.class_passes      = resp; }, 'json');
+  $.get(`/models/customers/${parseInt(e.target.value)}/status`,       function(resp) { data.customer.membership_status = resp; }, 'json');
 }
 
 function on_create_sheet(e) {
@@ -57,5 +50,5 @@ function on_occurrences(resp) {
 }
 
 function on_sheet_click(e) {
-  $(e.target).find('.hidden').toggle();
+  $(e.currentTarget).find('.hidden').toggle();
 }
