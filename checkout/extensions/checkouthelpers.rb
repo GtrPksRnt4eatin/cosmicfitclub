@@ -1,4 +1,4 @@
-$SWIPE = nil
+$SWIPELISTENERS = []
 
 module Sinatra
   module CheckoutHelpers
@@ -72,20 +72,21 @@ module Sinatra
       halt 400 if params[:token_id].nil?
       tok = Stripe::Token.retrieve params[:token_id]
       halt 400 if tok.nil?
-      $swipe = tok
+      $SWIPELISTENERS.each do |out|
+        out << "event: swipe\n"
+        out << "data: #{tok.to_json}\n\n"
+      end
     end
 
     def wait_for_swipe
-      content_type :json
+      content_type 'text/event-stream'
       stream do |out|
-        while !out.closed? do
-          if $swipe then
-            out << $swipe.to_json
-            $swipe = nil
-            out.close
-          end
-          sleep(0.5) 
+        $SWIPELISTENERS << out
+        until out.closed?
+          sleep(10)
+          out << ":keepalive\n\n"
         end
+        $SWIPELISTENERS.delete out
       end
     end
   
