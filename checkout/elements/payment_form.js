@@ -73,9 +73,9 @@ PaymentForm.prototype = {
     this.state.swipe_source = null;
   },
 
-  on_swipe(data) {
-    console.log(data);
-    this.state.swipe = JSON.parse(data);
+  on_swipe(e) {
+    console.log(e.data);
+    this.state.swipe = JSON.parse(e.data);
   },
 
   get_customer(id) {
