@@ -1,3 +1,5 @@
+$SWIPE = nil
+
 module Sinatra
   module CheckoutHelpers
 
@@ -70,15 +72,13 @@ module Sinatra
       halt 400 if params[:token_id].nil?
       tok = Stripe::Token.retrieve params[:token_id]
       halt 400 if tok.nil?
-      p tok
-      @swipe_token = tok
+      @SWIPE = tok
     end
 
     def wait_for_swipe
       stream do |out|
         while !out.closed? do
-          p @swipe_token
-          return @swipe_token.to_json unless @swipe_token.nil?
+          return $SWIPE.to_json unless $SWIPE.nil?
           sleep(0.5) 
         end
       end
