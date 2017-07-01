@@ -76,6 +76,7 @@ module Sinatra
     end
 
     def wait_for_swipe
+      content_type :json
       stream do |out|
         while !out.closed? do
           if $swipe then

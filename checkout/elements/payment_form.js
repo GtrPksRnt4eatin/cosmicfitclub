@@ -130,6 +130,17 @@ PaymentForm.prototype.HTML = `
     <h2>Charging { state.customer.name } { state.price | money }</h2>
     <h3>{ state.reason }</h3>
     <table>
+      <tr rv-if='state.swipe' >
+        <th>Swiped Card</th>
+        <td>
+          <div class='saved_card'>
+            <span> <input type='radio'> </span>
+            <span> { state.swipe.card.brand } </span>
+            <span> **** **** **** { state.swipe.card.last4 } </span>
+            <span> { state.swipe.card.exp_month }/{ state.swipe.card.exp_year }
+          </div>
+        </td>
+      </tr>
       <tr>
         <th>Saved Card</th>
         <td>
@@ -150,17 +161,6 @@ PaymentForm.prototype.HTML = `
       <tr>
         <td colspan='2'>
           <div id='card-errors'></div>
-        </td>
-      </tr>
-      <tr rv-if='state.swipe' >
-        <th>Swiped Card</th>
-        <td>
-          <div class='saved_card'>
-            <span> <input type='radio'> </span>
-            <span> { state.swipe.card.brand } </span>
-            <span> **** **** **** { state.swipe.card.last4 } </span>
-            <span> { state.swipe.card.exp_month }/{ state.swipe.card.exp_year }
-          </div>
         </td>
       </tr>
       <tr>
