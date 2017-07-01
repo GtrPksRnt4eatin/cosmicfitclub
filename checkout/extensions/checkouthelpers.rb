@@ -79,7 +79,7 @@ module Sinatra
       stream do |out|
         while !out.closed? do
           if $swipe then
-            out.puts($swipe.to_json)
+            out << $swipe.to_json
             out.close
           end
           sleep(0.5) 
