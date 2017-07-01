@@ -52,7 +52,7 @@ PaymentForm.prototype = {
   },
 
   poll_for_swipe() {
-    return unless this.state.polling
+    if( !this.state.polling ) return;
     this.state.poll_request = $.get('/checkout/wait_for_swipe', 'json')
      .done( this.on_swipe )
      .fail( this.poll_for_swipe )
