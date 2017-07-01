@@ -6,10 +6,12 @@ function PaymentForm() {
     customer: {},
     token: null,
     metadata: {},
-    callback: null
+    callback: null,
+    polling: false,
+    poll_request: null
   }
 
-  this.bind_handlers(['on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
+  this.bind_handlers(['poll_for_swipe', 'start_polling','stop_polling', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
@@ -46,6 +48,28 @@ PaymentForm.prototype = {
     this.state.callback = callback;
     this.get_customer(customer_id).done(this.show);
     this.show_err(null);
+    this.start_polling();
+  },
+
+  poll_for_swipe() {
+    return unless this.state.polling
+    this.state.poll_request = $.get('/checkout/wait_for_swipe', 'json')
+     .done( this.on_swipe )
+     .fail( this.poll_for_swipe )
+  },
+
+  start_polling() {
+    this.state.polling = true;
+    this.poll_for_swipe();
+  },
+
+  stop_polling() {
+    this.state.polling = false;
+    this.state.poll_request.abort();
+  },
+
+  on_swipe(data) {
+    console.log(data);
   },
 
   get_customer(id) {
@@ -80,6 +104,7 @@ PaymentForm.prototype = {
   },
 
   charge_new() {
+    this.stop_polling();
     if(!this.state.token) return;
     body = { customer: this.state.customer.id, token: this.state.token.id, amount: this.state.price, description: this.state.reason, metadata: this.state.metadata };
     $.post('/checkout/charge_card', body, this.after_charge, 'json')

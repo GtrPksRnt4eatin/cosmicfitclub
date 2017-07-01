@@ -76,7 +76,7 @@ module Sinatra
       stream do |out|
         while !out.closed? do
           return @swipe_token.to_json unless @swipe_token.nil?
-          sleep(.5) 
+          sleep(0.5) 
         end
       end
     end
