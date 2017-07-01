@@ -12,7 +12,7 @@ function PaymentForm() {
     swipe: null
   }
 
-  this.bind_handlers(['poll_for_swipe', 'start_polling','stop_polling', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
+  this.bind_handlers(['on_swipe', poll_for_swipe', 'start_polling','stop_polling', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
