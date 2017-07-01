@@ -8,7 +8,8 @@ function PaymentForm() {
     metadata: {},
     callback: null,
     polling: false,
-    poll_request: null
+    poll_request: null,
+    swipe: null
   }
 
   this.bind_handlers(['poll_for_swipe', 'start_polling','stop_polling', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
@@ -70,6 +71,7 @@ PaymentForm.prototype = {
 
   on_swipe(data) {
     console.log(data);
+    this.state.swipe = data;
   },
 
   get_customer(id) {
@@ -149,10 +151,16 @@ PaymentForm.prototype.HTML = `
         <td colspan='2'>
           <div id='card-errors'></div>
         </td>
-      <tr>
-        <th></th>
-        <td colspan='2'>
-          <div id='card-errors'></div>
+      </tr>
+      <tr rv-if='state.swipe' >
+        <th>Swiped Card</th>
+        <td>
+          <div class='saved_card'>
+            <span> <input type='radio'> </span>
+            <span> { state.swipe.card.brand } </span>
+            <span> **** **** **** { state.swipe.card.last4 } </span>
+            <span> { state.swipe.card.exp_month }/{ state.swipe.card.exp_year }
+          </div>
         </td>
       </tr>
       <tr>
