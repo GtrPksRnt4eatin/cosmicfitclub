@@ -30,7 +30,7 @@ PopupMenu.prototype = {
     $(this.dom).show();
   },
 
-  hide() { this.state.showing = false; this.state.content=null; $(this.dom).hide(); },
+  hide() { this.ev_fire('close'); this.state.showing = false; this.state.content=null; $(this.dom).hide(); },
 
   set_close_listener() {
     this.dom.onclick = function(e) { 
@@ -41,6 +41,7 @@ PopupMenu.prototype = {
 }
 
 Object.assign( PopupMenu.prototype, element);
+Object.assign( PopupMenu.prototype, ev_channel);
 
 PopupMenu.prototype.HTML = `
   <div id='PopupMenu'></div>

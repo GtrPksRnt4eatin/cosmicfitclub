@@ -9,7 +9,8 @@ function PaymentForm() {
     callback: null,
     polling: false,
     poll_request: null,
-    swipe: null
+    swipe: null,
+    swipe_source: null
   }
 
   this.bind_handlers(['on_swipe', 'poll_for_swipe', 'start_polling','stop_polling', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
@@ -49,6 +50,7 @@ PaymentForm.prototype = {
     this.state.callback = callback;
     this.get_customer(customer_id).done(this.show);
     this.show_err(null);
+    this.stop_polling();
     this.start_polling();
   },
 
@@ -60,18 +62,20 @@ PaymentForm.prototype = {
   },
 
   start_polling() {
-    this.state.polling = true;
-    this.poll_for_swipe();
+    if(this.state.swipe_source) return;  
+    this.state.swipe_source = new EventSource('/checkout/wait_for_swipe');
+    this.state.swipe_source.addEventListener('swipe', this.on_swipe);
   },
 
   stop_polling() {
-    this.state.polling = false;
-    this.state.poll_request.abort();
+    if(!this.state.swipe_source) return;
+    this.state.swipe_source.close();
+    this.state.swipe_source = null;
   },
 
   on_swipe(data) {
     console.log(data);
-    this.state.swipe = data;
+    this.state.swipe = JSON.parse(data);
   },
 
   get_customer(id) {

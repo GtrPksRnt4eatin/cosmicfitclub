@@ -57,6 +57,7 @@ $(document).ready( function() {
 
   payment_form.ev_sub('show', popupmenu.show );
   payment_form.ev_sub('hide', popupmenu.hide );
+  popupmenu.ev_sub('close', payment_form.stop_polling);
 
   $.get('/models/customers', on_custylist, 'json');
 
