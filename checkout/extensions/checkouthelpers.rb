@@ -67,7 +67,8 @@ module Sinatra
     end
 
     def card_swipe
-      tok = Stripe::Token.retrieve
+      halt 400 if params[:token_id].nil?
+      tok = Stripe::Token.retrieve params[:token_id]
       halt 400 if tok.nil?
       @swipe_token = tok
     end
