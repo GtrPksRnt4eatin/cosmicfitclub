@@ -24,16 +24,17 @@ input {
 
 .sheet {
 	padding-bottom: 0;
-	width: 60em;
+	width: 65em;
 	margin-left: auto;
 	margin-right: auto;
 	cursor: pointer;
+	position: relative;
 }
 
 .sheet .field {
 	padding: .5em 1em;
 	display: inline-block;
-	width: 10em;
+	width: 15em;
 }
 
 .sheet .field:nth-child(2) {
@@ -61,4 +62,16 @@ input {
 
 button {
 	font-size: 1em;
+}
+
+.count {
+	position: absolute;
+	right: 1em;
+	top: .25em; bottom: .25em;
+	background: blue;
+	color: white;
+	width: 2em;
+	height: 2em;
+	border-radius: 2em;
+	line-height: 2em;
 }

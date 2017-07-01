@@ -56,6 +56,30 @@ module Sinatra
       token = data['token']
       p StripeMethods::find_customer_by_card(token)
     end
+
+    def charge_card
+      custy = Customer[params[:customer]]
+      params[:email] = custy.email if params[:email].nil?
+      params[:metadata] ||= {}
+      description = "#{custy.name} purchased #{params[:description]}"  
+      charge = StripeMethods::charge_card(params[:token], params[:amount], params[:email], description, params[:metadata])
+      CustomerPayment.create( :customer => custy, :stripe_id => charge.id, :amount => params[:amount], :reason => params[:description]).to_json
+    end
+
+    def card_swipe
+      tok = Stripe::Token.retrieve
+      halt 400 if tok.nil?
+      @swipe_token = tok
+    end
+
+    def wait_for_swipe
+      stream do |out|
+        while !out.closed? do
+          return @swipe_token.to_json unless @swipe_token.nil?
+          sleep(.5) 
+        end
+      end
+    end
   
   end
 end

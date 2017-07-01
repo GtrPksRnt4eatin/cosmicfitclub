@@ -162,6 +162,22 @@ class Customer < Sequel::Model
     end
   end
 
+  def pass_transactions
+    return [] if self.wallet.nil?
+    self.wallet.transactions
+  end
+
+  def membership_uses
+    return [] if self.subscription.nil?
+    self.subscription.uses
+  end
+
+end
+
+class CustomerPayment < Sequel::Model
+  
+  many_to_one :customer
+
 end
 
 ################################################################ ROUTES ###########################################################################
@@ -170,6 +186,10 @@ class CustomerRoutes < Sinatra::Base
 
   get '/' do
     Customer.all.to_json
+  end
+
+  get '/:id' do
+    Customer[params[:id]].to_json(:include=>:payment_sources)
   end
 
   get '/:id/payment_sources' do
@@ -195,6 +215,16 @@ class CustomerRoutes < Sinatra::Base
     custy = Customer[params[:id]]
     halt 404 if custy.nil?
     JSON.generate custy.reservations.map { |res| { :id => res.id, :classname => res.occurrence.classdef.name, :instructor=> res.occurrence.teacher.name, :starttime => res.occurrence.starttime } }
+  end
+
+  get '/:id/transaction_history' do
+    custy = Customer[params[:id]]
+    halt 404 if custy.nil?
+    data = {
+      :pass_transactions => custy.pass_transactions,
+      :membership_uses => custy.membership_uses 
+    }
+    data.to_json
   end
 
 end

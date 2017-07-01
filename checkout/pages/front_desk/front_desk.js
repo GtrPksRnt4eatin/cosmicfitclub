@@ -12,45 +12,51 @@ data = {
     starttime: null,
   },
   amount: 0,
-  starttime: null
+  starttime: null,
+  reservation_errors: []
 }
 
 ctrl = {
 
   reserve_class_pass: function(e,m) {
-    data.reservation.transaction_type = "class_pass";
-    $.post('/models/classdefs/reservation', data.reservation)
-     .done( function(e) { refresh_customer_data(); clear_reservations(); } )
-     .fail( function(e) { alert('reservation failed!'); });
+    if( !validate_reservation() ) return; 
+    post_reservation("class_pass");
   },
 
   reserve_membership: function(e,m) {
-    data.reservation.transaction_type = "membership";
-    $.post('/models/classdefs/reservation', data.reservation)
-     .done( function(e) { refresh_customer_data(); clear_reservations(); } )
-     .fail( function(e) { alert('reservation failed!'); });
+    if( !validate_reservation() ) return;
+    post_reservation("membership");
   },
 
-  reserve_card: function(e,m) {
-
-  },
-
-  reserve_cash: function(e,m) {
-
+  reserve_paynow: function(e,m) {
+    if( !validate_reservation() ) { return; }
+    classname = $('#classes option:selected').text()
+    teachername = $('#staff option:selected').text()
+    reason = `${classname} w/ ${teachername} - ${moment($('#timeslot')[0].value).format('ddd MMM D @ h:mm A')}`;
+    payment_form.checkout( data.reservation.customer_id, 2500, reason, null, function(payment_id) {
+      data.reservation.payment_id = payment_id;
+      post_reservation("payment");
+    });
   }
 
 }
 
+function post_reservation(type) {
+  data.reservation.transaction_type = type;
+  $.post('/models/classdefs/reservation', data.reservation)
+   .done( function(e) { refresh_customer_data(); clear_reservations(); } )
+   .fail( function(e) { alert('reservation failed!'); }); 
+}
+
 $(document).ready( function() {
 
-  setupCard();
+  setupBindings();
 
-  var form = document.getElementById('payment-form');
-  form.addEventListener('submit', onFormSubmit );
-
+  popupmenu = new PopupMenu( id('popupmenu_container') );
   payment_form = new PaymentForm();
 
-  setupBindings();
+  payment_form.ev_sub('show', popupmenu.show );
+  payment_form.ev_sub('hide', popupmenu.hide );
 
   $.get('/models/customers', on_custylist, 'json');
 
@@ -84,69 +90,15 @@ function setupBindings() {
   rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
 
-/////////////////////// CARD /////////////////////////////////////////
-
-
-function setupCard() {
-  var elements = stripe.elements();
-
-  card = elements.create('card', { 
-    style: {
-      base: {
-        lineHeight: '1.5em',
-        fontFamily: '"Industry-Light", sans-serif',
-        fontWeight: 'bold',
-        fontSmoothing: 'antialiased',
-        fontSize: '1em',
-        '::placeholder': { color: '#aab7c4' }
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
-      }
-    }
-  });
-
-  card.mount('#card-element')
-
-  card.addEventListener('change', onCardChange);
-}
-
-function onCardChange(e) {
-  showErr(e.error);
-  if(e.complete) {
-    stripe.createToken(card).then(function(result) {
-      showErr(result.error) 
-      console.log(result);
-    });
-  }
-}
-
-function showErr(err) {
-  var displayError = document.getElementById('card-errors');
-  if( err ) { displayError.textContent = err.message; }
-  else      { displayError.textContent = '';          }
-}
-
-function stripeTokenHandler(token) {
-  console.log(token);
-}
-
-/////////////////////// CARD /////////////////////////////////////////
-
-
-function onFormSubmit(e) {
-  e.preventDefault();
-  stripe.createToken(card).then( function(result){
-    if( result.error ) {
-      var errorElement = document.getElementById('card-errors');
-      errorElement.textContext = result.error.message;
-    }
-    else {
-      stripeTokenHandler(result.token);
-    }
-
-  });
+function validate_reservation() {
+  data.reservation_errors = [];
+  if( ! data.reservation.customer_id ) { data.reservation_errors.push("You must select a Customer"); }
+  if( ! data.reservation.classdef_id ) { data.reservation_errors.push("You must select a Class");    }
+  if( ! data.reservation.staff_id    ) { data.reservation_errors.push("You must select a Teacher");  }
+  if( ! data.reservation.starttime   ) { data.reservation_errors.push("You must select a Timeslot"); }
+  if( data.reservation_errors.length == 0 ) return true;
+  $('#class_checkin_table').shake();
+  return false;
 }
 
 function on_custylist(list) {

@@ -12,7 +12,7 @@ end
 class Wallet < Sequel::Model
 
   one_to_many :customers
-  one_to_many :pass_transactions
+  one_to_many :transactions, :class => :PassTransaction
 
   def empty?; self.pass_balance == 0 end
 

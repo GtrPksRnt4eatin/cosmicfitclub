@@ -4,6 +4,7 @@ class Subscription < Sequel::Model
 
   many_to_one :customer
   many_to_one :plan
+  one_to_many :uses, :class => :MembershipUse, :key=>:membership_id
 
 end
 

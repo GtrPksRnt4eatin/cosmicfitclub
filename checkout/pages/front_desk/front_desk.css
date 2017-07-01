@@ -117,10 +117,16 @@ textarea {
   background-color: #fefde5 !important;
 }
 
-#card-errors {
+#card-errors,
+#reservation-errors {
   font-size: .8em;
   text-align: center;
   color: #fa755a;
+}
+
+.reservation-error {
+  padding: 0;
+  text-align: center;
 }
 
 .saved_card {

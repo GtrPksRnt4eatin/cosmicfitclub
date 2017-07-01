@@ -12,12 +12,13 @@ html
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
     == js  [ 'rivets', 'moment', 'rv_money', 'flatpickr', 'rv_dates', 'rv_select' ]
-    == js  [ 'elements', 'ev_channel', 'elements/payment_form' ]
-    == js  [ 'lib', 'front_desk' ]
+    == js  [ 'lib', 'element', 'ev_channel', 'popupmenu', 'elements/payment_form' ]
+    == js  [ 'front_desk' ]
 
     javascript:
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
 
   body
 
@@ -89,14 +90,17 @@ html
               tr
                 th Timeslot:
                 td
-                  input rv-datefield='data.reservation.starttime'
+                  input#timeslot rv-datefield='data.reservation.starttime'
 
               tr                  
                 th
                 td.class_checkout
                   button rv-on-click='ctrl.reserve_membership' rv-enabled='data.customer.membership_status.plan | has_membership' Use Membership <br>( { data.customer.membership_status.plan.name } ) 
                   button rv-on-click='ctrl.reserve_class_pass' rv-enabled='data.customer.class_passes | zero_if_null' Use a Class Pass <br>( { data.customer.class_passes | zero_if_null } Remaining )
-                  button Pay $25 Now
+                  button rv-on-click='ctrl.reserve_paynow' Pay $25 Now
+              tr#reservation-errors rv-each-err='data.reservation_errors'
+                td.reservation-error colspan='2' { err }
+
             br
             table.classreservations
               tr
@@ -122,33 +126,6 @@ html
                 td 
                   input#amount rv-moneyfield='data.amount'
 
-
-    #payment_popup
-      table
-        tr
-          th Saved Cards
-          td 
-            .saved_card rv-each-card='data.customer.payment_sources'
-              span 
-                input type='radio'
-              span 
-                | {card.brand}
-              span 
-                | **** **** **** {card.last4}
-              span 
-                | {card.exp_month}/{card.exp_year}
-        tr
-          th New Card
-          td: #card-element
-
-        tr
-          th
-          td colspan='2'
-            #card-errors
-        tr
-          th
-          td
-            button#checkout Submit Payment
-
+    #popupmenu_container
 
     == analytics

@@ -22,6 +22,7 @@ class Checkout < Sinatra::Base
   get('/misc')          { render_page :misc          }
   get('/front_desk')    { render_page :front_desk    }
   get('/class_checkin') { render_page :class_checkin } 
+  get('/transactions')  { render_page :transactions  }
 
   post('/plan/charge')     { buy_plan       }
   post('/pack/charge')     { buy_pack       }
@@ -29,5 +30,9 @@ class Checkout < Sinatra::Base
   post('/event/charge')    { buy_event      }
   post('/event/register')  { register_event }
   post('/misc/charge')     { buy_misc       }
+
+  post('/charge_card')     { charge_card    }
+  post('/swipe')           { card_swipe     }
+  get('/wait_for_swipe')   { wait_for_swipe }
 
 end

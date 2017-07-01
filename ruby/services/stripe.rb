@@ -89,7 +89,7 @@ module StripeMethods
   end
 
   def StripeMethods::charge_card(token_id, amount, email, description, metadata)
-    charge = Stripe::Charge.create(
+    Stripe::Charge.create(
       :amount        => amount,
       :currency      => 'usd',
       :source        => token_id,

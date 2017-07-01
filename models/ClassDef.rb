@@ -74,6 +74,12 @@ class ClassReservation < Sequel::Model
   many_to_one :occurrence, :class => :ClassOccurrence, :key => :class_occurrence_id
   many_to_one :customer
 
+  def check_in
+    self.checked_in = DateTime.now
+    self.checked_in_by = session[:customer]
+    self.save
+  end
+
 end
 
 class ClassException < Sequel::Model  
@@ -190,20 +196,27 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   post '/reservation' do
-    occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime])
     custy = Customer[ params[:customer_id] ]
-    message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"
-    halt 400 if params[:transaction_type].nil?
+    halt 400 if params[:transaction_type].nil? 
+    halt 400 if custy.nil?
+    occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime])
+    message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
     case params[:transaction_type]
     when "class_pass"
       custy.use_class_pass(message) { occurrence.make_reservation( params[:customer_id] ) } or halt 400
-      #pass_transaction = custy.rem_passes( 1, message, "" ) or halt 400
-      #pass_transaction.reservation = occurrence.make_reservation( params[:customer_id] )
-      #transaction.save
     when "membership"
       custy.use_membership(message) { occurrence.make_reservation( params[:customer_id] ) } or halt 400
+    when "payment"
+      reservation = occurrence.make_reservation( params[:customer_id] ) or halt 400
+      CustomerPayment[params[:payment_id]].update( :class_reservation_id => reservation.id )
     end
     status 201
+  end
+
+  post '/reservation/:id/checkin' do
+    reservation = ClassReservation[params[:id]]
+    halt 400 if reservation.nil?
+    reservation.check_in
   end
 
 end
