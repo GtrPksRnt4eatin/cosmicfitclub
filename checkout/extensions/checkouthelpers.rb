@@ -81,6 +81,7 @@ module Sinatra
         while !out.closed? do
           if $swipe then
             out << $swipe.to_json
+            $swipe = nil
             out.close
           end
           sleep(0.5) 
