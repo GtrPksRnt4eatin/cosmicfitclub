@@ -78,7 +78,6 @@ module Sinatra
     def wait_for_swipe
       stream do |out|
         while !out.closed? do
-          out.write
           if $swipe then
             out.puts($swipe.to_json)
             out.close
