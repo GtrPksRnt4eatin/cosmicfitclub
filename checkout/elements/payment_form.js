@@ -38,10 +38,6 @@ function PaymentForm() {
 
   this.card.addEventListener('change', this.on_card_change);
 
-  rivets.formatters.empty = function(val) { 
-    return ( val ? val.length==0 : true ); 
-  }
-
 }
 
 PaymentForm.prototype = {
@@ -139,7 +135,7 @@ PaymentForm.prototype = {
   },
 
   failed_charge(e) {
-    alert('Failed Charge');
+    $(this.dom).find('#card-errors').textContent = e;
   },
 
   after_charge(payment) {
