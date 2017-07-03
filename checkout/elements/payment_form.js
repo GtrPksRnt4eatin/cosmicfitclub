@@ -13,7 +13,7 @@ function PaymentForm() {
     swipe_source: null
   }
 
-  this.bind_handlers(['pay_cash', 'failed_charge', 'charge_token', 'charge_swiped', 'on_swipe', 'poll_for_swipe', 'start_polling','stop_polling', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
+  this.bind_handlers(['pay_cash', 'charge_saved', 'failed_charge', 'charge_token', 'charge_swiped', 'on_swipe', 'poll_for_swipe', 'start_polling','stop_polling', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
