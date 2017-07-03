@@ -170,7 +170,7 @@ PaymentForm.prototype.HTML = `
           <button rv-on-click='this.charge_swiped'> Pay Now </button>
         </td>
       </tr>
-      <tr rv-unless='state.customer.payment_sources | empty'>
+      <tr rv-if="state.customer.payment_sources">
         <th>Saved Card</th>
         <td>
           <div class='saved_card' rv-each-card='state.customer.payment_sources'>
