@@ -99,6 +99,17 @@ module StripeMethods
     )
   end
 
+  def StripeMethods::charge_saved(customer_id, card_id, amount, description, metadata)
+    Stripe::Charge.create(
+      :amount      => amount,
+      :currency    => 'usd'
+      :customer    => customer_id,
+      :card        => card_id,
+      :description => description,
+      :metadata    => metadata
+    )
+  end
+
   def StripeMethods::find_customer_by_card(token)
     tok = Stripe::Token.retrieve(token['id'])
     ( p "Couldn't find token"; return nil ) if tok.nil?

@@ -13,7 +13,7 @@ function PaymentForm() {
     swipe_source: null
   }
 
-  this.bind_handlers(['on_swipe', 'poll_for_swipe', 'start_polling','stop_polling', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
+  this.bind_handlers(['failed_charge', 'charge_token', 'on_swipe', 'poll_for_swipe', 'start_polling','stop_polling', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
@@ -107,33 +107,35 @@ PaymentForm.prototype = {
     this.card.mount('#card-element');
   },
 
-  charge_new() {
-    this.stop_polling();
-    if(!this.state.token) return;
-    body = { customer: this.state.customer.id, token: this.state.token.id, amount: this.state.price, description: this.state.reason };
-    $.post('/checkout/charge_card', body, this.after_charge, 'json')
-     .fail( function(e) {
-        alert('Failed to Charge Card!'); 
-      });
-  },
-
   charge_saved(e,m) {
     this.stop_polling();
     body = { customer: this.state.customer.id, card: m.card.id, amount: this.state.price, description: this.state.reason };
-    $.post('/checkout/charge_saved_card', body, this.after_charge, 'json')
-     .fail( function(e) { 
-       alert('Failed to Charge Card!');
-     });
+    $.post('/checkout/charge_saved_card', body, this.after_charge, 'json').fail( this.failed_charge );
+  },
+
+  charge_new() {
+    this.charge_token(this.state.token.id)
   },
 
   charge_swiped() {
-    this.stop_polling();
-    body = { customer: this.state.customer.id, token: this.state.swipe.id}
+    this.charge_token(this.state.swipe_id)
+  },
 
+  charge_token(token_id) {
+    this.stop_polling();
+    if(!token_id) return;
+    body = { customer: this.state.customer.id, token: token_id, amount: this.state.price, description: this.state.reason };
+    $.post('/checkout/charge_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
   pay_cash() {
+    this.stop_polling();
+    body = { customer: this.state.customer.id, amount: this.state.price, reason: this.state.reason }
+    $.post('/checkout/pay_cash', body, this.after_charge, 'json').fail( this.failed_charge );
+  },
 
+  failed_charge(e) {
+    alert('Failed Charge');
   },
 
   after_charge(payment) {
@@ -155,7 +157,6 @@ PaymentForm.prototype.HTML = `
         <th>Swiped Card</th>
         <td>
           <div class='saved_card'>
-            <span> <input type='radio'> </span>
             <span> { state.swipe.card.brand } </span>
             <span> **** **** **** { state.swipe.card.last4 } </span>
             <span> { state.swipe.card.exp_month }/{ state.swipe.card.exp_year }
@@ -165,7 +166,7 @@ PaymentForm.prototype.HTML = `
           <button rv-on-click='this.charge_swiped'> Pay Now </button>
         </td>
       </tr>
-      <tr>
+      <tr rv-unless='state.customer.payment_sources | empty'>
         <th>Saved Card</th>
         <td>
           <div class='saved_card' rv-each-card='state.customer.payment_sources'>
