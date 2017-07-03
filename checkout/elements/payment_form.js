@@ -118,7 +118,7 @@ PaymentForm.prototype = {
   },
 
   charge_swiped() {
-    this.charge_token(this.state.swipe_id)
+    this.charge_token(this.state.swipe.id)
   },
 
   charge_token(token_id) {
