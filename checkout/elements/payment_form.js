@@ -38,6 +38,8 @@ function PaymentForm() {
 
   this.card.addEventListener('change', this.on_card_change);
 
+  rivets.formatters.empty = function(val) { return ( val ? val.length==0 : true ); }
+
 }
 
 PaymentForm.prototype = {
