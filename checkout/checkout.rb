@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require_relative './extensions/checkouthelpers'
+require_relative './extensions/paymentmethods'
 
 class Checkout < Sinatra::Base
 
