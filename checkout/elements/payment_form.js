@@ -170,10 +170,10 @@ PaymentForm.prototype.HTML = `
           <button rv-on-click='this.charge_swiped'> Pay Now </button>
         </td>
       </tr>
-      <tr rv-if="state.customer.payment_sources">
+      <tr rv-each-card='state.customer.payment_sources'>
         <th>Saved Card</th>
         <td>
-          <div class='saved_card' rv-each-card='state.customer.payment_sources'>
+          <div class='saved_card'>
             <span> { card.brand } </span>
             <span> **** **** **** { card.last4 } </span>
             <span> { card.exp_month }/{ card.exp_year }
