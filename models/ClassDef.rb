@@ -177,7 +177,7 @@ class ClassDefRoutes < Sinatra::Base
     sheets = ClassOccurrence.reverse(:starttime).all.map do |occ|
       { 
         :id           => occ.id,
-        :starttime    => occ.starttime,
+        :starttime    => occ.starttime.to_time.iso8601,
         :classdef     => { :id => occ.classdef.id, :name => occ.classdef.name },
         :teacher      => { :id => occ.teacher.id, :name => occ.teacher.name },
         :reservations => occ.reservations.map { |res| { :id => res.id, :customer => { :id => res.customer.id, :name => res.customer.name } } }

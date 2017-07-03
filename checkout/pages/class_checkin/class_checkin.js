@@ -19,7 +19,7 @@ $(document).ready( function() {
 
   $('.sheets').on('click', '.sheet', on_sheet_click);
 
-  $.get('/models/classdefs/occurrences', on_occurrences);
+  $.get('/models/classdefs/occurrences', on_occurrences, 'json');
 });
 
 function setup_bindings() {
@@ -45,8 +45,7 @@ function on_create_sheet(e) {
 }
 
 function on_occurrences(resp) {
-  console.log(resp);
-  data['occurrences'] = JSON.parse(resp);
+  data['occurrences'] = resp;
 }
 
 function on_sheet_click(e) {

@@ -56,7 +56,7 @@ PaymentForm.prototype = {
 
   poll_for_swipe() {
     if( !this.state.polling ) return;
-    this.state.poll_request = $.get('/checkout/wait_for_swipe', 'json')
+    this.state.poll_request = $.get('https://cosmicfitclub.com/checkout/wait_for_swipe', 'json')
      .done( this.on_swipe )
      .fail( this.poll_for_swipe )
   },
@@ -74,7 +74,6 @@ PaymentForm.prototype = {
   },
 
   on_swipe(e) {
-    console.log(e.data);
     this.state.swipe = JSON.parse(e.data);
   },
 
@@ -84,7 +83,7 @@ PaymentForm.prototype = {
      .fail( function(e) { alert('failed getting payment sources!'); })  
   },
 
-  on_customer(customer) { console.log(1); this.state.customer = customer; },
+  on_customer(customer) { this.state.customer = customer; },
 
   on_card_change(e) {
     this.show_err( e.error );
@@ -104,7 +103,6 @@ PaymentForm.prototype = {
   },
 
   show() {
-    console.log(2)
     this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
     this.card.mount('#card-element');
   },
@@ -112,11 +110,30 @@ PaymentForm.prototype = {
   charge_new() {
     this.stop_polling();
     if(!this.state.token) return;
-    body = { customer: this.state.customer.id, token: this.state.token.id, amount: this.state.price, description: this.state.reason, metadata: this.state.metadata };
+    body = { customer: this.state.customer.id, token: this.state.token.id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_card', body, this.after_charge, 'json')
      .fail( function(e) {
         alert('Failed to Charge Card!'); 
       });
+  },
+
+  charge_saved(e,m) {
+    this.stop_polling();
+    body = { customer: this.state.customer.id, card: m.card.id, amount: this.state.price, description: this.state.reason };
+    $.post('/checkout/charge_saved_card', body, this.after_charge, 'json')
+     .fail( function(e) { 
+       alert('Failed to Charge Card!');
+     });
+  },
+
+  charge_swiped() {
+    this.stop_polling();
+    body = { customer: this.state.customer.id, token: this.state.swipe.id}
+
+  },
+
+  pay_cash() {
+
   },
 
   after_charge(payment) {
@@ -144,16 +161,21 @@ PaymentForm.prototype.HTML = `
             <span> { state.swipe.card.exp_month }/{ state.swipe.card.exp_year }
           </div>
         </td>
+        <td>
+          <button rv-on-click='this.charge_swiped'> Pay Now </button>
+        </td>
       </tr>
       <tr>
         <th>Saved Card</th>
         <td>
           <div class='saved_card' rv-each-card='state.customer.payment_sources'>
-            <span> <input type='radio'> </span>
             <span> { card.brand } </span>
             <span> **** **** **** { card.last4 } </span>
             <span> { card.exp_month }/{ card.exp_year }
           </div>
+        </td>
+        <td>
+          <button rv-on-click='this.charge_saved'> Pay Now </button>
         </td>
       </tr>
       <tr>
@@ -161,16 +183,24 @@ PaymentForm.prototype.HTML = `
         <td> 
           <div id='card-element'></div> 
         </td>
-      </tr>
-      <tr>
-        <td colspan='2'>
-          <div id='card-errors'></div>
+        <td>
+          <button rv-on-click='this.charge_new' > Pay Now </button>
         </td>
       </tr>
       <tr>
-        <th></th>
+        <td.nopadding colspan='2'>
+          <div id='card-errors'></div>
+        </td>
+      </tr> 
+      <tr>
+        <th>Cash</th>
         <td>
-          <button id='checkout' rv-on-click='this.charge_new'> Submit Payment </button>
+          <div class='cash'>
+            { state.price | money }
+          </div>
+        </td>
+        <td>
+          <button rv-on-click='this.pay_cash'> Pay Now </button>
         </td>
       </tr>
     </table>
@@ -183,6 +213,34 @@ PaymentForm.prototype.CSS = `
   .PaymentForm { 
     display: inline-block;
     background: rgb(100,100,100);
+  }
+
+  .PaymentForm table td:nth-child(2) {
+    width: 30em;
+  }
+
+  .PaymentForm td.nopadding {
+    padding: 0;
+  }
+
+  .PaymentForm .card-errors {
+    padding: .5em;
+  }
+
+  .PaymentForm .cash,
+  .PaymentForm .saved_card {
+    border: 1px solid white;
+    padding: .5em;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .PaymentForm button {
+    padding: .5em;
+    cursor: pointer;
+    border-radius: 4px;
   }
 
 `.untab(2);
