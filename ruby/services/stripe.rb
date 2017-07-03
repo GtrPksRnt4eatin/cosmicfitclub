@@ -102,7 +102,7 @@ module StripeMethods
   def StripeMethods::charge_saved(customer_id, card_id, amount, description, metadata)
     Stripe::Charge.create(
       :amount      => amount,
-      :currency    => 'usd'
+      :currency    => 'usd',
       :customer    => customer_id,
       :card        => card_id,
       :description => description,
