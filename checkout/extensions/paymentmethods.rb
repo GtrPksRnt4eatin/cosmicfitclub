@@ -28,12 +28,10 @@ module Sinatra
     end
 
     def card_swipe
-      halt 400 if params[:token_id].nil?
-      tok = Stripe::Token.retrieve params[:token_id]
-      halt 400 if tok.nil?
+      halt 400 if params[:token].nil?
       $SWIPELISTENERS.each do |out|
         out << "event: swipe\n"
-        out << "data: #{tok.to_json}\n\n"
+        out << "data: #{params[:token]}\n\n"
       end
     end
 
