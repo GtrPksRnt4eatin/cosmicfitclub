@@ -1,13 +1,18 @@
 data = {
+	transactions: {
+		pass_transactions: [],
+		membership_uses: []
+	}
     
 }
 
 $(document).ready( function() {
 
     $('#customers').chosen();
-    $('#customers').on('change', get_customer_data 
+    $('#customers').on('change', get_customer_data);
 
     rivets.bind( 'body', { data: data } );
+
 });
 
 function get_customer_data() {

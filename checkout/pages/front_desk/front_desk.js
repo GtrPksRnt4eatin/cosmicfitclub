@@ -37,6 +37,11 @@ ctrl = {
       data.reservation.payment_id = payment_id;
       post_reservation("payment");
     });
+  },
+
+  reservation_checkin: function(e,m) {
+    $.post(`/models/classdefs/reservation/${m.res.id}/checkin`)
+     .done( )
   }
 
 }
@@ -123,8 +128,10 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}/payment_sources`, function(resp) { data.customer.payment_sources   = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/class_passes`,    function(resp) { data.customer.class_passes      = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/status`,          function(resp) { data.customer.membership_status = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/reservations`,    function(resp) { data.customer.reservations      = resp; }, 'json');
+  refresh_reservations()
 }
+
+function refresh_reservations() { $.get(`/models/customers/${data.customer.id}/reservations`, function(resp) { data.customer.reservations = resp; }, 'json'); }
 
 function resetCustomer() {
   data.customer.payment_sources = [];
