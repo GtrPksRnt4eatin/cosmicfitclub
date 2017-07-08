@@ -114,7 +114,7 @@ end
 class ClassDefRoutes < Sinatra::Base
 
   get '/' do
-    data = ClassDef.exclude(:decativated=>true).order(:position).all.map do |c| 
+    data = ClassDef.exclude(:deactivated=>true).order(:position).all.map do |c| 
       { :id => c.id, 
         :name => c.name, 
         :description => c.description,
