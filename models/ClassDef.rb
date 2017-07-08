@@ -114,7 +114,7 @@ end
 class ClassDefRoutes < Sinatra::Base
 
   get '/' do
-    data = ClassDef.order(:position).all.map do |c| 
+    data = ClassDef.exclude(:decativated=>true).order(:position).all.map do |c| 
       { :id => c.id, 
         :name => c.name, 
         :description => c.description,
@@ -138,7 +138,7 @@ class ClassDefRoutes < Sinatra::Base
 
   delete '/:id' do
     halt 404 if ClassDef[params[:id]].nil?
-    ClassDef[params[:id]].destroy
+    ClassDef[params[:id]].deactivate
     status 200
   end
 
@@ -216,8 +216,7 @@ class ClassDefRoutes < Sinatra::Base
     occurrence.to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end
 
-  get '/occurrence/:id/reservations' do
-    
+  get '/occurrence/:id/reservations' do  
   end
 
   post '/reservation' do
