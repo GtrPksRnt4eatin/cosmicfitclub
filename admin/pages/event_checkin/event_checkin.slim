@@ -25,6 +25,9 @@ html
 
         .title
           | { data.event.name }
+          br
+          br
+          a href="/models/events/#{params[:id]}/attendance.csv" Download Accounting Sheet
 
       .tile rv-each-session='data.event.sessions'
 

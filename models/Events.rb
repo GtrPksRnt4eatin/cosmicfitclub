@@ -1,3 +1,5 @@
+require 'csv'
+
 class Event < Sequel::Model
 
   plugin :json_serializer
@@ -33,6 +35,17 @@ class Event < Sequel::Model
 
   def sessions
     super.sort
+  end
+
+  def daterange
+    start  = DateTime.parse(self.sessions.first.start_time)
+    finish = DateTime.parse(self.sessions.last.end_time)
+    return "#{start.strftime("%a %b %-m %l:%M %p")}-#{finish.strftime("%l:%M %p")}" if start.to_date == finish.to_date
+    return "#{start.strftime("%a %b %-m %l:%M %p")}-#{finish.strftime("%a %b %-m %l:%M %p")}" 
+  end
+
+  def headcount
+    self.tickets.count
   end
 
 end
@@ -190,6 +203,48 @@ class EventRoutes < Sinatra::Base
     Event[params[:id]].tickets.to_json
   end
 
+  def fmt_price(cents)
+    "$ #{ ( cents.to_f / 100 ).round(2) }"
+  end
+
+  get '/:id/attendance.csv' do
+    event = Event[params[:id]]
+    halt 404 if event.nil?
+    content_type 'application/csv'
+    attachment "#{event.name} Attendance.csv"
+    csv_string = CSV.generate do |csv|
+      csv << [ "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net" ]
+      net = 0
+      gross = 0
+      fees = 0
+      refunds = 0
+      event.tickets.each do |tic|
+        trans = nil
+        if tic.stripe_payment_id then
+          charge = Stripe::Charge.retrieve(tic.stripe_payment_id)
+          trans = Stripe::BalanceTransaction.retrieve charge.balance_transaction
+          net = net + trans.net
+          gross = gross + trans.amount
+          fees = fees + trans.fee
+          refund = 0
+          charge.refunds.data.each do |ref|
+            t = Stripe::BalanceTransaction.retrieve ref.balance_transaction
+            net = net + t.net
+            refund = t.net
+            refunds = refunds + t.net
+          end
+        end
+        id = tic.customer ? tic.customer.id : 0
+        name = tic.customer ? tic.customer.name : ""
+        email = tic.customer ? tic.customer.email : ""
+        csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00" ] unless trans
+        csv << [ id, name, email, fmt_price(trans.amount), fmt_price(trans.fee), fmt_price(refund), fmt_price( trans.net + refund ) ] if trans
+      end 
+      csv << []
+      csv << [ "Totals:", event.headcount, "", fmt_price(gross), fmt_price(fees), fmt_price(refunds), fmt_price(net) ]
+    end
+  end
+
   get '/:id/accounting' do
     tickets = JSON.parse Event[params[:id]].tickets.to_json
     tickets.map! do |tic|
@@ -198,7 +253,7 @@ class EventRoutes < Sinatra::Base
       tic['charge']['refunds']['data'].map! do |refund|
         refund['balance_transaction'] = Stripe::BalanceTransaction.retrieve( refund['balance_transaction'] )
       end
-      tic
+      tic 
     end
     JSON.pretty_generate tickets
   end
