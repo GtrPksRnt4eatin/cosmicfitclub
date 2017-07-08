@@ -64,9 +64,7 @@ html
 
           .hidden
             
-            table.reservations
-              tr
-                td colspan="2" Reservations   
+            table.reservations  
               tr rv-each-res='occur.reservations'
                 td.field
                   | { res.customer.name }
@@ -97,8 +95,5 @@ html
               label
                 | Class Passes:
               | { data.customer.class_passes | count }
-
-
-
 
     == analytics

@@ -92,6 +92,10 @@ class ClassReservation < Sequel::Model
 
   def payment_type
     return "class pass" if self.transaction
+    if self.membership_use then
+      return "employee" if self.membership_use.employee_discount?
+      return "membership"
+    end
     return "membership" if self.membership_use
     if self.payment then
       return "cash" if self.payment.type == "cash"

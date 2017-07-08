@@ -19,4 +19,8 @@ class MembershipUse < Sequel::Model
   	self.delete
   end
 
+  def employee_discount?
+    self.membership.plan.id == 10
+  end
+
 end
