@@ -47,7 +47,7 @@ html
 
           ul.tabs
             li.current data-tab='info' Info
-            li data-tab='page_one'   Buy Class Passes
+            li data-tab='class_passes'   Class Passes
             li data-tab='event_registration' Events
             li data-tab='class_checkin'      Classes
             li data-tab='page_three' Miscelaneous Charge
@@ -67,7 +67,12 @@ html
                 td
                   | { data.customer.class_passes } 
 
-          #page_one.tab-content
+          #class_passes.tab-content
+            select#packages rv-idselect='data.package_id'
+              option value='0' None
+              - Package.all.each do |pack|
+                option value='#{pack.id}'
+                  | #{ pack.name }
 
           #class_checkin.tab-content
 
