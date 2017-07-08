@@ -52,6 +52,11 @@ class PassTransaction < Sequel::Model
     super
   end
 
+  def undo
+    self.wallet.update( :pass_balance => self.wallet.pass_balance - self.delta )
+    self.delete
+  end
+
 end
 
 class PassRoutes < Sinatra::Base

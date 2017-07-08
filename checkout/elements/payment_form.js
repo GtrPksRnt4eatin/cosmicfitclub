@@ -54,28 +54,32 @@ PaymentForm.prototype = {
     this.start_polling();
   },
 
-  poll_for_swipe() {
-    if( !this.state.polling ) return;
-    this.state.poll_request = $.get('https://cosmicfitclub.com/checkout/wait_for_swipe', 'json')
-     .done( this.on_swipe )
-     .fail( this.poll_for_swipe )
-  },
+  //  poll_for_swipe() {
+  //    if( !this.state.polling ) return;
+  //    this.state.poll_request = $.get('https://cosmicfitclub.com/checkout/wait_for_swipe', 'json')
+  //     .done( this.on_swipe )
+  //     .fail( this.poll_for_swipe )
+  //  },
 
-  start_polling() {
+  //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
+  
+  start_listen_cardswipe() {
     if(this.state.swipe_source) return;  
     this.state.swipe_source = new EventSource('/checkout/wait_for_swipe');
     this.state.swipe_source.addEventListener('swipe', this.on_swipe);
   },
 
-  stop_polling() {
+  stop_listen_cardswipe() {
     if(!this.state.swipe_source) return;
     this.state.swipe_source.close();
     this.state.swipe_source = null;
   },
 
-  on_swipe(e) {
+  on_cardswipe(e) {
     this.state.swipe = JSON.parse(e.data);
   },
+
+  //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
 
   get_customer(id) {
     this.state.customer = null;

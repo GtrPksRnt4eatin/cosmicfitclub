@@ -71,13 +71,34 @@ end
 
 class ClassReservation < Sequel::Model
 
-  many_to_one :occurrence, :class => :ClassOccurrence, :key => :class_occurrence_id
   many_to_one :customer
+  many_to_one :occurrence, :class => :ClassOccurrence, :key => :class_occurrence_id
+  one_to_one  :transaction, :class => :PassTransaction, :key => :reservation_id
+  one_to_one  :membership_use, :class => :MembershipUse, :key => :reservation_id
+  one_to_one  :payment, :class => :CustomerPayment, :key => :class_reservation_id
 
   def check_in
     self.checked_in = DateTime.now
     self.checked_in_by = session[:customer]
     self.save
+  end
+
+  def cancel
+    self.transaction.undo    if self.transaction
+    self.membership_use.undo if self.membership_use
+    self.payment.undo        if self.payment
+    self.delete
+  end
+
+  def payment_type
+    return "class pass" if self.transaction
+    return "membership" if self.membership_use
+    if self.payment then
+      return "cash" if self.payment.type == "cash"
+      return "card" if self.payment.type == "saved card"
+      return "card" if self.payment.type == "new card"
+    end
+    return ""
   end
 
 end
@@ -180,7 +201,7 @@ class ClassDefRoutes < Sinatra::Base
         :starttime    => occ.starttime.to_time.iso8601,
         :classdef     => { :id => occ.classdef.id, :name => occ.classdef.name },
         :teacher      => { :id => occ.teacher.id, :name => occ.teacher.name },
-        :reservations => occ.reservations.map { |res| { :id => res.id, :customer => { :id => res.customer.id, :name => res.customer.name } } }
+        :reservations => occ.reservations.map { |res| { :id => res.id, :customer => { :id => res.customer.id, :name => res.customer.name }, :payment_type => res.payment_type } }
       }
     end
     JSON.generate sheets

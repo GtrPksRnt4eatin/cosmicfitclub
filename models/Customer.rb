@@ -167,6 +167,14 @@ class Customer < Sequel::Model
     self.wallet.transactions
   end
 
+  def transfer_passes_to(customer_id, number)
+    customer = Customer[customer_id]
+    return false if customer.nil?
+    self.rem_passes(number, "Transferred to #{customer.name} \##{customer.id}", "") or return false
+    customer.add_passes(number, "Transferred from #{self.name} \##{self.id}") or return false
+    return true
+  end
+
   def membership_uses
     return [] if self.subscription.nil?
     self.subscription.uses
@@ -177,6 +185,12 @@ end
 class CustomerPayment < Sequel::Model
   
   many_to_one :customer
+  many_to_one :reservation, :class => :ClassReservation, :key => :class_reservation_id
+
+  def undo
+    StripeMethods::refund(self.stripe_id) if self.stripe_id
+    self.delete
+  end
 
 end
 

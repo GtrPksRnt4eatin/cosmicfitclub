@@ -47,6 +47,12 @@ end
 
 module StripeMethods
 
+  def StripeMethods::refund(charge_id)
+    Stripe::Refund.create( :charge => charge_id )
+  rescue Stripe::InvalidRequestError => e
+    p e.message
+  end
+
   def StripeMethods::create_customer(token)
     Stripe::Customer.create(
       :source   => token['id'],
