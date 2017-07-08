@@ -171,7 +171,7 @@ class Customer < Sequel::Model
     customer = Customer[customer_id]
     return false if customer.nil?
     self.rem_passes(number, "Transferred to #{customer.name} \##{customer.id}", "") or return false
-    customer.add_passes(number, "Transferred from #{self.name} \##{self.id}") or return false
+    customer.add_passes(number, "Transferred from #{self.name} \##{self.id}", "") or return false
     return true
   end
 

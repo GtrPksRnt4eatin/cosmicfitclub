@@ -13,7 +13,8 @@ data = {
   },
   amount: 0,
   starttime: null,
-  reservation_errors: []
+  reservation_errors: [],
+  package_id: 0
 }
 
 ctrl = {
