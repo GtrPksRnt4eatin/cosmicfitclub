@@ -1,6 +1,7 @@
 var data = {
 
   events: [],
+  past_events: [],
 
   newevent: {
     sessions: [],
@@ -26,9 +27,8 @@ var data = {
 var ctrl = {
 
   get: function() {
-    $.get('/models/events', function(events) {
-      data.events = JSON.parse(events);
-    });
+    $.get('/models/events',      function(events) { data.events      = events; }, 'json');
+    $.get('/models/events/past', function(events) { data.past_events = events; }, 'json');
   },
   
   add: function(e) {
@@ -63,6 +63,8 @@ var ctrl = {
 $(document).ready(function() {
 
   include_rivets_dates();
+
+  rivets.formatters.empty = function(val) { return(val ? val.length == 0 : false);}
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 

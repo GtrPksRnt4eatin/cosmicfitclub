@@ -137,6 +137,22 @@ class EventRoutes < Sinatra::Base
     JSON.generate data
   end
 
+  get '/past' do
+    data = Event.order(:starttime).all.map do |c|
+      next if c.starttime.nil?
+      next if c.starttime >= Date.today.to_time
+      { :id => c.id, 
+        :name => c.name, 
+        :description => c.description, 
+        :starttime => c.starttime.nil? ? nil : c.starttime.iso8601, 
+        :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
+        :sessions => c.sessions,
+        :prices => c.prices
+      }
+    end.compact!
+    JSON.generate data
+  end
+
   get '/:id' do
     c = Event[params[:id]]
     data = { 

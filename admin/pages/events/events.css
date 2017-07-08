@@ -119,7 +119,39 @@ footer .section .row {
   cursor: pointer;
 }
 
+#past_events {
+  display: inline-block;
+}
 
+#past_events .past_title {
+  margin-left: 5px;
+  margin-bottom: 5px;
+  line-height: 3em;
+}
+
+#past_events table{
+  display: inline-block;
+  max-height: 25em;
+  overflow: auto;
+  border-spacing: .3em;
+}
+
+#past_events td,
+#past_events .past_title {
+  height: 3em;
+  font-size: 1.2em;
+  background: rgba(0,0,0,0.8);
+  padding: 0 .5em;
+  box-shadow: 0 0 .5em rgba(255,255,255,1);
+}
+
+#past_events img {
+  height: 100%;
+}
+
+.pointer {
+  cursor: pointer;
+}
 
 @media(min-width: 800px) {
 
