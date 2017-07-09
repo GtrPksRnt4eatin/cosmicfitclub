@@ -12,6 +12,7 @@ class Customer < Sequel::Model
   one_to_many :nfc_tags
   many_to_one :wallet
   one_to_many :reservations, :class=>:ClassReservation
+  one_to_many :comp_tickets
 
   def Customer.is_new? (email)
     customer = Customer[ :email => email.downcase ]

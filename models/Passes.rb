@@ -17,9 +17,10 @@ class Wallet < Sequel::Model
   def empty?; self.pass_balance == 0 end
 
   def add_passes(number, description, notes)
-    add_transaction( PassTransaction.create( :delta => number, :description => description, :notes => notes ) )
+    transaction = add_transaction( PassTransaction.create( :delta => number, :description => description, :notes => notes ) )
     self.pass_balance = self.pass_balance + number
     self.save
+    return transaction
   end
 
   def rem_passes(number, description, notes)
@@ -59,10 +60,41 @@ class PassTransaction < Sequel::Model
 
 end
 
+class CompTicket < Sinatra::Base
+
+  many_to_one :customer
+  many_to_one :pass_transaction
+
+  def before_create
+    self.code = generate_code
+    super
+  end
+
+  def generate_code
+    rand(36**8).to_s(36)
+  end
+
+  def redeem
+    transaction = self.customer.add_passes(1, "First Visit Comp", "")
+    self.pass_transaction = transaction
+    self.save
+  end
+
+end
+
 class PassRoutes < Sinatra::Base
 
   get '/all' do
     Pass.list_all
+  end
+
+  post '/compticket' do
+    custy = Customer[params[:customer_id]]
+    halt 404 if custy.nil?
+    halt 409 if custy.comp_tickets.count > 0
+    comp = CompTicket.create(:customer => custy)
+    comp.redeem
+    status 203
   end
 
 end

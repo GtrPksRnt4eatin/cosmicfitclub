@@ -1,6 +1,7 @@
 data = {
   customers: [],
   customer: {
+    id: 0,
     payment_sources: [],
     class_passes: [],
     membership_status: null
@@ -43,6 +44,12 @@ ctrl = {
   reservation_checkin: function(e,m) {
     $.post(`/models/classdefs/reservation/${m.res.id}/checkin`)
      .done( )
+  },
+
+  comp: function(e,m) {
+    $.post('/models/passes/compticket', { "customer_id": data.customer.id })
+    .done( function(e) { refresh_customer_data(); } )
+    .fail( function(e) { alert('failed'); });
   }
 
 }
