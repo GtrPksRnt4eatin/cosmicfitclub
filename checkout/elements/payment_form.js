@@ -126,7 +126,7 @@ PaymentForm.prototype = {
 
   pay_cash() {
     this.stop_listen_cardswipe();
-    body = { customer: this.state.customer.id, amount: this.state.price, reason: this.state.reason }
+    body = { customer: this.state.customer.id, amount: this.state.price, description: this.state.reason }
     $.post('/checkout/pay_cash', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
