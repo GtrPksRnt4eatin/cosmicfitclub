@@ -60,7 +60,7 @@ class PassTransaction < Sequel::Model
 
 end
 
-class CompTicket < Sinatra::Base
+class CompTicket < Sequel::Model
 
   many_to_one :customer
   many_to_one :pass_transaction
