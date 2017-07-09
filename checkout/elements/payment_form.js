@@ -7,7 +7,6 @@ function PaymentForm() {
     token: null,
     metadata: {},
     callback: null,
-    polling: false,
     poll_request: null,
     swipe: null,
     swipe_source: null
@@ -50,8 +49,8 @@ PaymentForm.prototype = {
     this.state.callback = callback;
     this.get_customer(customer_id).done(this.show);
     this.show_err(null);
-    this.stop_polling();
-    this.start_polling();
+    this.stop_listen_cardswipe();
+    this.start_listen_cardswipe();
   },
 
   //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
@@ -105,7 +104,7 @@ PaymentForm.prototype = {
   },
 
   charge_saved(e,m) {
-    this.stop_polling();
+    this.stop_listen_cardswipe();
     body = { customer: this.state.customer.id, card: m.card.id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_saved_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
@@ -119,14 +118,14 @@ PaymentForm.prototype = {
   },
 
   charge_token(token_id) {
-    this.stop_polling();
+    this.stop_listen_cardswipe();
     if(!token_id) return;
     body = { customer: this.state.customer.id, token: token_id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
   pay_cash() {
-    this.stop_polling();
+    this.stop_listen_cardswipe();
     body = { customer: this.state.customer.id, amount: this.state.price, reason: this.state.reason }
     $.post('/checkout/pay_cash', body, this.after_charge, 'json').fail( this.failed_charge );
   },
