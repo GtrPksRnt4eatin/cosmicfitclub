@@ -105,6 +105,10 @@ class ClassReservation < Sequel::Model
     return ""
   end
 
+  def <=> (other)
+    self.occurrence.starttime <=> other.occurrence.starttime
+  end
+
 end
 
 class ClassException < Sequel::Model  
