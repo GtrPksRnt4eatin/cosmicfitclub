@@ -6,6 +6,10 @@ class Subscription < Sequel::Model
   many_to_one :plan
   one_to_many :uses, :class => :MembershipUse, :key=>:membership_id
 
+  def cancel
+    self.update( :canceled_on => Time.now, :deactivated => true )
+  end
+
 end
 
 class MembershipUse < Sequel::Model

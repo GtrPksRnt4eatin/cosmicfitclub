@@ -222,7 +222,8 @@ class CustomerRoutes < Sinatra::Base
   get '/:id/status' do
     custy = Customer[params[:id]]
     halt 404 if custy.nil?
-    return '{ "plan": { "name": "None" }}' if custy.subscription.nil? 
+    return '{ "plan": { "name": "None" } }' if custy.subscription.deactivated
+    return '{ "plan": { "name": "None" } }' if custy.subscription.nil?
     custy.subscription.to_json(:include => [ :plan ] )
   end
 
