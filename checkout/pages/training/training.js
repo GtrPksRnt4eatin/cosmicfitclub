@@ -2,7 +2,6 @@ $(document).ready( function() {
 
   rivets.formatters.currency = function(val) { return `$ ${(val/100).toFixed(2)}`; }
   rivets.bind( document.body, { data: data } )
-
   
   var handler = StripeCheckout.configure({
     zipCode: true,

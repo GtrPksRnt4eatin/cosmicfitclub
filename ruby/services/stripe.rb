@@ -22,8 +22,8 @@ class StripeRoutes < Sinatra::Base
     
     when 'customer.deleted'
       
-      customer = Customer.find( :stripe_id => event['data']['object']['id'] )
-      customer.destroy unless customer.nil?
+      #customer = Customer.find( :stripe_id => event['data']['object']['id'] )
+      #customer.destroy unless customer.nil?
 
     when 'customer.subscription.created'
 

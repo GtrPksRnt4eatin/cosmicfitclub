@@ -58,7 +58,7 @@ PaymentForm.prototype = {
   start_listen_cardswipe() {
     if(this.state.swipe_source) return;  
     this.state.swipe_source = new EventSource('/checkout/wait_for_swipe');
-    this.state.swipe_source.addEventListener('swipe', this.on_swipe);
+    this.state.swipe_source.addEventListener('swipe', this.on_cardswipe);
   },
 
   stop_listen_cardswipe() {
