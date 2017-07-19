@@ -206,7 +206,7 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id' do
     content_type :json
-    custy = Customer[params[:id]]
+    custy = Customer[params[:id].to_i]
     halt 404 if custy.nil?
     custy.to_json(:include=>:payment_sources)
   end
