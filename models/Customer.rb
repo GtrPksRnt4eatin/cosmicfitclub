@@ -231,7 +231,7 @@ class CustomerRoutes < Sinatra::Base
     custy = Customer[params[:id]]
     halt 404 if custy.nil?
     reservations = custy.reservations.map { |res| { :id => res.id, :classname => res.occurrence.classdef.name, :instructor=> res.occurrence.teacher.name, :starttime => res.occurrence.starttime } }
-    JSON.generate reservations.sort { |r| r[:starttime] }
+    JSON.generate reservations.sort_by { |r| r[:starttime] }
   end
 
   get '/:id/transaction_history' do

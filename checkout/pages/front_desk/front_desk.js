@@ -6,6 +6,7 @@ data = {
     class_passes: [],
     membership_status: null
   },
+  customer_info: {},
   reservation: {
     customer_id: 0,
     classdef_id: 0,
@@ -133,6 +134,7 @@ function clear_reservations() {
 }
 
 function refresh_customer_data() {
+  $.get(`/models/customers/${data.customer_id}`,                 function(resp) { data.customer_info              = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/payment_sources`, function(resp) { data.customer.payment_sources   = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/class_passes`,    function(resp) { data.customer.class_passes      = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/status`,          function(resp) { data.customer.membership_status = resp; }, 'json');
@@ -142,6 +144,7 @@ function refresh_customer_data() {
 function refresh_reservations() { $.get(`/models/customers/${data.customer.id}/reservations`, function(resp) { data.customer.reservations = resp; }, 'json'); }
 
 function resetCustomer() {
+  data.customer_info = {};
   data.customer.payment_sources = [];
   data.customer.class_passes = [];
   data.customer.membership_status = null;
