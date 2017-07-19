@@ -134,6 +134,7 @@ function clear_reservations() {
 }
 
 function refresh_customer_data() {
+  if(data.customer.id === undefined) return;
   $.get(`/models/customers/${data.customer_id}`,                 function(resp) { data.customer_info              = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/payment_sources`, function(resp) { data.customer.payment_sources   = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/class_passes`,    function(resp) { data.customer.class_passes      = resp; }, 'json');
