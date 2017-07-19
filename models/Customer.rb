@@ -200,11 +200,15 @@ end
 class CustomerRoutes < Sinatra::Base
 
   get '/' do
+    content_type :json
     Customer.all.to_json
   end
 
   get '/:id' do
-    Customer[params[:id]].to_json(:include=>:payment_sources)
+    content_type :json
+    custy = Customer[params[:id]]
+    halt 404 if custy.nil?
+    custy.to_json(:include=>:payment_sources)
   end
 
   get '/:id/payment_sources' do
@@ -222,8 +226,8 @@ class CustomerRoutes < Sinatra::Base
   get '/:id/status' do
     custy = Customer[params[:id]]
     halt 404 if custy.nil?
-    return '{ "plan": { "name": "None" } }' if custy.subscription.deactivated
     return '{ "plan": { "name": "None" } }' if custy.subscription.nil?
+    return '{ "plan": { "name": "None" } }' if custy.subscription.deactivate
     custy.subscription.to_json(:include => [ :plan ] )
   end
 
@@ -231,7 +235,7 @@ class CustomerRoutes < Sinatra::Base
     custy = Customer[params[:id]]
     halt 404 if custy.nil?
     reservations = custy.reservations.map { |res| { :id => res.id, :classname => res.occurrence.classdef.name, :instructor=> res.occurrence.teacher.name, :starttime => res.occurrence.starttime } }
-    JSON.generate reservations.sort_by { |r| r[:starttime] }
+    JSON.generate reservations.sort_by { |r| r[:starttime] }.reverse
   end
 
   get '/:id/transaction_history' do
