@@ -29,6 +29,10 @@ class ClassDef < Sequel::Model
     end.flatten
   end
 
+  def deactivate
+    self.update( :deactivated => true )
+  end
+
 end
 
 class ClassdefSchedule < Sequel::Model
