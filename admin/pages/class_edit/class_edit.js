@@ -1,16 +1,16 @@
 ctrl = {
 
   save_changes(e,m) {
-    var data = new FormData();
-    data.set('id', m.class.id);
-    data.set('name', m.class.name);
-    data.set('description', m.class.description);
-    data.set('instructors', m.class.instructors);
-    if( !empty($('#pic')[0].files[0]) ) { data.set('image', $('#pic')[0].files[0] ); }
+    var fdata = new FormData();
+    fdata.append('id', m.class.id);
+    fdata.append('name', m.class.name);
+    fdata.append('description', m.class.description);
+    fdata.append('instructors', m.class.instructors);
+    if( !empty($('#pic')[0].files[0]) ) { fdata.append('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/classes';  }
     request.open("POST", "/models/classdefs");
-    request.send(data); 
+    request.send(fdata); 
   },
 
   choose_img(e,m) {
@@ -76,6 +76,7 @@ function initialize_rivets() {
   }
 
   rivets.formatters.instructors = function(val) {
+    if(empty(val)) return "null";
     return val.map( function(o) { 
       obj = data['instructors'].find( function(val) { return val.id == o; })
       return obj.name;
