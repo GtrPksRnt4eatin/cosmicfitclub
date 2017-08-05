@@ -119,7 +119,7 @@ class Customer < Sequel::Model
   def buy_pack_card(pack_id, token)
     pack = Package[pack_id]
     charge = StripeMethods::charge_card( token['id'], pack.price, email, pack.name, { :pack_id => pack_id } )
-    self.add_payment( :stripe_id => charge.id, :amount => charge.amount , :reason =>'Bought #{pack.name}' , :type => 'new card' )
+    self.add_payment( :stripe_id => charge.id, :amount => charge.amount , :reason =>"Bought #{pack.name}" , :type => 'new card' )
     self.add_passes( pack.num_passes, "Bought #{pack.name}", "" )
 
     model = {
