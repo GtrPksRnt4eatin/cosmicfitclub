@@ -277,9 +277,8 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   post '/generate' do
-    day = params[:day].nil? ? deactivate.today : Date.parse(params[:day])
+    day = params[:day].nil? ? Date.today : Date.parse(params[:day])
     ClassdefSchedule.get_all_occurrences(day.to_s,(day+1).to_s).each do |occ|
-      p occ[:starttime]
       ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0].id, Time.parse(occ[:starttime].to_s) )
     end
     status 204
