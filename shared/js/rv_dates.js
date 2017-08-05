@@ -46,4 +46,34 @@ function include_rivets_dates() {
 
   }
 
+  rivets.binders['calendar'] = {
+
+    bind: function(el) {
+      this.flatpickrInstance = $(el).flatpickr({
+        enableTime: false, 
+        altInput: true, 
+        altFormat: 'm/d/Y',
+        onChange: function(val) {
+          this.publish(val);
+          if(this.el.onchange) { this.el.onchange(); }
+        }.bind(this)
+      })
+    },
+
+    unbind: function(el) {
+      this.flatpickrInstance.destroy();
+    },
+
+    routine: function(el,value) {
+      if(!value) { this.flatpickrInstance.clear(); return; }
+      this.flatpickrInstance.setDate( value ); 
+      this.flatpickrInstance.jumpToDate(value);
+    },
+
+    getValue: function(el) {
+      return el.value;
+    }
+
+  }
+
 }

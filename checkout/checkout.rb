@@ -16,15 +16,17 @@ class Checkout < Sinatra::Base
   helpers  Sinatra::ViewHelpers
   register Sinatra::Auth
 
-  get('/plan/:id')           { render_page :plan          }
-  get('/pack/:id')           { render_page :pack          }
-  get('/training/:id')       { render_page :training      }
-  get('/event/:id')          { render_page :event         }
-  get('/complete')           { render_page :complete      }
-  get('/misc')               { render_page :misc          }
-  get('/front_desk')         { render_page :front_desk    }
-  get('/class_checkin')      { render_page :class_checkin } 
-  get('/transactions')       { render_page :transactions  }
+  get('/plan/:id')           { render_page :plan           }
+  get('/pack/:id')           { render_page :pack           }
+  get('/training/:id')       { render_page :training       }
+  get('/event/:id')          { render_page :event          }
+  get('/complete')           { render_page :complete       }
+  get('/misc')               { render_page :misc           }
+  get('/front_desk')         { render_page :front_desk     }
+  get('/class_checkin')      { render_page :class_checkin  } 
+  get('/class_checkin2')     { render_page :class_checkin2 }
+  get('/transactions')       { render_page :transactions   }
+  get('/class_sheet/:id')    { render_page :class_sheet    }
 
   post('/plan/charge')       { buy_plan       }
   post('/pack/charge')       { buy_pack       }

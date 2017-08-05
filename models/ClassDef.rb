@@ -1,8 +1,10 @@
 require 'ice_cube'
+require 'active_support/core_ext/numeric/time.rb'
 
 class ClassDef < Sequel::Model
 
-  one_to_many :schedules, :class => :ClassdefSchedule, :key => :classdef_id
+  one_to_many :schedules, :class => :ClassdefSchedule, :key => :classdef_id 
+  one_to_many :occurrences, :class => :ClassOccurrence, :key => :classdef_id
 
   include ImageUploader[:image]
 
@@ -50,6 +52,24 @@ class ClassdefSchedule < Sequel::Model
     end.occurrences_between(Time.parse(from),Time.parse(to))
   end
 
+  def ClassdefSchedule.get_all_occurrences(from,to)
+    items = []
+    ClassdefSchedule.all.each do |sched|
+      sched.get_occurences(from, to).each do |starttime|
+        items << { 
+          :day => Date.strptime(starttime.to_time.iso8601).to_s,
+          :starttime => sched.start_time,
+          :endtime => sched.end_time,
+          :title => sched.classdef.name,
+          :classdef_id => sched.classdef.id,
+          :sched_id => sched.id,
+          :instructors => sched.teachers
+        }
+      end
+    end
+    items
+  end
+
 end
 
 class ClassOccurrence < Sequel::Model
@@ -69,6 +89,10 @@ class ClassOccurrence < Sequel::Model
   def make_reservation(customer_id)
     reservation = ClassReservation.create( :customer_id => customer_id )
     add_reservation reservation
+  end
+
+  def reservation_list
+    reservations.map { |res| { :id => res.id, :customer => { :id => res.customer.id, :name => res.customer.name }, :payment_type => res.payment_type } }
   end
 
 end
@@ -207,7 +231,8 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   get '/occurrences' do
-    sheets = ClassOccurrence.reverse(:starttime).all.map do |occ|
+    day = params[:day].nil? ? Date.today : Date.parse(params[:day])
+    sheets = ClassOccurrence.where{ |o| (o.starttime >= day) & (o.starttime < day + 1)}.order(:starttime).all.map do |occ|
       { 
         :id           => occ.id,
         :starttime    => occ.starttime.to_time.iso8601,
@@ -217,7 +242,7 @@ class ClassDefRoutes < Sinatra::Base
       }
     end
     JSON.generate sheets
-  end
+  end   
 
   post '/occurrences' do 
     occurrence = ClassOccurrence.get(params['classdef_id'], params['staff_id'], params['starttime'])
@@ -249,6 +274,15 @@ class ClassDefRoutes < Sinatra::Base
     reservation = ClassReservation[params[:id]]
     halt 400 if reservation.nil?
     reservation.check_in
+  end
+
+  post '/generate' do
+    day = params[:day].nil? ? deactivate.today : Date.parse(params[:day])
+    ClassdefSchedule.get_all_occurrences(day.to_s,(day+1).to_s).each do |occ|
+      p occ[:starttime]
+      ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0].id, Time.parse(occ[:starttime].to_s) )
+    end
+    status 204
   end
 
 end

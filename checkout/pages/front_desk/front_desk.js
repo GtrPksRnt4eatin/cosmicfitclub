@@ -16,7 +16,8 @@ data = {
   amount: 0,
   starttime: null,
   reservation_errors: [],
-  package_id: 0
+  package_id: 0,
+  package_price: 0
 }
 
 ctrl = {
@@ -51,6 +52,13 @@ ctrl = {
     $.post('/models/passes/compticket', { "customer_id": data.customer.id })
     .done( function(e) { refresh_customer_data(); } )
     .fail( function(e) { alert('failed'); });
+  },
+
+  buy_package(e,m) {
+    var package = $('#packages option:selected').text();
+    payment_form.checkout( data.customer.id, data.package_price, package, null, function(payment_id) {
+      
+    });
   }
 
 }
@@ -138,7 +146,7 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}`,                 function(resp) { data.customer_info              = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/payment_sources`, function(resp) { data.customer.payment_sources   = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/class_passes`,    function(resp) { data.customer.class_passes      = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/status`,          function(resp) { data.customer.membership_status = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/membership`,      function(resp) { data.customer.membership_status = resp; }, 'json');
   refresh_reservations()
 }
 

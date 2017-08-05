@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+    
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'class_checkin2' ]
+
+    script src='https://js.stripe.com/v3/'
+
+    javascript:
+      data = {}
+      data['classes'] = #{{ ClassDef.all.to_json }};
+      data['staff']   = #{{ Staff.all.to_json }};
+      data['customer'] = {};
+
+    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr' ]
+    == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
+    == js  [ 'lib', 'class_checkin2' ]
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+
+        h1 Class Checkin Sheets
+
+        input rv-calendar='data.query_date' rv-on-change='ctrl.datechange'
+        button rv-on-click='ctrl.generate_sheets' Generate Sheets
+      
+      .sheets
+        .tile.sheet rv-each-occur='data.occurrences' rv-title='occur.id'
+          .field 
+            | { occur.starttime | eventstart }
+          .field 
+            | { occur.classdef.name }
+          | w/ 
+          .field 
+            | { occur.teacher.name }
+          .field
+            | Headcount: { occur.reservations | count }
+
+          .hidden
+            
+            table.reservations  
+              tr rv-each-res='occur.reservations'
+                td.field
+                  | { res.customer.name }
+                td.field
+                  | { res.payment_type }
+                td.field
+                  | Check In Now
+              tr
+                td colspan="2"
+                  button Add Reservation
+
+    == analytics

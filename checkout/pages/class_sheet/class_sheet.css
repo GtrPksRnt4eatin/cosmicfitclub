@@ -1,0 +1,28 @@
+.heading span {
+	font-size: 1.4em;
+	padding: .8em 1em .5em 1em;
+	display: inline-block;
+}
+
+table {
+	margin: 1em 0;
+	display: inline-block;
+}
+
+td { 
+    width: 20em;
+    box-shadow: 0 0 .5em white;
+    padding: .3em;
+}
+
+td.checkin, td.cancel {
+	width: 10em;
+}
+
+#customers_chosen {
+	width: 30em !important;
+}
+
+.checkout_buttons {
+	 
+}

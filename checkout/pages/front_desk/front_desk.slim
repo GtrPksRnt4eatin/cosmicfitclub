@@ -84,13 +84,23 @@ html
                   | { data.customer.class_passes } 
 
           #class_passes.tab-content
-            select#packages rv-idselect='data.package_id'
-              option value='0' None
-              - Package.all.each do |pack|
-                option value='#{pack.id}'
-                  | #{ pack.name }
-
-            button rv-on-click='ctrl.comp' Give Comp Ticket
+            table
+              tr
+                th
+                  | Buy Package:
+                td
+                  select#packages rv-idselect='data.package_id'
+                    option value='0' 
+                      | None
+                    - Package.where(:available => true).all.each do |pack|
+                      option value='#{ pack.id }' data-price='#{ pack.price }'
+                        | #{ pack.formatted_price } #{ pack.name }
+                  button rv-on-click='ctrl.buy_package'
+                    | Buy For { data.package_id }
+              tr
+                th
+                td
+                  button rv-on-click='ctrl.comp' Give Comp Ticket
 
           #class_checkin.tab-content
 

@@ -43,7 +43,22 @@ select,
   padding: .5em;
   border-radius: 4px;
   box-shadow: 0 1px 3px 0 #e6ebf1;
+}
+
+#packages_chosen {
+  width: 40em !important;
+}
+
+button {
+  font-family: "Industry-Light";
+  font-size: 1em;
+  padding: .5em;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
   box-sizing: border-box;
+  line-height: 1em;
+  height: 2.2em;
+  vertical-align: top;
 }
 
 #class_checkin_table .chosen-container {

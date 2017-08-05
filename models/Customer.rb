@@ -8,11 +8,12 @@ class Customer < Sequel::Model
   one_to_many :passes
   one_to_many :tickets, :class=>:EventTicket
   one_to_many :training_passes
-  one_to_one :waiver
+  one_to_one  :waiver
   one_to_many :nfc_tags
   many_to_one :wallet
   one_to_many :reservations, :class=>:ClassReservation
   one_to_many :comp_tickets
+  one_to_many :payments, :class=>:CustomerPayment
 
   def Customer.is_new? (email)
     customer = Customer[ :email => email.downcase ]
@@ -43,6 +44,12 @@ class Customer < Sequel::Model
   def before_save
     self.email = self.email.downcase
     super
+  end
+
+  def membership_plan
+    return { :id => 0, :name => "None" } if self.subscription.nil?
+    return { :id => 0, :name => "None" } if self.subscription.deactivated
+    { :id => subscription.plan.id, :name => subscription.plan.name }
   end
 
   def payment_sources
@@ -111,8 +118,8 @@ class Customer < Sequel::Model
 
   def buy_pack_card(pack_id, token)
     pack = Package[pack_id]
-    StripeMethods::charge_card( token['id'], pack.price, email, pack.name, { :pack_id => pack_id } )
-    #pack.num_passes.times { self.add_pass( Pass.create() ) }
+    charge = StripeMethods::charge_card( token['id'], pack.price, email, pack.name, { :pack_id => pack_id } )
+    self.add_payment( :stripe_id => charge.id, :amount => charge.amount , :reason =>'Bought #{pack.name}' , :type => 'new card' )
     self.add_passes( pack.num_passes, "Bought #{pack.name}", "" )
 
     model = {
@@ -218,22 +225,28 @@ class CustomerRoutes < Sinatra::Base
   end
 
   get '/:id/class_passes' do
-    custy = Customer[params[:id]]
-    halt 404 if custy.nil?
+    custy = Customer[params[:id]] or halt 404
     custy.num_passes.to_json
   end
 
-  get '/:id/status' do
-    custy = Customer[params[:id]]
-    halt 404 if custy.nil?
+  get '/:id/membership' do
+    custy = Customer[params[:id]] or halt 404
     return '{ "plan": { "name": "None" } }' if custy.subscription.nil?
     return '{ "plan": { "name": "None" } }' if custy.subscription.deactivated
     custy.subscription.to_json(:include => [ :plan ] )
   end
 
+  get '/:id/status' do
+    content_type :json
+    custy = Customer[params[:id]] or halt 404
+    { :membership => custy.membership_plan,
+      :passes => custy.num_passes
+    }.to_json
+  end
+
   get '/:id/reservations' do
     custy = Customer[params[:id]]
-    halt 404 if custy.nil?
+    halt 404 if custy.nil?  
     reservations = custy.reservations.map { |res| { :id => res.id, :classname => res.occurrence.classdef.name, :instructor=> res.occurrence.teacher.name, :starttime => res.occurrence.starttime } }
     JSON.generate reservations.sort_by { |r| r[:starttime] }.reverse
   end

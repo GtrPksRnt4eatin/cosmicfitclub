@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+    
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'class_sheet' ]
+
+    script src='https://js.stripe.com/v3/'
+
+    javascript:
+      data = {};
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher ] ) }};
+      data['reservations'] = #{{ ClassOccurrence[params[:id]].reservation_list.to_json }};
+
+    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr', 'element', 'ev_channel' ]
+    == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib' ]
+    == js  [ 'elements/reservation_form', 'class_sheet' ]
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+        .heading
+          span
+            | { data.occurrence.starttime | eventstart } 
+          span
+            | { data.occurrence.classdef.name } 
+          span
+            | w/ 
+          span
+            | { data.occurrence.teacher.name }  
+
+        table
+          tr rv-each-reservation='data.reservations' rv-title='reservation.id'
+            td
+              | { reservation.customer.name }
+            td
+              | {reservation.payment_type }
+            td.checkin
+              | Check In
+            td.cancel
+              | Cancel
+
+        select#customers
+          option value='0'
+            | No Customer
+          - Customer.all.each do |cust|
+            option value='#{cust.id}'
+              | #{ cust.name } ( #{ cust.email } )
+
+        #reservation_form_container
+
+    == analytics
