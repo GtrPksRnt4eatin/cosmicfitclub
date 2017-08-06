@@ -26,7 +26,7 @@ $(document).ready( function() {
 
     reservation_form.set_occurrence(data['occurrence']);
     reservation_form.ev_sub('reservation_made', get_reservations);
-    reservation_form.ev_sub('paynow', payment_form.checkout);
+    reservation_form.ev_sub('paynow', function(args) { payment_form.checkout(args[0],args[1],args[2],args[3],args[4]) });
 
     payment_form.ev_sub('show', popupmenu.show );
     payment_form.ev_sub('hide', popupmenu.hide );
