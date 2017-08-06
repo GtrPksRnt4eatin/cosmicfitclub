@@ -136,7 +136,6 @@ class ClassReservation < Sequel::Model
 
   def check_in
     self.checked_in = DateTime.now
-    self.checked_in_by = session[:customer]
     self.save
   end
 
