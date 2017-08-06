@@ -73,6 +73,7 @@ class ClassdefSchedule < Sequel::Model
 end
 
 class ClassOccurrence < Sequel::Model
+  plugin :json_serializer
 
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
   many_to_one :teacher, :key => :staff_id, :class => :Staff
@@ -92,12 +93,40 @@ class ClassOccurrence < Sequel::Model
   end
 
   def reservation_list
-    reservations.map { |res| { :id => res.id, :customer => { :id => res.customer.id, :name => res.customer.name }, :payment_type => res.payment_type } }
+    $DB[ClassOccurrence.reservation_list_query, self.id].all.to_json
+  end
+
+  def ClassOccurrence.reservation_list_query
+    %{
+      SELECT
+        "class_reservations"."id" AS id, 
+        "class_reservations"."customer_id" AS customer_id, 
+        "customers"."name" AS customer_name, 
+        "customers"."email" AS customer_email,
+        CASE WHEN "pass_transactions"."id" IS NOT NULL THEN 'class pass'
+             WHEN "customer_payments"."id" IS NOT NULL THEN 
+               CASE WHEN "customer_payments"."type" = 'cash' THEN 'cash' ELSE 'card' END
+             WHEN "membership_uses"."id" IS NOT NULL THEN 
+               CASE WHEN membership_id = 10::bigint THEN 'employee' ELSE 'membership' END
+        END AS payment_type,   
+        "pass_transactions"."id" AS transaction_id,
+        "customer_payments"."id" AS payment_id,
+        "membership_uses".id AS membership_use_id,
+        "membership_uses"."membership_id" AS membership_id
+      FROM "class_reservations"
+      LEFT JOIN "customers" ON ("customers"."id" = "class_reservations"."customer_id")
+      LEFT JOIN "customer_payments" ON ("customer_payments"."class_reservation_id" = "class_reservations"."id") 
+      LEFT JOIN "membership_uses" ON ("membership_uses"."reservation_id" = "class_reservations"."id")
+      LEFT JOIN "pass_transactions" ON ("pass_transactions"."reservation_id" = "class_reservations"."id")
+      WHERE ("class_occurrence_id" = ?)
+      ORDER BY "class_reservations"."id"
+    }
   end
 
 end
 
 class ClassReservation < Sequel::Model
+  plugin :json_serializer
 
   many_to_one :customer
   many_to_one :occurrence, :class => :ClassOccurrence, :key => :class_occurrence_id
@@ -249,7 +278,17 @@ class ClassDefRoutes < Sinatra::Base
     occurrence.to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end
 
-  get '/occurrence/:id/reservations' do  
+  delete '/occurrences/:id' do
+    occurrence = ClassOccurrence[params[:id]] or halt 404
+    halt 409 unless occurrence.reservations.count == 0
+    occurrence.delete
+    status 204
+  end
+
+  get '/occurrences/:id/reservations' do
+    content_type :json
+    occurrence = ClassOccurrence[params[:id]] or halt 404
+    occurrence.reservation_list
   end
 
   post '/reservation' do
@@ -268,6 +307,12 @@ class ClassDefRoutes < Sinatra::Base
       CustomerPayment[params[:payment_id]].update( :class_reservation_id => reservation.id )
     end
     status 201
+  end
+
+  delete '/reservations/:id' do
+    res = ClassReservation[params[:id]] or halt 404
+    res.cancel
+    status 204
   end
 
   post '/reservation/:id/checkin' do

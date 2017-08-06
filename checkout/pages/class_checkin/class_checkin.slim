@@ -12,7 +12,6 @@ html
 
     javascript:
       data = {}
-      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
       data['classes'] = #{{ ClassDef.all.to_json }};
       data['staff']   = #{{ Staff.all.to_json }};
       data['customer'] = {};
@@ -31,27 +30,11 @@ html
 
         h1 Class Checkin Sheets
 
-        table
-          tr
-            td
-              label for='classtime' Time
-              input rv-datefield='data.newsheet.starttime'
-              
-            td
-              label for='classname' Class
-              select#classname rv-value='data.newsheet.classdef_id'
-                option rv-each-cls='data.classes' rv-value='cls.id'
-                  | { cls.name }
-            td
-              label for='instructor' Instructor
-              select#instructor rv-value='data.newsheet.staff_id'
-                option rv-each-staff='data.staff' rv-value='staff.id'
-                  | { staff.name }
-            td
-              button#create_sheet Create New Sheet
+        input rv-calendar='data.query_date' rv-on-change='ctrl.datechange'
+        button rv-on-click='ctrl.generate_sheets' Generate Sheets
       
       .sheets
-        .tile.sheet rv-each-occur='data.occurrences'
+        .tile.sheet rv-each-occur='data.occurrences' rv-title='occur.id'
           .field 
             | { occur.starttime | eventstart }
           .field 
@@ -59,8 +42,11 @@ html
           | w/ 
           .field 
             | { occur.teacher.name }
-          .field 
+          .field
             | Headcount: { occur.reservations | count }
+          .edit rv-on-click='ctrl.edit'
+          .delete rv-unless='occur.reservations | count' rv-on-click='ctrl.delete'
+          .dropdown
 
           .hidden
             
@@ -75,25 +61,5 @@ html
               tr
                 td colspan="2"
                   button Add Reservation
-
-      .tile
-        table
-          tr
-            td colspan='2'
-              select#customers
-                option value='0'
-                  | No Customer
-                - Customer.all.each do |cust|
-                  option value="#{cust.id}"
-                    | #{ cust.name } ( #{ cust.email } )
-          tr
-            td
-              label 
-                | Membership:
-              | { data.customer.membership_status.plan.name }
-            td
-              label
-                | Class Passes:
-              | { data.customer.class_passes | count }
 
     == analytics

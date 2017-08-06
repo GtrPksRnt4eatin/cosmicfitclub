@@ -4,23 +4,35 @@ data['newsheet'] = {
   starttime: null
 }
 
+data['query_date'] = new Date().setHours(0, 0, 0, 0);
 
-$(document).ready( function() {
+ctrl = {
+  datechange:      function(e,m) { get_occurrences(); },
+  generate_sheets: function(e,m) { 
+    var day = new Date(data['query_date']).toISOString();
+    $.post(`/models/classdefs/generate?day=${day}`, get_occurrences); 
+  },
+  delete: function(e,m) {
+    $.del(`/models/classdefs/occurrences/${m.occur.id}`, get_occurrences, 'json');
+    cancelEvent(e);
+  },
+  edit:   function(e,m) {
+    window.location.href = `class_sheet/${m.occur.id}`;
+    cancelEvent(e);
+  }
+}
+
+$(document).ready( function() { 
 
   setup_bindings();
-
-  var stripe  = Stripe(STRIPE_PUBLIC_KEY);
 
   $('#customers').chosen();
 
   $('#customers').on('change', on_customer_selected );
 
-  $('#create_sheet').on('click', on_create_sheet );
+  $('.sheets').on('click', '.dropdown', on_sheet_click);
 
-  $('.sheets').on('click', '.sheet', on_sheet_click);
-
-  $.get('/models/classdefs/occurrences', on_occurrences, 'json');
-  
+  get_occurrences();
 });
 
 function setup_bindings() {
@@ -28,7 +40,7 @@ function setup_bindings() {
   rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
 
   include_rivets_dates();
-  var binding = rivets.bind( $('body'), { data: data } );
+  var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 
 }
 
@@ -37,12 +49,9 @@ function on_customer_selected(e) {
   $.get(`/models/customers/${parseInt(e.target.value)}/status`,       function(resp) { data.customer.membership_status = resp; }, 'json');
 }
 
-function on_create_sheet(e) {
-  $.post(`/models/classdefs/occurrences`, data.newsheet,
-
-  function(data) {
-    $.get('/models/classdefs/occurrences', on_occurrences);
-  }, 'json');
+function get_occurrences() {
+  var day = new Date(data['query_date']).toISOString();
+  $.get(`/models/classdefs/occurrences?day=${day}`, on_occurrences, 'json');
 }
 
 function on_occurrences(resp) {

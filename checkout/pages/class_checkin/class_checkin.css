@@ -24,9 +24,8 @@ input {
 
 .sheet {
 	padding-bottom: 0;
-	width: 75em;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 1em;
+	margin-right: 1em;
 	cursor: pointer;
 	position: relative;
 }
@@ -34,12 +33,12 @@ input {
 .sheet .field {
 	padding: .5em 1em;
 	display: inline-block;
-	width: 15em;
+	width: 14em;
 }
 
-.sheet .field:nth-child(2) {
-	width: 15em;
-}
+.sheet .field:nth-child(1) { width: 10em; }
+.sheet .field:nth-child(2) { width: 25em; }
+.sheet .field:nth-child(3) { width: 10em; }
 
 .sheet td.field {
 	width: 15em;
@@ -74,4 +73,50 @@ button {
 	height: 2em;
 	border-radius: 2em;
 	line-height: 2em;
+}
+
+.edit {
+  display: inline-block;
+  position: absolute;
+  top: 0; bottom: 0;
+  right: 3em;
+  width: 2em;
+  height: 2em;
+  background: url('list.svg');
+  background-size: contain;
+  margin: auto;
+  transition: all .2s ease-in-out;
+}
+
+.delete {
+  display: inline-block;
+  position: absolute;
+  top: 0; bottom: 0;
+  right: .5em;
+  width: 2em;
+  height: 2em;
+  background: url('closecircle.png');
+  background-size: contain;
+  margin: auto;
+  box-shadow: 0 0 0.1em white;
+  border-radius: 1em;
+  transition: all .2s ease-in-out;
+}
+
+.dropdown {
+  width: 2em;
+  height: 2em;
+  position: absolute;
+  left: .5em;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: url('dropdown.svg');
+  background-size: contain;
+}
+
+.edit:hover,
+.delete:hover,
+.dropdown:hover {
+  transform: scale(1.1);
 }

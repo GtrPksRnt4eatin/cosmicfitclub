@@ -24,7 +24,6 @@ class Checkout < Sinatra::Base
   get('/misc')               { render_page :misc           }
   get('/front_desk')         { render_page :front_desk     }
   get('/class_checkin')      { render_page :class_checkin  } 
-  get('/class_checkin2')     { render_page :class_checkin2 }
   get('/transactions')       { render_page :transactions   }
   get('/class_sheet/:id')    { render_page :class_sheet    }
 

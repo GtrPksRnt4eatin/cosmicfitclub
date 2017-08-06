@@ -4,6 +4,7 @@ require_relative 'ruby/environment'
 require_relative 'ruby/services/database'
 require_relative 'ruby/services/aws'
 require_relative 'ruby/shrine'
+require_relative 'ruby/patches'
 
 Dir["extensions/*.rb"].each    { |file| require_relative file }
 Dir["models/*.rb"].each        { |file| require_relative file }

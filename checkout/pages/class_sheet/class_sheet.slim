@@ -14,11 +14,11 @@ html
       data = {};
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
       data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher ] ) }};
-      data['reservations'] = #{{ ClassOccurrence[params[:id]].reservation_list.to_json }};
+      data['reservations'] = #{{ ClassOccurrence[params[:id]].reservation_list }};
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr', 'element', 'ev_channel' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib' ]
-    == js  [ 'elements/reservation_form', 'class_sheet' ]
+    == js  [ 'elements/payment_form', 'popupmenu','elements/reservation_form', 'class_sheet' ]
 
   body
 
@@ -29,24 +29,25 @@ html
       .tile
         .heading
           span
-            | { data.occurrence.starttime | eventstart } 
+            | { data.occurrence.starttime | classtime } :
           span
             | { data.occurrence.classdef.name } 
           span
             | w/ 
           span
-            | { data.occurrence.teacher.name }  
+            | { data.occurrence.teacher.name }
 
         table
           tr rv-each-reservation='data.reservations' rv-title='reservation.id'
             td
-              | { reservation.customer.name }
+              | { reservation.customer_name }
             td
               | {reservation.payment_type }
-            td.checkin
+            td.checkin rv-on-click='ctrl.checkin'
               | Check In
-            td.cancel
+            td.cancel rv-on-click='ctrl.cancel'
               | Cancel
+        br
 
         select#customers
           option value='0'
@@ -56,5 +57,7 @@ html
               | #{ cust.name } ( #{ cust.email } )
 
         #reservation_form_container
+
+    #popupmenu_container
 
     == analytics

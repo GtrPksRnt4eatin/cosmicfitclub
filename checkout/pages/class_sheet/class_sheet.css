@@ -1,6 +1,6 @@
 .heading span {
 	font-size: 1.4em;
-	padding: .8em 1em .5em 1em;
+	padding: .8em .25em .5em .25em;
 	display: inline-block;
 }
 
@@ -25,4 +25,13 @@ td.checkin, td.cancel {
 
 .checkout_buttons {
 	 
+}
+
+td.cancel {
+  color: red;
+  cursor: pointer;
+}
+
+td.cancel:hover {
+  background: rgba(255,0,0,0.2);
 }
