@@ -136,7 +136,7 @@ class ClassReservation < Sequel::Model
   one_to_one  :payment, :class => :CustomerPayment, :key => :class_reservation_id
 
   def check_in
-    self.checked_in = DateTime.now
+    self.checked_in = self.checked_in.nil? ? DateTime.now : nil
     self.save
   end
 
