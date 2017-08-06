@@ -240,4 +240,9 @@ PaymentForm.prototype.CSS = `
     border-radius: 4px;
   }
 
+  .PaymentForm td,
+  .PaymentForm th {
+    padding: .5em;
+  }
+
 `.untab(2);
