@@ -32,6 +32,10 @@ td.cancel {
   cursor: pointer;
 }
 
+td.checkin {
+  cursor: pointer;
+}
+
 td.cancel:hover {
   background: rgba(255,0,0,0.2);
 }

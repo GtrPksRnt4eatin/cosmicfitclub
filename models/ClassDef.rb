@@ -100,6 +100,7 @@ class ClassOccurrence < Sequel::Model
     %{
       SELECT
         "class_reservations"."id" AS id, 
+        "class_reservatins"."checked_in",
         "class_reservations"."customer_id" AS customer_id, 
         "customers"."name" AS customer_name, 
         "customers"."email" AS customer_email,
