@@ -47,7 +47,7 @@ html
               | { reservation.payment_type }
             td.checkin rv-on-click='ctrl.checkin'
               span rv-unless='reservation.checked_in' Check In
-              span rv-if='reservation.checked_in' { reservation.checked_in | time }
+              span.checked_in rv-if='reservation.checked_in' { reservation.checked_in | time }
             td.cancel rv-on-click='ctrl.cancel'
               | Cancel
         br

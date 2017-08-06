@@ -43,3 +43,7 @@ td.cancel:hover {
 td.checkin:hover {
   background: rgba(0,255,0,0.2);
 }
+
+.checked_in {
+  color: green;
+}
