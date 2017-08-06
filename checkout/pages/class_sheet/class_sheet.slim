@@ -13,6 +13,8 @@ html
     javascript:
       data = {};
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
       data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher ] ) }};
       data['reservations'] = #{{ ClassOccurrence[params[:id]].reservation_list }};
 
