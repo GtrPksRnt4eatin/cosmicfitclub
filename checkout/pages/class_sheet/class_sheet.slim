@@ -16,7 +16,7 @@ html
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
       data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher ] ) }};
-      data['reservations'] = #{{ ClassOccurrence[params[:id]].reservation_list }};
+      data['reservations'] = #{{ ClassOccurrence[params[:id]].reservation_list.to_json }};
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr', 'element', 'ev_channel' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib' ]

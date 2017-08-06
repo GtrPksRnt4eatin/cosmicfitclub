@@ -7,7 +7,11 @@ data['newsheet'] = {
 data['query_date'] = new Date().setHours(0, 0, 0, 0);
 
 ctrl = {
-  datechange:      function(e,m) { get_occurrences(); },
+  datechange:      function(e,m) {
+    var day = new Date(data['query_date']).toISOString();
+    history.pushState({ "day": day }, "", `class_checkin?day=${day}`); 
+    get_occurrences(); 
+  },
   generate_sheets: function(e,m) { 
     var day = new Date(data['query_date']).toISOString();
     $.post(`/models/classdefs/generate?day=${day}`, get_occurrences); 
@@ -26,38 +30,34 @@ $(document).ready( function() {
 
   setup_bindings();
 
-  $('#customers').chosen();
+  $('.sheets').on('click', '.dropdown', on_dropdown_click);
 
-  $('#customers').on('change', on_customer_selected );
 
-  $('.sheets').on('click', '.dropdown', on_sheet_click);
+  var day = getUrlParameter('day')
+  if( ! empty(day) ) { data['query_date'] = day; }
+  day = new Date(data['query_date']).toISOString();
+  history.replaceState({ "day": day }, "", `class_checkin?day=${day}`);
+
+  $(window).bind('popstate', function(e) { 
+    data['query_date'] = history.state.day; get_occurrences(); 
+  });
 
   get_occurrences();
+
 });
 
 function setup_bindings() {
-
-  rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
-
   include_rivets_dates();
+  rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
-
-}
-
-function on_customer_selected(e) {
-  $.get(`/models/customers/${parseInt(e.target.value)}/class_passes`, function(resp) { data.customer.class_passes      = resp; }, 'json');
-  $.get(`/models/customers/${parseInt(e.target.value)}/status`,       function(resp) { data.customer.membership_status = resp; }, 'json');
 }
 
 function get_occurrences() {
   var day = new Date(data['query_date']).toISOString();
-  $.get(`/models/classdefs/occurrences?day=${day}`, on_occurrences, 'json');
+  $.get(`/models/classdefs/occurrences?day=${day}`, function(resp) { data['occurrences'] = resp; }, 'json');
 }
 
-function on_occurrences(resp) {
-  data['occurrences'] = resp;
-}
-
-function on_sheet_click(e) {
-  $(e.currentTarget).find('.hidden').toggle();
+function on_dropdown_click(e) {
+  $(e.currentTarget).siblings('.hidden').toggle();
+  $(e.currentTarget).toggleClass('quarter_turn');
 }

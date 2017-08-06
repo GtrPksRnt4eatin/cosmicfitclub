@@ -36,9 +36,8 @@ input {
 	width: 14em;
 }
 
-.sheet .field:nth-child(1) { width: 10em; }
-.sheet .field:nth-child(2) { width: 25em; }
-.sheet .field:nth-child(3) { width: 10em; }
+.sheet .field:nth-child(1) { width: 30em; }
+.sheet .field:nth-child(2) { width: 15em; }
 
 .sheet td.field {
 	width: 15em;
@@ -46,6 +45,7 @@ input {
 
 .reservations {
 	box-shadow: 0 0 .5em white;
+  margin: 1em 0;
 }
 
 .sheet tr:nth-child(odd) {
@@ -78,7 +78,7 @@ button {
 .edit {
   display: inline-block;
   position: absolute;
-  top: 0; bottom: 0;
+  top: .25em;
   right: 3em;
   width: 2em;
   height: 2em;
@@ -91,7 +91,7 @@ button {
 .delete {
   display: inline-block;
   position: absolute;
-  top: 0; bottom: 0;
+  top: .25em;
   right: .5em;
   width: 2em;
   height: 2em;
@@ -108,15 +108,25 @@ button {
   height: 2em;
   position: absolute;
   left: .5em;
-  top: 0;
-  bottom: 0;
+  top: .25em;
   margin: auto;
-  background: url('dropdown.svg');
-  background-size: contain;
+  transition: all .2s ease-in-out;
+
+}
+
+.dropdown .arrow {
+    background: url('dropdown.svg');
+    background-size: contain;
+    transition: all .2s ease-in-out;
+    height: 100%;
 }
 
 .edit:hover,
 .delete:hover,
 .dropdown:hover {
   transform: scale(1.1);
+}
+
+.quarter_turn .arrow {
+  transform: rotate(-90deg);
 }

@@ -93,7 +93,7 @@ class ClassOccurrence < Sequel::Model
   end
 
   def reservation_list
-    $DB[ClassOccurrence.reservation_list_query, self.id].all.to_json
+    $DB[ClassOccurrence.reservation_list_query, self.id].all
   end
 
   def ClassOccurrence.reservation_list_query
@@ -267,7 +267,7 @@ class ClassDefRoutes < Sinatra::Base
         :starttime    => occ.starttime.to_time.iso8601,
         :classdef     => { :id => occ.classdef.id, :name => occ.classdef.name },
         :teacher      => { :id => occ.teacher.id, :name => occ.teacher.name },
-        :reservations => occ.reservations.map { |res| { :id => res.id, :customer => { :id => res.customer.id, :name => res.customer.name }, :payment_type => res.payment_type } }
+        :reservations => occ.reservation_list #occ.reservations.map { |res| { :id => res.id, :customer => { :id => res.customer.id, :name => res.customer.name }, :payment_type => res.payment_type } }
       }
     end
     JSON.generate sheets
@@ -288,7 +288,7 @@ class ClassDefRoutes < Sinatra::Base
   get '/occurrences/:id/reservations' do
     content_type :json
     occurrence = ClassOccurrence[params[:id]] or halt 404
-    occurrence.reservation_list
+    occurrence.reservation_list.to_json
   end
 
   post '/reservation' do

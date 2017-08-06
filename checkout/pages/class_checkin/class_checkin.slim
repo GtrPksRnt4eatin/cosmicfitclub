@@ -47,19 +47,15 @@ html
           .edit rv-on-click='ctrl.edit'
           .delete rv-unless='occur.reservations | count' rv-on-click='ctrl.delete'
           .dropdown
+            .arrow
 
           .hidden
             
             table.reservations  
               tr rv-each-res='occur.reservations'
                 td.field
-                  | { res.customer.name }
+                  | { res.customer_name }
                 td.field
                   | { res.payment_type }
-                td.field
-                  | Check In Now
-              tr
-                td colspan="2"
-                  button Add Reservation
 
     == analytics
