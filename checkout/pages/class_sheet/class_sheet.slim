@@ -39,7 +39,7 @@ html
           span
             | { data.occurrence.teacher.name }
 
-        table
+        table.reservations
           tr rv-each-reservation='data.reservations' rv-title='reservation.id'
             td
               | { reservation.customer_name }

@@ -6,7 +6,7 @@ ctrl = {
 
 	cancel: function(e,m) {
 		var proceed;
-		if( m.reservation.payment_type == 'membership' ) { proceed = true; }
+		if( m.reservation.payment_type == 'membership' ) { proceed = confirm("Undo Membership Use?");   }
 		if( m.reservation.payment_type == 'class pass' ) { proceed = confirm("Refund One Class Pass?"); }
 		if( m.reservation.payment_type == 'card'       ) { proceed = confirm("Refund Credit Card?");    }
     if( m.reservation.payment_type == 'cash'       ) { proceed = confirm("Refund $25 Cash?");       }
