@@ -36,8 +36,11 @@ input {
 	width: 14em;
 }
 
-.sheet .field:nth-child(1) { width: 30em; }
-.sheet .field:nth-child(2) { width: 15em; }
+.sheet div.field:nth-child(1) { width: 10em; }
+.sheet div.field:nth-child(2) { width: 20em; }
+
+.sheet td.field:nth-child(1) { width: 30em; }
+.sheet td.field:nth-child(2) { width: 15em; }
 
 .sheet td.field {
 	width: 15em;
