@@ -1,7 +1,7 @@
 ctrl = {
 
   checkin: function(e,m) {
-    $.post()
+    $.post(`/models/classdefs/reservations/${m.reservation.id}/checkin`, get_reservations);
   },
 
 	cancel: function(e,m) {
@@ -26,7 +26,7 @@ $(document).ready( function() {
 
     reservation_form.set_occurrence(data['occurrence']);
     reservation_form.ev_sub('reservation_made', get_reservations);
-    reservation_form.ev_sub('charge_now', payment_form.charge_now);
+    reservation_form.ev_sub('paynow', payment_form.checkout);
 
     payment_form.ev_sub('show', popupmenu.show );
     payment_form.ev_sub('hide', popupmenu.hide );

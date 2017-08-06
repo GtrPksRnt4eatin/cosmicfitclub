@@ -315,7 +315,7 @@ class ClassDefRoutes < Sinatra::Base
     status 204
   end
 
-  post '/reservation/:id/checkin' do
+  post '/reservations/:id/checkin' do
     reservation = ClassReservation[params[:id]]
     halt 400 if reservation.nil?
     reservation.check_in
