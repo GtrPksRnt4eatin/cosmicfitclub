@@ -37,8 +37,9 @@ input {
 }
 
 .sheet div.field:nth-child(1) { width: 10em; }
-.sheet div.field:nth-child(2) { width: 25em; }
-.sheet div.field:nth-child(4) { width: 8em; }
+.sheet div.field:nth-child(2) { width: 23em; }
+.sheet div.field:nth-child(3) { width: 13em; }
+.sheet div.field:nth-child(4) { width: 8em;  }
 
 .sheet td.field:nth-child(1) { width: 30em; }
 .sheet td.field:nth-child(2) { width: 15em; }
