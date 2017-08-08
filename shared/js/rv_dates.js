@@ -53,7 +53,7 @@ function include_rivets_dates() {
       this.flatpickrInstance = $(el).flatpickr({
         enableTime: false, 
         altInput: true, 
-        altFormat: 'm/d/Y',
+        altFormat: 'D m/d/Y',
         onChange: function(val) {
           this.publish(val);
           if(this.el.onchange) { this.el.onchange(); }

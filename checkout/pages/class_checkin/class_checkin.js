@@ -8,6 +8,7 @@ data['query_date'] = new Date().setHours(0, 0, 0, 0);
 
 ctrl = {
   datechange:      function(e,m) {
+    data['occurrences'] = [];
     var day = new Date(data['query_date']).toISOString();
     history.pushState({ "day": day }, "", `class_checkin?day=${day}`); 
     get_occurrences(); 

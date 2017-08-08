@@ -37,7 +37,8 @@ input {
 }
 
 .sheet div.field:nth-child(1) { width: 10em; }
-.sheet div.field:nth-child(2) { width: 20em; }
+.sheet div.field:nth-child(2) { width: 25em; }
+.sheet div.field:nth-child(4) { width: 8em; }
 
 .sheet td.field:nth-child(1) { width: 30em; }
 .sheet td.field:nth-child(2) { width: 15em; }
@@ -132,4 +133,42 @@ button {
 
 .quarter_turn .arrow {
   transform: rotate(-90deg);
+}
+
+#generate {
+  cursor: pointer;
+  margin-left: .5em;
+  background: rgba(0,0,0,0);
+  color: rgba(255,255,255,0.8);
+  padding: .5em;
+  border-radius: 0 .5em .5em 0;
+}
+
+#generate:hover {
+  background: rgba(150,50,255,0.3);
+}
+
+.flatpickr-input:hover {
+  background: rgba(150,50,255,0.3);
+}
+
+.flatpickr-input {
+  padding: .5em;
+  border-radius: .5em;
+  width: 10em;
+  text-align: center;
+  border-radius: .5em 0 0 .5em;
+  background: rgba(0,0,0,0);
+  color: rgba(255,255,255,0.8);
+  box-shadow: none;
+}
+
+.sheet .field {
+  vertical-align: middle;
+}
+
+.sheet div.field:nth-child(2) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

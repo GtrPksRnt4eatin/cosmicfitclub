@@ -58,8 +58,8 @@ class ClassdefSchedule < Sequel::Model
       sched.get_occurences(from, to).each do |starttime|
         items << { 
           :day => Date.strptime(starttime.to_time.iso8601).to_s,
-          :starttime => sched.start_time,
-          :endtime => sched.end_time,
+          :starttime => starttime,
+          :endtime =>  starttime + ( sched.end_time - sched.start_time ),
           :title => sched.classdef.name,
           :classdef_id => sched.classdef.id,
           :sched_id => sched.id,
