@@ -1,0 +1,9 @@
+.tile {
+	display: inline-block;
+	padding: 1em;
+}
+
+.heading {
+	font-size: 1.2em;
+	margin-bottom: .8em;
+}

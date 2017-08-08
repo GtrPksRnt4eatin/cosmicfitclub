@@ -19,7 +19,7 @@ class CFC < Sinatra::Base
   get( '/staff')             { render_page :staff    }
   get( '/pricing')           { render_page :pricing  }
   get( '/faq')               { render_page :faq      }
-  get( '/store')             { render_page :store    }
+  get( '/media')             { render_page :media    }
 
   get( '/nathans_triumphant_return') { redirect '/checkout/event/95'}
 
