@@ -16,6 +16,8 @@ require_relative 'admin/admin.rb'
 require_relative 'site/CFC.rb'
 require_relative 'checkout/checkout.rb'
 
+use Rack::Deflater
+
 map "/" do
   run CFC
 end
