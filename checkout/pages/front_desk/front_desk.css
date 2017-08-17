@@ -207,3 +207,34 @@ ul.tabs li.current{
 .classreservations tr:odd() {
   background-color: rgba(255,255,255,0.2);
 }
+
+.shared_with button {
+  vertical-align: middle;
+  margin-left: 1em;
+  cursor: pointer;
+}
+
+.history tr:nth-child(odd),
+.tickets tr:nth-child(odd) {
+  background: rgba(255,255,255,0.1);
+}
+
+.history tr:nth-child(even),
+.tickets tr:nth-child(even) {
+  background: rgba(0,0,0,0.1);
+}
+
+.history td,
+.history th,
+.tickets td,
+.tickets th {
+  box-shadow: 0 0 1px white;
+}
+
+.history thead th {
+  text-align: center;
+}
+
+.tickets {
+  width: 100%;
+}

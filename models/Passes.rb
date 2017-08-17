@@ -41,6 +41,10 @@ class Wallet < Sequel::Model
     return transaction
   end
 
+  def shared?
+    customers.count > 1
+  end
+
 end
 
 class PassTransaction < Sequel::Model

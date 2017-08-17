@@ -46,11 +46,11 @@ html
         .tabs_container
 
           ul.tabs
-            li.current data-tab='info' Info
-            li data-tab='class_passes'   Class Passes
-            li data-tab='event_registration' Events
-            li data-tab='class_checkin'      Classes
-            li data-tab='page_three' Miscelaneous Charge
+            li.current data-tab='info'  Info
+            li data-tab='class_passes'  Class Passes
+            li data-tab='events'        Events
+            li data-tab='class_checkin' Classes
+            li data-tab='page_three'    Miscelaneous Charge
 
           #info.tab-content.current  
             table
@@ -87,6 +87,21 @@ html
             table
               tr
                 th
+                  | Wallet ID:
+                td
+                  | { data.customer.wallet.id }
+              tr rv-if='data.customer.wallet.shared'
+                th 
+                  | Shared With:
+                td 
+                  div.shared_with rv-each-partner='data.customer.wallet.shared_with'
+                    span 
+                      | { partner.name }
+                    button 
+                      | Remove 
+
+              tr
+                th
                   | Buy Package:
                 td
                   select#packages rv-idselect='data.package_id'
@@ -101,6 +116,45 @@ html
                 th
                 td
                   button rv-on-click='ctrl.comp' Give Comp Ticket
+            br
+            table.history
+              thead
+                th colspan='3'
+                  | Transaction History
+              tbody
+                tr rv-each-trans='data.customer.wallet.pass_transactions'
+                  td
+                    | { trans.timestamp | eventstart }
+                  td 
+                    | { trans.description }
+                  td
+                    | { trans.delta }
+          
+          #events.tab-content
+
+            table.tickets
+              tr 
+                th colspan='3' Upcoming Tickets
+              tr rv-each-tic='data.customer.event_history.upcoming'
+                td
+                  | { tic.starttime | eventstart }
+                td 
+                  | { tic.name }
+                td
+                  | { tic.price | money }
+
+            br
+
+            table.tickets
+              tr
+                th colspan='3' Past Tickets
+              tr rv-each-tic='data.customer.event_history.past'
+                td
+                  | { tic.starttime | eventstart }
+                td 
+                  | { tic.name }
+                td
+                  | { tic.price | money }
 
           #class_checkin.tab-content
 

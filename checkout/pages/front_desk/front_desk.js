@@ -147,6 +147,8 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}/payment_sources`, function(resp) { data.customer.payment_sources   = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/class_passes`,    function(resp) { data.customer.class_passes      = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/membership`,      function(resp) { data.customer.membership_status = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/wallet`,          function(resp) { data.customer.wallet            = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
   refresh_reservations()
 }
 
@@ -157,4 +159,6 @@ function resetCustomer() {
   data.customer.payment_sources = [];
   data.customer.class_passes = [];
   data.customer.membership_status = null;
+  data.customer.wallet = null;
+  data.customer.event_history = null;
 }

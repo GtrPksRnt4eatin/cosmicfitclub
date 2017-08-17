@@ -236,6 +236,20 @@ class CustomerRoutes < Sinatra::Base
     custy.subscription.to_json(:include => [ :plan ] )
   end
 
+  get '/:id/wallet' do
+    content_type :json
+    custy = Customer[params[:id]] or halt 404
+    wallet = custy.wallet
+    return '{ id: 0 }' if wallet.nil?
+    hsh = {}
+    hsh[:shared] = wallet.shared?
+    hsh[:shared_with] = wallet.customers.reject{ |x| x.id == custy.id }.map { |c| { :id => c.id, :name => c.name } }
+    hsh[:id] = wallet.id
+    hsh[:pass_balance] = wallet.pass_balance
+    hsh[:pass_transactions] = wallet.transactions
+    return hsh.to_json  
+  end
+
   get '/:id/status' do
     content_type :json
     custy = Customer[params[:id]] or halt 404
@@ -245,18 +259,35 @@ class CustomerRoutes < Sinatra::Base
   end
 
   get '/:id/reservations' do
-    custy = Customer[params[:id]]
-    halt 404 if custy.nil?  
+    custy = Customer[params[:id]] or halt 404
     reservations = custy.reservations.map { |res| { :id => res.id, :classname => res.occurrence.classdef.name, :instructor=> res.occurrence.teacher.name, :starttime => res.occurrence.starttime } }
     JSON.generate reservations.sort_by { |r| r[:starttime] }.reverse
   end
 
   get '/:id/transaction_history' do
-    custy = Customer[params[:id]]
-    halt 404 if custy.nil?
+    custy = Customer[params[:id]] or halt 404
     data = {
       :pass_transactions => custy.pass_transactions,
       :membership_uses => custy.membership_uses 
+    }
+    data.to_json
+  end
+
+  get '/:id/event_history' do
+    custy = Customer[params[:id]] or halt 404
+    query = %{
+      SELECT
+        event_tickets.*,
+        events.name,
+        events.starttime
+        FROM event_tickets 
+        LEFT JOIN events ON events.id = event_id
+        WHERE customer_id = ?;
+    }
+    tics = $DB[query, params[:id]].all
+    data = {
+      :past => tics.select { |x| x[:starttime] < Time.now },
+      :upcoming => tics.select { |x| x[:starttime] >= Time.now }
     }
     data.to_json
   end
