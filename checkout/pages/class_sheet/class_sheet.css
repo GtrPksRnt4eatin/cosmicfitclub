@@ -81,3 +81,11 @@ td.checkin:hover {
   display: inline-block;
   font-weight: bold;
 }
+
+.reservation_name {
+  cursor: pointer;
+}
+
+.reservation_name:hover {
+  color: rgba(160,160,255,1);
+}

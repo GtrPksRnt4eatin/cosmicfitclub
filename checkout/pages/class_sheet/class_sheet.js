@@ -18,6 +18,10 @@ ctrl = {
     window.location.href = '/checkout/customer_file?id=' + $('#customers').val();
   },
 
+  edit_reservation_customer(e,m) {
+    window.location.href = '/checkout/customer_file?id=' + m.reservation.customer_id
+  },
+
   new_customer(e,m) {
     var name = prompt("Enter The New Customers Name:", "");
     var email = prompt("Enter The New Customers E-Mail:", "");

@@ -41,7 +41,7 @@ html
 
         table.reservations
           tr rv-each-reservation='data.reservations' rv-title='reservation.id'
-            td
+            td.reservation_name rv-on-click='ctrl.edit_reservation_customer'
               | { reservation.customer_name }
             td
               | { reservation.payment_type }
