@@ -6,7 +6,12 @@ data = {
     class_passes: [],
     membership_status: null
   },
-  customer_info: {},
+  customer_info: {
+    name: "",
+    email: "",
+    phone: "",
+    address: ""
+  },
   reservation: {
     customer_id: 0,
     classdef_id: 0,
@@ -59,6 +64,10 @@ ctrl = {
     payment_form.checkout( data.customer.id, data.package_price, package, null, function(payment_id) {
       
     });
+  },
+
+  update_customer_info(e,m) {
+    $.post('/models/customers/' + data.customer.id + '/info', JSON.stringify(data.customer_info));
   }
 
 }
@@ -99,9 +108,13 @@ $(document).ready( function() {
     $("#"+tab_id).addClass('current');
   });
 
-  var customer_id = getUrlParameter('id')
+  var customer_id = getUrlParameter('id') ? getUrlParameter('id') : 0;
   if( ! empty(customer_id) ) { choose_customer(customer_id); }  
-  //history.replaceState({ "day": day }, "", `class_checkin?day=${day}`);
+  history.replaceState({ "id": customer_id }, "", `customer_file?id=${customer_id}`);
+
+  $(window).bind('popstate', function(e) { 
+    choose_customer(history.state.id);
+  });
 
 });
 
@@ -132,12 +145,17 @@ function on_custylist(list) {
   data.customers = list;
 }
 
-function on_customer_selected(e) { choose_customer(e.target.value); }
+function on_customer_selected(e) {   
+  history.pushState({ "id": e.target.value }, "", `customer_file?id=${e.target.value}`); 
+  choose_customer(e.target.value); 
+}
 
 function choose_customer(id) {
   resetCustomer();
   data.reservation.customer_id = id;
   data.customer.id = parseInt(id);
+  $('#customers').val(id);
+  $('#customers').trigger('chosen:updated');
   refresh_customer_data();
 }
 

@@ -6,14 +6,14 @@ html
 
     == no_scaling
     
-    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'front_desk' ]
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'customer_file' ]
 
     script src='https://js.stripe.com/v3/'
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
     == js  [ 'rivets', 'moment', 'rv_money', 'flatpickr', 'rv_dates', 'rv_select' ]
     == js  [ 'lib', 'element', 'ev_channel', 'popupmenu', 'elements/payment_form' ]
-    == js  [ 'front_desk' ]
+    == js  [ 'customer_file' ]
 
     javascript:
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
@@ -28,7 +28,7 @@ html
 
       .tile
 
-        h1 Customer Panel
+        h1 Customer File
 
         form action='/element_charge' method='post' id='payment-form'
 
@@ -61,19 +61,19 @@ html
               tr 
                 th Name:
                 td
-                  input rv-value='data.customer_info.name'
+                  input rv-value='data.customer_info.name' rv-on-change='ctrl.update_customer_info'
               tr
                 th E-Mail:
                 td
-                  input rv-value='data.customer_info.email'
+                  input rv-value='data.customer_info.email' rv-on-change='ctrl.update_customer_info'
               tr
                 th Phone:
                 td
-                  input rv-value='data.customer_info.phone'
+                  input rv-value='data.customer_info.phone' rv-on-change='ctrl.update_customer_info'
               tr
                 th Address:
                 td
-                  input rv-value='data.customer_info.address'
+                  textarea rv-value='data.customer_info.address' rv-on-change='ctrl.update_customer_info'
               tr
                 th Membership:
                 td

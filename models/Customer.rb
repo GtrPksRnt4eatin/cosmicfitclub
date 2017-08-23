@@ -218,9 +218,20 @@ class CustomerRoutes < Sinatra::Base
     custy.to_json(:include=>:payment_sources)
   end
 
+  post '/:id/info' do
+    data = JSON.parse request.body.read
+    custy = Customer[params[:id]] or halt 404
+    custy.update( 
+      :name => data["name"], 
+      :email => data["email"],
+      :phone => data["phone"],
+      :address => data["address"]
+    )
+    status 204
+  end
+
   get '/:id/payment_sources' do
-    custy = Customer[params[:id]]
-    halt 404 if custy.nil?
+    custy = Customer[params[:id]] or halt 404
     JSON.generate custy.payment_sources
   end
 
@@ -286,8 +297,8 @@ class CustomerRoutes < Sinatra::Base
     }
     tics = $DB[query, params[:id]].all
     data = {
-      :past => tics.select { |x| x[:starttime] < Time.now },
-      :upcoming => tics.select { |x| x[:starttime] >= Time.now }
+      :past => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] < Time.now },
+      :upcoming => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] >= Time.now }
     }
     data.to_json
   end

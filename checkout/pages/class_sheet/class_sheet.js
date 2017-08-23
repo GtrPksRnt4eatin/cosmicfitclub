@@ -12,7 +12,32 @@ ctrl = {
     if( m.reservation.payment_type == 'cash'       ) { proceed = confirm("Refund $25 Cash?");       }
 		if( !proceed ) return;
 		$.del(`/models/classdefs/reservations/${m.reservation.id}`, function() { get_reservations(); reservation_form.refresh_customer(); } );
-	}
+	},
+
+  edit_customer(e,m) {
+    window.location.href = '/checkout/customer_file?id=' + $('#customers').val();
+  },
+
+  new_customer(e,m) {
+    var name = prompt("Enter The New Customers Name:", "");
+    var email = prompt("Enter The New Customers E-Mail:", "");
+    $.post('/auth/register', JSON.stringify({
+        "name": name,
+        "email": email
+      }, 'json'))
+     .fail( function(req,msg,status) { 
+        alert('failed to create customer');
+      })
+     .success( function(data) {
+        console.log(data);
+        var option = document.createElement("option");
+        option.text = name + ' ( ' + email + ' ) ';
+        option.value = data.id;
+        id('customers').add(option);
+        $('#customers').val(data.id);
+        $('#customers').trigger('chosen:updated');
+      });
+  }
 
 }
 
@@ -26,7 +51,7 @@ $(document).ready( function() {
 
     reservation_form.set_occurrence(data['occurrence']);
     reservation_form.ev_sub('reservation_made', get_reservations);
-    reservation_form.ev_sub('paynow', function(args) { payment_form.checkout(args[0],args[1],args[2],args[3],args[4]) });
+    reservation_form.ev_sub('paynow', function(args) { payment_form.checkout(args[0], args[1], args[2], args[3], args[4]) });
 
     payment_form.ev_sub('show', popupmenu.show );
     payment_form.ev_sub('hide', popupmenu.hide );
