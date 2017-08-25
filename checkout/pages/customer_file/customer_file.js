@@ -68,7 +68,8 @@ ctrl = {
     var package_name = $('#packages option:selected').data("name");
     var package_price = $('#packages option:selected').data("price");
     payment_form.checkout( data.customer.id, package_price, package_name, null, function(payment_id) {
-      
+      $.post('/checkout/pack/buy', { customer_id: data.customer.id, pack_id: package_id , payment_id: payment_id })
+       .success( function() { alert('Purchase Successful'); } );
     });
   },
 

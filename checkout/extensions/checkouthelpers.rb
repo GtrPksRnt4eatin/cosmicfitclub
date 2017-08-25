@@ -20,7 +20,7 @@ module Sinatra
 
     def buy_pack_precharged
       custy = Customer[params[:customer_id]] or halt 403
-      custy.buy_pack_card( params[:pack_id], params[:token] )
+      custy.buy_pack_card( params[:pack_id], params[:payment_id] )
     end
 
     def buy_training
