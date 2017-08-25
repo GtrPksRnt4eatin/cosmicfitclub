@@ -121,7 +121,19 @@ class Customer < Sequel::Model
     charge = StripeMethods::charge_card( token['id'], pack.price, email, pack.name, { :pack_id => pack_id } )
     self.add_payment( :stripe_id => charge.id, :amount => charge.amount , :reason =>"Bought #{pack.name}" , :type => 'new card' )
     self.add_passes( pack.num_passes, "Bought #{pack.name}", "" )
+    self.send_pack_email(pack)
+  end
 
+  def buy_pack_precharged(pack_id, payment_id)
+    pack = Package[pack_id] or halt 403, "Can't find Pack"
+    payment = CustomerPayment[payment_id] or halt 403, "Can't find Payment"
+    payment.customer_id == self.id or halt 403, "Payment doesn't match Customer"
+    payment.amount == pack.price or halt 403, "Payment doesn't match amount"
+    self.add_passes( pack.num_passes, "Bought #{pack.name}", "" ) 
+    self.send_pack.email(pack)
+  end
+
+  def send_pack_email(pack)
     model = {
       :name => name,
       :pack_name => pack.name,
@@ -130,7 +142,6 @@ class Customer < Sequel::Model
 
     Mail.package_welcome(email, model) unless login.activated?
     Mail.package(email, model) if login.activated?
-
   end
 
   def buy_training(quantity, pack_id, trainer)
@@ -231,10 +242,9 @@ class CustomerRoutes < Sinatra::Base
   end
 
   post '/:id/transfer' do
-    data = JSON.parse request.body.read
-    sugar_daddy = Customer[data[:from]] or halt 404
-    minnie_the_moocher = Customer[data[:to]] or halt 404
-    sugar_daddy.transfer_passes_to( minnie_the_moocher.id, data[:amount] );
+    sugar_daddy = Customer[params[:from]] or halt 404
+    minnie_the_moocher = Customer[params[:to]] or halt 404
+    sugar_daddy.transfer_passes_to( minnie_the_moocher.id, params[:amount] ) or halt 403
     status 204
   end
 

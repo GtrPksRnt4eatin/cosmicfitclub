@@ -18,6 +18,11 @@ module Sinatra
       status 204
     end
 
+    def buy_pack_precharged
+      custy = Customer[params[:customer_id]] or halt 403
+      custy.buy_pack_card( params[:pack_id], params[:token] )
+    end
+
     def buy_training
       data = JSON.parse request.body.read
       custy = Customer.get_from_token( data['token'] )

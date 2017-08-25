@@ -22,7 +22,11 @@ data = {
   starttime: null,
   reservation_errors: [],
   package_id: 0,
-  package_price: 0
+  package_price: 0,
+  transfer_to: 0,
+  transfer_from: 0,
+  transfer_to_amount: 0,
+  transfer_from_amount: 0
 }
 
 ctrl = {
@@ -61,8 +65,9 @@ ctrl = {
 
   buy_package(e,m) {
     var package_id = $('#packages option:selected').val();
+    var package_name = $('#packages option:selected').data("name");
     var package_price = $('#packages option:selected').data("price");
-    payment_form.checkout( data.customer.id, package_price, package_id, null, function(payment_id) {
+    payment_form.checkout( data.customer.id, package_price, package_name, null, function(payment_id) {
       
     });
   },
@@ -71,12 +76,17 @@ ctrl = {
     $.post('/models/customers/' + data.customer.id + '/info', JSON.stringify(data.customer_info));
   },
 
-  send_passes(e,m) {
-    
+  send_passes(e,m) {easr
+    $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.customer.id, to: data.transfer_to, amount: data.transfer_to_amount } )
+     .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
+     .fail( function(e) { alert('Transfer Failed') });
+
   },
 
   receive_passes(e,m) {
-
+    $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.transfer_from, to: data.customer.id, amount: data.transfer_from_amount } )
+     .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
+     .fail( function(e) { alert('Transfer Failed') });
   }
 
 }

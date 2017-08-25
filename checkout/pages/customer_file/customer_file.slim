@@ -124,12 +124,12 @@ html
                     tr
                       td Send
                       td  
-                        select.num value='0'
+                        select.num value='0' rv-value='data.transfer_to_amount'
                           - (0..10).each do |i|
                             option value="#{i}" #{i}
                       td passes to
                       td
-                        select.customers#custy1
+                        select.customers#custy1 rv-value='data.transfer_to'
                           option value='0' No Customer
                           - Customer.all.each do |cust|
                             option value='#{cust.id}'
@@ -141,12 +141,12 @@ html
                     tr
                       td Receive
                       td
-                        select.num value='0'
+                        select.num value='0' rv-value='data.transfer_from_amount'
                           - (0..10).each do |i|
                             option value="#{i}" #{i}
                       td passes from
                       td
-                        select.customers#custy2
+                        select.customers#custy2 rv-value='data.transfer_from'
                           option value='0' No Customer
                           - Customer.all.each do |cust|
                             option value='#{cust.id}'
@@ -165,7 +165,7 @@ html
                         select#packages rv-idselect='data.package_id'
                           option value='0' data-price='0' None
                           - Package.where(:available => true).all.each do |pack|
-                            option value='#{ pack.id }' data-price='#{ pack.price }'
+                            option value='#{ pack.id }' data-price='#{ pack.price }' data-name='#{ pack.name }'
                               | #{ pack.formatted_price } #{ pack.name }
                       td
                         button rv-on-click='ctrl.buy_package'
