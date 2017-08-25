@@ -29,7 +29,6 @@ module Sinatra
 
     def card_swipe
       halt 400 if params[:token].nil?
-      p params[:token]
       $SWIPELISTENERS.each do |out|
         out << "event: swipe\n"
         out << "data: #{params[:token]}\n\n"
@@ -46,7 +45,6 @@ module Sinatra
         end
         $SWIPELISTENERS.delete out
       end
-      ""
     end
 
   end
