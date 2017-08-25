@@ -90,28 +90,86 @@ html
                   | Wallet ID:
                 td
                   | { data.customer.wallet.id }
+              tr
+                th 
+                  | Balance:
+                td
+                  | { data.customer.wallet.pass_balance } passes remaining
               tr rv-if='data.customer.wallet.shared'
                 th 
-                  | Shared With:
-                td 
+                  | Sharing:
+                td rv-if='data.customer.wallet.shared'
                   div.shared_with rv-each-partner='data.customer.wallet.shared_with'
                     span 
                       | { partner.name }
                     button 
-                      | Remove 
+                      | Remove
+                td rv-unless='data.customer.wallet.shared'
+                  table 
+                    tr
+                      td Share With
+                      td
+                        select.customers#custy_shared
+                          option value='0' No Customer
+                          - Customer.all.each do |cust|
+                            option value='#{cust.id}'
+                              | #{ cust.name } ( #{ cust.email } )
 
               tr
                 th
-                  | Buy Package:
+                  | Transfers:
                 td
-                  select#packages rv-idselect='data.package_id'
-                    option value='0' 
-                      | None
-                    - Package.where(:available => true).all.each do |pack|
-                      option value='#{ pack.id }' data-price='#{ pack.price }'
-                        | #{ pack.formatted_price } #{ pack.name }
-                  button rv-on-click='ctrl.buy_package'
-                    | Buy For { data.package_id }
+                  
+                  table#transfers
+                    tr
+                      td Send
+                      td  
+                        select.num value='0'
+                          - (0..10).each do |i|
+                            option value="#{i}" #{i}
+                      td passes to
+                      td
+                        select.customers#custy1
+                          option value='0' No Customer
+                          - Customer.all.each do |cust|
+                            option value='#{cust.id}'
+                              | #{ cust.name } ( #{ cust.email } )
+                      td
+                        button rv-on-click='ctrl.send_passes'
+                          | Send
+                  
+                    tr
+                      td Receive
+                      td
+                        select.num value='0'
+                          - (0..10).each do |i|
+                            option value="#{i}" #{i}
+                      td passes from
+                      td
+                        select.customers#custy2
+                          option value='0' No Customer
+                          - Customer.all.each do |cust|
+                            option value='#{cust.id}'
+                              | #{ cust.name } ( #{ cust.email } )
+                      td
+                        button rv-on-click='ctrl.receive_passes'
+                          | Receive
+
+              tr
+                th
+                  | Buy More:
+                td
+                  table
+                    tr
+                      td
+                        select#packages rv-idselect='data.package_id'
+                          option value='0' data-price='0' None
+                          - Package.where(:available => true).all.each do |pack|
+                            option value='#{ pack.id }' data-price='#{ pack.price }'
+                              | #{ pack.formatted_price } #{ pack.name }
+                      td
+                        button rv-on-click='ctrl.buy_package'
+                          | Buy For { data.package_price | money }
               tr
                 th
                 td
@@ -119,9 +177,9 @@ html
             br
             table.history
               thead
-                th colspan='3'
+                th
                   | Transaction History
-              tbody
+              tbody#trans_hist
                 tr rv-each-trans='data.customer.wallet.pass_transactions'
                   td
                     | { trans.timestamp | eventstart }
@@ -129,6 +187,8 @@ html
                     | { trans.description }
                   td
                     | { trans.delta }
+                  td
+                    | { trans.running_total }
           
           #events.tab-content
 

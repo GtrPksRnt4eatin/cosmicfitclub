@@ -60,14 +60,23 @@ ctrl = {
   },
 
   buy_package(e,m) {
-    var package = $('#packages option:selected').text();
-    payment_form.checkout( data.customer.id, data.package_price, package, null, function(payment_id) {
+    var package_id = $('#packages option:selected').val();
+    var package_price = $('#packages option:selected').data("price");
+    payment_form.checkout( data.customer.id, package_price, package_id, null, function(payment_id) {
       
     });
   },
 
   update_customer_info(e,m) {
     $.post('/models/customers/' + data.customer.id + '/info', JSON.stringify(data.customer_info));
+  },
+
+  send_passes(e,m) {
+    
+  },
+
+  receive_passes(e,m) {
+
   }
 
 }
@@ -95,8 +104,10 @@ $(document).ready( function() {
   $('#customers').chosen();
   $('#classes').chosen();
   $('#staff').chosen();
+  $('.customers').chosen();
 
   $('#customers').on('change', on_customer_selected );
+  $('#packages').on('change', on_package_selected );
 
   $('ul.tabs li').click(function(){
     var tab_id = $(this).attr('data-tab');
@@ -150,6 +161,10 @@ function on_customer_selected(e) {
   choose_customer(e.target.value); 
 }
 
+function on_package_selected(e) {
+  data.package_price = $('#packages option:selected').data("price");
+}
+
 function choose_customer(id) {
   resetCustomer();
   data.reservation.customer_id = id;
@@ -186,3 +201,4 @@ function resetCustomer() {
   data.customer.wallet = null;
   data.customer.event_history = null;
 }
+

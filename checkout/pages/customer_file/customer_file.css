@@ -46,7 +46,7 @@ select,
 }
 
 #packages_chosen {
-  width: 40em !important;
+  width: 37.5em !important;
 }
 
 button {
@@ -254,4 +254,27 @@ ul.tabs li.current{
 #info textarea {
   height: 3.5em;
   resize: none;
+}
+
+select.num {
+  width: 3em;
+  cursor: pointer;
+}
+
+#custy1_chosen,
+#custy2_chosen {
+  width: 25em !important;
+}
+
+#transfers button {
+  width: 5em;
+  cursor: pointer;
+
+}
+
+#trans_hist {
+  max-height: 15em;
+  overflow-y: scroll;
+  display: block;
+  padding-right: .5em;
 }

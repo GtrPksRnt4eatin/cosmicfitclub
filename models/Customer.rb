@@ -230,6 +230,14 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
+  post '/:id/transfer' do
+    data = JSON.parse request.body.read
+    sugar_daddy = Customer[data[:from]] or halt 404
+    minnie_the_moocher = Customer[data[:to]] or halt 404
+    sugar_daddy.transfer_passes_to( minnie_the_moocher.id, data[:amount] );
+    status 204
+  end
+
   get '/:id/payment_sources' do
     custy = Customer[params[:id]] or halt 404
     JSON.generate custy.payment_sources
@@ -271,7 +279,13 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id/reservations' do
     custy = Customer[params[:id]] or halt 404
-    reservations = custy.reservations.map { |res| { :id => res.id, :classname => res.occurrence.classdef.name, :instructor=> res.occurrence.teacher.name, :starttime => res.occurrence.starttime } }
+    reservations = custy.reservations.map { |res|
+      { :id => res.id,
+        :classname => res.occurrence.nil? ? "Orphaned Reservation" : res.occurrence.classdef.name, 
+        :instructor=> res.occurrence.nil? ? nil : res.occurrence.teacher.name, 
+        :starttime => res.occurrence.nil? ? nil : res.occurrence.starttime 
+      } 
+    }
     JSON.generate reservations.sort_by { |r| r[:starttime] }.reverse
   end
 
