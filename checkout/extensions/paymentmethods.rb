@@ -45,6 +45,7 @@ module Sinatra
         end
         $SWIPELISTENERS.delete out
       end
+      status 204
     end
 
   end
