@@ -99,6 +99,16 @@ Schedule.prototype.CSS = `
     background: rgba(255,255,255,0.1);
     margin: 1em;
     padding: 1em;
+    vertical-align: middle;
+  }
+
+  #Schedule .occurrence span {
+    vertical-align: middle;
+  }
+
+  #Schedule .instructor {
+    width: 9em;
+    display: inline-block
   }
 
 

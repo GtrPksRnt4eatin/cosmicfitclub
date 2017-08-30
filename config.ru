@@ -69,3 +69,6 @@ end
 map "/door" do
   run Door
 end 
+
+require 'pry'
+binding.pry

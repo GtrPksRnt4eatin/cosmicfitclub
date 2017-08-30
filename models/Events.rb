@@ -275,7 +275,7 @@ class EventRoutes < Sinatra::Base
   end
 
   get '/:id/thumbnail' do
-    event = Event[params[:id]]
+    event = Event[params[:id]] or halt 404
     content_type event.image[:small].mime_type
     send_file event.image[:small].download.path
   end

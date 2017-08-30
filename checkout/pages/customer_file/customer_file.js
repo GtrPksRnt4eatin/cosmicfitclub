@@ -77,7 +77,7 @@ ctrl = {
     $.post('/models/customers/' + data.customer.id + '/info', JSON.stringify(data.customer_info));
   },
 
-  send_passes(e,m) {easr
+  send_passes(e,m) {
     $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.customer.id, to: data.transfer_to, amount: data.transfer_to_amount } )
      .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
      .fail( function(e) { alert('Transfer Failed') });

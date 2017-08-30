@@ -180,6 +180,7 @@ class ClassDefRoutes < Sinatra::Base
         :name => c.name, 
         :description => c.description,
         :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
+        :schedules => c.schedules
       }
     end
     JSON.generate data
@@ -201,6 +202,12 @@ class ClassDefRoutes < Sinatra::Base
     halt 404 if ClassDef[params[:id]].nil?
     ClassDef[params[:id]].deactivate
     status 200
+  end
+
+  get '/:id/thumb' do
+    classdef = ClassDef[params[:id]] or halt 404
+    content_type classdef.image[:small].mime_type
+    send_file classdef.image[:small].download.path
   end
 
   post '/:id/moveup' do

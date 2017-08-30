@@ -14,7 +14,7 @@ html
     title Cosmic Fit Club
 
     ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'classes']
-    ==js  ['jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'classes']
+    ==js  ['jquery', 'slick', 'moment', 'rivets', 'rv_rrule', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'classes']
 
   body.p2
   
@@ -32,6 +32,9 @@ html
             hr width='60%'
             .classdescription
               | { class.description }
+            br
+            .schedule rv-each-sched='class.schedules'
+              | { sched.rrule | rrule } { sched.start_time | time } { sched.teacher }
 
     == include_slim('slim/partials/footer')
 
