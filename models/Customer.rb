@@ -293,7 +293,7 @@ class CustomerRoutes < Sinatra::Base
       { :id => res.id,
         :classname => res.occurrence.nil? ? "Orphaned Reservation" : res.occurrence.classdef.name, 
         :instructor=> res.occurrence.nil? ? nil : res.occurrence.teacher.name, 
-        :starttime => res.occurrence.nil? ? nil : res.occurrence.starttime 
+        :starttime => res.occurrence.nil? ? Time.new : res.occurrence.starttime 
       } 
     }
     JSON.generate reservations.sort_by { |r| r[:starttime] }.reverse

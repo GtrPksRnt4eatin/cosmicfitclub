@@ -25,7 +25,7 @@ class Wallet < Sequel::Model
 
   def rem_passes(number, description, notes)
     return false if self.pass_balance < number.to_i
-    transaction = PassTransaction.create( :delta => -number, :description => description, :notes => notes )
+    transaction = PassTransaction.create( :delta => - number.to_i, :description => description, :notes => notes )
     add_transaction( transaction )
     self.pass_balance = self.pass_balance - number.to_i
     self.save
