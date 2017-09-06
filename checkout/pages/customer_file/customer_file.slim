@@ -48,6 +48,7 @@ html
           ul.tabs
             li.current data-tab='info'  Info
             li data-tab='class_passes'  Class Passes
+            li data-tab='membership'    Membership
             li data-tab='events'        Events
             li data-tab='class_checkin' Classes
             li data-tab='page_three'    Miscelaneous Charge
@@ -189,6 +190,15 @@ html
                     | { trans.delta }
                   td
                     | { trans.running_total }
+
+          #membership.tab-content
+
+            table
+              tr
+                th
+                  | Current Membership:
+                td
+                  | { data.customer.membership_status.plan.name }
           
           #events.tab-content
 

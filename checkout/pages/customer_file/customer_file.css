@@ -277,4 +277,5 @@ select.num {
   overflow-y: scroll;
   display: block;
   padding-right: .5em;
+  max-width: 25em;
 }

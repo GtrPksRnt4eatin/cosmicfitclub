@@ -6,7 +6,7 @@ module Sinatra
     def buy_plan
       data = JSON.parse request.body.read
       custy = Customer.get_from_token( data['token'] )
-      halt 409 if custy.plan != nil                       ## Already Has A Plan, Log in to Update instead
+      halt 409 if ( custy.plan != nil ) && ( !custy.plan.deactivated ) ## Already Has A Plan, Log in to Update instead
       custy.add_subscription( data['plan_id'] )
       status 204
     end

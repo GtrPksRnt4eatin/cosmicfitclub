@@ -32,7 +32,7 @@ button:active {
 @media(max-width: 800px) {
 
   #doorcam {
-	width: 10em;
+	width: 80vw;
   }
 
 }

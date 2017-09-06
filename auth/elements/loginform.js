@@ -202,13 +202,18 @@ LoginForm.prototype.CSS = `
   }
 
   #LoginForm .submit {
-  	display: inline-block;
+  	display: block;
   	cursor: pointer;
+    margin-top: .3em;
+    padding: .5em 2em;
+    box-shadow: 0 0 .1em white;
+    background: rgba(255,255,255,0.1);
   }
 
   #LoginForm .submit:hover {
     cursor: pointer;
     color: rgba(150,255,150,1);
+    background: rgba(255,255,255,0.2);
     text-shadow: 0 0 .5em black;
   }
 
