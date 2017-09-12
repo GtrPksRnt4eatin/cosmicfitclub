@@ -59,7 +59,11 @@ class TwilioRoutes < Sinatra::Base
       response.say('Your call is complete. Goodbye!')
       response.hangup
     when '4'
-      response.say('Meow, Meow, Meow, Purr, Purr, Meow, ack, cough, hairball')
+      response.say('Meow. Meow. Meow.')
+      response.pause
+      response.say('Purr. Purr. Meow.')
+      response.pause
+      response.say('Ack. cough. hairball.')
       response.hangup
     end
     response.to_s
