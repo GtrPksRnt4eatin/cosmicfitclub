@@ -34,6 +34,7 @@ class TwilioRoutes < Sinatra::Base
   	  gather.say('Press Three to speak with Ben about the website, or billing issues.')
   	  gather.say('Press Four to speak with Donut.')
   	end
+  	response.say('We didn\'t receive any input. Goodbye!')
   	response.text
   end
 
@@ -41,13 +42,13 @@ class TwilioRoutes < Sinatra::Base
   	p request.body
   	response = Twilio::TwiML::VoiceResponse.new
     case params[:Digits]
-    when '1' :
+    when '1'
       response.say('Paging Joy Now. Please Wait.')
-    when '2' :
+    when '2'
       response.say('Paging Phil Now. Please Wait.')
-    when '3' :
+    when '3'
       response.say('Paging Ben Now. Please Wait.')
-    when '4' :
+    when '4'
       response.say('Meow, Meow, Meow... Purr Purr Meow.')
     end
     response.text
