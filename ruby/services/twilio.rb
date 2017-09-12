@@ -1,5 +1,7 @@
 require 'twilio-ruby'
 
+$twilio_client
+
 def send_sms(msg)	
   client = Twilio::REST::Client.new 'AC3ea86c47d6a22914d5bddff93f335dda', '6cbc0ac3e73eebb57311578021f5ba24'
   client.account.messages.create({
@@ -13,7 +15,15 @@ def send_sms(msg)
     :body =>  "#{msg}"
   })
 rescue Exception => e
-  puts 'SMS failed!'
   puts e.message
   puts e.backtrace
+end
+
+class TwilioRoutes < Sinatra::Base
+
+  get '/' do
+  	response = Twilio::TwiML::VoiceResponse.new
+  	response.say('Hi, Thanks for calling Cosmic Fit Club!')
+  end
+
 end
