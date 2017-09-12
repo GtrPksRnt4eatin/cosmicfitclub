@@ -27,10 +27,10 @@ class TwilioRoutes < Sinatra::Base
   post '/incoming' do
   	content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
-  	response.gather(input: 'dtmf', timeout: 3, num_digits: 1, action: 'http://cosmicfitclub.com/twilio/selection') do |gather|
+  	response.gather(input: 'dtmf', timeout: 5, num_digits: 1, action: 'http://cosmicfitclub.com/twilio/selection') do |gather|
   	  gather.say('Hi, Thanks for calling Cosmic Fit Club!')
   	  gather.say('Press One to speak with Joy about rentals and evening classes.')
-  	  gather.say('Press Two to speak with Phil about Personal Training, Kids Classes, and morning classes.')
+  	  gather.say('Press Two to speak with Phil about Personal Training, Kids classes, and morning classes.')
   	  gather.say('Press Three to speak with Ben about the website, or billing issues.')
   	  gather.say('Press Four to speak with Donut.')
   	end
@@ -46,14 +46,17 @@ class TwilioRoutes < Sinatra::Base
     when '1'
       response.say('Paging Joy Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '646-704-2405' }
+      response.say('Your call is complete. Goodbye!')
       response.hangup
     when '2'
       response.say('Paging Phil Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '917-642-1328' }
+      response.say('Your call is complete. Goodbye!')
       response.hangup
     when '3'
       response.say('Paging Ben Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '201-280-6512' }
+      response.say('Your call is complete. Goodbye!')
       response.hangup
     when '4'
       response.say('Meow, Meow, Meow, Purr, Purr, Meow, ack, cough, hairball')
