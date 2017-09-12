@@ -44,10 +44,13 @@ class TwilioRoutes < Sinatra::Base
     case params[:Digits]
     when '1'
       response.say('Paging Joy Now. Please Wait.')
+      response.dial { |dial| dial.number '646-704-2405' }
     when '2'
       response.say('Paging Phil Now. Please Wait.')
+      response.dial { |dial| dial.number '917-642-1328' }
     when '3'
       response.say('Paging Ben Now. Please Wait.')
+      response.dial { |dial| dial.number '201-280-6512' }
     when '4'
       response.say('Meow, Meow, Meow... Purr Purr Meow.')
     end
