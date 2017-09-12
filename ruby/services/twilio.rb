@@ -35,7 +35,7 @@ class TwilioRoutes < Sinatra::Base
   	  gather.say('Press Four to speak with Donut.')
   	end
   	response.say('We didn\'t receive any input. Goodbye!')
-  	response.text
+  	response.to_s
   end
 
   post '/selection' do
@@ -51,7 +51,7 @@ class TwilioRoutes < Sinatra::Base
     when '4'
       response.say('Meow, Meow, Meow... Purr Purr Meow.')
     end
-    response.text
+    response.to_s
   end
 
 end
