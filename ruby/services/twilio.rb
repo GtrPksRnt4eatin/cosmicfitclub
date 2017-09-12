@@ -28,12 +28,14 @@ class TwilioRoutes < Sinatra::Base
   	content_type 'appliction/xml'
   	response = Twilio::TwiML::VoiceResponse.new
   	response.say('Hi, Thanks for calling Cosmic Fit Club!')
+  	response.to_s
   end
 
   post '/incoming' do
   	content_type 'appliction/xml'
   	response = Twilio::TwiML::VoiceResponse.new
   	response.say('Hi, Thanks for calling Cosmic Fit Club!')
+  	response.to_s
   end
 
 end
