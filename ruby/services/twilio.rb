@@ -35,6 +35,7 @@ class TwilioRoutes < Sinatra::Base
   	  gather.say('Press Four to speak with Donut.')
   	end
   	response.say('We didn\'t receive any input. Goodbye!')
+  	response.hangup
   	response.to_s
   end
 
@@ -44,13 +45,16 @@ class TwilioRoutes < Sinatra::Base
     case params[:Digits]
     when '1'
       response.say('Paging Joy Now. Please Wait.')
-      response.dial { |dial| dial.number '646-704-2405' }
+      response.dial(caller_id: '+13476700019') { |dial| dial.number '646-704-2405' }
+      response.hangup
     when '2'
       response.say('Paging Phil Now. Please Wait.')
-      response.dial { |dial| dial.number '917-642-1328' }
+      response.dial(caller_id: '+13476700019') { |dial| dial.number '917-642-1328' }
+      response.hangup
     when '3'
       response.say('Paging Ben Now. Please Wait.')
-      response.dial { |dial| dial.number '201-280-6512' }
+      response.dial(caller_id: '+13476700019') { |dial| dial.number '201-280-6512' }
+      response.hangup
     when '4'
       response.say('Meow, Meow, Meow, Purr, Purr, Meow, ack, cough, hairball')
       response.hangup
