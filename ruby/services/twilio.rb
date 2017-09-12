@@ -52,7 +52,8 @@ class TwilioRoutes < Sinatra::Base
       response.say('Paging Ben Now. Please Wait.')
       response.dial { |dial| dial.number '201-280-6512' }
     when '4'
-      response.say('Meow, Meow, Meow... Purr... Purr... Meow.')
+      response.say('Meow, Meow, Meow, Purr, Purr, Meow, ack, cough, hairball')
+      response.hangup
     end
     response.to_s
   end
