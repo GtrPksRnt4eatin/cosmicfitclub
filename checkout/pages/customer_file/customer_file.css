@@ -214,6 +214,10 @@ ul.tabs li.current{
   cursor: pointer;
 }
 
+.history td:nth-child(1) { width: 10em; }
+.history td:nth-child(2) { width: 25em; }
+.history td:nth-child(3) { width: 3em; }
+
 .history tr:nth-child(odd),
 .tickets tr:nth-child(odd) {
   background: rgba(255,255,255,0.1);

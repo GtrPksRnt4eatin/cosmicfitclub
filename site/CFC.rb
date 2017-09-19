@@ -21,8 +21,6 @@ class CFC < Sinatra::Base
   get( '/faq')               { render_page :faq      }
   get( '/media')             { render_page :media    }
 
-  get( '/nathans_triumphant_return') { redirect '/checkout/event/95'}
-
   get( '/schedule_week')     { render_page :schedule_week }
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
