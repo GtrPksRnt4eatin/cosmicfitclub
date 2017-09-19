@@ -19,7 +19,6 @@ GEM
     aws-sdk-resources (2.5.7)
       aws-sdk-core (= 2.5.7)
     bcrypt (3.1.11)
-    builder (3.2.2)
     concurrent-ruby (1.0.2)
     daemons (1.2.4)
     domain_name (0.5.20161129)
@@ -58,6 +57,7 @@ GEM
     jmespath (1.3.1)
     json (2.0.2)
     jwt (1.5.4)
+    libxml-ruby (3.0.0)
     little-plugger (1.1.4)
     logging (2.1.0)
       little-plugger (~> 1.1)
@@ -132,10 +132,10 @@ GEM
       rack (>= 1, < 3)
     thread_safe (0.3.5)
     tilt (2.0.5)
-    twilio-ruby (4.13.0)
-      builder (>= 2.1.2)
-      jwt (~> 1.0)
-      multi_json (>= 1.3.0)
+    twilio-ruby (5.2.2)
+      faraday (~> 0.9)
+      jwt (~> 1.5)
+      libxml-ruby (>= 2.0, < 4.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uber (0.0.15)
@@ -168,7 +168,7 @@ DEPENDENCIES
   slim
   stripe
   thin
-  twilio-ruby
+  twilio-ruby (~> 5.2.2)
 
 BUNDLED WITH
    1.12.4
