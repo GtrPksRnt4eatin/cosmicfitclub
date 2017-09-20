@@ -276,6 +276,7 @@ class CustomerRoutes < Sinatra::Base
     hsh[:id] = wallet.id
     hsh[:pass_balance] = wallet.pass_balance
     hsh[:pass_transactions] = wallet.transactions
+    hsh[:pass_transactions].inject(0) { |total,elem| }
     return hsh.to_json  
   end
 
