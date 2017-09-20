@@ -1,6 +1,7 @@
 .tile {
 	font-size: 2em;
 	padding-bottom: 2em;
+	position: relative;
 }
 
 button {
@@ -24,15 +25,5 @@ button:active {
 }
 
 #doorcam {
-  width: 30em;
-}
-
-
-
-@media(max-width: 1000px) {
-
-  #doorcam {
-	width: 80vw;
-  }
-
+  width: 80%;
 }
