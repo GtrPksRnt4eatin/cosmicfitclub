@@ -276,12 +276,13 @@ class CustomerRoutes < Sinatra::Base
     hsh[:id] = wallet.id
     hsh[:pass_balance] = wallet.pass_balance
     hsh[:pass_transactions] = wallet.transactions
-    hsh[:pass_transactions].inject(nil) do |tot,el| 
-      tot ||= []
-      el[:running_total] = tot.last.nil? ? el.delta : tot.last.running_total + el.delta
+    hsh[:pass_transactions] = hsh[:pass_transactions].inject([]) do |tot,el|
+      el = el.to_hash
+      el[:running_total] = tot.last.nil? ? el[:delta] : tot.last[:running_total] + el[:delta]
       tot << el 
     end
-    return hsh.to_json  
+
+    return hsh.to_json
   end
 
   get '/:id/status' do
