@@ -46,7 +46,7 @@ select,
 }
 
 #packages_chosen {
-  width: 37.5em !important;
+  width: 35.3em !important;
 }
 
 button {
@@ -294,4 +294,5 @@ table.history .header {
 
 #buy_pack {
   cursor: pointer;
+  width: 10em;
 }

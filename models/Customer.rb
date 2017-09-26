@@ -130,7 +130,7 @@ class Customer < Sequel::Model
     payment.customer_id == self.id or halt 403, "Payment doesn't match Customer"
     payment.amount == pack.price or halt 403, "Payment doesn't match amount"
     self.add_passes( pack.num_passes, "Bought #{pack.name}", "" ) 
-    self.send_pack.email(pack)
+    self.send_pack_email(pack)
   end
 
   def send_pack_email(pack)
@@ -276,7 +276,11 @@ class CustomerRoutes < Sinatra::Base
     hsh[:id] = wallet.id
     hsh[:pass_balance] = wallet.pass_balance
     hsh[:pass_transactions] = wallet.transactions
-    hsh[:pass_transactions].inject(0) { |total,elem| }
+    hsh[:pass_transactions].inject(nil) do |tot,el| 
+      tot ||= []
+      el[:running_total] = tot.last.nil? ? el.delta : tot.last.running_total + el.delta
+      tot << el 
+    end
     return hsh.to_json  
   end
 
