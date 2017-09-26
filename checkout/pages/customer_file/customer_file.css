@@ -216,6 +216,7 @@ ul.tabs li.current{
 
 table.history {
   width: 50em;
+  font-size: 0.8em;
 }
 
 .history td:nth-child(1) { width: 10em; }
