@@ -290,3 +290,7 @@ select.num {
 table.history .header {
   width: 100%;
 }
+
+#buy_pack {
+  cursor: pointer;
+}

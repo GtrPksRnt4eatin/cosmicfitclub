@@ -169,7 +169,7 @@ html
                             option value='#{ pack.id }' data-price='#{ pack.price }' data-name='#{ pack.name }'
                               | #{ pack.formatted_price } #{ pack.name }
                       td
-                        button rv-on-click='ctrl.buy_package'
+                        button#buy_pack rv-on-click='ctrl.buy_package'
                           | Buy For { data.package_price | money }
               tr
                 th
