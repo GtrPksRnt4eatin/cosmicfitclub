@@ -259,7 +259,8 @@ PaymentForm.prototype.CSS = `
 
   .PaymentForm #card-errors {
     font-size: .8em;
-    color: red;
+    color: rgb(255,80,80);
+    text-shadow: 0 0 0.5em black;
   }
 
 `.untab(2);
