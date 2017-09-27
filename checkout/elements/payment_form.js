@@ -131,7 +131,7 @@ PaymentForm.prototype = {
   },
 
   failed_charge(e) {
-    show_err(e.responseText);
+    this.show_err(e.responseText);
   },
 
   after_charge(payment) {
