@@ -256,4 +256,9 @@ PaymentForm.prototype.CSS = `
     transition: box-shadow 150ms ease;
   }
 
+  .PaymentForm #card-errors {
+    font-size: .6em;
+    color: rgba(255,0,0,0.8);
+  }
+
 `.untab(2);
