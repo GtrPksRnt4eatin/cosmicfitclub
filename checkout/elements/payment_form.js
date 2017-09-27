@@ -258,8 +258,8 @@ PaymentForm.prototype.CSS = `
   }
 
   .PaymentForm #card-errors {
-    font-size: .6em;
-    color: rgba(255,0,0,0.8);
+    font-size: .8em;
+    color: red;
   }
 
 `.untab(2);
