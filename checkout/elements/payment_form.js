@@ -131,7 +131,7 @@ PaymentForm.prototype = {
   },
 
   failed_charge(e) {
-    $(this.dom).find('#card-errors').textContent = e;
+    show_err(e.msg);
   },
 
   after_charge(payment) {

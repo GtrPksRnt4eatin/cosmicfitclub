@@ -9,21 +9,6 @@ class StripeRoutes < Sinatra::Base
     event = JSON.parse request.body.read
 
     case event['type']
-    
-    when 'customer.created'
-
-      #customer = Customer.find_or_create( :stripe_id => event['data']['object']['id'] ) do |customer|
-      #  customer.name  = event['data']['object']['metadata']['name']
-      #  customer.email = event['data']['object']['email']
-      #  customer.data  = JSON.generate(event['data']['object'])
-      #end
-
-      #customer.login = User.create( :reset_token => StripeMethods.generateToken ) if customer.login.nil?
-    
-    when 'customer.deleted'
-      
-      #customer = Customer.find( :stripe_id => event['data']['object']['id'] )
-      #customer.destroy unless customer.nil?
 
     when 'customer.subscription.created'
 
@@ -32,7 +17,7 @@ class StripeRoutes < Sinatra::Base
 
     when 'customer.subscription.deleted'
       
-      customer = Customer.find( :stripe_id => event['data']['object']['id'] )
+      customer = Customer.find( :stripe_id => event['data']['object']['customer'] )
       customer.update( :plan => nil )
 
     end
@@ -134,6 +119,10 @@ module StripeMethods
 
   def StripeMethods::get_customer(customer_id)
     Stripe::Customer.retrieve(customer_id)
+  end
+
+  def StripeMethods::get_subscription(subscription_id)
+    Stripe::Subscription.retrieve(subscription_id)
   end
 
   ##########################################################################

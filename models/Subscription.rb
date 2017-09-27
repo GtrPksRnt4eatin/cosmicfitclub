@@ -10,6 +10,10 @@ class Subscription < Sequel::Model
     self.update( :canceled_on => Time.now, :deactivated => true )
   end
 
+  def stripe_info
+    StripeMethods::get_subscription(self.stripe_id)
+  end
+
 end
 
 class MembershipUse < Sequel::Model

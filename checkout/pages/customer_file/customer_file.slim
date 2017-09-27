@@ -202,6 +202,12 @@ html
           
           #events.tab-content
 
+            select#events rv-idselect='data.selected_event_id'
+              option value='0' None
+              - Event.exclude(:starttime < Date.today).all.each do |event|
+                option value='#{event.id}'
+                  | #{ event.name }
+
             table.tickets
               tr 
                 th colspan='3' Upcoming Tickets
