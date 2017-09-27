@@ -131,6 +131,7 @@ PaymentForm.prototype = {
   },
 
   failed_charge(e) {
+    $(this.dom).shake();
     e.message = e.responseText;
     this.show_err(e);
   },
