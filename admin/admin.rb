@@ -22,9 +22,6 @@ class CFCAdmin < Sinatra::Base
   get( '/door',          :auth=> 'door'   ) { render_page :door             }
   get( '/balance',                        ) { render_page :balance_sheet    }
   get( '/class_checkin'                   ) { render_page :class_checkin    }
-  get( '/announcements',  :auth=> 'admin'  ) { render_page :announcements   }
-  get( '/member_list') { render_page :member_list }
-
-  get( '/nathan_checkin', :auth=> 'nathan') { params[:id] = 95; render_page :event_checkin }
-
+  get( '/announcements',  :auth=> 'admin' ) { render_page :announcements    }
+  get( '/member_list'                     ) { render_page :member_list      }
 end
