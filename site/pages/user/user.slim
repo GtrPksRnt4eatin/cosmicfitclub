@@ -27,6 +27,9 @@ html
         - if user.has_role? "admin"
           div
             a href='/admin' Administration
+        - if user.has_role? "reports"
+          div
+            a href='/reports' Reports
 
       .tile
         .header Membership Status

@@ -62,7 +62,9 @@ Schedule.prototype.HTML = `
           <span class='end'>   { occ.endtime | unmilitary } </span>
           <span class='classname'> { occ.title } </span>
           w/
-          <span class='instructor' rv-each-inst='occ.instructors'> { inst.name } </span>
+          <span class='instructors'>
+            <span class='instructor' rv-each-inst='occ.instructors'> { inst.name } </span>
+          </span>
         </div>
       </div>
     </div>
@@ -82,12 +84,14 @@ Schedule.prototype.CSS = `
   }
 
   #Schedule .daygroup {
-    margin: 1em;
-    padding: 1em;
+    margin: 0.5em;
+    padding: 0.5em;
   }
 
-  #Schedule .start {
+  #Schedule .start,
+  #Schecule .end {
     display: inline-block;
+    padding: 0;
   }
 
   #Schedule .classname {
@@ -97,18 +101,35 @@ Schedule.prototype.CSS = `
 
   #Schedule .occurrence {
     background: rgba(255,255,255,0.1);
-    margin: 1em;
-    padding: 1em;
+    margin: 0.25em;
+    padding: 0.5em;
     vertical-align: middle;
+    line-height: 1.3em;
   }
 
   #Schedule .occurrence span {
     vertical-align: middle;
   }
 
-  #Schedule .instructor {
+  #Schedule .instructors {
     width: 9em;
+    display: inline-block;
+    text-overflow: ellipsis;
+  }
+
+  #Schedule .instructor {
+    padding: 0;
     display: inline-block
+  }
+
+
+
+  @media(max-width: 1100px) {
+  
+    #Schedule .occurrence {
+      font-size: 1.8vw;
+    }
+
   }
 
 

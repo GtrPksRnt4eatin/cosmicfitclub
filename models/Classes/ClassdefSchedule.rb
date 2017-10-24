@@ -3,7 +3,7 @@ class ClassdefSchedule < Sequel::Model
   plugin :pg_array_associations
   pg_array_to_many :teachers, :key => :instructors, :class => :Staff
 
-  many_to_one :classdef, :key => :classdef_id, :class => ClassDef
+  many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
 
   def get_occurences(from,to)
     return [] if rrule.nil?

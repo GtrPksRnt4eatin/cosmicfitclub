@@ -199,4 +199,20 @@ class Customer < Sequel::Model
     self.subscription.uses
   end
 
+  def merge_with( customer_id )
+
+    other = Customer[customer_id] or return false
+
+    if !self.wallet.nil? then
+      other.wallet = Wallet.new if other.wallet.nil?
+      self.wallet.transactions.each { |trans| trans.update( :wallet_id => other.wallet.id ) }
+      other.wallet.pass_balance = other.wallet.pass_balance + self.wallet.pass_balance
+    end
+
+    self.reservations.each { |res| res.customer = other; res.save }
+    self.payments.each     { |pay| pay.customer = other; pay.save }
+    self.tickets.each      { |tic| tic.customer = other; tic.save }
+
+  end
+
 end
