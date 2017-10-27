@@ -19,6 +19,7 @@ class CFC < Sinatra::Base
   get( '/staff')             { render_page :staff    }
   get( '/pricing')           { render_page :pricing  }
   get( '/faq')               { render_page :faq      }
+  get( '/kids')              { render_page :kids     }
   get( '/media')             { render_page :media    }
 
   get( '/schedule_week')     { render_page :schedule_week }

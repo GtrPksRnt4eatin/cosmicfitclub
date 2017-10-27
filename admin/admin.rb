@@ -24,4 +24,6 @@ class CFCAdmin < Sinatra::Base
   get( '/class_checkin'                   ) { render_page :class_checkin    }
   get( '/announcements',  :auth=> 'admin' ) { render_page :announcements    }
   get( '/member_list'                     ) { render_page :member_list      }
+  get( '/kids_slides'                     ) { render_page :kids_slides      }
+  
 end

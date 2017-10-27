@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    
+    == no_scaling
+    
+    title Cosmicfit Admin
+    
+    == css ['fonts', 'site', 'dropzone', 'header', '/admin/kids_slides']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'dropzone', '/admin/kids_slides']  
+  
+  body.p1
+
+    #stars
+
+    == include_slim('slim/partials/admin_header')
+ 
+    #slides
+      .slide rv-each-slide='data.slides'
+        img rv-src='slide.thumb'
+        span 
+          | {slide.data.filename}
+        .delete rv-on-click='ctrl.del'
+
+    form#myDropzone.dropzone action='/models/slides/kids'
+
+    == analytics
