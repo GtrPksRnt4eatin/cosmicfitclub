@@ -3,7 +3,7 @@ class Customer < Sequel::Model
   plugin :json_serializer
   
   one_through_one :plan, :join_table => :subscriptions
-  one_to_one :subscription
+  one_to_many :subscriptions
   one_to_one :login, :class=>:User
   one_to_many :passes
   one_to_many :tickets, :class=>:EventTicket
@@ -35,6 +35,10 @@ class Customer < Sequel::Model
 
   def Customer.find_by_email(email)
     Customer[ :email => email.downcase ]
+  end
+
+  def subscription
+    self.subscriptions.find { |x| x.deactivated == false }
   end
 
   def email
@@ -161,7 +165,7 @@ class Customer < Sequel::Model
   end
 
   def add_passes( number, reason, notes )
-    ( self.wallet = Wallet.create; self.save ) if self.wallet.nil?
+    ( self.wallet = Wallet.create; self.save ) if self.wallet.nil?  
     self.wallet.add_passes( number, reason, notes )
   end
 
