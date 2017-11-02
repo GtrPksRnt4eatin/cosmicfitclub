@@ -38,7 +38,12 @@ class Customer < Sequel::Model
   end
 
   def subscription
-    self.subscriptions.find { |x| x.deactivated == false }
+    self.subscriptions.find { |x| !x.deactivated }
+  end
+
+  def membership_plan
+    return Plan[0] if self.subscription.nil?
+    self.subscription.plan
   end
 
   def email

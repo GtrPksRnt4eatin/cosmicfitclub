@@ -10,6 +10,7 @@ class Reports < Sinatra::Base
   register Sinatra::SharedResources
   register Sinatra::Auth
 
+  get( '/pass_balances', )                  { render_page :index }
   get( '/pass_balances', :auth => 'admin' ) { render_page :pass_balances }
 
   def pass_balances

@@ -71,7 +71,7 @@ class CustomerRoutes < Sinatra::Base
   get '/:id/status' do
     content_type :json
     custy = Customer[params[:id]] or halt 404
-    { :membership => custy.membership_plan,
+    { :membership => custy.subscription.nil? ? { :id => 0, :name => 'None' } : custy.subscription.plan,
       :passes => custy.num_passes
     }.to_json
   end
