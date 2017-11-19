@@ -10,8 +10,9 @@ class Reports < Sinatra::Base
   register Sinatra::SharedResources
   register Sinatra::Auth
 
-  get( '/pass_balances', )                  { render_page :index }
+  get( '/', )                               { render_page :index }
   get( '/pass_balances', :auth => 'admin' ) { render_page :pass_balances }
+  get( '/subscriptions', :auth => 'admin' ) { render_page :subscriptions }
 
   def pass_balances
   	$DB["
@@ -26,6 +27,23 @@ class Reports < Sinatra::Base
       LEFT JOIN wallets on wallet_id = wallets.id
       WHERE pass_balance > 0
       ORDER BY pass_balance DESC;
+    "].all
+  end
+
+  def subscriptions
+    $DB["
+      SELECT 
+        subscriptions.*,
+        customers.name,
+        customers.email,
+        plans.name AS plan_name,
+        plans.month_price,
+        plans.term_months
+      FROM subscriptions
+      LEFT JOIN customers ON customers.id = customer_id
+      LEFT JOIN plans ON plans.id = plan_id
+      WHERE deactivated IS NOT true
+      ORDER BY plan_id
     "].all
   end
 

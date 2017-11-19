@@ -1,7 +1,7 @@
 require 'sequel'
 
 def get_heroku_pg_args
-  uri = URI.parse(ENV['DATABASE_URL'])
+  uri = URI.parse(ENV['HEROKU_POSTGRESQL_COBALT_URL'])
   { :host     => uri.hostname,
     :port     => uri.port,
     :options  => nil,

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    == css ['fonts', 'site', 'header', 'reports/subscriptions']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'reports/subscriptions']
+
+    title subscriptions
+
+    javascript:
+      var data = #{{ subscriptions.to_json }}
+  
+  body.p5
+
+    #stars
+
+    #content
+
+      table#subscriptions
+
+        - subscriptions.each do |row|
+
+          tr data-id='#{row[:id]}'
+            td
+              | #{ row[:name] } ( #{ row[:email] } )
+            td 
+              | #{ row[:plan_name] }
