@@ -78,7 +78,7 @@ html
               tr
                 th Membership:
                 td
-                  | { data.customer.membership_status.plan.name }
+                  | { data.customer.membership_status.membership.plan.name }
               tr
                 th Class Passes:
                 td
@@ -198,7 +198,22 @@ html
                 th
                   | Current Membership:
                 td
-                  | { data.customer.membership_status.plan.name }
+                  | { data.customer.membership_status.membership.plan.name }
+              tr
+                th
+                  | Stripe ID:
+                td
+                  | { data.customer.membership_status.membership.stripe_id }
+              tr
+                th
+                  | Created On:
+                td
+                  | { data.customer.membership_status.details.created | unixtime }
+              tr
+                th
+                  | Next Billing:
+                td
+                  | { data.customer.membership_status.details.current_period_end | unixtime }
           
           #events.tab-content
 
@@ -218,8 +233,6 @@ html
                   | { tic.name }
                 td
                   | { tic.price | money }
-
-            br
 
             table.tickets
               tr

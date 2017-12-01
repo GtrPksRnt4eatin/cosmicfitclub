@@ -49,6 +49,14 @@ select,
   width: 35.3em !important;
 }
 
+#events_chosen {
+  width: 35em !important;
+}
+
+.tickets {
+  margin-top: 1em;
+}
+
 button {
   font-family: "Industry-Light";
   font-size: 1em;

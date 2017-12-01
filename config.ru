@@ -67,6 +67,10 @@ map "/models/settings" do
   run SettingRoutes
 end
 
+map "/models/memberships" do
+  run MembershipRoutes
+end
+
 map "/reports" do
   run Reports
 end
@@ -78,3 +82,6 @@ end
 map "/twilio" do
   run TwilioRoutes
 end
+
+require 'pry'
+binding.pry

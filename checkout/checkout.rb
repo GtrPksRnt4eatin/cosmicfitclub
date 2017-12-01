@@ -27,6 +27,7 @@ class Checkout < Sinatra::Base
   get('/transactions')       { render_page :transactions   }
   get('/class_sheet/:id')    { render_page :class_sheet    }
   get('/customer_file')      { render_page :customer_file  }
+  get('/class_reg/:id')      { render_page :class_reg      }
 
   post('/plan/charge')       { buy_plan       }
   post('/pack/charge')       { buy_pack       }

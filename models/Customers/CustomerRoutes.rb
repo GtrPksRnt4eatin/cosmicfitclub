@@ -42,10 +42,13 @@ class CustomerRoutes < Sinatra::Base
   end
 
   get '/:id/membership' do
+    content_type :json
     custy = Customer[params[:id]] or halt 404
     return '{ "plan": { "name": "None" } }' if custy.subscription.nil?
     return '{ "plan": { "name": "None" } }' if custy.subscription.deactivated
-    custy.subscription.to_json(:include => [ :plan ] )
+    data = { :membership => JSON.parse( custy.subscription.to_json(:include => [ :plan ])) , :details => custy.subscription.stripe_info }
+    p data
+    JSON.generate data
   end
 
   get '/:id/wallet' do

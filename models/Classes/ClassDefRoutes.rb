@@ -106,7 +106,8 @@ class ClassDefRoutes < Sinatra::Base
     JSON.generate sheets
   end   
 
-  post '/occurrences' do 
+  post '/occurrences' do
+    content_type :json
     occurrence = ClassOccurrence.get(params['classdef_id'], params['staff_id'], params['starttime'])
     occurrence.to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end

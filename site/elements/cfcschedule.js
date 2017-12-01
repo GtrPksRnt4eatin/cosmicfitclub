@@ -20,6 +20,7 @@ Schedule.prototype = {
   constructor: Schedule,
 
   bind_handlers2() {
+    this.register = this.register.bind(this);
     this.prev_day = this.prev_day.bind(this);
     this.next_day = this.next_day.bind(this);
     this.get_occurrences = this.get_occurrences.bind(this);
@@ -37,7 +38,14 @@ Schedule.prototype = {
     $.get(`/models/classdefs/schedule/${this.state.current_date.toISOString()}/${this.state.current_date.clone().add(7, 'days').toISOString()}`, function(occurrences) {
       this.state.groups = occurrences;
     }.bind(this), 'json');
-  }
+  },
+
+  register(e,m) {
+    $.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef_id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
+     .fail( function(req,msg,status) { alert('failed to get occurrence'); } )
+     .success( function(data) { 
+         window.location = `/checkout/class_reg/${data['id']}` } );
+  } 
 
 }
 
@@ -57,7 +65,7 @@ Schedule.prototype.HTML = `
         <div class='dayname'>
           { group.day | dayofwk } { group.day | date }
         </div>
-        <div class='occurrence' rv-each-occ='group.occurrences' >
+        <div class='occurrence' rv-each-occ='group.occurrences' rv-on-click='this.register'>
           <span class='start'> { occ.starttime | unmilitary } </span> - 
           <span class='end'>   { occ.endtime | unmilitary } </span>
           <span class='classname'> { occ.title } </span>
