@@ -16,18 +16,18 @@ class Checkout < Sinatra::Base
   helpers  Sinatra::ViewHelpers
   register Sinatra::Auth
 
-  get('/plan/:id')           { render_page :plan           }
-  get('/pack/:id')           { render_page :pack           }
-  get('/training/:id')       { render_page :training       }
-  get('/event/:id')          { render_page :event          }
-  get('/complete')           { render_page :complete       }
-  get('/misc')               { render_page :misc           }
-  get('/front_desk')         { render_page :front_desk     }
-  get('/class_checkin')      { render_page :class_checkin  } 
-  get('/transactions')       { render_page :transactions   }
-  get('/class_sheet/:id')    { render_page :class_sheet    }
-  get('/customer_file')      { render_page :customer_file  }
-  get('/class_reg/:id')      { render_page :class_reg      }
+  get('/plan/:id')                       { render_page :plan           }
+  get('/pack/:id')                       { render_page :pack           }
+  get('/training/:id')                   { render_page :training       }
+  get('/event/:id')                      { render_page :event          }
+  get('/complete')                       { render_page :complete       }
+  get('/misc')                           { render_page :misc           }
+  get('/front_desk')                     { render_page :front_desk     }
+  get('/class_checkin')                  { render_page :class_checkin  } 
+  get('/transactions')                   { render_page :transactions   }
+  get('/class_sheet/:id')                { render_page :class_sheet    }
+  get('/customer_file')                  { render_page :customer_file  }
+  get('/class_reg/:id', :auth => 'user') { render_page :class_reg      }
 
   post('/plan/charge')       { buy_plan       }
   post('/pack/charge')       { buy_pack       }

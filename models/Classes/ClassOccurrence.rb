@@ -6,6 +6,12 @@ class ClassOccurrence < Sequel::Model
   many_to_one :teacher, :key => :staff_id, :class => :Staff
   one_to_many :reservations, :class => :ClassReservation
 
+  def ClassOccurrence.get_headcount( class_id, staff_id, starttime )
+    occ = find( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
+    return 0 if occ.nil? 
+    occ.reservations.count
+  end
+
   def ClassOccurrence.get( class_id, staff_id, starttime ) 
     find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
   end

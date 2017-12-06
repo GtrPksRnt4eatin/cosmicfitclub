@@ -139,6 +139,10 @@ PaymentForm.prototype = {
   after_charge(payment) {
     this.state.callback(payment.id);
     this.ev_fire('hide');
+  },
+
+  customer_facing() {
+    $(this.dom).addClass('custy_facing');
   }
 }
 
@@ -148,8 +152,9 @@ Object.assign( PaymentForm.prototype, ev_channel);
 PaymentForm.prototype.HTML = `
 
   <div class='PaymentForm form' >
-    <h2>Charging { state.customer.name } { state.price | money }</h2>
-    <h3>{ state.reason }</h3>
+    <h2 class='nocusty'>Charging { state.customer.name } { state.price | money }</h2>
+    <h2 class='custy'>Pay { state.price | money } now.</h2>
+    <h3 rv-if='state.reason'>{ state.reason }</h3>
     <table>
       <tr rv-if='state.swipe' >
         <th>Swiped Card</th>
@@ -191,7 +196,7 @@ PaymentForm.prototype.HTML = `
           <div id='card-errors'></div>
         </td>
       </tr> 
-      <tr>
+      <tr class='nocusty'>
         <th>Cash</th>
         <td>
           <div class='cash'>
@@ -261,6 +266,18 @@ PaymentForm.prototype.CSS = `
     font-size: .8em;
     color: rgb(255,80,80);
     text-shadow: 0 0 0.5em black;
+  }
+
+  .PaymentForm:not(.custy_facing) .custy {
+    display: none;
+  }
+
+  .PaymentForm.custy_facing .nocusty {
+    display: none;
+  }
+
+  .PaymentForm.custy_facing .custy {
+    display: initial;
   }
 
 `.untab(2);

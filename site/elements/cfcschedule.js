@@ -42,9 +42,8 @@ Schedule.prototype = {
 
   register(e,m) {
     $.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef_id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
-     .fail( function(req,msg,status) { alert('failed to get occurrence'); } )
-     .success( function(data) { 
-         window.location = `/checkout/class_reg/${data['id']}` } );
+     .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
+     .success( function(data)           { window.location = `/checkout/class_reg/${data['id']}` } ); 
   } 
 
 }
@@ -65,13 +64,16 @@ Schedule.prototype.HTML = `
         <div class='dayname'>
           { group.day | dayofwk } { group.day | date }
         </div>
-        <div class='occurrence' rv-each-occ='group.occurrences' rv-on-click='this.register'>
+        <div class='occurrence' rv-each-occ='group.occurrences' >
           <span class='start'> { occ.starttime | unmilitary } </span> - 
           <span class='end'>   { occ.endtime | unmilitary } </span>
           <span class='classname'> { occ.title } </span>
           w/
           <span class='instructors'>
             <span class='instructor' rv-each-inst='occ.instructors'> { inst.name } </span>
+          </span>
+          <span class='register' rv-on-click='this.register' >
+            { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
           </span>
         </div>
       </div>
@@ -130,7 +132,15 @@ Schedule.prototype.CSS = `
     display: inline-block
   }
 
+  #Schedule .blue {
+    color: rgba(100,100,255,0.9);
+  }
 
+  #Schedule .register {
+    display: inline-block;
+    font-size: .5em;
+    line-height: 2em;
+  }
 
   @media(max-width: 1100px) {
   
@@ -139,6 +149,5 @@ Schedule.prototype.CSS = `
     }
 
   }
-
 
 `.untab(2);

@@ -103,7 +103,10 @@ ReservationForm.prototype = {
   after_reservation() {
     this.refresh_customer();
     this.ev_fire('reservation_made');
-  }
+  },
+
+  stack()   { $(this.dom).addClass('stacked');    },
+  unstack() { $(this.dom).removeClass('stacked'); }
 }
 
 Object.assign( ReservationForm.prototype, element);
@@ -136,6 +139,11 @@ ReservationForm.prototype.CSS = `
 
   .ReservationForm {
   	margin: 1em;
+  }
+
+  .ReservationForm.stacked button {
+    display: block;
+    margin: .5em
   }
 
   .ReservationForm button {

@@ -30,6 +30,12 @@ html
         - if user.has_role? "reports"
           div
             a href='/reports' Reports
+        - if user.has_role? "door"
+          div
+            a href='/admin/door' Door
+        - if user.has_role? "cameras"
+          div
+            a href='/admin/cameras' Cameras
 
       .tile
         .header Membership Status
@@ -60,6 +66,18 @@ html
               tr
                 td #{ tic.event.starttime.strftime('%m/%d') }
                 td #{ tic.event.name }
+
+      .tile
+        .header Upcoming Classes
+        hr
+        div.scroll
+          table.upcoming_reservations
+            - customer.upcoming_reservations.each do |res|
+              - occ = res.occurrence
+              tr
+                td #{ occ.starttime.strftime('%a %m/%d %l:%M %P') }
+                td #{ occ.classdef.name }
+                td w/ #{ occ.teacher.name  }
 
       .tile
         .header Personal Training Sessions

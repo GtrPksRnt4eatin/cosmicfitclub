@@ -82,6 +82,3 @@ end
 map "/twilio" do
   run TwilioRoutes
 end
-
-require 'pry'
-binding.pry

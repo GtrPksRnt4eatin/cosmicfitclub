@@ -77,12 +77,14 @@ class ClassDefRoutes < Sinatra::Base
       sched.get_occurences(params[:start], params[:end]).each do |starttime|
         items << { 
           :day => Date.strptime(starttime.to_time.iso8601).to_s,
-          :starttime => sched.start_time,
+          :starttime => starttime,
           :endtime => sched.end_time,
           :title => sched.classdef.name,
           :classdef_id => sched.classdef.id,
           :sched_id => sched.id,
-          :instructors => sched.teachers
+          :instructors => sched.teachers,
+          :headcount => ClassOccurrence.get_headcount( sched.classdef.id, sched.teachers[0].id, starttime.to_time.iso8601 ),
+          :capacity => sched.capacity
         }
       end
     end
@@ -100,7 +102,7 @@ class ClassDefRoutes < Sinatra::Base
         :starttime    => occ.starttime.to_time.iso8601,
         :classdef     => { :id => occ.classdef.id, :name => occ.classdef.name },
         :teacher      => { :id => occ.teacher.id, :name => occ.teacher.name },
-        :reservations => occ.reservation_list #occ.reservations.map { |res| { :id => res.id, :customer => { :id => res.customer.id, :name => res.customer.name }, :payment_type => res.payment_type } }
+        :reservations => occ.reservation_list
       }
     end
     JSON.generate sheets
@@ -108,7 +110,7 @@ class ClassDefRoutes < Sinatra::Base
 
   post '/occurrences' do
     content_type :json
-    occurrence = ClassOccurrence.get(params['classdef_id'], params['staff_id'], params['starttime'])
+    occurrence = ClassOccurrence.get(params['classdef_id'], params['staff_id'], params['starttime'] )
     occurrence.to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end
 
