@@ -133,7 +133,7 @@ Schedule.prototype.CSS = `
   }
 
   #Schedule .blue {
-    color: rgba(100,100,255,0.9);
+    color: rgba(150,150,255,0.9);
   }
 
   #Schedule .register {
