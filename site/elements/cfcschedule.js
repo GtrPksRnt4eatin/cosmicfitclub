@@ -27,7 +27,7 @@ Schedule.prototype = {
   },
 
   prev_day() { this.state.current_date.subtract(7, 'days'); this.set_formatted_date(); this.get_occurrences(); },
-  next_day() { this.state.current_date.add(7, 'days');      this.set_formatted_date(); this.get_occurrences();  },
+  next_day() { this.state.current_date.add(7, 'days');      this.set_formatted_date(); thi-s.get_occurrences();  },
 
   set_formatted_date() {
     this.state.formatted_date = this.state.current_date.format('ddd MMM Do YYYY');

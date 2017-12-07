@@ -41,5 +41,7 @@ body:before {
   .tile {
     width: 80%;
     font-size: 5vw;
+    box-sizing: border-box;
   }
+
 }
