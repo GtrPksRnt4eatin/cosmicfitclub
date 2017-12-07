@@ -16,11 +16,6 @@ class Checkout < Sinatra::Base
   helpers  Sinatra::ViewHelpers
   register Sinatra::Auth
 
-  before do
-    headers['Location'] = request.url.sub('http', 'https')
-    halt 301, "https required\n"
-  end
-
   get('/plan/:id')                       { render_page :plan           }
   get('/pack/:id')                       { render_page :pack           }
   get('/training/:id')                   { render_page :training       }
