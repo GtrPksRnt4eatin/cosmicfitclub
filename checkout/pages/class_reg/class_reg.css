@@ -37,6 +37,9 @@ body:before {
   vertical-align: middle;
 }
 
-
-
-
+@media(max-width: 800px) {
+  .tile {
+    width: 80%;
+    font-size: 5vw;
+  }
+}

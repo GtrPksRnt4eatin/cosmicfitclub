@@ -171,4 +171,10 @@ ReservationForm.prototype.CSS = `
     font-size: .8em;
   }
 
+  @media(max-width: 800px) {
+    .ReservationForm.stacked button {
+      width: 93%;
+    }
+  }
+
 `.untab(2);
