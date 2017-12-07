@@ -280,4 +280,11 @@ PaymentForm.prototype.CSS = `
     display: initial;
   }
 
+  @media(max-width: 800px) {
+    .PaymentForm.custy_facing {
+      width: 90vw;
+      font-size: 3vw;
+    }
+  }
+
 `.untab(2);
