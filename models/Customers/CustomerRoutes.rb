@@ -120,7 +120,7 @@ class CustomerRoutes < Sinatra::Base
   end
 
   post '/:id/add_passes' do
-    custy = Customer[params[:id]] or halt 404 "Cant Find Customer"
+    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
     custy.add_passes( params[:value], params[:reason] );
   end
 
