@@ -125,6 +125,7 @@ textarea {
   border-radius: 4px;
   box-shadow: 0 1px 3px 0 #e6ebf1;
   border: 1px solid transparent;
+  width: 20em;
 }
 
 .StripeElement {
@@ -284,6 +285,10 @@ table.history {
 
 select.num {
   width: 3em;
+  cursor: pointer;
+}
+
+.selectable {
   cursor: pointer;
 }
 
