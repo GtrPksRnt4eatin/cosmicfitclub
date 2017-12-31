@@ -34,7 +34,7 @@ data = {
 ctrl = {
 
   give_comps: function(e,m) {
-    $.post(`/models/customers/${data.customer.id}/add_passes`, { value: data.num_comp_tix, reason: data.comp_reason }, function() { refresh_customer_data(); })
+    $.post(`/models/customers/${data.customer.id}/add_passes`, { value: data.num_comp_tix, reason: data.comp_reason }, function() { alert("Passes Added!"); refresh_customer_data(); })
   },
 
   reserve_class_pass: function(e,m) {
