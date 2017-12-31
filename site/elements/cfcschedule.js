@@ -6,6 +6,10 @@ function Schedule(parent) {
     groups: []
   }
 
+  rivets.formatters.equals = function(val,arg) { 
+    return(val == arg); 
+  }
+
   //this.bind_handlers( [ this.prev_day, this.next_day ] );
   this.bind_handlers2();
   this.build_dom(parent);
@@ -35,7 +39,7 @@ Schedule.prototype = {
   },
 
   get_occurrences() {
-    $.get(`/models/classdefs/schedule/${this.state.current_date.toISOString()}/${this.state.current_date.clone().add(7, 'days').toISOString()}`, function(occurrences) {
+    $.get(`/models/schedule/${this.state.current_date.toISOString()}/${this.state.current_date.clone().add(7, 'days').toISOString()}`, function(occurrences) {
       this.state.groups = occurrences;
     }.bind(this), 'json');
   },
@@ -64,18 +68,30 @@ Schedule.prototype.HTML = `
         <div class='dayname'>
           { group.day | dayofwk } { group.day | date }
         </div>
+
         <div class='occurrence' rv-each-occ='group.occurrences' >
-          <span class='start'> { occ.starttime | unmilitary } </span> - 
-          <span class='end'>   { occ.endtime | unmilitary } </span>
-          <span class='classname'> { occ.title } </span>
-          w/
-          <span class='instructors'>
-            <span class='instructor' rv-each-inst='occ.instructors'> { inst.name } </span>
-          </span>
-          <span class='register' rv-on-click='this.register' >
-            { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
-          </span>
+
+          <div class='classitem' rv-if="occ.type | equals 'classoccurrence'">
+            <span class='start'> { occ.starttime | unmilitary } </span> - 
+            <span class='end'>   { occ.endtime | unmilitary } </span>
+            <span class='classname'> { occ.title } </span>
+            w/
+            <span class='instructors'>
+              <span class='instructor' rv-each-inst='occ.instructors'> { inst.name } </span>
+            </span>
+            <span class='register' rv-on-click='this.register' >
+              { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
+            </span>
+          </div>
+
+          <div class='eventsession' rv-if="occ.type | equals 'eventsession'"">
+            <span class='start'> { occ.starttime | unmilitary } </span> - 
+            <span class='end'>   { occ.endtime | unmilitary } </span>
+            <span> { occ.title } </span>
+          </div> 
+ 
         </div>
+
       </div>
     </div>
   </div>
@@ -112,13 +128,21 @@ Schedule.prototype.CSS = `
   #Schedule .occurrence {
     background: rgba(255,255,255,0.1);
     margin: 0.25em;
-    padding: 0.5em;
     vertical-align: middle;
     line-height: 1.3em;
   }
 
   #Schedule .occurrence span {
     vertical-align: middle;
+  }
+
+  #Schedule .classitem,
+  #Schedule .eventsession {
+    padding: 0.5em;
+  }
+
+  #Schedule .eventsession {
+    background: rgba(255,255,0,0.2);
   }
 
   #Schedule .instructors {

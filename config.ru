@@ -82,3 +82,7 @@ end
 map "/twilio" do
   run TwilioRoutes
 end
+
+map "/models/schedule" do
+  run ScheduleRoutes
+end

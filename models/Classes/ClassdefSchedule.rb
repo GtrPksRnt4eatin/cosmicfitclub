@@ -8,9 +8,11 @@ class ClassdefSchedule < Sequel::Model
   def get_occurences(from,to)
     return [] if rrule.nil?
     return [] if start_time.nil?
+    from = Time.parse(from) if from.is_a? String
+    to = Time.parse(to) if to.is_a? String
     IceCube::Schedule.new(start_time) do |sched|
       sched.add_recurrence_rule IceCube::Rule.from_ical(rrule)
-    end.occurrences_between(Time.parse(from),Time.parse(to))
+    end.occurrences_between(from,to)
   end
 
   def ClassdefSchedule.get_all_occurrences(from,to)
