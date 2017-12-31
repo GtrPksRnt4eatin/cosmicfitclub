@@ -33,8 +33,11 @@ html
             img#picpreview rv-src='event.image_url'
             #nopic rv-unless='event.image_url'
         .tuplet
+          label Description:
+          textarea#description rv-value='event.description'
+        .tuplet
           label Details:
-          textarea#details rv-value='event.description'
+          textarea#details rv-value='event.details'
 
         div.tuplet
           label Sessions:

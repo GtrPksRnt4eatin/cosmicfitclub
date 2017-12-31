@@ -5,6 +5,7 @@ ctrl = {
     fd.append('id', m.event.id);
     fd.append('name', m.event.name);
     fd.append('description', m.event.description);
+    fd.append('details', m.event.details);
     if( !empty(m.event.sessions[0])   ) { fd.append('starttime', m.event.sessions[0].start_time); }
     if( !empty($('#pic')[0].files[0]) ) { fd.append('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();

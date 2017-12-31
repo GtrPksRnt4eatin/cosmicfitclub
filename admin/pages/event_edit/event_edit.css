@@ -3,6 +3,7 @@
   margin: .5em 0;
 }
 
+textarea#description,
 textarea#details {
   height: 12em;
 }
