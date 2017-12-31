@@ -178,14 +178,14 @@ html
                   table
                     tr
                       td
-                        button rv-on-click='ctrl.comp' Give Comp Ticket
+                        button rv-on-click='ctrl.comp' Give First Time Comp Ticket
                     tr  
                       td
                         select.num value='0' rv-value='data.num_comp_tix'
                           - (0..10).each do |i|
                             option value="#{i}" #{i}
                       td
-                        input rv-value='data.comp_reason'
+                        input#comp_reason rv-value='data.comp_reason'
                       td
                         button rv-on-click='ctrl.give_comps' Give Comps
 

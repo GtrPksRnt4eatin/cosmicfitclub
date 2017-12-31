@@ -118,6 +118,16 @@ textarea {
 	height: 6em;
 }
 
+,
+#comp_reason {
+  font-size: 1em;
+  font-family: "Industry-Light";
+  padding: .5em;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  border: 1px solid transparent;
+}
+
 .StripeElement {
   background-color: white;
   padding: 8px 12px;
