@@ -28,7 +28,7 @@ data = {
   transfer_to_amount: 0,
   transfer_from_amount: 0,
   num_comp_tix: 0,
-  comp_reason: "reason for comps"
+  comp_reason: "Reason for Comps"
 }
 
 ctrl = {
@@ -143,6 +143,9 @@ $(document).ready( function() {
   $(window).bind('popstate', function(e) { 
     choose_customer(history.state.id);
   });
+
+  $('#comp_reason').on('focus', function(e) { if(e.target.value == "Reason for Comps") { e.target.value = ""; } } )
+  $('#comp_reason').on('blur', function(e) { if(e.target.value == "") { e.target.value = "Reason for Comps"; } } )
 
 });
 
