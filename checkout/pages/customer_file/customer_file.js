@@ -26,10 +26,16 @@ data = {
   transfer_to: 0,
   transfer_from: 0,
   transfer_to_amount: 0,
-  transfer_from_amount: 0
+  transfer_from_amount: 0,
+  num_comp_tix: 0,
+  comp_reason: "reason for comps"
 }
 
 ctrl = {
+
+  give_comps: function(e,m) {
+    $.post(`/models/customers/${data.customer.id}/add_passes`, { value: data.num_comp_tix, reason: data.comp_reason }, function() { refresh_customer_data(); })
+  },
 
   reserve_class_pass: function(e,m) {
     if( !validate_reservation() ) return; 

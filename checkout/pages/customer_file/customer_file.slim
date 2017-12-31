@@ -173,8 +173,22 @@ html
                           | Buy For { data.package_price | money }
               tr
                 th
+                  | Comp Passes
                 td
-                  button rv-on-click='ctrl.comp' Give Comp Ticket
+                  table
+                    tr
+                      td
+                        button rv-on-click='ctrl.comp' Give Comp Ticket
+                    tr  
+                      td
+                        select.num value='0' rv-value='data.num_comp_tix'
+                          - (0..10).each do |i|
+                            option value="#{i}" #{i}
+                      td
+                        input rv-value='data.comp_reason'
+                      td
+                        button rv-on-click='ctrl.give_comps' Give Comps
+
             br
             table.history
               thead
