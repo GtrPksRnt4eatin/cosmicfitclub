@@ -48,7 +48,11 @@ Schedule.prototype = {
     $.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef_id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
      .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
      .success( function(data)           { window.location = `https://cosmicfitclub.com/checkout/class_reg/${data['id']}` } ); 
-  } 
+  },
+
+  event_register(e,m) {
+    window.location = '/checkout/event/' + m.occ.id;
+  }
 
 }
 
@@ -84,10 +88,10 @@ Schedule.prototype.HTML = `
             </span>
           </div>
 
-          <div class='eventsession' rv-if="occ.type | equals 'eventsession'"">
+          <div class='eventsession' rv-if="occ.type | equals 'eventsession'"" rv-on-click='this.event_register'>
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
-            <span> { occ.title } </span>
+            <span> Event: { occ.title } </span>
           </div> 
  
         </div>
