@@ -41,7 +41,8 @@ class ScheduleRoutes < Sinatra::Base
         :day => Date.strptime(i.start_time).to_s,
         :starttime => Time.parse(i.start_time),
         :endtime => Time.parse(i.end_time),
-        :title => i.title
+        :title => i.title,
+        :event_id => i.event_id
       }
     end
   end

@@ -51,7 +51,7 @@ Schedule.prototype = {
   },
 
   event_register(e,m) {
-    window.location = '/checkout/event/' + m.occ.id;
+    window.location = '/checkout/event/' + m.occ.event_id;
   }
 
 }
