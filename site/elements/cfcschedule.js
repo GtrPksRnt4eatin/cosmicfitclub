@@ -88,7 +88,7 @@ Schedule.prototype.HTML = `
             </span>
           </div>
 
-          <div class='eventsession' rv-if="occ.type | equals 'eventsession'"" rv-on-click='this.event_register'>
+          <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
             <span> Event: { occ.title } </span>
