@@ -18,6 +18,11 @@ var ctrl = {
 		if(!confirm("Link Accounts?")) { return false; }
         $.post(`/models/memberships/${m.item.id}/stripe_id`, { value: e.target.value }, function() { location.reload(); } )
 	},
+    create_subscription: function(e,m) {
+        $.post('/models/memberships', { email: m.item.customer.email, plan_id: m.item.plan_id, stripe_id: m.item.id })
+         .done( function()    { location.reload(); })
+         .fail( function(xhr) { alert(xhr.responseText); })
+    }
 }
 
 $(document).ready(function() {

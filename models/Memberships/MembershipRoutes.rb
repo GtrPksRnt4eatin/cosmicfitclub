@@ -1,7 +1,23 @@
 class MembershipRoutes < Sinatra::Base
 
-  get '/'  do
-  	
+  post '/' do
+    custy = Customer.find_by_email(params[:email]) or halt 404, 'No account found to add subscription to'
+    plan = Plan[ :stripe_id => params[:plan_id]] or halt 404, 'Plan id did not link to a valid plan'
+    Subscription.create({ :customer => custy, :plan => plan, :stripe_id => params[:stripe_id] })
+  end
+
+  get '/:id/details' do
+    Subscription[params[:id]].stripe_info
+  end
+
+  delete '/:id' do
+    sub = Subscription[params[:id]] or halt 404
+    sub.delete
+  end
+
+  post '/:id/stripe_id' do
+    sub = Subscription[params[:id]] or halt 404
+    sub.update( :stripe_id => params[:value] )
   end
 
   get '/matched_list' do
@@ -13,6 +29,7 @@ class MembershipRoutes < Sinatra::Base
     stripe_list.map! do |sub|
       {  :id => sub[:id],
          :customer => Stripe::Customer.retrieve(sub[:customer]),
+         :plan_id => sub[:plan].id,
          :plan_name => sub[:plan].name,
          :matched => cosmic_list.find { |x| x.stripe_id == sub[:id] }
       }
@@ -49,24 +66,6 @@ class MembershipRoutes < Sinatra::Base
       :stripe_matched => stripe_matched
     }.to_json
 
-  end
-
-  delete '/:id' do
-    sub = Subscription[params[:id]] or halt 404
-    sub.delete
-  end
-
-  post '/:id/stripe_id' do
-    sub = Subscription[params[:id]] or halt 404
-    sub.update( :stripe_id => params[:value] )
-  end
-
-  get '/:id' do
-    
-  end
-
-  get '/:id/details' do
-    Subscription[params[:id]].stripe_info
   end
 
 end
