@@ -13,7 +13,7 @@ function Schedule(parent) {
     return true;
   }
   rivets.formatters.event_title = function(val) {
-    title = val.multisession_event ? val.event_title + '\r\n' + val.title : 'Event: ' + val.event_title;
+    title = val.multisession_event ? val.event_title + '\r\n' + val.title : val.event_title;
     return title;
   }
 

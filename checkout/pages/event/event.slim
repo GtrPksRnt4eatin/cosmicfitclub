@@ -78,12 +78,17 @@ html
 
         #registration rv-if='data.total_price | equals 0'
 
-          div#emailbox.tuplet rv-if='customer | empty'
-            label E-Mail:
-            input#email
+          div rv-unless="data.mode | equals 'external' "
 
-          div
-            button#register rv-on-click='ctrl.checkout' Register
+            div#emailbox.tuplet rv-if='customer | empty'
+              label E-Mail:
+              input#email
+
+            div
+              button#register rv-on-click='ctrl.checkout' Register
+
+          div rv-if="data.mode | equals 'external' ""
+            a rv-href='event.registration_url' { event.registration_url }
         
         #pricing rv-unless='data.total_price | equals 0'
 
