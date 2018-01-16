@@ -48,6 +48,15 @@ html
           div
             a href='/admin/class_exceptions' Class Exceptions
 
+      -if user.has_role? "frontdesk"
+        .tile
+          .header Front Desk
+          hr
+          div
+            a href='/checkout/class_checkin' Class Checkin
+          div
+            a href='/checkout/customer_file' Customer Files
+
       .tile
         .header Membership Status
         hr

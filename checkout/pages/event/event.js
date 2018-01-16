@@ -100,7 +100,7 @@ function calculate_total() {
       }
       break;
 
-    case 'external'
+    case 'external':
       break;
 
     default: 
