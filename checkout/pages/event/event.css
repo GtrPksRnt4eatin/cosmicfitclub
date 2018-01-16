@@ -52,6 +52,7 @@ table {
   font-size: 1.2em;
   font-family: 'Industry-Light';
   cursor: pointer;
+  margin-top: 1em;
 }
 
 td {
