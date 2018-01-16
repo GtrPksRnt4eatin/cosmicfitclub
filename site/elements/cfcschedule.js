@@ -6,8 +6,15 @@ function Schedule(parent) {
     groups: []
   }
 
-  rivets.formatters.equals = function(val,arg) { 
-    return(val == arg); 
+  rivets.formatters.equals = function(val,arg) { return(val == arg); }
+  rivets.formatters.show_classitem = function(val) { 
+    if( val.type != 'classoccurrence' ) return false;
+    if( val.exception && val.exception.hidden ) return false;
+    return true;
+  }
+  rivets.formatters.event_title = function(val) {
+    title = val.multisession_event ? val.event_title + '\r\n' + val.title : 'Event: ' + val.event_title;
+    return title;
   }
 
   //this.bind_handlers( [ this.prev_day, this.next_day ] );
@@ -74,8 +81,7 @@ Schedule.prototype.HTML = `
         </div>
 
         <div class='occurrence' rv-each-occ='group.occurrences' >
-
-          <div class='classitem' rv-if="occ.type | equals 'classoccurrence'">
+          <div class='classitem' rv-if="occ | show_classitem" >
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
             <span class='classname'> { occ.title } </span>
@@ -91,7 +97,7 @@ Schedule.prototype.HTML = `
           <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
-            <span> Event: { occ.title } </span>
+            <span class='eventtitle'> { occ | event_title } </span>
           </div> 
  
         </div>
@@ -148,6 +154,13 @@ Schedule.prototype.CSS = `
   #Schedule .eventsession {
     background: rgba(255,255,0,0.2);
   }
+
+  #Schedule .eventsession .eventtitle {
+    width: 28em;
+    text-overflow: ellipsis;
+    display: inline-block;
+    white-space: pre-line;
+  } 
 
   #Schedule .instructors {
     width: 9em;

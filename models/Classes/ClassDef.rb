@@ -8,6 +8,10 @@ class ClassDef < Sequel::Model
 
   include ImageUploader[:image]
 
+  def ClassDef.all_active
+    ClassDef.exclude(:deactivated=>true).order(:position).all.select! { |x| x.schedules.count > 0 }
+  end
+
   def after_save
   	self.id
   	super
@@ -28,6 +32,12 @@ class ClassDef < Sequel::Model
   def get_occurences(from, to)
     schedules.map do |sched|
       sched.get_occurences(from,to)
+    end.flatten
+  end
+
+  def get_full_occurences(from, to)
+    schedules.map do |sched|
+      sched.get_occurences(from,to).map { |x| { :teachers => sched.teachers, :starttime => x.start_time, :exception => ClassException.find( :classdef_id => self.id, :original_starttime => x.start_time.iso8601 ) } }
     end.flatten
   end
 

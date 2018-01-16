@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    == css ['fonts', 'site', 'header', 'chosen.min', 'admin/class_exceptions']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', 'moment', 'jquery.chosen.min', 'rv_select', 'rv_dates', '/auth/elements/userview', 'menu', 'admin/class_exceptions']
+
+    title Class Exceptions
+  
+  body.p5
+
+    #stars
+
+    .tile
+      h2 Create New Class Exception
+
+      div
+        .section.schedlist
+          select rv-idselect='data.classdef' rv-on-change='ctrl.class_selected'
+            - ClassDef.all_active.each do |cls|
+              option value='#{cls.id}' #{cls.name}
+          div.heading Upcoming Sessions
+
+          div.scheditem rv-each-scheditem='data.scheditems' rv-on-click='ctrl.scheditem_selected'
+            div rv-class='scheditem.exception | exception_classes'
+              span 
+                | { scheditem.starttime | classtime }
+              span
+                | w/
+              span 
+                span rv-each-teach='scheditem.teachers'
+                  | { teach.name }
+
+      div rv-if='data.selected_scheditem'
+        .section.edit_session
+            div
+              .ib Editing:
+              span 
+                | { data.selected_classdef.name } - { data.selected_scheditem.starttime | classtime } w/ 
+                span rv-each-teach='data.selected_scheditem.teachers' { teach.name }
+            span 
+              span rv-each-teach='scheditem.teachers'
+                | 
+            div
+              .ib Hidden?
+              input rv-on-change='ctrl.post_exception' rv-checked='data.exception.hidden' type='checkbox'
+            div
+              .ib Canceled?
+              input rv-on-change='ctrl.post_exception' rv-checked='data.exception.cancelled' type='checkbox'
+            div
+              .ib Sub?
+              select rv-on-change='ctrl.post_exception' rv-idselect='data.exception.teacher'
+                - Staff.each do |staff|
+                  option value='#{staff.id}' #{staff.name}

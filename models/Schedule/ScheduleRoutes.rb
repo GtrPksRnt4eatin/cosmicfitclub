@@ -27,7 +27,8 @@ class ScheduleRoutes < Sinatra::Base
           :sched_id => sched.id,
           :instructors => sched.teachers,
           :headcount => ClassOccurrence.get_headcount( sched.classdef.id, sched.teachers[0].id, starttime.to_time.iso8601 ),
-          :capacity => sched.capacity
+          :capacity => sched.capacity,
+          :exception => ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 )
         }
       end
     end
@@ -42,7 +43,9 @@ class ScheduleRoutes < Sinatra::Base
         :starttime => Time.parse(i.start_time),
         :endtime => Time.parse(i.end_time),
         :title => i.title,
-        :event_id => i.event_id
+        :event_title => i.event.name,
+        :event_id => i.event_id,
+        :multisession_event => i.event.sessions.count > 1
       }
     end
   end

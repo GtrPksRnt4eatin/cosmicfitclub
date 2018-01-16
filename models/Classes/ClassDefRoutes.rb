@@ -56,6 +56,14 @@ class ClassDefRoutes < Sinatra::Base
     status 200
   end
 
+  get '/:id/schedule' do
+    content_type :json
+    classdef = ClassDef[params[:id]] or halt 404, 'class definition not found'
+    from = ( params[:from] or Time.now )
+    to = ( params[:to] or Time.now.months_since(1) )
+    JSON.generate classdef.get_full_occurences(from, to)
+  end
+
   post '/:id/schedules' do
     data = JSON.parse(request.body.read)
     schedule = ClassDef[params[:id]].create_schedule if data['id'] == 0 
@@ -163,6 +171,11 @@ class ClassDefRoutes < Sinatra::Base
       ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0].id, Time.parse(occ[:starttime].to_s) )
     end
     status 204
+  end
+
+  post '/exceptions' do
+    excep= ClassException.find_or_create( classdef_id: params[:classdef_id], original_starttime: params[:original_starttime] ) 
+    excep.update( :teacher_id => params[:teacher_id], :starttime => params[:starttime], :cancelled => params[:cancelled], :hidden => params[:hidden])
   end
 
 end
