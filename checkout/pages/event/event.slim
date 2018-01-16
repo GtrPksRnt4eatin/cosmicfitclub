@@ -87,7 +87,7 @@ html
             div
               button#register rv-on-click='ctrl.checkout' Register
 
-          div rv-if="data.mode | equals 'external' ""
+          div rv-if="data.mode | equals 'external' "
             a rv-href='event.registration_url' { event.registration_url }
         
         #pricing rv-unless='data.total_price | equals 0'
