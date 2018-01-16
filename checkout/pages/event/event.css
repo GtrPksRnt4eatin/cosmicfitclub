@@ -1,6 +1,6 @@
 #checkout, #register {
-	font-family: "Industry-Light";;
-	cursor: pointer;
+	font-family: "Industry-Light";
+  cursor: pointer;
 	padding: .5em;
   font-size: 1.2em;
 }
@@ -46,7 +46,12 @@ table {
 
 .details {
   text-align: left;
-  white-space: pre;
+}
+
+#reg_ext {
+  font-size: 1.2em;
+  font-family: 'Industry-Light';
+  cursor: pointer;
 }
 
 td {
