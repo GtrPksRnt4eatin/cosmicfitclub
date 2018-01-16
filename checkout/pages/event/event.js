@@ -100,6 +100,9 @@ function calculate_total() {
       }
       break;
 
+    case 'external'
+      break;
+
     default: 
       alert('mode not set!');
       break;
