@@ -44,6 +44,11 @@ table {
   white-space: pre-wrap;
 }
 
+.details {
+  text-align: left;
+  white-space: pre;
+}
+
 td {
   background: rgba(255,255,255,0.1);
 }
