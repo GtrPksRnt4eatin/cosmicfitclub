@@ -71,9 +71,9 @@ html
         hr width='75%'
 
         #free_event rv-if="data.mode | equals 'free' "
-          h4 This Is A Free Event!
+          h4 This Is A Free Event.
 
-        #free_member_event    rv-if="data.mode | equals 'memberfree' "
+        #free_member_event rv-if="data.mode | equals 'memberfree' "
           h4 This Event Is Free For Members!
 
         #registration rv-if='data.total_price | equals 0'
@@ -81,11 +81,14 @@ html
           div rv-unless="data.mode | equals 'external' "
 
             div#emailbox.tuplet rv-if='customer | empty'
-              h4 Enter your E-Mail to register.
+              div Enter your E-Mail to register.
               input#email
 
-            div
+            div rv-if='customer | empty'
               button#register rv-on-click='ctrl.checkout' Register
+
+            div rv-unless='customer | empty'
+              button#register rv-on-click='ctrl.checkout' { customer.name }, Click here to register.
 
           div rv-if="data.mode | equals 'external' "
             a rv-href='event.registration_url' 
