@@ -60,7 +60,7 @@ class ClassDefRoutes < Sinatra::Base
     content_type :json
     classdef = ClassDef[params[:id]] or halt 404, 'class definition not found'
     from = ( params[:from] or Time.now )
-    to = ( params[:to] or Time.now.months_since(1) )
+    to = ( params[:to] or Time.now.months_since(6) )
     JSON.generate classdef.get_full_occurences(from, to)
   end
 

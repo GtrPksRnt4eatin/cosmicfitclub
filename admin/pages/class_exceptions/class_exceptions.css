@@ -17,6 +17,11 @@
   min-width: 30em;
 }
 
+.schedscroll {
+  max-height: 20em;
+  overflow-y: scroll;
+}
+
 .scheditem {
 	box-shadow: 0 0 0.1em white;
 	cursor: pointer;

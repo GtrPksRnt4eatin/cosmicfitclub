@@ -22,15 +22,16 @@ html
               option value='#{cls.id}' #{cls.name}
           div.heading Upcoming Sessions
 
-          div.scheditem rv-each-scheditem='data.scheditems' rv-on-click='ctrl.scheditem_selected'
-            div rv-class='scheditem.exception | exception_classes'
-              span 
-                | { scheditem.starttime | classtime }
-              span
-                | w/
-              span 
-                span rv-each-teach='scheditem.teachers'
-                  | { teach.name }
+          div.schedscroll
+            div.scheditem rv-each-scheditem='data.scheditems' rv-on-click='ctrl.scheditem_selected'
+              div rv-class='scheditem.exception | exception_classes'
+                span 
+                  | { scheditem.starttime | classtime }
+                span
+                  | w/
+                span 
+                  span rv-each-teach='scheditem.teachers'
+                    | { teach.name }
 
       div rv-if='data.selected_scheditem'
         .section.edit_session
