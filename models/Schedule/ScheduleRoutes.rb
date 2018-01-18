@@ -26,7 +26,7 @@ class ScheduleRoutes < Sinatra::Base
           :classdef_id => sched.classdef.id,
           :sched_id => sched.id,
           :instructors => sched.teachers,
-          :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 'TBA' : sched.teachers[0].id ), starttime.to_time.iso8601 ),
+          :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), starttime.to_time.iso8601 ),
           :capacity => sched.capacity,
           :exception => ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 )
         }
