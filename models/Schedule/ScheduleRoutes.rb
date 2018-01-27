@@ -37,7 +37,8 @@ class ScheduleRoutes < Sinatra::Base
 
   def get_eventsessions_between(from,to)
     items = EventSession.between(from,to)
-    items.map do |i| 
+    items.map do |i|
+      next nil if i.event.nil? 
       { :type => 'eventsession',
         :day => Date.strptime(i.start_time).to_s,
         :starttime => Time.parse(i.start_time),
@@ -47,7 +48,7 @@ class ScheduleRoutes < Sinatra::Base
         :event_id => i.event_id,
         :multisession_event => i.event.sessions.count > 1
       }
-    end
+    end.compact
   end
 
 
