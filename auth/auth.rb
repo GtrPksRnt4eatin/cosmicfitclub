@@ -64,9 +64,9 @@ class CFCAuth < Sinatra::Base
 
   get '/current_user' do
     content_type :json
-    user = session[:user]
-    halt 404 if user.nil?
-    JSON.generate({ :id => user.id, :name => user.name }) 
+    user = session[:user];           halt 404 if user.nil?
+    custy = session[:user].customer; halt 404 if custy.nil?
+    JSON.generate({ :id => custy.id, :name => custy.name }) 
   end
 
 end
