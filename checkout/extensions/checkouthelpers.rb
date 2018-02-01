@@ -22,7 +22,6 @@ module Sinatra
     def buy_pack_precharged
       custy = Customer[params[:customer_id]] or halt 403
       custy.buy_pack_precharged( params[:pack_id], params[:payment_id] )
-      custy.add_passes(4, "New Years Bonus", "" ) if params[:pack_id] == 4 
     end
 
     def buy_training
