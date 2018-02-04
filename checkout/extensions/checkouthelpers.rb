@@ -14,8 +14,9 @@ module Sinatra
     def buy_pack
       data = JSON.parse request.body.read
       custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
+      p data
+      p custy
       custy.buy_pack_card( data['pack_id'], data['token'] )
-      custy.add_passes(4, "New Years Bonus", "" ) if data['pack_id'] == 4 
       status 204
     end
 
