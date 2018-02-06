@@ -34,6 +34,8 @@ class CFC < Sinatra::Base
 
   get( '/login' ) { redirect('/auth/login') }
 
+  get( '/gmb' ) { redirect('/checkout/event/226') }
+
   get( '/resetData' ) do
     $DB[:waivers].truncate( :restart=>true )
     $DB[:customers].truncate( :restart=>true )
