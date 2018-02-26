@@ -98,7 +98,13 @@ Schedule.prototype.HTML = `
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
             <span class='eventtitle'> { occ | event_title } </span>
-          </div> 
+          </div>
+
+          <div class='rental' rv-if="occ.type | equals 'private'">
+            <span class='start'> { occ.starttime | unmilitary } </span> - 
+            <span class='end'>   { occ.endtime | unmilitary } </span>
+            <span class='eventtitle'> Private Event: { occ.title } </span>
+          </div>
  
         </div>
 
@@ -147,12 +153,17 @@ Schedule.prototype.CSS = `
   }
 
   #Schedule .classitem,
-  #Schedule .eventsession {
+  #Schedule .eventsession,
+  #Schedule .rental {
     padding: 0.5em;
   }
 
   #Schedule .eventsession {
     background: rgba(255,255,0,0.2);
+  }
+
+  #Schedule .rental {
+    background: rgba(0,0,255,0.2);
   }
 
   #Schedule .eventsession .eventtitle {

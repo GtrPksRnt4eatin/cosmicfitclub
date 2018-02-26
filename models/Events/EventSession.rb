@@ -22,7 +22,7 @@ class EventSession < Sequel::Model
       next if start < from
       next if start >= to
       sess
-    end.compact!
+    end.compact
   end
 
 end

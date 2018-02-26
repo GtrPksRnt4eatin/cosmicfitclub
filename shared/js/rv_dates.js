@@ -1,19 +1,19 @@
 function include_rivets_dates() {
 
-  rivets.formatters.dayofwk    = function(val)     { return moment(val).format('ddd')                };
-  rivets.formatters.date       = function(val)     { return moment(val).format('MMM Do')             };
-  rivets.formatters.time       = function(val)     { return moment(val).format('h:mm a')             };
-  rivets.formatters.padtime    = function(val)     { return moment(val).format('hh:mm A')            };
-  rivets.formatters.fulldate   = function(val)     { return moment(val).format('ddd MMM Do hh:mm a') };
-  rivets.formatters.simpledate = function(val)     { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
-  rivets.formatters.eventstart = function(val)     { return moment(val).format('ddd M/DD hh:mm A')   };
-  rivets.formatters.unmilitary = function(val)     { return moment(val).format('h:mm A')             };
-  rivets.formatters.classtime  = function(val)     { return moment(val).format('ddd MMM D @ h:mm a') };
-  rivets.formatters.unixtime   = function(val)     { return moment(new Date(val*1000)).format('MM/DD/YYYY hh:mm A') };
+  rivets.formatters.dayofwk    = function(val)     { return moment.parseZone(val).format('ddd')                };
+  rivets.formatters.date       = function(val)     { return moment.parseZone(val).format('MMM Do')             };
+  rivets.formatters.time       = function(val)     { return moment.parseZone(val).format('h:mm a')             };
+  rivets.formatters.padtime    = function(val)     { return moment.parseZone(val).format('hh:mm A')            };
+  rivets.formatters.fulldate   = function(val)     { return moment.parseZone(val).format('ddd MMM Do hh:mm a') };
+  rivets.formatters.simpledate = function(val)     { return moment.parseZone(val).format('MM/DD/YYYY hh:mm A') }; 
+  rivets.formatters.eventstart = function(val)     { return moment.parseZone(val).format('ddd M/DD hh:mm A')   };
+  rivets.formatters.unmilitary = function(val)     { return moment.parseZone(val).format('h:mm A')             };
+  rivets.formatters.classtime  = function(val)     { return moment.parseZone(val).format('ddd MMM D @ h:mm a') };
+  rivets.formatters.unixtime   = function(val)     { return moment.parseZone(new Date(val*1000)).format('MM/DD/YYYY hh:mm A') };
   
   rivets.formatters.dtrange    = function(start,end) { 
-    start = moment(start);
-    end = moment(end);
+    start = moment.parseZone(start);
+    end = moment.parseZone(end);
     if( start.diff(end, 'days') == 0 ) { return start.format('ddd MMM Do h:mm a') + ' - ' + end.format('h:mm a'); }
     return start.format('ddd MMM Do h:mm a') + ' - ' + end.format('ddd MMM Do h:mm a');
   }

@@ -3,9 +3,10 @@ class ScheduleRoutes < Sinatra::Base
   get '/:from/:to' do
     from = Time.parse(params[:from])
     to = Time.parse(params[:to])
-    classes = get_classitems_between(from,to)
-    events  = get_eventsessions_between(from,to)
-    items = events + classes
+    classes  = get_classitems_between(from,to)
+    events   = get_eventsessions_between(from,to)
+    rentals = get_rentals_between(from,to)
+    items = events + classes + rentals
     items = items.group_by { |x| x[:day] }
     arr = []
     items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
@@ -52,8 +53,16 @@ class ScheduleRoutes < Sinatra::Base
   end
 
 
-  def get_private_events_between(from,to)
-
+  def get_rentals_between(from,to)
+    items = Rental.between(from,to)
+    items.map do |i|
+      { :type => 'private',
+        :day => Date.strptime(i.start_time.to_s).to_s,
+        :starttime => Time.parse(i.start_time.to_s),
+        :endtime => i.end_time,
+        :title => i.title
+      }
+    end
   end
 
   def get_classexceptions_between(from,to)
