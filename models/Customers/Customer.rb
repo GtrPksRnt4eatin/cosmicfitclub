@@ -47,7 +47,8 @@ class Customer < Sequel::Model
   end
 
   def email
-    super.downcase
+    val = super
+    val.nil? ? '' : val.downcase
   end
 
   def before_save
