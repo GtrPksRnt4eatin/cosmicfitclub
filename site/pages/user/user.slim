@@ -37,6 +37,21 @@ html
           div
             a href='/admin/cameras' Cameras
 
+      -if user.has_role? "admin"
+        .tile
+          .header Admin
+          hr
+          div
+            a href='/admin/classes' Classes
+          div
+            a href='/admin/events' Events
+          div
+            a href='/admin/staff' Staff
+          div
+            a href='/admin/announcements' Banner
+          div
+            a href='/admin/carousel' Carousel
+
       -if user.has_role? "superadmin"
         .tile
           .header Superadmin
