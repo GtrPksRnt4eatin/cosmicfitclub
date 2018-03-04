@@ -59,5 +59,5 @@ class CFC < Sinatra::Base
   get( '/waiver.svg', :auth => 'user' ) do
     return session[:customer].waiver
   end
-
+  
 end 

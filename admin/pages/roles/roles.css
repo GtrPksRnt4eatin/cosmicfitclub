@@ -1,0 +1,59 @@
+body {
+  text-align: center;
+}
+
+.tile {
+  display: inline-block;
+  padding: 1em;
+}
+
+.role_list {
+  margin: 1em auto 1em auto;
+  font-family: Industry-Light;
+}
+
+.role_list td {
+  font-family: Industry-Light;
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 0 0.1em white;
+  padding: 0.3em;
+  margin: 0.3em;
+}
+
+.delete_role,
+.create_role {
+  color: white;
+  width: 35em;
+  font-size: 1em;
+  font-family: Industry-Light;
+  padding: 0.5em;
+  margin: 1em;
+  border-radius: 0.5em;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.delete_role {
+  background: rgba(255,0,0,0.5);
+}
+
+.create_role {
+  background: rgba(0,255,0,0.5);
+  margin-top: 0;
+}
+
+.blue {
+  color: rgba(100,100,255,1);
+  cursor: pointer;
+}
+
+#roles_chosen {
+  width: 35em !important;
+  font-family: Industry-Light !important;
+}
+
+#customers_chosen {
+  width: 29em !important;
+  margin-right: 1em;
+}

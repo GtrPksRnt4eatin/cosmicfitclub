@@ -1,4 +1,4 @@
-class NfcTags < Sequel::Model
+class NfcTag < Sequel::Model
 
   many_to_one :customer
   

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+html
+  
+  title Manage Roles
+  
+  head
+    == css ['fonts', 'site', 'header', 'chosen-ems', 'admin/roles']
+    == js  ['jquery', 'jquery.chosen.min', 'rivets', 'lib']
+    == js  ['element', 'ev_channel', '/auth/elements/userview', 'admin/roles']
+
+  body
+    #stars
+
+    .tile
+
+      h2 Manage User Roles
+
+      select#roles rv-on-change='ctrl.choose_role'
+        option value='0' Select A Role
+        - Role.each do |role|
+          option value='#{role.id}' #{role.name}
+       
+      div
+        table.role_list
+          tr rv-each-user='data.role_list'
+            td 
+              | { user.customer_name } ( { user.customer_email } )
+            td 
+              span.blue rv-on-click='ctrl.revoke_role' Revoke
+      div
+        select#customers rv-on-change='ctrl.choose_user'
+          option value = '0' Select a User
+          - Customer.each do |custy|
+            option value='#{custy.login.id}' #{custy.name} ( #{custy.email} )
+        span.blue rv-on-click='ctrl.assign_role'
+         | Add User
+      div
+        button.delete_role rv-on-click='ctrl.delete_role' Delete This Role
+      div
+        button.create_role rv-on-click='ctrl.create_role' Create A New Role

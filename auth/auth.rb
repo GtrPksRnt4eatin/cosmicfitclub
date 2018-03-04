@@ -69,6 +69,46 @@ class CFCAuth < Sinatra::Base
     JSON.generate({ :id => custy.id, :name => custy.name }) 
   end
 
+  get '/roles' do
+    Role.all.to_json
+  end
+
+  get '/roles/:id/list' do
+    role = Role[params[:id]] or halt(404, 'Role Not Found')
+    users = role.users
+    users.map do |usr|
+      custy = usr.customer
+      next if custy.nil?
+      { :user_id => usr.id,
+        :customer_id => custy.id,
+        :customer_name => custy.name,
+        :customer_email => custy.email
+      }
+    end.to_json
+  end
+
+  post '/roles/:id/assign_to/:user_id' do
+    role = Role[params[:id]] or halt(404,"Role Not Found")
+    usr = User[params[:user_id]] or halt(404,"User Not Found")
+    usr.add_role(role)
+  end
+
+  post '/roles' do
+    Role.create( :name => params[:name] );
+  end
+
+  delete '/users/:id/roles/:role_id' do
+    usr = User[params[:id]] or halt(404,"User Not Found")
+    role = Role[params[:role_id]] or halt(404,"Role Not Found")
+    usr.remove_role(role)
+  end
+
+  delete '/roles/:id' do
+    role = Role[params[:id]] or halt(404,"Role Not Found")
+    role.users.count == 0 or halt(402,"Role Must Be Empty First")
+    role.delete
+  end
+
 end
 
 module Sinatra
