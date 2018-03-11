@@ -17,6 +17,9 @@ var data = {
 
 $(document).ready( function() {
 
+  userview = new Userview();
+  pay_form = new PaymentForm();
+
   initialize_stripe();
   initialize_rivets();
   set_event_mode();
@@ -182,13 +185,19 @@ function checkout() {
   
   if(data.total_price==0) { register(); return; }
 
-  STRIPE_HANDLER.open({
-    name: 'Cosmic Fit Club',
-    description: EVENT['title'],
-    image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
-    amount: data.total_price
-  });
+  pay_form.checkout(userview.state.user.id, data.total_price, "Ticket For: " + EVENT.name, { event_id: EVENT.id }, after_checkout )
 
+//  STRIPE_HANDLER.open({
+//    name: 'Cosmic Fit Club',
+//    description: EVENT['title'],
+//    image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
+//    amount: data.total_price
+//  });
+
+}
+
+function after_checkout(data) {
+  console.log(data)
 }
 
 function register() {

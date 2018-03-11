@@ -1,0 +1,224 @@
+data = {
+  customers: [],
+  customer: {
+    id: 0,
+    payment_sources: [],
+    class_passes: [],
+    membership_status: null
+  },
+  customer_info: {
+    name: "",
+    email: "",
+    phone: "",
+    address: ""
+  },
+  reservation: {
+    customer_id: 0,
+    classdef_id: 0,
+    staff_id: 0,
+    starttime: null,
+  },
+  amount: 0,
+  starttime: null,
+  reservation_errors: [],
+  package_id: 0,
+  package_price: 0,
+  transfer_to: 0,
+  transfer_from: 0,
+  transfer_to_amount: 0,
+  transfer_from_amount: 0,
+  num_comp_tix: 0,
+  comp_reason: "Reason for Comps"
+}
+
+ctrl = {
+
+  give_comps: function(e,m) {
+    $.post(`/models/customers/${data.customer.id}/add_passes`, { value: data.num_comp_tix, reason: data.comp_reason }, function() { alert("Passes Added!"); refresh_customer_data(); })
+  },
+
+  reserve_class_pass: function(e,m) {
+    if( !validate_reservation() ) return; 
+    post_reservation("class_pass");
+  },
+
+  reserve_membership: function(e,m) {
+    if( !validate_reservation() ) return;
+    post_reservation("membership");
+  },
+
+  reserve_paynow: function(e,m) {
+    if( !validate_reservation() ) { return; }
+    classname = $('#classes option:selected').text()
+    teachername = $('#staff option:selected').text()
+    reason = `${classname} w/ ${teachername} - ${moment($('#timeslot')[0].value).format('ddd MMM D @ h:mm A')}`;
+    payment_form.checkout( data.reservation.customer_id, 2500, reason, null, function(payment_id) {
+      data.reservation.payment_id = payment_id;
+      post_reservation("payment");
+    });
+  },
+
+  reservation_checkin: function(e,m) {
+    $.post(`/models/classdefs/reservation/${m.res.id}/checkin`)
+     .done( )
+  },
+
+  comp: function(e,m) {
+    $.post('/models/passes/compticket', { "customer_id": data.customer.id })
+    .done( function(e) { refresh_customer_data(); } )
+    .fail( function(e) { alert('failed'); });
+  },
+
+  buy_package(e,m) {
+    var package_id = $('#packages option:selected').val();
+    var package_name = $('#packages option:selected').data("name");
+    var package_price = $('#packages option:selected').data("price");
+    payment_form.checkout( data.customer.id, package_price, package_name, null, function(payment_id) {
+      $.post('/checkout/pack/buy', { customer_id: data.customer.id, pack_id: package_id , payment_id: payment_id })
+       .success( function() { alert('Purchase Successful'); } );
+    });
+  },
+
+  update_customer_info(e,m) {
+    $.post('/models/customers/' + data.customer.id + '/info', JSON.stringify(data.customer_info));
+  },
+
+  send_passes(e,m) {
+    $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.customer.id, to: data.transfer_to, amount: data.transfer_to_amount } )
+     .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
+     .fail( function(e) { alert('Transfer Failed') });
+
+  },
+
+  receive_passes(e,m) {
+    $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.transfer_from, to: data.customer.id, amount: data.transfer_from_amount } )
+     .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
+     .fail( function(e) { alert('Transfer Failed') });
+  }
+
+}
+
+function post_reservation(type) {
+  data.reservation.transaction_type = type;
+  $.post('/models/classdefs/reservation', data.reservation)
+   .done( function(e) { refresh_customer_data(); clear_reservations(); } )
+   .fail( function(e) { alert('reservation failed!'); }); 
+}
+
+$(document).ready( function() {
+
+  setupBindings();
+
+  popupmenu = new PopupMenu( id('popupmenu_container') );
+  payment_form = new PaymentForm();
+
+  payment_form.ev_sub('show', popupmenu.show );
+  payment_form.ev_sub('hide', popupmenu.hide );
+  popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
+
+  $.get('/models/customers', on_custylist, 'json');
+
+  $('#customers').chosen({ search_contains: true });
+  $('#classes').chosen({ search_contains: true });
+  $('#staff').chosen({ search_contains: true });
+  $('.customers').chosen({ search_contains: true });
+
+  $('#customers').on('change', on_customer_selected );
+  $('#packages').on('change', on_package_selected );
+
+  $('ul.tabs li').click(function(){
+    var tab_id = $(this).attr('data-tab');
+
+    $('ul.tabs li').removeClass('current');
+    $('.tab-content').removeClass('current');
+
+    $(this).addClass('current');
+    $("#"+tab_id).addClass('current');
+  });
+
+  var customer_id = getUrlParameter('id') ? getUrlParameter('id') : 0;
+  if( ! empty(customer_id) ) { choose_customer(customer_id); }  
+  history.replaceState({ "id": customer_id }, "", `customer_file?id=${customer_id}`);
+
+  $(window).bind('popstate', function(e) { 
+    choose_customer(history.state.id);
+  });
+
+  $('#comp_reason').on('focus', function(e) { if(e.target.value == "Reason for Comps") { e.target.value = ""; } } )
+  $('#comp_reason').on('blur', function(e) { if(e.target.value == "") { e.target.value = "Reason for Comps"; } } )
+
+});
+
+function setupBindings() {
+  include_rivets_money();
+  include_rivets_dates();
+  include_rivets_select();
+
+  rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
+  rivets.formatters.zero_if_null = function(val) { return empty(val) ? 0 : val; }
+  rivets.formatters.has_membership = function(val) { return( empty(val) ? false : val.name != 'None' ); }
+
+  rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+}
+
+function validate_reservation() {
+  data.reservation_errors = [];
+  if( ! data.reservation.customer_id ) { data.reservation_errors.push("You must select a Customer"); }
+  if( ! data.reservation.classdef_id ) { data.reservation_errors.push("You must select a Class");    }
+  if( ! data.reservation.staff_id    ) { data.reservation_errors.push("You must select a Teacher");  }
+  if( ! data.reservation.starttime   ) { data.reservation_errors.push("You must select a Timeslot"); }
+  if( data.reservation_errors.length == 0 ) return true;
+  $('#class_checkin_table').shake();
+  return false;
+}
+
+function on_custylist(list) {
+  data.customers = list;
+}
+
+function on_customer_selected(e) {   
+  history.pushState({ "id": e.target.value }, "", `customer_file?id=${e.target.value}`); 
+  choose_customer(e.target.value); 
+}
+
+function on_package_selected(e) {
+  data.package_price = $('#packages option:selected').data("price");
+}
+
+function choose_customer(id) {
+  resetCustomer();
+  data.reservation.customer_id = id;
+  data.customer.id = parseInt(id);
+  $('#customers').val(id);
+  $('#customers').trigger('chosen:updated');
+  refresh_customer_data();
+}
+
+function clear_reservations() {
+  data.reservation.classdef_id=0;
+  data.reservation.staff_id=0;
+  data.reservation.starttime=null;
+}
+
+function refresh_customer_data() {
+  if(data.customer.id === undefined) return;
+  $.get(`/models/customers/${data.customer.id}`,                 function(resp) { data.customer_info              = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/payment_sources`, function(resp) { data.customer.payment_sources   = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/class_passes`,    function(resp) { data.customer.class_passes      = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/membership`,      function(resp) { data.customer.membership_status = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/wallet`,          function(resp) { data.customer.wallet            = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
+  refresh_reservations()
+}
+
+function refresh_reservations() { $.get(`/models/customers/${data.customer.id}/reservations`, function(resp) { data.customer.reservations = resp; }, 'json'); }
+
+function resetCustomer() {
+  data.customer_info = {};
+  data.customer.payment_sources = [];
+  data.customer.class_passes = [];
+  data.customer.membership_status = null;
+  data.customer.wallet = null;
+  data.customer.event_history = null;
+}
+
