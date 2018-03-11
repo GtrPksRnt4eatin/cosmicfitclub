@@ -17,7 +17,7 @@ var data = {
 
 $(document).ready( function() {
 
-  userview = new Userview();
+  userview = new UserView();
   pay_form = new PaymentForm();
 
   initialize_stripe();
