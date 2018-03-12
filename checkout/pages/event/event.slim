@@ -17,7 +17,10 @@ html
     == no_scaling
     
     == css [ 'fonts', 'site', 'menu_colors', 'event' ]
-    == js  [ 'https://checkout.stripe.com/checkout', 'jquery', 'lib', ]
+
+    script src='https://js.stripe.com/v3/'
+    
+    == js  [ 'jquery', 'lib', ]
     == js  [ 'element', 'ev_channel', 'elements/payment_form', '/auth/elements/userview']
     == js  [ 'moment', 'rivets', 'rv_dates', 'rv_money', 'event' ]
 
