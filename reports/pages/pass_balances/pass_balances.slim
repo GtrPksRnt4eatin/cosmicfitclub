@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    == css ['fonts', 'site', 'header', 'reports/pass_balances']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'reports/pass_balances']
+
+    title Pass Balances
+
+    javascript:
+      var data = #{{ pass_balances.to_json }}
+  
+  body.p5
+
+    #stars
+
+    #content
+
+      table#balances
+
+        - pass_balances.each do |row|
+
+          tr data-id='#{row[:id]}'
+            td
+              | #{ row[:pass_balance] }
+            td 
+              | #{ row[:name] }
+            td
+              | #{ row[:email] }

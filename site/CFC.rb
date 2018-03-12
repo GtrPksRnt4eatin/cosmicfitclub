@@ -19,7 +19,10 @@ class CFC < Sinatra::Base
   get( '/staff')             { render_page :staff    }
   get( '/pricing')           { render_page :pricing  }
   get( '/faq')               { render_page :faq      }
-  get( '/store')             { render_page :store    }
+  get( '/kids')              { render_page :kids     }
+  get( '/media')             { render_page :media    }
+
+  get( '/schedule_week')     { render_page :schedule_week }
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
   get( '/user'  , :auth => 'user' ) { ref_cust; render_page :user   }
@@ -30,6 +33,8 @@ class CFC < Sinatra::Base
   get( '/checkout/complete')      { render_page :checkout_complete }
 
   get( '/login' ) { redirect('/auth/login') }
+
+  get( '/gmb' ) { redirect('/checkout/event/226') }
 
   get( '/resetData' ) do
     $DB[:waivers].truncate( :restart=>true )
@@ -54,5 +59,5 @@ class CFC < Sinatra::Base
   get( '/waiver.svg', :auth => 'user' ) do
     return session[:customer].waiver
   end
-
+  
 end 

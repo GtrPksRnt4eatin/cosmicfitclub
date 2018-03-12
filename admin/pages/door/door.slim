@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    == css ['fonts', 'site', 'header', 'admin/door']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'admin/door']
+  
+  body.p5
+
+    #stars
+
+    == include_slim('slim/partials/admin_header')
+
+    .tile
+      h4 DOOR CONTROLS
+      img#doorcam src='http://cosmicfitclub.ddns.net:5050/axis-cgi/mjpg/video.cgi?camera=1'
+      br
+      button#up   UP
+      br
+      button#down DOWN
+      br
+      button#stop STOP
+
+    == analytics

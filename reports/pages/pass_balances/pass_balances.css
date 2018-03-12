@@ -1,0 +1,19 @@
+#content {
+	text-align: center;
+}
+
+table#balances {
+	margin-top: 3em;
+	display: inline-block;
+	overflow-y: scroll;
+	max-height: 80vh;
+}
+
+table#balances tr {
+    background: rgba(0,0,0,0.5);
+    margin: 0.1em 0;
+}
+
+table#balances td {
+    padding: 0.5em 5em;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    == css ['fonts', 'site', 'header', 'admin/member_match']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'admin/member_match']
+
+    title Member List
+  
+  body.p5
+
+    #stars
+
+    .tile
+      table
+        tr
+          th colspan="3"
+            | Website Free
+        tr rv-each-item='data.list.cosmic_free'
+            td
+              | { item.customer }
+            td
+              | { item.plan_name }
+            td
+              span.clickable rv-on-click='ctrl.deactivate_free' Deactivate
+    br
+
+    .tile
+      table
+        tr
+          th colspan="6"
+            | Website Unmatched
+        tr rv-each-item='data.list.cosmic_unmatched'
+            td
+              | { item.customer }
+            td
+              | { item.plan_name }
+            td
+              | { item.stripe_id }
+            td
+              select rv-on-change='ctrl.link_subscription'
+                option value='0' Choose Subscription
+                option rv-each-sub='data.list.stripe_unmatched' rv-value='sub.id'
+                  | { sub.customer.email } ( { sub.plan_name })
+            td
+              span.clickable rv-on-click='ctrl.deactivate_unlinked' Deactivate
+    .tile
+      table
+        tr
+          th colspan="3"
+            | Stripe Unmatched
+        tr rv-each-item='data.list.stripe_unmatched'
+          td
+            | { item.id } 
+          td 
+            | { item.customer.email }
+          td
+            | { item.plan_name }
+          td
+            span.clickable rv-on-click='ctrl.create_subscription' Create
+    br
+    .tile
+      table
+        tr
+          th colspan="3"
+            | Website Matched
+        tr rv-each-item='data.list.cosmic_matched'
+          td
+            | { item.customer }
+          td
+            | { item.plan_name }
+          td
+            | { item.stripe_id }
+    .tile
+      table
+        tr
+          th colspan="3"
+            | Stripe Matched
+        tr rv-each-item='data.list.stripe_matched'
+          td
+            | { item.id }
+          td
+            | { item.customer.email }
+          td
+            | { item.plan_name }

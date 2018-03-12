@@ -50,6 +50,7 @@ table {
 
 select {
   width: 100%;
+  cursor: pointer;
 }
 
 
@@ -66,7 +67,7 @@ select {
 .spinctrl button {
 	font-size: inherit;
 	width: 100%;
-	height: 1em;
+	height: 1.3em;
 	position: center;
 	cursor: pointer;
 }

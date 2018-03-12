@@ -179,6 +179,7 @@ table.reflections .delete {
     position: relative;
     box-sizing: border-box;
     padding: .5em;
+    font-size: 5vw;
   }
 
   .tile {

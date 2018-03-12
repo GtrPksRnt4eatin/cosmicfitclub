@@ -23,6 +23,11 @@ button {
   cursor: pointer;
 }
 
+.heading {
+  font-size: 1.2em;
+  padding: .5em;
+}
+
 @media(max-width: 800px) {
   p {
   	font-size: 3.5vw;

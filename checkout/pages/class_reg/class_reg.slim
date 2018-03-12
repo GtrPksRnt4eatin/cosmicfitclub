@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    title Register for Class
+
+    == no_scaling
+    
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'class_reg' ]
+
+    script src='https://js.stripe.com/v3/'
+
+    javascript:
+      data = {};
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+      data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher ] ) }};
+
+    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr', 'element', 'ev_channel' ]
+    == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib' ]
+    == js  [ 'elements/payment_form', 'popupmenu','/auth/elements/userview', 'elements/reservation_form', 'class_reg' ]
+
+  body
+
+    .tile.working
+      div
+        | { data.username }
+      div 
+        | You are registering for 
+      div
+        | { data.occurrence.classdef.name } 
+      div
+        | with { data.occurrence.teacher.name }
+      div
+        | on { data.occurrence.starttime | classtime }
+      #reservation_form_container
+
+    .tile.done
+      div
+        | You have successfully registered!
+      div
+        | See you in class!
+      div
+        a.backbutton href='/schedule' 
+          button Back To Schedule
+
+
+    #popupmenu_container
+
+    == analytics

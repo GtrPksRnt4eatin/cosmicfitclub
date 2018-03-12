@@ -1,6 +1,6 @@
 #checkout, #register {
-	font-family: "Industry-Light";;
-	cursor: pointer;
+	font-family: "Industry-Light";
+  cursor: pointer;
 	padding: .5em;
   font-size: 1.2em;
 }
@@ -36,10 +36,24 @@ table {
   vertical-align: middle;
 }
 
-.description {
+.description,
+.details {
   padding: 1em;
   box-sizing: border-box;
   width: 100%;
+  white-space: pre-wrap;
+}
+
+.details {
+  text-align: left;
+}
+
+#reg_ext {
+  font-size: 1.2em;
+  font-family: 'Industry-Light';
+  cursor: pointer;
+  margin-top: 1em;
+  padding: 0.5em;
 }
 
 td {
@@ -158,10 +172,12 @@ h4 {
   cursor: pointer;
 }
 
-#prices h4 {
+#prices h4,
+#sessions h4 {
   margin-bottom: 0;
 }
 
-#prices table {
+#prices table,
+#sessions table {
   margin-top: 1em;
 }

@@ -55,7 +55,8 @@ function initialize_rivets() {
 ///////////////////////////////////////// DERIVATIONS ///////////////////////////////////////////////////
 
 function set_event_mode() {
-
+  
+  if( EVENT.registration_url          ) { data.mode = 'external';   return; }
   if( EVENT.a_la_carte                ) { data.mode = 'a_la_carte'; return; }
   if( EVENT.prices.length>1           ) { data.mode = 'multi';      return; }
   if( free_event()                    ) { data.mode = 'free';       return; }
@@ -65,7 +66,7 @@ function set_event_mode() {
 }
 
 function set_first_price() {
-
+  
   clear_selected_price();
   if(empty(EVENT.prices[0])) return;
   EVENT.prices[0].selected = true;
@@ -100,6 +101,9 @@ function calculate_total() {
       else { 
         data.total_price = ( member() ? data.selected_price.member_price : data.selected_price.full_price );
       }
+      break;
+
+    case 'external':
       break;
 
     default: 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    javascript:
+      data = {};
+      data['announcement_active'] = #{{Setting["announcement_active"].to_json}};
+      data['announcement_background'] = #{{Setting["announcement_background"].to_json}};
+      data['announcement_message'] = #{{Setting["announcement_message"].to_json}};
+      data['announcement_href'] = #{{Setting["announcement_href"].to_json}};
+
+    == css [ 'fonts', 'site', 'header', 'edit_page', 'spectrum', '/admin/announcements' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'spectrum', 'rv_color', 'element', 'ev_channel', '/auth/elements/userview', 'menu', '/admin/announcements' ]
+
+  body.p6
+    #stars
+
+    == include_slim('slim/partials/admin_header')
+    == include_slim('slim/partials/banner')  
+
+    #content
+
+      .tile
+        
+        table
+
+          tr
+            td
+              | Announcement Active?
+            td
+              input type='checkbox' rv-checked='data.announcement_active.val' rv-on-change='ctrl.active'
+
+          tr
+            td
+              | Background Color
+            td
+              input rv-color='data.announcement_background.val' rv-on-change='ctrl.background'
+
+          tr
+            td
+              | Message
+            td
+              textarea rv-value='data.announcement_message.val' rv-on-change='ctrl.message'
+
+          tr
+            td
+              | Link To
+            td
+              input rv-value='data.announcement_href.val' rv-on-change='ctrl.href'
+        

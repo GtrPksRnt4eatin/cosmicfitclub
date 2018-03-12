@@ -38,6 +38,23 @@ html
             | { event.starttime | time }
         .delete rv-on-click='ctrl.del'
         .edit   rv-on-click='ctrl.edit'
+        .list   rv-on-click='ctrl.list'
+
+      br
+
+      div#past_events rv-unless='data.past_events | empty'
+        div.past_title
+          | Past Events
+        table
+          tr rv-each-event='data.past_events'
+            td 
+              | { event.starttime | dayofwk } { event.starttime | date } { event.starttime | time }
+            td
+              img rv-src='event.image_url'
+            td 
+              | { event.name }
+            td.pointer rv-on-click='ctrl.list'
+              | Attendance
 
       footer
         #new2 Create New Event

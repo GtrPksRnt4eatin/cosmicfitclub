@@ -1,0 +1,64 @@
+data['newsheet'] = {
+  classdef_id: 0,
+  staff_id: 0,
+  starttime: null
+}
+
+data['query_date'] = new Date().setHours(0, 0, 0, 0);
+
+ctrl = {
+  datechange:      function(e,m) {
+    data['occurrences'] = [];
+    var day = new Date(data['query_date']).toISOString();
+    history.pushState({ "day": day }, "", `class_checkin?day=${day}`); 
+    get_occurrences(); 
+  },
+  generate_sheets: function(e,m) { 
+    var day = new Date(data['query_date']).toISOString();
+    $.post(`/models/classdefs/generate?day=${day}`, get_occurrences); 
+  },
+  delete: function(e,m) {
+    $.del(`/models/classdefs/occurrences/${m.occur.id}`, get_occurrences, 'json');
+    cancelEvent(e);
+  },
+  edit:   function(e,m) {
+    window.location.href = `class_sheet/${m.occur.id}`;
+    cancelEvent(e);
+  }
+}
+
+$(document).ready( function() { 
+
+  setup_bindings();
+
+  $('.sheets').on('click', '.dropdown', on_dropdown_click);
+
+
+  var day = getUrlParameter('day')
+  if( ! empty(day) ) { data['query_date'] = day; }
+  day = new Date(data['query_date']).toISOString();
+  history.replaceState({ "day": day }, "", `class_checkin?day=${day}`);
+
+  $(window).bind('popstate', function(e) { 
+    data['query_date'] = history.state.day; get_occurrences(); 
+  });
+
+  get_occurrences();
+
+});
+
+function setup_bindings() {
+  include_rivets_dates();
+  rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
+  var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+}
+
+function get_occurrences() {
+  var day = new Date(data['query_date']).toISOString();
+  $.get(`/models/classdefs/occurrences?day=${day}`, function(resp) { data['occurrences'] = resp; }, 'json');
+}
+
+function on_dropdown_click(e) {
+  $(e.currentTarget).siblings('.hidden').toggle();
+  $(e.currentTarget).toggleClass('quarter_turn');
+}

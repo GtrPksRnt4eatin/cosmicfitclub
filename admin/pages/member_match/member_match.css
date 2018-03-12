@@ -1,0 +1,23 @@
+body {
+	text-align: center;
+}
+
+.tile {
+	display: inline-block;
+	vertical-align: top;
+}
+
+th {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+td, th {
+  box-shadow: 0 0 0.1em white;
+  padding: 0.4em;
+}
+
+.clickable {
+  cursor: pointer;
+  color: rgba(0,0,255,1);
+}

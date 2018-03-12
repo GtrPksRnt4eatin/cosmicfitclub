@@ -66,12 +66,25 @@ header {
 
 .menubtn { display: none; }
 
+#banner {
+  margin-top: -1.3em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
+  background: rgba(0,0,160,0.5);
+  padding: .5em;
+  color: white;
+  text-decoration: none;
+  white-space: pre-wrap;
+}
 
 @media(max-width: 800px) {
 
   header {
     padding: 2vw 0 0 0 !important;
     text-align: center;
+    margin-bottom: 1em;
   }
 
   #logo { 
@@ -123,6 +136,16 @@ header {
   .menubtn img {
     margin: .25em;
     height: 1em;
+  }
+
+  #banner {
+    margin-top: -1em;
+    margin-bottom: 1em;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+    background: rgba(0,0,160,0.5);
+    padding: .5em;
   }
 
 }

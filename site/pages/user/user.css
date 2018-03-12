@@ -35,6 +35,22 @@ a:visited {
   color: white;
 }
 
+.upcoming_reservations {
+  font-size: 0.6em;
+  line-height: 1em;
+}
+
+.upcoming_reservations button {
+  padding: 0.2em;
+  vertical-align: middle;
+  margin-top: 0;
+}
+
+.scroll {
+  overflow-y: auto;
+  max-height: 10em;
+}
+
 
 @media(max-width: 800px) {
   .tile {

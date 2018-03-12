@@ -31,7 +31,7 @@ ul {
 }
 
 #imgscroller {
-  height: 46vw;
+  height: 38.5vw;
   width: 70vw;
   margin: auto;
 }
@@ -62,21 +62,10 @@ ul {
   text-align: right;
 }
 
-#construction {
-  margin-top: -1.3em;
-  margin-bottom: 1em;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.5em;
-  background: rgba(255,0,0,0.5);
-  padding: .5em;
-}
-
 @media(max-width: 800px) {
 
   header { 
     padding-top: 0.5em; 
-    margin-bottom: 1em;
   }
 
 	.content      { font-size: 2.5vw; }
@@ -101,16 +90,6 @@ ul {
 
   #imgscroller button {
     display: none;
-  }
-
-  #construction {
-    margin-top: -1em;
-    margin-bottom: 1em;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1em;
-    background: rgba(255,0,0,0.5);
-    padding: .5em;
   }
 
 }

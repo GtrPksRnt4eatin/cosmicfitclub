@@ -1,0 +1,29 @@
+.tile {
+	font-size: 2em;
+	padding-bottom: 2em;
+	position: relative;
+}
+
+button {
+	padding: 1em;
+	width: 8em;
+	margin: 1em;
+	font-weight: bold;
+	color: white;
+	background: rgba(255,255,255,0.2);
+	border: 0;
+	cursor: pointer;
+	font-size: 1.2em;
+}
+
+button:hover {
+	background: rgba(255,255,255,0.3);
+}
+
+button:active {
+	background: rgba(255,255,255,0.4);
+}
+
+#doorcam {
+  width: 80%;
+}

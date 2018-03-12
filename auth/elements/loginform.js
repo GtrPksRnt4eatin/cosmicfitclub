@@ -46,7 +46,12 @@ LoginForm.prototype = {
   },
 
   reset() {
-    $.post('reset', JSON.stringify(this.state));
+    $.post('reset', JSON.stringify(this.state))
+      .fail( function(req,msg,status) {
+        $(this.dom).shake();
+        this.state.errors=["Account Not Found!"]
+      }.bind(this) )
+      .success( this.email_mode );
   },
 
   login_mode()    { this.state.mode = "login";    },
@@ -138,6 +143,10 @@ LoginForm.prototype.HTML = `
       <div class='section'>
         <div class='submit' rv-on-click='this.reset'>Reset</div>
       </div>
+      <div rv-unless='this.state.errors | empty'>
+        <hr>
+        <div class='error' rv-each-err='this.state.errors'> {err} </div>
+      </div>
     </div>
 
     <div rv-if="state.mode | equals 'email'">
@@ -193,13 +202,18 @@ LoginForm.prototype.CSS = `
   }
 
   #LoginForm .submit {
-  	display: inline-block;
+  	display: block;
   	cursor: pointer;
+    margin-top: .3em;
+    padding: .5em 2em;
+    box-shadow: 0 0 .1em white;
+    background: rgba(255,255,255,0.1);
   }
 
   #LoginForm .submit:hover {
     cursor: pointer;
     color: rgba(150,255,150,1);
+    background: rgba(255,255,255,0.2);
     text-shadow: 0 0 .5em black;
   }
 

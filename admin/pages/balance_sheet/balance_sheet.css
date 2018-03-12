@@ -1,0 +1,13 @@
+table {
+
+}
+
+td,
+th {
+  background: rgba(255,255,255,0.1);
+  padding: .5em;
+}
+
+button {
+  cursor: pointer;
+}

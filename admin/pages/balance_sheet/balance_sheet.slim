@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    javascript:
+      data = {};
+      data['list'] = #{{Pass.list_all}}
+
+    == css [ 'fonts', 'site', 'header', 'edit_page', '/admin/balance_sheet' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'moment', 'elements/class_selector', '/admin/balance_sheet' ]
+
+  body
+    #stars
+
+    #content
+
+      .tile
+        
+        table
+          h4 Class Pass Balance Sheet
+          
+          tr 
+            th Name
+            th Email
+            th Balance
+            th
+            th
+
+          tr rv-each-wallet='data.list'
+            td 
+              | { wallet.customer_name }
+            td
+              | { wallet.customer_email }
+            td 
+              | { wallet.pass_balance }
+            td
+              button rv-on-click='ctrl.add' +
+            td
+              button rv-on-click='ctrl.rem' -
+
+
+        

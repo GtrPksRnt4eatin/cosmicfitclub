@@ -1,7 +1,7 @@
 require 'sequel'
 
 def get_heroku_pg_args
-  uri = URI.parse(ENV['DATABASE_URL'])
+  uri = URI.parse(ENV['HEROKU_POSTGRESQL_COBALT_URL'])
   { :host     => uri.hostname,
     :port     => uri.port,
     :options  => nil,
@@ -16,4 +16,7 @@ args = get_heroku_pg_args
 $DB = Sequel.postgres(args[:dbname], args )
 Sequel.application_timezone = :local
 Sequel.database_timezone = :local
-$DB.extension :pg_array, :pg_json
+
+$DB.extension :pg_array, :pg_json, :connection_validator
+
+Sequel::Model.plugin :json_serializer

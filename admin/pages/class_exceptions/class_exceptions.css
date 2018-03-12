@@ -1,0 +1,77 @@
+.chosen-container {
+  width: 30em !important;
+  font-size: 1em;
+  line-height: 1.2em;
+}
+
+.section {
+  margin: 1em;
+  padding: 1em;
+  background: rgba(0,0,0,0.2);
+  box-shadow: 0 0 0.1em white;
+  display: inline-block;
+}
+
+.section .heading {
+  margin: 1em 0;
+  min-width: 30em;
+}
+
+.schedscroll {
+  max-height: 20em;
+  overflow-y: scroll;
+}
+
+.scheditem {
+	box-shadow: 0 0 0.1em white;
+	cursor: pointer;
+}
+
+.scheditem div {
+  padding: 0.5em 0;
+}
+
+.scheditem:hover {
+	background: rgba(255,255,255,0.1);
+	color: rgba(100,100,255,1);
+}
+
+.scheditem span {
+	margin: 0 1em;
+}
+
+.edit_session {
+  text-align: left;
+}
+
+.edit_session .ib  {
+  width: 10em;
+}
+
+.edit_session input {
+  cursor: pointer;
+  width: 25em;
+}
+
+.edit_session .chosen_container {
+  width: 20em !important;
+}
+
+.edit_session .scheditem_title {
+
+}
+
+.scheditem .cancelled {
+  text-decoration: line-through;
+  text-decoration-color: red;
+}
+
+.scheditem .hidden {
+  opacity: 0.6;
+  background: rgba(255,255,255,0.2);
+}
+
+.ib {
+  display: inline-block;
+}
+

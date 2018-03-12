@@ -36,12 +36,13 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/register' do
+    content_type :json
     data = JSON.parse(request.body.read)
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
     customer = Customer.create( :name => data['name'], :email => data['email'] )
     customer.login = User.create
     customer.send_new_account_email
-    return 200
+    return JSON.generate({ :id => customer.id })
   end
 
   post '/password' do
@@ -55,15 +56,57 @@ class CFCAuth < Sinatra::Base
 
   post '/reset' do
     data = JSON.parse request.body.read
-    customer = Customer.find( :email => data['email'] )
-    customer.login.reset_password
+    customer = Customer.find_by_email(data['email'])
+    halt 404 if customer.nil?
+    customer.reset_password
+    status 204
   end
 
   get '/current_user' do
     content_type :json
-    user = session[:user]
-    halt 404 if user.nil?
-    JSON.generate({ :name => user.name, :photo_url => '' }) 
+    user = session[:user];           halt 404 if user.nil?
+    custy = session[:user].customer; halt 404 if custy.nil?
+    JSON.generate({ :id => custy.id, :name => custy.name }) 
+  end
+
+  get '/roles' do
+    Role.all.to_json
+  end
+
+  get '/roles/:id/list' do
+    role = Role[params[:id]] or halt(404, 'Role Not Found')
+    users = role.users
+    users.map do |usr|
+      custy = usr.customer
+      next if custy.nil?
+      { :user_id => usr.id,
+        :customer_id => custy.id,
+        :customer_name => custy.name,
+        :customer_email => custy.email
+      }
+    end.to_json
+  end
+
+  post '/roles/:id/assign_to/:user_id' do
+    role = Role[params[:id]] or halt(404,"Role Not Found")
+    usr = User[params[:user_id]] or halt(404,"User Not Found")
+    usr.add_role(role)
+  end
+
+  post '/roles' do
+    Role.create( :name => params[:name] );
+  end
+
+  delete '/users/:id/roles/:role_id' do
+    usr = User[params[:id]] or halt(404,"User Not Found")
+    role = Role[params[:role_id]] or halt(404,"Role Not Found")
+    usr.remove_role(role)
+  end
+
+  delete '/roles/:id' do
+    role = Role[params[:id]] or halt(404,"Role Not Found")
+    role.users.count == 0 or halt(402,"Role Must Be Empty First")
+    role.delete
   end
 
 end
@@ -87,7 +130,7 @@ module Sinatra
 
       app.set(:auth) do |role|
         condition do
-          redirect '/auth/login' unless logged_in?
+          redirect "/auth/login?page=#{request.path}" unless logged_in?
           redirect '/' unless session[:user].has_role? role
           true
         end

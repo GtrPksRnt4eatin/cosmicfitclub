@@ -8,7 +8,12 @@ function ScheduleForm() {
   this.bind_handlers(['save']);
   this.build_dom();
   this.load_styles();
-  this.bind_dom();
+
+  $(this.dom).find('#starttime').on('change', function(e) {
+    if( moment(this.state.schedule.start_time,['H:m:s','H:m']) > moment(this.state.schedule.end_time,['H:m:s','H:m'])) {
+      this.state.schedule.end_time = moment(this.state.schedule.start_time,['H:m:s','H:m']).format('H:m:s');
+    }
+  }.bind(this));
 
 }
 
@@ -32,7 +37,7 @@ ScheduleForm.prototype = {
     }.bind(this));  
   },
 
-  set instructors(val) { this.state.instructors = val; }
+  set instructors(val) { this.state.instructors = val;   this.bind_dom(); }
 
 }
 
@@ -44,10 +49,12 @@ ScheduleForm.prototype.HTML = `
   
   <div class='scheduleform form'>
     <div class='tuplet'>
-      <label>Instructor:</label>
+      <label>Instructors:</label>
       <select multiple='multiple' rv-multiselect='state.schedule.instructors'>
         <option rv-each-inst='state.instructors' rv-value='inst.id'> { inst.name } </option>
       </select>
+    </div>
+    <div class='tuplet'>
       <label>Weekday:</label>
       <select rv-value='state.schedule.rrule'>
         <option value='FREQ=WEEKLY;BYDAY=MO;INTERVAL=1' >Mondays</option>
@@ -61,11 +68,11 @@ ScheduleForm.prototype.HTML = `
     </div>
     <div class='tuplet'>
       <label>Start Time:</label>
-      <input class='time' rv-timefield='state.schedule.start_time' />
+      <input id='starttime' class='time' rv-timefield='state.schedule.start_time' />
     </div>
     <div class='tuplet'>
       <label>End Time:</label>
-      <input class='time' rv-timefield='state.schedule.end_time' />
+      <input id='endtime' class='time' rv-timefield='state.schedule.end_time' />
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
@@ -118,4 +125,17 @@ ScheduleForm.prototype.CSS = `
   .scheduleform .flatpickr-calendar.arrowTop:after {
     display: none !important;
   }
+
+  .scheduleform .chosen-container {
+    width: 20em !important;
+    font-size: 1em; 
+  }
+
+  .scheduleform .done {
+    margin-top: 1em;
+    padding: .5em;
+    cursor: pointer;
+    background: rgba(255,255,255,0.2);
+  }
+
 `.untab(2);

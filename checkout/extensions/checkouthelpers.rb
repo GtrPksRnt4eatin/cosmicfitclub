@@ -1,35 +1,44 @@
+$SWIPELISTENERS = []
+
 module Sinatra
   module CheckoutHelpers
 
     def buy_plan
       data = JSON.parse request.body.read
       custy = Customer.get_from_token( data['token'] )
-      halt 409 if custy.plan != nil                       ## Already Has A Plan, Log in to Update instead
+      halt 409 if ( custy.plan != nil ) && ( !custy.plan.deactivated ) ## Already Has A Plan, Log in to Update instead
       custy.add_subscription( data['plan_id'] )
       status 204
     end
 
     def buy_pack
       data = JSON.parse request.body.read
-      custy = Customer.get_from_token( data['token'] )
-      custy.buy_pack( data['pack_id'] )
+      custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
+      p data
+      p custy
+      custy.buy_pack_card( data['pack_id'], data['token'] )
       status 204
+    end
+
+    def buy_pack_precharged
+      custy = Customer[params[:customer_id]] or halt 403
+      custy.buy_pack_precharged( params[:pack_id], params[:payment_id] )
     end
 
     def buy_training
       data = JSON.parse request.body.read
       custy = Customer.get_from_token( data['token'] )
-      custy.buy_training( data['num_hours'], 1, data['trainer'] )
+      custy.buy_training( data['num_hours'], 2, data['trainer'] )
       status 204
     end
 
     def buy_event
       data = JSON.parse request.body.read
-      new_custy = Customer.is_new? data['token']['email']
-      custy = Customer.get_from_token( data['token'] )
-      custy.send_new_account_email if new_custy
+      custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
+      custy.send_new_account_email if custy.login.nil?
       eventname = Event[data['metadata']['event_id']].name
-      charge = StripeMethods::charge_customer(custy.stripe_id, data['total_price'], eventname, data['metadata']);
+      data['metadata']['name'] = data['token']['card']['name']
+      charge = StripeMethods::charge_card(data['token']['id'], data['total_price'], data['token']['email'], eventname, data['metadata']);
       EventTicket.create( 
         :customer => custy, 
         :event_id => data['event_id'], 
@@ -43,7 +52,7 @@ module Sinatra
 
     def register_event
       data = JSON.parse request.body.read
-      custy = logged_in? ? customer : Customer.find( :email => data['email'] )
+      custy = logged_in? ? customer : Customer.find( :email => data['email'] );
       if custy.nil? then
         custy = Customer.create( :email => data['email'] )
         custy.send_new_account_email

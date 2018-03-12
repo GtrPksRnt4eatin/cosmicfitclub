@@ -4,7 +4,8 @@ element = {
     bind_dom()         { rivets.bind(this.dom, { state: this.state, this: this });                   },
     mount(parent)      { if(!empty(parent)) { parent.innerHTML = ''; parent.appendChild(this.dom); } },
     bind_handlers(arr) { 
-    	for( var i=0; i < arr.length; i++ ) { 
+    	for( var i=0; i < arr.length; i++ ) {
+    		
     		this[arr[i]] = this[arr[i]].bind(this); 
     	}         
     }

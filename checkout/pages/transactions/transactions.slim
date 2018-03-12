@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+    
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen', 'transactions' ]
+
+    == js  [ 'jquery', 'jquery.chosen' ]
+    == js  [ 'rivets' ]
+    == js  [ 'lib', 'transactions' ]
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+        select#customers
+          option value='0'
+            | No Customer
+          - Customer.all.each do |cust|
+            option value='#{cust.id}'
+              | #{ cust.name } ( #{ cust.email } )
+
+      .tile
+        h2 Pass Transaction
+        table 
+          tr rv-each-trans='data.transactions.pass_transactions'
+            td
+              | { trans.timestamp }
+            td 
+              | { trans.description }
+            td
+              | { trans.delta }
+
+      .tile
+        h2 Membership Uses
+        table 
+          tr rv-each-trans='data.transactions.membership_uses'
+            td
+              | { trans.timestamp }
+            td
+              | { trans.reason }
+
+      .tile
+        h2 Payments
+
+      .tile
+        h2 Class Reservations
+
+      .tile
+        h2 Event Tickets
+
+
+    == analytics

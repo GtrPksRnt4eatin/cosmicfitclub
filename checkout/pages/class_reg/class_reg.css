@@ -1,0 +1,47 @@
+.tile {
+  padding-top: 1em;
+  vertical-align: middle;
+  font-size: 16pt;
+}
+
+.done {
+  padding: 1em;
+}
+
+.backbutton {
+  margin-top: 1em;
+}
+
+body:not(.done) .working,
+body.done .done {
+  display: inline-block;
+}
+
+body:not(.done) .done,
+body.done .working {
+  display: none;
+}
+
+
+body {
+  position: relative;
+  text-align: center;
+  height: 100vh;
+  background-image: url('/background-blu.jpg');
+}
+
+body:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+@media(max-width: 800px) {
+  .tile {
+    width: 80%;
+    font-size: 5vw;
+    box-sizing: border-box;
+  }
+
+}

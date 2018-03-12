@@ -24,6 +24,13 @@
   padding: .5em 0 0 0;
 }
 
+.schedule {
+  padding: .1em;
+  background: rgba(255,255,100,0.1 );
+  margin: .25em;
+  box-shadow: 0 0 0.1em white;
+}
+
 @media(max-width: 800px) {
 
   .classdef {

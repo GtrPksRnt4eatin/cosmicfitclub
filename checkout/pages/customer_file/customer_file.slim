@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Customer File
+    
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'customer_file' ]
+
+    script src='https://js.stripe.com/v3/'
+
+    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
+    == js  [ 'rivets', 'moment', 'rv_money', 'flatpickr', 'rv_dates', 'rv_select' ]
+    == js  [ 'lib', 'element', 'ev_channel', 'popupmenu', 'elements/payment_form' ]
+    == js  [ 'customer_file' ]
+
+    javascript:
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+
+        h1 Customer File
+
+        form action='/element_charge' method='post' id='payment-form'
+
+          table
+            tr
+              th Customer
+              td
+                select#customers
+                  option value='0'
+                    | No Customer
+                  - Customer.all.each do |cust|
+                    option value='#{cust.id}'
+                      | #{ cust.name } ( #{ cust.email } )
+     
+        .tabs_container
+
+          ul.tabs
+            li.current data-tab='info'  Info
+            li data-tab='class_passes'  Class Passes
+            li data-tab='membership'    Membership
+            li data-tab='events'        Events
+            li data-tab='class_checkin' Classes
+            li data-tab='page_three'    Miscelaneous Charge
+
+          #info.tab-content.current  
+            table
+              tr
+                th ID:
+                td
+                  | { data.customer.id }
+              tr 
+                th Name:
+                td
+                  input rv-value='data.customer_info.name' rv-on-change='ctrl.update_customer_info'
+              tr
+                th E-Mail:
+                td
+                  input rv-value='data.customer_info.email' rv-on-change='ctrl.update_customer_info'
+              tr
+                th Phone:
+                td
+                  input rv-value='data.customer_info.phone' rv-on-change='ctrl.update_customer_info'
+              tr
+                th Address:
+                td
+                  textarea rv-value='data.customer_info.address' rv-on-change='ctrl.update_customer_info'
+              tr
+                th Membership:
+                td
+                  | { data.customer.membership_status.membership.plan.name }
+              tr
+                th Class Passes:
+                td
+                  | { data.customer.class_passes } 
+
+          #class_passes.tab-content
+            table
+              tr
+                th
+                  | Wallet ID:
+                td
+                  | { data.customer.wallet.id }
+              tr
+                th 
+                  | Balance:
+                td
+                  | { data.customer.wallet.pass_balance } passes remaining
+              tr rv-if='data.customer.wallet.shared'
+                th 
+                  | Sharing:
+                td rv-if='data.customer.wallet.shared'
+                  div.shared_with rv-each-partner='data.customer.wallet.shared_with'
+                    span 
+                      | { partner.name }
+                    button 
+                      | Remove
+                td rv-unless='data.customer.wallet.shared'
+                  table 
+                    tr
+                      td Share With
+                      td
+                        select.customers#custy_shared
+                          option value='0' No Customer
+                          - Customer.all.each do |cust|
+                            option value='#{cust.id}'
+                              | #{ cust.name } ( #{ cust.email } )
+
+              tr
+                th
+                  | Transfers:
+                td
+                  
+                  table#transfers
+                    tr
+                      td Send
+                      td  
+                        select.num value='0' rv-value='data.transfer_to_amount'
+                          - (0..10).each do |i|
+                            option value="#{i}" #{i}
+                      td passes to
+                      td
+                        select.customers#custy1 rv-value='data.transfer_to'
+                          option value='0' No Customer
+                          - Customer.all.each do |cust|
+                            option value='#{cust.id}'
+                              | #{ cust.name } ( #{ cust.email } )
+                      td
+                        button rv-on-click='ctrl.send_passes'
+                          | Send
+                  
+                    tr
+                      td Receive
+                      td
+                        select.num value='0' rv-value='data.transfer_from_amount'
+                          - (0..10).each do |i|
+                            option value="#{i}" #{i}
+                      td passes from
+                      td
+                        select.customers#custy2 rv-value='data.transfer_from'
+                          option value='0' No Customer
+                          - Customer.all.each do |cust|
+                            option value='#{cust.id}'
+                              | #{ cust.name } ( #{ cust.email } )
+                      td
+                        button rv-on-click='ctrl.receive_passes'
+                          | Receive
+
+              tr
+                th
+                  | Buy More:
+                td
+                  table
+                    tr
+                      td
+                        select#packages rv-idselect='data.package_id'
+                          option value='0' data-price='0' None
+                          - Package.where(:available => true).all.each do |pack|
+                            option value='#{ pack.id }' data-price='#{ pack.price }' data-name='#{ pack.name }'
+                              | #{ pack.formatted_price } #{ pack.name }
+                      td
+                        button#buy_pack rv-on-click='ctrl.buy_package'
+                          | Buy For { data.package_price | money }
+              tr
+                th
+                  | Comp Passes
+                td
+                  table
+                    tr
+                      td colspan="2"
+                        button.selectable rv-on-click='ctrl.comp' Give First Time Comp Ticket
+                    tr  
+                      td
+                        select.num value='0' rv-value='data.num_comp_tix'
+                          - (0..10).each do |i|
+                            option value="#{i}" #{i}
+                      td
+                        input#comp_reason rv-value='data.comp_reason'
+                      td
+                        button.selectable rv-on-click='ctrl.give_comps' Give Custom Comps
+
+            br
+            table.history
+              thead
+                th.header
+                  | Transaction History
+              tbody#trans_hist
+                tr rv-each-trans='data.customer.wallet.pass_transactions'
+                  td
+                    | { trans.timestamp | eventstart }
+                  td 
+                    | { trans.description }
+                  td
+                    | { trans.delta }
+                  td
+                    | { trans.running_total }
+
+          #membership.tab-content
+
+            table
+              tr
+                th
+                  | Current Membership:
+                td
+                  | { data.customer.membership_status.membership.plan.name }
+              tr
+                th
+                  | Stripe ID:
+                td
+                  | { data.customer.membership_status.membership.stripe_id }
+              tr
+                th
+                  | Created On:
+                td
+                  | { data.customer.membership_status.details.created | unixtime }
+              tr
+                th
+                  | Next Billing:
+                td
+                  | { data.customer.membership_status.details.current_period_end | unixtime }
+          
+          #events.tab-content
+
+            select#events rv-idselect='data.selected_event_id'
+              option value='0' None
+              - Event.all.each do |event|
+                option value='#{event.id}'
+                  | #{ event.name }
+
+            table.tickets
+              tr 
+                th colspan='3' Upcoming Tickets
+              tr rv-each-tic='data.customer.event_history.upcoming'
+                td
+                  | { tic.starttime | eventstart }
+                td 
+                  | { tic.name }
+                td
+                  | { tic.price | money }
+
+            table.tickets
+              tr
+                th colspan='3' Past Tickets
+              tr rv-each-tic='data.customer.event_history.past'
+                td
+                  | { tic.starttime | eventstart }
+                td 
+                  | { tic.name }
+                td
+                  | { tic.price | money }
+
+          #class_checkin.tab-content
+
+            table#class_checkin_table
+              tr
+                th Class:
+                td
+                  select#classes rv-idselect='data.reservation.classdef_id'
+                    option value='0' None
+                    - ClassDef.exclude(:deactivated=>true).all.each do |classdef|
+                      option value='#{classdef.id}'
+                        | #{ classdef.name }
+              tr
+                th Instructor:
+                td
+                  select#staff rv-idselect='data.reservation.staff_id'
+                    option value='0' None
+                    - Staff.exclude(:deactivated=>true).all.each do |staff|
+                      option value='#{staff.id}'
+                        | #{ staff.name }
+              tr
+                th Timeslot:
+                td
+                  input#timeslot rv-datefield='data.reservation.starttime'
+
+              tr                  
+                th
+                td.class_checkout
+                  button rv-on-click='ctrl.reserve_membership' rv-enabled='data.customer.membership_status.plan | has_membership' Use Membership <br>( { data.customer.membership_status.plan.name } ) 
+                  button rv-on-click='ctrl.reserve_class_pass' rv-enabled='data.customer.class_passes | zero_if_null' Use a Class Pass <br>( { data.customer.class_passes | zero_if_null } Remaining )
+                  button rv-on-click='ctrl.reserve_paynow' Pay $25 Now
+              tr#reservation-errors rv-each-err='data.reservation_errors'
+                td.reservation-error colspan='2' { err }
+
+            br
+            table.classreservations
+              tr
+                th colspan='3' Upcoming Reservations
+              tr rv-each-res='data.customer.reservations'
+                td 
+                  | { res.starttime | eventstart }
+                td
+                  | { res.classname } w/ { res.instructor }
+                td 
+                  .res_checkin rv-on-click='reservation_checkin' Check In
+
+
+
+          #page_three.tab-content
+            table
+              tr
+                th Reason
+                td 
+                  textarea#reason
+              tr
+                th Amount
+                td 
+                  input#amount rv-moneyfield='data.amount'
+
+    #popupmenu_container
+
+    == analytics

@@ -9,21 +9,6 @@ class StripeRoutes < Sinatra::Base
     event = JSON.parse request.body.read
 
     case event['type']
-    
-    when 'customer.created'
-
-      #customer = Customer.find_or_create( :stripe_id => event['data']['object']['id'] ) do |customer|
-      #  customer.name  = event['data']['object']['metadata']['name']
-      #  customer.email = event['data']['object']['email']
-      #  customer.data  = JSON.generate(event['data']['object'])
-      #end
-
-      #customer.login = User.create( :reset_token => StripeMethods.generateToken ) if customer.login.nil?
-    
-    when 'customer.deleted'
-      
-      customer = Customer.find( :stripe_id => event['data']['object']['id'] )
-      customer.destroy unless customer.nil?
 
     when 'customer.subscription.created'
 
@@ -32,7 +17,7 @@ class StripeRoutes < Sinatra::Base
 
     when 'customer.subscription.deleted'
       
-      customer = Customer.find( :stripe_id => event['data']['object']['id'] )
+      customer = Customer.find( :stripe_id => event['data']['object']['customer'] )
       customer.update( :plan => nil )
 
     end
@@ -46,6 +31,12 @@ class StripeRoutes < Sinatra::Base
 end 
 
 module StripeMethods
+
+  def StripeMethods::refund(charge_id)
+    Stripe::Refund.create( :charge => charge_id )
+  rescue Stripe::InvalidRequestError => e
+    p e.message
+  end
 
   def StripeMethods::create_customer(token)
     Stripe::Customer.create(
@@ -88,14 +79,28 @@ module StripeMethods
     )
   end
 
-  def StripeMethods::charge_card(token, amount, description, metadata)
-    charge = Stripe::Charge.create(
-      :amount      => amount,
-      :currency    => 'usd',
-      :source        => token.id,
-      :description => description, 
-      :metadata    => metadata  
+  def StripeMethods::charge_card(token_id, amount, email, description, metadata)
+    Stripe::Charge.create(
+      :amount        => amount,
+      :currency      => 'usd',
+      :source        => token_id,
+      :receipt_email => email,
+      :description   => description, 
+      :metadata      => metadata
     )
+  end
+
+  def StripeMethods::charge_saved(customer_id, card_id, amount, description, metadata)
+    Stripe::Charge.create(
+      :amount      => amount,
+      :currency    => 'usd',  
+      :customer    => customer_id,
+      :card        => card_id,
+      :description => description,
+      :metadata    => metadata
+    )
+  rescue Exception => e 
+    return e
   end
 
   def StripeMethods::find_customer_by_card(token)
@@ -114,6 +119,10 @@ module StripeMethods
 
   def StripeMethods::get_customer(customer_id)
     Stripe::Customer.retrieve(customer_id)
+  end
+
+  def StripeMethods::get_subscription(subscription_id)
+    Stripe::Subscription.retrieve(subscription_id)
   end
 
   ##########################################################################

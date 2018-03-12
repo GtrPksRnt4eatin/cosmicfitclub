@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby "2.5.0"
+
 gem 'sinatra'
 gem 'stripe'
 gem 'slim'
@@ -19,3 +21,6 @@ gem 'postmark'
 gem 'bcrypt'
 gem 'autoforme'
 gem 'ice_cube'
+gem 'rest-client'
+gem 'twilio-ruby', '~> 5.2.3'
+gem 'activesupport'

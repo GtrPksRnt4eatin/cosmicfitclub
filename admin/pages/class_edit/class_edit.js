@@ -1,16 +1,16 @@
 ctrl = {
 
   save_changes(e,m) {
-    var data = new FormData();
-    data.set('id', m.class.id);
-    data.set('name', m.class.name);
-    data.set('description', m.class.description);
-    data.set('instructors', m.class.instructors);
-    if( !empty($('#pic')[0].files[0]) ) { data.set('image', $('#pic')[0].files[0] ); }
+    var fdata = new FormData();
+    fdata.append('id', m.class.id);
+    fdata.append('name', m.class.name);
+    fdata.append('description', m.class.description);
+    fdata.append('instructors', m.class.instructors);
+    if( !empty($('#pic')[0].files[0]) ) { fdata.append('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/classes';  }
     request.open("POST", "/models/classdefs");
-    request.send(data); 
+    request.send(fdata); 
   },
 
   choose_img(e,m) {
@@ -51,7 +51,18 @@ function initialize_rivets() {
   rivets.formatters.date       = function(val) { return moment(val).format('MMM Do') };
   rivets.formatters.time       = function(val) { return moment(val).format('h:mm a') };
   rivets.formatters.fulldate   = function(val) { return moment(val).format('ddd MMM Do hh:mm a') };
-  rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
+  rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') };
+  rivets.formatters.onlytime   = function(val) { return moment(val, ['H:m:s', 'h:m a', 'H:m'] ).format('h:mm a')};
+
+  include_rivets_rrule();
+
+  rivets.formatters.instructors = function(val) {
+    if(empty(val)) return "null";
+    return val.map( function(o) { 
+      obj = data['instructors'].find( function(val) { return val.id == o; })
+      return obj.name;
+    })
+  }
 
   rivets.binders['datefield'] = {
     bind: function(el) {
@@ -120,7 +131,7 @@ function initialize_rivets() {
     },
     routine: function(el,value) {
       $(el).val(value);
-      $(this.chosen_instance).trigger("chosen:updated");
+      //$(this.chosen_instance).trigger("chosen:updated");
     },
     getValue: function(el) {
       return $(this.chosen_instance).val();

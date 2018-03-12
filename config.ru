@@ -4,9 +4,10 @@ require_relative 'ruby/environment'
 require_relative 'ruby/services/database'
 require_relative 'ruby/services/aws'
 require_relative 'ruby/shrine'
+require_relative 'ruby/patches'
 
 Dir["extensions/*.rb"].each    { |file| require_relative file }
-Dir["models/*.rb"].each        { |file| require_relative file }
+Dir["models/**/*.rb"].each     { |file| require_relative file }
 Dir["ruby/services/*.rb"].each { |file| require_relative file }
 Dir["ruby/*.rb"].each          { |file| require_relative file }
 
@@ -14,6 +15,9 @@ require_relative 'auth/auth.rb'
 require_relative 'admin/admin.rb'
 require_relative 'site/CFC.rb'
 require_relative 'checkout/checkout.rb'
+require_relative 'reports/reports'
+
+use Rack::Deflater
 
 map "/" do
   run CFC
@@ -51,6 +55,34 @@ map "/models/staff" do
   run StaffRoutes
 end
 
-map "/autoforme" do
-  run Autoforme
+map "/models/customers" do
+  run CustomerRoutes
+end
+
+map "/models/passes" do
+  run PassRoutes
+end
+
+map "/models/settings" do
+  run SettingRoutes
+end
+
+map "/models/memberships" do
+  run MembershipRoutes
+end
+
+map "/reports" do
+  run Reports
+end
+
+map "/door" do
+  run Door
+end 
+
+map "/twilio" do
+  run TwilioRoutes
+end
+
+map "/models/schedule" do
+  run ScheduleRoutes
 end
