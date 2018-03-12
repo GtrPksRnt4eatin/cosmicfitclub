@@ -21,7 +21,7 @@ html
     script src='https://js.stripe.com/v3/'
     
     == js  [ 'jquery', 'lib', ]
-    == js  [ 'element', 'ev_channel', 'elements/payment_form', '/auth/elements/userview']
+    == js  [ 'element', 'ev_channel','popupmenu', 'elements/payment_form', '/auth/elements/userview']
     == js  [ 'moment', 'rivets', 'rv_dates', 'rv_money', 'event' ]
 
     javascript:
@@ -142,5 +142,7 @@ html
             | /
             a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
             | to receive member pricing
+    
+    #popupmenu_container
 
     == analytics

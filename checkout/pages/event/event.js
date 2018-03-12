@@ -17,8 +17,13 @@ var data = {
 
 $(document).ready( function() {
 
-  userview = new UserView();
-  pay_form = new PaymentForm();
+  userview  = new UserView();
+  popupmenu = new PopupMenu( id('popupmenu_container') );
+  pay_form  = new PaymentForm();
+
+  pay_form.ev_sub('show', popupmenu.show );
+  pay_form.ev_sub('hide', popupmenu.hide );
+  popupmenu.ev_sub('close', pay_form.stop_listen_cardswipe);
 
   //initialize_stripe();
   initialize_rivets();
@@ -190,6 +195,8 @@ function checkout() {
   if(data.total_price==0) { register(); return; }
 
   pay_form.checkout(userview.state.user.id, data.total_price, "Ticket For: " + EVENT.name, { event_id: EVENT.id }, after_checkout )
+
+
 
 //  STRIPE_HANDLER.open({
 //    name: 'Cosmic Fit Club',
