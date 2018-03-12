@@ -250,6 +250,7 @@ PaymentForm.prototype.CSS = `
   .PaymentForm td,
   .PaymentForm th {
     padding: .5em;
+    background: none;
   }
 
   .PaymentForm .StripeElement {
@@ -278,6 +279,10 @@ PaymentForm.prototype.CSS = `
 
   .PaymentForm.custy_facing .custy {
     display: initial;
+  }
+
+  .PaymentForm.custy_facing .cash {
+    display: none;
   }
 
   @media(max-width: 800px) {
