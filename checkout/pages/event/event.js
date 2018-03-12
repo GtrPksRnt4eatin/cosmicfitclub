@@ -20,22 +20,22 @@ $(document).ready( function() {
   userview = new UserView();
   pay_form = new PaymentForm();
 
-  initialize_stripe();
+  //initialize_stripe();
   initialize_rivets();
   set_event_mode();
   set_first_price();
 
 });
 
-function initialize_stripe() {
-
-  STRIPE_HANDLER = StripeCheckout.configure({
-    locale:         'auto',
-    key:            STRIPE_PUBLIC_KEY,
-    token:          on_token_received
-  });
-
-}
+//function initialize_stripe() {
+//
+//  STRIPE_HANDLER = StripeCheckout.configure({
+//    locale:         'auto',
+//    key:            STRIPE_PUBLIC_KEY,
+//    token:          on_token_received
+//  });
+//
+//}
 
 function initialize_rivets() {
 
