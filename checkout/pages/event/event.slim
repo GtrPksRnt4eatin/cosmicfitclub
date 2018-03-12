@@ -29,6 +29,8 @@ html
       EVENT             = #{{ event.to_json( :include => [ :sessions, :prices ] ) }};
       CUSTOMER          = #{{ customer.to_json( :include => [ :subscription, :plan ] ) }};
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
 
   body
 
