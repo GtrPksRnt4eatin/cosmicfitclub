@@ -300,14 +300,23 @@ PaymentForm.prototype.CSS = `
   }
 
   @media(max-width: 800px) {
-    .PaymentForm.custy_facing {
-      width: 90vw;
-      font-size: 2.4vw;
+
+    .PaymentForm {
+      font-size: 2.7vw;
     }
 
     .PaymentForm span {
       display: block;
     } 
+
+    .PaymentForm .label {
+      width: auto;
+      text-align: center;
+    }
+
+    .PaymentForm #card-errors {
+      font-size: 1em;
+    }
   }
 
 `.untab(2);
