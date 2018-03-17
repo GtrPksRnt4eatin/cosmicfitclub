@@ -229,10 +229,6 @@ PaymentForm.prototype.CSS = `
     width: 30em;
   }
 
-  .PaymentForm td.nopadding {
-    padding: 0;
-  }
-
   .PaymentForm .card-errors {
     padding: .5em;
   }
@@ -253,10 +249,8 @@ PaymentForm.prototype.CSS = `
     border-radius: 4px;
   }
 
-  .PaymentForm td,
-  .PaymentForm th {
+  .PaymentForm span {
     padding: .5em;
-    background: none;
   }
 
   .PaymentForm .StripeElement {
@@ -296,12 +290,6 @@ PaymentForm.prototype.CSS = `
       width: 90vw;
       font-size: 3vw;
     }
-
-    th {
-      display: none;
-    }
-
-
   }
 
 `.untab(2);
