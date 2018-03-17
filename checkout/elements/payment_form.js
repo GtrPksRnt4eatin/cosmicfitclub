@@ -164,7 +164,7 @@ PaymentForm.prototype.HTML = `
     <div class='payment_sources'>
       <div rv-if='state.swipe' >
         <span class='label'>Swiped Card</span>
-        <span>
+        <span class='paysource'>
           <div class='card_info'>
             <span> { state.swipe.card.brand } </span>
             <span> **** **** **** { state.swipe.card.last4 } </span>
@@ -177,7 +177,7 @@ PaymentForm.prototype.HTML = `
       </div>
       <div rv-each-card='state.customer.payment_sources'>
         <span class='label'>Saved Card</span>
-        <span class='source'>
+        <span class='paysource'>
           <div class='card_info'>
             <span> { card.brand } </span>
             <span> **** **** **** { card.last4 } </span>
@@ -190,7 +190,7 @@ PaymentForm.prototype.HTML = `
       </div>
       <div>
         <span class='label'>New Card</span>
-        <span class='source'> 
+        <span class='paysource'> 
           <div id='card-element'></div> 
         </span>
         <span class='button_container'>
@@ -203,13 +203,13 @@ PaymentForm.prototype.HTML = `
         </span>
       </div> 
       <div class='nocusty'>
-        <span>Cash</span>
-        <span>
+        <span class='label'>Cash</span>
+        <span class='paysource'>
           <div class='cash'>
             { state.price | money }
           </div>
         </span>
-        <span>
+        <span class='button_container'>
           <button rv-on-click='this.pay_cash'> Pay Now </button>
         </span>
       </div>
