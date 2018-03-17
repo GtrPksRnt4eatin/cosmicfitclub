@@ -1,4 +1,4 @@
-function PaymentForm() {
+function PaymentForm(custy_facing) {
 
   this.state = {
     price: 0,
@@ -9,7 +9,8 @@ function PaymentForm() {
     callback: null,
     poll_request: null,
     swipe: null,
-    swipe_source: null
+    swipe_source: null,
+    customer_facing: custy_facing
   }
 
   this.bind_handlers(['checkout', 'pay_cash', 'charge_saved', 'failed_charge', 'charge_token', 'charge_swiped', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
@@ -52,8 +53,10 @@ PaymentForm.prototype = {
     else              { this.show();                                   }
     this.show_err(null);
     
-    this.stop_listen_cardswipe();
-    this.start_listen_cardswipe();
+    if(!this.customer_facing) {
+      this.stop_listen_cardswipe();
+      this.start_listen_cardswipe();
+    }
   },
 
   //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
@@ -158,59 +161,59 @@ PaymentForm.prototype.HTML = `
     <h2 class='nocusty'>Charging { state.customer.name } { state.price | money }</h2>
     <h2 class='custy'>Pay { state.price | money } now.</h2>
     <h3 rv-if='state.reason'>{ state.reason }</h3>
-    <table>
-      <tr rv-if='state.swipe' >
-        <th>Swiped Card</th>
-        <td>
-          <div class='saved_card'>
+    <div class='payment_sources'>
+      <div rv-if='state.swipe' >
+        <span>Swiped Card</span>
+        <span>
+          <div class='card_info'>
             <span> { state.swipe.card.brand } </span>
             <span> **** **** **** { state.swipe.card.last4 } </span>
-            <span> { state.swipe.card.exp_month }/{ state.swipe.card.exp_year }
+            <span> { state.swipe.card.exp_month }/{ state.swipe.card.exp_year } </span>
           </div>
-        </td>
-        <td>
+        </span>
+        <span>
           <button rv-on-click='this.charge_swiped'> Pay Now </button>
-        </td>
-      </tr>
-      <tr rv-each-card='state.customer.payment_sources'>
-        <th>Saved Card</th>
-        <td>
-          <div class='saved_card'>
+        </span>
+      </div>
+      <div rv-each-card='state.customer.payment_sources'>
+        <span>Saved Card</span>
+        <span>
+          <div class='card_info'>
             <span> { card.brand } </span>
             <span> **** **** **** { card.last4 } </span>
             <span> { card.exp_month }/{ card.exp_year }
           </div>
-        </td>
-        <td>
+        </span>
+        <span>
           <button rv-on-click='this.charge_saved'> Pay Now </button>
-        </td>
-      </tr>
-      <tr>
-        <th>New Card</th>
-        <td> 
+        </span>
+      </div>
+      <div>
+        <span>New Card</span>
+        <span> 
           <div id='card-element'></div> 
-        </td>
-        <td>
+        </span>
+        <span>
           <button rv-on-click='this.charge_new' > Pay Now </button>
-        </td>
-      </tr>
-      <tr>
-        <td.nopadding colspan='2'>
+        </span>
+      </div>
+      <div>
+        <span.nopadding colspan='2'>
           <div id='card-errors'></div>
-        </td>
-      </tr> 
-      <tr class='nocusty'>
-        <th>Cash</th>
-        <td>
+        </span>
+      </div> 
+      <div class='nocusty'>
+        <span>Cash</span>
+        <span>
           <div class='cash'>
             { state.price | money }
           </div>
-        </td>
-        <td>
+        </span>
+        <span>
           <button rv-on-click='this.pay_cash'> Pay Now </button>
-        </td>
-      </tr>
-    </table>
+        </span>
+      </div>
+    </div>
   </div>
 
 `.untab(2);
@@ -222,7 +225,7 @@ PaymentForm.prototype.CSS = `
     background: rgb(100,100,100);
   }
 
-  .PaymentForm table td:nth-child(2) {
+  .PaymentForm .payment_sources span:nth-child(2) {
     width: 30em;
   }
 
@@ -235,7 +238,7 @@ PaymentForm.prototype.CSS = `
   }
 
   .PaymentForm .cash,
-  .PaymentForm .saved_card {
+  .PaymentForm .card_info {
     border: 1px solid white;
     padding: .5em;
     border-radius: 4px;
@@ -293,6 +296,12 @@ PaymentForm.prototype.CSS = `
       width: 90vw;
       font-size: 3vw;
     }
+
+    th {
+      display: none;
+    }
+
+
   }
 
 `.untab(2);
