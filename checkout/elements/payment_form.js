@@ -313,6 +313,11 @@ PaymentForm.prototype.CSS = `
       width: auto;
       text-align: center;
     }
+  
+    .PaymentForm .paysource,
+    .PaymentForm .button_container {
+      display: inline-block;
+    }
 
     .PaymentForm #card-errors {
       font-size: 1em;
