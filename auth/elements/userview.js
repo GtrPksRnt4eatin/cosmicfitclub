@@ -21,6 +21,10 @@ UserView.prototype = {
     $.get('/auth/current_user')
       .fail( function()     { this.state.user = null; this.ev_fire('on_user', null); }.bind(this))
       .done( function(user) { this.state.user = user; this.ev_fire('on_user', user); }.bind(this));
+  },
+
+  get user() {
+    return this.state.user;
   }
 
 }
