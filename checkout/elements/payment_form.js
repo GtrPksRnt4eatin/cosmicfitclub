@@ -38,6 +38,8 @@ function PaymentForm(custy_facing) {
 
   this.card.addEventListener('change', this.on_card_change);
 
+  rivets.formatters.money = function(val) { return `$ ${ val == 0 ? 0 : val/100 }.00` };
+
 }
 
 PaymentForm.prototype = {
@@ -206,7 +208,9 @@ PaymentForm.prototype.HTML = `
         <span class='label'>Cash</span>
         <span class='paysource'>
           <div class='cash'>
+            <span rv-if='state.customer_facing'> Bring </span>
             { state.price | money }
+            <span rv-if='state.customer_facing'> in person. </span>
           </div>
         </span>
         <span class='button_container'>
@@ -319,9 +323,19 @@ PaymentForm.prototype.CSS = `
       display: inline-block;
     }
 
+    .PaymentForm .paysource {
+      width: 26em;
+    }
+
+    .PaymentForm button {
+      padding: 0.3em;
+    }
+
     .PaymentForm #card-errors {
       font-size: 1em;
     }
+
+
   }
 
 `.untab(2);
