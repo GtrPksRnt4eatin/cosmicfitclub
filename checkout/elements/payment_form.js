@@ -163,7 +163,7 @@ PaymentForm.prototype.HTML = `
     <h3 rv-if='state.reason'>{ state.reason }</h3>
     <div class='payment_sources'>
       <div rv-if='state.swipe' >
-        <span>Swiped Card</span>
+        <span class='label'>Swiped Card</span>
         <span>
           <div class='card_info'>
             <span> { state.swipe.card.brand } </span>
@@ -171,29 +171,29 @@ PaymentForm.prototype.HTML = `
             <span> { state.swipe.card.exp_month }/{ state.swipe.card.exp_year } </span>
           </div>
         </span>
-        <span>
+        <span class='button_container'>
           <button rv-on-click='this.charge_swiped'> Pay Now </button>
         </span>
       </div>
       <div rv-each-card='state.customer.payment_sources'>
-        <span>Saved Card</span>
-        <span>
+        <span class='label'>Saved Card</span>
+        <span class='source'>
           <div class='card_info'>
             <span> { card.brand } </span>
             <span> **** **** **** { card.last4 } </span>
             <span> { card.exp_month }/{ card.exp_year }
           </div>
         </span>
-        <span>
+        <span class='button_container'>
           <button rv-on-click='this.charge_saved'> Pay Now </button>
         </span>
       </div>
       <div>
-        <span>New Card</span>
-        <span> 
+        <span class='label'>New Card</span>
+        <span class='source'> 
           <div id='card-element'></div> 
         </span>
-        <span>
+        <span class='button_container'>
           <button rv-on-click='this.charge_new' > Pay Now </button>
         </span>
       </div>
@@ -225,8 +225,17 @@ PaymentForm.prototype.CSS = `
     background: rgb(100,100,100);
   }
 
-  .PaymentForm .payment_sources span:nth-child(2) {
+  .PaymentForm .label {
+    width: 10em;
+    text-align: right;
+  }
+
+  .PaymentForm .paysource {
     width: 30em;
+  }
+
+  .PaymentForm .button_container {
+    width: 10em;
   }
 
   .PaymentForm .card-errors {
@@ -251,6 +260,8 @@ PaymentForm.prototype.CSS = `
 
   .PaymentForm span {
     padding: .5em;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .PaymentForm .StripeElement {
@@ -290,6 +301,10 @@ PaymentForm.prototype.CSS = `
       width: 90vw;
       font-size: 3vw;
     }
+
+    .PaymentForm span {
+      display: block;
+    } 
   }
 
 `.untab(2);
