@@ -316,6 +316,7 @@ PaymentForm.prototype.CSS = `
     .PaymentForm .label {
       width: auto;
       text-align: center;
+      padding-bottom: 0;
     }
   
     .PaymentForm .paysource,

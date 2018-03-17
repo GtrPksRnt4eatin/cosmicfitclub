@@ -115,7 +115,8 @@ h4 {
   .content:before { display: none; }
   .tile img       { max-width: 100%; }
 
-  .description { 
+  .description,
+  .details { 
     font-size: 4.5vw;
     line-height: 1.5em;
     padding: 1em 0;

@@ -17,6 +17,8 @@ var data = {
 
 $(document).ready( function() {
 
+  initialize_rivets();
+
   userview  = new UserView();
   popupmenu = new PopupMenu( id('popupmenu_container') );
   pay_form  = new PaymentForm();
@@ -26,7 +28,7 @@ $(document).ready( function() {
   popupmenu.ev_sub('close', pay_form.stop_listen_cardswipe);
 
   //initialize_stripe();
-  initialize_rivets();
+  
   set_event_mode();
   set_first_price();
 
