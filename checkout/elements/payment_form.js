@@ -47,8 +47,11 @@ PaymentForm.prototype = {
     this.state.reason = reason;
     this.state.metadata = metadata;
     this.state.callback = callback;
-    this.get_customer(customer_id).done(this.show);
+
+    if( customer_id ) { this.get_customer(customer_id).done(this.show) }
+    else              { this.show();                                   }
     this.show_err(null);
+    
     this.stop_listen_cardswipe();
     this.start_listen_cardswipe();
   },
