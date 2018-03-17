@@ -226,8 +226,10 @@ PaymentForm.prototype.CSS = `
   }
 
   .PaymentForm .label {
-    width: 10em;
+    width: 5em;
     text-align: right;
+    margin-right: 0;
+    padding-left: 0;
   }
 
   .PaymentForm .paysource {
@@ -235,12 +237,13 @@ PaymentForm.prototype.CSS = `
   }
 
   .PaymentForm .button_container {
-    width: 10em;
+    width: 5em;
+    padding-right: 0;
   }
 
   .PaymentForm .card-errors {
     padding: .5em;
-  }
+  } 
 
   .PaymentForm .cash,
   .PaymentForm .card_info {
@@ -299,7 +302,7 @@ PaymentForm.prototype.CSS = `
   @media(max-width: 800px) {
     .PaymentForm.custy_facing {
       width: 90vw;
-      font-size: 3vw;
+      font-size: 2.4vw;
     }
 
     .PaymentForm span {

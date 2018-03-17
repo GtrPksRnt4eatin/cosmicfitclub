@@ -193,7 +193,7 @@ function checkout() {
   calculate_total()
   if(data.total_price==0) { register(); return; }
   var user_id = userview.user ? userview.user.id : 0;
-  pay_form.checkout(user_id, data.total_price, "Ticket For: " + EVENT.name, { event_id: EVENT.id }, after_checkout )
+  pay_form.checkout(user_id, data.total_price, EVENT.name, { event_id: EVENT.id }, after_checkout )
 
 }
 
