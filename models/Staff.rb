@@ -18,6 +18,14 @@ class Staff < Sequel::Model(:staff)
     self.save
   end
 
+  def move(up)
+    thispos  = position
+    otherpos = Staff.where("position < #{self.position}").order(:position).last  if up
+    otherpos = Staff.where("position > #{self.position}").order(:position).first unless up
+    self.update( :position => prev.position )
+    prev.update( :position => pos )
+  end
+
 end
 
 def payroll_query
@@ -104,23 +112,13 @@ class StaffRoutes < Sinatra::Base
   end
 
   post '/:id/moveup' do
-    current  = Staff[params[:id]]
-    currentpos = current.position
-    prev = Staff.where("position < #{current.position}").reverse_order(:position).first
-    prevpos = prev.position
-    current.update(:position => prevpos )
-    prev.update(:position => currentpos )
-    status 200
+    staff = Staff[params[:id]] or halt 404
+    staff.move(true)
   end
 
   post '/:id/movedn' do
-    current  = Staff[params[:id]]
-    currentpos = current.position
-    nextclass = Staff.where("position > #{current.position}").order(:position).first
-    nextpos = nextclass.position
-    current.update(:position => nextpos )
-    nextclass.update(:position => currentpos )
-    status 200
+    staff = Staff[params[:id]] or halt 404
+    staff.move(false)
   end
 
   get '/payroll' do
