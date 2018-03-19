@@ -38,8 +38,6 @@ function PaymentForm(custy_facing) {
 
   this.card.addEventListener('change', this.on_card_change);
 
-  rivets.formatters.money = function(val) { return `$ ${ val == 0 ? 0 : val/100 }.00` };
-
 }
 
 PaymentForm.prototype = {

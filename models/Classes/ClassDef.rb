@@ -41,6 +41,14 @@ class ClassDef < Sequel::Model
     end.flatten
   end
 
+  def move(up)
+    thispos  = position
+    otherpos = ClassDef.where("position < #{self.position}").reverse_order(:position).first if up
+    otherpos = ClassDef.where("position > #{self.position}").order(:position).first         unless up
+    self.update( :position => prev.position )
+    prev.update( :position => pos )
+  end
+
   def deactivate
     self.update( :deactivated => true )
   end
