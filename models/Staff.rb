@@ -13,7 +13,7 @@ class Staff < Sequel::Model(:staff)
   	super
   end
 
-  def decativate
+  def deactivate
     self.deactivated = true
     self.save
   end
