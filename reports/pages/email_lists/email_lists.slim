@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    == css ['fonts', 'site', 'header', 'flatpickr', 'chosen.min', 'email_lists' ]
+    == js  ['jquery', 'jquery.chosen.min', 'rivets', 'lib', 'element', 'ev_channel', 'flatpickr', 'rv_dates', 'rv_select']
+    == js  ['/auth/elements/userview', 'menu', 'email_lists']
+
+    title Email Lists
+  
+  body
+
+    #stars
+
+    #content
+
+      .tile
+        h2 Bulk Email Lists
+
+      .tile
+        select#classselect multiple='multiple' rv-select='data.classdef_ids'
+          - ClassDef.all.each do |cls|
+            option value='#{cls.id}' #{cls.name} 
+        input rv-daterangefield='data.daterange'
+        button rv-on-click='ctrl.get_list' Get List
+
+      .tile.email_list
+        .list
+          div rv-each-custy='data.email_list'
+            span
+              | { custy.num_visits } Visits
+            span 
+              | { custy.customer_name }
+            span
+              | { custy.customer_email }
+            span
+              input.checkbox rv-checked='custy.sendmail' type='checkbox'
+
+        a.sendmail target="_blank" rv-if='data.email_list' rv-href='data.email_list | mailto'
+          button Send Mail

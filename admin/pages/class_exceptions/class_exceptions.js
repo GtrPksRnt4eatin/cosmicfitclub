@@ -21,6 +21,9 @@ ctrl = {
   	data.exception.classdef_id = option.value;
   	get_scheditems();
   },
+  date_selected(e,m) {
+    
+  },
   scheditem_selected(e,m) {
   	data.selected_scheditem = m.scheditem;
   	if(data.selected_scheditem.exception) { data.exception = data.selected_scheditem.exception; return; }
@@ -58,4 +61,8 @@ function get_scheditems() {
   $.get('/models/classdefs/' + data.selected_classdef.id + '/schedule','json')
    .done(  function(val) { data.scheditems = val;  } )
    .error( function(xhr) { alert(xhr.responseText); } )
+}
+
+function get_scheditems_bydate(date) {
+  $.get('/models/classdefs')
 }

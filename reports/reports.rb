@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require_relative './extensions/report_queries'
 
 class Reports < Sinatra::Base
 
@@ -9,10 +10,12 @@ class Reports < Sinatra::Base
   register Sinatra::PageFolders
   register Sinatra::SharedResources
   register Sinatra::Auth
+  register Sinatra::ReportQueries
 
-  get( '/', )                               { render_page :index }
+  get( '/', )                               { render_page :index         }
   get( '/pass_balances', :auth => 'admin' ) { render_page :pass_balances }
   get( '/subscriptions', :auth => 'admin' ) { render_page :subscriptions }
+  get( '/email_lists',   :auth => 'admin' ) { render_page :email_lists   }
 
   def pass_balances
   	$DB["

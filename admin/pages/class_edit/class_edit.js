@@ -55,6 +55,8 @@ function initialize_rivets() {
   rivets.formatters.onlytime   = function(val) { return moment(val, ['H:m:s', 'h:m a', 'H:m'] ).format('h:mm a')};
 
   include_rivets_rrule();
+  include_rivets_dates();
+  include_rivets_select();
 
   rivets.formatters.instructors = function(val) {
     if(empty(val)) return "null";
@@ -64,77 +66,4 @@ function initialize_rivets() {
     })
   }
 
-  rivets.binders['datefield'] = {
-    bind: function(el) {
-      this.flatpickrInstance = $(el).flatpickr({
-        enableTime: true, 
-        altInput: true, 
-        altFormat: 'm/d/Y h:i K',
-        onChange: function(val) {
-          this.publish(val);
-          if(this.el.onchange) { this.el.onchange(); }
-        }.bind(this)
-      })
-    },
-    unbind: function(el) {
-      this.flatpickrInstance.destroy();
-    },
-    routine: function(el,value) {
-      if(value) { 
-        this.flatpickrInstance.setDate( value ); 
-        this.flatpickrInstance.jumpToDate(value);
-      }
-    },
-    getValue: function(el) {
-      return el.value;
-    }
-  }
-
-  rivets.binders['timefield'] = {
-    bind: function(el) {
-      this.flatpickrInstance = $(el).flatpickr({
-        enableTime: true, 
-        altInput: true, 
-        altFormat: 'h:i K',
-        inline: true,
-        noCalendar: true,
-        onChange: function(val) {
-          this.publish(val);
-          if(this.el.onchange) { this.el.onchange(); }
-        }.bind(this)
-      })
-    },
-    unbind: function(el) {
-      this.flatpickrInstance.destroy();
-    },
-    routine: function(el,value) {
-      if(value) { 
-        this.flatpickrInstance.setDate( value ); 
-        this.flatpickrInstance.jumpToDate(value);
-      }
-    },
-    getValue: function(el) {
-      return el.value;
-    }
-  }
-
-  rivets.binders['multiselect'] = {
-    bind: function(el) {
-      this.chosen_instance = $(el).chosen()
-      this.chosen_instance.change(function(val) {
-        this.publish(val);
-        if(this.el.onchange) { this.el.onchange(); }
-      }.bind(this));
-    },
-    unbind: function(el) {
-      $(el).chosen("destroy");
-    },
-    routine: function(el,value) {
-      $(el).val(value);
-      //$(this.chosen_instance).trigger("chosen:updated");
-    },
-    getValue: function(el) {
-      return $(this.chosen_instance).val();
-    }
-  }
 }

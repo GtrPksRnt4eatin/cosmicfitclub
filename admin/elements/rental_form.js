@@ -5,7 +5,7 @@ function RentalForm() {
     hours: [1,2,3,4,5,6,7,8,9]
   }
 
-  this.bind_handlers();
+  this.bind_handlers(['save']);
   this.build_dom();
   this.bind_dom();
   this.load_styles();
@@ -16,13 +16,13 @@ RentalForm.prototype = {
   constructor: RentalForm,
 
   show_new()  { 
-  	this.state.rental = { "id": 0 };
-  	this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
+    this.state.rental = { "id": 0 };
+    this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
   },
 
   show_edit(rental) { 
-  	this.state.rental = rental;
-  	this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
+    this.state.rental = rental;
+    this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
   },
 
   save(e) {
@@ -42,11 +42,11 @@ RentalForm.prototype.HTML = `
   <div class='RentalForm form'>
     <div class='tuplet'>
       <label>Start Time:</label>
-      <input id='starttime' class='time' rv-timefield='state.schedule.start_time' />
+      <input id='starttime' class='time' rv-datefield='state.schedule.start_time' />
     </div>
     <div class='tuplet'>
       <label>Duration:</label>
-      <select rv-value='state.rental.duration'>
+      <select rv-value='state.rental.duration_hours'>
         <option rv-each-val='state.hours' rv-value='val'>
           {val} hours
         </option>
@@ -67,6 +67,21 @@ RentalForm.prototype.CSS = `
     
   }
 
+  .RentalForm label {
+    vertical-align: middle;
+    width: 8em;
+    display: inline-block;
+    text-align: right;
+  }
+
+  .RentalForm .tuplet {
+    margin: .2em 0;
+  }
+
+  .RentalForm .flatpickr-time input {
+    width: 4em !important;
+  }
+
   .RentalForm input,
   .RentalForm textarea {
     font-size: 1em !important;
@@ -77,11 +92,6 @@ RentalForm.prototype.CSS = `
     cursor: pointer;
   }
 
-  .sesionform textarea {
-    width: 20em;
-    background: white;
-  }
-
   .RentalForm select {
   	font-size: inherit;
   	font-family: inherit;
@@ -89,9 +99,7 @@ RentalForm.prototype.CSS = `
   	padding: .2em;
   }
 
-  .RentalForm .flatpickr-time input {
-    width: auto !important;
-  }
+
 
   .RentalForm .form-control {
     display: none !important;
@@ -101,16 +109,12 @@ RentalForm.prototype.CSS = `
     display: inline-block;
     font-size: inherit;
     width: 20em;
+    vertical-align: middle;
   }
 
   .RentalForm .flatpickr-calendar.arrowTop:before,
   .RentalForm .flatpickr-calendar.arrowTop:after {
     display: none !important;
-  }
-
-  .RentalForm .chosen-container {
-    width: 20em !important;
-    font-size: 1em; 
   }
 
   .RentalForm .done {

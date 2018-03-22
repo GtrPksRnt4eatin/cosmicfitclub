@@ -5,6 +5,7 @@ class ClassOccurrence < Sequel::Model
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
   many_to_one :teacher, :key => :staff_id, :class => :Staff
   one_to_many :reservations, :class => :ClassReservation
+  many_to_many :customers, :join_table => :class_reservations
 
   def ClassOccurrence.get_headcount( class_id, staff_id, starttime )
     occ = find( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
@@ -14,6 +15,10 @@ class ClassOccurrence < Sequel::Model
 
   def ClassOccurrence.get( class_id, staff_id, starttime ) 
     find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
+  end
+
+  def ClassOccurrence.get_email_list(from,to,classdef_ids)
+    $DB[ClassOccurrence.email_list_query, classdef_ids, from, to].all
   end
 
   def to_full_json
@@ -54,6 +59,29 @@ class ClassOccurrence < Sequel::Model
       LEFT JOIN "pass_transactions" ON ("pass_transactions"."reservation_id" = "class_reservations"."id")
       WHERE ("class_occurrence_id" = ?)
       ORDER BY "class_reservations"."id"
+    }
+  end
+
+  def ClassOccurrence.email_list_query
+    %{
+      SELECT
+        customers.id AS customer_id, 
+        customers.name AS customer_name,
+        customers.email AS customer_email,
+        count(class_reservations.id) AS num_visits, 
+        array_agg(json_build_object( 'reservation_id', class_reservations.id, 'occurrence_id', occ.id, 'starttime', occ.starttime, 'class_name', class_defs.name )) AS visits
+      FROM (
+        SELECT *
+        FROM class_occurrences
+        WHERE classdef_id IN ?
+        AND starttime >= ?
+        AND starttime < ?
+      ) AS occ
+      JOIN class_defs ON occ.classdef_id = class_defs.id
+      JOIN class_reservations on class_reservations.class_occurrence_id = occ.id
+      JOIN customers on class_reservations.customer_id = customers.id
+      GROUP BY customers.id
+      ORDER BY count(class_reservations.id) DESC
     }
   end
 

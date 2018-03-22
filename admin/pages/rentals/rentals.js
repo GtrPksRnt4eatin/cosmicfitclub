@@ -11,32 +11,38 @@ var ctrl = {
   },
 
   add: function(e,m) {
-
+    rentalfrm.show_new();
   },
 
   edit: function(e,m) {
-
+    rentalfrm.show_edit(m.rental);
   },
 
   del: function(e,m) {
-
+    if(!confirm('really delete this rental?' + m.rental.title)) return;
+    $.del('/models/rentals/' + m.rental.id)
+     .done( function() { data['rentals'].splice(m.index,1); } );
   }
 
 }
 
 $(document).ready(function() {
 
-   userview = new UserView(id('userview_container'));
+  userview = new UserView(id('userview_container'));
   
-   include_rivets_dates();
+  include_rivets_dates();
 
-   rivets.bind(document.body, { data: data, ctrl: ctrl } );
+  rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
-   popupmenu   = new PopupMenu(id('popupmenu_container'));
-   rentalfrm   = new RentalForm();
+  popupmenu   = new PopupMenu(id('popupmenu_container'));
+  rentalfrm   = new RentalForm();
 
-   rentalfrm.ev_sub('show', popupmenu.show );
+  rentalfrm.ev_sub('show', popupmenu.show );
+  rentalfrm.ev_sub('after_post', function(rental) { 
+    data['rentals'].replace_or_add_by_id(rental); 
+    popupmenu.hide();
+  });
 
-   ctrl.get();
+  ctrl.get();
 
 });

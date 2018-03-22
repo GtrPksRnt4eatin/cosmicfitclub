@@ -1,6 +1,7 @@
 require 'csv'
 
 class Staff < Sequel::Model(:staff)
+  include PositionAndDeactivate
 
   plugin :json_serializer
 
@@ -11,19 +12,6 @@ class Staff < Sequel::Model(:staff)
   def after_save
   	self.id
   	super
-  end
-
-  def deactivate
-    self.deactivated = true
-    self.save
-  end
-
-  def move(up)
-    thispos  = position
-    otherpos = Staff.where("position < #{self.position}").order(:position).last  if up
-    otherpos = Staff.where("position > #{self.position}").order(:position).first unless up
-    self.update( :position => prev.position )
-    prev.update( :position => pos )
   end
 
 end
