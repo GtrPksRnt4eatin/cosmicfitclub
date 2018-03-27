@@ -28,5 +28,6 @@ class CFCAdmin < Sinatra::Base
   get( '/class_exceptions', :auth=> 'admin' ) { render_page :class_exceptions }     
   get( '/roles'                             ) { render_page :roles            }
   get( '/rentals',          :auth=> 'admin' ) { render_page :rentals          }
+  get( '/merge',                            ) { render_page :merge_customers  }
   
 end

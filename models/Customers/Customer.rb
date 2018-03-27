@@ -218,7 +218,7 @@ class Customer < Sequel::Model
     other = Customer[customer_id] or return false
 
     if !self.wallet.nil? then
-      other.wallet = Wallet.new if other.wallet.nil?
+      other.update( :wallet => Wallet.create ) if other.wallet.nil?
       self.wallet.transactions.each { |trans| trans.update( :wallet_id => other.wallet.id ) }
       other.wallet.pass_balance = other.wallet.pass_balance + self.wallet.pass_balance
     end
@@ -227,6 +227,23 @@ class Customer < Sequel::Model
     self.payments.each     { |pay| pay.customer = other; pay.save }
     self.tickets.each      { |tic| tic.customer = other; tic.save }
 
+  end
+
+  def delete
+    (puts "Customer Not Empty"; return) unless self.can_delete?
+    super
+  end
+
+  def can_delete?
+    (puts 'subscriptions'; return false) if self.subscriptions.count > 0
+    (puts 'passes'; return false)        if self.passes.count > 0
+    (puts 'tickets'; return false)       if self.tickets.count > 0
+    (puts 'train_passes'; return false)  if self.training_passes.count > 0
+    (puts 'wallet'; return false)        if self.wallet != nil
+    (puts 'reservations'; return false)  if self.reservations.count > 0
+    (puts 'tickets'; return false)       if self.comp_tickets.count > 0
+    (puts 'payments'; return false)      if self.payments.count > 0
+    return true
   end
 
 end

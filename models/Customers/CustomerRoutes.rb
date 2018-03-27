@@ -12,11 +12,24 @@ class CustomerRoutes < Sinatra::Base
     custy.to_json(:include=>:payment_sources)
   end
 
+  get '/:id/fulldetails' do
+    custy = Customer[params[:id]]
+    { :info => custy,
+      :subscriptions => JSON.parse(custy.subscriptions.to_json( include: :plan )),
+      :tickets => JSON.parse(EventTicket.to_json( array: custy.tickets, include: :event )),
+      :wallet => JSON.parse(custy.wallet.to_json( include: :transactions )),
+      :reservations => JSON.parse(custy.reservations.to_json( include: :occurrence )),
+      :payments => custy.payments,
+      :training_passes => custy.training_passes
+    }.to_json
+    #Customer[params[:id]].to_json( include: [ :subscriptions, :passes, :tickets, :training_passes, :wallet, :reservations, :comp_tickets, :payments] )
+  end
+
   post '/:id/info' do
     data = JSON.parse request.body.read
     custy = Customer[params[:id]] or halt 404
-    custy.update( 
-      :name => data["name"], 
+    custy.update(
+      :name => data["name"],
       :email => data["email"],
       :phone => data["phone"],
       :address => data["address"]
@@ -122,6 +135,17 @@ class CustomerRoutes < Sinatra::Base
   post '/:id/add_passes' do
     custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
     custy.add_passes( params[:value], params[:reason], "" );
+  end
+
+  post '/:id/merge_into/:merge_id' do
+    custy1 = Customer[params[:id]] or halt(404, "Cant Find Customer")
+    custy1.merge_with(params[:merge_id])
+    status 200
+  end
+
+  delete '/:id' do
+    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
+    custy.delete
   end
 
 end

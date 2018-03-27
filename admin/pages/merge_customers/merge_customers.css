@@ -1,0 +1,53 @@
+#header {
+  display: block;
+  background: rgba(30,30,30,0.8);
+  box-shadow: 0 0 5px white;
+  height: 3.3em;
+}
+
+#header span {
+  display: inline-block;
+  margin: 1.1em 1em;
+}
+
+#content {
+  box-sizing: border-box;
+  position: relative;
+}
+
+.tile.left,
+.tile.right {
+  display: inline-block;
+  width: 48%;
+  box-sizing: border-box;
+  padding: 1em;
+  vertical-align: top;
+}
+
+.chosen-container {
+  margin-bottom: 1em;
+}
+
+.tuple {
+  margin: 0.4em 0;
+}
+
+.tuple span:nth-child(1) {
+  width: 15em;
+  margin-right: 1em;
+  text-align: right;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.tuple span:nth-child(2) {
+  width: 25em;
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tickets span{
+  padding: 0.2em;
+  background: rgba(255,255,255,0.2);
+}

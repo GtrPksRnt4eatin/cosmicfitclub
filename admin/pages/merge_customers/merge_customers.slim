@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Merge Customers
+
+    == css ['fonts', 'site', 'header', 'flatpickr', 'chosen', '/admin/merge_customers' ]
+    == js  ['jquery', 'rivets', 'jquery.chosen.min', 'rv_select', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
+    == js  ['elements/popup_menu', 'elements/rental_form', '/auth/elements/userview']
+    == js  ['menu', '/admin/merge_customers' ]
+
+  body
+
+    #stars
+
+    #header
+      span Cosmic Fit Club Administration
+      #userview_container
+
+    #content
+
+      .tile
+        H2 Customer Merging and Reconsiliation
+
+      .tile.left
+        
+        select.custy1 rv-idselect='data.custy1_id' rv-on-change='ctrl.load_custy1'
+          - Customer.all.each do |custy|
+            option value='#{custy.id}' #{ custy.id } - #{custy.name} ( #{ custy.email } )
+
+        .tuple.info
+          span.label ID
+          span 
+            | {data.custy1.info.id}
+        .tuple.info
+          span.label Name
+          span
+            | {data.custy1.info.name}
+        .tuple.info
+          span.label Phone
+          span
+            | {data.custy1.info.phone}
+        .tuple.info
+          span.label Email
+          span
+            | {data.custy1.info.email}
+        .tuple.info
+          span.label Address
+          span
+            | {data.custy1.info.address}
+        .tuple.info
+          span.label Stripe ID
+          span
+            | {data.custy1.info.stripe_id}
+
+        hr
+        .label Subscriptions:
+        .tuple rv-each-sub='data.custy1.subscriptions'
+          span
+            | { sub.id }
+
+        hr
+        .label Wallet:
+        .tuple
+          span
+            | { data.custy1.wallet.id }
+          span
+            | { data.custy1.wallet.pass_balance }
+
+        hr
+        .label Event Tickets:
+        .tuple.tickets rv-each-tic='data.custy1.tickets'
+          span
+            | { tic.event.name }
+
+        hr
+        .label Reservations
+        .tuple rv-each-res='data.custy1.reservations'
+          span
+            | {res.id}
+
+        hr
+        .label Payments
+        .tuple rv-each-pay='data.custy1.payments'
+          span
+            | {pay.timestamp}
+          span
+            | {pay.amount}
+          span
+            | {pay.reason}
+        
+        Button rv-on-click='ctrl.merge_right' Merge Right
+        Button rv-on-click='ctrl.del_custy1'  Delete
+
+      .tile.right
+
+        select.custy2 rv-idselect='data.custy2_id' rv-on-change='ctrl.load_custy2'
+          - Customer.all.each do |custy|
+            option value='#{custy.id}' #{ custy.id } - #{custy.name} ( #{ custy.email } )
+
+        .tuple.info
+          span.label ID
+          span.
+            | {data.custy2.info.id}
+        .tuple.info
+          span.label Name
+          span
+            | {data.custy2.info.name}
+        .tuple.info
+          span.label Phone
+          span
+            | {data.custy2.info.phone}
+        .tuple.info
+          span.label Email
+          span
+            | {data.custy2.info.email}
+        .tuple.info
+          span.label Address
+          span
+            | {data.custy2.info.address}
+        .tuple.info
+          span.label Stripe ID
+          span
+            |{data.custy2.info.stripe_id}
+
+        hr
+        .label Subscriptions:
+        .tuple rv-each-sub='data.custy2.subscriptions'
+          span
+            | { sub.id }
+
+        hr
+        .tuple
+          .label Wallet:
+          span
+            | { data.custy2.wallet.id }
+          span
+            | { data.custy2.wallet.pass_balance }
+
+        hr
+        .label Event Tickets:
+        .tuple.tickets rv-each-tic='data.custy2.tickets'
+          span
+            | { tic.id }
+          span
+            | { tic.event.name }
+
+        hr
+        .label Reservations
+        .tuple rv-each-res='data.custy2.reservations'
+          span
+            | {res.id}
+
+        hr
+        .label Payments
+        .tuple rv-each-pay='data.custy2.payments'
+          span
+            | {pay.timestamp}
+          span
+            | {pay.amount}
+          span
+            | {pay.reason}
+
+        Button rv-on-click='ctrl.merge_left' Merge Left
+        Button rv-on-click='ctrl.del_custy2'  Delete

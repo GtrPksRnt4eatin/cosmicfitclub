@@ -2,7 +2,7 @@ function include_rivets_select() {
 
   rivets.binders['idselect'] = {
     bind: function(el) {
-      this.chosen_instance = $(el).chosen()
+      this.chosen_instance = $(el).chosen({ search_contains: true })
       this.chosen_instance.change(function(e,val) {
         this.publish( parseInt(val.selected) );
         if(this.el.onchange) { this.el.onchange(); }
@@ -22,7 +22,7 @@ function include_rivets_select() {
 
   rivets.binders['select'] = {
     bind: function(el) {
-      this.chosen_instance = $(el).chosen();
+      this.chosen_instance = $(el).chosen({ search_contains: true });
       $(this.chosen_instance).trigger("chosen:updated");
       this.chosen_instance.change(function(e,val) { 
         this.publish(val.selected); 
@@ -43,7 +43,7 @@ function include_rivets_select() {
 
   rivets.binders['multiselect'] = {
     bind: function(el) {
-      this.chosen_instance = $(el).chosen()
+      this.chosen_instance = $(el).chosen({ search_contains: true })
       this.chosen_instance.change(function(val) {
         this.publish(val);
         if(this.el.onchange) { this.el.onchange(); }

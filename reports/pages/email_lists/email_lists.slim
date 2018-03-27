@@ -19,11 +19,18 @@ html
         h2 Bulk Email Lists
 
       .tile
-        select#classselect multiple='multiple' rv-select='data.classdef_ids'
-          - ClassDef.all.each do |cls|
-            option value='#{cls.id}' #{cls.name} 
-        input rv-daterangefield='data.daterange'
-        button rv-on-click='ctrl.get_list' Get List
+        .tuple 
+          label Select Classes
+          span
+            select#classselect multiple='multiple' rv-select='data.classdef_ids'
+              - ClassDef.all.each do |cls|
+                option value='#{cls.id}' #{cls.name} 
+        .tuple
+          label Choose Date Range
+          span
+            input rv-daterangefield='data.daterange'
+        
+        button.getlist rv-on-click='ctrl.get_list' Get List
 
       .tile.email_list
         .list

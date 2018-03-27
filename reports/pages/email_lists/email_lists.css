@@ -4,6 +4,19 @@
   padding: .5em !important;
   border: none !important;
   color: white;
+  
+}
+
+.chosen-container {
+  width: 30em !important;
+  font-size: 1em;
+}
+
+.flatpickr-input {
+  width: 30em;
+  text-align: center;
+  font-size: 1em;
+  box-sizing: border-box;
 }
 
 .tile {
@@ -22,11 +35,17 @@
 }
 
 #classselect {
-  width: 350px;
+  width: 30em;
 }
 
 .sendmail button {
   margin-top: 1em;
+  font-size: 1em;
+  width: 50em;
+  cursor: pointer;
+}
+
+button.getlist {
   font-size: 1em;
   width: 50em;
   cursor: pointer;
@@ -40,4 +59,19 @@
 
 h2 {
   margin: 0;
+}
+
+.tuple {
+  margin-bottom: .5em;
+}
+
+.tuple label {
+  width: 10em;
+  display: inline-block;
+  text-align: right;
+  margin-right: 1em;
+}
+
+.tuple span {
+  display: inline-block;
 }
