@@ -1,6 +1,7 @@
 require 'csv'
 
 class Staff < Sequel::Model(:staff)
+  include PositionAndDeactivate
 
   plugin :json_serializer
 
@@ -11,11 +12,6 @@ class Staff < Sequel::Model(:staff)
   def after_save
   	self.id
   	super
-  end
-
-  def decativate
-    self.deactivated = true
-    self.save
   end
 
 end
@@ -104,23 +100,13 @@ class StaffRoutes < Sinatra::Base
   end
 
   post '/:id/moveup' do
-    current  = Staff[params[:id]]
-    currentpos = current.position
-    prev = Staff.where("position < #{current.position}").reverse_order(:position).first
-    prevpos = prev.position
-    current.update(:position => prevpos )
-    prev.update(:position => currentpos )
-    status 200
+    staff = Staff[params[:id]] or halt 404
+    staff.move(true)
   end
 
   post '/:id/movedn' do
-    current  = Staff[params[:id]]
-    currentpos = current.position
-    nextclass = Staff.where("position > #{current.position}").order(:position).first
-    nextpos = nextclass.position
-    current.update(:position => nextpos )
-    nextclass.update(:position => currentpos )
-    status 200
+    staff = Staff[params[:id]] or halt 404
+    staff.move(false)
   end
 
   get '/payroll' do

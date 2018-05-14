@@ -37,22 +37,14 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   post '/:id/moveup' do
-    current  = ClassDef[params[:id]]
-    currentpos = current.position
-    prev = ClassDef.where("position < #{current.position}").reverse_order(:position).first
-    prevpos = prev.position
-    current.update(:position => prevpos )
-    prev.update(:position => currentpos )
+    classdef = ClassDef[params[:id]] or halt 404
+    classdef.move(true)
     status 200
   end
 
   post '/:id/movedn' do
-    current  = ClassDef[params[:id]]
-    currentpos = current.position
-    nextclass = ClassDef.where("position > #{current.position}").order(:position).first
-    nextpos = nextclass.position
-    current.update(:position => nextpos )
-    nextclass.update(:position => currentpos )
+    classdef = ClassDef[params[:id]] or halt 404
+    classdef.move(false)
     status 200
   end
 

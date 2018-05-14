@@ -118,10 +118,10 @@ $(document).ready( function() {
 
   $.get('/models/customers', on_custylist, 'json');
 
-  $('#customers').chosen();
-  $('#classes').chosen();
-  $('#staff').chosen();
-  $('.customers').chosen();
+  $('#customers').chosen({ search_contains: true });
+  $('#classes').chosen({ search_contains: true });
+  $('#staff').chosen({ search_contains: true });
+  $('.customers').chosen({ search_contains: true });
 
   $('#customers').on('change', on_customer_selected );
   $('#packages').on('change', on_package_selected );

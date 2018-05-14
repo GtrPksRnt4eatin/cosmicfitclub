@@ -51,6 +51,10 @@ map "/models/events" do
   run EventRoutes
 end
 
+map "/models/rentals" do
+  run RentalRoutes
+end
+
 map "/models/staff" do
   run StaffRoutes
 end

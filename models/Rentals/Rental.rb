@@ -16,4 +16,12 @@ class Rental < Sequel::Model
     end.compact
   end
 
+  def Rental.upcoming
+    Rental.where{ start_time > Date.today.to_time }.order(:start_time)
+  end
+
+  def Rental.past
+    Rental.where{ start_time < Date.today.to_time }.order(:start_time)
+  end
+
 end
