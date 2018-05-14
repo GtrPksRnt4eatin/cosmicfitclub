@@ -108,7 +108,7 @@ ScheduleForm.prototype.CSS = `
   }
 
   .scheduleform .flatpickr-time input {
-    width: auto !important;
+    width: 4em !important;
   }
 
   .scheduleform .form-control {

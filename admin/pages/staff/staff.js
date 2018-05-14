@@ -15,7 +15,7 @@ var ctrl = {
   },
 
   movedn: function(e,m) {
-    $.post(`${ path }/${ m.class.id }/movedn`, get_saved_items );
+    $.post(`${ path }/${ m.item.id }/movedn`, get_saved_items );
   }
 
 }

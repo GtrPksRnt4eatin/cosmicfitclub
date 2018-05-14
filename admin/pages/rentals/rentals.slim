@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Rentals
+
+    == css ['fonts', 'site', 'header', 'flatpickr', '/admin/rentals' ]
+    == js  ['jquery', 'rivets', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
+    == js  ['elements/popup_menu', 'elements/rental_form', '/auth/elements/userview']
+    == js  ['menu', '/admin/rentals' ]
+
+  body
+
+    #stars
+
+    #header
+      span Cosmic Fit Club Administration
+      #userview_container
+
+    #content
+      .tile
+        H2 Rentals
+        .add rv-on-click='ctrl.add'
+          | +
+
+      .tile.rentals
+        H3 Upcoming Rentals
+        div.headings
+          span Start Time
+          span Duration
+          span Title
+          span
+        div rv-each-rental='data.rentals'
+          span 
+            | { rental.start_time | eventstart }
+          span
+            | { rental.duration_hours } Hours
+          span 
+            | { rental.title }
+          span
+            .edit rv-on-click='ctrl.edit'
+            .del rv-on-click='ctrl.del'
+
+      .tile.past_rentals
+        H3 Past Rentals
+        div.headings
+          span Start Time
+          span Duration
+          span Title
+          span
+        div rv-each-rental='data.past_rentals'
+          span 
+            | { rental.start_time | eventstart }
+          span
+            | { rental.duration_hours } Hours
+          span 
+            | { rental.title }
+          span
+
+    #popupmenu_container

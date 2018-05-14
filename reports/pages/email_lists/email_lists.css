@@ -1,0 +1,77 @@
+.chosen-choices {
+  background-image: none !important;
+  background-color: rgba(255,255,255,0.3) !important;
+  padding: .5em !important;
+  border: none !important;
+  color: white;
+  
+}
+
+.chosen-container {
+  width: 30em !important;
+  font-size: 1em;
+}
+
+.flatpickr-input {
+  width: 30em;
+  text-align: center;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.tile {
+  padding: 1em;
+  width: 50em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.email_list span:nth-child(1) { width: 6em; }
+.email_list span:nth-child(2) { width: 18em; }
+.email_list span:nth-child(3) { width: 19em; }
+
+.email_list span {
+  display: inline-block;
+}
+
+#classselect {
+  width: 30em;
+}
+
+.sendmail button {
+  margin-top: 1em;
+  font-size: 1em;
+  width: 50em;
+  cursor: pointer;
+}
+
+button.getlist {
+  font-size: 1em;
+  width: 50em;
+  cursor: pointer;
+}
+
+.email_list .list {
+  height: 60vh;
+  overflow-y: auto;
+  background: rgba(255,255,255,0.1);
+}
+
+h2 {
+  margin: 0;
+}
+
+.tuple {
+  margin-bottom: .5em;
+}
+
+.tuple label {
+  width: 10em;
+  display: inline-block;
+  text-align: right;
+  margin-right: 1em;
+}
+
+.tuple span {
+  display: inline-block;
+}

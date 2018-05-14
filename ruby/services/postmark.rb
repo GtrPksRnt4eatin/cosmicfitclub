@@ -23,6 +23,8 @@ module Mail
       track_opens:    true,
       track_links:    'HtmlAndText'
     )
+  rescue Postmark::InvalidMessageError => e
+    Slack.post( "I tried to send an email to #{recipient}, but this email thing is too complicated for a cat!\r```#{e.backtrace.join("\n")}```" )
   end
 
 end
