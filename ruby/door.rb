@@ -16,7 +16,7 @@ class Door < Sinatra::Base
   end
 
   post('/down', :auth=> 'door') do
-  	payload = { :value => params[:val].to_i == 1 ? 0 : 1 }.to_json
+    payload = { :value => params[:val].to_i == 1 ? 0 : 1 }.to_json
     RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/18', payload , :content_type => 'application/json' )
   end
 
