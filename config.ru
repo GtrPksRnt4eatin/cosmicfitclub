@@ -1,4 +1,5 @@
 $root_folder = File.dirname(__FILE__)
+require 'rack/ssl-enforcer'
 
 require_relative 'ruby/environment'
 require_relative 'ruby/services/database'

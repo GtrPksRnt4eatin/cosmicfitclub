@@ -630,6 +630,7 @@ GEM
     rack (2.0.4)
     rack-protection (2.0.1)
       rack
+    rack-ssl-enforcer (0.2.9)
     rake (12.3.0)
     representable (3.0.4)
       declarative (< 0.1.0)
@@ -694,6 +695,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   pg
   postmark
+  rack-ssl-enforcer
   rest-client
   sequel
   shrine
