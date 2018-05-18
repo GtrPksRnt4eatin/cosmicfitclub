@@ -22,12 +22,10 @@ require_relative 'reports/reports'
 use Rack::SslEnforcer
 use Rack::Deflater
 
-set :session_secret, 'asdf123897798128bkjwekhakhjsk38389721387932179831hjsdfkj'
-
 use Rack::Session::Cookie, :key => '_rack_session',
                            :path => '/',
                            :expire_after => 2592000,
-                           :secret => settings.session_secret
+                           :secret => 'asdf123897798128bkjwekhakhjsk38389721387932179831hjsdfkj'
 
 map "/" do
   run CFC
