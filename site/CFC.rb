@@ -2,7 +2,7 @@ require 'sinatra/base'
 
 class CFC < Sinatra::Base
 
-  enable :sessions
+  #enable :sessions
 
   helpers  Sinatra::ViewHelpers
   register Sinatra::PageFolders

@@ -3,7 +3,7 @@ require_relative './extensions/report_queries'
 
 class Reports < Sinatra::Base
 
-  enable :sessions	
+  #enable :sessions	
   set :root, File.dirname(__FILE__)
 
   helpers  Sinatra::ViewHelpers

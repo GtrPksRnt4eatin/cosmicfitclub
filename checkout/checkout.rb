@@ -7,7 +7,7 @@ class Checkout < Sinatra::Base
   helpers Sinatra::CheckoutHelpers
   helpers Sinatra::PaymentMethods
   
-  enable :sessions	
+  #enable :sessions	
   
   set :root, File.dirname(__FILE__)
 

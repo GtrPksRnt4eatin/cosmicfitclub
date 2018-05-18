@@ -18,7 +18,15 @@ require_relative 'site/CFC.rb'
 require_relative 'checkout/checkout.rb'
 require_relative 'reports/reports'
 
+use Rack::SslEnforcer
 use Rack::Deflater
+
+set :session_secret, 'asdf123897798128bkjwekhakhjsk38389721387932179831hjsdfkj'
+
+use Rack::Session::Cookie, :key => '_rack_session',
+                           :path => '/',
+                           :expire_after => 2592000,
+                           :secret => settings.session_secret
 
 map "/" do
   run CFC

@@ -2,7 +2,7 @@ require 'sinatra/base'
 
 class CFCAdmin < Sinatra::Base
 
-  enable :sessions	
+  #enable :sessions	
   set :root, File.dirname(__FILE__)
 
   helpers  Sinatra::ViewHelpers

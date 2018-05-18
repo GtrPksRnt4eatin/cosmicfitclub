@@ -6,7 +6,7 @@ require_relative './models/Omniaccount'
 
 class CFCAuth < Sinatra::Base
 
-  enable :sessions
+  #enable :sessions
 
   register Sinatra::Omni
   register Sinatra::PageFolders

@@ -4,7 +4,7 @@ require_relative '../auth/auth.rb'
 
 class Door < Sinatra::Base
 
-  enable :sessions
+  #enable :sessions
 
   register Sinatra::Auth
 
