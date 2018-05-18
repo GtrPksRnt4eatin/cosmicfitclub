@@ -7,6 +7,7 @@ require_relative 'ruby/shrine'
 require_relative 'ruby/patches'
 
 Dir["extensions/*.rb"].each    { |file| require_relative file }
+Dir["models/mixins/*.rb"].each { |file| require_relative file }
 Dir["models/**/*.rb"].each     { |file| require_relative file }
 Dir["ruby/services/*.rb"].each { |file| require_relative file }
 Dir["ruby/*.rb"].each          { |file| require_relative file }
