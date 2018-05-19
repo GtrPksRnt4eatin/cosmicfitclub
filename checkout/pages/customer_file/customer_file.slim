@@ -89,14 +89,14 @@ html
                 th Parents:
                 td
                   div 
-                    span rv-each-parent='data.customer.family.parents' 
-                      | { parent.name }
+                    a href='/checkout/customer_file?id={parent.id}' rv-each-parent='data.customer.family.parents' 
+                      | { parent.name } <br>
               tr rv-if='data.customer.family.children | count'
                 th Children:
                 td
                   div
-                    span rv-each-child='data.customer.family.children'
-                      | { child.name }
+                    a href='/checkout/customer_file?id={child.id}' rv-each-child='data.customer.family.children'
+                      | { child.name } <br>
 
           #class_passes.tab-content
             table
