@@ -85,15 +85,16 @@ html
                 th Class Passes:
                 td
                   | { data.customer.class_passes } 
-              tr
-                th Family:
+              tr rv-if='data.customer.family.parents | count'
+                th Parents:
                 td
                   div 
-                    | Parents:
                     span rv-each-parent='data.customer.family.parents' 
                       | { parent.name }
+              tr rv-if='data.customer.family.children | count'
+                th Children:
+                td
                   div
-                    | Children:
                     span rv-each-child='data.customer.family.children'
                       | { child.name }
 
