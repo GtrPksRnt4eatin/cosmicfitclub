@@ -14,6 +14,8 @@ class Customer < Sequel::Model
   one_to_many :reservations, :class=>:ClassReservation
   one_to_many :comp_tickets
   one_to_many :payments, :class=>:CustomerPayment
+  many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
+  many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
 
   def Customer.is_new? (email)
     customer = Customer[ :email => email.downcase ]
@@ -244,6 +246,12 @@ class Customer < Sequel::Model
     (puts 'tickets'; return false)       if self.comp_tickets.count > 0
     (puts 'payments'; return false)      if self.payments.count > 0
     return true
+  end
+
+  def add_child(child)
+    ( self.wallet = Wallet.create; self.save ) if self.wallet.nil?
+    child.update( :wallet => self.wallet )
+    super
   end
 
 end

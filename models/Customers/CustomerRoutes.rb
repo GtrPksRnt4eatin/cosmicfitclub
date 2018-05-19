@@ -92,6 +92,14 @@ class CustomerRoutes < Sinatra::Base
     }.to_json
   end
 
+  get '/:id/family' do
+    content_type :json
+    custy = Customer[params[:id]] or halt 404
+    { :parents => JSON.parse(custy.parents.to_json( :only => [:id, :name] )),
+      :children => JSON.parse(custy.children.to_json( :only => [:id, :name] ))
+    }.to_json
+  end
+
   get '/:id/reservations' do
     custy = Customer[params[:id]] or halt 404
     reservations = custy.reservations.map { |res|

@@ -85,6 +85,17 @@ html
                 th Class Passes:
                 td
                   | { data.customer.class_passes } 
+              tr
+                th Family:
+                td
+                  div 
+                    | Parents:
+                    span rv-each-parent='data.customer.family.parents' 
+                      | { parent.name }
+                  div
+                    | Children:
+                    span rv-each-child='data.customer.family.children'
+                      | { child.name }
 
           #class_passes.tab-content
             table
