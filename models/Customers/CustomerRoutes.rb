@@ -86,7 +86,7 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id/status' do
     content_type :json
-    custy = Customer[params[:id]] or halt 404
+    custy = Customer[params[:id].to_i] or halt 404
     { :membership => custy.subscription.nil? ? { :id => 0, :name => 'None' } : custy.subscription.plan,
       :passes => custy.num_passes
     }.to_json
@@ -94,14 +94,14 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id/family' do
     content_type :json
-    custy = Customer[params[:id]] or halt 404
+    custy = Customer[params[:id].to_i] or halt 404
     { :parents => JSON.parse(custy.parents.to_json( :only => [:id, :name] )),
       :children => JSON.parse(custy.children.to_json( :only => [:id, :name] ))
     }.to_json
   end
 
   get '/:id/reservations' do
-    custy = Customer[params[:id]] or halt 404
+    custy = Customer[params[:id].to_i] or halt 404
     reservations = custy.reservations.map { |res|
       { :id => res.id,
         :classname => res.occurrence.nil? ? "Orphaned Reservation" : res.occurrence.classdef.name, 
