@@ -7,6 +7,7 @@ class Customer < Sequel::Model
   one_to_one :login, :class=>:User
   one_to_many :passes
   one_to_many :tickets, :class=>:EventTicket
+  one_to_many :event_checkins, :class=> :EventCheckin
   one_to_many :training_passes
   one_to_one  :waiver
   one_to_many :nfc_tags
@@ -225,9 +226,10 @@ class Customer < Sequel::Model
       other.wallet.pass_balance = other.wallet.pass_balance + self.wallet.pass_balance
     end
 
-    self.reservations.each { |res| res.customer = other; res.save }
-    self.payments.each     { |pay| pay.customer = other; pay.save }
-    self.tickets.each      { |tic| tic.customer = other; tic.save }
+    self.reservations.each   { |res| res.customer = other; res.save }
+    self.payments.each       { |pay| pay.customer = other; pay.save }
+    self.tickets.each        { |tic| tic.customer = other; tic.save }
+    self.event_checkins.each { |chk| chk.customer = other; chk.save }
 
   end
 
@@ -237,14 +239,15 @@ class Customer < Sequel::Model
   end
 
   def can_delete?
-    (puts 'subscriptions'; return false) if self.subscriptions.count > 0
-    (puts 'passes'; return false)        if self.passes.count > 0
-    (puts 'tickets'; return false)       if self.tickets.count > 0
-    (puts 'train_passes'; return false)  if self.training_passes.count > 0
-    (puts 'wallet'; return false)        if self.wallet != nil
-    (puts 'reservations'; return false)  if self.reservations.count > 0
-    (puts 'tickets'; return false)       if self.comp_tickets.count > 0
-    (puts 'payments'; return false)      if self.payments.count > 0
+    (puts 'subscriptions'; return false)  if self.subscriptions.count > 0
+    (puts 'passes'; return false)         if self.passes.count > 0
+    (puts 'tickets'; return false)        if self.tickets.count > 0
+    (puts 'train_passes'; return false)   if self.training_passes.count > 0
+    (puts 'wallet'; return false)         if self.wallet != nil
+    (puts 'reservations'; return false)   if self.reservations.count > 0
+    (puts 'tickets'; return false)        if self.comp_tickets.count > 0
+    (puts 'payments'; return false)       if self.payments.count > 0
+    (puts 'event_checkins'; return false) if self.event_checkins > 0
     return true
   end
 
