@@ -46,12 +46,12 @@ class ClassOccurrence < Sequel::Model
              WHEN "customer_payments"."id" IS NOT NULL THEN 
                CASE WHEN "customer_payments"."type" = 'cash' THEN 'cash' ELSE 'card' END
              WHEN "membership_uses"."id" IS NOT NULL THEN 
-               CASE WHEN membership_id = 10::bigint THEN 'employee' ELSE 'membership' END
+               CASE WHEN subscription_id = 10::bigint THEN 'employee' ELSE 'membership' END
         END AS payment_type,   
         "pass_transactions"."id" AS transaction_id,
         "customer_payments"."id" AS payment_id,
         "membership_uses".id AS membership_use_id,
-        "membership_uses"."membership_id" AS membership_id
+        "membership_uses"."subscription_id" AS subscription_id
       FROM "class_reservations"
       LEFT JOIN "customers" ON ("customers"."id" = "class_reservations"."customer_id")
       LEFT JOIN "customer_payments" ON ("customer_payments"."class_reservation_id" = "class_reservations"."id") 
