@@ -166,12 +166,12 @@ Schedule.prototype.CSS = `
     background: rgba(0,0,255,0.2);
   }
 
-  #Schedule .eventsession .eventtitle {
+  #Schedule .eventtitle {
     width: 28em;
     text-overflow: ellipsis;
     display: inline-block;
     white-space: pre-line;
-  } 
+  }
 
   #Schedule .instructors {
     width: 9em;
