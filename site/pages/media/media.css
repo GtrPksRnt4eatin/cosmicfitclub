@@ -8,6 +8,10 @@
 	margin-bottom: .8em;
 }
 
+video {
+  width: 640px;
+}
+
 @media(max-width: 800px) {
   video {
   	width: 80vw;
