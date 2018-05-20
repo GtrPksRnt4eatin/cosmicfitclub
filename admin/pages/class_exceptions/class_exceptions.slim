@@ -40,9 +40,6 @@ html
               span 
                 | { data.selected_classdef.name } - { data.selected_scheditem.starttime | classtime } w/ 
                 span rv-each-teach='data.selected_scheditem.teachers' { teach.name }
-            span 
-              span rv-each-teach='scheditem.teachers'
-                | 
             div
               .ib Hidden?
               input rv-on-change='ctrl.post_exception' rv-checked='data.exception.hidden' type='checkbox'
@@ -51,6 +48,6 @@ html
               input rv-on-change='ctrl.post_exception' rv-checked='data.exception.cancelled' type='checkbox'
             div
               .ib Sub?
-              select rv-on-change='ctrl.post_exception' rv-idselect='data.exception.teacher'
+              select rv-on-change='ctrl.post_exception' rv-idselect='data.exception.teacher_id'
                 - Staff.each do |staff|
                   option value='#{staff.id}' #{staff.name}
