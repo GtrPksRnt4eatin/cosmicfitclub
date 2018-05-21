@@ -39,9 +39,11 @@ ctrl = {
   	
   },
   post_exception(e,m) {
-    $.post('/models/classdefs/exceptions', data.exception)
-     .done(  function(val) { setTimeout(get_scheditems,200); } )
-     .error( function(xhr) { alert(xhr.responseText); } )
+    setTimeout( 
+      $.post('/models/classdefs/exceptions', data.exception)
+       .done(  function(val) { setTimeout(get_scheditems,200); } )
+       .error( function(xhr) { alert(xhr.responseText); } )
+    , 100);
     
   }
 }
