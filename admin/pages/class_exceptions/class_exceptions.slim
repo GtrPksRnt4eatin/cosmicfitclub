@@ -50,6 +50,6 @@ html
               input rv-on-change='ctrl.post_exception' rv-checked='data.exception.cancelled' type='checkbox'
             div
               .ib Sub?
-              select rv-on-change='ctrl.post_exception' rv-idselect='data.exception.teacher_id'
+              select rv-idselect='data.exception.teacher_id' rv-on-change='ctrl.post_exception'
                 - Staff.each do |staff|
                   option value='#{staff.id}' #{staff.name}
