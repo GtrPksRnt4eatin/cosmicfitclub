@@ -40,7 +40,12 @@ class ClassDef < Sequel::Model
     schedules.map do |sched|
       sched.get_occurences(from,to).map do |x|
         exception = ClassException.find( :classdef_id => self.id, :original_starttime => x.start_time.iso8601 )
+        p exception
+        p exception['teacher_id']
+        p sched.teachers
+        p Staff[exception['teacher_id']]
         teachers = ( exception.nil? ? sched.teachers : exception['teacher_id'].nil? ? sched.teachers : [ Staff[exception['teacher_id']] ] )
+        p teachers
         { :teachers => teachers, 
           :starttime => x.start_time.iso8601, 
           :exception => exception 
