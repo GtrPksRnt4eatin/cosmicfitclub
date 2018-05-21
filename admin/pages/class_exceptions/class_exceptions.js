@@ -25,7 +25,7 @@ ctrl = {
     
   },
   scheditem_selected(e,m) {
-  	data.selected_scheditem = Object.assign({}, m.scheditem};
+  	data.selected_scheditem = Object.assign({}, m.scheditem);
   	if(data.selected_scheditem.exception) { data.exception = data.selected_scheditem.exception; return; }
   	data.exception = {
   	  id: 0,
@@ -40,7 +40,7 @@ ctrl = {
   },
   post_exception(e,m) {
     $.post('/models/classdefs/exceptions', data.exception)
-     .done(  function(val) { get_scheditems(); } )
+     .done(  function(val) { setTimeout(200,get_scheditems); } )
      .error( function(xhr) { alert(xhr.responseText); } )
     
   }
