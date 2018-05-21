@@ -24,9 +24,9 @@ html
 
           div.schedscroll
             div.scheditem rv-each-scheditem='data.scheditems' rv-on-click='ctrl.scheditem_selected'
-              span rv-if='scheditem.exception'
-                | *
               div rv-class='scheditem.exception | exception_classes'
+                span rv-if='scheditem.exception'
+                  | *
                 span 
                   | { scheditem.starttime | classtime }
                 span
