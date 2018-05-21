@@ -36,12 +36,11 @@ ctrl = {
   	  hidden: false,
   	  cancelled: false
     }
-
   	
   },
   post_exception(e,m) {
     $.post('/models/classdefs/exceptions', data.exception)
-     .done(  function(val) { data.selected_scheditem = null; get_scheditems(); } )
+     .done(  function(val) { get_scheditems(); } )
      .error( function(xhr) { alert(xhr.responseText); } )
     
   }

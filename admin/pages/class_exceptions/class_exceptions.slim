@@ -27,11 +27,11 @@ html
               div rv-class='scheditem.exception | exception_classes'
                 span rv-if='scheditem.exception'
                   | *
-                span 
+                span
                   | { scheditem.starttime | classtime }
                 span
                   | w/
-                span 
+                span
                   span rv-each-teach='scheditem.teachers'
                     | { teach.name }
 
