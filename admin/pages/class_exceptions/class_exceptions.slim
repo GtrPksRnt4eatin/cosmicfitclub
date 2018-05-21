@@ -49,7 +49,16 @@ html
               .ib Canceled?
               input rv-on-change='ctrl.post_exception' rv-checked='data.exception.cancelled' type='checkbox'
             div
+              .ib New Start Time?
+              input
+            div
+              .ib New Duration?
+              input
+            div
               .ib Sub?
               select rv-idselect='data.exception.teacher_id' rv-on-change='ctrl.post_exception'
                 - Staff.each do |staff|
                   option value='#{staff.id}' #{staff.name}
+            div
+              button Remove Exception
+              button Done
