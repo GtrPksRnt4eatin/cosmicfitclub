@@ -25,7 +25,7 @@ ctrl = {
     
   },
   scheditem_selected(e,m) {
-  	data.selected_scheditem = m.scheditem;
+  	data.selected_scheditem = Object.assign({}, m.scheditem};
   	if(data.selected_scheditem.exception) { data.exception = data.selected_scheditem.exception; return; }
   	data.exception = {
   	  id: 0,
