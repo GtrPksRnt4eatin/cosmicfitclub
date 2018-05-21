@@ -27,7 +27,7 @@ use Rack::Session::Cookie, :key => '_rack_session',
                            :expire_after => 2592000,
                            :secret => 'asdf123897798128bkjwekhakhjsk38389721387932179831hjsdfkj'
 
-map "/" do
+map "/" do 
   run CFC
 end
 

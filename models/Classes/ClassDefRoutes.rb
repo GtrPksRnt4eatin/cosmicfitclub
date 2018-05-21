@@ -166,8 +166,9 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   post '/exceptions' do
-    excep= ClassException.find_or_create( classdef_id: params[:classdef_id], original_starttime: params[:original_starttime] ) 
-    excep.update( :teacher_id => params[:teacher_id], :starttime => params[:starttime], :cancelled => params[:cancelled], :hidden => params[:hidden])
+    excep = ClassException.find_or_create( classdef_id: params[:classdef_id], original_starttime: params[:original_starttime] ) 
+    teacher_id = ( params[:teacher_id].to_i == 0 ? nil : params[:teacher_id].to_i )
+    excep.update( :teacher_id => teacher_id, :starttime => params[:starttime], :cancelled => params[:cancelled], :hidden => params[:hidden])
   end
 
 end
