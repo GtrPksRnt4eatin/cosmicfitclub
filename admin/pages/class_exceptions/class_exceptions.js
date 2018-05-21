@@ -40,7 +40,7 @@ ctrl = {
   },
   post_exception(e,m) {
     $.post('/models/classdefs/exceptions', data.exception)
-     .done(  function(val) { setTimeout(200,get_scheditems); } )
+     .done(  function(val) { function() { setTimeout(200,get_scheditems); } } )
      .error( function(xhr) { alert(xhr.responseText); } )
     
   }
