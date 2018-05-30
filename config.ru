@@ -1,5 +1,5 @@
 $root_folder = File.dirname(__FILE__)
-require 'rack/ssl-enforcer'
+#require 'rack/ssl-enforcer'
 
 require_relative 'ruby/environment'
 require_relative 'ruby/services/database'
@@ -19,7 +19,7 @@ require_relative 'site/CFC.rb'
 require_relative 'checkout/checkout.rb'
 require_relative 'reports/reports'
 
-use Rack::SslEnforcer
+#use Rack::SslEnforcer
 use Rack::Deflater
 
 use Rack::Session::Cookie, :key => '_rack_session',
@@ -27,7 +27,7 @@ use Rack::Session::Cookie, :key => '_rack_session',
                            :expire_after => 2592000,
                            :secret => 'asdf123897798128bkjwekhakhjsk38389721387932179831hjsdfkj'
 
-map "/" do
+map "/" do 
   run CFC
 end
 

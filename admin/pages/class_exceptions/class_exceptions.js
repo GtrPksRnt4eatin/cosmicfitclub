@@ -25,7 +25,7 @@ ctrl = {
     
   },
   scheditem_selected(e,m) {
-  	data.selected_scheditem = m.scheditem;
+  	data.selected_scheditem = Object.assign({}, m.scheditem);
   	if(data.selected_scheditem.exception) { data.exception = data.selected_scheditem.exception; return; }
   	data.exception = {
   	  id: 0,
@@ -36,14 +36,14 @@ ctrl = {
   	  hidden: false,
   	  cancelled: false
     }
-
   	
   },
   post_exception(e,m) {
-    $.post('/models/classdefs/exceptions', data.exception)
-     .done(  function(val) { data.selected_scheditem = null; get_scheditems(); } )
-     .error( function(xhr) { alert(xhr.responseText); } )
-    
+    setTimeout( function(){
+      $.post('/models/classdefs/exceptions', data.exception)
+       .done(  function(val) { setTimeout(get_scheditems,200); } )
+       .error( function(xhr) { alert(xhr.responseText); } )
+    }, 100); 
   }
 }
 

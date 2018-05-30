@@ -64,6 +64,12 @@ class CustomerRoutes < Sinatra::Base
     JSON.generate data
   end
 
+  get '/:id/membership_history' do
+    content_type :json
+    custy = Customer[params[:id]] or halt 404
+    custy.subscriptions.to_json
+  end
+
   get '/:id/wallet' do
     content_type :json
     custy = Customer[params[:id]] or halt 404
