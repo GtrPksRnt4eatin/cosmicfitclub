@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    == css ['fonts', 'site', 'header', 'admin/cameras']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'admin/cameras']
+  
+  body
+
+    #stars
+
+    == include_slim('slim/partials/admin_header')
+
+    .tile
+      img#doorcam src='http://cosmicfitclub.ddns.net:5051/nphMotionJpeg'
+      br
+      button#up    UP
+      button#down  DOWN
+      button#left  LEFT
+      button#right RIGHT
+      button#in    IN
+      button#out   OUT
