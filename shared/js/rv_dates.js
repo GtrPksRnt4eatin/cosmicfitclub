@@ -10,6 +10,7 @@ function include_rivets_dates() {
   rivets.formatters.unmilitary = function(val)     { return moment.parseZone(val).format('h:mm A')             };
   rivets.formatters.classtime  = function(val)     { return moment.parseZone(val).format('ddd MMM D @ h:mm a') };
   rivets.formatters.unixtime   = function(val)     { return moment.parseZone(new Date(val*1000)).format('MM/DD/YYYY hh:mm A') };
+  rivets.formatters.datewyr    = function(val)     { return moment.parseZone(val).format('MMM Do YYYY')        };
   
   rivets.formatters.dtrange    = function(start,end) { 
     start = moment.parseZone(start);

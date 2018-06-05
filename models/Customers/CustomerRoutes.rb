@@ -28,7 +28,9 @@ class CustomerRoutes < Sinatra::Base
   get '/:id/subscriptions' do
     custy = Customer[params[:id]] or halt(404)
     custy.subscriptions.map do |sub|
-      { :plan_name => sub.plan.name }.merge sub
+      { :plan_name => sub.plan.name,
+        :num_uses => sub.uses.count
+      }.merge sub
     end.to_json
   end
  
