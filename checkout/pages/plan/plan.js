@@ -1,9 +1,7 @@
 $(document).ready( function() {
   
   var handler = StripeCheckout.configure({
-    zipCode: true,
     locale: 'auto',
-    billingAddress: true,
     key: STRIPE_PUBLIC_KEY,
 
     token: function(token) {
