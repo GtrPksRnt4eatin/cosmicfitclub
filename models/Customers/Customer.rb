@@ -109,6 +109,12 @@ class Customer < Sequel::Model
     return true
   end
 
+  def email_login_url
+    login_url       = "https://cosmicfitclub.com/auth/login"
+    activation_url  = "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
+    login.activated? ? login_url : activation_url 
+  end
+
 ############################ Account/Login #############################
 
 ########################### Attribute Access ###########################
@@ -150,7 +156,7 @@ class Customer < Sequel::Model
     model = {
       :name => name, 
       :plan_name => plan.name,
-      :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
+      :login_url => email_login_url
     }
 
     Mail.membership_welcome(email, model) unless login.activated?
@@ -198,21 +204,6 @@ class Customer < Sequel::Model
     reservations.select { |res| res.occurrence.nil? ? false : res.occurrence.starttime > Time.now }
   end
 
-  def buy_pack(pack_id, token)
-    pack = Package[pack_id] or halt 403, "Can't find Pack"
-    StripeMethods::buy_pack( pack.stripe_id, stripe_id )
-    pack.num_passes.times { self.add_pass( Pass.create() ) }
-
-    model = {
-      :name => name,
-      :pack_name => pack.name,
-      :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
-    }
-
-    Mail.package_welcome(email, model) unless login.activated?
-    Mail.package(email, model) if login.activated?
-  end
-
   def buy_pack_card(pack_id, token)
     pack = Package[pack_id] or halt 403, "Can't find Pack"
     charge = StripeMethods::charge_card( token['id'], pack.price, email, pack.name, { :pack_id => pack_id } )
@@ -234,7 +225,7 @@ class Customer < Sequel::Model
     model = {
       :name => name,
       :pack_name => pack.name,
-      :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
+      :login_url => email_login_url
     }
 
     Mail.package_welcome(email, model) unless login.activated?
@@ -268,7 +259,7 @@ class Customer < Sequel::Model
       :name => name,
       :instructor => trainer,
       :quantity => quantity,
-      :login_url => login.activated? ? "https://cosmicfitclub.com/auth/login" : "https://cosmicfitclub.com/auth/activate?token=#{login.reset_token}"
+      :login_url => email_login_url
     }
 
     Mail.training_welcome(email, model) unless login.activated?

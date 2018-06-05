@@ -209,6 +209,7 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}/wallet`,          function(resp) { data.customer.wallet            = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/family`,          function(resp) { data.customer.family            = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/subscriptions`,   function(resp) { data.customer.subscriptions     = resp; }, 'json');
   refresh_reservations()
 }
 

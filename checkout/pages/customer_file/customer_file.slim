@@ -242,6 +242,14 @@ html
                   | Next Billing:
                 td
                   | { data.customer.membership_status.details.current_period_end | unixtime }
+            table
+              tr rv-each-sub='data.customer.subscriptions'
+                td 
+                  | { sub.began_on }
+                td
+                  | { sub.cancelled_on }
+                td
+                  | { sub.plan_name }
           
           #events.tab-content
 

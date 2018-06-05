@@ -25,6 +25,13 @@ class CustomerRoutes < Sinatra::Base
     #Customer[params[:id]].to_json( include: [ :subscriptions, :passes, :tickets, :training_passes, :wallet, :reservations, :comp_tickets, :payments] )
   end
 
+  get '/:id/subscriptions' do
+    custy = Customer[params[:id]] or halt(404)
+    custy.subscriptions.map do |sub|
+      { :plan_name => sub.plan.name }.merge sub
+    end.to_json
+  end
+ 
   post '/:id/info' do
     data = JSON.parse request.body.read
     custy = Customer[params[:id]] or halt 404
