@@ -29,5 +29,6 @@ class CFCAdmin < Sinatra::Base
   get( '/roles'                             ) { render_page :roles            }
   get( '/rentals',          :auth=> 'admin' ) { render_page :rentals          }
   get( '/merge',                            ) { render_page :merge_customers  }
+  get( '/cameras',          :auth=> 'admin' ) { render_page :cameras          }
   
 end
