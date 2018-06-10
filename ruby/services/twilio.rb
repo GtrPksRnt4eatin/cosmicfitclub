@@ -24,7 +24,7 @@ end
 
 class TwilioRoutes < Sinatra::Base
 
-  post '/incoming' do
+  get '/incoming' do
   	content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
   	response.gather(input: 'dtmf', timeout: 5, num_digits: 1, action: 'http://cosmicfitclub.com/twilio/selection') do |gather|
@@ -39,8 +39,7 @@ class TwilioRoutes < Sinatra::Base
   	response.to_s
   end
 
-  post '/selection' do
-  	p request.body
+  get '/selection' do
   	response = Twilio::TwiML::VoiceResponse.new
     case params[:Digits]
     when '1'
