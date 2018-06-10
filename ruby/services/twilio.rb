@@ -39,7 +39,7 @@ class TwilioRoutes < Sinatra::Base
   	response.to_s
   end
 
-  post '/selection' do
+  get '/selection' do
   	response = Twilio::TwiML::VoiceResponse.new
     case params[:Digits]
     when '1'
