@@ -1,3 +1,4 @@
+
 class Customer < Sequel::Model
 
   plugin :json_serializer
@@ -105,7 +106,7 @@ class Customer < Sequel::Model
     (puts 'reservations';   return false) if self.reservations.count > 0
     (puts 'tickets';        return false) if self.comp_tickets.count > 0
     (puts 'payments';       return false) if self.payments.count > 0
-    (puts 'event_checkins'; return false) if self.event_checkins > 0
+    (puts 'event_checkins'; return false) if self.event_checkins.count > 0
     return true
   end
 
