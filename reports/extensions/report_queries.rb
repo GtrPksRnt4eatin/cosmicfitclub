@@ -70,8 +70,6 @@ module Sinatra
       end
 
       app.get '/attendence_list.json' do
-        require 'pry'
-        binding.pry
         attendence(params[:from], params[:to])
       end
 
