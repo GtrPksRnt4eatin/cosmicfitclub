@@ -60,7 +60,7 @@ module Sinatra
           AND starttime <= ?
           GROUP BY classdef_id
         ) AS r2
-      ",from,to].all[0][1]
+      ",from,to].all[0][:array_to_json]
     end
 
     def self.registered(app)
