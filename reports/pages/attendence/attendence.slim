@@ -7,8 +7,12 @@ html
     == js  ['jquery', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'reports/attendence']
 
     title attendence
+
+    javascript:
+      var data = {}
+      var data.list = #{{ attendence.to_json }}
   
-  body.p5
+  body
 
     #stars
 
@@ -26,4 +30,4 @@ html
             th avrage
           tr
             td
-              { data.list. }
+              { data.list }
