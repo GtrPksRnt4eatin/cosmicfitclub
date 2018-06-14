@@ -70,7 +70,7 @@ module Sinatra
       end
 
       app.get '/attendence_list.json' do
-        attendence(params[:from], params[:to])[1]
+        attendence(params[:from], params[:to])
       end
 
     end
