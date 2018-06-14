@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    == css ['fonts', 'site', 'header', 'reports/attendence']
+    == js  ['jquery', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'reports/attendence']
+
+    title attendence
+  
+  body.p5
+
+    #stars
+
+    #content
+    
+      .tile 
+        input rv-daterangefield='data.daterange'
+
+      .tile
+        table
+          tr
+            th class
+            th total
+            th num_meetings
+            th avrage
+          tr
+            td
+              { data.list. }

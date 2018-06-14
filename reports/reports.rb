@@ -12,9 +12,10 @@ class Reports < Sinatra::Base
   register Sinatra::Auth
   register Sinatra::ReportQueries
 
-  get( '/', )                               { render_page :index         }
-  get( '/pass_balances', :auth => 'admin' ) { render_page :pass_balances }
-  get( '/subscriptions', :auth => 'admin' ) { render_page :subscriptions }
-  get( '/email_lists',   :auth => 'admin' ) { render_page :email_lists   }
+  get( '/', )                                     { render_page :index         }
+  get( '/pass_balances', :auth => 'reports' )     { render_page :pass_balances }
+  get( '/subscriptions', :auth => 'reports' )     { render_page :subscriptions }
+  get( '/email_lists',   :auth => 'reports' )     { render_page :email_lists   }
+  get( '/attendence',    :auth => 'reports' )     { render_page :attendence    }
 
 end

@@ -6,6 +6,10 @@ module Sinatra
       app.get '/class_email_list' do
         JSON.generate ClassOccurrence.get_email_list(params[:from],params[:to],params[:classdef_ids])
       end
+
+      app.get '/attendence_list.json' do
+        attendence(params[:from], params[:to])
+      end
    
     end
 
@@ -41,6 +45,34 @@ module Sinatra
         ORDER BY plan_id
       "].all
     end
+
+    def attendence(from,to)
+      from ||= "2017-01-01"
+      to ||= Date.now
+      $DB["
+        SELECT array_to_json(array_agg(row_to_json(r2))) FROM (
+          SELECT
+            max(classdef_id) AS class_id,
+            max(classdef_name) AS class_name,
+            sum(count) AS total_visits,
+            count(class_occurrence_id) AS occurrences_count,
+            avg(count) AS average_attendence,
+            array_agg((starttime,count)) AS occurrences_list
+          FROM (
+            SELECT 
+              max(classdef_id) AS classdef_id, 
+              max(classdef_name) AS classdef_name, 
+              class_occurrence_id,
+              starttime,
+              count(class_reservation_id)
+            FROM class_reservations_details
+            GROUP BY class_occurrence_id, starttime
+          ) AS r1
+          WHERE starttime > ?
+          AND starttime <= ?
+          GROUP BY classdef_id
+        ) AS r2
+      ",from,to].first
 
   end
 end
