@@ -70,9 +70,7 @@ module Sinatra
       end
 
       app.get '/attendence_list.json' do
-        x = attendence(params[:from], params[:to])[:array_to_json]        p x
-        puts x
-        x
+        attendence(params[:from], params[:to])[:array_to_json]
       end
 
     end
