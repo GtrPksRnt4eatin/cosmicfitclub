@@ -2,7 +2,7 @@ module Sinatra
   module ReportQueries
 
     def self.registered(app)
-    
+
       app.get '/class_email_list' do
         JSON.generate ClassOccurrence.get_email_list(params[:from],params[:to],params[:classdef_ids])
       end
@@ -10,7 +10,7 @@ module Sinatra
       app.get '/attendence_list.json' do
         attendence(params[:from], params[:to])
       end
-   
+
     end
 
     def pass_balances
@@ -73,6 +73,7 @@ module Sinatra
           GROUP BY classdef_id
         ) AS r2
       ",from,to].first
-
+    end
+    
   end
 end
