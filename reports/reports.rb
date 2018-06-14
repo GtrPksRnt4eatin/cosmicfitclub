@@ -3,13 +3,14 @@ require_relative './extensions/report_queries'
 
 class Reports < Sinatra::Base
 
-  #enable :sessions	
+  #enable :sessions
   set :root, File.dirname(__FILE__)
 
   helpers  Sinatra::ViewHelpers
   register Sinatra::PageFolders
   register Sinatra::SharedResources
   register Sinatra::Auth
+  helpers  Sinatra::ReportQueries
   register Sinatra::ReportQueries
 
   get( '/', )                                     { render_page :index         }
