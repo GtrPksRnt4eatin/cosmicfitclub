@@ -7,10 +7,6 @@ html
     == js  ['jquery', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'reports/attendence']
 
     title attendence
-
-    javascript:
-      var data = {}
-      var data.list = #{{ attendence.to_json }}
   
   body
 
@@ -27,7 +23,13 @@ html
             th class
             th total
             th num_meetings
-            th avrage
+            th average
           tr
             td
-              { data.list }
+              | { data.list.class_name }
+            td
+              | { data.list.total_visits }
+            td
+              | { data.list.occurrences_count }
+            td
+              | { data.list.average_attendence }
