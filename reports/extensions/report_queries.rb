@@ -36,7 +36,7 @@ module Sinatra
 
     def attendence(from,to)
       from ||= "2017-01-01"
-      to ||= Date.now
+      to ||= Date.new
       $DB["
         SELECT array_to_json(array_agg(row_to_json(r2))) FROM (
           SELECT
