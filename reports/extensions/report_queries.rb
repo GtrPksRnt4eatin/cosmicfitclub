@@ -60,7 +60,7 @@ module Sinatra
           AND starttime <= ?
           GROUP BY classdef_id
         ) AS r2
-      ",from,to].first
+      ",from,to].all
     end
 
     def self.registered(app)
@@ -70,7 +70,7 @@ module Sinatra
       end
 
       app.get '/attendence_list.json' do
-        attendence(params[:from], params[:to])
+        attendence(params[:from], params[:to])[1]
       end
 
     end
