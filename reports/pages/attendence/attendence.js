@@ -1,5 +1,5 @@
 data = {
-  daterange: ''
+  daterange: '',
   list: []
 }
 
