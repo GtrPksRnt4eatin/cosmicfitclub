@@ -34,7 +34,7 @@ module Sinatra
       "].all
     end
 
-    def self.attendence(from,to)
+    def attendence(from,to)
       from ||= "2017-01-01"
       to ||= Date.now
       $DB["
