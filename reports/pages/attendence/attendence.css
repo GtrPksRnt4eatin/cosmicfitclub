@@ -36,3 +36,11 @@ body {
   padding: 0.5em;  
   min-width: 10em;
 }
+
+#classlist tr {
+  cursor: pointer;
+}
+
+.sel {
+  background: rgba(255,255,255,0.3);
+}

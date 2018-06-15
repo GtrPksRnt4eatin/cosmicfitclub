@@ -1,6 +1,7 @@
 data = {
   daterange: '',
-  list: []
+  list: [],
+  selected_class: {}
 }
 
 ctrl = {
@@ -11,6 +12,9 @@ ctrl = {
   },
   on_list: function(list) { 
   	data.list = list; 
+  },
+  sel_class: function(e,m) {
+    data.selected_class = m.cls;
   }
 }
 
@@ -21,6 +25,7 @@ $(document).ready( function() {
 
 function initialize_rivets() {
   rivets.formatters.truncateFloat = function(value) { return value.toFixed(2); }
+  rivets.formatters.is_selected = function(value) { return ( value.class_id == data.selected_class.class_id ? 'sel' : ''); }
   include_rivets_dates();
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 }

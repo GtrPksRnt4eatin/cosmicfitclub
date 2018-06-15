@@ -26,7 +26,7 @@ html
             th total
             th num_meetings
             th average
-          tr rv-each-cls='data.list'
+          tr rv-each-cls='data.list' rv-on-click='ctrl.sel_class' rv-class='cls | is_selected'
             td
               | { cls.class_name }
             td
@@ -37,4 +37,15 @@ html
               | { cls.average_attendence | truncateFloat }
 
       .tile
+        h3 
+          | { data.selected_list.class_name } Occurrences
+        table
+          tr
+            th Date
+            th Headcount
+          tr rv-each-occ='data.selected_class.occurrences_list'
+            td
+              | { occ.starttime | fulldate }
+            td
+              | { occ.headcount }
         
