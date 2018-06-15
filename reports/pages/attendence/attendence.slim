@@ -22,10 +22,10 @@ html
       .tile
         table#classlist
           tr
-            th class
-            th total
-            th num_meetings
-            th average
+            th CLASS
+            th TOTAL
+            th OCCURRENCES
+            th AVERAGE
           tr rv-each-cls='data.list' rv-on-click='ctrl.sel_class' rv-class='cls | is_selected'
             td
               | { cls.class_name }
@@ -41,11 +41,14 @@ html
           | { data.selected_list.class_name } Occurrences
         table
           tr
-            th Date
-            th Headcount
+            th DATE
+            th TEACHER
+            th COUNT
           tr rv-each-occ='data.selected_class.occurrences_list'
             td
               | { occ.starttime | fulldate }
+            td
+              | { occ.staff_name }
             td
               | { occ.headcount }
             td
