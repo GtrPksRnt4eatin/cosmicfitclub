@@ -15,7 +15,7 @@ ctrl = {
   },
   sel_class: function(e,m) {
     data.selected_class = m.cls;
-    data.selected_class.occurrences_list.sort(function(a,b) { return Date.parse(a) > Date.parse(b); });
+    data.selected_class.occurrences_list = data.selected_class.occurrences_list.sort(function(a,b) { return Date.parse(a) > Date.parse(b); });
   }
 }
 
