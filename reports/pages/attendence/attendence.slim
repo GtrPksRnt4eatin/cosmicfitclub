@@ -4,7 +4,7 @@ html
   
   head
     == css ['fonts', 'site', 'header', 'flatpickr', 'reports/attendence']
-    == js  ['jquery', 'rivets', 'moment', 'rv_dates', 'rv_times', 'lib', 'element', 'ev_channel', 'flatpickr', '/auth/elements/userview', 'menu', 'reports/attendence']
+    == js  ['jquery', 'rivets', 'moment', 'rv_dates', 'lib', 'element', 'ev_channel', 'flatpickr', '/auth/elements/userview', 'menu', 'reports/attendence']
 
     title attendence
   
@@ -49,6 +49,6 @@ html
             td
               | { occ.headcount }
             td
-              span.grnbox rv-times-x='occ.headcount'
+              span.grnbox rv-each-head='occ.headcount | unpack'
 
         
