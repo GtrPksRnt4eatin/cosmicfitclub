@@ -4,7 +4,9 @@ data = {
 }
 
 ctrl = {
-  on_list: function(list) { data.list = list; }
+  on_list: function(list) { 
+  	data.list = list; 
+  }
 }
 
 $(document).ready( function() {

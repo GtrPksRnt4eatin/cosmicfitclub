@@ -24,12 +24,12 @@ html
             th total
             th num_meetings
             th average
-          tr
+          tr rv-each-cls='data.list'
             td
-              | { data.list.class_name }
+              | { cls.class_name }
             td
-              | { data.list.total_visits }
+              | { cls.total_visits }
             td
-              | { data.list.occurrences_count }
+              | { cls.occurrences_count }
             td
-              | { data.list.average_attendence }
+              | { cls.average_attendence }
