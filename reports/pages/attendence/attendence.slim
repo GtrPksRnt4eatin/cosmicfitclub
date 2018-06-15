@@ -26,7 +26,7 @@ html
             th TOTAL
             th OCCURRENCES
             th AVERAGE
-          tr rv-each-cls='data.list' rv-on-click='ctrl.sel_class' rv-class='cls | is_selected'
+          tr rv-each-cls='data.list' rv-on-click='ctrl.sel_class' rv-class='data.selected_class | is_selected cls'
             td
               | { cls.class_name }
             td
@@ -36,7 +36,7 @@ html
             td
               | { cls.average_attendence | truncateFloat }
 
-      .tile
+      .tile rv-if='data.selected_class'
         h3 
           | { data.selected_class.class_name } Occurrences
         table
