@@ -66,8 +66,9 @@ function include_rivets_dates() {
     },
     routine: function(el,value) {
       if(!value) { this.flatpickrInstance.clear(); return; }
-      this.flatpickrInstance.setDate( value ); 
-      this.flatpickrInstance.jumpToDate(value);
+      this.flatpickrInstance.setDate( value );
+      match = /(\d{4}-\d\d-\d\d) to (\d{4}-\d\d-\d\d)/.exec(value);
+      if(match) { this.flatpickrInstance.jumpToDate(match[2]); }
     },
     getValue: function(el) { return el.value; },
     unbind:   function(el) { this.flatpickrInstance.destroy(); }

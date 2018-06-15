@@ -20,6 +20,7 @@ $(document).ready( function() {
 })
 
 function initialize_rivets() {
+  rivets.formatters.truncateFloat = function(value) { return value.toFixed(2); }
   include_rivets_dates();
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 }
