@@ -48,6 +48,10 @@ td {
 span.grnbox {
   display: inline-block;
   background: rgba(0,255,0,0.5);
-  margin: 2px;
+  margin: 1px;
   width: 1em;
+}
+
+.greenboxctr {
+  text-align: left;
 }

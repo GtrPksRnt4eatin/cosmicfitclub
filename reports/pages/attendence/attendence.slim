@@ -38,7 +38,7 @@ html
 
       .tile
         h3 
-          | { data.selected_list.class_name } Occurrences
+          | { data.selected_class.class_name } Occurrences
         table
           tr
             th DATE
@@ -51,7 +51,7 @@ html
               | { occ.staff_name }
             td
               | { occ.headcount }
-            td
+            td.grnboxctr
               span.grnbox rv-each-head='occ.headcount | unpack'
 
         
