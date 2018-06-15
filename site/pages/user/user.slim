@@ -27,9 +27,6 @@ html
         - if user.has_role? "admin"
           div
             a href='/admin' Administration
-        - if user.has_role? "reports"
-          div
-            a href='/reports' Reports
         - if user.has_role? "door"
           div
             a href='/admin/door' Door
