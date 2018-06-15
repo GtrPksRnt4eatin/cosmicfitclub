@@ -50,6 +50,7 @@ span.grnbox {
   background: rgba(0,255,0,0.5);
   margin: 1px;
   width: 1em;
+  height: 1em;
 }
 
 .greenboxctr {
