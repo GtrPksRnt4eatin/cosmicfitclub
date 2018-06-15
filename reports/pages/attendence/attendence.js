@@ -28,6 +28,5 @@ function initialize_rivets() {
   rivets.formatters.is_selected = function(value) { return ( value.class_id == data.selected_class.class_id ? 'sel' : ''); }
   rivets.formatters.unpack = function(value) { return new Array(value).fill(true); }
   include_rivets_dates();
-  include_rivets_times();
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 }
