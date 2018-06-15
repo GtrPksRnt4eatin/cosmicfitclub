@@ -44,3 +44,10 @@ body {
 .sel {
   background: rgba(255,255,255,0.3);
 }
+
+span.grnbox {
+  display: inline-block;
+  background: rgba(0,255,0,0.5);
+  margin: 2px;
+  width: 1em;
+}
