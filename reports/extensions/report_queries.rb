@@ -45,7 +45,7 @@ module Sinatra
             sum(count) AS total_visits,
             count(class_occurrence_id) AS occurrences_count,
             avg(count) AS average_attendence,
-            array_agg(json_build_object('staff_id', staff_id, 'staff_name', staff_name, starttime',starttime,'headcount',count)) AS occurrences_list
+            array_agg(json_build_object('staff_id', staff_id, 'staff_name', staff_name, 'starttime',starttime,'headcount',count)) AS occurrences_list
           FROM (
             SELECT 
               max(classdef_id) AS classdef_id, 
