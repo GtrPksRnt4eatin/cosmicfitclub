@@ -24,7 +24,7 @@ $(document).ready( function() {
 })
 
 function initialize_rivets() {
-  rivets.formatters.truncateFloat = function(value) { return value.toFixed(2); }
+  rivets.formatters.truncateFloat = function(value) { return value.toFixed(1); }
   rivets.formatters.is_selected = function(value) { return ( value.class_id == data.selected_class.class_id ? 'sel' : ''); }
   include_rivets_dates();
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
