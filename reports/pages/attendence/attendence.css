@@ -1,10 +1,19 @@
+body {
+  text-align: center;
+}
+
 .tile {
   display: inline-block;
   min-width: 60%;
   padding: 1em;
 }
 
+#classlist {
+  width: 100%;
+}
+
 #classlist td {
   background: rgba(255,255,255,0.1);
   padding: 0.2em;  
+  min-width: 15em;
 }
