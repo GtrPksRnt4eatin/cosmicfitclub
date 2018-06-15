@@ -15,10 +15,10 @@ html
     #content
     
       .tile 
-        input rv-daterangefield='data.daterange'
+        input rv-on-change='ctrl.get_list' rv-daterangefield='data.daterange'
 
       .tile
-        table
+        table#classlist
           tr
             th class
             th total
