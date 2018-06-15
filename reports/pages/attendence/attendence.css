@@ -4,6 +4,13 @@ body {
 
 .header {
   font-size: 2em;
+  padding: 0.2em;
+}
+
+#dtrange {
+  width: 20em;
+  margin: 0 1em;
+  text-align: center;
 }
 
 .tile {
@@ -16,8 +23,16 @@ body {
   width: 100%;
 }
 
+#classlist th {
+  background: rgba(255,255,255,0.1);
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 0.5em; 
+  min-width: 10em;
+}
+
 #classlist td {
   background: rgba(255,255,255,0.1);
-  padding: 0.2em;  
+  padding: 0.5em;  
   min-width: 10em;
 }

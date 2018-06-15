@@ -67,6 +67,19 @@ html
           div
             a href='/admin/rentals' Rentals
 
+      -if user.has_role? "reports"
+        .tile
+          .header Reports
+          hr
+          div
+            a href='/reports/attendence' Attendence
+          div
+            a href='/reports/email_list' Email List
+          div
+            a href='/reports/pass_balances' Pass Balances
+          div
+            a href='/reports/subscriptions' Subscriptions
+
       -if user.has_role? "frontdesk"
         .tile
           .header Front Desk

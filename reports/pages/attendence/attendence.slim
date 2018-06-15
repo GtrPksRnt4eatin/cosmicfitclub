@@ -17,7 +17,7 @@ html
       .tile
         .header Attendence Lists
         span Select A Date Range: 
-        input rv-on-change='ctrl.get_list' rv-daterangefield='data.daterange'
+        input#dtrange rv-on-change='ctrl.get_list' rv-daterangefield='data.daterange'
 
       .tile
         table#classlist
@@ -35,3 +35,6 @@ html
               | { cls.occurrences_count }
             td
               | { cls.average_attendence | truncateFloat }
+
+      .tile
+        
