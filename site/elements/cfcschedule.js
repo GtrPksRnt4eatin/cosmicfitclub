@@ -26,7 +26,10 @@ function Schedule(parent) {
     return val.exception.teacher_name;
   },
   rivets.formatters.sub = function(val) {
-    return (val.type == 'classoccurrence') && val.exception && val.exception.teacher_id;
+    if( val.type != 'classoccurrence' ) return false;
+    if( !val.exception ) return false;
+    if( !val.exception.teacher_id ) return false
+    return true;
   }
 
   //this.bind_handlers( [ this.prev_day, this.next_day ] );
