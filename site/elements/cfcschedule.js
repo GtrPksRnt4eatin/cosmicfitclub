@@ -18,8 +18,12 @@ function Schedule(parent) {
   }
   rivets.formatters.instructor_names = function(val) {
     if( val.type != 'classoccurrence' ) return false;
-    if( !val.exception ) { return val.instructors.join(','); }
-    
+    if( !val.exception || !val.exception.teacher_id ) { 
+      return val.instructors.map( function(val){ 
+        return val ? val.teacher_name : null; 
+      }).join(', '); 
+    }
+    return val.exception.teacher_name;
   }
 
   //this.bind_handlers( [ this.prev_day, this.next_day ] );
