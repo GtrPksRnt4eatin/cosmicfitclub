@@ -20,10 +20,10 @@ function Schedule(parent) {
     if( val.type != 'classoccurrence' ) return false;
     if( !val.exception || !val.exception.teacher_id ) { 
       return val.instructors.map( function(val){ 
-        return val ? val.teacher_name : null; 
+        return val ? val.name : null; 
       }).join(', '); 
     }
-    return val.exception.teacher_name;
+    return "<b><i>" + val.exception.teacher_name + "</i></b>";
   }
 
   //this.bind_handlers( [ this.prev_day, this.next_day ] );
