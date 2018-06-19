@@ -23,7 +23,10 @@ function Schedule(parent) {
         return val ? val.name : null; 
       }).join(', '); 
     }
-    return "<b><i>" + val.exception.teacher_name + "</i></b>";
+    return val.exception.teacher_name;
+  },
+  rivets.formatters.sub = function(val) {
+    return (val.type == 'classoccurrence') && val.exception && val.exception.teacher_id;
   }
 
   //this.bind_handlers( [ this.prev_day, this.next_day ] );
@@ -98,7 +101,7 @@ Schedule.prototype.HTML = `
             <span class='classdetail'>
               <span class='classname'> { occ.title } </span>
               <span>w/</span>
-              <span class='instructors'>
+              <span class='instructors' rv-data-sub='occ | sub'>
                 <span class='instructor'> { occ | instructor_names } </span>
               </span>
             </span>
@@ -205,6 +208,11 @@ Schedule.prototype.CSS = `
     display: inline-block;
     font-size: .5em;
     line-height: 2em;
+  }
+
+  .instructors[data-sub=true] {
+    color: rgb(255,255,100);
+    font-style: italic;
   }
 
   @media(max-width: 1100px) {
