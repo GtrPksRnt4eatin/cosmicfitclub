@@ -1,7 +1,7 @@
 $(document).ready(function() {
-  $('#up').on('mousedown touchstart', function(e) {
-  	cancelEvent(e);
+  $('#up').on('click', function(e) {
     $.post('/door/up');
+    cancelEvent(e);
   });
 
   $('#down').on('mousedown touchstart', function(e) {
