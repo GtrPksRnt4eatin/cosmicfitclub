@@ -16,6 +16,11 @@ function Schedule(parent) {
     title = val.multisession_event ? val.event_title + '\r\n' + val.title : val.event_title;
     return title;
   }
+  rivets.formatters.instructor_names = function(val) {
+    if( val.type != 'classoccurrence' ) return false;
+    if( !val.exception ) { return val.instructors.join(','); }
+    
+  }
 
   //this.bind_handlers( [ this.prev_day, this.next_day ] );
   this.bind_handlers2();
@@ -82,12 +87,16 @@ Schedule.prototype.HTML = `
 
         <div class='occurrence' rv-each-occ='group.occurrences' >
           <div class='classitem' rv-if="occ | show_classitem" >
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-            <span class='classname'> { occ.title } </span>
-            w/
-            <span class='instructors'>
-              <span class='instructor' rv-each-inst='occ.instructors'> { inst.name } </span>
+            <span class='classtime'>
+              <span class='start'> { occ.starttime | unmilitary } </span> - 
+              <span class='end'>   { occ.endtime | unmilitary } </span>
+            </span>
+            <span class='classdetail'>
+              <span class='classname'> { occ.title } </span>
+              <span>w/</span>
+              <span class='instructors'>
+                <span class='instructor'> { occ | instructor_names } </span>
+              </span>
             </span>
             <span class='register' rv-on-click='this.register' >
               { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
