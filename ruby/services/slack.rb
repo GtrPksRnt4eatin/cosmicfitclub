@@ -2,23 +2,16 @@ require 'net/http'
 
 module Slack
 
-  API_URI = URI("https://hooks.slack.com/services/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")
+  API_URI = URI("https://hooks.slack.com/services/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")
 
   def Slack.post(msg)	
-    req = Net::HTTP::Post.new(Slack::API_URI)
-    req.body = { :text => msg }.to_json
-    req.content_type = 'application/json'
-
-    res = Net::HTTP.start(Slack::API_URI.hostname, Slack::API_URI.port) do |http|
+    
+    res = Net::HTTP.start(Slack::API_URI.hostname, Slack::API_URI.port, :use_ssl => true) do |http|
+      req = Net::HTTP::Post.new(Slack::API_URI, 'Content-Type' => 'application/json')
+      req.body = { :text => msg }.to_json
       http.request(req)
-    end
-
-    case res
-    when Net::HTTPSuccess, Net::HTTPRedirection
-      p "Slack Message Posted"
-    else
-      p res.value
-      p res
+    rescue Exception => e
+      puts "slack post failed"
     end
 
   end
