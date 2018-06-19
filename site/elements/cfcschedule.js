@@ -103,7 +103,7 @@ Schedule.prototype.HTML = `
             </span>
             <span class='classdetail'>
               <span class='classname'> { occ.title } </span>
-              <span>w/</span>
+              w/
               <span class='instructors' rv-data-sub='occ | sub'>
                 <span class='instructor'> { occ | instructor_names } </span>
               </span>
@@ -214,7 +214,7 @@ Schedule.prototype.CSS = `
   }
 
   .instructors[data-sub=true] {
-    color: rgb(255,255,100);
+    color: rgb(255,230,150);
     font-style: italic;
   }
 
