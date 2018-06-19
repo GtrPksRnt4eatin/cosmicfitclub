@@ -16,7 +16,7 @@ class ClassException < Sequel::Model
     { :id => self.id,
       :classdef_id => self.classdef_id,
       :teacher_id => self.teacher_id,
-      :teacher_name => self.teacher.name,
+      :teacher_name => self.teacher.try(:name),
       :starttime => self.starttime,
       :original_starttime => self.original_starttime,
       :cancelled => self.cancelled,
