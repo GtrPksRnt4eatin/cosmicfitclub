@@ -51,7 +51,7 @@ class ClassDefRoutes < Sinatra::Base
   get '/:id/schedule' do
     content_type :json
     classdef = ClassDef[params[:id]] or halt 404, 'class definition not found'
-    from = ( params[:from] or Time.now )
+    from = ( params[:from] or DateTime.now.beginning_of_day.to_time )
     to = ( params[:to] or Time.now.months_since(6) )
     JSON.generate classdef.get_full_occurences(from, to)
   end
