@@ -21,7 +21,7 @@ require_relative 'admin/admin'
 require_relative 'site/CFC'
 require_relative 'checkout/checkout'
 require_relative 'reports/reports'
-require_relative 'user_pages/user_pages'
+require_relative 'user/user'
 
 use Rack::SslEnforcer
 use Rack::Deflater

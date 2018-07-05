@@ -34,23 +34,6 @@ class CFC < Sinatra::Base
 
   get( '/login' ) { redirect('/auth/login') }
 
-  get( '/gmb' ) { redirect('/checkout/event/226') }
-
-  get( '/resetData' ) do
-    $DB[:waivers].truncate( :restart=>true )
-    $DB[:customers].truncate( :restart=>true )
-    $DB[:omniaccounts].truncate(:restart=>true )
-    $DB[:passes].truncate( :restart=>true )
-    $DB[:roles_users].truncate( :restart=>true )
-    $DB[:subscriptions].truncate( :restart=>true )
-    $DB[:users].truncate( :restart=>true, :cascade=>true )
-    $DB[:training_passes].truncate( :restart=>true )
-    StripeMethods::sync_plans
-    StripeMethods::sync_packages
-    StripeMethods::sync_training
-    return 200
-  end
-
   post( '/waiver', :auth => 'user' ) do
     session[:customer].waiver = Waiver.create(:signature => request.body.read )
     return 204
