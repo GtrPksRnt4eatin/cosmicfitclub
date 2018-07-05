@@ -5,7 +5,7 @@ module Sinatra
   module PageFolders
 
     module Helpers     
-      def render_page(page); slim :"pages/#{page}/#{page}" end
+      def render_page(page); p "pages/#{page}/#{page}"; p Pathname.new("pages/#{page}/#{page}").exist?; slim :"pages/#{page}/#{page}" end
     end
 
     def self.registered(app)
