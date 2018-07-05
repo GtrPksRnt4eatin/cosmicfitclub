@@ -4,9 +4,7 @@ $(document).ready( function() {
   rivets.bind( document.body, { data: data } )
   
   var handler = StripeCheckout.configure({
-    zipCode: true,
     locale: 'auto',
-    billingAddress: true,
     key: STRIPE_PUBLIC_KEY,
 
     token: function(token) {
