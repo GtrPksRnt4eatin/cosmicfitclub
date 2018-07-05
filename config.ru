@@ -1,6 +1,9 @@
 $root_folder = File.dirname(__FILE__)
 require 'rack/ssl-enforcer'
 
+require 'active_support'
+require 'active_support/core_ext/date/calculations'
+
 require_relative 'ruby/environment'
 require_relative 'ruby/services/database'
 require_relative 'ruby/services/aws'

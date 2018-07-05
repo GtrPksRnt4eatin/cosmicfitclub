@@ -48,6 +48,8 @@ html
             a href='/admin/announcements' Banner
           div
             a href='/admin/carousel' Carousel
+          div
+            a href='/admin/rentals' Rentals
 
       -if user.has_role? "superadmin"
         .tile
@@ -62,7 +64,7 @@ html
           div
             a href='/admin/roles' Manage Roles
           div
-            a href='/admin/rentals' Rentals
+            a href='/admin/merge' Merge
 
       -if user.has_role? "reports"
         .tile
