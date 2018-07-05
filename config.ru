@@ -16,11 +16,12 @@ Dir["models/**/*.rb"].each     { |file| require_relative file }
 Dir["ruby/services/*.rb"].each { |file| require_relative file }
 Dir["ruby/*.rb"].each          { |file| require_relative file }
 
-require_relative 'auth/auth.rb'
-require_relative 'admin/admin.rb'
-require_relative 'site/CFC.rb'
-require_relative 'checkout/checkout.rb'
+require_relative 'auth/auth'
+require_relative 'admin/admin'
+require_relative 'site/CFC'
+require_relative 'checkout/checkout'
 require_relative 'reports/reports'
+require_relative 'user_pages/user_pages'
 
 use Rack::SslEnforcer
 use Rack::Deflater
@@ -40,6 +41,10 @@ end
 
 map "/auth" do
   run CFCAuth
+end
+
+map "/user" do
+  run CFCuser
 end
 
 map "/checkout" do

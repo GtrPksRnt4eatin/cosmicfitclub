@@ -25,7 +25,7 @@ class CFC < Sinatra::Base
   get( '/schedule_week')     { render_page :schedule_week }
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
-  get( '/user'  , :auth => 'user' ) { ref_cust; render_page :user   }
+  #get( '/user'  , :auth => 'user' ) { ref_cust; render_page :user   }
 
   get( '/checkout')               { render_page :checkout }
   get( '/checkout/plans/:id' )    { render_page :checkout_plan }
