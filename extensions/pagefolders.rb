@@ -5,7 +5,7 @@ module Sinatra
   module PageFolders
 
     module Helpers     
-      def render_page(page); p "pages/#{page}/#{page}"; p Pathname.new("pages/#{page}/#{page}").exist?; slim :"pages/#{page}/#{page}" end
+      def render_page(page); slim :"pages/#{page}/#{page}" end
     end
 
     def self.registered(app)
@@ -13,7 +13,6 @@ module Sinatra
       app.helpers PageFolders::Helpers
 
       app.set :views, app.root
-      p app.root
 
       app.get '*/:file.css' do
         path = "#{app.root}/pages/#{params[:file]}/#{params[:file]}.css"

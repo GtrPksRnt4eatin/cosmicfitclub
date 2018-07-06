@@ -9,6 +9,7 @@ class CFCuser < Sinatra::Base
 
   set :root, File.dirname(__FILE__)
 
-  get( '/', :auth => 'user' ) { ref_cust; render_page :user } 
+  get( '/', :auth => 'user' ) { ref_cust; render_page :user }
+  get( '/test' )              { render_page :test }
 
 end
