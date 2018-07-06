@@ -7,7 +7,7 @@ class CFCuser < Sinatra::Base
   register Sinatra::SharedResources
   register Sinatra::Auth
 
-  set :public_folder, File.dirname(__FILE__)
+  set :root, File.dirname(__FILE__)
 
   get( '/', :auth => 'user' ) { ref_cust; render_page :user } 
 

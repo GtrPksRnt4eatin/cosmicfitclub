@@ -13,6 +13,7 @@ module Sinatra
       app.helpers PageFolders::Helpers
 
       app.set :views, app.root
+      p app.root
 
       app.get '*/:file.css' do
         path = "#{app.root}/pages/#{params[:file]}/#{params[:file]}.css"
