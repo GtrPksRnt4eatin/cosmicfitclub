@@ -20,8 +20,8 @@ html
       .tile
         .header Class Passes
         - customer.wallet.history.each do |trans|
-          div
-            span #{ trans[:timestamp]     }
-            span #{ trans[:description]   }
-            span #{ trans[:delta]         }
-            span #{ trans[:running_total] }
+          div.transaction
+            span.timestamp     #{ trans[:timestamp]     }
+            span.description   #{ trans[:description]   }
+            span.delta         #{ trans[:delta]         }
+            span.running_total #{ trans[:running_total] }
