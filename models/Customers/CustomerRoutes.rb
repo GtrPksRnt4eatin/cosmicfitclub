@@ -85,17 +85,11 @@ class CustomerRoutes < Sinatra::Base
     wallet = custy.wallet
     return '{ id: 0 }' if wallet.nil?
     hsh = {}
+    hsh[:id] = wallet.id
     hsh[:shared] = wallet.shared?
     hsh[:shared_with] = wallet.customers.reject{ |x| x.id == custy.id }.map { |c| { :id => c.id, :name => c.name } }
-    hsh[:id] = wallet.id
     hsh[:pass_balance] = wallet.pass_balance
-    hsh[:pass_transactions] = wallet.transactions
-    hsh[:pass_transactions] = hsh[:pass_transactions].inject([]) do |tot,el|
-      el = el.to_hash
-      el[:running_total] = tot.last.nil? ? el[:delta] : tot.last[:running_total] + el[:delta]
-      tot << el 
-    end
-
+    hsh[:pass_transactions] = wallet.history 
     return hsh.to_json
   end
 

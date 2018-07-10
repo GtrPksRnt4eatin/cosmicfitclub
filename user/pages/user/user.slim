@@ -112,11 +112,12 @@ html
       - if customer.wallet
         .tile
           .header Class Passes
-          hr
-          | You have #{ customer.num_passes } prepaid classes<br>
-          a href='/'
-          a href='/pricing'
-            button Buy More
+          - customer.wallet.history.each do |trans|
+            div
+              span #{trans.timestamp}
+              span #{trans.description}
+              span #{trans.delta}
+              span #{trans.running_total}
 
       .tile
         .header Upcoming Events
