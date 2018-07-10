@@ -88,58 +88,56 @@ html
           div
             a href='/checkout/customer_file' Customer Files
 
-      .tile
-        .header Membership Status
-        hr
-        table
-          - if customer.plan.nil?
-            | #{customer.plan}
-            a href='/pricing' 
-              button Sign Up For A Plan!
-          - unless customer.plan.nil?
+      - unless customer.plan.nil?
+        .tile
+          .header Membership Status
+          hr
             tr
               td #{ customer.plan.name }
               td $#{ customer.plan.month_price * customer.plan.term_months / 100 }.00 / #{ customer.plan.term_months == 1 ? 'month' : 'year' }
               td: button Cancel
 
-      .tile
-        .header Class Passes
-        hr
-        | You have #{ customer.num_passes } passes remaining<br>
-        a href='/user/wallet_history' 
-          | View History
-        br
-        a href='/pricing'
-          | Buy More
+      - unless customer.wallet.nil?
+        .tile
+          .header Class Passes
+          hr
+          | You have #{ customer.num_passes } passes remaining<br>
+          a href='/user/wallet_history' 
+            | View History
+          br
+          a href='/pricing'
+            | Buy More
 
-      .tile
-        .header Upcoming Events
-        hr
-          table
-            - customer.upcoming_events.each do |tic|
-              tr
-                td #{ tic.event.starttime.strftime('%m/%d') }
-                td #{ tic.event.name }
+      - if customer.upcoming_events.count > 0
+        .tile
+          .header Upcoming Events
+          hr
+            table
+              - customer.upcoming_events.each do |tic|
+                tr
+                  td #{ tic.event.starttime.strftime('%m/%d') }
+                  td #{ tic.event.name }
 
-      .tile
-        .header Upcoming Classes
-        hr
-        div.scroll
-          table.upcoming_reservations
-            - customer.upcoming_reservations.each do |res|
-              - occ = res.occurrence
-              tr
-                td #{ occ.starttime.strftime('%a %m/%d %l:%M %P') }
-                td #{ occ.classdef.name }
-                td w/ #{ occ.teacher.name  }
-
-      .tile
-        .header Personal Training Sessions
-        hr
-        - customer.trainings_by_instructor.each do |instructor, count|
-          | You have #{ count } trainings with #{ instructor }<br>
-        a href='/checkout/training/1'
-          button Buy More
+      - if customer.upcoming_reservations.count > 0
+        .tile
+          .header Upcoming Classes
+          hr
+          div.scroll
+            table.upcoming_reservations
+              - customer.upcoming_reservations.each do |res|
+                - occ = res.occurrence
+                tr
+                  td #{ occ.starttime.strftime('%a %m/%d %l:%M %P') }
+                  td #{ occ.classdef.name }
+                  td w/ #{ occ.teacher.name  }
+      - if false
+        .tile
+          .header Personal Training Sessions
+          hr
+          - customer.trainings_by_instructor.each do |instructor, count|
+            | You have #{ count } trainings with #{ instructor }<br>
+          a href='/checkout/training/1'
+            button Buy More
         
       .tile
         .header Stored Cards
