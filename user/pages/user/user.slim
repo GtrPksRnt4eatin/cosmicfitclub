@@ -103,21 +103,13 @@ html
               td: button Cancel
 
       .tile
-        .header Prepaid Class Passes
+        .header Class Passes
         hr
-        | You have #{ customer.num_passes } prepaid classes<br>
+        | You have #{ customer.num_passes } class passes remaining<br>
+        a href='wallet_history' 
+          | View History
         a href='/pricing'
-          button Buy More
-
-      - if customer.wallet
-        .tile
-          .header Class Passes
-          - customer.wallet.history.each do |trans|
-            div
-              span #{ trans[:timestamp]     }
-              span #{ trans[:description]   }
-              span #{ trans[:delta]         }
-              span #{ trans[:running_total] }
+          | Buy More
 
       .tile
         .header Upcoming Events

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmic Fit Club
+
+    ==css ['fonts', 'site', 'header', 'footer', 'wallet_history']
+    ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user']
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+        .header Class Passes
+        - customer.wallet.history.each do |trans|
+          div
+            span #{ trans[:timestamp]     }
+            span #{ trans[:description]   }
+            span #{ trans[:delta]         }
+            span #{ trans[:running_total] }
