@@ -114,10 +114,10 @@ html
           .header Class Passes
           - customer.wallet.history.each do |trans|
             div
-              span #{trans.timestamp}
-              span #{trans.description}
-              span #{trans.delta}
-              span #{trans.running_total}
+              span #{ trans[:timestamp]     }
+              span #{ trans[:description]   }
+              span #{ trans[:delta]         }
+              span #{ trans[:running_total] }
 
       .tile
         .header Upcoming Events
