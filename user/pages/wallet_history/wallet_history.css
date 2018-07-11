@@ -1,10 +1,10 @@
 .transactions {
   height: 80vh;
   overflow-y: scroll;
+  line-height: 1em;
 }
 
 .transaction span {
-  padding: .2em;
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
@@ -13,6 +13,6 @@
 }
 
 .transaction .timestamp     { width: 14em; text-align: left; }
-.transaction .description   { width: 40em; }
-.transaction .delta         { width: 3em; }
-.transaction .running_total { width: 3em; }
+.transaction .description   { width: 45em; }
+.transaction .delta         { width: 3em; text-align: right; }
+.transaction .running_total { width: 3em; text-align: right; }
