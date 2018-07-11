@@ -1,13 +1,18 @@
+.transactions {
+  height: 80vh;
+  overflow-y: scroll;
+}
+
 .transaction span {
   padding: .2em;
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
-  font-size: 0.8em;
+  font-size: 0.7em;
 }
 
-.transaction .timestamp     { width: 12em; }
-.transaction .description   { width: 35em;  }
-.transaction .delta         { width: 5em;  }
-.transaction .running_total { width: 5em; }
+.transaction .timestamp     { width: 14em; text-align: left; }
+.transaction .description   { width: 40em; }
+.transaction .delta         { width: 3em; }
+.transaction .running_total { width: 3em; }
