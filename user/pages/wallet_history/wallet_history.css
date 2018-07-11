@@ -16,10 +16,10 @@
   font-size: 0.7em;
 }
 
-.transaction .timestamp     { width: 14em; text-align: left; }
+.transaction .timestamp     { width: 13em; text-align: left; }
 .transaction .description   { width: 50em; }
-.transaction .delta         { width: 3em; text-align: right; }
-.transaction .running_total { width: 3em; text-align: right; }
+.transaction .delta         { width: 5em; text-align: right; }
+.transaction .running_total { width: 5em; text-align: right; }
 
 .footer {
   margin-bottom: 0.5em;
