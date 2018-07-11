@@ -18,7 +18,7 @@ html
     .content
 
       .tile
-        .header Class Passes
+        .header Class Pass Transaction History
         
         .transactions
 
@@ -28,3 +28,5 @@ html
               span.description   #{ trans[:description]   }
               span.delta         #{ "+" if trans[:delta] > 0 } #{ trans[:delta] }
               span.running_total #{ trans[:running_total] }
+
+        .footer Passes Remaining: #{ customer.num_passes }
