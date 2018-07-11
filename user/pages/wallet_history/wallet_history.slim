@@ -21,7 +21,7 @@ html
         .header Class Passes
         - customer.wallet.history.each do |trans|
           div.transaction
-            span.timestamp     #{ trans[:timestamp]     }
+            span.timestamp     #{ trans[:timestamp].strftime("%Y/%m/%d %I:%M:%S %P") }
             span.description   #{ trans[:description]   }
             span.delta         #{ trans[:delta]         }
             span.running_total #{ trans[:running_total] }

@@ -3,6 +3,8 @@
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
+  display: inline-block;
+  font-size: 0.8em;
 }
 
 .transaction .timestamp     { width: 10em; }
