@@ -3,7 +3,8 @@
   overflow-y: scroll;
   line-height: 1em;
   display: inline-block;
-  margin: 0.5em;
+  margin: 0.4em;
+  padding: 0.5em;
   border: 1px solid white;
 }
 
@@ -16,6 +17,10 @@
 }
 
 .transaction .timestamp     { width: 14em; text-align: left; }
-.transaction .description   { width: 45em; }
+.transaction .description   { width: 50em; }
 .transaction .delta         { width: 3em; text-align: right; }
 .transaction .running_total { width: 3em; text-align: right; }
+
+.footer {
+  margin-bottom: 0.5em;
+}

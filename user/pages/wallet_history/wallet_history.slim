@@ -21,6 +21,11 @@ html
         .header Class Pass Transaction History
         
         .transactions
+          .transaction 
+            span.timestamp
+            span.description Start Of Ledger
+            span.delta 0
+            span.running_total 0
 
           - customer.wallet.history.each do |trans|
             .transaction
