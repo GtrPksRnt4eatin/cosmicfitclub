@@ -92,10 +92,9 @@ html
         .tile
           .header Membership Status
           hr
-            tr
-              td #{ customer.plan.name }
-              td $#{ customer.plan.month_price * customer.plan.term_months / 100 }.00 / #{ customer.plan.term_months == 1 ? 'month' : 'year' }
-              td: button Cancel
+          #{ customer.plan.name }
+          br
+          $#{ customer.plan.month_price * customer.plan.term_months / 100 }.00 / #{ customer.plan.term_months == 1 ? 'month' : 'year' }
 
       - unless customer.wallet.nil?
         .tile
@@ -104,6 +103,9 @@ html
           | You have #{ customer.num_passes } passes remaining<br>
           a href='/user/wallet_history' 
             | View History
+          br
+          a href='/schedule'
+            | Register For a Class
           br
           a href='/pricing'
             | Buy More
