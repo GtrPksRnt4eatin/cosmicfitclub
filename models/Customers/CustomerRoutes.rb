@@ -46,7 +46,7 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
-  get '/waiver.svg' do
+  get '/waiver' do
     content_type 'image/svg+xml'
     return session[:customer].waiver.signature
   end
