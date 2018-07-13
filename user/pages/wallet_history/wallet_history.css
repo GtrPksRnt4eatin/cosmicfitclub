@@ -36,15 +36,23 @@
   	border: 0;
   }
 
+  .transaction:nth-child(1) {
+  	border-top: 1px solid white;
+  }
+
   .transaction {
-  	border: 1px solid white;
+  	border-bottom: 1px solid white;
+  	border-left: 1px solid white;
+    border-right: 1px solid white;
+  	padding: .2em 0;
   }
 
   .transaction span {
     white-space: normal;
+    vertical-align: middle;
   }
   
-  .transaction .description   { width: 40%; }
+  .transaction .description   { width: 50%; padding: 0 0.5em; }
   .transaction .delta         { width: 3em; }
   .transaction .running_total { width: 3em; }
 }
