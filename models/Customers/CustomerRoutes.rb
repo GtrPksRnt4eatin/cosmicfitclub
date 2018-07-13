@@ -46,6 +46,11 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
+  get '/waiver.svg' do
+    content_type 'image/svg+xml'
+    return session[:customer].waiver.signature
+  end
+
   post '/:id/transfer' do
     sugar_daddy = Customer[params[:from]] or halt 404
     minnie_the_moocher = Customer[params[:to]] or halt 404

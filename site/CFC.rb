@@ -39,9 +39,6 @@ class CFC < Sinatra::Base
     return 204
   end
 
-  get( '/waiver.svg', :auth => 'user' ) do
-    content_type 'image/svg+xml'
-    return session[:customer].waiver.signature
-  end
+
   
 end 
