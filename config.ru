@@ -106,3 +106,6 @@ end
 map "/models/schedule" do
   run ScheduleRoutes
 end
+
+require 'pry'
+binding.pry

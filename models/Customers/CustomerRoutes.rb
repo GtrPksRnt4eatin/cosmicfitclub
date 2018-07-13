@@ -48,7 +48,7 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id/waiver' do
     content_type 'image/svg+xml'
-    return session[:customer].waiver.signature
+    return Customer[params[:id]].waiver.signature
   end
 
   post '/:id/transfer' do
