@@ -92,9 +92,9 @@ html
         .tile
           .header Membership Status
           hr
-          #{ customer.plan.name }
+          | #{ customer.plan.name }
           br
-          $#{ customer.plan.month_price * customer.plan.term_months / 100 }.00 / #{ customer.plan.term_months == 1 ? 'month' : 'year' }
+          | $#{ customer.plan.month_price * customer.plan.term_months / 100 }.00 / #{ customer.plan.term_months == 1 ? 'month' : 'year' }
 
       - unless customer.wallet.nil?
         .tile
