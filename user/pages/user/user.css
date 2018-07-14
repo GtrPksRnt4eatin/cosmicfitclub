@@ -51,6 +51,11 @@ a:visited {
   max-height: 10em;
 }
 
+#signature img {
+  max-width: 95%;
+  margin: 0.5em;
+}
+
 
 @media(max-width: 800px) {
   .tile {
