@@ -293,7 +293,8 @@ select.num {
 }
 
 #custy1_chosen,
-#custy2_chosen {
+#custy2_chosen,
+#children_chosen {
   width: 25em !important;
 }
 
