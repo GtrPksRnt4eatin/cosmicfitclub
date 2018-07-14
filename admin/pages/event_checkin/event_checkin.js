@@ -19,37 +19,40 @@ ctrl = {
 $(document).ready(function() { 
 
   update_data();
+  
+  $('#customers').chosen({ search_contains: true });
 
-  rivets.formatters.dayofwk    = function(val) { return moment(val).format('ddd') };
-  rivets.formatters.date       = function(val) { return moment(val).format('MMM Do') };
-  rivets.formatters.time       = function(val) { return moment(val).format('h:mm a') };
-  rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
+  initialize_rivets();
+  
+});
+
+function initialize_rivets() {
+
+  include_rivets_dates();
 
   rivets.formatters.has_session = function(val,session) {
-  	return $.inArray(session.id, val.included_sessions)>-1;
+    return $.inArray(session.id, val.included_sessions)>-1;
   }
 
   rivets.formatters.checked_in = function(val,session) {
-  	var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
-  	if(checkins.length > 0 ) {
-	  return moment(checkins[0].timestamp).format('h:mm:ss a');
-	}
-  	else return "Check In Now";
+    var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
+    if(checkins.length > 0 ) { return moment(checkins[0].timestamp).format('h:mm:ss a'); }
+    else return "Check In Now";
+  }
+
+  rivets.formatters.checked_in_class = function(val, session) {
+    var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
+    if(checkins.length > 0 ) { return 'checkedin' }
+    return 'checkedout';
   }
 
   rivets.formatters.headcount = function(val) {
     var x = 5;
   }
 
-  rivets.formatters.checked_in_class = function(val, session) {
-  	var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
-  	if(checkins.length > 0 ) { return 'checkedin' }
-  	return 'checkedout';
-  }
+  rivets.bind($('#content'), { data: data, ctrl: ctrl } );
 
-  rivets.bind($('#content'), { data: data, ctrl: ctrl } );  
-
-});
+}
 
 function update_data() {
 	$.get(`/models/events/${data['event'].id}/attendance`, on_attendance);
