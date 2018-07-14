@@ -23,7 +23,6 @@ class CFC < Sinatra::Base
   get( '/schedule_week')     { render_page :schedule_week }
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
-  #get( '/user'  , :auth => 'user' ) { ref_cust; render_page :user   }
 
   get( '/db3-kpaz' ) { redirect '/checkout/event/253' }
 
@@ -39,6 +38,4 @@ class CFC < Sinatra::Base
     return 204
   end
 
-
-  
-end 
+end
