@@ -84,19 +84,32 @@ html
               tr
                 th Class Passes:
                 td
-                  | { data.customer.class_passes } 
+                  | { data.customer.class_passes }
+
               tr rv-if='data.customer.family.parents | count'
                 th Parents:
                 td
                   div 
                     a href='/checkout/customer_file?id={parent.id}' rv-each-parent='data.customer.family.parents' 
                       | { parent.name } <br>
+
               tr rv-if='data.customer.family.children | count'
                 th Children:
                 td
                   div
                     a href='/checkout/customer_file?id={child.id}' rv-each-child='data.customer.family.children'
                       | { child.name } <br>
+
+              tr
+                th Add Child:
+                td
+                  div
+                    select.customers#children
+                      option value='0' No Customer
+                      - Customer.all.each do |cust|
+                        option value='#{cust.id}'
+                          | #{ cust.name } ( #{ cust.email } )
+                    button rv-on-click='ctrl.add_child' Add Child
 
           #class_passes.tab-content
             table

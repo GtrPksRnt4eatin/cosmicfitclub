@@ -97,7 +97,7 @@ end
 
 map "/door" do
   run Door
-end 
+end
 
 map "/twilio" do
   run TwilioRoutes

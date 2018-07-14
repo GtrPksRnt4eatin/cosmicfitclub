@@ -58,6 +58,13 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
+  post '/:id/addchild' do
+    custy = Customer[params[:id]] or halt 404
+    child = Customer[params[:child_id]] or halt 404
+    custy.add_child(child)
+    status 204
+  end
+
   get '/:id/payment_sources' do
     custy = Customer[params[:id]] or halt 404
     JSON.generate custy.payment_sources

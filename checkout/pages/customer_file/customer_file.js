@@ -33,6 +33,10 @@ data = {
 
 ctrl = {
 
+  add_child: function(e,m) {
+    $.post("/models/customers/" + data.customer.id + "/add_child", { child_id: parseInt($('#children').val()) }, function() { alert("Child Added"); refresh_customer_data(); })
+  },
+
   give_comps: function(e,m) {
     $.post(`/models/customers/${data.customer.id}/add_passes`, { value: data.num_comp_tix, reason: data.comp_reason }, function() { alert("Passes Added!"); refresh_customer_data(); })
   },
@@ -122,6 +126,7 @@ $(document).ready( function() {
   $('#classes').chosen({ search_contains: true });
   $('#staff').chosen({ search_contains: true });
   $('.customers').chosen({ search_contains: true });
+  $('#children').chosen({ search_contains: true });
 
   $('#customers').on('change', on_customer_selected );
   $('#packages').on('change', on_package_selected );
