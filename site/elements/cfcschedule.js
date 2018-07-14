@@ -162,7 +162,7 @@ Schedule.prototype.CSS = `
 
   #Schedule .classname {
     display: inline-block;
-    width: 16em;
+    width: 15em;
     padding: 0 1em;
   }
 
@@ -192,7 +192,7 @@ Schedule.prototype.CSS = `
   }
 
   #Schedule .eventtitle {
-    width: 28em;
+    width: 34em;
     text-overflow: ellipsis;
     display: inline-block;
     white-space: pre-line;
@@ -226,7 +226,7 @@ Schedule.prototype.CSS = `
     font-style: italic;
   }
 
-  @media(max-width: 1100px) {
+  @media(max-width: 1130px) {
   
     #Schedule .occurrence {
       font-size: 1.8vw;
