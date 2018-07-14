@@ -56,7 +56,6 @@ a:visited {
   margin: 0.5em;
 }
 
-
 @media(max-width: 800px) {
   .tile {
     width: auto;
