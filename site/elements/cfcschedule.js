@@ -90,43 +90,43 @@ Schedule.prototype.HTML = `
         Week Of { state.formatted_date }
       </div>
       <span rv-on-click='this.next_day'> > </span>
-      <div class='daygroup' rv-each-group='state.groups' >
-        <div class='dayname'>
-          { group.day | dayofwk } { group.day | date }
+    </div>
+
+    <div class='daygroup' rv-each-group='state.groups' >
+      <div class='dayname'>
+        { group.day | dayofwk } { group.day | date }
+      </div>
+
+      <div class='occurrence' rv-each-occ='group.occurrences' >
+        <div class='classitem' rv-if="occ | show_classitem" >
+          <span class='classtime'>
+            <span class='start'> { occ.starttime | unmilitary } </span> - 
+            <span class='end'>   { occ.endtime | unmilitary } </span>
+          </span>
+          <span class='classdetail'>
+            <span class='classname'> { occ.title } </span>
+            w/
+            <span class='instructors' rv-data-sub='occ | sub'>
+              <span class='instructor'> { occ | instructor_names } </span>
+            </span>
+          </span>
+          <span class='register' rv-on-click='this.register' >
+            { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
+          </span>
         </div>
 
-        <div class='occurrence' rv-each-occ='group.occurrences' >
-          <div class='classitem' rv-if="occ | show_classitem" >
-            <span class='classtime'>
-              <span class='start'> { occ.starttime | unmilitary } </span> - 
-              <span class='end'>   { occ.endtime | unmilitary } </span>
-            </span>
-            <span class='classdetail'>
-              <span class='classname'> { occ.title } </span>
-              w/
-              <span class='instructors' rv-data-sub='occ | sub'>
-                <span class='instructor'> { occ | instructor_names } </span>
-              </span>
-            </span>
-            <span class='register' rv-on-click='this.register' >
-              { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
-            </span>
-          </div>
+        <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
+          <span class='start'> { occ.starttime | unmilitary } </span> - 
+          <span class='end'>   { occ.endtime | unmilitary } </span>
+          <span class='eventtitle'> { occ | event_title } </span>
+        </div>
 
-          <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-            <span class='eventtitle'> { occ | event_title } </span>
-          </div>
-
-          <div class='rental' rv-if="occ.type | equals 'private'">
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-            <span class='eventtitle'> Private Event: { occ.title } </span>
-          </div>
+        <div class='rental' rv-if="occ.type | equals 'private'">
+          <span class='start'> { occ.starttime | unmilitary } </span> - 
+          <span class='end'>   { occ.endtime | unmilitary } </span>
+          <span class='eventtitle'> Private Event: { occ.title } </span>
+        </div>
  
-        </div>
-
       </div>
     </div>
   </div>
