@@ -139,6 +139,11 @@ Schedule.prototype.CSS = `
     display: inline-block;
   }
 
+  #Schedule .header {
+    margin-top: 1em;
+    font-size: 1.3em;
+  }
+
   #Schedule .header span {
     cursor: pointer;
     padding: 0 1em;
@@ -157,7 +162,8 @@ Schedule.prototype.CSS = `
 
   #Schedule .classname {
     display: inline-block;
-    width: 10em;
+    width: 16em;
+    padding: 0 1em;
   }
 
   #Schedule .occurrence {
@@ -190,12 +196,14 @@ Schedule.prototype.CSS = `
     text-overflow: ellipsis;
     display: inline-block;
     white-space: pre-line;
+    margin: 0 1em;
   }
 
   #Schedule .instructors {
     width: 9em;
     display: inline-block;
     text-overflow: ellipsis;
+    margin: 0 1em;
   }
 
   #Schedule .instructor {
@@ -209,8 +217,8 @@ Schedule.prototype.CSS = `
 
   #Schedule .register {
     display: inline-block;
-    font-size: .5em;
-    line-height: 2em;
+    font-size: .8em;
+    line-height: 1.5em;
   }
 
   .instructors[data-sub=true] {
