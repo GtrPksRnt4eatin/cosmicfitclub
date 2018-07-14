@@ -293,9 +293,13 @@ select.num {
 }
 
 #custy1_chosen,
-#custy2_chosen,
-#children_chosen {
+#custy2_chosen {
   width: 25em !important;
+}
+
+#children_chosen {
+  width: 20em !important;
+  margin-right: 1em;
 }
 
 #transfers button {
@@ -318,4 +322,11 @@ table.history .header {
 #buy_pack {
   cursor: pointer;
   width: 10em;
+}
+
+.chosen-search input {
+  background: url(chosen-sprite.png) no-repeat 100% -1em !important;
+  color: black !important;
+  padding: .31em 1.54em .31em 1.15em !important;
+  border-radius: 0 !important;
 }

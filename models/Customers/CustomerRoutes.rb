@@ -58,7 +58,7 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
-  post '/:id/addchild' do
+  post '/:id/add_child' do
     custy = Customer[params[:id]] or halt 404
     child = Customer[params[:child_id]] or halt 404
     custy.add_child(child)
