@@ -9,31 +9,15 @@
   margin-top: 2px;
 }
 
-.rentals span,
-.past_rentals span {
+.col1, .col2, .col3, .col4 {
   display: inline-block;
   padding: .5em;
 }
 
-.rentals span:nth-child(1),
-.past_rentals span:nth-child(1) {
-  width: 10em;
-}
-
-.rentals span:nth-child(2),
-.past_rentals span:nth-child(2) {
-  width: 10em;
-}
-
-.rentals span:nth-child(3),
-.past_rentals span:nth-child(3) {
-  width: 25em;
-}
-
-.rentals span:nth-child(4),
-.past_rentals span:nth-child(4) {
-  width: 5em;
-}
+.col1 { width: 10em; }
+.col2 { width: 10em; }
+.col3 { width: 25em; }
+.col4 { width: 5em;  }
 
 div.edit, div.del {
   cursor: pointer;
@@ -93,7 +77,8 @@ div.del {
 }
 
 .add {
-  background: green !important;
+  position: relative;
+  background: green;
   border-radius: 1em;
   box-shadow: 0 0 0.1em white;
   width: 1.5em; height: 1.5em;

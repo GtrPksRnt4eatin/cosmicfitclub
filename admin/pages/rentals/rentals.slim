@@ -31,35 +31,35 @@ html
           .add rv-on-click='ctrl.add'
             span.plus +
         div.headings
-          span Start Time
-          span Duration
-          span Title
-          span
+          span.col1 Start Time
+          span.col2 Duration
+          span.col3 Title
+          span.col4
         div rv-each-rental='data.rentals'
-          span 
+          span.col1
             | { rental.start_time | eventstart }
-          span
+          span.col2
             | { rental.duration_hours } Hours
-          span 
+          span.col3
             | { rental.title }
-          span
+          span.col4
             .edit rv-on-click='ctrl.edit'
             .del rv-on-click='ctrl.del'
 
       .tile.past_rentals
         H3 Past Rentals
         div.headings
-          span Start Time
-          span Duration
-          span Title
-          span
+          span.col1 Start Time
+          span.col2 Duration
+          span.col3 Title
+          span.col4
         div rv-each-rental='data.past_rentals'
-          span 
+          span.col1 
             | { rental.start_time | eventstart }
-          span
+          span.col2
             | { rental.duration_hours } Hours
-          span 
+          span.col3
             | { rental.title }
-          span
+          span.col4
 
     #popupmenu_container
