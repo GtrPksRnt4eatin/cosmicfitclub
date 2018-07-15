@@ -43,7 +43,3 @@ $(document).ready(function() {
   ctrl.get();
 
 });
-
-function sortByStartdate(a,b) {
-  return a.start_date <> b.start_date;
-}
