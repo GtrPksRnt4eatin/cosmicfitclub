@@ -28,6 +28,7 @@ ul {
   width: 68vw; 
   margin: 0 10px;
   vertical-align: middle;
+  box-shadow: 0 0 5px white;
 }
 
 #imgscroller {
@@ -46,6 +47,7 @@ ul {
   padding: .1em;
   text-align: center;
   display: inline-block;
+  box-sizing: border-box;
 }
 
 #mission,#scroller {
@@ -71,10 +73,7 @@ ul {
 	.content      { font-size: 2.5vw; }
   #imgscroller  { height: 51vw; width: 100%;}
 
-  .sliderimg    { 
-    width: 90vw; 
-    box-shadow: 0 0 5px white;
-  }
+  .sliderimg    { width: 90vw; }
 
   .content { max-width: 100vw; }
 
@@ -89,7 +88,6 @@ ul {
     padding: 1em;
     font-size: 4.2vw;
     line-height: 1.4em;
-    box-sizing: border-box;
   }
 
   #imgscroller button {
