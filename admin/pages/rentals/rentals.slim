@@ -8,8 +8,8 @@ html
 
     title Rentals
 
-    == css ['fonts', 'site', 'header', 'flatpickr', '/admin/rentals' ]
-    == js  ['jquery', 'rivets', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
+    == css ['fonts', 'site', 'header', 'flatpickr', 'edit_page', '/admin/rentals' ]
+    == js  ['jquery', 'flatpickr', 'moment', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel' ]
     == js  ['elements/popup_menu', 'elements/rental_form', '/auth/elements/userview']
     == js  ['menu', '/admin/rentals' ]
 
@@ -24,11 +24,12 @@ html
     #content
       .tile
         H2 Rentals
-        .add rv-on-click='ctrl.add'
-          | +
 
       .tile.rentals
-        H3 Upcoming Rentals
+        H3 
+          | Upcoming Rentals
+          .add rv-on-click='ctrl.add'
+            | +
         div.headings
           span Start Time
           span Duration

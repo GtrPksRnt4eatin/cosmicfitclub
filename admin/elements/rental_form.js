@@ -99,12 +99,6 @@ RentalForm.prototype.CSS = `
   	padding: .2em;
   }
 
-
-
-  .RentalForm .form-control {
-    display: none !important;
-  }
-
   .RentalForm .flatpickr-calendar.noCalendar {
     display: inline-block;
     font-size: inherit;
