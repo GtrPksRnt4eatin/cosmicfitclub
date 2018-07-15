@@ -35,7 +35,7 @@ html
           span.col2 Duration
           span.col3 Title
           span.col4
-        div rv-each-rental='data.rentals'
+        div.row rv-each-rental='data.rentals'
           span.col1
             | { rental.start_time | eventstart }
           span.col2
@@ -53,7 +53,7 @@ html
           span.col2 Duration
           span.col3 Title
           span.col4
-        div rv-each-rental='data.past_rentals'
+        div.row rv-each-rental='data.past_rentals'
           span.col1 
             | { rental.start_time | eventstart }
           span.col2

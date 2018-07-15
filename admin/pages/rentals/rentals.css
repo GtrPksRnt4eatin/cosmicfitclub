@@ -3,8 +3,7 @@
   margin: 1em auto;
 }
 
-.rentals div,
-.past_rentals div {
+.row {
   background: rgba(0,0,0,0.2);
   margin-top: 2px;
 }
