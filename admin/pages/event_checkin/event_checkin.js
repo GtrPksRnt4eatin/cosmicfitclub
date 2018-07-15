@@ -23,6 +23,8 @@ $(document).ready(function() {
   $('#customers').chosen({ search_contains: true });
 
   initialize_rivets();
+
+  tic_selector = new TicketSelector(id('#ticketselector_container'));
   
 });
 

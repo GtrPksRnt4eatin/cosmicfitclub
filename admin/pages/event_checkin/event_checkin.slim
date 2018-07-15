@@ -14,7 +14,8 @@ html
       data['list']  = [];
 
     == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', '/admin/event_checkin' ]
-    == js  [ 'jquery', 'jquery.chosen.min', 'rivets', 'rv_dates', 'lib', 'moment', '/admin/event_checkin' ]
+    == js  [ 'jquery', 'jquery.chosen.min', 'rivets', 'rv_dates', 'lib', 'moment' ]
+    == js  [ 'elements/ticket_selector', '/admin/event_checkin' ]
 
   body
     #stars
@@ -62,3 +63,4 @@ html
         img#person rv-on-click='ctrl.edit_customer' src='/person.svg'
         #add_user rv-on-click='ctrl.new_customer'
           span +
+        #ticketselector_container
