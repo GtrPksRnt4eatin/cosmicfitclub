@@ -77,3 +77,7 @@
   display: inline-block;
   font-weight: bold;
 }
+
+#customers_chosen {
+  width: 30em;
+}

@@ -25,6 +25,7 @@ $(document).ready(function() {
   initialize_rivets();
 
   tic_selector = new TicketSelector( id('ticketselector_container') );
+  tic_selector.load_event_data(data['event']);
   
 });
 

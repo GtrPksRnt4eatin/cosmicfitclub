@@ -58,6 +58,11 @@ class EventRoutes < Sinatra::Base
     event.to_json
   end
 
+  get '/:id/sessions' do
+    event = Event[params[:id]] or halt(404,'event not found')
+    event.sessions.to_json
+  end
+
   post '/:id/sessions' do
     data = JSON.parse(request.body.read)
     session = Event[params[:id]].create_session if data['id'] == 0 
@@ -71,6 +76,11 @@ class EventRoutes < Sinatra::Base
     halt 404 if EventSession[params[:id]].nil?
     EventSession[params[:id]].destroy
     status 200
+  end
+
+  get '/:id/prices' do
+    event = Event[params[:id]] or halt(404,'event not found')
+    event.prices.to_json
   end
 
   post '/:id/prices' do

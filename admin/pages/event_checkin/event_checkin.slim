@@ -10,7 +10,7 @@ html
 
     javascript:
       data = {};
-      data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions ]) }};
+      data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
       data['list']  = [];
 
     == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', '/admin/event_checkin' ]
