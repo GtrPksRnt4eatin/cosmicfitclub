@@ -17,7 +17,7 @@ class RentalRoutes < Sinatra::Base
   end
 
   post '/' do
-    DB[:rentals].insert_conflict(:update).insert(:start_time => params[:start_time], :duration_hours => params[:duration_hours], :title => params[:title])
+    $DB[:rentals].insert_conflict(:update).insert(:start_time => params[:start_time], :duration_hours => params[:duration_hours], :title => params[:title])
     #Rental.create( :start_time => params[:start_time], :duration_hours => params[:duration_hours], :title => params[:title] ).to_json
   end
 
