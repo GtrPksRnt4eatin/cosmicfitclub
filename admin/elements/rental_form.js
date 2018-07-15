@@ -26,7 +26,7 @@ RentalForm.prototype = {
   },
 
   save(e) {
-    $.post('/models/rentals', JSON.stringify(this.state.rental), function(rental) {
+    $.post('/models/rentals', this.state.rental, function(rental) {
       this.ev_fire('after_post', JSON.parse(rental) );
     }.bind(this));  
   }
