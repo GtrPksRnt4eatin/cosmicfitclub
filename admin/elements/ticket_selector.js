@@ -29,10 +29,10 @@ TicketSelector.prototype.HTML =  ES5Template(function(){/**
   <div class='ticket_selector'>
     
   </div>
-**/}.untab(2);
+**/}).untab(2);
 
 TicketSelector.prototype.CSS = ES5Template(function(){/**
   .ticket_selector {
 	
   }
-**/}.untab(2);
+**/}).untab(2);
