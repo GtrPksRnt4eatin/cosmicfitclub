@@ -93,10 +93,11 @@ div.del {
 }
 
 .add {
-  background: green;
+  background: green !important;
   border-radius: 1em;
   box-shadow: 0 0 0.1em white;
   width: 1.5em; height: 1.5em;
+  margin: 0 1em;
 }
 
 
