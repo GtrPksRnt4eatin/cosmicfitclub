@@ -27,7 +27,7 @@ RentalForm.prototype = {
 
   save(e) {
     $.post('/models/rentals', JSON.stringify(this.state.rental), function(rental) {
-      this.ev_fire('after_post', JSON.parse(sched) );
+      this.ev_fire('after_post', JSON.parse(rental) );
     }.bind(this));  
   }
 
@@ -40,6 +40,7 @@ Object.assign( RentalForm.prototype, ev_channel);
 RentalForm.prototype.HTML = `
   
   <div class='RentalForm form'>
+    <h3>Create New Rental</h3>
     <div class='tuplet'>
       <label>Start Time:</label>
       <input id='starttime' class='time' rv-datefield='state.schedule.start_time' />
