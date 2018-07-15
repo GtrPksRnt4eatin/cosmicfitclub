@@ -40,6 +40,7 @@ ctrl = {
         id('customers').add(option);
         $('#customers').val(data.id);
         $('#customers').trigger('chosen:updated');
+        reservation_form.load_customer(data.id);
       });
   }
 
