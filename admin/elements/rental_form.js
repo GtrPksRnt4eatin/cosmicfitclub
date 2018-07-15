@@ -26,9 +26,9 @@ RentalForm.prototype = {
   },
 
   save(e) {
-    $.post('/models/rentals', this.state.rental, function(rental) {
-      this.ev_fire('after_post', JSON.parse(rental) );
-    }.bind(this));  
+    $.post('/models/rentals', this.state.rental)
+     .done( function(rental) { this.ev_fire('after_post', JSON.parse(rental) ); }.bind(this) )
+     .fail( function()       { alert("Failed to Create Rental!"); } ) 
   }
 
 }
