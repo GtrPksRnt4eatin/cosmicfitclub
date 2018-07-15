@@ -30,7 +30,7 @@ ul {
   vertical-align: middle;
 }
 
-.slick-current {
+.slick-current .sliderimg {
   box-shadow: 0 0 5px white;
 }
 
