@@ -33,7 +33,6 @@ RentalForm.prototype = {
 
 }
 
-
 Object.assign( RentalForm.prototype, element);
 Object.assign( RentalForm.prototype, ev_channel); 
 
@@ -43,7 +42,7 @@ RentalForm.prototype.HTML = `
     <h3>Create New Rental</h3>
     <div class='tuplet'>
       <label>Start Time:</label>
-      <input id='starttime' class='time' rv-datefield='state.schedule.start_time' />
+      <input id='starttime' class='time' rv-datefield='state.rental.start_time' />
     </div>
     <div class='tuplet'>
       <label>Duration:</label>

@@ -17,7 +17,7 @@ class RentalRoutes < Sinatra::Base
   end
 
   post '/' do
-    Rental.create
+    Rental.create( :start_time => params[:start_time], :duration_hours => params[:duration_hours], :title => params[:title] ).to_json
   end
 
 end
