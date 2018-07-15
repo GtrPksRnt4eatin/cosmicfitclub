@@ -28,6 +28,9 @@ ul {
   width: 68vw; 
   margin: 0 10px;
   vertical-align: middle;
+}
+
+.slick-current {
   box-shadow: 0 0 5px white;
 }
 
