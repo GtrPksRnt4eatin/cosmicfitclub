@@ -37,7 +37,7 @@ Object.assign( TicketSelector.prototype, ev_channel);
 
 TicketSelector.prototype.HTML =  ES5Template(function(){/**
   <div class='ticket_selector'>
-    <div class='price' rv-each-price='state.price'> 
+    <div class='price' rv-each-price='state.event.prices'> 
       <span>{price.title}</span>
       <span>{price.member_price}</span>
       <span>{price.full_price}</span>

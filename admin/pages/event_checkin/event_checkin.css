@@ -79,5 +79,5 @@
 }
 
 #customers_chosen {
-  width: 30em;
+  width: 30em !important;
 }
