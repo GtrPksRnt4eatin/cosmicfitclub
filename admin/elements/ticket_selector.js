@@ -28,6 +28,14 @@ TicketSelector.prototype = {
 
   load_event_data: function(event) {
   	this.state.event = event;
+  },
+
+  load_customer: function(customer_id) {
+
+  },
+
+  load_customer_data: function(customer) {
+  	
   }
 
 }
