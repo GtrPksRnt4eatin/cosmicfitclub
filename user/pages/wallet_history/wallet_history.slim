@@ -28,7 +28,7 @@ html
             span.running_total 0
 
           - customer.wallet.history.each do |trans|
-            .transaction title="#{trans.id}"
+            .transaction title="#{trans[:id]}"
               span.timestamp     #{ trans[:timestamp].strftime("%Y/%m/%d %I:%M:%S %P") }
               span.description   #{ trans[:description]   }
               span.delta         #{ "+" if trans[:delta] > 0 } #{ trans[:delta] }
