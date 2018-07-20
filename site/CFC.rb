@@ -24,7 +24,7 @@ class CFC < Sinatra::Base
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
 
-  get( '/db3-kpaz' ) { redirect '/checkout/event/253' }
+  get( '/badass' ) { redirect '/checkout/event/257' }
 
   get( '/checkout')               { render_page :checkout }
   get( '/checkout/plans/:id' )    { render_page :checkout_plan }
