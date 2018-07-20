@@ -34,7 +34,7 @@ html
 
       .tile
 
-        h2 
+        h2
           | { event.name }
 
         img src='#{ event.image[:medium].url }'
@@ -42,7 +42,7 @@ html
         .description
           | { event.description }
 
-        .details rv-if-'event.details'
+        .details rv-if='event.details'
           | { event.details }
 
         hr width='75%'
