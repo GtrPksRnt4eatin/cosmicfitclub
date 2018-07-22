@@ -38,4 +38,8 @@ class CFC < Sinatra::Base
     return 204
   end
 
+  get( '/robots.txt') do
+    "User-agent: * \r\nDisallow:"
+  end
+  
 end
