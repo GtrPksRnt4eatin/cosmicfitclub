@@ -5,4 +5,9 @@
 
 .schedule span {
   padding: 0 .5em;
+  text-align: left;
 }
+
+.schedule .name  { width: 20em; }
+.schedule .rrule { width: 15em; }
+.schedule .time  { width: 15em; }
