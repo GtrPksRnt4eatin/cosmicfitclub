@@ -20,7 +20,7 @@ html
       .tile
         .title Your Scheduled Classes
 
-        | Staff Name: #{ customer.staff.name }
+        | Staff Name: #{ customer.staff[0].name }
 
         - customer.staff.schedules.each do |sched|
           div 
