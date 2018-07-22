@@ -52,7 +52,7 @@ function initialize_rivets() {
 
   rivets.formatters.headcount = function(val, session) {
     return val.filter( function(tic) { 
-      return $.inArray(session.id, val.included_sessions)>-1 
+      return $.inArray(session.id, tic.included_sessions)>-1 
     }).length;
   }
 
