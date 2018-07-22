@@ -88,6 +88,13 @@ html
           div
             a href='/checkout/customer_file' Customer Files
 
+      -if user.has_role? "teacher"
+        .tile
+          .header Instructor
+          hr
+          div
+            a href='/user/teacher' Scheduled Classes
+
       - unless customer.plan.nil?
         .tile
           .header Membership Status

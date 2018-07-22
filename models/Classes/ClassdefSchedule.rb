@@ -33,8 +33,7 @@ class ClassdefSchedule < Sequel::Model
     items
   end
 
-  def rrule_english
-    IceCube::Rule.from_ical(rrule).to_s
-  end
+  def rrule_english;   IceCube::Rule.from_ical(rrule).to_s       end
+  def start_time_12hr; Time.new(start_time).strftime("%I:%M %P") end
 
 end

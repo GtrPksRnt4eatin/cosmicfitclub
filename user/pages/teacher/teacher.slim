@@ -18,12 +18,10 @@ html
     .content
 
       .tile
-        .title Your #{customer.name}'s Scheduled Classes
-
-        | Staff Name: #{ customer.staff[0].name }
-
+        .title Your #{customer.name}'s Scheduled Classes:
+        
         - customer.staff[0].schedules.each do |sched|
           div.schedule
-            span.name  #{ sched.classdef.name }
-            span.rrule #{ sched.rrule_english }
-            span.time  #{ sched.start_time    }
+            span.name  #{ sched.classdef.name   }
+            span.rrule #{ sched.rrule_english   }
+            span.time  #{ sched.start_time_12hr }
