@@ -23,8 +23,7 @@ html
         | Staff Name: #{ customer.staff[0].name }
 
         - customer.staff[0].schedules.each do |sched|
-          div 
-            span #{ sched.classdef.name }
-            span #{ sched.rrule_english }
-            span #{ sched.start_time    }
-
+          div.schedule
+            span.name  #{ sched.classdef.name }
+            span.rrule #{ sched.rrule_english }
+            span.time  #{ sched.start_time    }

@@ -1,0 +1,8 @@
+.schedule {
+  margin: 0.2em;
+  box-shadow: 0 0 2px white;
+}
+
+.schedule span {
+  padding: 0 .5em;
+}
