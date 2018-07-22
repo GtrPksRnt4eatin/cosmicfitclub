@@ -50,8 +50,10 @@ function initialize_rivets() {
     return 'checkedout';
   }
 
-  rivets.formatters.headcount = function(val) {
-    var x = 5;
+  rivets.formatters.headcount = function(val, session) {
+    return val.filter( function(tic) { 
+      return $.inArray(session.id, val.included_sessions)>-1 
+    }).length;
   }
 
   rivets.bind($('#content'), { data: data, ctrl: ctrl } );

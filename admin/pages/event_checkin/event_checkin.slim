@@ -42,7 +42,7 @@ html
           | { session.description }
 
         .subtitle
-          | Headcount: { session | headcount }
+          | Headcount: { data.list | headcount session }
 
         table#tickets
           tr rv-each-tic='data.list' rv-show='tic | has_session session' 
