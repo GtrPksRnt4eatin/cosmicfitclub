@@ -33,4 +33,8 @@ class ClassdefSchedule < Sequel::Model
     items
   end
 
+  def rrule_english
+    IceCube::Rule.from_ical(rrule).to_s
+  end
+
 end

@@ -25,4 +25,6 @@ html
         - customer.staff[0].schedules.each do |sched|
           div 
             span #{ sched.classdef.name }
+            span #{ sched.rrule_english }
+            span #{ sched.start_time    }
 
