@@ -20,7 +20,7 @@ html
       .tile
         .title #{customer.name}'s Scheduled Classes:
 
-        - customer.staff[0].schedules.each do |sched|
+        - customer.staff[0].schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
           div.schedule
             span.name  #{ sched.classdef.name   }
             span.rrule #{ sched.rrule_english   }
