@@ -18,3 +18,12 @@ html
     .content
 
       .tile
+        .title Your Scheduled Classes
+
+        | Staff Name: #{ customer.staff.name }
+
+        - customer.staff.schedules.each do |sched|
+          div 
+            span #{ sched.classdef.name }
+            span #{ sched.rrule }
+

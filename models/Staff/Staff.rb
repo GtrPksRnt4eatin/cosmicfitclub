@@ -3,9 +3,13 @@ require 'csv'
 class Staff < Sequel::Model(:staff)
   include PositionAndDeactivate
 
-  plugin :json_serializer
+  plugin :json_serializer  
+  plugin :pg_array_associations
+  
+  many_to_pg_array :schedules, :key => :instructors, :class => :ClassdefSchedule
 
   one_to_many :class_occurrences
+  many_to_one :customer
 
   include ImageUploader[:image]
 

@@ -18,6 +18,7 @@ class Customer < Sequel::Model
   one_to_many :payments, :class=>:CustomerPayment
   many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
   many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
+  one_to_many  :staff
 
 ########################### Instance Methods ###########################
 
