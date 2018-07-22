@@ -18,8 +18,8 @@ html
     .content
 
       .tile
-        .title Your #{customer.name}'s Scheduled Classes:
-        
+        .title #{customer.name}'s Scheduled Classes:
+
         - customer.staff[0].schedules.each do |sched|
           div.schedule
             span.name  #{ sched.classdef.name   }
