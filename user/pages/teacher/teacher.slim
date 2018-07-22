@@ -22,8 +22,3 @@ html
 
         | Staff Name: #{ customer.staff[0].name }
 
-        - customer.staff.schedules.each do |sched|
-          div 
-            span #{ sched.classdef.name }
-            span #{ sched.rrule }
-
