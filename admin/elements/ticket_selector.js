@@ -35,7 +35,7 @@ TicketSelector.prototype = {
   },
 
   load_customer_data: function(customer) {
-  	
+
   }
 
 }
@@ -43,7 +43,7 @@ TicketSelector.prototype = {
 Object.assign( TicketSelector.prototype, element);
 Object.assign( TicketSelector.prototype, ev_channel); 
 
-TicketSelector.prototype.HTML =  ES5Template(function(){/**
+TicketSelector.prototype.HTML = ES5Template(function(){/**
   <div class='ticket_selector'>
     <div class='price' rv-each-price='state.event.prices'> 
       <span>{price.title}</span>
