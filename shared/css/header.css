@@ -29,6 +29,7 @@ header {
   cursor: pointer;
   width: 6em;
   margin-right: 2px;
+  text-decoration: none;
 }
 
 #userview_container {
