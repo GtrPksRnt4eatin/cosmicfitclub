@@ -91,6 +91,10 @@ map "/models/memberships" do
   run MembershipRoutes
 end
 
+map "/models/hourly" do
+  run HourlyRoutes
+end
+
 map "/reports" do
   run Reports
 end

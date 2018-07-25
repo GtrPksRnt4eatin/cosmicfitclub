@@ -38,6 +38,7 @@ function initialize_rivets() {
   }
 
   rivets.formatters.checked_in = function(val,session) {
+    if(empty(val.checkins)) { return "Check In Now"; }
     var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
     if(checkins.length > 0 ) { return moment(checkins[0].timestamp).format('h:mm:ss a'); }
     else return "Check In Now";

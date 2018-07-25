@@ -18,10 +18,9 @@ html
     .content
 
       .tile
-        .title #{customer.name}'s Scheduled Classes:
+        .title #{customer.name}'s Hours:
 
-        - customer.staff[0].schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
-          div.schedule
-            span.name  #{ sched.classdef.name   }
-            span.rrule #{ sched.rrule_english   }
-            span.time  #{ sched.start_time_12hr }
+        
+
+        button Punch In
+        button Punch Out
