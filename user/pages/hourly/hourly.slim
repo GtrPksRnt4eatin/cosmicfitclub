@@ -18,12 +18,12 @@ html
     .content
 
       .tile
-        title #{customer.name}'s Shifts:
+        .title #{customer.name}'s Shifts:
           
         #shifts
           - HourlySchedule.where( :customer => customer ).each do |shift|
             .shift
-              span.rrule     #{ shift.rrule }
+              span.rrule     #{ IceCube::Rule.from_ical(shift.rrule).to_s }
               span.starttime #{ shift.starttime }
               span.duration  #{ shift.duration }
 
