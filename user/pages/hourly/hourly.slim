@@ -18,9 +18,24 @@ html
     .content
 
       .tile
+        title #{customer.name}'s Shifts:
+          
+        #shifts
+          - HourlySchedule.where( :customer => customer ).each do |shift|
+            .shift
+              span.rrule     #{ shift.rrule }
+              span.starttime #{ shift.starttime }
+              span.duration  #{ shift.duration }
+
+      .tile
         .title #{customer.name}'s Hours:
 
-        
+        #punches
+          - HourlyPunch.where( :customer => customer ).each do |punch|
+            .punch
+              span.task_id   #{ punch.hourly_task_id }
+              span.starttime #{ punch.starttime }
+              span.endtime   #{ punch.endtime }
 
-        button Punch In
-        button Punch Out
+        button#punch_in  Punch In
+        button#punch_out Punch Out
