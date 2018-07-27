@@ -10,6 +10,12 @@
   margin: 1.1em 1em;
 }
 
+#header #userview_container {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+
 .tile {
 	text-align: center;
 	padding-bottom: 2em;
