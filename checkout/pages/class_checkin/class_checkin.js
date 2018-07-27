@@ -33,6 +33,7 @@ $(document).ready( function() {
 
   $('.sheets').on('click', '.dropdown', on_dropdown_click);
 
+  userview = new UserView(id('userview_contrainer'));
 
   var day = getUrlParameter('day')
   if( ! empty(day) ) { data['query_date'] = day; }
