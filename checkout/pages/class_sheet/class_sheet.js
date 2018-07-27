@@ -49,10 +49,11 @@ ctrl = {
 $(document).ready( function() {
 
     setup_bindings();
-
-    payment_form     = new PaymentForm();
+    
+    userview         = new UserView( id('userview_container') );
     popupmenu        = new PopupMenu( id('popupmenu_container') );
     reservation_form = new ReservationForm(id('reservation_form_container'));
+    payment_form     = new PaymentForm();
 
     reservation_form.set_occurrence(data['occurrence']);
     reservation_form.ev_sub('reservation_made', get_reservations);
