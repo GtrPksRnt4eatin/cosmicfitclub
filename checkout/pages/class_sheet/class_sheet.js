@@ -1,5 +1,9 @@
 ctrl = {
 
+  edit_occurrence(e,m) {
+    
+  },
+
   checkin: function(e,m) {
     $.post(`/models/classdefs/reservations/${m.reservation.id}/checkin`, get_reservations);
   },
@@ -14,12 +18,12 @@ ctrl = {
 		$.del(`/models/classdefs/reservations/${m.reservation.id}`, function() { get_reservations(); reservation_form.refresh_customer(); } );
 	},
 
-  edit_customer(e,m) {
-    window.location.href = '/checkout/customer_file?id=' + $('#customers').val();
-  },
-
   edit_reservation_customer(e,m) {
     window.location.href = '/checkout/customer_file?id=' + m.reservation.customer_id
+  },
+
+  edit_customer(e,m) {
+    window.location.href = '/checkout/customer_file?id=' + $('#customers').val();
   },
 
   new_customer(e,m) {

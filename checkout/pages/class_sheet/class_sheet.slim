@@ -43,6 +43,8 @@ html
             | w/ 
           span
             | { data.occurrence.teacher.name }
+          span
+            .edit rv-on-click="ctrl.edit_occurrence"
 
         table.reservations
           tr rv-each-reservation='data.reservations' rv-title='reservation.id'
