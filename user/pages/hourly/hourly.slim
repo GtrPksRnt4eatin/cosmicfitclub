@@ -24,7 +24,7 @@ html
           - HourlySchedule.where( :customer => customer ).each do |shift|
             .shift
               span.rrule     #{ IceCube::Rule.from_ical(shift.rrule).to_s }
-              span.starttime #{ DateTime.parse(shift.starttime).strftime("%l:%M %P") }
+              span.starttime #{ shift.starttime.strftime("%l:%M %P") }
               span.duration  #{ '%.2f' % shift.duration }
 
       .tile
