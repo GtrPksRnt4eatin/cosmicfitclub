@@ -2,7 +2,6 @@ require 'sinatra/base'
 
 class CFCAdmin < Sinatra::Base
 
-  #enable :sessions	
   set :root, File.dirname(__FILE__)
 
   helpers  Sinatra::ViewHelpers
@@ -10,22 +9,22 @@ class CFCAdmin < Sinatra::Base
   register Sinatra::SharedResources
   register Sinatra::Auth
   
-  get( '/',                 :auth=> 'admin' ) { render_page :index            }
-  get( '/carousel',         :auth=> 'admin' ) { render_page :carousel         }
-  get( '/classes',          :auth=> 'admin' ) { render_page :classes          }
-  get( '/events',           :auth=> 'admin' ) { render_page :events           }
-  get( '/staff',            :auth=> 'admin' ) { render_page :staff            }
-  get( '/events/:id'                        ) { render_page :event_edit       }
-  get( '/events/:id/checkin'                ) { render_page :event_checkin    }
-  get( '/events/:id/accounting'             ) { render_page :event_accounting }
-  get( '/classes/:id'                       ) { render_page :class_edit       }
-  get( '/door',             :auth=> 'door'  ) { render_page :door             }
-  get( '/balance',                          ) { render_page :balance_sheet    }
-  get( '/announcements',    :auth=> 'admin' ) { render_page :announcements    }
+  get( '/',                      :auth=> 'admin' ) { render_page :index            }
+  get( '/carousel',              :auth=> 'admin' ) { render_page :carousel         }
+  get( '/classes',               :auth=> 'admin' ) { render_page :classes          }
+  get( '/events',                :auth=> 'admin' ) { render_page :events           }
+  get( '/staff',                 :auth=> 'admin' ) { render_page :staff            }
+  get( '/events/:id',            :auth=> 'admin' ) { render_page :event_edit       }
+  get( '/events/:id/checkin',    :auth=> 'admin' ) { render_page :event_checkin    }
+  get( '/events/:id/accounting', :auth=> 'admin' ) { render_page :event_accounting }
+  get( '/classes/:id',           :auth=> 'admin' ) { render_page :class_edit       }
+  get( '/door',                  :auth=> 'door'  ) { render_page :door             }
+  get( '/balance',               :auth=> 'admin' ) { render_page :balance_sheet    }
+  get( '/announcements',         :auth=> 'admin' ) { render_page :announcements    }
   get( '/member_list'                       ) { render_page :member_list      }
   get( '/kids_slides'                       ) { render_page :kids_slides      }
   get( '/member_match'                      ) { render_page :member_match     }   
-  get( '/class_exceptions', :auth=> 'admin' ) { render_page :class_exceptions }     
+  get( '/class_exceptions',   :auth=> 'admin' ) { render_page :class_exceptions }     
   get( '/roles'                             ) { render_page :roles            }
   get( '/rentals',          :auth=> 'admin' ) { render_page :rentals          }
   get( '/merge',                            ) { render_page :merge_customers  }
