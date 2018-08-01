@@ -16,7 +16,7 @@ function LoginForm(parent) {
   this.load_styles();
   this.bind_dom();
 
-  $(document).keypress(function(e) { if(e.keyCode == 13) { this.login } }.bind(this));
+  $(document).keypress(function(e) { if(e.keyCode == 13) { this.login(); } }.bind(this));
 }
 
 LoginForm.prototype = {
