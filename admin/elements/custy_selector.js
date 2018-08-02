@@ -2,11 +2,10 @@ function CustySelector(parent,list) {
   
   this.state = { 
     customers: empty(list) ? [] : list,
-    selected_custy: null,
     customer_id: 0
   }
 
-  this.bind_handlers(['get_custy_list','on_data_failed','on_data']);
+  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
@@ -26,15 +25,15 @@ CustySelector.prototype = {
   },
 
   on_data: function(list) {
-    var x = 5;
+    this.state.customers = list;
   },
 
   on_data_failed: function() {
-    alert("failed getting customer list");
+    console.log("failed getting customer list");
   },
 
   edit_customer: function(e,m) {
-    var x = 5;
+    window.location.href = '/checkout/customer_file?id=' + this.state.customer_id;
   },
 
   new_customer: function(e,m) {
@@ -42,7 +41,11 @@ CustySelector.prototype = {
   },
 
   custy_selected: function(e,m) {
-    var x = 5;
+    this.ev_fire('customer_selected', this.selected_customer );
+  },
+
+  get selected_customer() {
+    return this.state.customers.find( function(val) { return val.id == this.state.customer_id; } );
   }
 }
 
