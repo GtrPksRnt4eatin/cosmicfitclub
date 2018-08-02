@@ -34,6 +34,7 @@ $(document).ready(function() {
 function initialize_rivets() {
 
   include_rivets_dates();
+  include_rivets_select();
 
   rivets.formatters.has_session = function(val,session) {
     return $.inArray(session.id, val.included_sessions)>-1;
