@@ -51,7 +51,7 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
-    <select class='customers' rv-select='state.customers' rv-value='state.customer_id' rv-on-change='ctrl.custy_selected'>
+    <select class='customers' rv-select='state.customers' rv-value='state.customer_id' rv-on-change='this.custy_selected'>
       <option value='0'>No Customer</option>
       <option rv-each-cust='state.customers' rv-value='cust.id'>
         { cust.name } ( { cust.email } )
