@@ -5,6 +5,10 @@ class CustomerRoutes < Sinatra::Base
     Customer.all.to_json
   end
 
+  get '/list' do
+    Customer.all.to_json( { :only => [ :id, :name, :email ] } ) 
+  end
+
   get '/:id' do
     content_type :json
     custy = Customer[params[:id].to_i]

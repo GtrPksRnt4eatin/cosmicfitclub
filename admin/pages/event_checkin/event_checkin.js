@@ -24,6 +24,8 @@ $(document).ready(function() {
 
   initialize_rivets();
 
+  custy_selector = new CustySelector( id('custyselector_container'), data['custylist'] );
+
   tic_selector = new TicketSelector( id('ticketselector_container') );
   tic_selector.load_event_data(data['event']);
   

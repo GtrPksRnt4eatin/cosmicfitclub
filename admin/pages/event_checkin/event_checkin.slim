@@ -11,11 +11,13 @@ html
     javascript:
       data = {};
       data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
+      data['custylist'] = #{{ Customer.all.to_json( :only => [ :id, :name, :email ] ) }};
       data['list']  = [];
+
 
     == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', '/admin/event_checkin' ]
     == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'rivets', 'rv_dates', 'lib' ]
-    == js  [ 'element', 'ev_channel', 'elements/ticket_selector', '/admin/event_checkin' ]
+    == js  [ 'element', 'ev_channel', 'elements/custy_selector', 'elements/ticket_selector', '/admin/event_checkin' ]
 
   body
     #stars
@@ -64,3 +66,6 @@ html
         #add_user rv-on-click='ctrl.new_customer'
           span +
         #ticketselector_container
+
+      .tile
+        #custyselector_container
