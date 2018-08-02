@@ -25,7 +25,7 @@ function include_rivets_select() {
       this.chosen_instance = $(el).chosen({ search_contains: true });
       $(this.chosen_instance).trigger("chosen:updated");
       this.chosen_instance.change(function(e,val) { 
-        console.log("Publishing: " + val);
+        console.log("Publishing: " + val.selected);
         this.publish(val.selected); 
         if(this.el.onchange) { this.el.onchange(); }
       }.bind(this));
