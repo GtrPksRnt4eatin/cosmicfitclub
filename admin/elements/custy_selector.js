@@ -21,7 +21,7 @@ CustySelector.prototype = {
   get_custy_list: function() {
     $.get('/models/customers/list')
      .fail(this.on_data_failed)
-     .done(this.on_data)
+     .done(this.on_data);
   },
 
   on_data: function(list) {
@@ -57,10 +57,10 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
       <span>+</span>
     </div>
   </div>
-**/}.untab(2);
+**/}).untab(2);
 
 CustySelector.prototype.CSS = ES5Template(function(){/**
   .custy_selector {
 	
   }
-**/}.untab(2);
+**/}).untab(2);
