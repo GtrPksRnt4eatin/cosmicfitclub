@@ -46,13 +46,7 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
-    <select rv-select='state.customers'>
-      <option value='0'>No Customer</option>
-      <option rv-each-cust='state.customers' rv-value='cust.id'>
-        { cust.name } ( { cust.email } )
-      </option>
-    </select>
-    <select class='customers'>
+    <select class='customers' rv-select='state.customers'>
       <option value='0'>No Customer</option>
       <option rv-each-cust='state.customers' rv-value='cust.id'>
         { cust.name } ( { cust.email } )
@@ -69,4 +63,34 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
   .custy_selector {
 	
   }
+
+  .custy_selector .edit_custy {
+    height: 1.92em;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-left: 0.5em;
+    border-radius: 0.4em;
+    background: rgba(168,181,191,0.9);
+  }
+
+  .custy_selector .add_custy {
+    display: inline-block;
+    height: 1.92em;
+    width: 1.92em;
+    background: rgba(168,181,191,0.9);
+    border-radius: 0.4em;
+    margin-left: 0.5em;
+    vertical-align: middle;
+    line-height: 2.1em;
+    cursor: pointer;
+    color: #647585;
+  }
+
+  .custy_selector .add_custy span {
+    font-size: 2em;
+    vertical-align: middle;
+    display: inline-block;
+    font-weight: bold;
+  }
+
 **/}).untab(2);
