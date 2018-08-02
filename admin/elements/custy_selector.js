@@ -2,7 +2,8 @@ function CustySelector(parent,list) {
   
   this.state = { 
     customers: empty(list) ? [] : list,
-    selected_custy: null
+    selected_custy: null,
+    customer_id: 0
   }
 
   this.bind_handlers(['get_custy_list','on_data_failed','on_data']);
@@ -38,6 +39,10 @@ CustySelector.prototype = {
 
   new_customer: function(e,m) {
     var x = 5;
+  },
+
+  custy_selected: function(e,m) {
+    var x = 5;
   }
 }
 
@@ -46,7 +51,7 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
-    <select class='customers' rv-select='state.customers'>
+    <select class='customers' rv-select='state.customers' rv-value='state.customer_id' rv-on-change='ctrl.custy_selected'>
       <option value='0'>No Customer</option>
       <option rv-each-cust='state.customers' rv-value='cust.id'>
         { cust.name } ( { cust.email } )
@@ -61,34 +66,36 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
 
 CustySelector.prototype.CSS = ES5Template(function(){/**
   .custy_selector {
-	
+    display: flex;	
+  }
+
+  .custy_selector .chosen-container {
+    flex: 1;
+  }
+
+  .custy_selector .add_custy,
+  .custy_selector .edit_custy {
+    height: 1.92em;
+    flex: 0 0 1.92em;
+    margin-left: 0.5em;
+    background: rgba(168,181,191,0.9);
+    border-radius: 0.4em;
+    cursor: pointer;
   }
 
   .custy_selector .edit_custy {
-    height: 1.92em;
-    vertical-align: middle;
-    cursor: pointer;
-    margin-left: 0.5em;
-    border-radius: 0.4em;
-    background: rgba(168,181,191,0.9);
+    vertical-align: middle; 
   }
 
   .custy_selector .add_custy {
-    display: inline-block;
-    height: 1.92em;
-    width: 1.92em;
-    background: rgba(168,181,191,0.9);
-    border-radius: 0.4em;
-    margin-left: 0.5em;
+    display: inline-block; 
     vertical-align: middle;
-    line-height: 2.1em;
-    cursor: pointer;
+    line-height: 1.92em;
     color: #647585;
   }
 
   .custy_selector .add_custy span {
     font-size: 2em;
-    vertical-align: middle;
     display: inline-block;
     font-weight: bold;
   }
