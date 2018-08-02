@@ -45,7 +45,7 @@ CustySelector.prototype = {
   },
 
   get selected_customer() {
-    return this.state.customers.find( function(val) { return val.id == this.state.customer_id; } );
+    return this.state.customers.find( function(val) { return val.id == this.state.customer_id; }.bind(this) );
   }
 }
 
