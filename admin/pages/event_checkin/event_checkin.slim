@@ -56,16 +56,5 @@ html
               | { tic | checked_in session }
 
       .tile
-        select#customers
-          option value='0'
-            | No Customer
-          - Customer.all.each do |cust|
-            option value='#{cust.id}'
-              | #{ cust.name } ( #{ cust.email } )
-        img#person rv-on-click='ctrl.edit_customer' src='/person.svg'
-        #add_user rv-on-click='ctrl.new_customer'
-          span +
-        #ticketselector_container
-
-      .tile
         #custyselector_container
+        #ticketselector_container
