@@ -81,3 +81,7 @@
 #customers_chosen {
   width: 30em !important;
 }
+
+#ticketselector_container {
+  margin: 1em 0;
+}

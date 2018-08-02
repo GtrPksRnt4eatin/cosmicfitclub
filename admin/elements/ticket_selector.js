@@ -55,11 +55,16 @@ TicketSelector.prototype.HTML = ES5Template(function(){/**
 
 TicketSelector.prototype.CSS = ES5Template(function(){/**
   .ticket_selector {
-	  margin: 1em;
+	  padding: 1em;
     box-shadow: 0 0 3px white;
   }
 
   .ticket_selector .price {
     
+  }
+
+  .ticket_selector .price span {
+    display: inline-block;
+    width: 10em;
   }
 **/}).untab(2);
