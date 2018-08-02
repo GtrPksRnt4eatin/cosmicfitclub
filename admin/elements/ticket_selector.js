@@ -50,6 +50,15 @@ TicketSelector.prototype.HTML = ES5Template(function(){/**
       <span>Member Price: {price.member_price | money}</span>
       <span>Full Price: {price.full_price | money}</span>
     </div>
+    <div class='price' rv-if='state.event.a_la_carte'>
+      <span>Build Your Own Ticket</span>
+    </div>
+
+    <div class='alacarte'>
+      <div rv-each-sess='state.event.sessions'>
+        <span> { sess.name } </span>
+      </div>
+    </div>
   </div>
 **/}).untab(2);
 
