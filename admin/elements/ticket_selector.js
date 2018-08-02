@@ -47,14 +47,19 @@ TicketSelector.prototype.HTML = ES5Template(function(){/**
   <div class='ticket_selector'>
     <div class='price' rv-each-price='state.event.prices'> 
       <span>{price.title}</span>
-      <span>{price.member_price}</span>
-      <span>{price.full_price}</span>
+      <span>Member Price: {price.member_price | money}</span>
+      <span>Full Price: {price.full_price | money}</span>
     </div>
   </div>
 **/}).untab(2);
 
 TicketSelector.prototype.CSS = ES5Template(function(){/**
   .ticket_selector {
-	
+	  margin: 1em;
+    box-shadow: 0 0 3px white;
+  }
+
+  .ticket_selector .price {
+    
   }
 **/}).untab(2);
