@@ -18,3 +18,10 @@ html
     #content
 
       .tile
+        .title Hourly Shifts
+
+        - HourlyShift.all.each do |shift|
+          .shift 
+            span #{ shift.customer.name }
+            span #{ shift.rrule_string  }
+            span #{ shift.range_string  }

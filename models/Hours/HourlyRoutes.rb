@@ -1,7 +1,7 @@
 class HourlyRoutes < Sinatra::Base
 
   get '/shifts' do
-    HourlySchedules.where( :customer_id => params[:customer_id] ).to_json
+    HourlyShift.where( :customer_id => params[:customer_id] ).to_json
   end
 
   get '/punches' do
@@ -11,7 +11,7 @@ class HourlyRoutes < Sinatra::Base
   post '/punch_in' do
   	HourlyPunch.create( 
   	  :customer_id => params[:customer_id], 
-  	  :hourly_task_id => 1,
+  	  :hourly_task_id => params[:hourly_task_id],
   	  :starttime => Time.now
   	)
   	status 204
