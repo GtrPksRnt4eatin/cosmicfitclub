@@ -66,6 +66,11 @@ function initialize_rivets() {
     return ticket.recipient.name;
   }
 
+  rivets.formatters.getemail = function(ticket) {
+    if(empty(ticket.recipient)) { return ticket.customer.email; }
+    return ticket.recipient.email;
+  }
+
   rivets.bind($('#content'), { data: data, ctrl: ctrl } );
 
 }

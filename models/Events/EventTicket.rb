@@ -24,7 +24,7 @@ class EventTicket < Sequel::Model
   end
 
   def to_json(args)
-    super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :purchased_for => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
+    super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
 
 end
