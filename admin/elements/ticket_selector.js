@@ -4,7 +4,8 @@ function TicketSelector(parent) {
     event_id: 0,
     event: null,
     event_sessions: [],
-    event_tickets: []
+    event_tickets: [],
+    customer: {}
   }
 
   this.bind_handlers([]);
@@ -30,8 +31,8 @@ TicketSelector.prototype = {
   	this.state.event = event;
   },
 
-  load_customer: function(customer_id) {
-
+  load_customer: function(customer) {
+    this.state.customer = customer;
   },
 
   load_customer_data: function(customer) {
@@ -45,7 +46,7 @@ Object.assign( TicketSelector.prototype, ev_channel);
 
 TicketSelector.prototype.HTML = ES5Template(function(){/**
   <div class='ticket_selector'>
-  
+
     <div class='price' rv-each-price='state.event.prices'> 
       <span>{price.title}</span>
       <span>Member Price: {price.member_price | money}</span>
@@ -69,7 +70,9 @@ TicketSelector.prototype.CSS = ES5Template(function(){/**
   }
 
   .ticket_selector .price {
-    
+    padding: 0.5em;
+    background: rgba(255,255,255,0.1);
+    margin: 0.2em;
   }
 
   .ticket_selector .price span {

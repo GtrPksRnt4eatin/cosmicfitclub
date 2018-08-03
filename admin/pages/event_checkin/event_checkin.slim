@@ -49,7 +49,7 @@ html
         table#tickets
           tr rv-each-tic='data.list' rv-show='tic | has_session session' rv-title='tic.id'
             td
-              | { tic.customer.name }
+              | { tic.customer | getname }
             td
               | { tic.customer.email }
             td.checkin rv-class='tic | checked_in_class session' rv-on-click='ctrl.check_in'

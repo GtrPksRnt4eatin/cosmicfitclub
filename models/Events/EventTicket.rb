@@ -4,6 +4,7 @@ class EventTicket < Sequel::Model
 
   many_to_one :event
   many_to_one :customer
+  many_to_one :recipient, :class => :Customer, :key => :purchased_for
   one_to_many :checkins, :class => :EventCheckin, :key => :ticket_id
 
   def generate_code
@@ -23,7 +24,7 @@ class EventTicket < Sequel::Model
   end
 
   def to_json(args)
-    super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
+    super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :purchased_for => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
 
 end

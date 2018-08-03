@@ -25,6 +25,7 @@ $(document).ready(function() {
   initialize_rivets();
 
   custy_selector = new CustySelector( id('custyselector_container'), data['custylist'] );
+  custy_selector.ev_sub('customer_selected', tic_selector.load_customer );
 
   tic_selector = new TicketSelector( id('ticketselector_container') );
   tic_selector.load_event_data(data['event']);
@@ -58,6 +59,11 @@ function initialize_rivets() {
     return val.filter( function(tic) { 
       return $.inArray(session.id, tic.included_sessions)>-1 
     }).length;
+  }
+
+  rivets.formatters.getname = function(ticket) {
+    if(empty(ticket.recipient)) { return ticket.customer.name; }
+    return ticket.recipient.name;
   }
 
   rivets.bind($('#content'), { data: data, ctrl: ctrl } );
