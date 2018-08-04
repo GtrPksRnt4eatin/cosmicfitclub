@@ -12,7 +12,8 @@ ctrl = {
   }
 }
 
-$(document).ready(function() { 
+$(document).ready(function() {
+  include_rivets_select();
   initialize_rivets() 
 })
 
