@@ -61,11 +61,10 @@ html
           option rv-each-sess='data.sessions' rv-value='sess.id'
             | {sess.start_time | eventstart } - {sess.end_time | time} : {sess.title}
 
-
         select rv-select='data.split_recipient'
           option value='0' selected='true' No Customer
           option rv-each-custy='data.customers' rv-value='custy.id' {custy.name} ( {custy.email} )
-         
+          
         button rv-on-click='ctrl.split_ticket' Split Ticket
 
         div {data.ticket}
