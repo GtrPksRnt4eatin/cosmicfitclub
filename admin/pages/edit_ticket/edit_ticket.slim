@@ -35,7 +35,7 @@ html
           .label Included Sessions:
           .value
             .sess rv-each-sess='data.sessions'
-              | {sess.starttime} {sess.title}
+              | {sess.start_time | eventstart } - {sess.end_time | time} : {sess.title}
 
         .tuplet rv-if='data.ticket.recipient'
           .label Purchased By: 
