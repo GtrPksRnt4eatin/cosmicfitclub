@@ -6,12 +6,14 @@
   display: inline-block;
   width: 10em;
   text-align: left;
+  vertical-align: middle;
 }
 
 .tuplet .value {
   display: inline-block;
-  width: 20em;
+  width: 40em;
   text-align: left;
+  vertical-align: middle;
 }
 
 .sess {

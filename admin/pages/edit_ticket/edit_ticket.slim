@@ -50,6 +50,7 @@ html
       .tile
 
         select rv-select='data.recipient'
+          option value='0' selected='true' No Customer
           option rv-each-custy='data.customers' rv-value='custy.id' {custy.name} ( {custy.email} )
 
         button rv-on-click='ctrl.assign_recipient' Change Recipient
@@ -60,6 +61,7 @@ html
           option rv-each-sess='data.sessions'
 
         select rv-select='data.split_recipient'
+          option value='0' selected='true' No Customer
           option rv-each-custy='data.customers' rv-value='custy.id' {custy.name} ( {custy.email} )
          
         button rv-on-click='ctrl.split_ticket' Split Ticket
