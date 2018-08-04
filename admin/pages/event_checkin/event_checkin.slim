@@ -32,28 +32,28 @@ html
           br
           a href="/models/events/#{params[:id]}/attendance.csv" Download Accounting Sheet
 
-      .tile rv-each-session='data.event.sessions'
+      .tile rv-each-sess='data.event.sessions'
 
         .title
-          | [#{session.id}] { session.title }
+          | [# {sess.id} ] { sess.title }
 
         .time
-          | { session.start_time | dayofwk } { session.start_time | date } { session.start_time | time } - { session.end_time | time }
+          | { sess.start_time | dayofwk } { sess.start_time | date } { sess.start_time | time } - { sess.end_time | time }
 
         .subtitle
-          | { session.description }
+          | { sess.description }
 
         .subtitle
-          | Headcount: { data.list | headcount session }
+          | Headcount: { data.list | headcount sess }
 
         table#tickets
-          tr rv-each-tic='data.list' rv-show='tic | has_session session' rv-title='tic.id' rv-on-click='ctrl.edit_tic'
+          tr rv-each-tic='data.list' rv-show='tic | has_session sess' rv-title='tic.id' rv-on-click='ctrl.edit_tic'
             td
               | { tic | getname }
             td
               | { tic | getemail }
-            td.checkin rv-class='tic | checked_in_class session' rv-on-click='ctrl.check_in'
-              | { tic | checked_in session }
+            td.checkin rv-class='tic | checked_in_class sess' rv-on-click='ctrl.check_in'
+              | { tic | checked_in sess }
 
       .tile
         #custyselector_container
