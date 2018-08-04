@@ -1,11 +1,13 @@
 class EventTicket < Sequel::Model
 
   plugin :json_serializer
+  plugin :pg_array_associations
 
   many_to_one :event
   many_to_one :customer
   many_to_one :recipient, :class => :Customer, :key => :purchased_for
   one_to_many :checkins, :class => :EventCheckin, :key => :ticket_id
+  pg_array_to_many :sessions, :class => :EventSession, :key => :included_sessions
 
   def generate_code
     rand(36**8).to_s(36)
