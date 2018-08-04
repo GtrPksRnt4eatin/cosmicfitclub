@@ -58,7 +58,9 @@ html
       .tile
 
         select rv-multiselect='data.split_sessions'
-          option rv-each-sess='data.sessions'
+          option rv-each-sess='data.sessions' rv-value='sess.id'
+            | {sess.start_time | eventstart } - {sess.end_time | time} : {sess.title}
+
 
         select rv-select='data.split_recipient'
           option value='0' selected='true' No Customer
