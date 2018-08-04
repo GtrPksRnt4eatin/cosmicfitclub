@@ -8,7 +8,7 @@ ctrl = {
 	  	}
 	  }
 	  else {
-	  	if( confirm(`Checkin ${m.tic.customer.name} to ${m.session.title}?`) ) {
+	  	if( confirm(`Checkin ${m.tic.customer.name} to ${m.sess.title}?`) ) {
 	    	var params = { event_id: m.tic.event_id, session_id: m.sess.id, customer_id: m.tic.customer_id };
 	    	$.post(`/models/events/tickets/${m.tic.id}/checkin`, params, update_data );
 	    }
