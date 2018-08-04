@@ -27,7 +27,7 @@ html
 
         .tuplet
           .label Event:
-          .value [\#{data.ticket.event_id}] {data.ticket.event.name}
+          .value [# {data.ticket.event_id}] {data.ticket.event.name}
 
         .tuplet
           .label Included Sessions:
@@ -37,11 +37,11 @@ html
 
         .tuplet rv-if='data.ticket.recipient'
           .label Purchased By: 
-          .value [\#{data.ticket.customer.id}] {data.ticket.customer.name}
+          .value [# {data.ticket.customer.id}] {data.ticket.customer.name}
 
         .tuplet rv-if='data.ticket.recipient'
           .label Purchased For: 
-          .value [\#{data.ticket.recipient.id}] {data.ticket.recipient.name}
+          .value [# {data.ticket.recipient.id}] {data.ticket.recipient.name}
 
       .tile
 
