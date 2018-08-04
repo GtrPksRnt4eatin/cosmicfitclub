@@ -207,7 +207,7 @@ class EventRoutes < Sinatra::Base
   post'/tickets/:tic_id/assign_recipient' do
     tic = EventTicket[params[:tic_id]] or halt 404
     recipient = Customer[params[:recipient_id]] or halt 404
-    tic.update( :recipient = recipient )
+    tic.update( :recipient => recipient )
     status 204
   end
 
