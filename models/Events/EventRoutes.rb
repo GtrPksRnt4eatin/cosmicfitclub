@@ -215,8 +215,8 @@ class EventRoutes < Sinatra::Base
     tic = EventTicket[params[:tic_id]] or halt 404
     recipient = Customer[params[:recipient_id]] or halt 404
     p recipient.id
-    p  params[:session_ids]
-    tic.split( recipient.id, params[:session_ids] )
+    p params[:session_ids]
+    p tic.split( recipient.id, params[:session_ids] )
     status 204
   end
 
