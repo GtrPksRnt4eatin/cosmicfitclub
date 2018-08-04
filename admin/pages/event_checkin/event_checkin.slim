@@ -20,6 +20,7 @@ html
     == js  [ 'element', 'ev_channel', 'elements/custy_selector', 'elements/ticket_selector', '/admin/event_checkin' ]
 
   body
+
     #stars
 
     #content
@@ -48,6 +49,8 @@ html
 
         table#tickets
           tr rv-each-tic='data.list' rv-show='tic | has_session sess' rv-title='tic.id' rv-on-click='ctrl.edit_tic'
+            td.edit_tic rv-on-click='ctrl.edit_tic'
+              | { tic.id }
             td
               | { tic | getname }
             td

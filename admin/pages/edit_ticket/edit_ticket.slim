@@ -37,7 +37,7 @@ html
             .sess rv-each-sess='data.sessions'
               | {sess.start_time | eventstart } - {sess.end_time | time} : {sess.title}
 
-        .tuplet rv-if='data.ticket.recipient'
+        .tuplet
           .label Purchased By: 
           .value 
             | [# {data.ticket.customer.id}] {data.ticket.customer.name}
@@ -57,7 +57,7 @@ html
 
       .tile
 
-        select rv-multiselect='data.split_sessions'
+        select.split_sessions rv-multiselect='data.split_sessions'
           option rv-each-sess='data.sessions' rv-value='sess.id'
             | {sess.start_time | eventstart } - {sess.end_time | time} : {sess.title}
 
