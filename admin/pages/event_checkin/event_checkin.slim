@@ -48,7 +48,7 @@ html
           | Headcount: { data.list | headcount sess }
 
         table#tickets
-          tr rv-each-tic='data.list' rv-show='tic | has_session sess' rv-title='tic.id' rv-on-click='ctrl.edit_tic'
+          tr rv-each-tic='data.list' rv-show='tic | has_session sess' rv-title='tic.id'
             td.edit_tic rv-on-click='ctrl.edit_tic'
               | { tic.id }
             td
