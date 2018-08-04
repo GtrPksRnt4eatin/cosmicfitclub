@@ -8,7 +8,7 @@ ctrl = {
   split_ticket: function(e,m) {
     $.post('/models/events/tickets/' + data.ticket.id + '/split', { recipient_id: data.split_recipient, session_ids: data.split_sessions })
      .done(function() { location.reload() } )
-     .fail( alert('Splitting Ticket Failed') )
+     .fail( function(a,b,c) { alert('Splitting Ticket Failed') } )
   }
 }
 
