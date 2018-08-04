@@ -13,7 +13,13 @@ ctrl = {
 	    	$.post(`/models/events/tickets/${m.tic.id}/checkin`, params, update_data );
 	    }
 	  }
-	}
+    cancelEvent(e);
+    return false;
+	},
+
+  edit_tic: function(e,m) {
+    document.location.href = '/admin/tickets/' + m.tic.id;
+  }
 }
 
 $(document).ready(function() { 

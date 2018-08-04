@@ -27,4 +27,19 @@ class EventTicket < Sequel::Model
     super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
 
+  def split(recipient_id, session_ids)
+    return "Customer Doesn't Exist" if Customer[recipient_id].nil?
+    return "Sessions Not Included On Ticket" unless (session_ids - self.included_sessions).empty?
+    EventTicket.create( 
+      :customer_id        => self.customer_id,
+      :event_id          => self.event_id,
+      :included_sessions => session_ids,
+      :code              => self.code + '_split',
+      :price             => 0,
+      :stripe_payment_id => self.stripe_payment_id,
+      :purchased_for     => recipient_id
+    )
+    self.update( :included_sessions => (self.included_sessions - session_ids) )
+  end
+
 end

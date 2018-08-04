@@ -35,7 +35,7 @@ html
       .tile rv-each-session='data.event.sessions'
 
         .title
-          | { session.title }
+          | [#{session.id}] { session.title }
 
         .time
           | { session.start_time | dayofwk } { session.start_time | date } { session.start_time | time } - { session.end_time | time }
@@ -47,7 +47,7 @@ html
           | Headcount: { data.list | headcount session }
 
         table#tickets
-          tr rv-each-tic='data.list' rv-show='tic | has_session session' rv-title='tic.id'
+          tr rv-each-tic='data.list' rv-show='tic | has_session session' rv-title='tic.id' rv-on-click='ctrl.edit_tic'
             td
               | { tic | getname }
             td

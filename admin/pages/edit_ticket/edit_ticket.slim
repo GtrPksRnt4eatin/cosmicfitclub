@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    javascript:
+      data = {};
+      data['customers'] = #{{ Customer.all.to_json( :only => [ :id, :name, :email ] ) }}
+      data['ticket'] = #{{ EventTicket[params[:id]].to_json( :include => [ :customer, :event, :included_sessions, :recipient ]) }};
+
+    == css [ 'fonts', 'site', 'chosen', '/admin/edit_ticket' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'rv_select', 'moment', 'flatpickr', 'rv_dates']
+    == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min' ]
+    == js  [ '/admin/edit_ticket' ]
+
+  html
+    #stars
+
+    #content
+
+      .tile
+
+        .tuplet
+          .label Event:
+          .value [\#{data.ticket.event_id}] {data.ticket.event.name}
+
+        .tuplet
+          .label Included Sessions:
+          .value
+            .sess rv-each-sess='data.ticket.included_sessions'
+              | {sess.starttime} {sess.title}
+
+        .tuplet rv-if='data.ticket.recipient'
+          .label Purchased By: 
+          .value [\#{data.ticket.customer.id}] {data.ticket.customer.name}
+
+        .tuplet rv-if='data.ticket.recipient'
+          .label Purchased For: 
+          .value [\#{data.ticket.recipient.id}] {data.ticket.recipient.name}
+
+      .tile
+
+        select rv-select='data.recipient'
+          option rv-each-custy='data.customers' rv-value='custy.id' {custy.name} ( {custy.email} )
+
+        button rv-on-click='ctrl.assign_recipient' Change Recipient
+
+      .tile
+
+        select rv-multiselect='data.split_sessions'
+          option rv-each-sess='data.ticket.included_sessions'
+
+        select rv-select='data.split_recipient'
+          option rv-each-custy='data.customers' rv-value='custy.id' {custy.name} ( {custy.email} )
+         
+        button rv-on-click='ctrl.split_ticket' Split Ticket
+
+        div {data.ticket}

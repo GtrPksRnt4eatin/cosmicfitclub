@@ -204,4 +204,18 @@ class EventRoutes < Sinatra::Base
     status 204
   end
 
+  post'/tickets/:tic_id/assign_recipient' do
+    tic = EventTicket[params[:tic_id]] or halt 404
+    recipient = Customer[params[:recipient_id]] or halt 404
+    tic.update( :recipient = recipient )
+    status 204
+  end
+
+  post'/tickets/:tic_id/split' do
+    tic = EventTicket[params[:tic_id]] or halt 404
+    recipient = Customer[params[:recipient_id]] or halt 404
+    tic.split( recipient.id, params[:session_ids] )
+    status 204
+  end
+
 end
