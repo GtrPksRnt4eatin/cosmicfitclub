@@ -46,6 +46,7 @@ function include_rivets_select() {
 
   rivets.binders['multiselect'] = {
     bind: function(el) {
+      el.setAttribute('multiple', 'true');
       this.chosen_instance = $(el).chosen({ search_contains: true })
       this.chosen_instance.change(function(val) {
         this.publish(val);
