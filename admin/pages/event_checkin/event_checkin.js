@@ -68,7 +68,7 @@ function initialize_rivets() {
   }
 
   rivets.formatters.getname = function(ticket) {
-    if(empty(ticket.recipient)) { return ticket.customer.name; }
+    if(empty(ticket.recipient)) { return empty(ticket.customer) ? '' : ticket.customer.name; }
     return ticket.recipient.name;
   }
 
