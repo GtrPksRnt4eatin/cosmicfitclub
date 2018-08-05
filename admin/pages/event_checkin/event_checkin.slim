@@ -51,7 +51,7 @@ html
           tr rv-each-tic='data.list' rv-show='tic | has_session sess' rv-title='tic.id'
             td.edit_tic rv-on-click='ctrl.edit_tic'
               | { tic.id }
-            td
+            td.edit_custy rv-on-click='ctrl.edit_customer'
               | { tic | getname }
             td
               | { tic | getemail }

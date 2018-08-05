@@ -19,6 +19,10 @@ ctrl = {
 
   edit_tic: function(e,m) {
     document.location.href = '/admin/tickets/' + m.tic.id;
+  },
+
+  edit_customer: function(e,m) {
+    document.location.href = '/admin/customer_file?id=' + ( m.tic.purchased_for ? m.tic.purchased_for : m.tic.customer_id );
   }
 }
 
