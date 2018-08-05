@@ -73,7 +73,7 @@ function initialize_rivets() {
   }
 
   rivets.formatters.getemail = function(ticket) {
-    if(empty(ticket.recipient)) { return ticket.customer.email; }
+    if(empty(ticket.recipient)) { return empty(ticket.customer) ? '' : ticket.customer.email; }
     return ticket.recipient.email;
   }
 
