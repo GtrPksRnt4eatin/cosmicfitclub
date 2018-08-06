@@ -19,11 +19,11 @@ ctrl = {
 	},
 
   edit_reservation_customer(e,m) {
-    window.location.href = '/checkout/customer_file?id=' + m.reservation.customer_id
+    window.location.href = '/frontdesk/customer_file?id=' + m.reservation.customer_id
   },
 
   edit_customer(e,m) {
-    window.location.href = '/checkout/customer_file?id=' + $('#customers').val();
+    window.location.href = '/frontdesk/customer_file?id=' + $('#customers').val();
   },
 
   new_customer(e,m) {
