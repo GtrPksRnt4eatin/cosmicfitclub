@@ -8,7 +8,7 @@ html
 
     javascript:
       data = {  }
-      data['events'] = #{{ Event.all.order(:starttime).to_json( :only => [ :id, :name, :starttime ] ) }}
+      data['events'] = #{{ Event.order(:starttime).to_json( :only => [ :id, :name, :starttime ] ) }}
 
     == css[ 'fonts', 'site', '/admin/event_checkin' ]
     == js [ 'jquery', 'admin/event_checkin' ]
