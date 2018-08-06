@@ -22,7 +22,7 @@ ctrl = {
     cancelEvent(e);
   },
   edit:   function(e,m) {
-    window.location.href = `class_sheet/${m.occur.id}`;
+    window.location.href = `class_attendance/${m.occur.id}`;
     cancelEvent(e);
   }
 }
