@@ -10,8 +10,8 @@ html
       data = {  }
       data['events'] = #{{ Event.order(:starttime).to_json( :only => [ :id, :name, :starttime ] ) }}
 
-    == css[ 'fonts', 'site', '/admin/event_checkin' ]
-    == js [ 'jquery', 'admin/event_checkin' ]
+    == css [ 'fonts', 'site', '/admin/event_checkin' ]
+    == js  [ 'jquery', 'admin/event_checkin' ]
 
   body
 
