@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    title Cosmicfit Admin
+
+    javascript:
+      data = {  }
+      data['events'] = #{{ Event.all.order(:starttime).to_json( :only => [ :id, :name, :starttime ] ) }}
+
+    == css[ 'fonts', 'site', '/admin/event_checkin' ]
+    == js [ 'jquery', 'admin/event_checkin' ]
+
+  body
+
+    #stars
+
+    #header
+      span Cosmic Fit Club Front Desk
+      #userview_container
+
+    #content
+
+      .tile
+
+        .title Events
+

@@ -22,6 +22,7 @@ require_relative 'site/CFC'
 require_relative 'checkout/checkout'
 require_relative 'reports/reports'
 require_relative 'user/user'
+require_relative 'frontdesk/frontdesk'
 
 use Rack::SslEnforcer
 use Rack::Deflater
@@ -45,6 +46,10 @@ end
 
 map "/user" do
   run CFCuser
+end
+
+map "/desk" do
+  run CFCFrontDesk
 end
 
 map "/checkout" do
@@ -110,3 +115,4 @@ end
 map "/models/schedule" do
   run ScheduleRoutes
 end
+
