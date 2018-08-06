@@ -48,7 +48,7 @@ map "/user" do
   run CFCuser
 end
 
-map "/desk" do
+map "/frontdesk" do
   run CFCFrontDesk
 end
 
