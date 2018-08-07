@@ -8,7 +8,7 @@ html
 
     javascript:
       data = {  }
-      data['events'] = #{{ Event.order(:starttime).to_json( :only => [ :id, :name, :starttime, :img_url ] ) }}
+      data['events'] = #{{ Event.order(:starttime).to_json( :only => [ :id, :name, :starttime, :image_url ] ) }}
 
     == css [ 'fonts', 'site', 'event_checkin' ]
     == js  [ 'jquery' ]
@@ -33,7 +33,7 @@ html
 
         ul#eventlist
           li.event rv-each-event='data.events'
-            img rv-src='event.img_url'
+            img rv-src='event.image_url'
             .time 
               | { event.starttime | dayofwk } { event.starttime | date } { event.starttime | time }
             .name 
