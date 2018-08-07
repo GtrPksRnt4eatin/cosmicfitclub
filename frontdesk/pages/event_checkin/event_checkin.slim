@@ -32,9 +32,11 @@ html
         .title Events
 
         ul#eventlist
-          li.event rv-each-event='data.events'
-            img rv-src='event.image_url'
-            .time 
-              | { event.starttime | dayofwk } { event.starttime | date } { event.starttime | time }
-            .name 
-              | { event.name }
+          li
+            .event rv-each-event='data.events'
+              img rv-src='event.image_url'
+              .nfo
+                .time 
+                  | { event.starttime | dayofwk } { event.starttime | date } { event.starttime | time }
+                .name 
+                  | { event.name }

@@ -22,6 +22,20 @@ ul#eventlist {
     padding: 0;
 }
 
+.event {
+  background: rgba(255,255,255,0.1);
+  display: inline-block;
+}
+
+.event:hover {
+  cursor: pointer;
+  background: rgba(255,255,255,0.2);
+}
+
+.event .nfo {
+  display: inline-block;
+}
+
 li.event img {
   height: 2em;
 }
