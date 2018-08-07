@@ -30,7 +30,7 @@ ul#eventlist {
   background: rgba(255,255,255,0.1);
   display: inline-block;
   padding: 0.5em;
-  width: 30em;
+  width: 40em;
   text-align: left;
 }
 
@@ -50,5 +50,6 @@ ul#eventlist {
 }
 
 .event img {
-  height: 2em;
+  width: 3em;
+  vertical-align: middle;
 }
