@@ -16,6 +16,12 @@
   right: 1em;
 }
 
+ul#eventlist {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
 li.event img {
   height: 2em;
 }
