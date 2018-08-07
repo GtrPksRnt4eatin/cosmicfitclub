@@ -10,13 +10,15 @@ html
       data = {  }
       data['events'] = #{{ Event.order(:starttime).to_json( :only => [ :id, :name, :starttime ] ) }}
 
-    == css [ 'fonts', 'site', '/admin/event_checkin' ]
-    == js  [ 'jquery', 'admin/event_checkin' ]
+    == css [ 'fonts', 'site', 'event_checkin' ]
+    == js  [ 'jquery' ]
+    == js  [ 'rivets' ]
+    == js  [ 'event_checkin' ]
 
   body
 
     #stars
-
+ 
     #header
       span Cosmic Fit Club Front Desk
       #userview_container
@@ -26,4 +28,6 @@ html
       .tile
 
         .title Events
+
+
 
