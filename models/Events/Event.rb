@@ -21,6 +21,10 @@ class Event < Sequel::Model
     JSON.generate val
   end
 
+  def image_url
+    image.nil? ? '' : image[:original].url
+  end
+
   def create_session
     new_session = EventSession.create
     add_session(new_session)
