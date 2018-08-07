@@ -1,5 +1,9 @@
 ctrl = {
 
+  open_event: function(e,m) {
+  	location.href = `/admin/events/${m.event.id}/checkin`;
+  }
+
 }
 
 $(document).ready(function(){
@@ -8,8 +12,8 @@ $(document).ready(function(){
   
   setup_bindings();
 
-  //var eventlist = new List('eventlist', { valueNames: [ 'time', 'name'] } );
-  
+  var eventlist = new List('eventlist', { valueNames: [ 'time', 'name'] } );
+
 });
 
 function setup_bindings() {
