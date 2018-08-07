@@ -70,23 +70,12 @@ $(document).ready(function() {
 
   ctrl.get();
 
-  //id("newpic").onchange = function () {
-  //  var reader = new FileReader();
-  //  reader.onload = function (e) { id("newpreview").src = e.target.result; };
-  //  reader.readAsDataURL(this.files[0]);
-  //};
-
   id('new2').onclick = function(e) {
     $.post('/models/events', JSON.stringify( { id: 0 } ) )
       .done( function(resp) { 
         window.location = `events/${JSON.parse(resp).id}` 
       }) 
   };
-
-  //id('session_start').onchange = function(e) {
-  //  if(data.newsession.endtime == '') { data.newsession.endtime = this.value; }
-  //  if(moment(data.newsession.endtime).isBefore(this.value)) { data.newsession.endtime = this.value; }
-  //};
 
 });
 
