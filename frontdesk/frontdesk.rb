@@ -14,4 +14,13 @@ class CFCFrontDesk < Sinatra::Base
   get( '/event_checkin',        :auth => "frontdesk" ) { render_page :event_checkin    }
   get( '/customer_file',        :auth => "frontdesk" ) { render_page :customer_file    }
   
+  not_found do
+    'This is nowhere to be found.'
+  end
+
+  error do
+    Slack.post env['sinatra.error'].message + env['sinatra.error'].backtrace
+    'An Error Occurred.'
+  end
+
 end
