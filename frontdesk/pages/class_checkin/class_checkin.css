@@ -191,3 +191,8 @@ button {
   overflow: hidden;
   white-space: nowrap;
 }
+
+.custy_name:hover {
+  cursor: pointer;
+  color: rgba(160,160,255,1);
+}

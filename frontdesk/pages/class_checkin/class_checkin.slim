@@ -58,9 +58,7 @@ html
             
             table.reservations  
               tr rv-each-res='occur.reservations'
-                td.field
+                td.field.custy_name rv-on-click='ctrl.edit_reservation_customer'
                   | { res.customer_name }
                 td.field
                   | { res.payment_type }
-
-    == analytics

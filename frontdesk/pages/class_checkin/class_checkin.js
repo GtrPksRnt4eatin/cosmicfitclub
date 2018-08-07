@@ -24,6 +24,9 @@ ctrl = {
   edit:   function(e,m) {
     window.location.href = `class_attendance/${m.occur.id}`;
     cancelEvent(e);
+  },
+  edit_customer(e,m) {
+    window.location.href = '/frontdesk/customer_file?id=' + $('#customers').val();
   }
 }
 
