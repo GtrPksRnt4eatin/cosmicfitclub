@@ -12,7 +12,7 @@ html
 
     == css [ 'fonts', 'site', 'event_checkin' ]
     == js  [ 'jquery' ]
-    == js  [ 'rivets' ]
+    == js  [ 'rivets', 'moment', 'rv_dates' ]
     == js  [ 'list'   ]
     == js  [ 'lib', 'element', 'ev_channel', '/auth/elements/userview' ]
     == js  [ 'event_checkin' ]
@@ -32,6 +32,9 @@ html
         .title Events
 
         ul#eventlist
-          li rv-each-event='data.events'
-            .time { event.starttime }
-            .name { event.name }
+          li.event rv-each-event='data.events'
+            img rv=src='event.img_url'
+            .time 
+              | { event.starttime | dayofwk } { event.starttime | date } { event.starttime | time }
+            .name 
+              | { event.name }
