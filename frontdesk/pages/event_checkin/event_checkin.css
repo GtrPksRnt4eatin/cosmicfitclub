@@ -36,6 +36,6 @@ ul#eventlist {
   display: inline-block;
 }
 
-li.event img {
+.event img {
   height: 2em;
 }
