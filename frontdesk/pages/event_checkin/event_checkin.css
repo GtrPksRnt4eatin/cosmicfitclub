@@ -17,14 +17,21 @@
 }
 
 ul#eventlist {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#eventlist li {
+  margin: 0.25em;
 }
 
 .event {
   background: rgba(255,255,255,0.1);
   display: inline-block;
+  padding: 0.5em;
+  width: 30em;
+  text-align: left;
 }
 
 .event:hover {
