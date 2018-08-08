@@ -50,7 +50,7 @@ var ctrl = {
   },
 
   list: function(e,m) {
-    location.href = `events/${m.event.id}/checkin`;
+    location.href = `/frontdesk/event_attendance/${m.event.id}`;
   },
 
   add_session: function(e,m) {

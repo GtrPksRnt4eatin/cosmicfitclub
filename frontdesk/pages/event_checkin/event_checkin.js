@@ -1,7 +1,7 @@
 ctrl = {
 
   open_event: function(e,m) {
-  	location.href = `/admin/events/${m.event.id}/checkin`;
+  	location.href = `event_attendance/${m.event.id}`;
   },
 
   filter: function(e,m) {
