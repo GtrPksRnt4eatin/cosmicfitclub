@@ -4,9 +4,7 @@ html
 
   head
 
-    == no_scaling
-
-    title Cosmicfit Admin
+    title CFC Event Attendance
 
     javascript:
       data = {
@@ -15,13 +13,13 @@ html
         list:      []
       }
 
-    == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', '/admin/event_attendance' ]
+    == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', 'event_attendance' ]
 
     == js  [ 'jquery', 'jquery.chosen.min' ]
     == js  [ 'moment', 'lib' ]
     == js  [ 'rivets', 'rv_dates', 'rv_select', 'lib' ]
-    == js  [ 'element', 'ev_channel', 'elements/custy_selector', 'elements/ticket_selector' ]
-    == js  [ '/admin/event_attendance' ]
+    == js  [ 'element', 'ev_channel', '/admin/elements/custy_selector', '/admin/elements/ticket_selector' ]
+    == js  [ 'event_attendance' ]
 
   body
 
