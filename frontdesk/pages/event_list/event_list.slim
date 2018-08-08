@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    title Cosmicfit Admin
+
+    javascript:
+      data = {}
+      data['events'] = #{{ Event.order(Sequel.desc(:starttime)).to_json( :only => [ :id, :name, :starttime, :image_url ] ) }},
+      data['filtered'] = data['events']
+
+    == css [ 'fonts', 'site', 'event_list' ]
+    == js  [ 'jquery' ]
+    == js  [ 'rivets', 'moment', 'rv_dates' ]
+    == js  [ 'list'   ]
+    == js  [ 'lib', 'element', 'ev_channel', '/auth/elements/userview' ]
+    == js  [ 'event_list' ]
+
+  body
+
+    #stars
+ 
+    #header
+      span Cosmic Fit Club Front Desk
+      #userview_container
+
+    #content
+
+      .tile
+
+        .title Events
+
+        input rv-on-change='ctrl.filter'
+
+        ul#eventlist
+          li rv-each-event='data.filtered' rv-on-click='ctrl.open_event'
+            .event
+              img rv-src='event.image_url'
+              .nfo
+                .time 
+                  | { event.starttime | dayofwk } { event.starttime | datewyr } { event.starttime | time }
+                .name 
+                  | { event.name }
