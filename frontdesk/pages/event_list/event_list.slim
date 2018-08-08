@@ -32,7 +32,7 @@ html
 
         .title Events
 
-        input rv-on-change='ctrl.filter'
+        input rv-on-keyup='ctrl.filter'
 
         ul#eventlist
           li rv-each-event='data.filtered' rv-on-click='ctrl.open_event'
