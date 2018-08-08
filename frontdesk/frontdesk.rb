@@ -12,6 +12,7 @@ class CFCFrontDesk < Sinatra::Base
   get( '/class_checkin',        :auth => "frontdesk" ) { render_page :class_checkin    }
   get( '/class_attendance/:id', :auth => "frontdesk" ) { render_page :class_attendance }
   get( '/event_checkin',        :auth => "frontdesk" ) { render_page :event_checkin    }
+  get( '/event_attendance/:id', :auth => "frontdesk" ) { render_page :event_attendance }
   get( '/customer_file',        :auth => "frontdesk" ) { render_page :customer_file    }
   
   not_found do

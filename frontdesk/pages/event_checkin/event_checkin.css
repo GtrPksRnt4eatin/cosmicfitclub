@@ -1,97 +1,56 @@
-
-.tile {
-  margin-bottom: .5em;
-  width: 60%;
+#header {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  background: rgba(30,30,30,0.8);
+  box-shadow: 0 0 5px white;
+  height: 3.3em;
+}
+
+#header span {
+  display: inline-block;
+  margin: 1.1em 1em;
+}
+
+#header #userview_container {
+  position: absolute;
+  top: 1em;
+  right: 1em;
 }
 
 .title {
-
-}
-
-.time {
-	font-size: .8em;
-}
-
-.subtitle {
-	margin: .5em;
-	font-size: .7em;
-}
-
-#tickets {
-	margin-top: .5em;
-	width: 100%;
-}
-
-#tickets td {
-	border: 1px solid white;
-	padding: .3em;
-}
-
-#tickets tr {
-	cursor: pointer;
-}
-
-.checkedin {
-	color: rgba(0,255,0,1);
-	cursor: pointer;
-}
-
-.checkedout:hover {
-	cursor: pointer;
-	background-color: rgba(255,255,255,0.1);
-}
-
-#person {
-  height: 1.92em;
-  vertical-align: middle;
-  cursor: pointer;
-  margin-left: 0.5em;
-  border-radius: 0.4em;
-  background: rgba(168,181,191,0.9);
-}
-
-#person:hover,
-#add_user:hover {
-  background: rgba(168,181,191,1);
-}
-
-#add_user {
-  display: inline-block;
-  height: 1.92em;
-  width: 1.92em;
-  background: rgba(168,181,191,0.9);
-  border-radius: 0.4em;
-  margin-left: 0.5em;
-  vertical-align: middle;
-  line-height: 2.1em;
-  cursor: pointer;
-  color: #647585;
-}
-
-#add_user span {
   font-size: 2em;
-  vertical-align: middle;
+  padding: 1em;
+}
+
+ul#eventlist {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#eventlist li {
+  margin: 0.25em;
+}
+
+.event {
+  background: rgba(255,255,255,0.1);
   display: inline-block;
-  font-weight: bold;
+  padding: 0.5em;
+  width: 50em;
+  text-align: left;
 }
 
-#customers_chosen {
-  width: 30em !important;
-}
-
-#ticketselector_container {
-  margin: 1em 0;
-}
-
-.edit_tic:hover {
+.event:hover {
   cursor: pointer;
-  background-color: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.2);
 }
 
-.edit_custy:hover {
-  cursor: pointer;
-  background-color: rgba(255,255,255,0.1);
+.event .nfo {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.event img {
+  width: 3em;
+  vertical-align: middle;
+  margin-right: 1em;
 }

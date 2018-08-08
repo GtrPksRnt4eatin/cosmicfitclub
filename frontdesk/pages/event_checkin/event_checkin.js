@@ -1,94 +1,29 @@
 ctrl = {
-	check_in: function(e,m) {
-	  var checkins = m.tic.checkins.filter( function(obj) { return obj.session_id == m.sess.id } );
-	  if( checkins.length > 0 ) {
-	  	if( confirm(`Remove ${m.tic.customer.name} from ${m.sess.title}?`) ) {
-	  		var params = { id: checkins[0].id };
-            $.post(`/models/events/tickets/${m.tic.id}/checkout`, params, update_data);
-	  	}
-	  }
-	  else {
-	  	if( confirm(`Checkin ${m.tic.customer.name} to ${m.sess.title}?`) ) {
-	    	var params = { event_id: m.tic.event_id, session_id: m.sess.id, customer_id: m.tic.customer_id };
-	    	$.post(`/models/events/tickets/${m.tic.id}/checkin`, params, update_data );
-	    }
-	  }
-    cancelEvent(e);
-    return false;
-	},
 
-  edit_tic: function(e,m) {
-    document.location.href = '/admin/tickets/' + m.tic.id;
+  open_event: function(e,m) {
+  	location.href = `/admin/events/${m.event.id}/checkin`;
   },
 
-  edit_customer: function(e,m) {
-    document.location.href = '/admin/customer_file?id=' + ( m.tic.purchased_for ? m.tic.purchased_for : m.tic.customer_id );
+  filter: function(e,m) {
+    searchstring = e.target.value;
+  	data['filtered'] = data['events'].filter( function(val) {
+      return val.name.match(new RegExp(searchstring, "i") ) ? true : false; 
+    });
   }
+
 }
 
-$(document).ready(function() { 
-
-  update_data();
+$(document).ready(function(){
   
-  $('#customers').chosen({ search_contains: true });
+  userview = new UserView(id('userview_container'));
+  
+  setup_bindings();
 
-  initialize_rivets();
-
-  tic_selector = new TicketSelector( id('ticketselector_container') );
-  tic_selector.load_event_data(data['event']);
-
-  custy_selector = new CustySelector( id('custyselector_container'), data['custylist'] );
-  custy_selector.ev_sub('customer_selected', tic_selector.load_customer );
+  var eventlist = new List('eventlist', { valueNames: [ 'time', 'name'] } );
 
 });
 
-function initialize_rivets() {
-
+function setup_bindings() {
   include_rivets_dates();
-  include_rivets_select();
-
-  rivets.formatters.has_session = function(val,session) {
-    return $.inArray(session.id, val.included_sessions)>-1;
-  }
-
-  rivets.formatters.checked_in = function(val,session) {
-    if(empty(val.checkins)) { return "Check In Now"; }
-    var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
-    if(checkins.length > 0 ) { return moment(checkins[0].timestamp).format('h:mm:ss a'); }
-    else return "Check In Now";
-  }
-
-  rivets.formatters.checked_in_class = function(val, session) {
-    if(empty(val.checkins)) { return 'checkedout' }
-    var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
-    if(checkins.length > 0 ) { return 'checkedin' }
-    return 'checkedout';
-  }
-
-  rivets.formatters.headcount = function(val, session) {
-    return val.filter( function(tic) { 
-      return $.inArray(session.id, tic.included_sessions)>-1 
-    }).length;
-  }
-
-  rivets.formatters.getname = function(ticket) {
-    if(empty(ticket.recipient)) { return empty(ticket.customer) ? '' : ticket.customer.name; }
-    return ticket.recipient.name;
-  }
-
-  rivets.formatters.getemail = function(ticket) {
-    if(empty(ticket.recipient)) { return empty(ticket.customer) ? '' : ticket.customer.email; }
-    return ticket.recipient.email;
-  }
-
-  rivets.bind($('#content'), { data: data, ctrl: ctrl } );
-
-}
-
-function update_data() {
-	$.get(`/models/events/${data['event'].id}/attendance`, on_attendance);
-}
-
-function on_attendance(attendance) { 
-	data['list'] = JSON.parse(attendance); 
+  rivets.bind( document.body, { data: data, ctrl: ctrl } ); 
 }
