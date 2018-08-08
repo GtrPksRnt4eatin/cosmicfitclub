@@ -31,11 +31,12 @@ html
 
         .title Events
 
+        input rv-on-change='ctrl.filter'
+
         ul#eventlist
           li rv-each-event='data.events' rv-on-click='ctrl.open_event'
             .event
-              .imgcontainer
-                img rv-src='event.image_url'
+              img rv-src='event.image_url'
               .nfo
                 .time 
                   | { event.starttime | dayofwk } { event.starttime | datewyr } { event.starttime | time }

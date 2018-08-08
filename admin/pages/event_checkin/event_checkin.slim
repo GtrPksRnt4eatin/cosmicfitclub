@@ -9,11 +9,11 @@ html
     title Cosmicfit Admin
 
     javascript:
-      data = {};
-      data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
-      data['custylist'] = #{{ Customer.all.to_json( :only => [ :id, :name, :email ] ) }};
-      data['list']  = [];
-
+      data = {
+        event:     #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }},
+        custylist: #{{ Customer.all.to_json( :only => [ :id, :name, :email ] )         }},
+        list:      []
+      }
 
     == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', '/admin/event_checkin' ]
     == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'rivets', 'rv_dates', 'rv_select', 'lib' ]

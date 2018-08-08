@@ -16,6 +16,11 @@
   right: 1em;
 }
 
+.title {
+  font-size: 2em;
+  padding: 1em;
+}
+
 ul#eventlist {
   list-style-type: none;
   margin: 0;
@@ -41,15 +46,11 @@ ul#eventlist {
 
 .event .nfo {
   display: inline-block;
-}
-
-.event .imgcontainer {
-  display: inline-block;
-  width: 4em;
-  margin-right: .5em;
+  vertical-align: middle;
 }
 
 .event img {
   width: 3em;
   vertical-align: middle;
+  margin-right: 1em;
 }

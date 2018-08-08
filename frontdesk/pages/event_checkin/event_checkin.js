@@ -2,6 +2,10 @@ ctrl = {
 
   open_event: function(e,m) {
   	location.href = `/admin/events/${m.event.id}/checkin`;
+  },
+
+  filter: function(e,m) {
+  	
   }
 
 }
