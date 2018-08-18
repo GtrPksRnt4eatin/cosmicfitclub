@@ -126,17 +126,17 @@ class EventRoutes < Sinatra::Base
       event.tickets.each do |tic|
         trans = nil
         if tic.stripe_payment_id then
-          charge = Stripe::Charge.retrieve(tic.stripe_payment_id)
-          trans = Stripe::BalanceTransaction.retrieve charge.balance_transaction
-          net = net + trans.net
-          gross = gross + trans.amount
-          fees = fees + trans.fee
+          charge = Stripe::Charge.retrieve(tic.stripe_payment_id) rescue nil
+          trans = Stripe::BalanceTransaction.retrieve charge.balance_transaction rescue nil
+          net = net + trans.net unless trans.nil?
+          gross = gross + trans.amount unless trans.nil?
+          fees = fees + trans.fee unless trans.nil?
           refund = 0
           charge.refunds.data.each do |ref|
-            t = Stripe::BalanceTransaction.retrieve ref.balance_transaction
-            net = net + t.net
-            refund = t.net
-            refunds = refunds + t.net
+            t = Stripe::BalanceTransaction.retrieve ref.balance_transaction rescue nil
+            net = net + t.net unless t.nil?
+            refund = t.net unless t.nil?
+            refunds = refunds + t.net unless t.nil?
           end
         end
         id = tic.customer ? tic.customer.id : 0

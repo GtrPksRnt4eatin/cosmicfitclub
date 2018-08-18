@@ -22,7 +22,7 @@ ctrl = {
   },
 
   edit_customer: function(e,m) {
-    document.location.href = '/admin/customer_file?id=' + ( m.tic.purchased_for ? m.tic.purchased_for : m.tic.customer_id );
+    document.location.href = '/frontdesk/customer_file?id=' + ( m.tic.purchased_for ? m.tic.purchased_for : m.tic.customer_id );
   }
 }
 

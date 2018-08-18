@@ -15,9 +15,7 @@ class CFCAdmin < Sinatra::Base
   get( '/events',                :auth=> 'admin'      ) { render_page :events           }
   get( '/staff',                 :auth=> 'admin'      ) { render_page :staff            }
   get( '/events/:id',            :auth=> 'admin'      ) { render_page :event_edit       }
-  get( '/events/:id/checkin',    :auth=> 'admin'      ) { render_page :event_checkin    }
   get( '/events/:id/accounting', :auth=> 'admin'      ) { render_page :event_accounting }
-  get( '/event_checkin',         :auth => 'frontdesk' ) { render_page :event_list       }
   get( '/classes/:id',           :auth=> 'admin'      ) { render_page :class_edit       }
   get( '/door',                  :auth=> 'door'       ) { render_page :door             }
   get( '/balance',               :auth=> 'admin'      ) { render_page :balance_sheet    }
