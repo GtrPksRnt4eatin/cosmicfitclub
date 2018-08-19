@@ -171,4 +171,9 @@ class ClassDefRoutes < Sinatra::Base
     excep.update( :teacher_id => teacher_id, :starttime => params[:starttime], :cancelled => params[:cancelled], :hidden => params[:hidden])
   end
 
+  delete '/exceptions/:id' do
+    excep = ClassException[params[:id]] or halt(404,'Class Exception Not Found')
+    excep.delete
+  end
+
 end
