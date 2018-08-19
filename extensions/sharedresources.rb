@@ -23,8 +23,9 @@ module Sinatra
       #end
 
 
-      app.get /(?<path>([^\/]*?\/?)*(?<file>[^\/]+))\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
+      app.get /(?<path>([^\/]+\/)+)?(?<file>[^\/]+)\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
         path_arr = params[:path].scan(/\/?(\w+)/).flatten
+        p path_arr
         path = "#{$root_folder}/shared/img/#{params[:file]}.#{params[:ext]}"
         path = "#{$root_folder}/shared/img/#{path_arr.last(2).join('/')}.#{params[:ext]}" unless File.exists? path
         path = "#{$root_folder}/shared/img/#{path_arr.last(3).join('/')}.#{params[:ext]}" unless File.exists? path
