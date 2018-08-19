@@ -1,6 +1,5 @@
 class EventTicket < Sequel::Model
-
-  plugin :json_serializer
+  
   plugin :pg_array_associations
 
   many_to_one :event

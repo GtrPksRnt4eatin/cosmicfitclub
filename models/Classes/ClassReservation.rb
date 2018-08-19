@@ -1,6 +1,4 @@
 class ClassReservation < Sequel::Model
-  
-  plugin :json_serializer
 
   many_to_one :customer
   many_to_one :occurrence, :class => :ClassOccurrence, :key => :class_occurrence_id

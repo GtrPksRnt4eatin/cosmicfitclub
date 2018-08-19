@@ -2,8 +2,6 @@ require 'csv'
 
 class Event < Sequel::Model
 
-  plugin :json_serializer
-
   one_to_many :tickets, :class => :EventTicket
   one_to_many :sessions, :class => :EventSession
   one_to_many :prices, :class => :EventPrice

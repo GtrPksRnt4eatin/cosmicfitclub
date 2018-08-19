@@ -1,6 +1,4 @@
 class EventSession < Sequel::Model
-
-  plugin :json_serializer
   
   many_to_one :event
   one_to_many :prices, :class => :EventPrice

@@ -1,6 +1,4 @@
 class ClassOccurrence < Sequel::Model
-  
-  plugin :json_serializer
 
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
   many_to_one :teacher, :key => :staff_id, :class => :Staff

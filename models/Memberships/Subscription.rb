@@ -1,7 +1,5 @@
 class Subscription < Sequel::Model
 
-  plugin :json_serializer
-
   many_to_one :customer
   many_to_one :plan
   one_to_many :uses, :class => :MembershipUse, :key=>:subscription_id

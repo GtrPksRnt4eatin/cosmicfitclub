@@ -1,6 +1,4 @@
 class Package < Sequel::Model
-  
-  plugin :json_serializer
 
   def price
   	return 0 if pass_price.nil?
