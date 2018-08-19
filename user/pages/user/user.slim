@@ -24,9 +24,6 @@ html
         hr
         | Name: #{ session[:user].customer.name }
         
-        - if user.has_role? "admin"
-          div
-            a href='/admin' Administration
         - if user.has_role? "door"
           div
             a href='/admin/door' Door

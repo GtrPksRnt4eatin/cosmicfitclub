@@ -2,6 +2,12 @@ data = {
   classes: []
 }
 
+ctrl = {
+  class_detail: function(e,m) {
+  	window.location.href = 'class/' + m.class.id;
+  }
+}
+
 $(document).ready(function() {
 
   get_saved_classes();
@@ -9,7 +15,7 @@ $(document).ready(function() {
   include_rivets_rrule();
   include_rivets_dates();
 
-  rivets.bind( $('body'), { data: data } );
+  rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 
   rivets.formatters.thumb = function (id) { return '/models/classdefs/' + id + '/thumb'}
 

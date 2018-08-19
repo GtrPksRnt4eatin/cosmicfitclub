@@ -1,0 +1,41 @@
+- cls = ClassDef[params[:id]] or halt(404,'Class Not Found')
+
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == fb_type  'website'
+    == fb_title 'Cosmic Fit Club'
+    == fb_url   'http://cosmicfitclub.com/'
+    == fb_image 'http://cosmicfitclub.com/banner.png'
+
+    title Cosmic Fit Club
+
+    javascript:
+      data = {}
+      data['class'] = #{{ cls.to_json }}
+      data['schedules']
+
+    ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'class']
+    ==js  ['jquery', 'slick', 'moment', 'rivets', 'rv_rrule', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'class']
+
+  body.p2
+  
+    #stars
+    
+    == include_slim('slim/partials/header')
+
+    .content
+
+      .tile
+        .name
+          | { data.class.name }
+
+        .description
+          | { data.class.description } 
+
+    == include_slim('slim/partials/footer')
+
+    == analytics

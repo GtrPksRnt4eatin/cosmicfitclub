@@ -10,21 +10,28 @@ class CFC < Sinatra::Base
   set :root, File.dirname(__FILE__)
 
   get( '/' )                 { render_page :index    } 
-  get( '/classes')           { render_page :classes  }
-  get( '/training')          { render_page :training }
   get( '/events')            { render_page :events   }
+  get( '/classes')           { render_page :classes  }
   get( '/schedule')          { render_page :schedule }
-  get( '/staff')             { render_page :staff    }
+  get( '/training')          { render_page :training }
   get( '/pricing')           { render_page :pricing  }
-  get( '/faq')               { render_page :faq      }
-  get( '/kids')              { render_page :kids     }
+  get( '/staff')             { render_page :staff    }
   get( '/media')             { render_page :media    }
+  get( '/faq')               { render_page :faq      }  
 
-  get( '/schedule_week')     { render_page :schedule_week }
+
+  ####################### TEST PAGES #########################
+
+  get( '/kids')              { render_page :kids     }
+  get( '/class/:id')         { render_page :class    }
+
+  ####################### TEST PAGES #########################
+  
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
 
-  get( '/badass' ) { redirect '/checkout/event/257' }
+  #get( '/schedule_week')     { render_page :schedule_week }
+  #get( '/badass' ) { redirect '/checkout/event/257' }
 
   get( '/checkout')               { render_page :checkout }
   get( '/checkout/plans/:id' )    { render_page :checkout_plan }
@@ -38,8 +45,6 @@ class CFC < Sinatra::Base
     return 204
   end
 
-  get( '/robots.txt') do
-    "User-agent: * \r\nDisallow:"
-  end
+  get( '/robots.txt') { "User-agent: * \r\nDisallow:" }
   
 end
