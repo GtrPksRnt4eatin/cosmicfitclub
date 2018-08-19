@@ -21,13 +21,14 @@ module Sinatra
       #app.get /.*?(?<file>.*)\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
       #  send_file "#{$root_folder}/shared/img#{params[:file]}.#{params[:ext]}"
       #end
-      
+
 
       app.get /(?<path>([^\/]*?\/?)*(?<file>[^\/]+))\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
         path_arr = params[:path].scan(/\/?(\w+)/).flatten
         path = "#{$root_folder}/shared/img/#{params[:file]}.#{params[:ext]}"
         path = "#{$root_folder}/shared/img/#{path_arr.last(2).join('/')}.#{params[:ext]}" unless File.exists? path
         path = "#{$root_folder}/shared/img/#{path_arr.last(3).join('/')}.#{params[:ext]}" unless File.exists? path
+        p "#{path} #{File.exists? path}"
         send_file path if File.exists? path
       end
 
