@@ -60,5 +60,5 @@ html
                 - Staff.each do |staff|
                   option value='#{staff.id}' #{staff.name}
             div
-              button Remove Exception
+              button rv-on-click="ctrl.remove_exception" Remove Exception
               button Done
