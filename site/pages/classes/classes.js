@@ -15,7 +15,7 @@ $(document).ready(function() {
   include_rivets_rrule();
   include_rivets_dates();
 
-  rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+  rivets.bind( document.body, { data: data, ctrl: ctrl } );
 
   rivets.formatters.thumb = function (id) { return '/models/classdefs/' + id + '/thumb'}
 
