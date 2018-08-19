@@ -18,11 +18,19 @@ module Sinatra
         send_file "shared/css/#{params[:file]}.css"
       end
 
-      app.get /.*?(?<file>.*)\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
-        send_file "#{$root_folder}/shared/img#{params[:file]}.#{params[:ext]}"
+      #app.get /.*?(?<file>.*)\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
+      #  send_file "#{$root_folder}/shared/img#{params[:file]}.#{params[:ext]}"
+      #end
+
+      app.get /(?<path>(\w*?\/?)*(?<file>\w+))\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
+        path_arr = params[:path].scan(/\/?(\w+)/).flatten
+        path = "#{$root_folder}/shared/img/#{params[:file]}.#{params[:ext]}"
+        path = "#{$root_folder}/shared/img/#{path_arr.last(2).join('/')}.#{params[:ext]}" unless File.exists? path
+        path = "#{$root_folder}/shared/img/#{path_arr.last(3).join('/')}.#{params[:ext]}" unless File.exists? path
+        send_file path if File.exists? path
       end
 
-      app.get /.*?(?<file>[^\/]*)\.(?<ext>ttf|woff)/ do
+      app.get /.*?(?<file>[^\/]*)\.(?<ext>ttf|woff|woff2)/ do
         path = "shared/fonts/#{params[:file]}.#{params[:ext]}"
         wfpath = "shared/fonts/webfonts/#{params[:file]}.#{params[:ext]}"
         send_file wfpath if File.exists? wfpath
