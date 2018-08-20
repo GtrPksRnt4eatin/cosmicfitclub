@@ -16,9 +16,9 @@ function Schedule(parent) {
 
   rivets.formatters.class_cancelled = function(val) {
     if( val.type != 'classoccurrence' ) return false;
-    if( val.exception && val.exception.cancelled ) return true;
+    if( empty( val.exception ) ) return false;
+    if( val.exception.cancelled ) return true;
     return false;
-  }
   
   rivets.formatters.event_title = function(val) {
     title = val.multisession_event ? val.event_title + '\r\n' + val.title : val.event_title;
@@ -237,11 +237,11 @@ Schedule.prototype.CSS = `
     font-style: italic;
   }
 
-  #Schedule .occurrence[data-cancelled=true] {
+  #Schedule .classitem[data-cancelled=true] {
     text-decoration: line-through
   }
 
-  #Schedule .occurrence[data-cancelled=true] .register {
+  #Schedule .classitem[data-cancelled=true] .register {
     display: hidden;
   }
 
