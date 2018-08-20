@@ -16,6 +16,7 @@
   max-width: 50em;
   display: inline-block;
   padding: 1em;
+  letter-spacing: 0.05em;
 }
 
 @keyframes glow {

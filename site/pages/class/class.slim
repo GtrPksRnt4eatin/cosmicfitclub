@@ -34,7 +34,15 @@ html
           | { data.class.name }
 
         .description
-          | { data.class.description } 
+          | { data.class.description }
+
+        .upcoming
+          .head
+            Join Us For an Upcoming Session:
+          .occurrences
+            - cls.get_full_occurrences( Time.now, Time.now + (24*7*60*60) ) do |occ|
+              .occurence
+                | #{occ.starttime} with #{occ.teachers.join(', ')}
 
     == include_slim('slim/partials/footer')
 
