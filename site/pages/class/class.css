@@ -72,3 +72,21 @@
   	letter-spacing: 0.05em;
   }
 }
+
+@media(max-width: 800px) {
+  
+  .tile {
+  	font-size: 3vw;
+  }
+
+  .tile .description {
+  	line-height: 2em;
+  }
+
+  .tile .name_container {
+    font-size: 4vw;
+  }
+
+
+
+}
