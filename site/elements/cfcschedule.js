@@ -19,6 +19,7 @@ function Schedule(parent) {
     if( empty( val.exception ) ) return false;
     if( val.exception.cancelled ) return true;
     return false;
+  }
   
   rivets.formatters.event_title = function(val) {
     title = val.multisession_event ? val.event_title + '\r\n' + val.title : val.event_title;
@@ -238,7 +239,7 @@ Schedule.prototype.CSS = `
   }
 
   #Schedule .classitem[data-cancelled=true] {
-    text-decoration: line-through
+    text-decoration: line-through;
   }
 
   #Schedule .classitem[data-cancelled=true] .register {
