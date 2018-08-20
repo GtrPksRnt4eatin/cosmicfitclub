@@ -47,6 +47,7 @@ class ClassOccurrence < Sequel::Model
                CASE WHEN "customer_payments"."type" = 'cash' THEN 'cash' ELSE 'card' END
              WHEN "membership_uses"."id" IS NOT NULL THEN 
                CASE WHEN subscription_id = 10::bigint THEN 'employee' ELSE 'membership' END
+             ELSE 'free'
         END AS payment_type,   
         "pass_transactions"."id" AS transaction_id,
         "customer_payments"."id" AS payment_id,

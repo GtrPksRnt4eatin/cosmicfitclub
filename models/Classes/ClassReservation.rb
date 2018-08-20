@@ -30,6 +30,7 @@ class ClassReservation < Sequel::Model
       return "card" if self.payment.type == "saved card"
       return "card" if self.payment.type == "new card"
     end
+    return "free" if self.occurrence.free
     return ""
   end
 
