@@ -19,8 +19,17 @@
   letter-spacing: 0.05em;
 }
 
-.upcoming .occurence {
+.upcoming {
+  display: inline-block;
+}
+
+.upcoming .heading {
   padding: 0.5em;
+  background: rgba(255,255,255,0.2);
+}
+
+.upcoming .occurence {
+  padding: 0.2em;
 }
 
 .upcoming .occurence:hover {
@@ -29,7 +38,7 @@
 }
 
 .upcoming .occurence:nth-child(even) { background: rgba(255,255,255,0.1); }
-.upcoming .occurence:nth-child(odd)  { background: rgba(255,255,255,0.2); }
+.upcoming .occurence:nth-child(odd)  { background: rgba(255,255,255,0.3); }
 
 @keyframes glow {
   from { 

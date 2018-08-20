@@ -37,12 +37,12 @@ html
           | { data.class.description }
 
         .upcoming
-          .head
+          .heading
             | Join Us For an Upcoming Session:
           .occurrences
             - cls.get_full_occurences( Time.now, Time.now + (24*7*60*60) ).each do |occ|
               .occurence
-                | #{ Time.parse(occ[:starttime]).to_classtime } with #{ occ[:teachers].to_s }
+                | #{ Time.parse(occ[:starttime]).to_classtime } with #{ occ[:teachers].map { |x| x[:name] }.join(' & ') }
 
     == include_slim('slim/partials/footer')
 
