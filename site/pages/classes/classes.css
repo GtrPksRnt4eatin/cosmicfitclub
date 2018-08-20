@@ -20,7 +20,7 @@
 
 .classname {
   border-radius: 0 0 2em 2em;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.7);
   position: absolute;
   display: inline-block;
   bottom: 0;
@@ -54,8 +54,8 @@
 @media(max-width: 800px) {
 
   .classdef {
-    width: auto;
-    display: block;
+    width: 42vw;
+    margin: 2vw;
   }
 
   .content {
