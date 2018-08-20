@@ -77,8 +77,9 @@
   
   .tile {
   	font-size: 4vw;
+  	line-height: 1.5em;
   }
-  
+
   .tile .name_container {
   	font-size: inherit;
   }
@@ -88,7 +89,7 @@
   }
 
   .occurrence {
-  	padding: 0.4em 2em;
+  	padding: 0.6em 2em;
   }
 
 }
