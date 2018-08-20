@@ -10,7 +10,7 @@ ctrl = {
 
 $(document).ready(function() {
 
-  initialize_rivets_dates();
+  include_rivets_dates();
    
   rivets.formatters.list = function(val) {
   	if( val.length == 1 ) return val[0];
