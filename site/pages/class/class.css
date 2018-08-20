@@ -78,6 +78,10 @@
   .tile {
   	font-size: 4vw;
   }
+  
+  .tile .name_container {
+  	font-size: inherit;
+  }
 
   .upcoming {
   	font-size: 3vw;
