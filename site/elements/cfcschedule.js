@@ -117,7 +117,7 @@ Schedule.prototype.HTML = `
           </span>
           <span class='classdetail'>
             <span class='classname'> { occ.title } </span>
-            w/
+            <span> w/ </span>
             <span class='instructors' rv-data-sub='occ | sub'>
               <span class='instructor'> { occ | instructor_names } </span>
             </span>
@@ -238,7 +238,7 @@ Schedule.prototype.CSS = `
     font-style: italic;
   }
 
-  #Schedule .classitem[data-cancelled=true] span {
+  #Schedule .classitem[data-cancelled=true] span span {
     text-decoration: line-through solid red;
   }
 
