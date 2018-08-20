@@ -50,7 +50,7 @@ html
             | Join Us For an Upcoming Session:
           .occurrences
             .occurence rv-each-occ='data.sessions'
-              | #{ occ.starttime | classtime } with { occ.teachers | list }
+              | { occ.starttime | classtime } with { occ.teachers | list }
 
     == include_slim('slim/partials/footer')
 
