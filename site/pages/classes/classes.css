@@ -3,23 +3,42 @@
   position: relative;
   display: inline-block;
   width: 16em;
-  padding-bottom: 0.5em;
   border-radius: 2em;
+  opacity: 0.8;
+}
+
+.classdef:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 
 .classdef img {
   display: block;
   width: 100%;
+  border-radius: 2em;
 }
 
 .classname {
-  border-radius: 0 2em 2em 0;
+  border-radius: 0 0 2em 2em;
   background: rgba(0,0,0,0.6);
   position: absolute;
   display: inline-block;
   bottom: 0;
   left: 0;
   right: 0;
+  height: 4em;
+  vertical-align: middle;
+}
+
+.classname:before {
+  content: '';
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.classname span {
+  vertical-align: middle;
 }
 
 .schedule {
@@ -28,6 +47,8 @@
   margin: .25em;
   box-shadow: 0 0 0.1em white;
 }
+
+
 
 @media(max-width: 800px) {
 

@@ -27,7 +27,8 @@ html
       .tile.classdef rv-each-class='data.classes' rv-on-click='ctrl.class_detail'
         img rv-src='class.image_url'
         .classname 
-          | { class.name }
+          span
+            | { class.name }
 
     == include_slim('slim/partials/footer')
 
