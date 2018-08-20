@@ -78,5 +78,13 @@
   .tile {
   	font-size: 4vw;
   }
-  
+
+  .upcoming {
+  	font-size: 3vw;
+  }
+
+  .occurrence {
+  	padding: 0.4em 2em;
+  }
+
 }

@@ -13,7 +13,7 @@ $(document).ready(function() {
   include_rivets_dates();
 
   rivets.formatters.no_parens = function(val) {
-  	return val.replace(/ ?(.*)/,'');
+  	return val.replace(/ ?\(.*\)/,'');
   }
    
   rivets.formatters.list = function(val,param) {
