@@ -17,7 +17,7 @@ function ReservationForm(parent) {
   rivets.formatters.zero_if_null   = function(val) { return empty(val) ? 0 : val; }
 	rivets.formatters.has_membership = function(val) { return( empty(val) ? false : val.name != 'None' ); }
 
-	this.bind_handlers(['load_customer', 'refresh_customer', 'on_customer', 'reserve_membership', 'reserve_class_pass', 'reserve_paynow', 'after_reservation', 'after_paynow']);
+	this.bind_handlers(['load_customer', 'refresh_customer', 'on_customer', 'reserve_membership', 'reserve_class_pass', 'reserve_free', 'reserve_paynow', 'after_reservation', 'after_paynow']);
 	this.build_dom(parent);
 	this.load_styles();
 	this.bind_dom();
