@@ -2,8 +2,9 @@
   font-size: 1.8em;
   margin: 1em;
   font-family: Industry;
-  text-shadow: 0 0 0.2em white, 0 0 0.2em white;
-  text-align: left;
+  text-shadow: 0 0 0.2em white;
+  background: rgba(255,255,255,0.2);
+  letter-spacing: 0.1em;
 }
 
 .tile .description {
