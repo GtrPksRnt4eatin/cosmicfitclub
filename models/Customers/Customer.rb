@@ -33,7 +33,10 @@ class Customer < Sequel::Model
   end
 
   def Customer.get_from_email(email, name)
-    customer = find_or_create( :email => email.downcase ) { |cust| cust.name = name }
+    customer = find_or_create( :email => email.downcase ) do |cust| 
+      cust.name = name
+      cust.add_passes(1,"First Class Comp", "")
+    end    
     customer.create_login if customer.login.nil? 
     return customer
   end
