@@ -7,15 +7,24 @@ function Schedule(parent) {
   }
 
   rivets.formatters.equals = function(val,arg) { return(val == arg); }
+  
   rivets.formatters.show_classitem = function(val) { 
     if( val.type != 'classoccurrence' ) return false;
     if( val.exception && val.exception.hidden ) return false;
     return true;
   }
+
+  rivets.formatters.class_cancelled = function(val) {
+    if( val.type != 'classoccurrence' ) return false;
+    if( val.exception && val.exception.cancelled ) return true;
+    return false;
+  }
+  
   rivets.formatters.event_title = function(val) {
     title = val.multisession_event ? val.event_title + '\r\n' + val.title : val.event_title;
     return title;
   }
+  
   rivets.formatters.instructor_names = function(val) {
     if( val.type != 'classoccurrence' ) return false;
     if( !val.exception || !val.exception.teacher_id ) { 
@@ -25,6 +34,7 @@ function Schedule(parent) {
     }
     return val.exception.teacher_name;
   },
+  
   rivets.formatters.sub = function(val) {
     if( val.type != 'classoccurrence' ) return false;
     if( !val.exception ) return false;
@@ -98,7 +108,8 @@ Schedule.prototype.HTML = `
       </div>
 
       <div class='occurrence' rv-each-occ='group.occurrences' >
-        <div class='classitem' rv-if="occ | show_classitem" >
+
+        <div class='classitem' rv-if="occ | show_classitem" rv-data-cancelled='occ | class_cancelled' >
           <span class='classtime'>
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
@@ -221,9 +232,17 @@ Schedule.prototype.CSS = `
     line-height: 1.5em;
   }
 
-  .instructors[data-sub=true] {
+  #Schedule .instructors[data-sub=true] {
     color: rgb(255,230,150);
     font-style: italic;
+  }
+
+  #Schedule .occurrence[data-cancelled=true] {
+    text-decoration: line-through
+  }
+
+  #Schedule .occurrence[data-cancelled=true] .register {
+    display: hidden;
   }
 
   @media(max-width: 1130px) {
