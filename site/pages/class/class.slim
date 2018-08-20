@@ -36,15 +36,7 @@ html
         .description
           span
             | { data.class.description }
-
-        .upcoming
-          .heading
-            | Join Us For an Upcoming Session:
-          .occurrences
-            - cls.get_full_occurences( Time.now, Time.now + (24*7*60*60) ).each do |occ|
-              .occurence data
-                | #{ Time.parse(occ[:starttime]).to_classtime } with #{ occ[:teachers].map { |x| x[:name] }.join(' & ') }
-
+            
         .upcoming
           .heading
             | Join Us For an Upcoming Session:
