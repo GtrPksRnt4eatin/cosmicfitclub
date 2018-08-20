@@ -4,12 +4,12 @@
   display: inline-block;
   width: 16em;
   border-radius: 2em;
-  opacity: 0.8;
+  padding: 0;
 }
 
 .classdef:hover {
   cursor: pointer;
-  opacity: 1;
+  border: 0.1em solid white;
 }
 
 .classdef img {
@@ -39,6 +39,7 @@
 
 .classname span {
   vertical-align: middle;
+  display: inline-block;
 }
 
 .schedule {
