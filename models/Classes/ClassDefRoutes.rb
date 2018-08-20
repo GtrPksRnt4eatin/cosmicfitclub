@@ -141,6 +141,8 @@ class ClassDefRoutes < Sinatra::Base
     when "payment"
       reservation = occurrence.make_reservation( params[:customer_id] ) or halt 400
       CustomerPayment[params[:payment_id]].update( :class_reservation_id => reservation.id )
+    when "free"
+      occurrence.make_reservation( params[:customer_id] ) or halt 400
     end
     status 201
   end

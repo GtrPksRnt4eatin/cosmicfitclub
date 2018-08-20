@@ -12,7 +12,9 @@ class ClassOccurrence < Sequel::Model
   end
 
   def ClassOccurrence.get( class_id, staff_id, starttime ) 
-    find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
+    occ = find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
+    occ.update( :free => true ) if ClassDef[class_id].free
+    occ
   end
 
   def ClassOccurrence.get_email_list(from,to,classdef_ids)
