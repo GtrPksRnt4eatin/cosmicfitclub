@@ -49,6 +49,4 @@ class ClassDef < Sequel::Model
     end.flatten.sort_by { |x| x[:starttime] }
   end
 
-  def 
-
 end
