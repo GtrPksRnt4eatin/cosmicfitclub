@@ -3,14 +3,18 @@
   letter-spacing: 0.05em;
 }
 
-.tile .name {
+.tile .name_container {
   font-size: 1.8em;
   padding: 0.5em;
   font-family: Industry;
   background: rgba(255,255,255,0.2);
-  animation: glow 2s alternate infinite, shrink 2s ease-in 1 forwards;
   overflow: hidden;
+}
+
+.tile .name_container .name {
+  animation: glow 2s alternate infinite, shrink 2s ease-in 1 forwards;
   white-space: nowrap;
+  display: inline;
 }
 
 .tile .description span {
