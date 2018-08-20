@@ -6,10 +6,10 @@
   font-size: 1.8em;
   padding: 0.5em;
   font-family: Industry;
-  text-shadow: 0 0 0.2em white;
   background: rgba(255,255,255,0.2);
-  letter-spacing: 0.1em;
-  animation: glow 3s alternate infinite, shrink 3s 1;
+  animation: glow 5s alternate infinite, shrink 5s 1;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .tile .description {
@@ -20,7 +20,7 @@
 
 @keyframes glow {
   from { 
-  	text-shadow: 0 0 0.2em rgb(100,100,100);
+  	text-shadow: 0 0 0.2em black;
   }
   to {
   	text-shadow: 0 0 0.2em white;
@@ -29,9 +29,9 @@
 
 @keyframes shrink {
   from {
-  	letter-spacing: 5em;
+  	letter-spacing: 1em;
   }
   to {
-  	letter-spacing: 0.5em;
+  	letter-spacing: 0.1em;
   }
 }
