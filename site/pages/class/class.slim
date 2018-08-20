@@ -11,6 +11,8 @@ html
     == fb_url   'http://cosmicfitclub.com/'
     == fb_image 'http://cosmicfitclub.com/banner.png'
 
+    == no_scaling
+
     title Cosmic Fit Club
 
     javascript:
@@ -36,12 +38,12 @@ html
         .description
           span
             | { data.class.description }
-            
+
         .upcoming
           .heading
             | Join Us For an Upcoming Session:
           .occurrences
-            .occurence rv-each-occ='data.sessions'
+            .occurence rv-each-occ='data.sessions' rv-on-click='ctrl.register'
               | { occ.starttime | classtime } with { occ.teachers | list name }
 
     == include_slim('slim/partials/footer')
