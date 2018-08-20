@@ -1,0 +1,9 @@
+.tile .name {
+  font-size: 1.8em;
+  margin-bottom: 1em;
+}
+
+
+.tile .description {
+  max-width: 50em;
+}
