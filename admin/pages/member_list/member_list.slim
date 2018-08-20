@@ -12,7 +12,7 @@ html
 
     #stars
 
-        - $DB["SELECT subscriptions.id, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name FROM Subscriptions LEFT JOIN customers ON customers.id = customer_id LEFT JOIN plans ON plans.id = plan_id WHERE deactivated IS NULL"].all.group_by { |x| x[:plan_name] }.each do |plan_name, subscriptions|
+        - $DB["SELECT subscriptions.id, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name FROM Subscriptions LEFT JOIN customers ON customers.id = customer_id LEFT JOIN plans ON plans.id = plan_id ORDER BY deactivated"].all.group_by { |x| x[:plan_name] }.each do |plan_name, subscriptions|
           .tile
             table
               tr
@@ -24,3 +24,5 @@ html
                     | #{ sub[:name] }
                   td
                     | #{ sub[:email] } 
+                  td
+                    | #{ sub[:deactivated] }
