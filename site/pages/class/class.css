@@ -1,9 +1,12 @@
 .tile .name {
   font-size: 1.8em;
-  margin-bottom: 1em;
+  margin: 1em;
+  font-family: Industry;
+  text-shadow: 0 0 0.2em white, 0 0 0.2em white;
+  text-align: left;
 }
-
 
 .tile .description {
   max-width: 50em;
+  display: inline-block;
 }
