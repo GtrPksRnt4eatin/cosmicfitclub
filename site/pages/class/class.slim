@@ -23,7 +23,7 @@ html
 
   body.p2
   
-    #stars
+    #stars rv-bgimg='data.class.image_url'
     
     == include_slim('slim/partials/header')
 
@@ -35,9 +35,6 @@ html
 
         .description
           | { data.class.description } 
-
-        .img_container
-          img rv-src='data.class.image_url'
 
     == include_slim('slim/partials/footer')
 
