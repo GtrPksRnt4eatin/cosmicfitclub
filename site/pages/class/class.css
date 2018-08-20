@@ -23,6 +23,7 @@
   display: inline-block;
   background: rgba(255,255,255,0.1);
   padding: 0.5em 2em;
+  margin-bottom: 1em;
 }
 
 .upcoming .heading {
@@ -38,7 +39,14 @@
   background: rgba(255,255,255,0.4);
 }
 
-.upcoming .occurence:nth-child(odd)  { background: rgba(255,255,255,0.1); }
+.upcoming .occurence { 
+  background: rgba(255,255,255,0.1); 
+  border-bottom: 1px white;
+}
+
+.upcoming .occurrence:last-child {
+  border-bottom: none;
+}
 
 @keyframes glow {
   from { 
