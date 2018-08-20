@@ -5,6 +5,7 @@
   width: 16em;
   border-radius: 2em;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .classdef:hover {
@@ -60,7 +61,7 @@
   }
 
   .content {
-    font-size: 3.5vw;
+    font-size: 3.3vw;
   }
 
 }
