@@ -1,6 +1,10 @@
+.tile {
+  padding: 0;
+}
+
 .tile .name {
   font-size: 1.8em;
-  margin: 1em;
+  padding: 0.5em;
   font-family: Industry;
   text-shadow: 0 0 0.2em white;
   background: rgba(255,255,255,0.2);
@@ -12,3 +16,4 @@
   display: inline-block;
   padding: 1em;
 }
+
