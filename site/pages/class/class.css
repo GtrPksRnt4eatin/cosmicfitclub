@@ -22,7 +22,8 @@
 .upcoming {
   display: inline-block;
   background: rgba(255,255,255,0.1);
-  margin-bottom: 1em;
+  margin-bottom: 2em;
+  box-shadow: 0 0 0.1em white;
 }
 
 .upcoming .heading {
@@ -43,7 +44,7 @@
   border-bottom: 1px solid white;
 }
 
-.upcoming .occurrence:last-child {
+.upcoming .occurence:last-child {
   border-bottom: none;
 }
 
