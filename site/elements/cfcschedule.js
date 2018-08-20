@@ -238,7 +238,7 @@ Schedule.prototype.CSS = `
     font-style: italic;
   }
 
-  #Schedule .classitem span[data-cancelled=true] {
+  #Schedule .classitem[data-cancelled=true] span {
     text-decoration: line-through solid red;
   }
 
