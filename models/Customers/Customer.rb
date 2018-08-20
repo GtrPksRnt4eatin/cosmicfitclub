@@ -35,6 +35,7 @@ class Customer < Sequel::Model
   end
 
   def Customer.get_from_email(email, name)
+    created = false
     customer = find_or_create( :email => email.downcase ) { |cust| cust.name = name; created = true }    
     customer.add_passes(1,"First Class Free", "") if created
     customer.create_login if customer.login.nil? 
