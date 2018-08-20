@@ -238,12 +238,12 @@ Schedule.prototype.CSS = `
     font-style: italic;
   }
 
-  #Schedule .classitem[data-cancelled=true] {
-    text-decoration: line-through;
+  #Schedule .classitem span[data-cancelled=true] {
+    text-decoration: line-through solid red;
   }
 
   #Schedule .classitem[data-cancelled=true] .register {
-    display: hidden;
+    visibility: hidden;
   }
 
   @media(max-width: 1130px) {
