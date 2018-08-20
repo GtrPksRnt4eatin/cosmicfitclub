@@ -22,7 +22,7 @@
 .upcoming {
   display: inline-block;
   background: rgba(255,255,255,0.1);
-  padding: 0.5em 2em;
+  padding: 0.5em 1em 1em;
   margin-bottom: 1em;
 }
 
@@ -31,20 +31,20 @@
 }
 
 .upcoming .occurence {
-  padding: 0.2em 1em;
+  padding: 0.2em 2em;
 }
 
-.upcoming .occurence::hover {
+.upcoming .occurence:hover {
   cursor: pointer;
-  background: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.2);
 }
 
 .upcoming .occurence { 
   background: rgba(255,255,255,0.1); 
-  border-bottom: 1px white;
+  border-bottom: 1px solid white;
 }
 
-.upcoming .occurrence:last-child {
+.upcoming .occurrence::last-child {
   border-bottom: none;
 }
 
