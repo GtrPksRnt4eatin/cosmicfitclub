@@ -42,7 +42,7 @@ html
           .occurrences
             - cls.get_full_occurences( Time.now, Time.now + (24*7*60*60) ).each do |occ|
               .occurence
-                | #{occ[:starttime]} with #{occ[:teachers].map { |x| x[:name] }.join(', ') }
+                | #{occ[:starttime].to_classtime} with #{occ[:teachers].map { |x| x[:name] }.join(' & ') }
 
     == include_slim('slim/partials/footer')
 

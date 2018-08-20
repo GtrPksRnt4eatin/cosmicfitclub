@@ -19,6 +19,18 @@
   letter-spacing: 0.05em;
 }
 
+.upcoming .occurence {
+  padding: 0.5em;
+}
+
+.upcoming .occurence:hover {
+  cursor: pointer;
+  background: rgba(255,255,255,0.4);
+}
+
+.upcoming .occurence:nth-child(even) { background: rgba(255,255,255,0.1); }
+.upcoming .occurence:nth-child(odd)  { background: rgba(255,255,255,0.2); }
+
 @keyframes glow {
   from { 
   	text-shadow: 0 0 0.2em rgba(255,255,255,0.3);
