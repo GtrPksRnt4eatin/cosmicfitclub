@@ -9,6 +9,7 @@
   text-shadow: 0 0 0.2em white;
   background: rgba(255,255,255,0.2);
   letter-spacing: 0.1em;
+  animation: glow 2s infinite;
 }
 
 .tile .description {
@@ -17,3 +18,13 @@
   padding: 1em;
 }
 
+@keyframes glow {
+  from { 
+  	text-shadow: none;
+  	letter-spacing: 0.1em;
+  }
+  to {
+  	text-shadow: 0 0 0.2em white;
+  	letter-spacing: 0.05em;
+  }
+}
