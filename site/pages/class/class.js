@@ -12,10 +12,10 @@ $(document).ready(function() {
 
   include_rivets_dates();
    
-  rivets.formatters.list = function(val) {
-  	if( val.length == 1 ) return val[0];
-  	if( val.length == 2 ) return val[0] + " & " + val[1];
-  	if( val.length == 3 ) return val[0] + ", " + val[1] + " & " + val[2];
+  rivets.formatters.list = function(val,param) {
+  	if( val.length == 1 ) return val[0][param];
+  	if( val.length == 2 ) return val[0][param] + " & " + val[1][param];
+  	if( val.length == 3 ) return val[0][param] + ", " + val[1][param] + " & " + val[2][param];
   }
 
   rivets.binders['bgimg'] = function(el, value){ el.style.setProperty("background", "url('" + value + "')" ); };
