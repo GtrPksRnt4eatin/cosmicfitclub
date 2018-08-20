@@ -4,6 +4,7 @@
   display: inline-block;
   width: 16em;
   padding-bottom: 0.5em;
+  border-radius: 2em;
 }
 
 .classdef img {
@@ -11,17 +12,14 @@
   width: 100%;
 }
 
-.classdef .classnfo {
-  display: inline-block;
-  width: 80%;
-}
-
-.classnfo {
-  vertical-align: top;
-}
-
 .classname {
-  padding: .5em 0 0 0;
+  border-radius: 0 2em 2em 0;
+  background: rgba(0,0,0,0.6);
+  position: absolute;
+  display: inline-block;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .schedule {
