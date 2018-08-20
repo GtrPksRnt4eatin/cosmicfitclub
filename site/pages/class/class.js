@@ -1,9 +1,9 @@
 ctrl = {
  
   register: function(e,m) {
-    $.post(`/models/classdefs/occurrences`, { "classdef_id": data.class.classdef_id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
+    $.post(`/models/classdefs/occurrences`, { "classdef_id": data.class.classdef_id, "staff_id": m.occ.teachers[0].id, "starttime": m.occ.starttime }, 'json')
      .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
-     .success( function(data)           { window.location = `https://cosmicfitclub.com/checkout/class_reg/${data['id']}` } ); 
+     .success( function(data)           { window.location = "/checkout/class_reg/" + data['id'] } ); 
   } 
 
 }
@@ -19,7 +19,7 @@ $(document).ready(function() {
   }
 
   rivets.binders['bgimg'] = function(el, value){ el.style.setProperty("background", "url('" + value + "')" ); };
-  
+
   rivets.bind( document.body, { data: data, ctrl: ctrl })
 
 })
