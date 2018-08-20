@@ -14,6 +14,7 @@ ctrl = {
 		if( m.reservation.payment_type == 'class pass' ) { proceed = confirm("Refund One Class Pass?"); }
 		if( m.reservation.payment_type == 'card'       ) { proceed = confirm("Refund Credit Card?");    }
     if( m.reservation.payment_type == 'cash'       ) { proceed = confirm("Refund $25 Cash?");       }
+    if( m.reservation.payment_type == 'free'       ) { proceed = confirm("Cancel Registration?");   }
 		if( !proceed ) return;
 		$.del(`/models/classdefs/reservations/${m.reservation.id}`, function() { get_reservations(); reservation_form.refresh_customer(); } );
 	},

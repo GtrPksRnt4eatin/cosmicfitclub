@@ -26,7 +26,10 @@ class Customer < Sequel::Model
   end
 
   def Customer.get_from_token(token)
-    customer = find_or_create( :email => token['email'] ) { |cust| cust.name = token['card']['name'] }
+    customer = find_or_create( :email => token['email'] ) do |cust| 
+      cust.name = token['card']['name']
+      cust.add_passes(1,"First Class Free", "")
+    end
     customer.update( :stripe_id => StripeMethods::create_customer(token) ) if customer.stripe_id.nil?
     customer.create_login if customer.login.nil? 
     return customer
@@ -35,7 +38,7 @@ class Customer < Sequel::Model
   def Customer.get_from_email(email, name)
     customer = find_or_create( :email => email.downcase ) do |cust| 
       cust.name = name
-      cust.add_passes(1,"First Class Comp", "")
+      cust.add_passes(1,"First Class Free", "")
     end    
     customer.create_login if customer.login.nil? 
     return customer
