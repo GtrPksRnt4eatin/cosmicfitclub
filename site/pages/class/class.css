@@ -21,24 +21,24 @@
 
 .upcoming {
   display: inline-block;
+  background: rgba(255,255,255,0.1);
+  padding: 0.5em 2em;
 }
 
 .upcoming .heading {
-  padding: 0.5em;
-  background: rgba(255,255,255,0.2);
+  padding-bottom: 0.5em;
 }
 
 .upcoming .occurence {
   padding: 0.2em 1em;
 }
 
-.upcoming .occurence:hover {
+.upcoming .occurence::hover {
   cursor: pointer;
   background: rgba(255,255,255,0.4);
 }
 
-.upcoming .occurence:nth-child(even) { background: rgba(255,255,255,0.1); }
-.upcoming .occurence:nth-child(odd)  { background: rgba(255,255,255,0.3); }
+.upcoming .occurence:nth-child(odd)  { background: rgba(255,255,255,0.1); }
 
 @keyframes glow {
   from { 
