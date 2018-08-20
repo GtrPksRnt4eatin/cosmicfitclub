@@ -12,17 +12,22 @@ html
 
     #stars
 
-        - $DB["SELECT subscriptions.id, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name FROM Subscriptions LEFT JOIN customers ON customers.id = customer_id LEFT JOIN plans ON plans.id = plan_id ORDER BY deactivated"].all.group_by { |x| x[:plan_name] }.each do |plan_name, subscriptions|
+        - $DB["SELECT subscriptions.*, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name FROM Subscriptions LEFT JOIN customers ON customers.id = customer_id LEFT JOIN plans ON plans.id = plan_id ORDER BY deactivated"].all.group_by { |x| x[:plan_name] }.each do |plan_name, subscriptions|
+         
           .tile
             table
               tr
                 th colspan="2"
                   | #{ plan_name }
               - subscriptions.each do |sub|
-                tr data-id='#{sub[:id]}'
+                tr data-id='#{sub[:id]}' data-deactivated='#{ sub[:deactivated] }'
                   td
                     | #{ sub[:name] }
                   td
-                    | #{ sub[:email] } 
+                    | #{ sub[:email] }
                   td
-                    | #{ sub[:deactivated] }
+                    | #{ sub[:stripe_id] }
+                  td
+                    | #{ sub[:began_on] }
+                  td
+                    | #{ sub[:canceled_on] }

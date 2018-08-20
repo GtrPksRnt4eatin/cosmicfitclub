@@ -14,3 +14,7 @@ th {
 td, th {
   box-shadow: 0 0 0.1em white;
 }
+
+tr[data-deactivated=true] {
+  text-decoration: line-through red;
+}
