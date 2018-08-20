@@ -9,7 +9,7 @@
   text-shadow: 0 0 0.2em white;
   background: rgba(255,255,255,0.2);
   letter-spacing: 0.1em;
-  animation: glow 2s infinite;
+  animation: glow 3s alternate infinite, shrink 3s 1;
 }
 
 .tile .description {
@@ -20,11 +20,18 @@
 
 @keyframes glow {
   from { 
-  	text-shadow: none;
-  	letter-spacing: 0.1em;
+  	text-shadow: 0 0 0.2em rgb(100,100,100);
   }
   to {
   	text-shadow: 0 0 0.2em white;
-  	letter-spacing: 0.05em;
+  }
+}
+
+@keyframes shrink {
+  from {
+  	letter-spacing: 5em;
+  }
+  to {
+  	letter-spacing: 0.5em;
   }
 }
