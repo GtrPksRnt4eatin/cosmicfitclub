@@ -7,7 +7,7 @@
   padding: 0.5em;
   font-family: Industry;
   background: rgba(255,255,255,0.2);
-  animation: glow 5s alternate infinite, shrink 5s 1;
+  animation: glow 2s alternate infinite, shrink 5s 1;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -20,7 +20,7 @@
 
 @keyframes glow {
   from { 
-  	text-shadow: 0 0 0.2em black;
+  	text-shadow: none;
   }
   to {
   	text-shadow: 0 0 0.2em white;
@@ -29,7 +29,7 @@
 
 @keyframes shrink {
   from {
-  	letter-spacing: 1em;
+  	letter-spacing: 0.5em;
   }
   to {
   	letter-spacing: 0.1em;
