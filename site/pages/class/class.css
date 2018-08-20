@@ -10,4 +10,5 @@
 .tile .description {
   max-width: 50em;
   display: inline-block;
+  padding: 1em;
 }
