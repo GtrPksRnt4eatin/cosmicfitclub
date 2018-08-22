@@ -34,7 +34,7 @@ class TwilioRoutes < Sinatra::Base
   	  gather.say('Press Three to speak with Donut.')
   	end
   	response.say('We didn\'t receive any input!')
-    response.redirect('/incoming')
+    response.redirect('/twilio/incoming')
   	response.to_s
   end
 
@@ -58,8 +58,8 @@ class TwilioRoutes < Sinatra::Base
       response.pause
       response.say('Ack. Cough. Hairball.')
       response.pause
-      response.say('Woof.. No, Wait.. I mean Meow Meow Meow.')
-      response.redirect('/incoming')
+      response.say('Woof.. No, Wait.. I mean Meow Meow Meow. Roar!!')
+      response.redirect('/twilio/incoming')
     end
     response.to_s
   end
