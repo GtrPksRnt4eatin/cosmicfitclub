@@ -27,15 +27,14 @@ class TwilioRoutes < Sinatra::Base
   post '/incoming' do
   	content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
-  	response.gather(input: 'dtmf', timeout: 5, num_digits: 1, action: 'https://cosmicfitclub.com/twilio/selection') do |gather|
+  	response.gather(input: 'dtmf', timeout: 8, num_digits: 1, action: 'https://cosmicfitclub.com/twilio/selection') do |gather|
   	  gather.say('Hi, Thanks for calling Cosmic Fit Club!')
-  	  gather.say('Press One to speak with Joy about rentals and evening classes.')
-  	  gather.say('Press Two to speak with Phil about Personal Training, Kids classes, and morning classes.')
-  	  gather.say('Press Three to speak with Ben about the website, or billing issues.')
-  	  gather.say('Press Four to speak with Donut.')
+  	  gather.say('Press One to speak with Joy about classes and fitness.')
+  	  gather.say('Press Two to speak with Ben about the website, or billing issues.')
+  	  gather.say('Press Three to speak with Donut.')
   	end
-  	response.say('We didn\'t receive any input. Goodbye!')
-  	response.hangup
+  	response.say('We didn\'t receive any input!')
+    response.redirect('/incoming')
   	response.to_s
   end
 
@@ -63,7 +62,9 @@ class TwilioRoutes < Sinatra::Base
       response.say('Purr. Purr. Mew.')
       response.pause
       response.say('Ack. Cough. Hairball.')
-      response.hangup
+      response.pause
+      response.say('Woof.. No, Wait.. I mean Meow Meow Meow.')
+      response.redirect('/incoming')
     end
     response.to_s
   end
