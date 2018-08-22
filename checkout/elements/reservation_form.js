@@ -17,7 +17,7 @@ function ReservationForm(parent) {
   rivets.formatters.zero_if_null   = function(val) { return empty(val) ? 0 : val; }
 	rivets.formatters.has_membership = function(val) { return( empty(val) ? false : val.name != 'None' ); }
 
-	this.bind_handlers(['load_customer', 'refresh_customer', 'on_customer', 'reserve_membership', 'reserve_class_pass', 'reserve_paynow', 'after_reservation', 'after_paynow']);
+	this.bind_handlers(['load_customer', 'refresh_customer', 'on_customer', 'reserve_membership', 'reserve_class_pass', 'reserve_free', 'reserve_paynow', 'after_reservation', 'after_paynow']);
 	this.build_dom(parent);
 	this.load_styles();
 	this.bind_dom();
@@ -88,6 +88,11 @@ ReservationForm.prototype = {
     this.ev_fire('paynow', [ this.state.reservation.customer_id, 2500, reason, null, this.after_paynow ]);
 	},
 
+  reserve_free(e,m) {
+    if(!this.state.occurrence.free) return;
+    this.post_reservation("free");
+  },
+
   after_paynow(payment_id) {
     this.state.reservation.payment_id = payment_id;
     this.post_reservation("payment");
@@ -115,17 +120,22 @@ Object.assign( ReservationForm.prototype, ev_channel);
 ReservationForm.prototype.HTML = `
 
   <div class='ReservationForm'>
-    <button rv-on-click='this.reserve_membership' rv-enabled='state.membership_plan | has_membership'>
-      Use Membership <br>
-      ( { state.membership_plan.name } ) 
+    <button rv-if='state.occurrence.free' rv-on-click='this.reserve_free'>
+      Register For Free
     </button>
-    <button rv-on-click='this.reserve_class_pass' rv-enabled='state.class_passes | zero_if_null'>
-      Use a Class Pass <br>
-      ( { state.class_passes | zero_if_null } Remaining )
-    </button>
-    <button rv-on-click='this.reserve_paynow'>
-      Pay $25 Now
-    </button>
+    <div rv-unless='state.occurrence.free'>
+      <button rv-on-click='this.reserve_membership' rv-enabled='state.membership_plan | has_membership'>
+        Use Membership <br>
+        ( { state.membership_plan.name } ) 
+      </button>
+      <button rv-on-click='this.reserve_class_pass' rv-enabled='state.class_passes | zero_if_null'>
+        Use a Class Pass <br>
+        ( { state.class_passes | zero_if_null } Remaining )
+      </button>
+      <button rv-on-click='this.reserve_paynow'>
+        Pay $25 Now
+      </button>
+    </div>
     <div class='errors'>
       <div rv-each-err='state.errors'>
         { err }

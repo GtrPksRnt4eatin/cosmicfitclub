@@ -51,7 +51,7 @@ class ClassDefRoutes < Sinatra::Base
   get '/:id/schedule' do
     content_type :json
     classdef = ClassDef[params[:id]] or halt 404, 'class definition not found'
-    from = ( params[:from] or Time.now )
+    from = ( params[:from] or DateTime.now.beginning_of_day.to_time )
     to = ( params[:to] or Time.now.months_since(6) )
     JSON.generate classdef.get_full_occurences(from, to)
   end
@@ -141,6 +141,8 @@ class ClassDefRoutes < Sinatra::Base
     when "payment"
       reservation = occurrence.make_reservation( params[:customer_id] ) or halt 400
       CustomerPayment[params[:payment_id]].update( :class_reservation_id => reservation.id )
+    when "free"
+      occurrence.make_reservation( params[:customer_id] ) or halt 400
     end
     status 201
   end
@@ -166,8 +168,14 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   post '/exceptions' do
-    excep= ClassException.find_or_create( classdef_id: params[:classdef_id], original_starttime: params[:original_starttime] ) 
-    excep.update( :teacher_id => params[:teacher_id], :starttime => params[:starttime], :cancelled => params[:cancelled], :hidden => params[:hidden])
+    excep = ClassException.find_or_create( classdef_id: params[:classdef_id], original_starttime: params[:original_starttime] ) 
+    teacher_id = ( params[:teacher_id].to_i == 0 ? nil : params[:teacher_id].to_i )
+    excep.update( :teacher_id => teacher_id, :starttime => params[:starttime], :cancelled => params[:cancelled], :hidden => params[:hidden])
+  end
+
+  delete '/exceptions/:id' do
+    excep = ClassException[params[:id]] or halt(404,'Class Exception Not Found')
+    excep.delete
   end
 
 end

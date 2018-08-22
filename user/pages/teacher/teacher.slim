@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmic Fit Club
+
+    ==css ['fonts', 'site', 'header', 'footer', 'user/teacher']
+    ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user/teacher']
+
+  body
+  
+    #stars
+      
+    .content
+
+      .tile
+        .title #{customer.name}'s Scheduled Classes:
+
+        - customer.staff[0].schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
+          div.schedule
+            span.name  #{ sched.classdef.name   }
+            span.rrule #{ sched.rrule_english   }
+            span.time  #{ sched.start_time_12hr }

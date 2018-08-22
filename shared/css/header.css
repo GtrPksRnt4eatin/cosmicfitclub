@@ -20,7 +20,7 @@ header {
   padding: 0;
 }
 
-#menu li {
+#menu a {
   display: inline-block;
   padding: 0.2em 0.5em;
   vertical-align: middle;
@@ -29,6 +29,7 @@ header {
   cursor: pointer;
   width: 6em;
   margin-right: 2px;
+  text-decoration: none;
 }
 
 #userview_container {
@@ -36,23 +37,23 @@ header {
   top: 1em; right: 1em;
 }
 
-.p1 #menu li:nth-child(1), #menu li:hover:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
-.p2 #menu li:nth-child(2), #menu li:hover:nth-child(2) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
-.p3 #menu li:nth-child(3), #menu li:hover:nth-child(3) { box-shadow: 0 -2px 0 rgb(100,255,100) inset; }
-.p4 #menu li:nth-child(4), #menu li:hover:nth-child(4) { box-shadow: 0 -2px 0 rgb(100,200,200) inset; }
-.p5 #menu li:nth-child(5), #menu li:hover:nth-child(5) { box-shadow: 0 -2px 0 rgb(100,100,255) inset; }
-.p6 #menu li:nth-child(6), #menu li:hover:nth-child(6) { box-shadow: 0 -2px 0 rgb(200,100,200) inset; }
-.p7 #menu li:nth-child(7), #menu li:hover:nth-child(7) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
-.p8 #menu li:nth-child(8), #menu li:hover:nth-child(8) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
+.p1 #menu a:nth-child(1), #menu a:hover:nth-child(1) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
+.p2 #menu a:nth-child(2), #menu a:hover:nth-child(2) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
+.p3 #menu a:nth-child(3), #menu a:hover:nth-child(3) { box-shadow: 0 -2px 0 rgb(100,255,100) inset; }
+.p4 #menu a:nth-child(4), #menu a:hover:nth-child(4) { box-shadow: 0 -2px 0 rgb(100,200,200) inset; }
+.p5 #menu a:nth-child(5), #menu a:hover:nth-child(5) { box-shadow: 0 -2px 0 rgb(100,100,255) inset; }
+.p6 #menu a:nth-child(6), #menu a:hover:nth-child(6) { box-shadow: 0 -2px 0 rgb(200,100,200) inset; }
+.p7 #menu a:nth-child(7), #menu a:hover:nth-child(7) { box-shadow: 0 -2px 0 rgb(255,100,100) inset; }
+.p8 #menu a:nth-child(8), #menu a:hover:nth-child(8) { box-shadow: 0 -2px 0 rgb(200,200,100) inset; }
 
-.p1 #menu li:nth-child(1), #menu li:hover:nth-child(1) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
-.p2 #menu li:nth-child(2), #menu li:hover:nth-child(2) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
-.p3 #menu li:nth-child(3), #menu li:hover:nth-child(3) { text-shadow: 0 0 0.5em rgb(100,255,100), 0 0 0.5em rgb(100,255,100); }
-.p4 #menu li:nth-child(4), #menu li:hover:nth-child(4) { text-shadow: 0 0 0.5em rgb(100,200,200), 0 0 0.5em rgb(100,200,200); }
-.p5 #menu li:nth-child(5), #menu li:hover:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255); }
-.p6 #menu li:nth-child(6), #menu li:hover:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5em rgb(200,100,200); }
-.p7 #menu li:nth-child(7), #menu li:hover:nth-child(7) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
-.p8 #menu li:nth-child(8), #menu li:hover:nth-child(8) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
+.p1 #menu a:nth-child(1), #menu a:hover:nth-child(1) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
+.p2 #menu a:nth-child(2), #menu a:hover:nth-child(2) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
+.p3 #menu a:nth-child(3), #menu a:hover:nth-child(3) { text-shadow: 0 0 0.5em rgb(100,255,100), 0 0 0.5em rgb(100,255,100); }
+.p4 #menu a:nth-child(4), #menu a:hover:nth-child(4) { text-shadow: 0 0 0.5em rgb(100,200,200), 0 0 0.5em rgb(100,200,200); }
+.p5 #menu a:nth-child(5), #menu a:hover:nth-child(5) { text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255); }
+.p6 #menu a:nth-child(6), #menu a:hover:nth-child(6) { text-shadow: 0 0 0.5em rgb(200,100,200), 0 0 0.5em rgb(200,100,200); }
+.p7 #menu a:nth-child(7), #menu a:hover:nth-child(7) { text-shadow: 0 0 0.5em rgb(255,100,100), 0 0 0.5em rgb(255,100,100); }
+.p8 #menu a:nth-child(8), #menu a:hover:nth-child(8) { text-shadow: 0 0 0.5em rgb(200,200,100), 0 0 0.5em rgb(200,200,100); }
 
     #stars { background: url('/background-blu.jpg'); }
 .p1 #stars { background: url('/background-red.jpg'); }
@@ -93,7 +94,7 @@ header {
     width: 60vw;
   }
 
-  #menu li {
+  #menu a {
     font-size: 1em;
     margin: 0.2em 0.2em 0;
   }
@@ -113,7 +114,7 @@ header {
     margin-bottom: 2vw;
   }
 
-  #menu li {
+  #menu a {
     text-align: center;
     width: 30%;
     margin: 1px;

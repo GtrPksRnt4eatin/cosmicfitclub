@@ -9,7 +9,7 @@ html
     title Rentals
 
     == css ['fonts', 'site', 'header', 'flatpickr', '/admin/rentals' ]
-    == js  ['jquery', 'rivets', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
+    == js  ['jquery', 'flatpickr', 'moment', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel' ]
     == js  ['elements/popup_menu', 'elements/rental_form', '/auth/elements/userview']
     == js  ['menu', '/admin/rentals' ]
 
@@ -24,41 +24,42 @@ html
     #content
       .tile
         H2 Rentals
-        .add rv-on-click='ctrl.add'
-          | +
 
       .tile.rentals
-        H3 Upcoming Rentals
+        H3 
+          | Upcoming Rentals
+          .add rv-on-click='ctrl.add'
+            span.plus +
         div.headings
-          span Start Time
-          span Duration
-          span Title
-          span
-        div rv-each-rental='data.rentals'
-          span 
+          span.col1 Start Time
+          span.col2 Duration
+          span.col3 Title
+          span.col4
+        div.row rv-each-rental='data.rentals'
+          span.col1
             | { rental.start_time | eventstart }
-          span
+          span.col2
             | { rental.duration_hours } Hours
-          span 
+          span.col3
             | { rental.title }
-          span
+          span.col4
             .edit rv-on-click='ctrl.edit'
             .del rv-on-click='ctrl.del'
 
       .tile.past_rentals
         H3 Past Rentals
         div.headings
-          span Start Time
-          span Duration
-          span Title
-          span
-        div rv-each-rental='data.past_rentals'
-          span 
+          span.col1 Start Time
+          span.col2 Duration
+          span.col3 Title
+          span.col4
+        div.row rv-each-rental='data.past_rentals'
+          span.col1 
             | { rental.start_time | eventstart }
-          span
+          span.col2
             | { rental.duration_hours } Hours
-          span 
+          span.col3
             | { rental.title }
-          span
+          span.col4
 
     #popupmenu_container

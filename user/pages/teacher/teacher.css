@@ -1,0 +1,16 @@
+.schedule {
+  margin: 0.2em;
+  padding: 1em;
+  box-shadow: 0 0 2px white;
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.schedule span {
+  padding: 0 .5em;
+  text-align: left;
+}
+
+.schedule .name  { width: 25em; }
+.schedule .rrule { width: 10em; }
+.schedule .time  { width: 8em; }

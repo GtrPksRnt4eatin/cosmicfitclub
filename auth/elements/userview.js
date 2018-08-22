@@ -32,7 +32,7 @@ UserView.prototype = {
 Object.assign( UserView.prototype, element);
 Object.assign( UserView.prototype, ev_channel);
 
-UserView.prototype.HTML = `
+UserView.prototype.HTML = ES5Template(function(){/**
 
   <div id="UserView">
     <div rv-if='state.user'>
@@ -44,9 +44,9 @@ UserView.prototype.HTML = `
     </div>
   </div>
 
-`.untab(2);
+**/}).untab(2);
 
-UserView.prototype.CSS = `
+UserView.prototype.CSS = ES5Template(function(){/**
   
   #UserView > div {
     display: flex;
@@ -93,4 +93,4 @@ UserView.prototype.CSS = `
     line-height: 1em !important;
   }
 
-`.untab(2);
+**/}).untab(2);

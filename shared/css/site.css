@@ -25,6 +25,10 @@ body {
   overflow-x: hidden;
 }
 
+a, a:hover, a:active, a:visited {
+  color: rgba(255,255,255,0.8);
+}
+
 #stars {
   z-index: -1;
   height: 100%;
@@ -33,6 +37,7 @@ body {
   left: 0; right: 0;
   background-size: cover !important;
   background-position: center !important;
+  background: url(/background-blu.jpg);
 }
 
 .tile {

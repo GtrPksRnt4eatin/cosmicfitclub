@@ -5,6 +5,10 @@ class CustomerRoutes < Sinatra::Base
     Customer.all.to_json
   end
 
+  get '/list' do
+    Customer.all.to_json( { :only => [ :id, :name, :email ] } ) 
+  end
+
   get '/:id' do
     content_type :json
     custy = Customer[params[:id].to_i]
@@ -25,6 +29,15 @@ class CustomerRoutes < Sinatra::Base
     #Customer[params[:id]].to_json( include: [ :subscriptions, :passes, :tickets, :training_passes, :wallet, :reservations, :comp_tickets, :payments] )
   end
 
+  get '/:id/subscriptions' do
+    custy = Customer[params[:id]] or halt(404)
+    custy.subscriptions.map do |sub|
+      { :plan_name => sub.plan.name,
+        :num_uses => sub.uses.count
+      }.merge sub
+    end.to_json
+  end
+ 
   post '/:id/info' do
     data = JSON.parse request.body.read
     custy = Customer[params[:id]] or halt 404
@@ -37,10 +50,22 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
+  get '/:id/waiver' do
+    content_type 'image/svg+xml'
+    return Customer[params[:id]].waiver.signature
+  end
+
   post '/:id/transfer' do
     sugar_daddy = Customer[params[:from]] or halt 404
     minnie_the_moocher = Customer[params[:to]] or halt 404
     sugar_daddy.transfer_passes_to( minnie_the_moocher.id, params[:amount] ) or halt 403
+    status 204
+  end
+
+  post '/:id/add_child' do
+    custy = Customer[params[:id]] or halt 404
+    child = Customer[params[:child_id]] or halt 404
+    custy.add_child(child)
     status 204
   end
 
@@ -64,36 +89,44 @@ class CustomerRoutes < Sinatra::Base
     JSON.generate data
   end
 
+  get '/:id/membership_history' do
+    content_type :json
+    custy = Customer[params[:id]] or halt 404
+    custy.subscriptions.to_json
+  end
+
   get '/:id/wallet' do
     content_type :json
     custy = Customer[params[:id]] or halt 404
     wallet = custy.wallet
     return '{ id: 0 }' if wallet.nil?
     hsh = {}
+    hsh[:id] = wallet.id
     hsh[:shared] = wallet.shared?
     hsh[:shared_with] = wallet.customers.reject{ |x| x.id == custy.id }.map { |c| { :id => c.id, :name => c.name } }
-    hsh[:id] = wallet.id
     hsh[:pass_balance] = wallet.pass_balance
-    hsh[:pass_transactions] = wallet.transactions
-    hsh[:pass_transactions] = hsh[:pass_transactions].inject([]) do |tot,el|
-      el = el.to_hash
-      el[:running_total] = tot.last.nil? ? el[:delta] : tot.last[:running_total] + el[:delta]
-      tot << el 
-    end
-
+    hsh[:pass_transactions] = wallet.history 
     return hsh.to_json
   end
 
   get '/:id/status' do
     content_type :json
-    custy = Customer[params[:id]] or halt 404
+    custy = Customer[params[:id].to_i] or halt 404
     { :membership => custy.subscription.nil? ? { :id => 0, :name => 'None' } : custy.subscription.plan,
       :passes => custy.num_passes
     }.to_json
   end
 
+  get '/:id/family' do
+    content_type :json
+    custy = Customer[params[:id].to_i] or halt 404
+    { :parents => JSON.parse(custy.parents.to_json( :only => [:id, :name] )),
+      :children => JSON.parse(custy.children.to_json( :only => [:id, :name] ))
+    }.to_json
+  end
+
   get '/:id/reservations' do
-    custy = Customer[params[:id]] or halt 404
+    custy = Customer[params[:id].to_i] or halt 404
     reservations = custy.reservations.map { |res|
       { :id => res.id,
         :classname => res.occurrence.nil? ? "Orphaned Reservation" : res.occurrence.classdef.name, 

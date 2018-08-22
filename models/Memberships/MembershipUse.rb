@@ -1,9 +1,7 @@
 class MembershipUse < Sequel::Model
 
-  plugin :json_serializer
-
   many_to_one :reservation, :class=>:ClassReservation, :key=>:reservation_id
-  many_to_one :membership,  :class=>:Subscription, :key=>:membership_id
+  many_to_one :membership,  :class=>:Subscription, :key=>:subscription_id
 
   def undo
   	self.delete

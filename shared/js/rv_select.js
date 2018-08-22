@@ -25,6 +25,7 @@ function include_rivets_select() {
       this.chosen_instance = $(el).chosen({ search_contains: true });
       $(this.chosen_instance).trigger("chosen:updated");
       this.chosen_instance.change(function(e,val) { 
+        console.log("Publishing: " + val.selected);
         this.publish(val.selected); 
         if(this.el.onchange) { this.el.onchange(); }
       }.bind(this));
@@ -33,16 +34,19 @@ function include_rivets_select() {
       $(el).chosen("destroy");
     },
     routine: function(el,value) {
+      console.log("routine: " + value);
       $(el).val(value);
       $(this.chosen_instance).trigger("chosen:updated");
     },
     getValue: function(el) {
+      console.log("getVal: " + $(this.chosen_instance).val());
       return $(this.chosen_instance).val();
     }
   }
 
   rivets.binders['multiselect'] = {
     bind: function(el) {
+      el.setAttribute('multiple', 'true');
       this.chosen_instance = $(el).chosen({ search_contains: true })
       this.chosen_instance.change(function(val) {
         this.publish(val);

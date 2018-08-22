@@ -10,6 +10,7 @@ function include_rivets_dates() {
   rivets.formatters.unmilitary = function(val)     { return moment.parseZone(val).format('h:mm A')             };
   rivets.formatters.classtime  = function(val)     { return moment.parseZone(val).format('ddd MMM D @ h:mm a') };
   rivets.formatters.unixtime   = function(val)     { return moment.parseZone(new Date(val*1000)).format('MM/DD/YYYY hh:mm A') };
+  rivets.formatters.datewyr    = function(val)     { return moment.parseZone(val).format('MMM Do YYYY')        };
   
   rivets.formatters.dtrange    = function(start,end) { 
     start = moment.parseZone(start);
@@ -65,8 +66,9 @@ function include_rivets_dates() {
     },
     routine: function(el,value) {
       if(!value) { this.flatpickrInstance.clear(); return; }
-      this.flatpickrInstance.setDate( value ); 
-      this.flatpickrInstance.jumpToDate(value);
+      this.flatpickrInstance.setDate( value );
+      match = /(\d{4}-\d\d-\d\d) to (\d{4}-\d\d-\d\d)/.exec(value);
+      if(match) { this.flatpickrInstance.jumpToDate(match[2]); }
     },
     getValue: function(el) { return el.value; },
     unbind:   function(el) { this.flatpickrInstance.destroy(); }

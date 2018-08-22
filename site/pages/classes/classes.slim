@@ -24,17 +24,11 @@ html
       
     .content
 
-      .tile.classdef rv-each-class='data.classes'
+      .tile.classdef rv-each-class='data.classes' rv-on-click='ctrl.class_detail'
         img rv-src='class.image_url'
-          div.classnfo
-            .classname 
-              | { class.name }
-            hr width='60%'
-            .classdescription
-              | { class.description }
-            br
-            .schedule rv-each-sched='class.schedules'
-              | { sched.rrule | rrule } { sched.start_time | time } { sched.teacher }
+        .classname 
+          span
+            | { class.name }
 
     == include_slim('slim/partials/footer')
 

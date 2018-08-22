@@ -40,7 +40,7 @@ html
 
       .tile
 
-        h2 
+        h2
           | { event.name }
 
         img src='#{ event.image[:medium].url }'
@@ -48,7 +48,7 @@ html
         .description
           | { event.description }
 
-        .details
+        .details rv-if='event.details'
           | { event.details }
 
         hr width='75%'
@@ -76,73 +76,76 @@ html
 
         hr width='75%'
 
-        #free_event rv-if="data.mode | equals 'free' "
-          h4 This Is A Free Event.
+        #noregister rv-if='event.registration_closed'
+          h4 Sorry, Registration is now closed.
 
-        #free_member_event rv-if="data.mode | equals 'memberfree' "
-          h4 This Event Is Free For Members!
+        #register rv-unless='event.registration_closed'
 
-        #registration rv-if='data.total_price | equals 0'
+          #free_event rv-if="data.mode | equals 'free' "
+            h4 This Is A Free Event.
 
-          div rv-unless="data.mode | equals 'external' "
+          #free_member_event rv-if="data.mode | equals 'memberfree' "
+            h4 This Event Is Free For Members!
 
-            div#emailbox.tuplet rv-if='customer | empty'
-              h4 Enter your E-Mail to register.
-              input#email
+          #registration rv-if='data.total_price | equals 0'
 
-            div rv-if='customer | empty'
-              button#register rv-on-click='ctrl.checkout' Register
+            div rv-unless="data.mode | equals 'external' "
 
-            div rv-unless='customer | empty'
-              button#register rv-on-click='ctrl.checkout' { customer.name }, Click here to register.
+              div#emailbox.tuplet rv-if='customer | empty'
+                h4 Enter your E-Mail to register.
+                input#email
 
-          div rv-if="data.mode | equals 'external' "
-            a rv-href='event.registration_url' 
-              button#reg_ext Click Here To Register With Our Partners
-        
-        #pricing rv-unless='data.total_price | equals 0'
+              div rv-if='customer | empty'
+                button#register rv-on-click='ctrl.checkout' Register
 
-          #prices rv-unless='event.prices | multiple'
-            h4 rv-if="data.mode | equals 'single'" Pricing
-            div rv-each-price='event.prices'
-              div
-                .label Full Price: 
-                | { price.full_price | money }
-              div
-                .label Member Price: 
-                | { price.member_price | money }
-         
-          #prices rv-if='event.prices | multiple'
-            h4 Choose a Ticket Option
-            .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
-              .fine 
-                | ( Choose a package deal or build your own by clicking on the sessions shown above )
-            table
-              tr.price rv-each-price='event.prices' rv-on-click='ctrl.choose_price' rv-data-selected='price.selected'
-                td
-                  | { price.title }
-                td
+              div rv-unless='customer | empty'
+                button#register rv-on-click='ctrl.checkout' { customer.name }, Click here to register.
+
+            div rv-if="data.mode | equals 'external' "
+              a rv-href='event.registration_url' 
+                button#reg_ext Click Here To Register With Our Partners
+          
+          #pricing rv-unless='data.total_price | equals 0'
+
+            #prices rv-unless='event.prices | multiple'
+              h4 rv-if="data.mode | equals 'single'" Pricing
+              div rv-each-price='event.prices'
+                div
+                  .label Full Price: 
                   | { price.full_price | money }
-                td 
-                  | { price.member_price | money } for members
-              tr.custom_row data-selected='true' rv-if="data.a_la_carte"
-                td Custom
-                td 
-                  | { data.custom_full_price | money }
-                td
-                  | { data.custom_member_price | money } for members
+                div
+                  .label Member Price: 
+                  | { price.member_price | money }
+           
+            #prices rv-if='event.prices | multiple'
+              h4 Choose a Ticket Option
+              .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
+                .fine 
+                  | ( Choose a package deal or build your own by clicking on the sessions shown above )
+              table
+                tr.price rv-each-price='event.prices' rv-on-click='ctrl.choose_price' rv-data-selected='price.selected'
+                  td
+                    | { price.title }
+                  td
+                    | { price.full_price | money }
+                  td 
+                    | { price.member_price | money } for members
+                tr.custom_row data-selected='true' rv-if="data.a_la_carte"
+                  td Custom
+                  td 
+                    | { data.custom_full_price | money }
+                  td
+                    | { data.custom_member_price | money } for members
 
-          hr width='75%'
+            hr width='75%'
 
-          div
-            button#checkout rv-on-click='ctrl.checkout' Buy For { data.total_price | money }
+            div
+              button#checkout rv-on-click='ctrl.checkout' Buy For { data.total_price | money }
 
-          .fineprint rv-if='customer | empty'
-            a.signin href='/pricing' Sign Up
-            | /
-            a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
-            | to receive member pricing
-    
-    #popupmenu_container
+            .fineprint rv-if='customer | empty'
+              a.signin href='/pricing' Sign Up
+              | /
+              a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
+              | to receive member pricing
 
     == analytics

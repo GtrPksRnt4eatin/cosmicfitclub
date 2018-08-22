@@ -56,6 +56,7 @@ PopupMenu.prototype.CSS = `
     text-align: center; 
     border: 1px solid rgba(0,0,0,0.6);
     max-width: 20%;
+    display: none;
   }
 
   #PopupMenu.modal {

@@ -27,7 +27,7 @@ class TwilioRoutes < Sinatra::Base
   post '/incoming' do
   	content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
-  	response.gather(input: 'dtmf', timeout: 5, num_digits: 1, action: 'http://cosmicfitclub.com/twilio/selection') do |gather|
+  	response.gather(input: 'dtmf', timeout: 5, num_digits: 1, action: 'https://cosmicfitclub.com/twilio/selection') do |gather|
   	  gather.say('Hi, Thanks for calling Cosmic Fit Club!')
   	  gather.say('Press One to speak with Joy about rentals and evening classes.')
   	  gather.say('Press Two to speak with Phil about Personal Training, Kids classes, and morning classes.')
@@ -40,7 +40,6 @@ class TwilioRoutes < Sinatra::Base
   end
 
   post '/selection' do
-  	p request.body
   	response = Twilio::TwiML::VoiceResponse.new
     case params[:Digits]
     when '1'

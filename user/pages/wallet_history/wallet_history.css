@@ -1,0 +1,58 @@
+.transactions {
+  height: 80vh;
+  overflow-y: scroll;
+  line-height: 1em;
+  display: inline-block;
+  margin: 0.4em;
+  padding: 0.5em;
+  border: 1px solid white;
+}
+
+.transaction span {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  font-size: 0.7em;
+}
+
+.transaction .timestamp     { width: 12em; text-align: left; }
+.transaction .description   { width: 50em; }
+.transaction .delta         { width: 5em; text-align: right; }
+.transaction .running_total { width: 5em; text-align: right; }
+
+.footer {
+  margin-bottom: 0.5em;
+}
+
+@media (max-width: 800px) {
+
+  .content {
+  	max-width: none;
+  }
+
+  .transactions {
+  	height: auto;
+  	border: 0;
+  }
+
+  .transaction:nth-child(1) {
+  	border-top: 1px solid white;
+  }
+
+  .transaction {
+  	border-bottom: 1px solid white;
+  	border-left: 1px solid white;
+    border-right: 1px solid white;
+  	padding: .2em 0;
+  }
+
+  .transaction span {
+    white-space: normal;
+    vertical-align: middle;
+  }
+  
+  .transaction .description   { width: 50%; padding: 0 0.5em; }
+  .transaction .delta         { width: 3em; }
+  .transaction .running_total { width: 3em; }
+}

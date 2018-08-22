@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmic Fit Club
+
+    ==css ['fonts', 'site', 'header', 'footer', 'wallet_history']
+    ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user']
+
+  body
+
+    #stars
+
+    .content
+
+      .tile
+        .header Class Pass Transaction History
+        
+        .transactions
+          .transaction 
+            span.timestamp
+            span.description Start Of Ledger
+            span.delta 0
+            span.running_total 0
+
+          - customer.wallet.history.each do |trans|
+            .transaction title="#{trans[:id]}"
+              span.timestamp     #{ trans[:timestamp].strftime("%Y/%m/%d %I:%M:%S %P") }
+              span.description   #{ trans[:description]   }
+              span.delta         #{ "+" if trans[:delta] > 0 } #{ trans[:delta] }
+              span.running_total #{ trans[:running_total] }
+
+        .footer Passes Remaining: #{ customer.num_passes }

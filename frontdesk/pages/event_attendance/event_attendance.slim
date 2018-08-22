@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    title CFC Event Attendance
+
+    javascript:
+      data = {
+        event:     #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }},
+        custylist: #{{ Customer.all.to_json( :only => [ :id, :name, :email ] )         }},
+        list:      []
+      }
+
+    == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', 'event_attendance' ]
+
+    == js  [ 'jquery', 'jquery.chosen.min' ]
+    == js  [ 'moment', 'lib' ]
+    == js  [ 'rivets', 'rv_dates', 'rv_select', 'lib' ]
+    == js  [ 'element', 'ev_channel', '/admin/elements/custy_selector', '/admin/elements/ticket_selector' ]
+    == js  [ 'event_attendance' ]
+
+  body
+
+    #stars
+
+    #content
+
+      .tile
+
+        .title
+          | { data.event.name }
+          br
+          br
+          a href="/models/events/#{params[:id]}/attendance.csv" Download Accounting Sheet
+
+      .tile rv-each-sess='data.event.sessions'
+
+        .title
+          | [# {sess.id} ] { sess.title }
+
+        .time
+          | { sess.start_time | dayofwk } { sess.start_time | date } { sess.start_time | time } - { sess.end_time | time }
+
+        .subtitle
+          | { sess.description }
+
+        .subtitle
+          | Headcount: { data.list | headcount sess }
+
+        table#tickets
+          tr rv-each-tic='data.list' rv-show='tic | has_session sess' rv-title='tic.id'
+            td.edit_tic rv-on-click='ctrl.edit_tic'
+              | { tic.id }
+            td.edit_custy rv-on-click='ctrl.edit_customer'
+              | { tic | getname }
+            td
+              | { tic | getemail }
+            td.checkin rv-class='tic | checked_in_class sess' rv-on-click='ctrl.check_in'
+              | { tic | checked_in sess }
+
+      .tile
+        #custyselector_container
+        #ticketselector_container

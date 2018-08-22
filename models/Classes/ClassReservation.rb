@@ -1,6 +1,4 @@
 class ClassReservation < Sequel::Model
-  
-  plugin :json_serializer
 
   many_to_one :customer
   many_to_one :occurrence, :class => :ClassOccurrence, :key => :class_occurrence_id
@@ -32,6 +30,7 @@ class ClassReservation < Sequel::Model
       return "card" if self.payment.type == "saved card"
       return "card" if self.payment.type == "new card"
     end
+    return "free" if self.occurrence.free
     return ""
   end
 

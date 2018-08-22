@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmic Fit Club
+
+    ==css ['fonts', 'site', 'header', 'footer', 'user/hourly']
+    ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user/hourly']
+
+  body
+  
+    #stars
+      
+    .content
+
+      .tile
+        .title #{customer.name}'s Shifts:
+          
+        #shifts
+          - HourlyShift.where( :customer => customer ).each do |shift|
+            .shift
+              span.rrule     #{ IceCube::Rule.from_ical(shift.rrule).to_s }
+              span.starttime #{ shift.starttime.strftime("%l:%M %P") } - #{ (shift.starttime + shift.duration*60*60).strftime("%l:%M %P") }
+              span.duration  #{ '%.2f' % shift.duration } hours
+
+      .tile
+        .title #{customer.name}'s Hours:
+
+        #punches
+          - HourlyPunch.where( :customer => customer ).each do |punch|
+            .punch rv-each-punch='data.punches'
+              span.task_id   { punch.hourly_task_id }
+              span.starttime { punch.starttime }
+              span.endtime   { punch.endtime }
+
+        button#punch_in  Punch In
+        button#punch_out Punch Out

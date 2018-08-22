@@ -26,8 +26,12 @@ ul {
 
 .sliderimg {
   width: 68vw; 
-  margin: 0 10px;
+  margin: 5px 10px;
   vertical-align: middle;
+}
+
+.slick-current .sliderimg {
+  box-shadow: 0 0 5px white;
 }
 
 #imgscroller {
@@ -46,6 +50,7 @@ ul {
   padding: .1em;
   text-align: center;
   display: inline-block;
+  box-sizing: border-box;
 }
 
 #mission,#scroller {
@@ -69,7 +74,7 @@ ul {
   }
 
 	.content      { font-size: 2.5vw; }
-  #imgscroller  { height: 60vw; width: 100%;}
+  #imgscroller  { height: 51vw; width: 100%;}
 
   .sliderimg    { width: 90vw; }
 
@@ -81,8 +86,8 @@ ul {
   }
 
   .tile {
-    width: 80vw;
-    max-width: 80vw;
+    width: 90vw;
+    max-width: 90vw;
     padding: 1em;
     font-size: 4.2vw;
     line-height: 1.4em;

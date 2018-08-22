@@ -7,7 +7,7 @@ class Checkout < Sinatra::Base
   helpers Sinatra::CheckoutHelpers
   helpers Sinatra::PaymentMethods
   
-  enable :sessions	
+  #enable :sessions	
   
   set :root, File.dirname(__FILE__)
 
@@ -16,32 +16,35 @@ class Checkout < Sinatra::Base
   helpers  Sinatra::ViewHelpers
   register Sinatra::Auth
 
-  get('/plan/:id')                       { render_page :plan           }
-  get('/pack/:id')                       { render_page :pack           }
-  get('/training/:id')                   { render_page :training       }
-  get('/event/:id')                      { render_page :event          }
-  get('/complete')                       { render_page :complete       }
-  get('/misc')                           { render_page :misc           }
-  get('/front_desk')                     { render_page :front_desk     }
-  get('/class_checkin')                  { render_page :class_checkin  } 
-  get('/transactions')                   { render_page :transactions   }
-  get('/class_sheet/:id')                { render_page :class_sheet    }
-  get('/customer_file')                  { render_page :customer_file  }
-  get('/class_reg/:id', :auth => 'user') { render_page :class_reg      }
+  get('/plan/:id')                               { render_page :plan           }
+  get('/pack/:id')                               { render_page :pack           }
+  get('/training/:id')                           { render_page :training       }
+  get('/event/:id')                              { render_page :event          }
+  get('/complete')                               { render_page :complete       }
+  get('/misc')                                   { render_page :misc           }
+  get('/front_desk')                             { render_page :front_desk     }
 
-  post('/plan/charge')       { buy_plan       }
-  post('/pack/charge')       { buy_pack       }
+  get('/transactions')                           { render_page :transactions   }
+
+  get('/class_reg/:id',   :auth => 'user')       { render_page :class_reg      }
+
+  get('/class_checkin',   :auth => 'frontdesk' ) { render_page :class_checkin  } 
+  get('/class_sheet/:id', :auth => 'frontdesk' ) { render_page :class_sheet    }
+  get('/customer_file',   :auth => 'frontdesk' ) { render_page :customer_file  }
+
+  post('/plan/charge')       { buy_plan            }
+  post('/pack/charge')       { buy_pack            }
   post('/pack/buy')          { buy_pack_precharged }
-  post('/training/charge')   { buy_training   }
-  post('/event/charge')      { buy_event      }
-  post('/event/register')    { register_event }
-  post('/misc/charge')       { buy_misc       }
+  post('/training/charge')   { buy_training        }
+  post('/event/charge')      { buy_event           }
+  post('/event/register')    { register_event      }
+  post('/misc/charge')       { buy_misc            }
 
-  post('/charge_card')       { charge_card       }
-  post('/charge_saved_card') { charge_saved_card }
-  post('/pay_cash')          { pay_cash          }
+  post('/charge_card')       { charge_card         }
+  post('/charge_saved_card') { charge_saved_card   }
+  post('/pay_cash')          { pay_cash            }
 
-  post('/swipe')             { card_swipe     }
-  get('/wait_for_swipe')     { wait_for_swipe }
+  post('/swipe')             { card_swipe          }
+  get('/wait_for_swipe')     { wait_for_swipe      }
 
 end

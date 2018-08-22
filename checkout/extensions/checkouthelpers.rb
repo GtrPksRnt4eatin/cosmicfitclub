@@ -8,21 +8,22 @@ module Sinatra
       custy = Customer.get_from_token( data['token'] )
       halt 409 if ( custy.plan != nil ) && ( !custy.plan.deactivated ) ## Already Has A Plan, Log in to Update instead
       custy.add_subscription( data['plan_id'] )
+      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) became a member!")
       status 204
     end
 
     def buy_pack
       data = JSON.parse request.body.read
       custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
-      p data
-      p custy
       custy.buy_pack_card( data['pack_id'], data['token'] )
+      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a class pack.")
       status 204
     end
 
     def buy_pack_precharged
       custy = Customer[params[:customer_id]] or halt 403
       custy.buy_pack_precharged( params[:pack_id], params[:payment_id] )
+      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a class pack precharged.")
     end
 
     def buy_training
@@ -46,7 +47,7 @@ module Sinatra
         :price => data['total_price'],
         :stripe_payment_id => charge['id']
       )
-      Slack.post("[\##{custy.id}]#{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} ticket for eventname.")
+      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} ticket for #{eventname}.")
       status 204
     end
 

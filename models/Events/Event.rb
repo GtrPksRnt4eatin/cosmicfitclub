@@ -2,8 +2,6 @@ require 'csv'
 
 class Event < Sequel::Model
 
-  plugin :json_serializer
-
   one_to_many :tickets, :class => :EventTicket
   one_to_many :sessions, :class => :EventSession
   one_to_many :prices, :class => :EventPrice
@@ -19,6 +17,10 @@ class Event < Sequel::Model
     val = JSON.parse super
     val['image_url'] = image.nil? ? '' : image[:original].url
     JSON.generate val
+  end
+
+  def image_url
+    image.nil? ? '' : image[:original].url
   end
 
   def create_session

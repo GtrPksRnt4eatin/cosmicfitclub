@@ -38,10 +38,7 @@ $(document).ready(function() {
   rentalfrm   = new RentalForm();
 
   rentalfrm.ev_sub('show', popupmenu.show );
-  rentalfrm.ev_sub('after_post', function(rental) { 
-    data['rentals'].replace_or_add_by_id(rental); 
-    popupmenu.hide();
-  });
+  rentalfrm.ev_sub('after_post', function(rental) { ctrl.get(); popupmenu.hide(); });
 
   ctrl.get();
 

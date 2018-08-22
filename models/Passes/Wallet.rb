@@ -3,7 +3,8 @@ class Wallet < Sequel::Model
   one_to_many :customers
   one_to_many :transactions, :class => :PassTransaction
 
-  def empty?; self.pass_balance == 0 end
+  def empty?;  self.pass_balance == 0   end
+  def shared?; self.customers.count > 1 end
 
   def add_passes(number, description, notes)
     transaction = add_transaction( PassTransaction.create( :delta => number.to_i, :description => description, :notes => notes ) )
@@ -30,8 +31,12 @@ class Wallet < Sequel::Model
     return transaction
   end
 
-  def shared?
-    customers.count > 1
+  def history
+    hist = self.transactions.sort_by{ |x| x[:timestamp] }.inject([]) do |tot,el|
+      el = el.to_hash      
+      el[:running_total] = el[:delta] + ( tot.last.nil? ? 0 : tot.last[:running_total] )
+      tot << el
+    end
   end
 
 end

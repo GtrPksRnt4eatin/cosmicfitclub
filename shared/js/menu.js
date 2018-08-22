@@ -5,12 +5,8 @@ $(document).ready(function() {
   });
 
   $('.menubtn').on('click', function(e) {
-    $('ul#menu').toggle();
+    $('#menu').toggle();
     $('#userview_container').toggle();
-  });
-
-  $('#menu li').on('click', function(e) {
-    window.location.href = e.target.getAttribute('data-href');
   });
 
   userview = new UserView( id('userview_container'));

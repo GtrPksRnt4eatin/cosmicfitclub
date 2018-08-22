@@ -7,14 +7,40 @@ function Schedule(parent) {
   }
 
   rivets.formatters.equals = function(val,arg) { return(val == arg); }
+  
   rivets.formatters.show_classitem = function(val) { 
     if( val.type != 'classoccurrence' ) return false;
     if( val.exception && val.exception.hidden ) return false;
     return true;
   }
+
+  rivets.formatters.class_cancelled = function(val) {
+    if( val.type != 'classoccurrence' ) return false;
+    if( empty( val.exception ) ) return false;
+    if( val.exception.cancelled ) return true;
+    return false;
+  }
+  
   rivets.formatters.event_title = function(val) {
     title = val.multisession_event ? val.event_title + '\r\n' + val.title : val.event_title;
     return title;
+  }
+  
+  rivets.formatters.instructor_names = function(val) {
+    if( val.type != 'classoccurrence' ) return false;
+    if( !val.exception || !val.exception.teacher_id ) { 
+      return val.instructors.map( function(val){ 
+        return val ? val.name : null; 
+      }).join(', '); 
+    }
+    return val.exception.teacher_name;
+  },
+  
+  rivets.formatters.sub = function(val) {
+    if( val.type != 'classoccurrence' ) return false;
+    if( !val.exception ) return false;
+    if( !val.exception.teacher_id ) return false
+    return true;
   }
 
   //this.bind_handlers( [ this.prev_day, this.next_day ] );
@@ -75,39 +101,44 @@ Schedule.prototype.HTML = `
         Week Of { state.formatted_date }
       </div>
       <span rv-on-click='this.next_day'> > </span>
-      <div class='daygroup' rv-each-group='state.groups' >
-        <div class='dayname'>
-          { group.day | dayofwk } { group.day | date }
-        </div>
+    </div>
 
-        <div class='occurrence' rv-each-occ='group.occurrences' >
-          <div class='classitem' rv-if="occ | show_classitem" >
+    <div class='daygroup' rv-each-group='state.groups' >
+      <div class='dayname'>
+        { group.day | dayofwk } { group.day | date }
+      </div>
+
+      <div class='occurrence' rv-each-occ='group.occurrences' >
+
+        <div class='classitem' rv-if="occ | show_classitem" rv-data-cancelled='occ | class_cancelled' >
+          <span class='classtime'>
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
+          </span>
+          <span class='classdetail'>
             <span class='classname'> { occ.title } </span>
-            w/
-            <span class='instructors'>
-              <span class='instructor' rv-each-inst='occ.instructors'> { inst.name } </span>
+            <span> w/ </span>
+            <span class='instructors' rv-data-sub='occ | sub'>
+              <span class='instructor'> { occ | instructor_names } </span>
             </span>
-            <span class='register' rv-on-click='this.register' >
-              { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
-            </span>
-          </div>
-
-          <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-            <span class='eventtitle'> { occ | event_title } </span>
-          </div>
-
-          <div class='rental' rv-if="occ.type | equals 'private'">
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-            <span class='eventtitle'> Private Event: { occ.title } </span>
-          </div>
- 
+          </span>
+          <span class='register' rv-on-click='this.register' >
+            { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
+          </span>
         </div>
 
+        <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
+          <span class='start'> { occ.starttime | unmilitary } </span> - 
+          <span class='end'>   { occ.endtime | unmilitary } </span>
+          <span class='eventtitle'> { occ | event_title } </span>
+        </div>
+
+        <div class='rental' rv-if="occ.type | equals 'private'">
+          <span class='start'> { occ.starttime | unmilitary } </span> - 
+          <span class='end'>   { occ.endtime | unmilitary } </span>
+          <span class='eventtitle'> Private Event: { occ.title } </span>
+        </div>
+ 
       </div>
     </div>
   </div>
@@ -118,6 +149,11 @@ Schedule.prototype.CSS = `
 
   #Schedule .current_date {
     display: inline-block;
+  }
+
+  #Schedule .header {
+    margin-top: 1em;
+    font-size: 1.3em;
   }
 
   #Schedule .header span {
@@ -138,7 +174,8 @@ Schedule.prototype.CSS = `
 
   #Schedule .classname {
     display: inline-block;
-    width: 10em;
+    width: 15em;
+    padding: 0 1em;
   }
 
   #Schedule .occurrence {
@@ -166,17 +203,19 @@ Schedule.prototype.CSS = `
     background: rgba(0,0,255,0.2);
   }
 
-  #Schedule .eventsession .eventtitle {
-    width: 28em;
+  #Schedule .eventtitle {
+    width: 34em;
     text-overflow: ellipsis;
     display: inline-block;
     white-space: pre-line;
-  } 
+    margin: 0 1em;
+  }
 
   #Schedule .instructors {
     width: 9em;
     display: inline-block;
     text-overflow: ellipsis;
+    margin: 0 1em;
   }
 
   #Schedule .instructor {
@@ -190,11 +229,24 @@ Schedule.prototype.CSS = `
 
   #Schedule .register {
     display: inline-block;
-    font-size: .5em;
-    line-height: 2em;
+    font-size: .8em;
+    line-height: 1.5em;
   }
 
-  @media(max-width: 1100px) {
+  #Schedule .instructors[data-sub=true] {
+    color: rgb(255,230,150);
+    font-style: italic;
+  }
+
+  #Schedule .classitem[data-cancelled=true] span span {
+    text-decoration: line-through solid red;
+  }
+
+  #Schedule .classitem[data-cancelled=true] .register {
+    visibility: hidden;
+  }
+
+  @media(max-width: 1130px) {
   
     #Schedule .occurrence {
       font-size: 1.8vw;

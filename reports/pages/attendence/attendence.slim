@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    == css ['fonts', 'site', 'header', 'flatpickr', 'reports/attendence']
+    == js  ['jquery', 'rivets', 'moment', 'rv_dates', 'lib', 'element', 'ev_channel', 'flatpickr', '/auth/elements/userview', 'menu', 'reports/attendence']
+
+    title attendence
+  
+  body
+
+    #stars
+
+    #content
+    
+      .tile
+        .header Attendence Lists
+        span Select A Date Range: 
+        input#dtrange rv-on-change='ctrl.get_list' rv-daterangefield='data.daterange'
+
+      .tile
+        table#classlist
+          tr
+            th CLASS
+            th TOTAL
+            th OCCURRENCES
+            th AVERAGE
+          tr rv-each-cls='data.list' rv-on-click='ctrl.sel_class' rv-class='data.selected_class | is_selected cls'
+            td
+              | { cls.class_name }
+            td
+              | { cls.total_visits }
+            td
+              | { cls.occurrences_count }
+            td
+              | { cls.average_attendence | truncateFloat }
+
+      .tile rv-if='data.selected_class'
+        h3 
+          | { data.selected_class.class_name } Occurrences
+        table
+          tr
+            th DATE
+            th TEACHER
+            th COUNT
+            th 
+          tr rv-each-occ='data.selected_class.occurrences_list'
+            td
+              | { occ.starttime | fulldate }
+            td
+              | { occ.staff_name }
+            td
+              | { occ.headcount }
+            td.grnboxctr
+              span.grnbox rv-each-head='occ.headcount | unpack'
+
+        

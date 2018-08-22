@@ -1,6 +1,4 @@
 class ClassOccurrence < Sequel::Model
-  
-  plugin :json_serializer
 
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
   many_to_one :teacher, :key => :staff_id, :class => :Staff
@@ -14,7 +12,13 @@ class ClassOccurrence < Sequel::Model
   end
 
   def ClassOccurrence.get( class_id, staff_id, starttime ) 
-    find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
+    occ = find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
+    occ.update( :free => true ) if ClassDef[class_id].free
+    occ
+  end
+
+  def ClassOccurrence.get_email_list(from,to,classdef_ids)
+    $DB[ClassOccurrence.email_list_query, classdef_ids, from, to].all
   end
 
   def ClassOccurrence.get_email_list(from,to,classdef_ids)
@@ -46,12 +50,13 @@ class ClassOccurrence < Sequel::Model
              WHEN "customer_payments"."id" IS NOT NULL THEN 
                CASE WHEN "customer_payments"."type" = 'cash' THEN 'cash' ELSE 'card' END
              WHEN "membership_uses"."id" IS NOT NULL THEN 
-               CASE WHEN membership_id = 10::bigint THEN 'employee' ELSE 'membership' END
+               CASE WHEN subscription_id = 10::bigint THEN 'employee' ELSE 'membership' END
+             ELSE 'free'
         END AS payment_type,   
         "pass_transactions"."id" AS transaction_id,
         "customer_payments"."id" AS payment_id,
         "membership_uses".id AS membership_use_id,
-        "membership_uses"."membership_id" AS membership_id
+        "membership_uses"."subscription_id" AS subscription_id
       FROM "class_reservations"
       LEFT JOIN "customers" ON ("customers"."id" = "class_reservations"."customer_id")
       LEFT JOIN "customer_payments" ON ("customer_payments"."class_reservation_id" = "class_reservations"."id") 

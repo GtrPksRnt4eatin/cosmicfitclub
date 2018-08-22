@@ -2,7 +2,7 @@ function RentalForm() {
 
   this.state = {
     rental: null,
-    hours: [1,2,3,4,5,6,7,8,9]
+    hours: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
   }
 
   this.bind_handlers(['save']);
@@ -26,13 +26,12 @@ RentalForm.prototype = {
   },
 
   save(e) {
-    $.post('/models/rentals', JSON.stringify(this.state.rental), function(rental) {
-      this.ev_fire('after_post', JSON.parse(sched) );
-    }.bind(this));  
+    $.post('/models/rentals', this.state.rental)
+     .done( function(rental) { this.ev_fire('after_post', JSON.parse(rental) ); }.bind(this) )
+     .fail( function()       { alert("Failed to Create Rental!"); } ) 
   }
 
 }
-
 
 Object.assign( RentalForm.prototype, element);
 Object.assign( RentalForm.prototype, ev_channel); 
@@ -40,9 +39,10 @@ Object.assign( RentalForm.prototype, ev_channel);
 RentalForm.prototype.HTML = `
   
   <div class='RentalForm form'>
+    <h3>Create New Rental</h3>
     <div class='tuplet'>
       <label>Start Time:</label>
-      <input id='starttime' class='time' rv-datefield='state.schedule.start_time' />
+      <input id='starttime' class='time' rv-datefield='state.rental.start_time' />
     </div>
     <div class='tuplet'>
       <label>Duration:</label>
@@ -97,12 +97,6 @@ RentalForm.prototype.CSS = `
   	font-family: inherit;
   	width: 20em;
   	padding: .2em;
-  }
-
-
-
-  .RentalForm .form-control {
-    display: none !important;
   }
 
   .RentalForm .flatpickr-calendar.noCalendar {

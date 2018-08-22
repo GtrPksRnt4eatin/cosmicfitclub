@@ -186,3 +186,7 @@ if (typeof Object.assign != 'function') {
 }
 
 /////////////////////// Object.assign Polyfill for ES5 ///////////////////////////////
+
+function ES5Template(dummy_function) {
+  return dummy_function.toString().split('\n').slice(1,-1).join('\n');
+}

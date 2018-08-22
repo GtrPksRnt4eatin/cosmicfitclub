@@ -17,7 +17,18 @@ class RentalRoutes < Sinatra::Base
   end
 
   post '/' do
-    Rental.create
+    if params[:id].to_i==0 then
+      Rental.create( :start_time => params[:start_time], :duration_hours => params[:duration_hours], :title => params[:title] ).to_json
+    else
+      rental = Rental[params[:id]] or halt 404
+      rental.update( :start_time => params[:start_time], :duration_hours => params[:duration_hours], :title => params[:title] ).to_json
+    end
+  end
+
+  delete '/:id' do
+    rental = Rental[params[:id]] or halt 404
+    rental.delete
+    status 204
   end
 
 end

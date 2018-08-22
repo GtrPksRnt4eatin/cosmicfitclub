@@ -1,0 +1,52 @@
+- cls = ClassDef[params[:id]] or halt(404,'Class Not Found')
+
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == fb_type  'website'
+    == fb_title 'Cosmic Fit Club'
+    == fb_url   'http://cosmicfitclub.com/'
+    == fb_image 'http://cosmicfitclub.com/banner.png'
+
+    == no_scaling
+
+    title Cosmic Fit Club
+
+    javascript:
+      data = {}
+      data['class'] = #{{ cls.to_json }}
+      data['sessions'] = #{{ cls.get_full_occurences( Time.now, Time.now + (24*7*60*60) ).to_json }}
+
+    ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'class']
+    ==js  ['jquery', 'slick', 'moment', 'rivets', 'rv_rrule', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'class']
+
+  body.p2
+  
+    #stars rv-bgimg='data.class.image_url'
+    
+    == include_slim('slim/partials/header')
+
+    .content
+
+      .tile
+        .name_container
+          .name
+            | { data.class.name | no_parens }
+
+        .description
+          span
+            | { data.class.description }
+
+        .upcoming
+          .heading
+            | Join Us For an Upcoming Session:
+          .occurrences
+            .occurence rv-each-occ='data.sessions' rv-on-click='ctrl.register'
+              | { occ.starttime | classtime } with { occ.teachers | list 'name' }
+
+    == include_slim('slim/partials/footer')
+
+    == analytics

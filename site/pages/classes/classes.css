@@ -3,25 +3,59 @@
   position: relative;
   display: inline-block;
   width: 16em;
-  padding-bottom: 0.5em;
+  height: 16em;
+  border-radius: 2em;
+  padding: 0;
+  box-sizing: border-box;
+  letter-spacing: 0.05em;
+}
+
+.classdef:hover {
+  cursor: pointer;
+}
+
+.classdef:hover:after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 0 1em white inset;
+  border-radius: 2em;
 }
 
 .classdef img {
   display: block;
   width: 100%;
-}
-
-.classdef .classnfo {
-  display: inline-block;
-  width: 80%;
-}
-
-.classnfo {
-  vertical-align: top;
+  border-radius: 2em;
 }
 
 .classname {
-  padding: .5em 0 0 0;
+  border-radius: 0 0 2em 2em;
+  background: rgba(0,0,0,0.7);
+  position: absolute;
+  display: inline-block;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4em;
+  vertical-align: middle;
+  padding: 0 0.5em;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.classname:before {
+  content: '';
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.classname span {
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .schedule {
@@ -31,15 +65,17 @@
   box-shadow: 0 0 0.1em white;
 }
 
+
+
 @media(max-width: 800px) {
 
   .classdef {
-    width: auto;
-    display: block;
+    width: 42vw;
+    margin: 2vw;
   }
 
   .content {
-    font-size: 3.5vw;
+    font-size: 3.3vw;
   }
 
 }
