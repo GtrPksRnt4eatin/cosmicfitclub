@@ -47,16 +47,11 @@ class TwilioRoutes < Sinatra::Base
       response.say('Your call is complete. Goodbye!')
       response.hangup
     when '2'
-      response.say('Paging Phil Now. Please Wait.')
-      response.dial(caller_id: '+13476700019') { |dial| dial.number '917-642-1328' }
-      response.say('Your call is complete. Goodbye!')
-      response.hangup
-    when '3'
       response.say('Paging Ben Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '201-280-6512' }
       response.say('Your call is complete. Goodbye!')
       response.hangup
-    when '4'
+    when '3'
       response.say('Meow, Meow, Meow.')
       response.pause
       response.say('Purr. Purr. Mew.')
