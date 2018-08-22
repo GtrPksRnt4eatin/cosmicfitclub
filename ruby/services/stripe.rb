@@ -8,6 +8,8 @@ class StripeRoutes < Sinatra::Base
     
     event = JSON.parse request.body.read
 
+    Slack.post("Stripe Webhook: #{ event['type'] }")
+
     case event['type']
 
     when 'customer.subscription.created'

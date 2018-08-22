@@ -13,4 +13,21 @@ class Subscription < Sequel::Model
     StripeMethods::get_subscription(self.stripe_id)
   end
 
+  def invoices
+    return [] if self.stripe_id.nil?
+    invoices = Stripe::Invoice.list( customer: self.customer.stripe_id )
+    invoices = invoices.select { |x| x["subscription"] == self.stripe_id }
+    invoices.map { |x| { :id => x["id"], :paid => x["amount_paid"], :date => DateTime.strptime(x["date"].to_s, "%s") } }
+  end
+
+  def sum_invoices
+    inv = self.invoices
+    return( inv == [] ? 0 : inv.sum { |x| x[:paid] } )
+  end
+
+  def price_per_class
+    return self.sum_invoices if self.uses.count == 0
+    self.sum_invoices / self.uses.count
+  end
+
 end
