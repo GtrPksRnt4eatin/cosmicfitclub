@@ -6,12 +6,19 @@ ul {
   list-style: none;
 }
 
+header {
+  margin-bottom: 0;
+}
+
+#headerimg {
+  width: 100%;
+}
+
 .content {
-  max-width: 95vw;
+  max-width: 100%;
   margin: 0 auto 0;
   font-size: 18pt;
   line-height: 1.5em;
-  min-height: 48vh;
   text-align: center;
 }
 
