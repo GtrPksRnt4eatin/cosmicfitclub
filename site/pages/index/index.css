@@ -16,6 +16,8 @@ footer {
 
 #headerimg {
   width: 100%;
+  opacity: 0.9;
+  margin-bottom: -6px;
 }
 
 .content {
