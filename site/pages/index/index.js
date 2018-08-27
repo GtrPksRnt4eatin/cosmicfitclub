@@ -1,10 +1,10 @@
 data = {
-  i = 0;
-  images = [
+  i: 0,
+  images: [
     "/wide_handstand.png",
     "/wide_freeclass.png" 
   ],
-  elements = []
+  elements: []
 }
 
 
@@ -20,7 +20,7 @@ $(document).ready(function() {
   	transition_img(images[i])
   	i = i + 1;
   }, 1000 );  
-  
+
 });
 
 function transition_img(path) {
