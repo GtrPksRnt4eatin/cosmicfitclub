@@ -14,12 +14,6 @@ footer {
   margin-top: 0;
 }
 
-#headerimg {
-  width: 100%;
-  opacity: 0.9;
-  margin-bottom: -6px;
-}
-
 .content {
   max-width: 100%;
   margin: 0 auto 0;
@@ -79,6 +73,21 @@ footer {
 .quote div {
   margin-top: 0.5em;
   text-align: right;
+}
+
+#pagebanner {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  opacity: 0.9;
+  margin-bottom: -6px;
+}
+
+#pagebanner img {
+  white-space: nowrap;
+  display: inline;
 }
 
 @media(max-width: 800px) {
