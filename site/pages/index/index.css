@@ -10,12 +10,6 @@ header {
   margin-bottom: 0;
 }
 
-footer {
-  margin-top: 0;
-  position: relative;
-  z-index: 2;
-}
-
 .content {
   max-width: 100%;
   margin: 0 auto 0;
