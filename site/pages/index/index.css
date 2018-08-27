@@ -81,13 +81,12 @@ header {
 }
 
 #pagebanner .frontpage {
-  white-space: nowrap;
   display: inline;
   height: 100%;
-  position: relative;
 }
 
 .frontpage img {
+  height: 100%;
   -webkit-transition: opacity 1.5s linear;
   -moz-transition: opacity 1.5s linear;
   -o-transition: opacity 1.5s linear;
@@ -98,7 +97,7 @@ header {
   opacity: 1;
 }
 
-.frontpag img.img2 {
+.frontpage img.img2 {
   margin-top: -58vh;
 }
 
