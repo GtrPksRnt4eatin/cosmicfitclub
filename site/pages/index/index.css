@@ -86,6 +86,17 @@ header {
   height: 100%;
 }
 
+img.frontpage {
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+
+img.frontpage.transparent {
+  opacity: 0;
+}
+
 @media(max-width: 800px) {
 
   header { 

@@ -1,23 +1,31 @@
+data = {
+  i = 0;
+  images = [
+    "/wide_handstand.png",
+    "/wide_freeclass.png" 
+  ],
+  elements = []
+}
+
+
+
 $(document).ready(function() {
+  var $frontpage = $("#headerimg")
 
-//  $.get('/models/slides', function(slides) {
-//    slides = JSON.parse(slides);
-//    slides.forEach( function(slide) {
-//      $('#imgscroller').slick('slickAdd',`<div><img alt='' class='sliderimg' src='${ slide.url }' /></div>`);
-//    }); 
-//  });
+  elements.push( $(".frontpage.img1") )
+  elements.push( $(".frontpage.img2") )
 
-//  $('#imgscroller').slick({
-//    variableHeight: true,
-//  	centerMode: true,
-//  	centerPadding: '60px',
-//  	variableWidth: true,
-//  	infinite: true,
-//  	autoplay: true,
-//    autoplaySpeed: 2000,
-//    slidesToShow: 1
- // });
-
-  //images.forEach( function(path) { var elem =  $('#imgscroller').slick('slickAdd',`<div><img class='sliderimg' src='${ path }' /></div>`); });
-
+  setInterval( function() {
+  	if(i==images.count) { i = 0; }
+  	transition_img(images[i])
+  	i = i + 1;
+  }, 1000 );  
+  
 });
+
+function transition_img(path) {
+  elements[1].attr('src')
+  elements[0].addClass('transparent')
+  elements[1].removeClass('transparent')
+  elements.push(elements.shift());
+}
