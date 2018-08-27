@@ -88,8 +88,6 @@ header {
 }
 
 .frontpage img {
-  position: absolute;
-  width: 100%;
   -webkit-transition: opacity 1.5s linear;
   -moz-transition: opacity 1.5s linear;
   -o-transition: opacity 1.5s linear;
