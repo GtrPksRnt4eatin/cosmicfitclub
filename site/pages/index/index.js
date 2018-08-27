@@ -24,10 +24,9 @@ $(document).ready(function() {
   setInterval( function() {
   	if(data.i>=data.images.length) { data.i = 0; }
   	transition_img(data.images[data.i]["path"])
+  	set_message()
   	data.i = data.i + 1;
   }, 5000 );
-
-
 
 });
 
@@ -38,6 +37,11 @@ function transition_img(path) {
   data.elements.push(data.elements.shift());
 }
 
+function set_msg(msg) {
+  $('.message').removeClass('animate');
+  $('.message').addClass('animate');
+  $('.message').innerHTML = msg;
+}
 //img.addEventListener('load', function() {
   // execute drawImage statements here
 //}, false);
