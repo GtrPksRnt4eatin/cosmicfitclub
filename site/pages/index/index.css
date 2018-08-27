@@ -83,12 +83,13 @@ footer {
   align-items: center;
   width: 100%;
   opacity: 0.9;
-  height: 50vh;
+  height: 58vh;
 }
 
 #pagebanner img {
   white-space: nowrap;
   display: inline;
+  height: 100%;
 }
 
 @media(max-width: 800px) {
