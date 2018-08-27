@@ -23,6 +23,7 @@ $(document).ready(function() {
 });
 
 function transition_img(path) {
+  console.log("Loading: " + path)
   data.elements[1].attr('src')
   data.elements[0].addClass('transparent')
   data.elements[1].removeClass('transparent')
