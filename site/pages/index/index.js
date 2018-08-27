@@ -11,14 +11,14 @@ data = {
 
 $(document).ready(function() {
 
-  data.elements.push( $(".frontpage.img1") )
-  data.elements.push( $(".frontpage.img2") )
+  data.elements.push( $(".frontpage img.img1") )
+  data.elements.push( $(".frontpage img.img2") )
 
   setInterval( function() {
   	if(data.i>=data.images.length) { data.i = 0; }
   	transition_img(data.images[data.i])
   	data.i = data.i + 1;
-  }, 5000 );  
+  }, 5000 );
 
 });
 
@@ -29,3 +29,7 @@ function transition_img(path) {
   data.elements[1].removeClass('transparent');
   data.elements.push(data.elements.shift());
 }
+
+img.addEventListener('load', function() {
+  // execute drawImage statements here
+}, false);
