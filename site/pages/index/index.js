@@ -15,7 +15,7 @@ $(document).ready(function() {
   data.elements.push( $(".frontpage.img2") )
 
   setInterval( function() {
-  	if(data.i==data.images.count) { data.i = 0; }
+  	if(data.i>=data.images.length) { data.i = 0; }
   	transition_img(data.images[data.i])
   	data.i = data.i + 1;
   }, 1000 );  
