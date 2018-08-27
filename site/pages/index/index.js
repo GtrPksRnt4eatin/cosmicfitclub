@@ -10,22 +10,21 @@ data = {
 
 
 $(document).ready(function() {
-  var $frontpage = $("#headerimg")
 
-  elements.push( $(".frontpage.img1") )
-  elements.push( $(".frontpage.img2") )
+  data.elements.push( $(".frontpage.img1") )
+  data.elements.push( $(".frontpage.img2") )
 
   setInterval( function() {
-  	if(i==images.count) { i = 0; }
-  	transition_img(images[i])
-  	i = i + 1;
+  	if(i==data.images.count) { data.i = 0; }
+  	transition_img(data.images[data.i])
+  	data.i = data.i + 1;
   }, 1000 );  
 
 });
 
 function transition_img(path) {
-  elements[1].attr('src')
-  elements[0].addClass('transparent')
-  elements[1].removeClass('transparent')
-  elements.push(elements.shift());
+  data.elements[1].attr('src')
+  data.elements[0].addClass('transparent')
+  data.elements[1].removeClass('transparent')
+  data.elements.push(data.elements.shift());
 }
