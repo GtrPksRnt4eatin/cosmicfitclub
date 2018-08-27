@@ -24,7 +24,7 @@ $(document).ready(function() {
   setInterval( function() {
   	if(data.i>=data.images.length) { data.i = 0; }
   	transition_img(data.images[data.i]["path"])
-  	set_message()
+  	set_msg(data.images[data.i]["msg"])
   	data.i = data.i + 1;
   }, 5000 );
 
@@ -38,10 +38,13 @@ function transition_img(path) {
 }
 
 function set_msg(msg) {
-  $('.message').removeClass('animate');
-  $('.message').addClass('animate');
-  $('.message').innerHTML = msg;
+  var elem = $('.message');
+  elem.removeClass('animate');
+  elem[0].textContent = msg;
+  void elem[0].offsetWidth;
+  elem.addClass('animate');
 }
+
 //img.addEventListener('load', function() {
   // execute drawImage statements here
 //}, false);
