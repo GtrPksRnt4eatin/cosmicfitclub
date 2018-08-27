@@ -80,24 +80,31 @@ header {
   height: 58vh;
 }
 
-#pagebanner img {
+#pagebanner .frontpage {
   white-space: nowrap;
   display: inline;
   height: 100%;
+  position: relative;
 }
 
-img.frontpage {
-  -webkit-transition: opacity 1s ease-in-out;
-  -moz-transition: opacity 1s ease-in-out;
-  -o-transition: opacity 1s ease-in-out;
-  transition: opacity 1s ease-in-out;
+.frontpage img {
+  position: absolute;
+  width: 100%;
+  -webkit-transition: opacity 1.5s linear;
+  -moz-transition: opacity 1.5s linear;
+  -o-transition: opacity 1.5s linear;
+  transition: opacity 1.5s linear;
 }
 
-img.frontpage {
+.frontpage img {
   opacity: 1;
 }
 
-img.frontpage.transparent {
+.frontpag img.img2 {
+  margin-top: -58vh;
+}
+
+.frontpage img.transparent {
   opacity: 0;
 }
 
