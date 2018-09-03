@@ -2,7 +2,8 @@ data = {
   i: 0,
   images: [
     { "path": "/wide_handstand.png", "msg": "Learn How To Handstand!" },
-    { "path": "/wide_freeclass.png", "msg": "Get Your First Class Free!" }
+    { "path": "/wide_freeclass.png", "msg": "Get Your First Class Free!" },
+    { "path": "/wide_freeevents.png", "msg": "Check Out Our Free Events!" }
   ],
   elements: []
 }
