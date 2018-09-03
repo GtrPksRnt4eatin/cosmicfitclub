@@ -27,7 +27,7 @@ $(document).ready(function() {
   	transition_img(data.images[data.i]["path"])
   	set_msg(data.images[data.i]["msg"])
   	data.i = data.i + 1;
-  }, 5000 );
+  }, 7000 );
 
 });
 
