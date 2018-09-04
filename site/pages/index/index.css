@@ -88,7 +88,7 @@ header {
 }
 
 .message.animate {
-  animation: glow 2s alternate infinite, shrink 2s ease-in 1 forwards;
+  animation: glow 2s alternate infinite;
 }
 
 #pagebanner {
