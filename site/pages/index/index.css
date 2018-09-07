@@ -105,6 +105,14 @@ header {
   cursor: pointer;
 }
 
+#pagebanner:hover {
+  box-shadow: 0 0 4em rgba(150,200,255,0.5) inset;
+}
+
+#pagebanner:hover .message {
+  color: rgb(200,200,255);
+}
+
 #pagebanner .frontpage {
   display: inline;
   height: 100%;
