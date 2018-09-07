@@ -91,6 +91,10 @@ header {
   animation: glow 2s alternate infinite;
 }
 
+.message.msg2 {
+  margin-top: -0.81em;
+}
+
 #pagebanner {
   overflow: hidden;
   display: flex;
