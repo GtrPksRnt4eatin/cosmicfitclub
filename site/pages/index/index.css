@@ -87,7 +87,7 @@ header {
   display: inline;
 }
 
-.message.animate {
+.message {
   animation: glow 2s alternate infinite;
 }
 

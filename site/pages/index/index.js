@@ -6,7 +6,8 @@ data = {
     { "path": "/wide_membership_1920_tiny.png", "msg": "Join The Club! Become a Member Today!" },
     { "path": "/wide_handstand_1920_tiny.png",  "msg": "Learn How To Handstand!" }
   ],
-  elements: []
+  img_elements: [],
+  msg_elements: []
 }
 
 
@@ -20,33 +21,26 @@ $(document).ready(function() {
 //      ]
 //    );
 
-  data.elements.push( $(".frontpage img.img1") )
-  data.elements.push( $(".frontpage img.img2") )
+  data.img_elements.push( $(".frontpage img.img1") )
+  data.img_elements.push( $(".frontpage img.img2") )
+  data.msg_elements.push( $(".message_container .msg1") )
+  data.msg_elements.push( $(".message_container .msg2") )
 
-  setInterval( function() {
-
-  	transition_img(data.images[data.i]["path"]);
-  }, 7000 );
+  setInterval( function() { transition_img(); }, 7000 );
 
   $('.img1, .img2').load(function(e){
-    data.elements[0].addClass('transparent');
-    data.elements[1].removeClass('transparent');
-    setTimeout(function(){ set_msg(data.images[data.i]["msg"]); }, 1000 );    
+    data.img_elements[0].addClass('transparent');
+    data.img_elements[1].removeClass('transparent');
+    data.msg_elements[0].addClass('transparent');
+    data.msg_elements[1].removeClass('transparent');   
   });
 
 });
 
-function transition_img(path) {
-  data.elements[1].attr('src', path);
-  //data.elements[0].addClass('transparent');
-  //data.elements[1].removeClass('transparent');
-  //data.elements.push(data.elements.shift());
-}
-
-function set_msg(msg) {
-  var elem = $('.message');
-  elem[0].textContent = msg;
-  data.elements.push(data.elements.shift());
+function transition_img() {
   if(data.i>=data.images.length) { data.i = 0; }
+  data.img_elements[1].attr('src', data.images[data.i]["path"] );
+  data.msg_elements[1].textContent = data.images[data.i]["msg"];
+  data.elements.push(data.elements.shift());
   data.i = data.i + 1;
 }
