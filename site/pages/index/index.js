@@ -24,16 +24,14 @@ $(document).ready(function() {
   data.elements.push( $(".frontpage img.img2") )
 
   setInterval( function() {
-  	if(data.i>=data.images.length) { data.i = 0; }
+
   	transition_img(data.images[data.i]["path"]);
   }, 7000 );
 
   $('.img1, .img2').load(function(e){
     data.elements[0].addClass('transparent');
     data.elements[1].removeClass('transparent');
-    data.elements.push(data.elements.shift());
-    setTimeout(function(){ set_msg(data.images[data.i]["msg"]); }, 500 );
-    data.i = data.i + 1;
+    setTimeout(function(){ set_msg(data.images[data.i]["msg"]); }, 1000 );    
   });
 
 });
@@ -47,12 +45,8 @@ function transition_img(path) {
 
 function set_msg(msg) {
   var elem = $('.message');
-  elem.removeClass('animate');
   elem[0].textContent = msg;
-  void elem[0].offsetWidth;
-  elem.addClass('animate');
+  data.elements.push(data.elements.shift());
+  if(data.i>=data.images.length) { data.i = 0; }
+  data.i = data.i + 1;
 }
-
-//img.addEventListener('load', function() {
-  // execute drawImage statements here
-//}, false);
