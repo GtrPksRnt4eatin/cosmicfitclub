@@ -87,9 +87,7 @@ header {
   display: inline;
 }
 
-.message {
-  animation: glow 4s alternate infinite;
-}
+
 
 .message.msg2 {
   margin-top: -0.81em;
@@ -106,7 +104,11 @@ header {
 }
 
 #pagebanner:hover {
-  box-shadow: 0 0 4em rgba(150,200,255,0.5) inset;
+  box-shadow: 0 0 4em rgba(150,200,255,0.3) inset;
+}
+
+#pagebanner .message {
+  animation: glow 2s alternate infinite;
 }
 
 #pagebanner:hover .message {
@@ -186,7 +188,7 @@ header {
 
 @keyframes glow {
   from { 
-    text-shadow: 0 0 0.4em rgba(255,255,255,0.6);
+    text-shadow: 0 0 0.5em rgba(255,255,255,0.8);
   }
   to {
     text-shadow: 0 0 0.2em rgba(255,255,255,0.2);
