@@ -106,8 +106,8 @@ header {
   height: 100%;
 }
 
-.frontpage img {
-  height: 100%;
+.frontpage img,
+.message {
   -webkit-transition: opacity 2s linear;
   -moz-transition: opacity 2s linear;
   -o-transition: opacity 2s linear;
@@ -116,6 +116,7 @@ header {
 
 .frontpage img {
   opacity: 1;
+  height: 100%;
 }
 
 .frontpage img.img2 {
