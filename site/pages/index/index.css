@@ -124,7 +124,12 @@ header {
   margin-bottom: 1.5em;
 }
 
-.frontpage img.transparent {
+.message {
+  opacity: 1;
+}
+
+.frontpage img.transparent,
+.message.transparent {
   opacity: 0;
 }
 
