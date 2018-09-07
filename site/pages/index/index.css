@@ -88,7 +88,7 @@ header {
 }
 
 .message {
-  animation: glow 2s alternate infinite;
+  animation: glow 4s alternate infinite;
 }
 
 .message.msg2 {
@@ -109,8 +109,8 @@ header {
   box-shadow: 0 0 4em rgba(150,200,255,0.5) inset;
 }
 
-#pagebanner:hover .message {
-  color: rgb(200,200,255);
+#pagebanner:hover .message_container {
+  background: rgba(0,0,0,0.1);
 }
 
 #pagebanner .frontpage {
@@ -185,10 +185,10 @@ header {
 
 @keyframes glow {
   from { 
-    text-shadow: 0 0 0.2em rgba(255,255,255,0.3);
+    text-shadow: 0 0 0.4em rgba(255,255,255,0.6);
   }
   to {
-    text-shadow: 0 0 0.2em rgba(255,255,255,0.7);
+    text-shadow: 0 0 0.2em rgba(255,255,255,0.2);
   }
 }
 
