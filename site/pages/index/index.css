@@ -109,7 +109,7 @@ header {
 }
 
 #pagebanner .message {
-  animation: glow 1.2s alternate infinite;
+  animation: glow 1s alternate infinite;
 }
 
 #pagebanner:hover .message {
