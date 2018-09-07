@@ -19,6 +19,10 @@ class CFC < Sinatra::Base
   get( '/media')             { render_page :media    }
   get( '/faq')               { render_page :faq      }  
 
+  get( '/first_class_free')  { render_page :first_class_free }
+  get( '/become_a_member')   { render_page :become_a_member  }
+  get( '/free_events')       { render_page :free_events      }
+
 
   ####################### TEST PAGES #########################
 
