@@ -28,7 +28,7 @@ $(document).ready(function() {
   data.msg_elements.push( $(".message_container .msg2") )
 
   transition_img();
-  setInterval( function() { transition_img(); }, 7000 );
+  setInterval( function() { transition_img(); }, 8000 );
 
   $('.img1, .img2').load(function(e){
     if(data.first) { data.first = false; return; }

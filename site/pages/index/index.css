@@ -105,10 +105,11 @@ header {
 
 #pagebanner:hover {
   box-shadow: 0 0 4em rgba(150,200,255,0.3) inset;
+  transition: box-shadow 1s ease-in;
 }
 
 #pagebanner .message {
-  animation: glow 2s alternate infinite;
+  animation: glow 1.2s alternate infinite;
 }
 
 #pagebanner:hover .message {
