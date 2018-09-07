@@ -2,16 +2,14 @@ data = {
   i: 0,
   first: true,
   images: [
-    { "path": "/wide_freeclass_1920_tiny.png",  "msg": "Get Your First Class Free!" },
-    { "path": "/wide_freeevents_1920_tiny.png", "msg": "Check Out Our Free Events!" },
-    { "path": "/wide_membership_1920_tiny.png", "msg": "Join The Club! Become a Member Today!" },
-    { "path": "/wide_handstand_1920_tiny.png",  "msg": "Learn How To Handstand!" }
+    { "path": "/wide_freeclass_1920_tiny.png",  "msg": "Get Your First Class Free!",            "url": "/" },
+    { "path": "/wide_freeevents_1920_tiny.png", "msg": "Check Out Our Free Events!",            "url": "/" },
+    { "path": "/wide_membership_1920_tiny.png", "msg": "Join The Club! Become a Member Today!", "url": "/"  },
+    { "path": "/wide_handstand_1920_tiny.png",  "msg": "Learn How To Handstand!",               "url": "/" }
   ],
   img_elements: [],
   msg_elements: []
 }
-
-
 
 $(document).ready(function() {
 
@@ -27,7 +25,6 @@ $(document).ready(function() {
   data.msg_elements.push( $(".message_container .msg1") )
   data.msg_elements.push( $(".message_container .msg2") )
 
-  transition_img();
   setInterval( function() { transition_img(); }, 8000 );
 
   $('.img1, .img2').load(function(e){
