@@ -21,8 +21,8 @@ $(document).ready(function() {
 //      ]
 //    );
 
-  data.img_elements.push( $(".frontpage img.img1")[0] )
-  data.img_elements.push( $(".frontpage img.img2")[0] )
+  data.img_elements.push( $(".frontpage img.img1") )
+  data.img_elements.push( $(".frontpage img.img2") )
   data.msg_elements.push( $(".message_container .msg1")[0] )
   data.msg_elements.push( $(".message_container .msg2")[0] )
 
