@@ -41,6 +41,7 @@ function transition_img() {
   if(data.i>=data.images.length) { data.i = 0; }
   data.img_elements[1].attr('src', data.images[data.i]["path"] );
   data.msg_elements[1].textContent = data.images[data.i]["msg"];
-  data.elements.push(data.elements.shift());
+  data.img_elements.push(data.img_elements.shift());
+  data.msg_elements.push(data.msg_elements.shift());
   data.i = data.i + 1;
 }
