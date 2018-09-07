@@ -32,7 +32,7 @@ $(document).ready(function() {
     data.elements[0].addClass('transparent');
     data.elements[1].removeClass('transparent');
     data.elements.push(data.elements.shift());
-    setTimeput(function(){ set_msg(data.images[data.i]["msg"]); }, 500 );
+    setTimeout(function(){ set_msg(data.images[data.i]["msg"]); }, 500 );
     data.i = data.i + 1;
   });
 
