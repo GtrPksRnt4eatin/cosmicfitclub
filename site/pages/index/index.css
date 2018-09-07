@@ -119,7 +119,8 @@ header {
 }
 
 .frontpage img.img2 {
-  margin-top: -60vh;
+  margin-top: -56em;
+  margin-bottom: 1.5em;
 }
 
 .frontpage img.transparent {
