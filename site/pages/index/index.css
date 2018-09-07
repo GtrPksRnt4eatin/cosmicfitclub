@@ -109,8 +109,9 @@ header {
   box-shadow: 0 0 4em rgba(150,200,255,0.5) inset;
 }
 
-#pagebanner:hover .message_container {
-  background: rgba(0,0,0,0.1);
+#pagebanner:hover .message {
+  animation: none;
+  text-shadow: 0 0 0.5em rgba(255,255,255,0.8);
 }
 
 #pagebanner .frontpage {
