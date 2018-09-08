@@ -10,15 +10,15 @@ $(document).ready(function() {
     $.post("/models/hourly/punch_in", { customer_id: userview.user.id, hourly_task_id: 1 } )
      .done(get_punches)
      .fail( function() { console.log("failed to punch in") } );
-  })
+  });
 
   $('#punch_out').click( function() {
 
-  })
+  });
 
   rivets.bind( document.body, { data: data } );
 
-}
+});
 
 function get_punches() {
   $.get('/models/hourly/punches', on_punches);
