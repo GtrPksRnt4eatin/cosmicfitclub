@@ -21,7 +21,7 @@ $(document).ready(function() {
 });
 
 function get_punches() {
-  $.get('/models/hourly/punches', on_punches);
+  $.get('/models/hourly/punches', { "customer_id": userview.user.id }, on_punches);
 }
 
 function on_punches(punches) {
