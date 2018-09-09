@@ -31,11 +31,13 @@ html
         .title #{customer.name}'s Hours:
 
         #punches
-          - HourlyPunch.where( :customer => customer ).each do |punch|
-            .punch rv-each-punch='data.punches'
-              span.task_id   { punch.hourly_task_id }
-              span.starttime { punch.starttime }
-              span.endtime   { punch.endtime }
+          .punch rv-each-punch='data.punches'
+            span.task_id   
+              | { punch.hourly_task_id }
+            span.starttime 
+              | { punch.starttime }
+            span.endtime
+              | { punch.endtime }
 
         button#punch_in  Punch In
         button#punch_out Punch Out
