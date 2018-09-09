@@ -27,7 +27,7 @@ $(document).ready(function() {
     var hrs = dur.hours();
     var min = dur.minutes();
     var hrs = hrs + (Math.round(40/15)*15)/60;
-    return( hrs + ' hours @ $10ea = $' + (hrs*10).toFixed(2) );
+    return( hrs + ' hours' )// @ $10ea = $' + (hrs*10).toFixed(2) );
   }
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
 
