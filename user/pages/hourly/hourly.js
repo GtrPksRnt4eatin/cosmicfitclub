@@ -39,5 +39,5 @@ function on_punches(punches) {
 }
 
 function show_error(xhr) {
-  alert("Request Failed:" xhr.responseText); 
+  alert("Request Failed: " + xhr.responseText); 
 }
