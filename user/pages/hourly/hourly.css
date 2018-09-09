@@ -3,3 +3,8 @@
   display: inline-block;
   width: 20em;
 }
+
+.closed_punch {
+  background: rgba(255,255,255,0.1);
+  color: rgba(0,255,0,0.9);
+}

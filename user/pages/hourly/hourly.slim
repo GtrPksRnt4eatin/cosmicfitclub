@@ -54,6 +54,9 @@ html
                 | { punch.starttime | classtime } - ...
               span.elapsedtime
                 | { data.current_time | elapsed_time punch.starttime }
+              button rv-on-click='ctrl.punch_out'
+                Punch Out
+
 
 
 

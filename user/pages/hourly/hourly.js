@@ -15,7 +15,7 @@ $(document).ready(function() {
   include_rivets_dates();
 
   rivets.formatters.task_name = function(val)          { task = data['hourly_tasks'].find( function(x) { return x.id == val } ); return ( task ? task.name : "" ) }
-  rivets.formatters.elapsed_time = function(val,start) { var dur = moment.duration(val.diff(start)); return(dur.hours() + 'Hours ' + dur.minutes() + 'Minutes' + dur.seconds() + 'Seconds'); }
+  rivets.formatters.elapsed_time = function(val,start) { var dur = moment.duration(val.diff(start)); return(dur.hours() + 'Hours, ' + dur.minutes() + 'Minutes, ' + dur.seconds() + 'Seconds'); }
   rivets.bind( document.body, { data: data } );
 
   get_punches();
@@ -25,7 +25,7 @@ $(document).ready(function() {
 });
 
 function get_punches() {
-  $.get('/models/hourly/punches?customer_id=' + userview.user.id, on_punches);
+  $.get('/models/hourly/my_punches', on_punches);
 }
 
 function on_punches(punches) {

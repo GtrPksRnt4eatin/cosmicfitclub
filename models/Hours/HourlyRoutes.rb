@@ -7,8 +7,12 @@ class HourlyRoutes < Sinatra::Base
   get '/punches' do
     content_type :json
     custy = Customer[params[:customer_id]] or halt(404, "Cant Find Customer")
-    p HourlyPunch.where( :customer_id => params[ :customer_id ].to_i )
     HourlyPunch.where( :customer_id => params[ :customer_id ].to_i ).to_json
+  end
+
+  get '/my_punches' do
+    custy = session[:customer] or halt(404, "Not Signed In")
+    HourlyPunch.where( :customer_id => custy.id ).order_by(:starttime).to_json
   end
 
   post '/punch_in' do
