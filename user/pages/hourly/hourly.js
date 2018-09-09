@@ -1,21 +1,27 @@
+ctrl = {
+
+  punch_in: function(e,m) {
+    $.post( '/punch_in',  { hourly_task_id: 1 } )
+     .done( get_punches )
+     .fail( show_error  )
+  },
+
+  punch_out: function(e,m) {
+    $.post( '/punch_out' )
+     .done( get_punches  )
+     .fail( show_error   )
+  } 
+
+}
+
 $(document).ready(function() {
   
   userview = new UserView( id('userview_container'));
 
-  $('#punch_in').click( function() {
-    $.post("/models/hourly/punch_in", { customer_id: userview.user.id, hourly_task_id: 1 } )
-     .done( get_punches )
-     .fail( function(request) { alert("failed to punch in: " + request.responseText ); } );
-  });
-
-  $('#punch_out').click( function() {
-
-  });
-
   include_rivets_dates();
 
   rivets.formatters.task_name = function(val)          { task = data['hourly_tasks'].find( function(x) { return x.id == val } ); return ( task ? task.name : "" ) }
-  rivets.formatters.elapsed_time = function(val,start) { var dur = moment.duration(val.diff(start)); return(dur.hours() + 'Hours, ' + dur.minutes() + 'Minutes, ' + dur.seconds() + 'Seconds'); }
+  rivets.formatters.elapsed_time = function(val,start) { var dur = moment.duration(val.diff(start)); return(dur.hours() + ' H, ' + dur.minutes() + ' M, ' + dur.seconds() + ' S'); }
   rivets.bind( document.body, { data: data } );
 
   get_punches();
@@ -30,4 +36,8 @@ function get_punches() {
 
 function on_punches(punches) {
   data['punches'] = punches;
+}
+
+function show_error(xhr) {
+  alert("Request Failed:" xhr.responseText); 
 }

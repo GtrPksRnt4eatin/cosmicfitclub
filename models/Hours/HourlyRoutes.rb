@@ -1,6 +1,7 @@
 class HourlyRoutes < Sinatra::Base
 
   get '/shifts' do
+    content_type :json
     HourlyShift.where( :customer_id => params[:customer_id] ).to_json
   end
 
@@ -12,23 +13,23 @@ class HourlyRoutes < Sinatra::Base
 
   get '/my_punches' do
     content_type :json
-    custy = session[:customer] or halt(404, "Not Signed In")
+    custy = session[:customer]                  or halt(404, "Not Signed In")
     HourlyPunch.where( :customer_id => custy.id ).order_by(:starttime).to_json
   end
 
   post '/punch_in' do
-    custy = Customer[params[:customer_id]] or halt(404, "Cant Find Customer")
-    punch = HourlyPunch[ :customer_id => custy.id, :endtime => nil ]
-    halt(404, "Already Punched In") unless punch.nil? 
-  	HourlyPunch.create( 
-  	  :customer_id => custy.id, 
-  	  :hourly_task_id => params[:hourly_task_id],
-  	  :starttime => Time.now
-  	)
-  	status 204
+    content_type :json
+    custy = session[:customer]                  or halt(404, "Not Signed In")
+    task  = HourlyTask[params[:hourly_task_id]] or halt(404, "Cant Find Hourly Task")
+    HourlyPunch::punched_out?(custy.id)         or halt(404, "Punch Out First")
+  	HourlyPunch::punch_in(custy.id,params[:hourly_task_id]).to_json
   end
 
   post '/punch_out' do
+    content_type :json
+    custy = session[:customer]                  or halt(404, "Not Signed In")
+    punch = HourlyPunch::open_punch(custy.id)   or halt(404, "Not Punched In")
+    punch.close.to_json
   end
 
 end
