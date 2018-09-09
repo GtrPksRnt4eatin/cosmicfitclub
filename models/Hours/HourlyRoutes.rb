@@ -15,7 +15,6 @@ class HourlyRoutes < Sinatra::Base
     custy = Customer[params[:customer_id]] or halt(404, "Cant Find Customer")
     punch = HourlyPunch[ :customer_id => custy.id, :endtime => nil ]
     halt(404, "Already Punched In") unless punch.nil? 
-    if 
   	HourlyPunch.create( 
   	  :customer_id => custy.id, 
   	  :hourly_task_id => params[:hourly_task_id],
