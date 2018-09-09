@@ -8,18 +8,18 @@ html
 
     title Cosmic Fit Club
 
+    ==css ['fonts', 'site', 'header', 'footer', 'user/hourly']
+
+    ==js  ['jquery', 'rivets', 'moment', 'rv_dates' ]
+    ==js  [ 'lib', 'element', 'ev_channel' ]
+    ==js  [ '/auth/elements/userview', 'menu', 'user/hourly' ]
+
     javascript: 
       data = {
         hourly_tasks: #{{ HourlyTask.all.to_json }},
         punches: #{{ HourlyPunch.where( :customer_id => session[:customer].id ).to_json }},
         current_time: moment()
       }
-
-    ==css ['fonts', 'site', 'header', 'footer', 'user/hourly']
-
-    ==js  ['jquery', 'rivets', 'moment', 'rv_dates' ]
-    ==js  [ 'lib', 'element', 'ev_channel' ]
-    ==js  [ '/auth/elements/userview', 'menu', 'user/hourly' ]
 
   body
   
