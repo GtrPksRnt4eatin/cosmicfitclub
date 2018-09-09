@@ -38,7 +38,7 @@ $(document).ready(function() {
 });
 
 function get_punches() {
-  $.get('/models/hourly/my_punches', on_punches);
+  $.get('/models/hourly/my_punches', on_punches, 'json');
 }
 
 function on_punches(punches) {
