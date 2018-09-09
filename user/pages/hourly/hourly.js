@@ -1,13 +1,13 @@
 ctrl = {
 
   punch_in: function(e,m) {
-    $.post( '/punch_in',  { hourly_task_id: 1 } )
+    $.post( '/models/hourly/punch_in',  { hourly_task_id: 1 } )
      .done( get_punches )
      .fail( show_error  )
   },
 
   punch_out: function(e,m) {
-    $.post( '/punch_out' )
+    $.post( '/models/hourly/punch_out' )
      .done( get_punches  )
      .fail( show_error   )
   } 
