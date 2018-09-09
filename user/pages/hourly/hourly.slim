@@ -41,10 +41,21 @@ html
 
         #punches
           .punch rv-each-punch='data.punches'
-            span.task_id   
-              | { punch.hourly_task_id | task_name }
-            span.starttime 
-              | { punch.starttime | classtime } - { punch.endtime | padtime }
+            .closed_punch rv-if='punch.endtime'
+              span.task 
+                | { punch.hourly_task_id | task_name }
+              span.starttime 
+                | { punch.starttime | classtime } - { punch.endtime | padtime }
+            .open_punch rv-unless='punch.endtime'
+              span.task
+                | { punch.hourly_task_id | task_name }
+              span.starttime 
+                | { punch.starttime | classtime } - ...
+              span.elapsedtime
+                | { data.current_time | elapsed_time punch.starttime }
+
+
+
 
         button#punch_in  Punch In
         button#punch_out Punch Out
