@@ -23,7 +23,7 @@ $(document).ready(function() {
   rivets.formatters.task_name = function(val)          { task = data['hourly_tasks'].find( function(x) { return x.id == val } ); return ( task ? task.name : "" ) }
   rivets.formatters.elapsed_time = function(val,start) { var dur = moment.duration(val.diff(start)); return(dur.hours() + ' H, ' + dur.minutes() + ' M, ' + dur.seconds() + ' S'); }
   rivets.formatters.punch_details = function(punch)      {
-    var dur = moment(punch.starttime).diff(moment(punch.endtime) ) 
+    var dur = moment.duration(moment(punch.starttime).diff(moment(punch.endtime))); 
     var hrs = dur.hours();
     var min = dur.minutes();
     var hrs = hrs + (Math.round(40/15)*15)/60;
