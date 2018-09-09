@@ -26,7 +26,7 @@ $(document).ready(function() {
     var dur = moment(punch.starttime).diff(moment(punch.endtime) ) 
     var hrs = dur.hours();
     var min = dur.minutes();
-    var hrs += (Math.round(40/15)*15)/60
+    var hrs = hrs + (Math.round(40/15)*15)/60;
     return( hrs + ' hours @ $10ea = $' + hrs*10 + '.00' );
   }
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
