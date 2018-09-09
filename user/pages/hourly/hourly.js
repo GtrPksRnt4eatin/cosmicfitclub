@@ -23,11 +23,11 @@ $(document).ready(function() {
   rivets.formatters.task_name = function(val)          { task = data['hourly_tasks'].find( function(x) { return x.id == val } ); return ( task ? task.name : "" ) }
   rivets.formatters.elapsed_time = function(val,start) { var dur = moment.duration(val.diff(start)); return(dur.hours() + ' H, ' + dur.minutes() + ' M, ' + dur.seconds() + ' S'); }
   rivets.formatters.punch_details = function(punch)      {
-    var dur = moment.duration(moment(punch.starttime).diff(moment(punch.endtime))); 
+    var dur = moment.duration(moment(punch.endtime).diff(moment(punch.starttime))); 
     var hrs = dur.hours();
     var min = dur.minutes();
     var hrs = hrs + (Math.round(40/15)*15)/60;
-    return( hrs + ' hours @ $10ea = $' + hrs*10 + '.00' );
+    return( hrs + ' hours @ $10ea = $' + hrs*10.toFixed(2) );
   }
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
 
