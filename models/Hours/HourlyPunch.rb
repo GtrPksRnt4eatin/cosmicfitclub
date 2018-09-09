@@ -4,20 +4,20 @@ class HourlyPunch < Sequel::Model
   many_to_one :staff
   many_to_one :hourly_task
 
-  def HourlyPunch::open_punch (custy_id)
+  def HourlyPunch::open_punch(custy_id)
     HourlyPunch[ :customer_id => custy_id, :endtime => nil ]
   end
 
-  def HourlyPunch::punched_in? (custy_id)
+  def HourlyPunch::punched_in?(custy_id)
     !! HourlyPunch::open_punch(custy_id)
   end
 
-  def HourlyPunch::punched_out? (custy_id)
+  def HourlyPunch::punched_out?(custy_id)
     ! HourlyPunch::open_punch(custy_id)
   end
 
-  def HourlyPunch::punches (custy_id)
-    HourlyPunch[ :customer_id => custy_id]
+  def HourlyPunch::punches(custy_id)
+    HourlyPunch[ :customer_id => custy_id ]
   end
 
   def HourlyPunch::punch_in(customer_id, hourly_task_id)
