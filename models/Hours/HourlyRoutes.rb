@@ -11,6 +11,7 @@ class HourlyRoutes < Sinatra::Base
   end
 
   get '/my_punches' do
+    content_type :json
     custy = session[:customer] or halt(404, "Not Signed In")
     HourlyPunch.where( :customer_id => custy.id ).order_by(:starttime).to_json
   end
