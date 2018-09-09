@@ -28,7 +28,7 @@ html
     .content
 
       .tile
-        .title #{customer.name}'s Shifts:
+        .title #{customer.name}'s Scheduled Shifts:
           
         #shifts
           - HourlyShift.where( :customer => customer ).each do |shift|
@@ -47,6 +47,8 @@ html
                 | { punch.hourly_task_id | task_name }
               span.starttime 
                 | { punch.starttime | classtime } - { punch.endtime | padtime }
+              span.details
+                | { punch | punch_details }
             .open_punch rv-unless='punch.endtime'
               span.task
                 | { punch.hourly_task_id | task_name }
@@ -56,5 +58,5 @@ html
                 | { data.current_time | elapsed_time punch.starttime }
               button rv-on-click='ctrl.punch_out'
                 Punch Out
-                
+
         button rv-on-click='ctrl.punch_in'  Punch In
