@@ -8,8 +8,8 @@ $(document).ready(function() {
 
   $('#punch_in').click( function() {
     $.post("/models/hourly/punch_in", { customer_id: userview.user.id, hourly_task_id: 1 } )
-     .done(get_punches)
-     .fail( function() { console.log("failed to punch in") } );
+     .done( get_punches )
+     .fail( function(request) { alert("failed to punch in: " + request.responseText ); } );
   });
 
   $('#punch_out').click( function() {
@@ -21,7 +21,7 @@ $(document).ready(function() {
 });
 
 function get_punches() {
-  $.get('/models/hourly/punches', { "customer_id": userview.user.id }, on_punches);
+  $.get('/models/hourly/punches?customer_id=' + userview.user.id, on_punches);
 }
 
 function on_punches(punches) {
