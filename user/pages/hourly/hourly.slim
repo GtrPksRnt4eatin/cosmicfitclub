@@ -8,6 +8,12 @@ html
 
     title Cosmic Fit Club
 
+    javascript: 
+      data = {
+        hourly_tasks: #{{ HourlyTask.all.to_json }},
+        punches: []
+      }
+
     ==css ['fonts', 'site', 'header', 'footer', 'user/hourly']
     ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user/hourly']
 
@@ -33,11 +39,9 @@ html
         #punches
           .punch rv-each-punch='data.punches'
             span.task_id   
-              | { punch.hourly_task_id }
+              | { punch.hourly_task_id | task_name }
             span.starttime 
-              | { punch.starttime }
-            span.endtime
-              | { punch.endtime }
+              | { punch.starttime | classtime } - { punch.endtime | padtime }
 
         button#punch_in  Punch In
         button#punch_out Punch Out
