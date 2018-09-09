@@ -12,8 +12,12 @@ $(document).ready(function() {
 
   });
 
+  include_rivets_dates();
+
   rivets.formatters.task_name = function(val) { task = data['hourly_tasks'].find( function(x) { return x.id == val } ); return ( task ? task.name : "" ) }
   rivets.bind( document.body, { data: data } );
+
+  get_punches();
 
 });
 
