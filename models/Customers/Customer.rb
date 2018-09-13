@@ -86,6 +86,7 @@ class Customer < Sequel::Model
       other.update( :wallet => Wallet.create ) if other.wallet.nil?
       self.wallet.transactions.each { |trans| trans.update( :wallet_id => other.wallet.id ) }
       other.wallet.pass_balance = other.wallet.pass_balance + self.wallet.pass_balance
+      self.wallet.delete
     end
 
     self.reservations.each   { |res| res.customer = other; res.save }
