@@ -7,3 +7,9 @@ class Time
     strftime("%a %b #{self.day.ordinalize} @ %l:%M%P")
   end
 end
+
+class Array
+  def to_json(options = {})
+    JSON.generate(self)
+  end
+end
