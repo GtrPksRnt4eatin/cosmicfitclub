@@ -14,7 +14,9 @@ class HourlyRoutes < Sinatra::Base
   get '/my_punches' do
     content_type :json
     custy = session[:customer]                  or halt(401, "Not Signed In")
-    HourlyPunch::punches(custy.id).to_h.to_json
+    punches = HourlyPunch::punches(custy.id)
+    p punches
+    punches.to_json
   end
 
   post '/punch_in' do
