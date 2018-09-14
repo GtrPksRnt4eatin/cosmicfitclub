@@ -52,33 +52,21 @@ def payroll(from, to)
     teacher_row[:class_occurrences].reject! { |x| x['classdef_id'].to_i == 78 }
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime']) }
     teacher_row[:class_occurrences].each { |occurrence_row|
-     
-      if teacher_row[:staff_id].to_i == 25 then 
-
-        occurrence_row[:pay] = 
-        case occurrence_row['headcount'].to_i
-        when 0..5
-          80
-        else
-          ( occurrence_row['headcount'] - 5 ) * 10 + 80         
-        end
-
+      occurrence_row[:pay] = 
+      case occurrence_row['headcount'].to_i
+      when 0..1
+        20
+      when 2..5
+        40
+      when 6..10
+        60
+      when 11..15
+        80
+      when 16..20
+        100
       else
-
-        occurrence_row[:pay] = 
-        case occurrence_row['headcount'].to_i
-        when 0
-          20
-        when 1..5
-          40
-        when 6..10
-          60
-        else
-          60
-        end
-
+        100
       end
-
     }
   }
 end

@@ -13,3 +13,9 @@ class Array
     JSON.generate(self)
   end
 end
+
+class Hash
+  def to_json(options = {})
+    JSON.generate(self)
+  end
+end
