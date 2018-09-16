@@ -116,4 +116,3 @@ end
 map "/models/schedule" do
   run ScheduleRoutes
 end
-

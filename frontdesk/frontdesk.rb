@@ -9,6 +9,10 @@ class CFCFrontDesk < Sinatra::Base
   register Sinatra::SharedResources
   register Sinatra::Auth
 
+  before do
+    cache_control :no_cache
+  end
+
   get( '/class_checkin',        :auth => "frontdesk" ) { render_page :class_checkin    }
   get( '/class_attendance/:id', :auth => "frontdesk" ) { render_page :class_attendance }
   get( '/event_checkin',        :auth => "frontdesk" ) { render_page :event_checkin    }
