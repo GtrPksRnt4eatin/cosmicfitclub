@@ -28,7 +28,7 @@ class CFCAdmin < Sinatra::Base
   get( '/rentals',               :auth=> 'admin'      ) { render_page :rentals          }
   get( '/merge',                                      ) { render_page :merge_customers  }
   get( '/cameras',               :auth=> 'admin'      ) { render_page :cameras          }
-  get( '/hourly',                :auth=> 'admin'      ) { render_page :hourly_schedule  }
+  get( '/hourly',                :auth=> 'admin'      ) { render_page :hourly_shifts    }
   get( '/tickets/:id',           :auth=> 'admin'      ) { render_page :edit_ticket      }
   
 end

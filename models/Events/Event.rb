@@ -20,7 +20,11 @@ class Event < Sequel::Model
   end
 
   def image_url
-    image.nil? ? '' : image[:original].url
+    self.image.nil? ? '' : self.image[:original].url
+  end
+
+  def thumb_image_url
+    self.image.nil? ? '' : ( self.image.is_a?(ImageUploader::UploadedFile) ? self.image_url : self.image[:small].url )
   end
 
   def create_session
@@ -48,6 +52,17 @@ class Event < Sequel::Model
 
   def headcount
     self.tickets.count
+  end
+
+  def details
+    { :id          => self.id, 
+      :name        => self.name, 
+      :description => self.description, 
+      :starttime   => self.starttime.nil? ? nil : self.starttime.iso8601, 
+      :image_url   => self.thumb_image_url,
+      :sessions    => self.sessions,
+      :prices      => self.prices
+    }
   end
 
 end

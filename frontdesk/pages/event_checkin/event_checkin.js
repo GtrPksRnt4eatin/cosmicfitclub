@@ -19,9 +19,13 @@ $(document).ready(function(){
   
   setup_bindings();
 
-  var eventlist = new List('eventlist', { valueNames: [ 'time', 'name'] } );
+  //var eventlist = new List('eventlist', { valueNames: [ 'time', 'name'] } );
 
 });
+
+function get_data() {
+
+}
 
 function setup_bindings() {
   include_rivets_dates();

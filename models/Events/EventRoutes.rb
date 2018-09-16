@@ -4,14 +4,7 @@ class EventRoutes < Sinatra::Base
     data = Event.order(:starttime).all.map do |c|
       next if c.starttime.nil?
       next if c.starttime < Date.today.to_time
-      { :id => c.id, 
-        :name => c.name, 
-        :description => c.description, 
-        :starttime => c.starttime.nil? ? nil : c.starttime.iso8601, 
-        :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
-        :sessions => c.sessions,
-        :prices => c.prices
-      }
+      c.details
     end.compact!
     JSON.generate data
   end
@@ -20,29 +13,19 @@ class EventRoutes < Sinatra::Base
     data = Event.order(:starttime).all.map do |c|
       next if c.starttime.nil?
       next if c.starttime >= Date.today.to_time
-      { :id => c.id, 
-        :name => c.name, 
-        :description => c.description, 
-        :starttime => c.starttime.nil? ? nil : c.starttime.iso8601, 
-        :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
-        :sessions => c.sessions,
-        :prices => c.prices
-      }
+      c.details
     end.compact!
     JSON.generate data
   end
 
+  get '/list' do
+    content_type :json
+    Event.order(Sequel.desc(:starttime)).to_json( :only => [ :id, :name, :starttime, :image_url ] ).to_json
+  end
+
   get '/:id' do
-    c = Event[params[:id]]
-    data = { 
-      :id => c.id, 
-      :name => c.name, 
-      :description => c.description, 
-      :starttime => c.starttime.iso8601, 
-      :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
-      :sessions => c.sessions,
-      :prices => c.prices
-    }
+    event = Event[params[:id]] or halt(404,'event not found')
+    data = event.details
     JSON.generate data
   end
   
