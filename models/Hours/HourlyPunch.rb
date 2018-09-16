@@ -17,7 +17,7 @@ class HourlyPunch < Sequel::Model
   end
 
   def HourlyPunch::punches(custy_id)
-    HourlyPunch.where( :customer_id => custy_id ).order_by(:starttime)
+    HourlyPunch.where( :customer_id => custy_id ).order_by(:starttime).all
   end
 
   def HourlyPunch::punch_in(customer_id, hourly_task_id)
