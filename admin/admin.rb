@@ -31,4 +31,8 @@ class CFCAdmin < Sinatra::Base
   get( '/hourly',                :auth=> 'admin'      ) { render_page :hourly_shifts    }
   get( '/tickets/:id',           :auth=> 'admin'      ) { render_page :edit_ticket      }
   
-end
+  get( '/console',               :auth=> 'admin'      ) { render_page :console          }
+
+  post '/console',               :auth=> 'admin'      ) { eval(request.body.read)       }
+
+end 
