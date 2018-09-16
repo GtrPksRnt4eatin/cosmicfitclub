@@ -1,0 +1,23 @@
+#results,
+#command {
+  margin: 0.5em auto;
+  padding: 0.5em;
+  background: black;
+  color: rgb(51,255,0);
+  font-family: monospace;
+  font-weight: bold;
+  line-spacing: 0.03em;
+}
+
+#results {
+  display: block;
+  width: 40vw;
+}
+
+#command {
+  width: 30vw;
+}
+
+#send {
+  width: 10vw;
+}

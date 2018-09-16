@@ -1,12 +1,12 @@
 data = {}
 ctrl = {
   submit: function(e,m) {
-  	var cmd = $('#command').value()
+  	var cmd = $('#command').val()
   	$.post('/admin/console', cmd, ctrl.on_return);
   },
 
   on_return: function(data) {
-  	$('#results').value(data);
+  	$('#results').val(data);
   }
 }
 
