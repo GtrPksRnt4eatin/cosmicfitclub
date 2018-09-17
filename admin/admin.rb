@@ -33,6 +33,6 @@ class CFCAdmin < Sinatra::Base
   
   get( '/console',               :auth=> 'admin'      ) { render_page :console          }
 
-  post( '/console',              :auth=> 'admin'      ) { p request.body.read; x = eval(request.body.read); p x; x }
+  post( '/console',              :auth=> 'admin'      ) { x = request.body.read; p x; x = eval(x); p x; x }
 
 end 
