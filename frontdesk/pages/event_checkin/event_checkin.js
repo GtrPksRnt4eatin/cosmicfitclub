@@ -7,6 +7,7 @@ ctrl = {
   filter: function(e,m) {
     searchstring = e.target.value;
   	data['filtered'] = data['events'].filter( function(val) {
+      if empty(val.name) { return false; }
       return val.name.match(new RegExp(searchstring, "i") ) ? true : false; 
     });
   }
