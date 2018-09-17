@@ -9,7 +9,7 @@ html
 
     javascript:
       data = {}
-      data['events'] = #{{ Event.order(Sequel.desc(:starttime)).to_json( :only => [ :id, :name, :starttime, :image_url ] ) }},
+      data['events'] = #{{ Event::List ) }},
       data['filtered'] = data['events']
 
     == css [ 'fonts', 'site', 'event_checkin' ]

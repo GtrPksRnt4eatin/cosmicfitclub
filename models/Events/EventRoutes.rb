@@ -20,7 +20,7 @@ class EventRoutes < Sinatra::Base
 
   get '/list' do
     content_type :json
-    Event.order(Sequel.desc(:starttime)).to_json( :only => [ :id, :name, :starttime, :image_url ] ).to_json
+    Event::List
   end
 
   get '/:id' do
