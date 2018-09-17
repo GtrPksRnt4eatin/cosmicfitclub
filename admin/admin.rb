@@ -36,8 +36,8 @@ class CFCAdmin < Sinatra::Base
   post( '/console',              :auth=> 'admin'      ) do
     x = eval(request.body.read)
     x.to_s
-  rescue Error => e
-    e.message + e.backtrace
+  rescue => e
+    e.message + "\r\n\r\n" + e.backtrace
   end
 
 end 
