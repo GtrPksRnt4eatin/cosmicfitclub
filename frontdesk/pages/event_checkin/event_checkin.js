@@ -26,7 +26,7 @@ $(document).ready(function(){
 });
 
 function get_data() {
-  $.get('/models/event/list', function(list) { data['events'] = list; } );
+  $.get('/models/event/list', function(list) { data['events'] = list; data['filtered'] = data['events'] } );
 }
 
 function setup_bindings() {
