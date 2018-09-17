@@ -32,8 +32,9 @@ html
       .tile
 
         .title Event Checkin
-
-        input rv-on-keyup='ctrl.filter'
+        
+        #eventlist_header
+          input rv-on-keyup='ctrl.filter'
 
         ul#eventlist
           li rv-each-event='data.filtered' rv-on-click='ctrl.open_event'

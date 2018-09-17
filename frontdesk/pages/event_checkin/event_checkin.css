@@ -25,6 +25,9 @@ ul#eventlist {
   list-style-type: none;
   margin: 1em 0;
   padding: 0;
+  height: 78vh;
+  overflow: auto;
+  display: inline-block;
 }
 
 #eventlist li {
