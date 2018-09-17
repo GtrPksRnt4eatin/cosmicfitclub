@@ -65,7 +65,7 @@ class Event < Sequel::Model
     }
   end
 
-  def Event::List
+  def Event::list
     Event.order(Sequel.desc(:starttime)).all.to_json( :only => [ :id, :name, :starttime, :image_url ] )
   end
 

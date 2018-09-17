@@ -20,7 +20,7 @@ class EventRoutes < Sinatra::Base
 
   get '/list' do
     content_type :json
-    Event::List
+    Event::list
   end
 
   get '/:id' do
