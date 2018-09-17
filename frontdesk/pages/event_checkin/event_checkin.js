@@ -20,11 +20,12 @@ $(document).ready(function(){
   setup_bindings();
 
   //var eventlist = new List('eventlist', { valueNames: [ 'time', 'name'] } );
+  get_data();
 
 });
 
 function get_data() {
-
+  $.get('/models/event/list', function(list) { data['events'] = list; } );
 }
 
 function setup_bindings() {
