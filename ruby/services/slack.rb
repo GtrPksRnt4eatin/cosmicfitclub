@@ -6,15 +6,6 @@ module Slack
 
   def Slack.post(msg)
     Slack.send({ :text => msg })
-    
-    #res = Net::HTTP.start(Slack::API_URI.hostname, Slack::API_URI.port, :use_ssl => true) do |http|
-    #  req = Net::HTTP::Post.new(Slack::API_URI, 'Content-Type' => 'application/json')
-    #  req.body = { :text => msg }.to_json
-    #  http.request(req)
-    #rescue Exception => e
-    #  puts "slack post failed"
-    #end
-
   end
 
   def Slack.err(label, err)
@@ -27,7 +18,7 @@ module Slack
       :attachments => [
         {
             "title": "Exception",
-            "text": "```#{err.backtrace.join("\r")}```",
+            "text": "#{err.backtrace.join("\r")}",
             "mrkdwn_in": ["text"]
         }
       ] 

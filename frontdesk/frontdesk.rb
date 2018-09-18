@@ -24,7 +24,7 @@ class CFCFrontDesk < Sinatra::Base
   end
 
   error do
-    Slack.post("#{env['sinatra.error'].message}\r\r```#{env['sinatra.error'].backtrace.join("\r")}```" )
+    Slack.err( 'Front Desk Error', env['sinatra.error'] )
     'An Error Occurred.'
   end
 

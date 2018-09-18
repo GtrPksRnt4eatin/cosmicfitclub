@@ -47,5 +47,10 @@ class CFC < Sinatra::Base
   end
 
   get( '/robots.txt') { "User-agent: * \r\nDisallow:" }
+
+  error do
+    Slack.err( 'Site Error', env['sinatra.error'] )
+    'An Error Occurred.'
+  end
   
 end

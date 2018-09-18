@@ -6,8 +6,6 @@ require_relative './models/Omniaccount'
 
 class CFCAuth < Sinatra::Base
 
-  #enable :sessions
-
   register Sinatra::Omni
   register Sinatra::PageFolders
   register Sinatra::SharedResources
@@ -107,6 +105,11 @@ class CFCAuth < Sinatra::Base
     role = Role[params[:id]] or halt(404,"Role Not Found")
     role.users.count == 0 or halt(402,"Role Must Be Empty First")
     role.delete
+  end
+
+  error do
+    Slack.err( 'Auth Error', env['sinatra.error'] )
+    'An Error Occurred.'
   end
 
 end
