@@ -2,7 +2,7 @@
 
 #banner_photo {
   background-image: url('wide_freeevents_1920_tiny.png');
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
@@ -28,6 +28,7 @@
   align-items: center;
 }
 
+header,
 footer {
   position: relative;
 }
