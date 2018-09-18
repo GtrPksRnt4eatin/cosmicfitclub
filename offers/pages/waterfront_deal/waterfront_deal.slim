@@ -9,8 +9,13 @@ html
     title
       | CFC Waterfront Deal
 
+    script src='https://js.stripe.com/v3/'
+
     javascript:
-      data = {}
+      data = {};
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
 
     == css [ 'fonts', 'site', 'header', 'footer', 'waterfront_deal' ]
     == js  [ 'jquery' ]
