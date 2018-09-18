@@ -1,6 +1,6 @@
 require 'sinatra/base'
 
-class CFCFrontDesk < Sinatra::Base
+class CFCOffers < Sinatra::Base
 
   set :root, File.dirname(__FILE__)
 

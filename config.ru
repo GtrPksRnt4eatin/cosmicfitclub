@@ -24,6 +24,7 @@ require_relative 'checkout/checkout'
 require_relative 'reports/reports'
 require_relative 'user/user'
 require_relative 'frontdesk/frontdesk'
+require_relative 'offers/offers'
 
 use Rack::SslEnforcer
 use Rack::Deflater
@@ -115,4 +116,8 @@ end
 
 map "/models/schedule" do
   run ScheduleRoutes
+end
+
+map "/offers" do
+  run CFCOffers
 end
