@@ -82,18 +82,18 @@ class Customer < Sequel::Model
 
     other = Customer[customer_id] or return false
 
+    self.reservations.each   { |res| res.customer = other; res.save }
+    self.payments.each       { |pay| pay.customer = other; pay.save }
+    self.tickets.each        { |tic| tic.customer = other; tic.save }
+    self.event_checkins.each { |chk| chk.customer = other; chk.save }
+    self.comp_tickets.each   { |tik| tik.customer = other; tik.save }
+
     if !self.wallet.nil? then
       other.update( :wallet => Wallet.create ) if other.wallet.nil?
       self.wallet.transactions.each { |trans| trans.update( :wallet_id => other.wallet.id ) }
       other.wallet.pass_balance = other.wallet.pass_balance + self.wallet.pass_balance
       self.wallet.delete
     end
-
-    self.reservations.each   { |res| res.customer = other; res.save }
-    self.payments.each       { |pay| pay.customer = other; pay.save }
-    self.tickets.each        { |tic| tic.customer = other; tic.save }
-    self.event_checkins.each { |chk| chk.customer = other; chk.save }
-    self.comp_tickets.each   { |tik| tik.customer = other; tik.save }
 
   end
 
