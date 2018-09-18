@@ -18,8 +18,20 @@ module Slack
   end
 
   def Slack.err(label, err)
-    msg = "#{label}:\r\r`#{err.message}\r\r#{err.backtrace.join("\r")}`"
-    Slack.send({ :channel => 'website_errors', :text => msg, :username => 'cosmicdonut', :mrkdwn => true })
+    msg = "#{label}:\r\r`#{err.message}\r\r`"
+    Slack.send({ 
+      :channel => 'website_errors', 
+      :text => msg, 
+      :username => 'cosmicdonut', 
+      :mrkdwn => true,     
+      :attachments => [
+        {
+            "title": "Exception",
+            "text": "Testing *right now!*\r\r#{err.backtrace.join("\r")}",
+            "mrkdwn_in": ["text"]
+        }
+      ] 
+    })
   end
 
   def Slack.send(body)
