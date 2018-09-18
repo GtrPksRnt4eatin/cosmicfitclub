@@ -240,6 +240,10 @@ Schedule.prototype.CSS = `
 
   #Schedule .classitem[data-cancelled=true] span span {
     text-decoration: line-through solid red;
+    text-decoration-line: line-through;
+    -webkit-text-decoration-line: line-through;
+    text-decoration-color: red;
+    -webkit-text-decoration-color: red;
   }
 
   #Schedule .classitem[data-cancelled=true] .register {
