@@ -27,7 +27,7 @@ module Slack
       :attachments => [
         {
             "title": "Exception",
-            "text": "Testing *right now!*\r\r#{err.backtrace.join("\r")}",
+            "text": "```#{err.backtrace.join("\r")}```",
             "mrkdwn_in": ["text"]
         }
       ] 
