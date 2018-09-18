@@ -238,14 +238,14 @@ Schedule.prototype.CSS = `
     font-style: italic;
   }
 
-  #Schedule .classitem[data-cancelled=true] span span {
+  #Schedule .classitem[data-cancelled=true] span {
     position: relative;
     display: inline-block;
   }
 
-  #Schedule .classitem[data-cancelled=true] span span::before {
+  #Schedule .classitem[data-cancelled=true] span::before {
     content: '';
-    border-bottom: 2px solid red;
+    border-bottom: 4px solid red;
     width: 100%;
     position: absolute;
     right: 0;
