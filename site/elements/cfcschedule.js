@@ -239,11 +239,17 @@ Schedule.prototype.CSS = `
   }
 
   #Schedule .classitem[data-cancelled=true] span span {
-    text-decoration: line-through solid red;
-    text-decoration-line: line-through;
-    -webkit-text-decoration-line: line-through;
-    text-decoration-color: red;
-    -webkit-text-decoration-color: red;
+    position: relative;
+    display: inline-block;
+  }
+
+  #Schedule .classitem[data-cancelled=true] span span::before {
+    content: '';
+    border-bottom: 2px solid red;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 50%;
   }
 
   #Schedule .classitem[data-cancelled=true] .register {
