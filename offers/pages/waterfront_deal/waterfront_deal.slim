@@ -15,7 +15,7 @@ html
     == css [ 'fonts', 'site', 'header', 'footer', 'waterfront_deal' ]
     == js  [ 'jquery' ]
     == js  [ 'rivets', 'moment', 'rv_dates' ]
-    == js  [ 'lib', 'element', 'ev_channel' ]
+    == js  [ 'lib', 'element', 'ev_channel', '/checkout/elements/payment_form' ]
     == js  [ 'waterfront_deal' ]
 
   body
@@ -35,9 +35,9 @@ html
 
         .description
           span
-            | A Special Offer for our Sunset Yoga Students
+            | For our Sunset Yoga Students,
             br
-            | Ten Cosmic Fit Club Classes for just $100 
+            | Ten Cosmic Fit Club Classes for just $100.
             br
             | Good for Any and All Classes Offered on the Regular Schedule.
 
@@ -50,7 +50,7 @@ html
                 | E-Mail:
               div.value
                 input
-            button Buy Now!
+            button#checkout_button Buy Now!
 
 
     == include_slim('slim/partials/footer')
