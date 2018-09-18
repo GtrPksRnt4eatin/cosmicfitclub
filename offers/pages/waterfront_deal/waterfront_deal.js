@@ -17,4 +17,6 @@ $(document).ready(function(){
 
     //userview.ev_sub('on_user', function(user) { data.username = ( user == null ? '' : user.name ); } );
 
+    $('#checkout_button').click(function() { payment_form.checkout(args[0], args[1], null, args[3], args[4]) });
+                                                                   // customer_id, price, reason, metadata, callback
 })
