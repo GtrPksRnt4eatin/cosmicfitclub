@@ -1,0 +1,12 @@
+
+
+#banner_photo {
+  background-image: url('wide_freeevents_1920_tiny.png');
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-size: cover !important;
+  background-position: center !important;
+}
