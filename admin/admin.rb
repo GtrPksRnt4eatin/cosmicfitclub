@@ -37,7 +37,7 @@ class CFCAdmin < Sinatra::Base
     x = eval(request.body.read)
     x.to_s
   rescue => e
-    e.message + "\r\n\r\n" + e.backtrace
+    e.message + "\r\n\r\n" + e.backtrace.join("\r\n")
   end
 
 end 
