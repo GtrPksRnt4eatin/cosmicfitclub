@@ -18,7 +18,7 @@ module Slack
   end
 
   def Slack.err(label, err)
-    msg = "#{label}:\r\r`#{env['sinatra.error'].message}\r\r#{env['sinatra.error'].backtrace.join("\r")}`"
+    msg = "#{label}:\r\r`#{err.message}\r\r#{err.backtrace.join("\r")}`"
     Slack.send({ :channel => 'website_errors', :text => msg })
   end
 
