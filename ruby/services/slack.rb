@@ -19,7 +19,7 @@ module Slack
 
   def Slack.err(label, err)
     msg = "#{label}:\r\r`#{err.message}\r\r#{err.backtrace.join("\r")}`"
-    Slack.send({ :channel => 'website_errors', :text => msg })
+    Slack.send({ :channel => 'website_errors', :mrkdwn => true, :text => msg })
   end
 
   def Slack.send(body)
