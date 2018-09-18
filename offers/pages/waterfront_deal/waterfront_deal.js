@@ -17,7 +17,7 @@ $(document).ready(function(){
 
     //userview.ev_sub('on_user', function(user) { data.username = ( user == null ? '' : user.name ); } );
 
-    $('#checkout_button').click(function() { payment_form.checkout(1, 10000, "Ten Class Pack (discounted)", null, on_payment]) });
+    $('#checkout_button').click(function() { payment_form.checkout(1, 10000, "Ten Class Pack (discounted)", null, on_payment) });
                                                                    // customer_id, price, reason, metadata, callback
 })
 
