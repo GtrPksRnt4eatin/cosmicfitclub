@@ -93,6 +93,7 @@ class Customer < Sequel::Model
     self.payments.each       { |pay| pay.customer = other; pay.save }
     self.tickets.each        { |tic| tic.customer = other; tic.save }
     self.event_checkins.each { |chk| chk.customer = other; chk.save }
+    self.comp_tickets.each   { |tik| tik.customer = other; tik.save }
 
   end
 
