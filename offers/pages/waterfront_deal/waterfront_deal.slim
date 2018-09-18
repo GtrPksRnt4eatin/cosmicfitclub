@@ -4,6 +4,8 @@ html
 
   head
 
+    == no_scaling
+
     title
       | CFC Waterfront Deal
 
@@ -24,14 +26,29 @@ html
 
     #header
 
-    #content
+   .content
 
       .tile
+        .name_container
+          .name
+            | A Special Offer For You!
 
-        .title
-          | A Special Offer For You!
+        .description
+          span
+            | Special Offer for Sunset Yoga students! 10 cosmic fit club classes for just $100! Good for any and all classes offered on the regular schedule.
 
-        .offer_text
-          | Special Offer for Sunset Yoga students! 10 cosmic fit club classes for just $100! Good for any and all classes offered on the regular schedule. One Per Customer.
+        .upcoming
+          .heading
+            | Redeem Now! One Per Customer
+          .register
+            .tuple
+              span.label
+                | E-Mail:
+              div.value
+                input
+            button Buy Now!
 
-    #footer
+
+    == include_slim('slim/partials/footer')
+
+    == analytics
