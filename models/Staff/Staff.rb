@@ -1,6 +1,7 @@
 require 'csv'
 
 class Staff < Sequel::Model(:staff)
+
   include PositionAndDeactivate
 
   plugin :pg_array_associations
@@ -16,6 +17,10 @@ class Staff < Sequel::Model(:staff)
   	self.id
   	super
   end
+
+  def Staff::list
+    Staff.all.map
+  end 
 
 end
 
