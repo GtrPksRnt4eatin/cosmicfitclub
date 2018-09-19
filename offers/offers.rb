@@ -17,7 +17,6 @@ class CFCOffers < Sinatra::Base
 
   error do
     Slack.err( 'Offers Error', env['sinatra.error'] )
-    #Slack.post("Offers Error:\r\r#{env['sinatra.error'].message}\r\r#{env['sinatra.error'].backtrace.join("\r")}" )
     'An Error Occurred.'
   end
 

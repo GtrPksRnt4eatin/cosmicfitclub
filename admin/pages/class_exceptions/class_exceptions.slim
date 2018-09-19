@@ -50,10 +50,12 @@ html
               input rv-on-change='ctrl.post_exception' rv-checked='data.exception.cancelled' type='checkbox'
             div
               .ib New Start Time?
-              input
+              input id='starttime' rv-on-change='ctrl.post_exception' rv-datefield='data.exception.start_time'
             div
               .ib New Duration?
-              input
+              select rv-on-change='ctrl.post_exception' rv-value='data.exception.duration'
+                option rv-each-val='data.hours' rv-value='val'
+                  | {val} hours
             div
               .ib Sub?
               select rv-idselect='data.exception.teacher_id' rv-on-change='ctrl.post_exception'
