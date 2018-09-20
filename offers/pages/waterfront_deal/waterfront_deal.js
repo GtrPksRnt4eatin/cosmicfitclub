@@ -3,7 +3,7 @@ var checkout;
 $(document).ready(function(){
 
 	//include_rivets_dates();
-    //include_rivets_money();
+    include_rivets_money();
     //var binding = rivets.bind( $('body'), { data: data } );
 
     payment_form     = new PaymentForm();
