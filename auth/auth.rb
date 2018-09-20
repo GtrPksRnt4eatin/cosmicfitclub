@@ -19,6 +19,10 @@ class CFCAuth < Sinatra::Base
   get( '/activate' ) { render_page :activate }
   get( '/reset'    ) { render_page :activate }
 
+  get '/has_account' do
+    Customer::exists? params[:email] 
+  end
+
   post '/login' do
     data = JSON.parse(request.body.read)
     session[:user] = User.authenticate( data['email'], data['password'] )
@@ -105,7 +109,7 @@ class CFCAuth < Sinatra::Base
     role = Role[params[:id]] or halt(404,"Role Not Found")
     role.users.count == 0 or halt(402,"Role Must Be Empty First")
     role.delete
-  end
+  end 
 
   error do
     Slack.err( 'Auth Error', env['sinatra.error'] )

@@ -18,8 +18,12 @@ class Customer < Sequel::Model
   many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
   one_to_many  :staff
 
-########################### Instance Methods ###########################
-
+############################ Class Methods ###########################
+  
+  def Customer::exists? (email) 
+    !! Customer[ :email => email.downcase ]
+  end
+ 
   def Customer.is_new? (email)
     customer = Customer[ :email => email.downcase ]
     customer.nil?
@@ -46,7 +50,7 @@ class Customer < Sequel::Model
     Customer[ :email => email.downcase ]
   end
 
-########################### Instance Methods ###########################
+############################ Class Methods ###########################
 
 ############################ Account/Login #############################
 

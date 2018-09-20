@@ -1,10 +1,22 @@
 var checkout;
 
+data = {
+
+}
+
+ctrl = {
+  check_email: function(e,m) { 
+    $.get('/auth/has_account', { email: e.target.value }, function(val) {
+      var x = 5;
+    } );
+  }
+}
+
 $(document).ready(function(){
 
 	//include_rivets_dates();
     include_rivets_money();
-    //var binding = rivets.bind( $('body'), { data: data } );
+    var binding = rivets.bind( $('body'), { ctrl: ctrl, data: data } );
 
     payment_form     = new PaymentForm();
     popupmenu        = new PopupMenu( id('popupmenu_container') );
