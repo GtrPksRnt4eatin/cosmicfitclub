@@ -238,8 +238,18 @@ Schedule.prototype.CSS = `
     font-style: italic;
   }
 
-  #Schedule .classitem[data-cancelled=true] span span {
-    text-decoration: line-through solid red;
+  #Schedule .classitem[data-cancelled=true] span {
+    position: relative;
+    display: inline-block;
+  }
+
+  #Schedule .classitem[data-cancelled=true] span::before {
+    content: '';
+    border-bottom: 4px solid red;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 50%;
   }
 
   #Schedule .classitem[data-cancelled=true] .register {
