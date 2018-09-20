@@ -8,7 +8,7 @@ $(document).ready(function(){
 
     payment_form     = new PaymentForm();
     popupmenu        = new PopupMenu( id('popupmenu_container') );
-    //userview         = new UserView();
+    userview         = new UserView( id('userview_container') );
 
     payment_form.customer_facing();
     payment_form.ev_sub('show', popupmenu.show );
