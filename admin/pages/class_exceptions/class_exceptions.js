@@ -26,7 +26,7 @@ ctrl = {
   },
 
   date_selected(e,m) {
-    
+    get_scheditems_bydate(data.search_date);
   },
 
   scheditem_selected(e,m) {
@@ -36,10 +36,11 @@ ctrl = {
   	  id: 0,
   	  classdef_id: data.selected_classdef.id,
   	  original_starttime: m.scheditem.starttime,
-  	  starttime: null,
+  	  starttime: m.scheditem.starttime,
   	  teacher_id: 0,
   	  hidden: false,
-  	  cancelled: false
+  	  cancelled: false,
+      endtime: m.scheditem.endtime
     }
   },
 

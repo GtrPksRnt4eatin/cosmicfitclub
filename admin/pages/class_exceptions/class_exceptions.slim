@@ -20,6 +20,8 @@ html
           select rv-idselect='data.classdef' rv-on-change='ctrl.class_selected'
             - ClassDef.all_active.each do |cls|
               option value='#{cls.id}' #{cls.name}
+          input rv-datefield='data.search_date' rv-on-change='ctrl.date_selected'
+
           div.heading Upcoming Sessions
 
           div.schedscroll
@@ -50,12 +52,10 @@ html
               input rv-on-change='ctrl.post_exception' rv-checked='data.exception.cancelled' type='checkbox'
             div
               .ib New Start Time?
-              input id='starttime' rv-on-change='ctrl.post_exception' rv-datefield='data.exception.start_time'
+              input id='starttime' rv-on-change='ctrl.post_exception' rv-datefield='data.exception.starttime'
             div
-              .ib New Duration?
-              select rv-on-change='ctrl.post_exception' rv-value='data.exception.duration'
-                option rv-each-val='data.hours' rv-value='val'
-                  | {val} hours
+              .ib New End Time?
+              select rv-on-change='ctrl.post_exception' rv-datefield='data.exception.endtime'
             div
               .ib Sub?
               select rv-idselect='data.exception.teacher_id' rv-on-change='ctrl.post_exception'
