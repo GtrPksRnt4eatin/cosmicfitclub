@@ -20,7 +20,7 @@ class CFCAuth < Sinatra::Base
   get( '/reset'    ) { render_page :activate }
 
   get '/has_account' do
-    Customer::exists? params[:email] 
+    JSON.generate( Customer::exists? params[:email] )
   end
 
   post '/login' do
