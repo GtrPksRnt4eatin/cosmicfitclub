@@ -19,7 +19,7 @@ html
 
 
     == css ['fonts', 'site', 'header', 'flatpickr', 'chosen', '/admin/merge_customers' ]
-    == js  ['jquery', 'rivets', 'jquery.chosen.min', 'rv_select', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
+    == js  ['jquery', 'rivets', 'jquery.chosen.min', 'rv_select', 'moment', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
     == js  ['elements/popup_menu', 'elements/rental_form', '/auth/elements/userview']
     == js  ['menu', '/admin/merge_customers' ]
 
@@ -71,7 +71,9 @@ html
         .label Subscriptions:
         .tuple rv-each-sub='data.custy1.subscriptions'
           span
-            | { sub.id } - { sub.plan_id | plan_name }
+            | { sub.id } - { sub.plan_id | plan_name } 
+          span
+            | ( { sub.began_on | datewyr } - { sub.cancelled_on | datewyr } ) 
 
         hr
         .label Wallet:
@@ -142,6 +144,8 @@ html
         .tuple rv-each-sub='data.custy2.subscriptions'
           span
             | { sub.id } - { sub.plan_id | plan_name }
+          span
+            | ( { sub.began_on | datewyr } - { sub.cancelled_on | datewyr } ) 
 
         hr
         .tuple

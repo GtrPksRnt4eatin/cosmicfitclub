@@ -2,6 +2,7 @@ function include_rivets_dates() {
 
   rivets.formatters.dayofwk    = function(val)     { return moment.parseZone(val).format('ddd')                };
   rivets.formatters.date       = function(val)     { return moment.parseZone(val).format('MMM Do')             };
+  rivets.formatters.datewyr    = function(val)     { return moment.parseZone(val).format('MMM Do YYYY')        };
   rivets.formatters.time       = function(val)     { return moment.parseZone(val).format('h:mm a')             };
   rivets.formatters.padtime    = function(val)     { return moment.parseZone(val).format('hh:mm A')            };
   rivets.formatters.fulldate   = function(val)     { return moment.parseZone(val).format('ddd MMM Do hh:mm a') };
