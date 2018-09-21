@@ -124,10 +124,15 @@ module Sinatra
   
     module Helpers
 
-      def logged_in? ; !session[:user].nil? end
-      def user       ; session[:user]       end
-      def customer   ; session[:customer]   end
-      def ref_cust   ; session[:user] = User[user[:id]]; session[:customer] = Customer[customer[:id]] end
+      def logged_in?       ; !session[:user].nil? end
+      def user             ; session[:user]       end
+      def customer         ; session[:customer]   end
+      def ref_cust         ; session[:user] = User[user[:id]]; session[:customer] = Customer[customer[:id]] end
+      
+      def has_role?(role)
+        
+        session[:user].has_role? role
+      end
 
     end
   

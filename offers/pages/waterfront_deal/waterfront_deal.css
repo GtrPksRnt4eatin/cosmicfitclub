@@ -31,10 +31,20 @@ footer {
   position: relative;
 }
 
+.register {
+  display: table;
+}
 
 .register .tuple {
-  display: inline-block;
+  display: table-row;
 }
+
+.register .tuple .label,
+.register .tuple .value {
+  display: table-cell;
+}
+
+
 
 .tile .name_container .name {
   animation: glow 2s alternate infinite, shrink 2s ease-in 1 forwards;

@@ -12,7 +12,7 @@ function PaymentForm() {
     swipe_source: null
   }
 
-  this.bind_handlers(['checkout', 'pay_cash', 'charge_saved', 'failed_charge', 'charge_token', 'charge_swiped', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
+  this.bind_handlers(['checkout', 'pay_cash', 'charge_saved', 'clear_customer', 'failed_charge', 'charge_token', 'charge_swiped', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
@@ -73,8 +73,12 @@ PaymentForm.prototype = {
 
   //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
 
-  get_customer(id) {
+  clear_customer() {
     this.state.customer = null;
+  }
+
+  get_customer(id) {
+    this.clear_customer();
     return $.get("/models/customers/" + id, this.on_customer, 'json')
      .fail( function(e) { alert('failed getting payment sources!'); })  
   },
