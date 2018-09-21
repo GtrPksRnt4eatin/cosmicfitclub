@@ -75,7 +75,7 @@ PaymentForm.prototype = {
 
   clear_customer() {
     this.state.customer = null;
-  }
+  },
 
   get_customer(id) {
     this.clear_customer();
