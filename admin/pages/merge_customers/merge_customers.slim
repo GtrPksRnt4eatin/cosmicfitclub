@@ -71,7 +71,7 @@ html
         .label Subscriptions:
         .tuple rv-each-sub='data.custy1.subscriptions'
           span
-            | { sub.id } - { sub.id | plan_name }
+            | { sub.id } - { sub.plan_id | plan_name }
 
         hr
         .label Wallet:
@@ -141,7 +141,7 @@ html
         .label Subscriptions:
         .tuple rv-each-sub='data.custy2.subscriptions'
           span
-            | { sub.id }
+            | { sub.id } - { sub.plan_id | plan_name }
 
         hr
         .tuple
