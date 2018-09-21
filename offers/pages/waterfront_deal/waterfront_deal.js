@@ -11,6 +11,7 @@ ctrl = {
     $.get('/auth/email_search', { email: e.target.value }, function(val) {
       if(!val) { return; }
       data.id = val.id;
+      data.email = val.email;
       data.full_name = val.full_name;
     } );
   }

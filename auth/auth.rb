@@ -21,7 +21,7 @@ class CFCAuth < Sinatra::Base
 
   get '/email_search' do
     custy = Customer.find_by_email params[:email]
-    JSON.generate( custy.nil? ? false : { id: custy.id, full_name: custy.name} )
+    JSON.generate( custy.nil? ? false : { id: custy.id, email: custy.email, full_name: custy.name} )
   end
 
   post '/login' do
@@ -69,7 +69,7 @@ class CFCAuth < Sinatra::Base
     content_type :json
     user = session[:user];           halt 404 if user.nil?
     custy = session[:user].customer; halt 404 if custy.nil?
-    JSON.generate({ :id => custy.id, :name => custy.name }) 
+    JSON.generate({ :id => custy.id, :email => custy.email, :name => custy.name }) 
   end
 
   get '/roles' do
