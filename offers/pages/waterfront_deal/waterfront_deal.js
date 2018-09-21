@@ -1,7 +1,7 @@
 var checkout;
 
 data = {
-  id: 0
+  id: 0,
   email: null,
   full_name: null
 }
