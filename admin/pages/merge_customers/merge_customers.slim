@@ -8,6 +8,16 @@ html
 
     title Merge Customers
 
+    javascript:
+      data = {
+        custy1_id: 0,
+        custy2_id: 0,
+        custy1: {},
+        custy2: {},
+        plans: #{{ Plan.all.to_json( :only => [ :id, :name ] ) }}
+      }
+
+
     == css ['fonts', 'site', 'header', 'flatpickr', 'chosen', '/admin/merge_customers' ]
     == js  ['jquery', 'rivets', 'jquery.chosen.min', 'rv_select', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
     == js  ['elements/popup_menu', 'elements/rental_form', '/auth/elements/userview']
@@ -61,7 +71,7 @@ html
         .label Subscriptions:
         .tuple rv-each-sub='data.custy1.subscriptions'
           span
-            | { sub.id }
+            | { sub.id } - { sub.id | plan_name }
 
         hr
         .label Wallet:

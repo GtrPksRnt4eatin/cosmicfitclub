@@ -1,10 +1,3 @@
-data = {
-  custy1_id: 0,
-  custy2_id: 0,
-  custy1: {},
-  custy2: {}
-}
-
 ctrl = {
   load_custy1(e,m) {
   	data.custy1_id = this.value || data.custy1_id;
@@ -44,6 +37,13 @@ $(document).ready(function() {
   userview = new UserView(id('userview_container'));
 
   include_rivets_select();
+  
+  rivets.formatters.plan_name = function(val) { 
+    var plan = data.plans.find(function(x) { return x.id == val; });
+    if(plan) { return plan.name; }
+    return '???';
+  }
+
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
 });
