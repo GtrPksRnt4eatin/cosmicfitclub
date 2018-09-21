@@ -44,6 +44,10 @@ footer {
   display: table-cell;
 }
 
+.register .tuple .label {
+  text-align: right;
+  padding: right;
+}
 
 
 .tile .name_container .name {
