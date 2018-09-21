@@ -39,8 +39,8 @@ $(document).ready(function(){
 })
 
 function on_user(user) {
-  if( empty(user) ) { payment_form.clear_customer(); }
-  else              { get_customer(user.id);         }
+  if( empty(user) ) { payment_form.clear_customer();      }
+  else              { payment_form.get_customer(user.id); }
   data.full_name = empty(user) ? '' : user.name;
   data.email = empty(user) ? '' : user.email;
 }
