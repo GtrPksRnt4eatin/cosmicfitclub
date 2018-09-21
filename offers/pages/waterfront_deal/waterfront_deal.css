@@ -49,6 +49,11 @@ footer {
   padding-right: 1em;
 }
 
+.register .tuple .value input {
+  font-family: 'Industry';
+  padding: 0.2em;
+}
+
 
 .tile .name_container .name {
   animation: glow 2s alternate infinite, shrink 2s ease-in 1 forwards;
