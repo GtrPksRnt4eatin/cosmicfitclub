@@ -51,3 +51,11 @@
   padding: 0.2em;
   background: rgba(255,255,255,0.2);
 }
+
+span.pay_money {
+  width: 5em;
+}
+
+span.pay_reason {
+  overflow: hidden;
+}
