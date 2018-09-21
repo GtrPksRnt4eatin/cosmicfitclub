@@ -73,9 +73,7 @@ html
           span
             | { sub.id } - { sub.plan_id | plan_name } 
           span
-            | ( { sub.began_on | datewyr } - { sub.canceled_on | datewyr } ) 
-          span
-            | { sub.stripe_id }
+            | ( { sub.began_on | datewyr } - { sub.canceled_on | datewyr } ) { sub.stripe_id }
 
         hr
         .label Wallet:
@@ -147,10 +145,7 @@ html
           span
             | { sub.id } - { sub.plan_id | plan_name }
           span
-            | ( { sub.began_on | datewyr } - { sub.canceled_on | datewyr } ) 
-          span
-            | { sub.stripe_id }
-
+            | ( { sub.began_on | datewyr } - { sub.canceled_on | datewyr } ) { sub.stripe_id }
         hr
         .tuple
           .label Wallet:
