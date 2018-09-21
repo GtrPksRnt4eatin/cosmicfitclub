@@ -26,8 +26,7 @@ class Customer < Sequel::Model
   end
  
   def Customer.is_new? (email)
-    customer = Customer[ :email => email.downcase ]
-    customer.nil?
+    ! Customer[ :email => email.downcase ]
   end
 
   def Customer.get_from_token(token)

@@ -1,14 +1,17 @@
 var checkout;
 
 data = {
+  id: 0
   email: null,
   full_name: null
 }
 
 ctrl = {
   check_email: function(e,m) { 
-    $.get('/auth/has_account', { email: e.target.value }, function(val) {
-      var x = 5;
+    $.get('/auth/email_search', { email: e.target.value }, function(val) {
+      if(!val) { return; }
+      data.id = val.id;
+      data.full_name = val.full_name;
     } );
   }
 }

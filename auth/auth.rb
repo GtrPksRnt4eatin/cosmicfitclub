@@ -19,8 +19,9 @@ class CFCAuth < Sinatra::Base
   get( '/activate' ) { render_page :activate }
   get( '/reset'    ) { render_page :activate }
 
-  get '/has_account' do
-    JSON.generate( Customer::exists? params[:email] )
+  get '/email_search' do
+    custy = Customer.find_by_email params[:email]
+    JSON.generate( custy.nil? ? false : { id: custy.id, full_name: custy.name} )
   end
 
   post '/login' do
@@ -130,7 +131,7 @@ module Sinatra
       def ref_cust         ; session[:user] = User[user[:id]]; session[:customer] = Customer[customer[:id]] end
       
       def has_role?(role)
-        
+
         session[:user].has_role? role
       end
 

@@ -53,8 +53,13 @@ html
             .tuple
               span.label
                 | E-Mail:
-              div.value
-                input rv-on-input='ctrl.check_email'
+              span.value
+                input rv-value='data.email' rv-on-input='ctrl.check_email'
+            .tuple
+              span.label
+                | Full Name:
+              span.value
+                input rv-value='data.full_name'
             .tuple
               button#checkout_button Buy Now!
 
