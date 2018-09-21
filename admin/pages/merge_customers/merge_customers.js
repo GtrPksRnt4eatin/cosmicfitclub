@@ -37,6 +37,7 @@ $(document).ready(function() {
   userview = new UserView(id('userview_container'));
 
   include_rivets_select();
+  include_rivets_dates();
   
   rivets.formatters.plan_name = function(val) { 
     var plan = data.plans.find(function(x) { return x.id == val; });
