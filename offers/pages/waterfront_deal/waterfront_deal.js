@@ -12,6 +12,7 @@ ctrl = {
       data.id = val ? val.id : 0;
       data.email = val ? val.email : data.email;
       data.full_name = val ? val.full_name : '';
+      id('fullname').disabled = val ? true : false;
     } );
   }
 }
@@ -34,15 +35,18 @@ $(document).ready(function(){
 
     userview.ev_sub('on_user', on_user );
 
-    $('#checkout_button').click(function() { payment_form.checkout( 1, 10000, "Ten Class Pack (discounted)", null, on_payment) });
+    $('#checkout_button').click(function() { payment_form.checkout( data.id, 10000, "Ten Class Pack (discounted)", null, on_payment) });
                                                                     // customer_id, price, reason, metadata, callback
 })
 
 function on_user(user) {
   if( empty(user) ) { payment_form.clear_customer();      }
   else              { payment_form.get_customer(user.id); }
+  data.id = empty(user) ? 0 : user.id;
   data.full_name = empty(user) ? '' : user.name;
   data.email = empty(user) ? '' : user.email;
+  id('email').disabled = empty(user) ? false : true;
+  id('fullname').disabled = empty(user) ? false : true;
 }
 
 function on_payment(payment) {

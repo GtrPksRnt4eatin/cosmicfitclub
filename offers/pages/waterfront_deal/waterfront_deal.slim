@@ -54,12 +54,12 @@ html
               span.label
                 | E-Mail:
               span.value
-                input rv-value='data.email' rv-on-input='ctrl.check_email'
+                input#email rv-value='data.email' rv-on-input='ctrl.check_email'
             .tuple
               span.label
                 | Full Name:
               span.value
-                input rv-value='data.full_name'
+                input#fullname rv-value='data.full_name'
             .tuple
               button#checkout_button Buy Now!
 
