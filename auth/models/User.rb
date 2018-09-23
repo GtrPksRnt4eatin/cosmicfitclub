@@ -14,8 +14,8 @@ class User < Sequel::Model
     end
 
     def has_role?(role)
-      return self.roles.include? Role[:name => role ]                           if role.is_a? String
-      role.each { |r| return true if self.roles.include? Role[:name => role ] } if role.is_a? Array
+      return self.roles.include? Role[:name => role ]                        if role.is_a? String
+      role.each { |r| return true if self.roles.include? Role[:name => r ] } if role.is_a? Array
       return false
     end
 
