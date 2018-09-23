@@ -9,10 +9,9 @@ data = {
 ctrl = {
   check_email: function(e,m) { 
     $.get('/auth/email_search', { email: e.target.value }, function(val) {
-      if(!val) { return; }
-      data.id = val.id;
-      data.email = val.email;
-      data.full_name = val.full_name;
+      data.id = val ? val.id : 0;
+      data.email = val ? val.email : data.email;
+      data.full_name = val ? val.full_name : '';
     } );
   }
 }
