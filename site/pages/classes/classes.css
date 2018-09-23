@@ -71,11 +71,12 @@
 
   .classdef {
     width: 42vw;
+    height: 42vw;
     margin: 2vw;
   }
 
   .content {
-    font-size: 3.3vw;
+    font-size: 3.2vw;
   }
 
 }
