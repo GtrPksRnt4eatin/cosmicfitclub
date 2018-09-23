@@ -132,7 +132,6 @@ module Sinatra
       def ref_cust         ; session[:user] = User[user[:id]]; session[:customer] = Customer[customer[:id]] end
       
       def has_role?(role)
-
         session[:user].has_role? role
       end
 
