@@ -23,8 +23,9 @@ module Mail
       track_opens:    true,
       track_links:    'HtmlAndText'
     )
-  rescue Postmark::Error => e
-    Slack.post( "I tried to send an email to #{recipient}, but this email thing is too complicated for a cat!\r```#{e.backtrace.join("\n")}```" )
+  rescue Postmark::InvalidApiKeyError, Postmark::TimeoutError, Postmark::InternalServerError,
+         Postmark::HttpClientError, Postmark::InactiveRecipientError, Postmark::ApiInputError => e
+    Slack.err("Postmark Error (#{recipient})", error)
   end
-
+  
 end
