@@ -47,7 +47,7 @@ PaymentForm.prototype = {
     this.state.reason = reason;
     this.state.metadata = metadata;
     this.state.callback = callback;
-    if(customer_id) { this.get_customer(customer_id).done(this.show); }
+    if(customer_id) { this.get_customer(customer_id).done(this.show).fail( function() { this.clear_customer(); this.show(); }.bind(this) ) }
     else            { this.clear_customer(); this.show(); }
     this.show_err(null);
     this.stop_listen_cardswipe();
@@ -81,7 +81,7 @@ PaymentForm.prototype = {
   get_customer(id) {
     this.clear_customer();
     return $.get("/models/customers/" + id, this.on_customer, 'json')
-     .fail( function(e) { alert('failed getting payment sources!'); })  
+            .fail( function(e) { console.log('failed getting payment sources!'); })  
   },
 
   on_customer(customer) { this.state.customer = customer; },
