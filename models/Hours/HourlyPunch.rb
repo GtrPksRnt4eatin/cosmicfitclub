@@ -4,6 +4,8 @@ class HourlyPunch < Sequel::Model
   many_to_one :staff
   many_to_one :hourly_task
 
+  ##################################### CLASS METHODS #######################################
+
   def HourlyPunch::open_punch(custy_id)
     HourlyPunch[ :customer_id => custy_id, :endtime => nil ]
   end
@@ -33,6 +35,24 @@ class HourlyPunch < Sequel::Model
     punch.close
   end
 
+  ##################################### CLASS METHODS #######################################
+
+  ################################### INSTANCE METHODS ######################################
+
   def close; self.update( :endtime   => Time.now ) end
+
+  def duration
+    ( self.rounded_end.to_f - self.rounded_start.to_f ) / 60 / 60
+  end
+
+  def rounded_start
+    Time.at( ( self.starttime.to_f / (60*15) ).round * (60*15) )
+  end
+
+  def rounded_end
+    Time.at( ( self.endtime.to_f / (60*15) ).round * (60*15) )
+  end
+
+  ################################### INSTANCE METHODS ######################################
 
 end
