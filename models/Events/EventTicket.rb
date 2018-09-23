@@ -24,7 +24,7 @@ class EventTicket < Sequel::Model
     Mail.event_purchase(customer.email, model)
   end
 
-  def to_json
+  def to_json(options = {})
     super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
 
