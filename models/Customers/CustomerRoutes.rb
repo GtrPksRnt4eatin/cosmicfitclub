@@ -16,7 +16,7 @@ class CustomerRoutes < Sinatra::Base
     if session[:customer] == custy || session[:user].has_role?( ['admin', 'front_desk'] ) then
       return custy.to_json(:include=>:payment_sources)
     else 
-      halt(503, 'Not Authorized to View Another Customer'); 
+      halt(403, 'Not Authorized to View Another Customer'); 
     end
   end
 

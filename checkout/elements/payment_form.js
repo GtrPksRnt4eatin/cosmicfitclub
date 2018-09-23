@@ -1,6 +1,7 @@
 function PaymentForm() {
 
   this.state = {
+    customer_id: 0,
     price: 0,
     reason: '',
     customer: {},
@@ -43,6 +44,7 @@ PaymentForm.prototype = {
   constructor: PaymentForm,
 
   checkout(customer_id, price, reason, metadata, callback)  {
+    this.state.customer_id = customer_id;
     this.state.price = price;
     this.state.reason = reason;
     this.state.metadata = metadata;
@@ -80,6 +82,7 @@ PaymentForm.prototype = {
 
   get_customer(id) {
     this.clear_customer();
+    this.state.customer_id = id;
     return $.get("/models/customers/" + id, this.on_customer, 'json')
             .fail( function(e) { console.log('failed getting payment sources!'); })  
   },
@@ -110,7 +113,7 @@ PaymentForm.prototype = {
 
   charge_saved(e,m) {
     this.stop_listen_cardswipe();
-    body = { customer: this.state.customer.id, card: m.card.id, amount: this.state.price, description: this.state.reason };
+    body = { customer: this.state.customer_id, card: m.card.id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_saved_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
@@ -125,13 +128,13 @@ PaymentForm.prototype = {
   charge_token(token_id) {
     this.stop_listen_cardswipe();
     if(!token_id) return;
-    body = { customer: this.state.customer.id, token: token_id, amount: this.state.price, description: this.state.reason };
+    body = { customer: this.state.customer_id, token: token_id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
   pay_cash() {
     this.stop_listen_cardswipe();
-    body = { customer: this.state.customer.id, amount: this.state.price, description: this.state.reason }
+    body = { customer: this.state.customer_id, amount: this.state.price, description: this.state.reason }
     $.post('/checkout/pay_cash', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
