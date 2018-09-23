@@ -98,6 +98,12 @@ footer {
   border-bottom: none;
 }
 
+button#checkout {
+  width: 100%;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+
 @keyframes glow {
   from { 
   	text-shadow: 0 0 0.2em rgba(255,255,255,0.3);
