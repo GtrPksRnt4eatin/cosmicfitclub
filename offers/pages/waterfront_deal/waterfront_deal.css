@@ -51,7 +51,11 @@ footer {
 
 .register .tuple .value input {
   font-family: 'Industry';
-  padding: 0.2em;
+  padding: 0.3em;
+  margin: 0.3em;
+  font-size: 0.8em;
+  letter-spacing: 0.03em;
+  border-radius: 0.5em;
 }
 
 
