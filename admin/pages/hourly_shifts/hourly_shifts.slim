@@ -25,3 +25,8 @@ html
             span #{ shift.customer.name }
             span #{ shift.rrule_string  }
             span #{ shift.range_string  }
+
+        - HourlyPunch.order_by(:starttime).all.each do |punch|
+          .punch
+            span #{ punch.starttime.strftime("%a %b %e %l:%M %p") } - span #{ punch.endtime.strftime("%a %b %e %l:%M %p") }
+            span #{ punch.customer.name }
