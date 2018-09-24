@@ -119,9 +119,17 @@ button#checkout_button:hover {
   background: rgba(255,255,255,0.3);
 }
 
-.errors err {
+.errors .err {
   font-size: 0.4em;
   color: red;
+}
+
+.small {
+  font-size: 0.4em;
+}
+
+#reset {
+  color: rgba(100,100,255,0.8);
 }
 
 
