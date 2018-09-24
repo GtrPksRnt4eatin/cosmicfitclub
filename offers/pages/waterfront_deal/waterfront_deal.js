@@ -14,6 +14,7 @@ ctrl = {
   
   check_email: function(e,m) { 
     $.get('/auth/email_search', { email: e.target.value }, function(val) {
+      data.errors = [];
       data.id = val ? val.id : 0;
       data.email = val ? val.email : data.email;
       data.full_name = val ? val.full_name : '';
@@ -23,12 +24,13 @@ ctrl = {
 
   checkout: function(e,m) {
     if( !validate() ) { return; }
-    payment_form.checkout( data.id, 10000, "Ten Class Pack (discounted)", null, on_payment)
-
+    payment_form.checkout( data.id, 10000, "Ten Class Pack (discounted)", null, on_payment);
   },
 
   reset_password: function(e,m) {
-    
+    $.post( '/auth/reset', JSON.stringify( { "email" : data.email } )
+     .fail(    function(req,msg,status) { ('#offer_form').shake(); data.errors=["Account Not Found!"] } )
+     .success( function() { alert("Check Your Email"); } )
   }
 
 }
