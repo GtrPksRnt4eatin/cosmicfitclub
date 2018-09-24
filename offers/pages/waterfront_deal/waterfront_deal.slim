@@ -65,7 +65,7 @@ html
                 | Password:
               span.value
                 input#password type='password' rv-value='data.password'
-          .small
+          .small rv-if='data.id'
             | Email Has Account.. Login or 
             span#reset rv-on-click='ctrl.reset_password'
               | Reset Password

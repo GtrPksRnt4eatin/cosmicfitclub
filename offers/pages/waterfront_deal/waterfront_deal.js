@@ -24,6 +24,11 @@ ctrl = {
   checkout: function(e,m) {
     if( !validate() ) { return; }
     payment_form.checkout( data.id, 10000, "Ten Class Pack (discounted)", null, on_payment)
+
+  },
+
+  reset_password: function(e,m) {
+    
   }
 
 }
@@ -45,7 +50,7 @@ $(document).ready(function(){
     popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
 
     userview.ev_sub('on_user', on_user );
-    
+
 })
 
 function on_user(user) {
@@ -60,10 +65,22 @@ function on_user(user) {
 
 function validate() {
   data.errors = [];
-  if( !email_regex.test( id('email').value ) ) { data.errors.push("Invalid E-Mail Address!") }
-
+  if( !email_regex.test( id('email').value ) ) { data.errors.push("Invalid E-Mail Address!"); }
+  if( data.id ) { }
+  else {
+    if( id('fullname').value.length == 0 )     { data.errors.push("Name Cannot Be Empty"); }
+  }
   if(data.errors.length>0) { $('#offer_form').shake(); return false; }
   return true;
+}
+
+function login() {
+  $.post('login', JSON.stringify(this.state))
+   .fail( function(req,msg,status) { $(this.dom).shake();  this.state.failed=true; }.bind(this) )
+   .success( function() { 
+     var page = getUrlParameter('page');
+     window.location.replace( empty(page) ? '/user' : page );
+   });
 }
 
 function on_payment(payment) {

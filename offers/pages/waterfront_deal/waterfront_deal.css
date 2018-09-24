@@ -129,12 +129,13 @@ button#checkout_button:hover {
 }
 
 #reset {
+  font-weight: bold;
   color: rgba(150,150,255,0.8);
   cursor: pointer;
 }
 
 #reset:hover {
-  text-shadow: 0 0 0.2em white;
+  text-shadow: 0 0 0.1em white;
 }
 
 
