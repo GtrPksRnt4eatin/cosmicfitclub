@@ -61,6 +61,10 @@ html
               span.value
                 input#fullname rv-value='data.full_name'
             .tuple rv-if='data.id'
+              div.small
+                | Email Has Account.. Login or 
+                span#reset rv-on-click='ctrl.reset_password'
+                  | Reset Password
               span.label
                 | Password:
               span.value

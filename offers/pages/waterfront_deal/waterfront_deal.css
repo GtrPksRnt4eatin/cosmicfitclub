@@ -119,6 +119,11 @@ button#checkout_button:hover {
   background: rgba(255,255,255,0.3);
 }
 
+.errors err {
+  font-size: 0.4em;
+  color: red;
+}
+
 
 @keyframes glow {
   from { 
