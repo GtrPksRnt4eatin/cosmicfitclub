@@ -49,6 +49,18 @@ class CFCAuth < Sinatra::Base
     return JSON.generate({ :id => customer.id })
   end
 
+  post '/register_and_login' do
+    content_type :json
+    data = JSON.parse(request.body.read)
+    halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
+    customer = Customer.create( :name => data['name'], :email => data['email'] )
+    customer.login = User.create
+    customer.send_new_account_email
+    session[:user] = customer.login
+    session[:customer] = customer
+    return JSON.generate({ :id => customer.id })
+  end
+
   post '/password' do
     halt 400 if params[:password].length < 5
     user = User.find( :reset_token  => params[:token] )

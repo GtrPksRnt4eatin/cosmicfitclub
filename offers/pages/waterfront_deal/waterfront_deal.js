@@ -7,7 +7,8 @@ data = {
   email: null,
   full_name: null,
   password: null,
-  errors: []
+  errors: [],
+  logged_in: false
 }
 
 ctrl = {
@@ -23,8 +24,10 @@ ctrl = {
   },
 
   checkout: function(e,m) {
-    if( !validate() ) { return; }
-    payment_form.checkout( data.id, 10000, "Ten Class Pack (discounted)", null, on_payment);
+    if( !userview.logged_in) { payment_form.checkout( data.id, 10000, "Ten Class Pack (discounted)", null, on_payment); return; }
+    if( !data.id )           { if( !validate_noid()  ) { return; }; create_account(); }
+    if( data.id  )           ( login(); }
+    checkout( data.id );
   },
 
   reset_password: function(e,m) {
@@ -58,6 +61,7 @@ $(document).ready(function(){
 function on_user(user) {
   if( empty(user) ) { payment_form.clear_customer();      }
   else              { payment_form.get_customer(user.id); }
+  data.logged_in = empty(user) ? false : true;
   data.id = empty(user) ? 0 : user.id;
   data.full_name = empty(user) ? '' : user.name;
   data.email = empty(user) ? '' : user.email;
@@ -65,14 +69,31 @@ function on_user(user) {
   id('fullname').disabled = empty(user) ? false : true;
 }
 
-function validate() {
+function create_account() {
+  $.post('/auth/register_and_login', JSON.stringify({
+      "name": data.full_name,
+      "email": data.email
+    }), 'json')
+   .fail( function(req,msg,status) { data.errors = ['failed to create account'];  $('#offer_form').shake(); } )
+   .success( function(resp) {
+      userview.get_user();
+      checkout(resp.id)
+    });
+}
+
+function login() {
+  $.post('/auth/login', JSON.stringify({ "email" : data.email, "password" : data.password } ))
+  .fail( function(req,msg,status) { ('#offer_form').shake(); data.errors=["Login Failed"] } )
+  .success( function() { 
+    userview.get_user();
+    checkout(data.id);
+  });
+}
+
+function validate_noid() {
   data.errors = [];
-  if( !email_regex.test( id('email').value ) ) { data.errors.push("Invalid E-Mail Address!"); }
-  if( data.id ) { }
-  else {
-    if( id('fullname').value.length == 0 )     { data.errors.push("Name Cannot Be Empty"); }
-  }
-  if(data.errors.length>0) { $('#offer_form').shake(); return false; }
+  if( !email_regex.test( id('email').value ) ) { data.errors.push("Invalid E-Mail Address!"); $('#offer_form').shake(); return false; }
+  if( id('fullname').value.length == 0 )       { data.errors.push("Name Cannot Be Empty");    $('#offer_form').shake(); return false;}
   return true;
 }
 
@@ -83,6 +104,13 @@ function login() {
      var page = getUrlParameter('page');
      window.location.replace( empty(page) ? '/user' : page );
    });
+}
+
+function checkout(customer_id) {
+  payment_form.checkout( customer.id, 10000, "Ten Class Pack (discounted)", null, function(payment_id) {
+      $.post('/checkout/pack/buy', { customer_id: data.customer.id, pack_id:  , payment_id: payment_id })
+       .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
+    });
 }
 
 function on_payment(payment) {

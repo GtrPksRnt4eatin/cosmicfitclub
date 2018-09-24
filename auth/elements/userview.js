@@ -25,6 +25,10 @@ UserView.prototype = {
 
   get user() {
     return this.state.user;
+  },
+
+  get logged_in() {
+    return !!this.state.user;
   }
 
 }
