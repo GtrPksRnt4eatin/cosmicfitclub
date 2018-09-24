@@ -65,10 +65,10 @@ html
                 | Password:
               span.value
                 input#password type='password' rv-value='data.password'
-            .small
-              | Email Has Account.. Login or 
-              span#reset rv-on-click='ctrl.reset_password'
-                | Reset Password
+          .small
+            | Email Has Account.. Login or 
+            span#reset rv-on-click='ctrl.reset_password'
+              | Reset Password
           .errors
             .err rv-each-err='data.errors'
               | {err} 
