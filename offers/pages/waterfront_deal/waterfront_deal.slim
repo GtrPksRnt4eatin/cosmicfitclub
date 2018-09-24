@@ -55,7 +55,7 @@ html
                 | E-Mail:
               span.value
                 input#email rv-value='data.email' rv-on-input='ctrl.check_email'
-            .tuple rv-unless='data.id'
+            .tuple rv-hide='data.id'
               span.label
                 | Full Name:
               span.value
