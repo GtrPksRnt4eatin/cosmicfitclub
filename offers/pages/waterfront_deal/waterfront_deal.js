@@ -26,7 +26,7 @@ ctrl = {
   checkout: function(e,m) {
     if( !userview.logged_in) { payment_form.checkout( data.id, 10000, "Ten Class Pack (discounted)", null, on_payment); return; }
     if( !data.id )           { if( !validate_noid()  ) { return; }; create_account(); }
-    if( data.id  )           ( login(); }
+    if( data.id  )           { login(); }
     checkout( data.id );
   },
 
