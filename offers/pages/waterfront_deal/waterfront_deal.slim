@@ -55,11 +55,16 @@ html
                 | E-Mail:
               span.value
                 input#email rv-value='data.email' rv-on-input='ctrl.check_email'
-            .tuple
+            .tuple rv-unless='data.id'
               span.label
                 | Full Name:
               span.value
                 input#fullname rv-value='data.full_name'
+            .tuple rv-if='data.id'
+              span.label
+                | Password:
+              span.value
+                input#password rv-value='data.password'
           button#checkout_button Buy Now!
 
 

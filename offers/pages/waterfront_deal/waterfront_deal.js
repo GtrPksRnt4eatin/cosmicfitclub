@@ -5,7 +5,8 @@ var email_regex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~
 data = {
   id: 0,
   email: null,
-  full_name: null
+  full_name: null,
+  password: null
 }
 
 ctrl = {
@@ -52,7 +53,8 @@ function on_user(user) {
 }
 
 function validate() {
-  id('email').value 
+  if( !email_regex.test( id('email').value ) ) { $() }
+
 }
 
 function on_payment(payment) {
