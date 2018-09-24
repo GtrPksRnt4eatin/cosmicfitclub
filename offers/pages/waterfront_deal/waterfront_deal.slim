@@ -46,7 +46,7 @@ html
             br
             | Good for Any and All Classes Offered on the Regular Schedule.
 
-        .upcoming
+        .upcoming#offer_form
           .heading
             | Redeem Now! One Per Customer
           .register
@@ -64,8 +64,11 @@ html
               span.label
                 | Password:
               span.value
-                input#password rv-value='data.password'
-          button#checkout_button Buy Now!
+                input#password type='password' rv-value='data.password'
+          .errors
+            .err rv-each-err='data.errors'
+              | {err} 
+          button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
 
     == include_slim('slim/partials/footer')

@@ -6,10 +6,12 @@ data = {
   id: 0,
   email: null,
   full_name: null,
-  password: null
+  password: null,
+  errors: []
 }
 
 ctrl = {
+  
   check_email: function(e,m) { 
     $.get('/auth/email_search', { email: e.target.value }, function(val) {
       data.id = val ? val.id : 0;
@@ -17,7 +19,13 @@ ctrl = {
       data.full_name = val ? val.full_name : '';
       id('fullname').disabled = val ? true : false;
     } );
+  },
+
+  checkout: function(e,m) {
+    if( !validate() ) { return; }
+    payment_form.checkout( data.id, 10000, "Ten Class Pack (discounted)", null, on_payment)
   }
+
 }
 
 $(document).ready(function(){
@@ -37,9 +45,7 @@ $(document).ready(function(){
     popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
 
     userview.ev_sub('on_user', on_user );
-
-    $('#checkout_button').click(function() { payment_form.checkout( data.id, 10000, "Ten Class Pack (discounted)", null, on_payment) });
-                                                                    // customer_id, price, reason, metadata, callback
+    
 })
 
 function on_user(user) {
@@ -53,8 +59,11 @@ function on_user(user) {
 }
 
 function validate() {
-  if( !email_regex.test( id('email').value ) ) { $() }
+  data.errors = [];
+  if( !email_regex.test( id('email').value ) ) { data.errors.push("Invalid E-Mail Address!") }
 
+  if(data.errors.length>0) { $('#offer_form').shake(); return false; }
+  return true;
 }
 
 function on_payment(payment) {
