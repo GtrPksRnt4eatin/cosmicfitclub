@@ -43,9 +43,6 @@ $(document).ready(function(){
 	//include_rivets_dates();
     include_rivets_money();
 
-    rivets.formatters.not_if_loggedin = function(val) { if(userview.logged_in) return false; return val; }
-    var binding = rivets.bind( $('body'), { ctrl: ctrl, data: data } );
-
     payment_form     = new PaymentForm();
     popupmenu        = new PopupMenu( id('popupmenu_container') );
     userview         = new UserView( id('userview_container') );
@@ -57,6 +54,9 @@ $(document).ready(function(){
     popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
 
     userview.ev_sub('on_user', on_user );
+
+    rivets.formatters.not_if_loggedin = function(val) { if(userview.logged_in) return false; return val; }
+    var binding = rivets.bind( $('body'), { ctrl: ctrl, data: data } );
 
 })
 
