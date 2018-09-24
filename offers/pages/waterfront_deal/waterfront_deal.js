@@ -28,7 +28,7 @@ ctrl = {
   },
 
   reset_password: function(e,m) {
-    $.post( '/auth/reset', JSON.stringify( { "email" : data.email } )
+    $.post( '/auth/reset', JSON.stringify( { "email" : data.email } ) )
      .fail(    function(req,msg,status) { ('#offer_form').shake(); data.errors=["Account Not Found!"] } )
      .success( function() { alert("Check Your Email"); } )
   }
