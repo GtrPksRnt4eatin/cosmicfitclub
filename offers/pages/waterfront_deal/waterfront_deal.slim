@@ -60,12 +60,12 @@ html
                 | Full Name:
               span.value
                 input#fullname rv-value='data.full_name'
-            .tuple rv-if='data.id' rv-unless='data.logged_in'
-              span.label
+            .tuple rv-unless='data.logged_in' rv-if='data.id' 
+              span.label 
                 | Password:
               span.value
                 input#password type='password' rv-value='data.password'
-          .small rv-if='data.id' rv-unless='data.logged_in'
+          .small rv-unless='data.logged_in' rv-if='data.id'
             | Email Has Account.. Login or 
             span#reset rv-on-click='ctrl.reset_password'
               | Reset Password
