@@ -109,8 +109,8 @@ function login() {
 }
 
 function checkout(customer_id) {
-  payment_form.checkout( customer.id, 10000, "Ten Class Pack (discounted)", null, function(payment_id) {
-      $.post('/checkout/pack/buy', { customer_id: data.customer.id, pack_id: 4, payment_id: payment_id })
+  payment_form.checkout( customer_id, 10000, "Ten Class Pack (discounted)", null, function(payment_id) {
+      $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 4, payment_id: payment_id })
        .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
     });
 }
