@@ -26,7 +26,7 @@ UserView.prototype = {
 
   get id() {
     return ( this.state.user ? this.state.user.id : 0 );
-  }
+  },
 
   get user() {
     return this.state.user;
