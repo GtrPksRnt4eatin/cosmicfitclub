@@ -8,6 +8,7 @@ function UserView(parent) {
   this.load_styles();
   this.bind_dom();
   this.get_user();
+  
 }
 
 UserView.prototype = {
@@ -22,6 +23,10 @@ UserView.prototype = {
       .fail( function()     { this.state.user = null; this.ev_fire('on_user', null); }.bind(this))
       .done( function(user) { this.state.user = user; this.ev_fire('on_user', user); }.bind(this));
   },
+
+  get id() {
+    return ( this.state.user ? this.state.user.id : 0 );
+  }
 
   get user() {
     return this.state.user;
