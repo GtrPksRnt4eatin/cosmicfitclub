@@ -120,12 +120,12 @@ button#checkout_button:hover {
 }
 
 .errors .err {
-  font-size: 0.4em;
+  font-size: 0.5em;
   color: red;
 }
 
 .small {
-  font-size: 0.4em;
+  font-size: 0.5em;
 }
 
 #reset {
