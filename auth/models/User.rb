@@ -60,7 +60,7 @@ class User < Sequel::Model
       customer = Customer.find_by_email(email)
       return false if customer.nil?
       user = customer.login
-      return ( user && user.match_password(login_password) ) ? user : false 
+      return ( user && user.match_password(login_password) ) ? user : nil 
     end
 
     def activated?
