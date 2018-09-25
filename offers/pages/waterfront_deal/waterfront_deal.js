@@ -99,15 +99,6 @@ function validate_noid() {
   return true;
 }
 
-function login() {
-  $.post('login', JSON.stringify(this.state))
-   .fail( function(req,msg,status) { $("#offer_form").shake();  data.errors=[msg]; } )
-   .success( function() { 
-     var page = getUrlParameter('page');
-     window.location.replace( empty(page) ? '/user' : page );
-   });
-}
-
 function checkout(customer_id) {
   payment_form.checkout( customer_id, 10000, "Ten Class Pack (discounted)", null, function(payment_id) {
       $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 4, payment_id: payment_id })
