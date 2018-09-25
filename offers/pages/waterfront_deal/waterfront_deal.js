@@ -101,7 +101,7 @@ function validate_noid() {
 
 function login() {
   $.post('login', JSON.stringify(this.state))
-   .fail( function(req,msg,status) { $(this.dom).shake();  this.state.failed=true; }.bind(this) )
+   .fail( function(req,msg,status) { $("#offer_form").shake();  data.errors=[msg]; } )
    .success( function() { 
      var page = getUrlParameter('page');
      window.location.replace( empty(page) ? '/user' : page );
