@@ -68,10 +68,11 @@ class User < Sequel::Model
     end 
 
     def reset_password
-      self.password = nil
-      self.encrypted_password = nil
-      self.salt = nil
-      self.save
+      #self.password = nil
+      #self.encrypted_password = nil
+      #self.salt = nil
+      #self.save
+      self.generateResetToken
       self.send_password_email 
     end
 
