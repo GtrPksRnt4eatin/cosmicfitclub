@@ -15,7 +15,7 @@ UserView.prototype = {
 	constructor: UserView,
 
   login()    { document.cookie = "loc=" + window.location.pathname; window.location = '/auth/login'; },
-  logout()   { $.post('/auth/logout', function() { window.location = '/'; } ); },
+  logout()   { $.post('/auth/logout', function() { window.location.reload(); } ); },
   userpage() { window.location = '/user'; },
 
   get_user() {
