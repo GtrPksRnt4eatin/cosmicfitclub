@@ -223,10 +223,10 @@ class Customer < Sequel::Model
   end
 
   def buy_pack_precharged(pack_id, payment_id)
-    pack = Package[pack_id] or halt 403, "Can't find Pack"
-    payment = CustomerPayment[payment_id] or halt 403, "Can't find Payment"
-    payment.customer_id == self.id or halt 403, "Payment doesn't match Customer"
-    payment.amount == pack.price or halt 403, "Payment doesn't match amount"
+    pack = Package[pack_id]               or raise "Can't find Pack"
+    payment = CustomerPayment[payment_id] or raise "Can't find Payment"
+    payment.customer_id == self.id        or raise "Payment doesn't match Customer"
+    #payment.amount == pack.price          or raise "Payment doesn't match amount"
     self.add_passes( pack.num_passes, "Bought #{pack.name}", "" ) 
     self.send_pack_email(pack)
   end
