@@ -26,6 +26,3 @@ function include_rivets_money() {
 
   }
 }
-
-
-50/100 = 
