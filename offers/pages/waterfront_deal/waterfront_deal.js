@@ -94,12 +94,12 @@ function login() {
 function validate_noid() {
   data.errors = [];
   if( !email_regex.test( id('email').value ) ) { data.errors.push("Invalid E-Mail Address!"); $('#offer_form').shake(); return false; }
-  if( id('fullname').value.length == 0 )       { data.errors.push("Name Cannot Be Empty");    $('#offer_form').shake(); return false;}
+  if( id('fullname').value.length == 0 )       { data.errors.push("Name Cannot Be Empty");    $('#offer_form').shake(); return false; }
   return true;
 }
 
 function checkout(customer_id) {
-  payment_form.checkout( customer_id, 50, "Ten Class Pack (discounted)", null, function(payment_id) {
+  payment_form.checkout( customer_id, 10000, "Ten Class Pack (discounted)", null, function(payment_id) {
       $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 4, payment_id: payment_id })
        .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
     });
