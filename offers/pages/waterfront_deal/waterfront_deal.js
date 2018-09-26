@@ -27,7 +27,6 @@ ctrl = {
     if( userview.logged_in) { checkout( userview.id ); return; }
     if( !data.id )          { if( !validate_noid()  ) { return; }; create_account(); }
     if( data.id  )          { login(); }
-    //checkout( data.id );
   },
 
   reset_password: function(e,m) {
@@ -100,12 +99,8 @@ function validate_noid() {
 }
 
 function checkout(customer_id) {
-  payment_form.checkout( customer_id, 10000, "Ten Class Pack (discounted)", null, function(payment_id) {
+  payment_form.checkout( customer_id, 10, "Ten Class Pack (discounted)", null, function(payment_id) {
       $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 4, payment_id: payment_id })
        .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
     });
-}
-
-function on_payment(payment) {
-  var x=5;
 }

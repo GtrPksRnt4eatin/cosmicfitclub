@@ -21,7 +21,7 @@ class CFCAuth < Sinatra::Base
 
   get '/email_search' do
     content_type :json
-    custy = Customer.find_by_email params[:email]
+    custy = ( params[:email] == '' ? nil : Customer.find_by_email params[:email] )
     JSON.generate( custy.nil? ? false : { id: custy.id, email: custy.email, full_name: custy.name} )
   end
 

@@ -20,12 +20,12 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id/fulldetails' do
     custy = Customer[params[:id]] or halt(404,"Can't Find Customer")
-    { :info => custy,
-      :subscriptions => JSON.parse(custy.subscriptions.to_json( include: :plan )),
-      :tickets => JSON.parse(EventTicket.to_json( array: custy.tickets, include: :event )),
-      :wallet => JSON.parse(custy.wallet.to_json( include: :transactions )),
-      :reservations => JSON.parse(custy.reservations.to_json( include: :occurrence )),
-      :payments => custy.payments,
+    { :info =>            custy,
+      :subscriptions =>   JSON.parse(custy.subscriptions.to_json( include: :plan )),
+      :tickets =>         JSON.parse(EventTicket.to_json( array: custy.tickets, include: :event )),
+      :wallet =>          JSON.parse(custy.wallet.to_json( include: :transactions )),
+      :reservations =>    JSON.parse(custy.reservations.to_json( include: :occurrence )),
+      :payments =>        custy.payments,
       :training_passes => custy.training_passes
     }.to_json
   end
@@ -43,9 +43,9 @@ class CustomerRoutes < Sinatra::Base
     data = JSON.parse request.body.read
     custy = Customer[params[:id]] or halt 404
     custy.update(
-      :name => data["name"],
-      :email => data["email"],
-      :phone => data["phone"],
+      :name    => data["name"],
+      :email   => data["email"],
+      :phone   => data["phone"],
       :address => data["address"]
     )
     status 204
