@@ -101,8 +101,6 @@ module StripeMethods
       :description => description,
       :metadata    => metadata
     )
-  rescue Exception => e 
-    return e
   end
 
   def StripeMethods::find_customer_by_card(token)
