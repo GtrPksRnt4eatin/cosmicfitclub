@@ -16,14 +16,14 @@ module Sinatra
       data = JSON.parse request.body.read
       custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
       custy.buy_pack_card( data['pack_id'], data['token'] )
-      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a class pack.")
+      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a #{Package[params[:pack_id]].name}.")
       status 204
     end
 
     def buy_pack_precharged
       custy = Customer[params[:customer_id]] or halt 403
       custy.buy_pack_precharged( params[:pack_id], params[:payment_id] )
-      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a class pack precharged.")
+      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a #{Package[params[:pack_id]].name} precharged.")
     end
 
     def buy_training
