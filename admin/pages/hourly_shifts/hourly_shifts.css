@@ -2,6 +2,7 @@
 .shift span {
   padding: 0.3em 0.5em;
   width: 20em;
+  display: inline-block;
 }
 
 .punch span:nth-child(1) { width: 22em; }
