@@ -65,8 +65,50 @@ class Event < Sequel::Model
     }
   end
 
+  def attendance_csv 
+    CSV.generate do |csv|
+      csv << [ "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net" ]
+      net = 0
+      gross = 0
+      fees = 0
+      refunds = 0
+      self.tickets.each do |tic|
+        trans = nil
+        if tic.stripe_payment_id then
+          charge = Stripe::Charge.retrieve(tic.stripe_payment_id) rescue nil
+          trans = Stripe::BalanceTransaction.retrieve charge.balance_transaction rescue nil
+          net = net + trans.net unless trans.nil?
+          gross = gross + trans.amount unless trans.nil?
+          fees = fees + trans.fee unless trans.nil?
+          refund = 0
+          charge.refunds.data.each do |ref|
+            t = Stripe::BalanceTransaction.retrieve ref.balance_transaction rescue nil
+            net = net + t.net unless t.nil?
+            refund = t.net unless t.nil?
+            refunds = refunds + t.net unless t.nil?
+          end
+        end
+        id = tic.customer ? tic.customer.id : 0
+        name = tic.customer ? tic.customer.name : ""
+        email = tic.customer ? tic.customer.email : ""
+        csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00" ] unless trans
+        csv << [ id, name, email, fmt_price(trans.amount), fmt_price(trans.fee), fmt_price(refund), fmt_price( trans.net + refund ) ] if trans
+      end 
+      csv << []
+      csv << [ "Totals:", self.headcount, "", fmt_price(gross), fmt_price(fees), fmt_price(refunds), fmt_price(net) ]
+    end
+  end
+
   def Event::list
     Event.order(Sequel.desc(:starttime)).all.to_json( :only => [ :id, :name, :starttime, :image_url ] )
+  end
+
+  def Event::list_future
+    Event.exclude( starttime: nil ).where{ starttime >= Date.today }.order(:starttime).all.map { |evt| evt.details }
+  end
+
+  def Event::list_past
+    Event.exclude( starttime: nil ).where{ starttime < Date.today }.order(:starttime).all.map { |evt| evt.details }
   end
 
 end

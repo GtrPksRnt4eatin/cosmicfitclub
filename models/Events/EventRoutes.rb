@@ -1,21 +1,23 @@
 class EventRoutes < Sinatra::Base
 
   get '/' do
-    data = Event.order(:starttime).all.map do |c|
-      next if c.starttime.nil?
-      next if c.starttime < Date.today.to_time
-      c.details
-    end.compact!
-    JSON.generate data
+    #data = Event.order(:starttime).all.map do |c|
+    #  next if c.starttime.nil?
+    #  next if c.starttime < Date.today.to_time
+    #  c.details
+    #end.compact!
+    #JSON.generate data
+    JSON.generate Event::list_future
   end
 
   get '/past' do
-    data = Event.order(:starttime).all.map do |c|
-      next if c.starttime.nil?
-      next if c.starttime >= Date.today.to_time
-      c.details
-    end.compact!
-    JSON.generate data
+    ##data = Event.order(:starttime).all.map do |c|
+    ##  next if c.starttime.nil?
+    #  next if c.starttime >= Date.today.to_time
+    #  c.details
+    #end.compact!
+    #JSON.generate data
+    JSON.generate Event::list_past
   end
 
   get '/list' do
@@ -100,37 +102,7 @@ class EventRoutes < Sinatra::Base
     halt 404 if event.nil?
     content_type 'application/csv'
     attachment "#{event.name} Attendance.csv"
-    csv_string = CSV.generate do |csv|
-      csv << [ "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net" ]
-      net = 0
-      gross = 0
-      fees = 0
-      refunds = 0
-      event.tickets.each do |tic|
-        trans = nil
-        if tic.stripe_payment_id then
-          charge = Stripe::Charge.retrieve(tic.stripe_payment_id) rescue nil
-          trans = Stripe::BalanceTransaction.retrieve charge.balance_transaction rescue nil
-          net = net + trans.net unless trans.nil?
-          gross = gross + trans.amount unless trans.nil?
-          fees = fees + trans.fee unless trans.nil?
-          refund = 0
-          charge.refunds.data.each do |ref|
-            t = Stripe::BalanceTransaction.retrieve ref.balance_transaction rescue nil
-            net = net + t.net unless t.nil?
-            refund = t.net unless t.nil?
-            refunds = refunds + t.net unless t.nil?
-          end
-        end
-        id = tic.customer ? tic.customer.id : 0
-        name = tic.customer ? tic.customer.name : ""
-        email = tic.customer ? tic.customer.email : ""
-        csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00" ] unless trans
-        csv << [ id, name, email, fmt_price(trans.amount), fmt_price(trans.fee), fmt_price(refund), fmt_price( trans.net + refund ) ] if trans
-      end 
-      csv << []
-      csv << [ "Totals:", event.headcount, "", fmt_price(gross), fmt_price(fees), fmt_price(refunds), fmt_price(net) ]
-    end
+    event.attendance_csv
   end
 
   get '/:id/accounting' do
