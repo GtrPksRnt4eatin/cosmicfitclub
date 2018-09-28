@@ -6,7 +6,10 @@ html
 
   head
 
-    title CFC Event Attendance
+    title
+      | CFC Event Attendance
+
+    script src='https://js.stripe.com/v3/'
 
     javascript:
       data = {
@@ -14,6 +17,9 @@ html
         custylist: #{{ Customer.all.to_json( :only => [ :id, :name, :email ] )         }},
         list:      []
       }
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
 
     == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', 'event_attendance' ]
 
