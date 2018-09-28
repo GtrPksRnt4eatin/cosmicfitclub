@@ -37,6 +37,10 @@ TicketSelector.prototype = {
 
   load_customer_data: function(customer) {
 
+  },
+
+  select_price: function(e,m) {
+    this.ev_fire('paynow',  )
   }
 
 }
@@ -47,7 +51,7 @@ Object.assign( TicketSelector.prototype, ev_channel);
 TicketSelector.prototype.HTML = ES5Template(function(){/**
   <div class='ticket_selector'>
 
-    <div class='price' rv-each-price='state.event.prices'> 
+    <div class='price' rv-each-price='state.event.prices' rv-on-click='this.select_price' rv-title='price.id'> 
       <span>{price.title}</span>
       <span>Member Price: {price.member_price | money}</span>
       <span>Full Price: {price.full_price | money}</span>
@@ -73,6 +77,7 @@ TicketSelector.prototype.CSS = ES5Template(function(){/**
     padding: 0.5em;
     background: rgba(255,255,255,0.1);
     margin: 0.2em;
+    cursor: pointer;
   }
 
   .ticket_selector .price span {
