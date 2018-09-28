@@ -8,6 +8,14 @@ module Slack
     Slack.send({ :text => msg })
   end
 
+  def Slack.raw_err(label, message)
+    Slack.send({
+      :channel => 'website_errors',
+      :text => "#{label}: #{message}",
+      :username => 'cosmicdonut'
+    })
+  end
+
   def Slack.err(label, err)
     msg = "#{label}:\r\r`#{err.message}\r\r`"
     Slack.send({ 

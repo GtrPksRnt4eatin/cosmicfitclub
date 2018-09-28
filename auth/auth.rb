@@ -28,8 +28,11 @@ class CFCAuth < Sinatra::Base
   post '/login' do
     data = JSON.parse(request.body.read)
     session[:user] = User.authenticate( data['email'], data['password'] )
-    Slack.err( 'Failed Login', request.body.read ) unless session[:user]
-    halt 401 unless session[:user]
+    if !session[:user] then
+      custy = Customer.find_by_email( data['email'] )
+      Slack.raw_err( 'Failed Login', "#{data['email']}\r\n\r\n#{custy.try(:to_json)}")
+      halt 401
+    end
     session[:customer] = session[:user].customer
     status 204
   end
@@ -127,7 +130,7 @@ class CFCAuth < Sinatra::Base
   end 
 
   error do
-    Slack.err( 'Auth Error', env['sinatra.error'] + "\r\n\r\n" + params.to_json + "\r\n\r\n" + request.path + "\r\n\r\n" + request.body.read )
+    Slack.err( 'Auth Error', env['sinatra.error'] )
     'An Error Occurred.'
   end
 
