@@ -18,3 +18,8 @@
 .punch {
   background: rgba(255,255,255,0.1);
 }
+
+.tile .title {
+  font-size: 1.2em;
+  padding: 0.3em;
+}
