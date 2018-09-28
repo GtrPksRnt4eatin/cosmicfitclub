@@ -8,6 +8,12 @@ html
 
     title Cosmicfit Admin
 
+    javascript:
+      data = {
+        shifts: #{{ HourlyShift.all.to_json }},
+        punches: #{{ HourlyPunch.order_by(:starttime).all.to_json }}
+      }
+
     == css [ 'fonts', 'chosen-ems', 'site', 'header', '/admin/hourly_shifts' ]
     == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'rivets', 'rv_dates', 'lib' ]
     == js  [ 'element', 'ev_channel', '/admin/hourly_shifts' ]
