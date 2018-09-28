@@ -126,7 +126,7 @@ class CFCAuth < Sinatra::Base
   end 
 
   error do
-    Slack.err( 'Auth Error', env['sinatra.error'] )
+    Slack.err( 'Auth Error', env['sinatra.error'] + "\r\n\r\n" + params.to_json + "\r\n\r\n" + request.to_json )
     'An Error Occurred.'
   end
 
