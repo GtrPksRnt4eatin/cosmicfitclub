@@ -3,3 +3,11 @@
   padding: 0.3em 0.5em;
   width: 20em;
 }
+
+.punch span:nth-child(1) { width: 22em; }
+.punch span:nth-child(2) { width: 10em; }
+.punch span:nth-child(3) { width: 15em; }
+
+.punch {
+  background: rgba(255,255,255,0.1);
+}

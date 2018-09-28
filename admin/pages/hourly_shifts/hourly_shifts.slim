@@ -33,8 +33,10 @@ html
             span #{ shift.range_string  }
       
       .tile
+        .title Hourly Punches
+        
         - HourlyPunch.order_by(:starttime).all.each do |punch|
           .punch title="#{ punch.id }"
-            span #{ punch.starttime.try(:strftime,"%a %b %e %l:%M %p") } - #{ punch.endtime.try(:strftime, "%a %b %e %l:%M %p") }
+            span #{ punch.starttime.try(:strftime,"%a %b %e %l:%M %p") } - #{ punch.endtime.try(:strftime, "%l:%M %p") }
             span #{ punch.duration } Hours
             span #{ punch.customer.name }
