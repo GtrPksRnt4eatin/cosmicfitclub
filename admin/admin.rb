@@ -40,4 +40,14 @@ class CFCAdmin < Sinatra::Base
     e.message + "\r\n\r\n" + e.backtrace.join("\r\n")
   end
 
+  not_found do
+    'This is nowhere to be found.'
+  end
+
+  error do
+    Slack.err( 'Admin Error', env['sinatra.error'] )
+    'An Error Occurred.'
+  end
+
+
 end 

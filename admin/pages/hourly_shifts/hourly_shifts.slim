@@ -29,6 +29,6 @@ html
       .tile
         - HourlyPunch.order_by(:starttime).all.each do |punch|
           .punch
-            span #{ punch.starttime.strftime("%a %b %e %l:%M %p") } - #{ punch.endtime.strftime("%a %b %e %l:%M %p") }
+            span #{ punch.starttime.try(:strftime,"%a %b %e %l:%M %p") } - #{ punch.endtime.try(:strftime, "%a %b %e %l:%M %p") }
             span #{ punch.duration } Hours
             span #{ punch.customer.name }
