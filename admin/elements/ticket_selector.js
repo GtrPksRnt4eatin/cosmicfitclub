@@ -40,7 +40,7 @@ TicketSelector.prototype = {
   },
 
   select_price: function(e,m) {
-    this.ev_fire('paynow',  )
+    this.ev_fire('paynow', this.state.customer.id, m.price. )
   }
 
 }
@@ -82,6 +82,6 @@ TicketSelector.prototype.CSS = ES5Template(function(){/**
 
   .ticket_selector .price span {
     display: inline-block;
-    width: 10em;
+    width: 11em;
   }
 **/}).untab(2);
