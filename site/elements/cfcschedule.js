@@ -289,6 +289,11 @@ Schedule.prototype.CSS = `
     #Schedule .classdetail .instructors {
       width: auto;
     }
+        
+    #Schedule .classdetail .classname,
+    #Schedule .classdetail .instructors {
+      padding: 0 0.25em;
+    }
 
     #Schedule .register br {
       display: none;
