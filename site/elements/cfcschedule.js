@@ -123,7 +123,8 @@ Schedule.prototype.HTML = `
             </span>
           </span>
           <span class='register' rv-on-click='this.register' >
-            { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
+            <span class='headcount'> { occ.headcount } / { occ.capacity } </span>
+            <span class='blue'>Register Now</span>
           </span>
         </div>
 
