@@ -53,7 +53,6 @@ class User < Sequel::Model
     end
 
     def match_password(login_password="")
-      return false if 
       encrypted_password == BCrypt::Engine.hash_secret( login_password, salt )
     end
 
@@ -61,7 +60,6 @@ class User < Sequel::Model
       customer = Customer.find_by_email(email)
       return false if customer.nil?
       user = customer.login
-      
       return ( user && user.match_password(login_password) ) ? user : nil 
     end
 
