@@ -116,9 +116,13 @@ h4 {
   .tile img       { max-width: 100%; }
 
   .description { 
-    font-size: 4.5vw;
+    font-size: 4.2vw;
     line-height: 1.5em;
     padding: 1em 0;
+  }
+
+  .details {
+    font-size: 3.5vw;
   }
 
   h4 {
