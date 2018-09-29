@@ -147,6 +147,10 @@ Schedule.prototype.HTML = `
 
 Schedule.prototype.CSS = `
 
+  #Schedule {
+    letter-spacing: 0.03em;
+  }
+
   #Schedule .current_date {
     display: inline-block;
   }
@@ -260,6 +264,8 @@ Schedule.prototype.CSS = `
   
     #Schedule .occurrence {
       font-size: 2.5vw;
+      line-height: 1.5em;
+      position: relative;
     }
 
     #Schedule .occurrence span {
