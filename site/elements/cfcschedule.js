@@ -266,8 +266,15 @@ Schedule.prototype.CSS = `
       display: block;
     }
 
-    #Schedule .classdetail span {
+    #Schedule .classdetail span,
+    #Schedule .eventsession .start,
+    #Schedule .eventsession .end {
       display: inline-block;
+    }
+
+    #Schedule .classdetail .classname,
+    #Schedule .classdetail .instructors {
+      width: auto;
     }
 
   }
