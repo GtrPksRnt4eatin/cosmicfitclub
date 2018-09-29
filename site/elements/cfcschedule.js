@@ -273,6 +273,7 @@ Schedule.prototype.CSS = `
     }
 
     #Schedule .classdetail span,
+    #Schedule .register span,
     #Schedule .eventsession .start,
     #Schedule .eventsession .end {
       display: inline-block;
