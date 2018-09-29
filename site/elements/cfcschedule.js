@@ -295,6 +295,10 @@ Schedule.prototype.CSS = `
       padding: 0 0.25em;
     }
 
+    #Schedule .classdetail .instructors {
+      margin: 0;
+    }
+
     #Schedule .register br {
       display: none;
     }
