@@ -58,7 +58,7 @@ class Event < Sequel::Model
     { :id          => self.id, 
       :name        => self.name, 
       :description => self.description, 
-      :starttime   => self.starttime.nil? ? nil : self.starttime.iso8601, 
+      :starttime   => self.starttime.try(:iso8601), 
       :image_url   => self.thumb_image_url,
       :sessions    => self.sessions,
       :prices      => self.prices
