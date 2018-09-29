@@ -166,7 +166,7 @@ var ctrl = {
     checkout();
   },
   tog_session(e,m) {
-    if(!data.mode=='a_la_carte') return;
+    if( data.mode !== 'a_la_carte' ) return;
     data.a_la_carte = true;
     clear_selected_price();
     toggle_included_session(m.sess);
