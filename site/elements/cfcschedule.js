@@ -238,6 +238,10 @@ Schedule.prototype.CSS = `
     line-height: 1.5em;
   }
 
+  #Schedule .register span {
+    display: block;
+  }
+
   #Schedule .instructors[data-sub=true] {
     color: rgb(255,230,150);
     font-style: italic;
@@ -287,6 +291,10 @@ Schedule.prototype.CSS = `
     }
 
     #Schedule .register br {
+      display: none;
+    }
+
+    #Schedule .register .headcount {
       display: none;
     }
 
