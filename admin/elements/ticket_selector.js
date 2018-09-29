@@ -40,7 +40,7 @@ TicketSelector.prototype = {
   },
 
   select_price: function(e,m) {
-    this.ev_fire('paynow', this.state.customer.id, m.price. )
+    this.ev_fire('paynow', this.state.customer.id, m.price )
   }
 
 }
