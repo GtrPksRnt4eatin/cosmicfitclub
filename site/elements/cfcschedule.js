@@ -278,9 +278,14 @@ Schedule.prototype.CSS = `
       display: inline-block;
     }
 
+    #Schedule .eventtitle,
     #Schedule .classdetail .classname,
     #Schedule .classdetail .instructors {
       width: auto;
+    }
+
+    #Schedule .register br {
+      display: none;
     }
 
   }
