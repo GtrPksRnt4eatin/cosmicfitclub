@@ -166,8 +166,8 @@ Schedule.prototype.CSS = `
     padding: 0.5em;
   }
 
-  #Schedule .start,
-  #Schecule .end {
+  #Schedule .classtime .start,
+  #Schedule .classtime .end {
     display: inline-block;
     padding: 0;
   }
@@ -259,7 +259,11 @@ Schedule.prototype.CSS = `
   @media(max-width: 1130px) {
   
     #Schedule .occurrence {
-      font-size: 1.8vw;
+      font-size: 2.5vw;
+    }
+
+    #Schedule .occurrence span {
+      display: block;
     }
 
   }
