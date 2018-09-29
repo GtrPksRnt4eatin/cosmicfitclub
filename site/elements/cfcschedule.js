@@ -266,6 +266,10 @@ Schedule.prototype.CSS = `
       display: block;
     }
 
+    #Schedule .classdetail span {
+      display: inline-block;
+    }
+
   }
 
 `.untab(2);
