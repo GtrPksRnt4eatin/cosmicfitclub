@@ -1,33 +1,23 @@
 class EventRoutes < Sinatra::Base
 
   get '/' do
-    #data = Event.order(:starttime).all.map do |c|
-    #  next if c.starttime.nil?
-    #  next if c.starttime < Date.today.to_time
-    #  c.details
-    #end.compact!
-    #JSON.generate data
+    content_type :json
     JSON.generate Event::list_future
   end
 
   get '/past' do
-    ##data = Event.order(:starttime).all.map do |c|
-    ##  next if c.starttime.nil?
-    #  next if c.starttime >= Date.today.to_time
-    #  c.details
-    #end.compact!
-    #JSON.generate data
+    content_type :json
     JSON.generate Event::list_past
   end
 
   get '/list' do
     content_type :json
-    Event::list
+    Event::short_list
   end
 
   get '/:id' do
     event = Event[params[:id]] or halt(404,'event not found')
-    data = event.details
+    data = event.full_detail
     JSON.generate data
   end
   

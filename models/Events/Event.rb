@@ -54,7 +54,7 @@ class Event < Sequel::Model
     self.tickets.count
   end
 
-  def details
+  def full_detail
     { :id          => self.id, 
       :name        => self.name, 
       :description => self.description, 
@@ -99,16 +99,16 @@ class Event < Sequel::Model
     end
   end
 
-  def Event::list
+  def Event::short_list
     Event.order(Sequel.desc(:starttime)).all.to_json( :only => [ :id, :name, :starttime, :image_url ] )
   end
 
   def Event::list_future
-    Event.exclude( starttime: nil ).where{ starttime >= Date.today }.order(:starttime).all.map { |evt| evt.details }
+    Event.exclude( starttime: nil ).where{ starttime >= Date.today }.order(:starttime).all.map { |evt| evt.full_detail }
   end
 
   def Event::list_past
-    Event.exclude( starttime: nil ).where{ starttime < Date.today }.order(:starttime).all.map { |evt| evt.details }
+    Event.exclude( starttime: nil ).where{ starttime < Date.today }.order(:starttime).all.map { |evt| evt.full_detail }
   end
 
 end
