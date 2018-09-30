@@ -17,7 +17,7 @@ function LoginForm(parent) {
   this.bind_dom();
 
   $(document).keypress(function(e) { 
-    if(e.keyCode != 13) { return false; }
+    if(e.keyCode != 13) { return true; }
     switch(this.state.mode) {
       case "login":    this.login();    break;
       case "register": this.register(); break;
@@ -77,6 +77,7 @@ LoginForm.prototype = {
     $(this.dom).shake();
     return false;
   }
+
 }
 
 Object.assign( LoginForm.prototype, element);
