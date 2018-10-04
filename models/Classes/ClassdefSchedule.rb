@@ -40,9 +40,4 @@ class ClassdefSchedule < Sequel::Model
     "#{classdef.name} w/ #{teachers.map(&:name).join(", ")} #{rrule_english} @ #{start_time_12hr}"
   end
 
-  def destroy
-    Slack.post("#{session[:customer].name} removed #{description_line} from the schedule")
-    super
-  end
-
 end
