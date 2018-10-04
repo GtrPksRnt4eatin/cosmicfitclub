@@ -62,13 +62,14 @@ class ClassDefRoutes < Sinatra::Base
     schedule = ClassdefSchedule[data['id']]      unless data['id'] == 0
     data.delete('id')
     schedule.update(data)
+    Slack.post("#{session[:customer].name} Changed a Schedule To: #{schedule.description_line}")
     schedule.to_json
   end 
 
   delete '/schedules/:id' do
-    halt 404 if ClassdefSchedule[params[:id]].nil?
-    ClassdefSchedule[params[:id]].destroy
-    status 200
+    sched = ClassdefSchedule[params[:id]] or halt(404)
+    sched.destroy
+    status 204
   end
 
   get '/schedule/:start/:end' do

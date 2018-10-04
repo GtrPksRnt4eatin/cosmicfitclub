@@ -36,4 +36,13 @@ class ClassdefSchedule < Sequel::Model
   def rrule_english;   IceCube::Rule.from_ical(rrule).to_s            end
   def start_time_12hr; Time.new(start_time.to_s).strftime("%I:%M %P") end
 
+  def description_line
+    "#{classdef.name} w/ #{classdef.teachers[0].name} #{rrule_english} @ #{start_time_12hr}"
+  end
+
+  def destroy
+    Slack.post("#{session[:customer].name} removed #{description_line} from the schedule")
+    super
+  end
+
 end
