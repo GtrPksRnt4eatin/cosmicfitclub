@@ -52,7 +52,7 @@ function initialize_rivets() {
   rivets.formatters.time       = function(val) { return moment(val).format('h:mm a') };
   rivets.formatters.fulldate   = function(val) { return moment(val).format('ddd MMM Do hh:mm a') };
   rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') };
-  rivets.formatters.onlytime   = function(val) { return moment(val, ['H:m:s', 'h:m a', 'H:m'] ).format('h:mm a')};
+  rivets.formatters.onlytime   = function(val) { return moment(val, [moment.ISO_8601, 'H:m:s', 'h:m a', 'H:m'] ).format('h:mm a')};
 
   include_rivets_rrule();
   include_rivets_dates();
