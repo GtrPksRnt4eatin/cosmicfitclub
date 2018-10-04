@@ -37,7 +37,7 @@ class ClassdefSchedule < Sequel::Model
   def start_time_12hr; Time.new(start_time.to_s).strftime("%I:%M %P") end
 
   def description_line
-    "#{classdef.name} w/ #{classdef.teachers[0].name} #{rrule_english} @ #{start_time_12hr}"
+    "#{classdef.name} w/ #{teachers.map(:name).join(", ")} #{rrule_english} @ #{start_time_12hr}"
   end
 
   def destroy
