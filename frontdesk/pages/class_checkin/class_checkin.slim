@@ -47,9 +47,10 @@ html
               .field 
                 | { occur.classdef.name }
               .field
-                | w/ 
-              .field 
-                | { occur.teacher.name }
+                .with
+                  | w/
+                .teacher 
+                  | { occur.teacher.name }
             .tools
               .count
                 .badge

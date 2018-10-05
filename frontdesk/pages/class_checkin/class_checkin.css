@@ -199,6 +199,10 @@ button {
 
 @media(max-width: 1000px) {
   
+  .sheet {
+    letter-spacing: 0.05em;
+  }
+
   .dropdown,
   .edit,
   .delete,
