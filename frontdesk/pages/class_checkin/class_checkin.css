@@ -56,8 +56,8 @@ input {
 
 .sheet div.field:nth-child(1) { width: 10em; }
 .sheet div.field:nth-child(2) { width: 23em; }
-.sheet div.field:nth-child(3) { width: 13em; }
-.sheet div.field:nth-child(4) { width: 8em;  }
+.sheet div.field:nth-child(4) { width: 13em; }
+.sheet div.field:nth-child(5) { width: 8em;  }
 
 .sheet td.field:nth-child(1) { width: 30em; }
 .sheet td.field:nth-child(2) { width: 15em; }
@@ -195,4 +195,15 @@ button {
 .custy_name:hover {
   cursor: pointer;
   color: rgba(160,160,255,1);
+}
+
+@media(max-width: 800px) {
+  .sheet .field {
+    padding: 0 0.5em;
+    font-size: 2vw;
+    display: block;
+    margin-left: 2.5em;
+    width: auto !important;
+    text-align: left;
+  }
 }
