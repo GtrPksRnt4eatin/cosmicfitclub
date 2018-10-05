@@ -203,6 +203,9 @@ button {
   .edit,
   .delete {
     position: relative;
+    display: inline-block;
+    top: 0;
+    right: 0;
   }
 
   .sheet .field {
@@ -211,7 +214,7 @@ button {
     display: block;
     width: auto !important;
     text-align: left;
-    line-height: 1.1em;
+    line-height: 1.2em;
   }
 
   .sheet .field:nth-child(3),
@@ -224,5 +227,9 @@ button {
 
   .classdetails {
     text-align: left;
+  }
+
+  .sheet .visible {
+    display: flex;
   }
 }
