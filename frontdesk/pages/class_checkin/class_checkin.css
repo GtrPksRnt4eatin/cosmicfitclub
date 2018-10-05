@@ -247,6 +247,7 @@
 
   .classdetails {
     text-align: left;
+    display: inline-block;
   }
 
 }
