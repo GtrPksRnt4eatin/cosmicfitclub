@@ -198,11 +198,17 @@ button {
 }
 
 @media(max-width: 1000px) {
+  
+  .dropdown,
+  .edit,
+  .delete {
+    position: relative;
+  }
+
   .sheet .field {
     padding: 0 0.5em;
     font-size: 2vw;
     display: block;
-    margin-left: 2.5em;
     width: auto !important;
     text-align: left;
     line-height: 1.1em;
@@ -211,5 +217,9 @@ button {
   .sheet .field:nth-child(3),
   .sheet .field:nth-child(4) {
     display: inline-block !important;
+  }
+
+  .classdetails {
+    text-align: left;
   }
 }
