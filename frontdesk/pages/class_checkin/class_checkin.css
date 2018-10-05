@@ -28,7 +28,7 @@
     padding-bottom: 2em;
   }
 
-  .sheets_picker .flatpikr-input,
+  .sheets_picker .flatpickr-input,
   .sheets_picker #generate {
     background: rgba(0,0,0,0);
     color: rgba(255,255,255,0.8);
@@ -112,11 +112,11 @@
     }
 
     .tools .edit {
-      background: url('list.svg');
+      background-image: url('list.svg');
     }
 
     .tools .delete {
-      background: url('closecircle.png');
+      background-image: url('closecircle.png');
       box-shadow: 0 0 0.1em white;
       border-radius: 1em;
     }
