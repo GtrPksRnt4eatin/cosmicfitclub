@@ -202,10 +202,11 @@ button {
   .dropdown,
   .edit,
   .delete {
-    position: relative;
-    display: inline-block;
-    top: 0;
-    right: 0;
+    position: relative !important;
+    display: inline-block !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
   }
 
   .sheet .field {
@@ -224,6 +225,7 @@ button {
   .classdetails {
     display: inline-block !important;
   }
+
 
   .classdetails {
     text-align: left;
