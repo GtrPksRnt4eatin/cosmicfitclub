@@ -29,8 +29,7 @@ ctrl = {
     window.location.href = '/frontdesk/customer_file?id=' + $('#customers').val();
   },
   dropdown(e,m) {
-    $(e.delegateTarget).find('.hidden').toggle();
-    $(e.currentTarget).toggleClass('quarter_turn');
+    m.occur.visible = !m.occur.visible;
   }
 }
 

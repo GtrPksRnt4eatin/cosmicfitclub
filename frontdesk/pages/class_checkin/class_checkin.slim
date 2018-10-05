@@ -58,7 +58,7 @@ html
               .edit rv-on-click='ctrl.edit'
               .delete rv-unless='occur.reservations | count' rv-on-click='ctrl.delete'
           
-          .hidden
+          .hidden rv-if='occur.visible'
             table.reservations  
               tr rv-each-res='occur.reservations'
                 td.field.custy_name rv-on-click='ctrl.edit_reservation_customer'
