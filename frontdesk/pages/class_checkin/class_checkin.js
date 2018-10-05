@@ -29,7 +29,7 @@ ctrl = {
     window.location.href = '/frontdesk/customer_file?id=' + $('#customers').val();
   },
   dropdown(e,m) {
-    data['occurrences'][m.index].visible = data['occurrences'][m.index].visible;
+    data.occurrences[m.index].visible = !data.occurrences[m.index].visible;
   }
 }
 
