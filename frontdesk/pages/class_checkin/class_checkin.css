@@ -107,7 +107,7 @@
     .classdetails .field {
       padding: .5em 1em;
       display: inline-block;
-      width: 14em;
+      vertical-align: middle;
     }
 
     .classdetails .field .with, 
@@ -138,6 +138,7 @@
       height: 2em;
       background-size: contain;
       transition: all .2s ease-in-out;
+      vertical-align: middle;
     }
 
     .tools .edit,
