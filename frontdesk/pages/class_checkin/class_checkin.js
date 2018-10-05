@@ -34,7 +34,7 @@ $(document).ready( function() {
 
   setup_bindings();
 
-  $('.sheets').on('click', '.dropdown', on_dropdown_click);
+  $('.sheet').on('click', '.dropdown', on_dropdown_click);
 
   userview = new UserView(id('userview_container'));
 
@@ -63,6 +63,6 @@ function get_occurrences() {
 }
 
 function on_dropdown_click(e) {
-  $(e.currentTarget).siblings('.hidden').toggle();
+  $(e.delegateTarget).find('.hidden').toggle();
   $(e.currentTarget).toggleClass('quarter_turn');
 }
