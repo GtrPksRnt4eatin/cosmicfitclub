@@ -79,6 +79,7 @@
       width: 2em;
       height: 2em;
       transition: all .2s ease-in-out;
+      cursor: pointer;
     }
 
     .dropdown .arrow {
@@ -101,10 +102,17 @@
   /* CLASS DETAILS */
 
     .classdetails {
-
+      display: flex;
     }
 
+    .classdetails .field:nth-child(1) { flex: 0 0 10em; }
+    .classdetails .field:nth-child(2) { flex: 1; }
+    .classdetails .field:nth-child(3) { flex: 0; }
+
     .classdetails .field {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
       padding: .5em 1em;
       display: inline-block;
       vertical-align: middle;
@@ -217,10 +225,7 @@ input {
 
 
 
-.sheet div.field:nth-child(1) { width: 10em; }
-.sheet div.field:nth-child(2) { width: 23em; }
-.sheet div.field:nth-child(4) { width: 13em; }
-.sheet div.field:nth-child(5) { width: 8em;  }
+
 
 .sheet td.field:nth-child(1) { width: 30em; }
 .sheet td.field:nth-child(2) { width: 15em; }
@@ -244,11 +249,7 @@ button {
 	font-size: 1em;
 }
 
-.sheet div.field:nth-child(2) {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
+
 
 
 
