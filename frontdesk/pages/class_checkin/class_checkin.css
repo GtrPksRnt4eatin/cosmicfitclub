@@ -89,7 +89,7 @@
       height: 100%;
     }
 
-    .dropdown.quarter_turn .arrow {
+    .dropdown[data-rotated=true] .arrow {
       transform: rotate(-90deg);
     }
 
