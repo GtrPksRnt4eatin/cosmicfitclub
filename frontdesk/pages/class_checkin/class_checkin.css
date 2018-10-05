@@ -236,7 +236,7 @@
 
 @media(max-width: 1000px) {
 
-  .sheet .field {
+  .classdetails .field {
     padding: 0 0.5em;
     font-size: 2vw;
     display: block;
