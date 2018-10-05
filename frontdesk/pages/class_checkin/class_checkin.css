@@ -244,4 +244,8 @@ button {
     display: flex;
     padding: 0.25em;
   }
+
+  .with, .teacher {
+    display: inline-block;
+  }
 }
