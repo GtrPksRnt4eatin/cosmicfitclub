@@ -197,7 +197,7 @@ button {
   color: rgba(160,160,255,1);
 }
 
-@media(max-width: 800px) {
+@media(max-width: 1000px) {
   .sheet .field {
     padding: 0 0.5em;
     font-size: 2vw;
@@ -205,5 +205,6 @@ button {
     margin-left: 2.5em;
     width: auto !important;
     text-align: left;
+    line-height: 1.1em;
   }
 }
