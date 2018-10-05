@@ -198,7 +198,6 @@
   /* HIDDEN SECTON */
 
     .reservations {
-      box-shadow: 0 0 .5em white;
       margin: 1em 0;
     }
 
@@ -213,18 +212,14 @@
 
     table.reservations td {
       padding: 1em;
-      box-shadow: 0 0 .5em rgba(255,255,255,0.8);
+      box-shadow: 0 0 .5em rgba(255,255,255,0.6);
     }
 
     .reservations td.field:nth-child(1) { width: 30em; }
     .reservations td.field:nth-child(2) { width: 15em; }
 
-    .reservations td.field { width: 15em; }
-
-
-
     .reservations tr:nth-child(odd) {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
     }
 /*
     .sheet td {
