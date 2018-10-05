@@ -151,8 +151,7 @@
     }
 
     .tools .edit,
-    .tools .delete,
-    .tools .count {
+    .tools .delete {
       display: inline-block;
       width: 2em;
       height: 2em;
@@ -182,13 +181,6 @@
       visibility: visible;
     }
 
-    .tools .count {
-      background: blue;
-      color: white;
-      border-radius: 2em;
-      line-height: 2em;
-    }
-
     .tools .edit:hover,
     .tools .delete:hover {
       transform: scale(1.1);
@@ -196,10 +188,15 @@
 
     .tools .edit .badge {
       position: absolute;
-      bottom: -.5em;
-      left: -.5em;
-      width: 1em;
-      height: 1em;
+      bottom: -1em;
+      left: -1em;
+      width: 2em;
+      height: 2em;
+      font-size: 0.5em;
+      background: blue;
+      border-radius: 1em;
+      color: white;
+      line-height: 2em;
     }
 
   /* TOOLS */

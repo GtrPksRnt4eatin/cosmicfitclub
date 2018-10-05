@@ -52,9 +52,6 @@ html
                 .teacher 
                   | { occur.teacher.name }
             .tools
-              .count
-                .badge
-                  | { occur.reservations | count }
               .edit rv-on-click='ctrl.edit'
                 .badge
                   | { occur.reservations | count }
