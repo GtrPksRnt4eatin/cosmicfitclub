@@ -227,8 +227,6 @@ button {
   .sheet .visible .classdetails { flex: 1; }
   .sheet .visible .tools        { flex: 0 0 8em; padding: 0 0 0 0.5em; }
 
-  .sheet .field:nth-child(3),
-  .sheet .field:nth-child(4),
   .tools,
   .dropdown,
   .classdetails {
