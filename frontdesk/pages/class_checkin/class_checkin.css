@@ -219,6 +219,10 @@ button {
     line-height: 1.2em;
   }
 
+  .sheet .visible .dropdown     { flex: 0 0 2em; padding: 0 .5em 0 0; }
+  .sheet .visible .classdetails { flex: 1; }
+  .sheet .visible .tools        { flex: 0 0 8em; padding: 0 0 0 0.5em; }
+
   .sheet .field:nth-child(3),
   .sheet .field:nth-child(4),
   .tools,
@@ -234,5 +238,6 @@ button {
 
   .sheet .visible {
     display: flex;
+    padding: 0.25em;
   }
 }
