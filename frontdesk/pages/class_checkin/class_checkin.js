@@ -34,7 +34,7 @@ $(document).ready( function() {
 
   setup_bindings();
 
-  $('.sheets .visible').on('click', '.dropdown', on_dropdown_click);
+  $('.sheets').on('click', '.dropdown', on_dropdown_click);
 
   userview = new UserView(id('userview_container'));
 
