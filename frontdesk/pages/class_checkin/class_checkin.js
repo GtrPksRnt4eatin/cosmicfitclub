@@ -57,6 +57,7 @@ $(document).ready( function() {
 function setup_bindings() {
   include_rivets_dates();
   rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
+  rivets.formatters.no_students = function(val) { return empty(val) ? true : !val.length; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
 
