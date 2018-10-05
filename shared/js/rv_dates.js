@@ -6,6 +6,7 @@ function include_rivets_dates() {
   rivets.formatters.time       = function(val)     { return moment.parseZone(val).format('h:mm a')             };
   rivets.formatters.time2      = function(val)     { return moment.parseZone(val).format('h:mm A')             };
   rivets.formatters.padtime    = function(val)     { return moment.parseZone(val).format('hh:mm A')            };
+  rivets.formatters.shortdt    = function(val)     { return moment.parseZone(val).format('MM/DD hh:mm A')      };
   rivets.formatters.fulldate   = function(val)     { return moment.parseZone(val).format('ddd MMM Do hh:mm a') };
   rivets.formatters.simpledate = function(val)     { return moment.parseZone(val).format('MM/DD/YYYY hh:mm A') }; 
   rivets.formatters.eventstart = function(val)     { return moment.parseZone(val).format('ddd M/DD hh:mm A')   };
