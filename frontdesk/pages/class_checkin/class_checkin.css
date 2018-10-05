@@ -248,7 +248,7 @@ button {
 
   .sheet .visible {
     display: flex;
-    padding: 0.25em;
+    padding: 0.4em;
   }
 
   .with, .teacher {
