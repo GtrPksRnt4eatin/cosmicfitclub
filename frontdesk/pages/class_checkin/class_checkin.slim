@@ -39,11 +39,11 @@ html
       .sheets
         .tile.sheet rv-each-occur='data.occurrences' rv-title='occur.id'
           .visible
-            .dropdown
+            .dropdown rv-on-click='ctrl.dropdown'
               .arrow
             .classdetails
               .field 
-                | { occur.starttime | padtime }
+                | { occur.starttime | time2 }
               .field 
                 | { occur.classdef.name }
               .field

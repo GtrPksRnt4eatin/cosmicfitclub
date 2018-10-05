@@ -27,6 +27,10 @@ ctrl = {
   },
   edit_customer(e,m) {
     window.location.href = '/frontdesk/customer_file?id=' + $('#customers').val();
+  },
+  dropdown(e,m) {
+    $(e.delegateTarget).find('.hidden').toggle();
+    $(e.currentTarget).toggleClass('quarter_turn');
   }
 }
 
@@ -34,7 +38,7 @@ $(document).ready( function() {
 
   setup_bindings();
 
-  $('.sheet').on('click', '.dropdown', on_dropdown_click);
+  //$('.sheet').on('click', '.dropdown', on_dropdown_click);
 
   userview = new UserView(id('userview_container'));
 
