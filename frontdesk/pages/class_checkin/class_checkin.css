@@ -168,6 +168,7 @@
 
     .tools .edit {
       background-image: url('list.svg');
+      position: relative;
     }
 
     .tools .delete {
@@ -191,6 +192,14 @@
     .tools .edit:hover,
     .tools .delete:hover {
       transform: scale(1.1);
+    }
+
+    .tools .edit .badge {
+      position: absolute;
+      bottom: -.5em;
+      left: -.5em;
+      width: 1em;
+      height: 1em;
     }
 
   /* TOOLS */

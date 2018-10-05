@@ -56,6 +56,8 @@ html
                 .badge
                   | { occur.reservations | count }
               .edit rv-on-click='ctrl.edit'
+                .badge
+                  | { occur.reservations | count }
               .delete rv-data-show='occur.reservations | no_students' rv-on-click='ctrl.delete'
           
           .hidden rv-if='occur.visible'
