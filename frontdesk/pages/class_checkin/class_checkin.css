@@ -212,6 +212,14 @@ button {
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
+    vertical-align: middle;
+  }
+
+  .tools:before {
+    content: '';
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .sheet .field {
