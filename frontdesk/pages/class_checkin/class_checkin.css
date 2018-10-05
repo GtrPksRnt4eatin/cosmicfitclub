@@ -201,7 +201,8 @@ button {
   
   .dropdown,
   .edit,
-  .delete {
+  .delete,
+  .count {
     position: relative !important;
     display: inline-block !important;
     top: 0 !important;
