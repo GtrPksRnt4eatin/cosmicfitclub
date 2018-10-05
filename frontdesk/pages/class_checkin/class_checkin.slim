@@ -56,7 +56,7 @@ html
                 .badge
                   | { occur.reservations | count }
               .edit rv-on-click='ctrl.edit'
-              .delete rv-unless='occur.reservations | count' rv-on-click='ctrl.delete'
+              .delete rv-show='occur.reservations | count' rv-on-click='ctrl.delete'
           
           .hidden rv-if='occur.visible'
             table.reservations  

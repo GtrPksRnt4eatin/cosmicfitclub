@@ -107,7 +107,7 @@
 
     .classdetails .field:nth-child(1) { flex: 0 0 10em; }
     .classdetails .field:nth-child(2) { flex: 1; }
-    .classdetails .field:nth-child(3) { flex: 0; }
+    .classdetails .field:nth-child(3) { flex: 0 0 10em; }
 
     .classdetails .field {
       text-overflow: ellipsis;
