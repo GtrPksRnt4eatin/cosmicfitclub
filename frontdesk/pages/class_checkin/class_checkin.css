@@ -64,11 +64,14 @@
     position: relative;
   }
 
-  .sheet .field {
-    padding: .5em 1em;
-    display: inline-block;
-    width: 14em;
+  .sheet .visible {
+    display: flex;
+    padding: 0.4em;
   }
+
+  .sheet .visible .dropdown     { flex: 0 0 2em; padding: 0 .5em 0 0; }
+  .sheet .visible .classdetails { flex: 1; }
+  .sheet .visible .tools        { flex: 0 0 8em; padding: 0 0 0 0.5em; }
 
   /* DROPDOWN */
 
@@ -97,9 +100,35 @@
 
   /* CLASS DETAILS */
 
+    .classdetails {
+
+    }
+
+    .classdetails .field {
+      padding: .5em 1em;
+      display: inline-block;
+      width: 14em;
+    }
+
+    .classdetails .field .with, 
+    .classdetails .field .teacher {
+      display: inline-block;
+    }
+
+    .classdetails .field .with {
+      margin-right: 0.5em;
+    }
+
   /* CLASS DETAILS */
 
   /* TOOLS */
+
+    .tools:before {
+      content: '';
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
 
     .tools .edit,
     .tools .delete,
@@ -109,6 +138,11 @@
       height: 2em;
       background-size: contain;
       transition: all .2s ease-in-out;
+    }
+
+    .tools .edit,
+    .tools .delete {
+      cursor: pointer;
     }
 
     .tools .edit {
@@ -209,10 +243,6 @@ button {
 	font-size: 1em;
 }
 
-.sheet .field {
-  vertical-align: middle;
-}
-
 .sheet div.field:nth-child(2) {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -221,9 +251,7 @@ button {
 
 
 
-  .with {
-    margin-right: 0.5em;
-  }
+
 
 @media(max-width: 1000px) {
   
@@ -243,13 +271,6 @@ button {
     vertical-align: middle;
   }
 
-  .tools:before {
-    content: '';
-    height: 100%;
-    display: inline-block;
-    vertical-align: middle;
-  }
-
   .sheet .field {
     padding: 0 0.5em;
     font-size: 2vw;
@@ -259,9 +280,7 @@ button {
     line-height: 1.2em;
   }
 
-  .sheet .visible .dropdown     { flex: 0 0 2em; padding: 0 .5em 0 0; }
-  .sheet .visible .classdetails { flex: 1; }
-  .sheet .visible .tools        { flex: 0 0 8em; padding: 0 0 0 0.5em; }
+
 
   .tools,
   .dropdown,
@@ -269,19 +288,8 @@ button {
     display: inline-block !important;
   }
 
-
   .classdetails {
     text-align: left;
   }
-
-  .sheet .visible {
-    display: flex;
-    padding: 0.4em;
-  }
-
-  .with, .teacher {
-    display: inline-block;
-  }
-
 
 }
