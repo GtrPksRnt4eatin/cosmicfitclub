@@ -1,25 +1,165 @@
-#header {
-  display: block;
-  background: rgba(30,30,30,0.8);
-  box-shadow: 0 0 5px white;
-  height: 3.3em;
-}
 
-#header span {
-  display: inline-block;
-  margin: 1.1em 1em;
-}
+/* HEADER */
 
-#header #userview_container {
-  position: absolute;
-  top: 1em;
-  right: 1em;
-}
+  #header {
+    display: block;
+    background: rgba(30,30,30,0.8);
+    box-shadow: 0 0 5px white;
+    height: 3.3em;
+  }
 
-.tile {
-	text-align: center;
-	padding-bottom: 2em;
-}
+  #header span {
+    display: inline-block;
+    margin: 1.1em 1em;
+  }
+
+  #header #userview_container {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
+
+/* HEADER */
+
+/* SHEETS PICKER*/
+
+  .sheets_picker {
+    text-align: center;
+    padding-bottom: 2em;
+  }
+
+  .sheets_picker .flatpikr-input,
+  .sheets_picker #generate {
+    background: rgba(0,0,0,0);
+    color: rgba(255,255,255,0.8);
+    padding: .5em;
+    cursor: pointer;
+  }
+
+  .sheets_picker .flatpickr-input {
+    width: 10em;
+    text-align: center;
+    border-radius: .5em 0 0 .5em;
+    box-shadow: none;
+  }
+
+  .sheets_picker #generate {
+    margin-left: .5em;
+    border-radius: 0 .5em .5em 0;
+  }
+
+  .sheets_picker .flatpickr-input:hover,
+  .sheets_picker #generate:hover {
+    background: rgba(150,50,255,0.3);
+  }
+
+/* SHEETS PICKER */
+
+
+
+/* CLASS SHEETS */
+
+  .sheet {
+    padding-bottom: 0;
+    position: relative;
+  }
+
+  .sheet .field {
+    padding: .5em 1em;
+    display: inline-block;
+    width: 14em;
+  }
+
+  /* DROPDOWN */
+
+    .dropdown {
+      width: 2em;
+      height: 2em;
+      transition: all .2s ease-in-out;
+    }
+
+    .dropdown .arrow {
+      background: url('dropdown.svg');
+      background-size: contain;
+      transition: all .2s ease-in-out;
+      height: 100%;
+    }
+
+    .dropdown.quarter_turn .arrow {
+      transform: rotate(-90deg);
+    }
+
+    .dropdown:hover {
+      transform: scale(1.1);
+    }
+
+  /* DROPDOWN */
+
+  /* CLASS DETAILS */
+
+  /* CLASS DETAILS */
+
+  /* TOOLS */
+
+    .tools .edit,
+    .tools .delete,
+    .tools .count {
+      display: inline-block;
+      width: 2em;
+      height: 2em;
+      background-size: contain;
+      transition: all .2s ease-in-out;
+    }
+
+    .tools .edit {
+      background: url('list.svg');
+    }
+
+    .tools .delete {
+      background: url('closecircle.png');
+      box-shadow: 0 0 0.1em white;
+      border-radius: 1em;
+    }
+
+    .tools .count {
+      background: blue;
+      color: white;
+      border-radius: 2em;
+      line-height: 2em;
+    }
+
+    .tools .edit:hover,
+    .tools .delete:hover {
+      transform: scale(1.1);
+    }
+
+  /* TOOLS */
+
+  /* HIDDEN SECTON */
+
+    .hidden { display: none; }
+
+    .reservations {
+      box-shadow: 0 0 .5em white;
+      margin: 1em 0;
+    }
+
+    .custy_name:hover {
+      cursor: pointer;
+      color: rgba(160,160,255,1);
+    }
+
+  /* HIDDEN SECTON */
+
+/* CLASS SHEETS */
+
+
+
+
+
+
+
+
 
 table {
 	display: inline-block;
@@ -40,19 +180,7 @@ input {
 	padding: .1em;
 }
 
-.sheet {
-	padding-bottom: 0;
-	margin-left: 1em;
-	margin-right: 1em;
-	cursor: pointer;
-	position: relative;
-}
 
-.sheet .field {
-	padding: .5em 1em;
-	display: inline-block;
-	width: 14em;
-}
 
 .sheet div.field:nth-child(1) { width: 10em; }
 .sheet div.field:nth-child(2) { width: 23em; }
@@ -62,14 +190,9 @@ input {
 .sheet td.field:nth-child(1) { width: 30em; }
 .sheet td.field:nth-child(2) { width: 15em; }
 
-.sheet td.field {
-	width: 15em;
-}
+.sheet td.field { width: 15em; }
 
-.reservations {
-	box-shadow: 0 0 .5em white;
-  margin: 1em 0;
-}
+
 
 .sheet tr:nth-child(odd) {
   background: rgba(255,255,255,0.2);
@@ -80,106 +203,10 @@ input {
 	box-shadow: none;
 }
 	
-.hidden { display: none; }
+
 
 button {
 	font-size: 1em;
-}
-
-.count {
-	position: absolute;
-	right: 1em;
-	top: .25em; bottom: .25em;
-	background: blue;
-	color: white;
-	width: 2em;
-	height: 2em;
-	border-radius: 2em;
-	line-height: 2em;
-}
-
-.edit {
-  display: inline-block;
-  position: absolute;
-  top: .25em;
-  right: 3em;
-  width: 2em;
-  height: 2em;
-  background: url('list.svg');
-  background-size: contain;
-  margin: auto;
-  transition: all .2s ease-in-out;
-}
-
-.delete {
-  display: inline-block;
-  position: absolute;
-  top: .25em;
-  right: .5em;
-  width: 2em;
-  height: 2em;
-  background: url('closecircle.png');
-  background-size: contain;
-  margin: auto;
-  box-shadow: 0 0 0.1em white;
-  border-radius: 1em;
-  transition: all .2s ease-in-out;
-}
-
-.dropdown {
-  width: 2em;
-  height: 2em;
-  position: absolute;
-  left: .5em;
-  top: .25em;
-  margin: auto;
-  transition: all .2s ease-in-out;
-
-}
-
-.dropdown .arrow {
-    background: url('dropdown.svg');
-    background-size: contain;
-    transition: all .2s ease-in-out;
-    height: 100%;
-}
-
-.edit:hover,
-.delete:hover,
-.dropdown:hover {
-  transform: scale(1.1);
-}
-
-.quarter_turn .arrow {
-  transform: rotate(-90deg);
-}
-
-#generate {
-  cursor: pointer;
-  margin-left: .5em;
-  background: rgba(0,0,0,0);
-  color: rgba(255,255,255,0.8);
-  padding: .5em;
-  border-radius: 0 .5em .5em 0;
-}
-
-#generate:hover {
-  background: rgba(150,50,255,0.3);
-}
-
-.flatpickr-input:hover {
-  background: rgba(150,50,255,0.3);
-}
-
-.flatpickr-input {
-  padding: .5em;
-  border-radius: .5em;
-  width: 10em;
-  text-align: center;
-  border-radius: .5em 0 0 .5em;
-  background: rgba(0,0,0,0);
-  color: rgba(255,255,255,0.8);
-  box-shadow: none;
 }
 
 .sheet .field {
@@ -192,10 +219,11 @@ button {
   white-space: nowrap;
 }
 
-.custy_name:hover {
-  cursor: pointer;
-  color: rgba(160,160,255,1);
-}
+
+
+  .with {
+    margin-right: 0.5em;
+  }
 
 @media(max-width: 1000px) {
   
@@ -255,7 +283,5 @@ button {
     display: inline-block;
   }
 
-  .with {
-    margin-right: 0.5em;
-  }
+
 }
