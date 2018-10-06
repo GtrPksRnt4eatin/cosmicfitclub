@@ -42,7 +42,7 @@ class ClassOccurrence < Sequel::Model
     ical = Icalendar::Event.new 
     ical.dtstart = starttime
     ical.duration = "P1H"
-    ical.summary = "#{classdef.name} w/ #{teacher}"
+    ical.summary = "#{classdef.name} w/ #{teacher.name}"
     ical
   end
 
