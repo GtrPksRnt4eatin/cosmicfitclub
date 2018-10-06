@@ -2,6 +2,7 @@ class PassTransaction < Sequel::Model
 
   many_to_one :reservation, :class => :ClassReservation, :id => :reservation_id
   many_to_one :wallet
+  one_to_many :comptickets
 
   def before_create
     self.timestamp = Time.now
