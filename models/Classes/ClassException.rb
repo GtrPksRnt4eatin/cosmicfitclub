@@ -23,5 +23,5 @@ class ClassException < Sequel::Model
       :hidden => self.hidden
     }
   end
-
+  
 end

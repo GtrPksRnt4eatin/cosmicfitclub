@@ -40,6 +40,7 @@ class ClassdefSchedule < Sequel::Model
     ical.duration = "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
     ical.rrule = rrule
     ical.summary = "#{classdef.name} w/ #{teachers.map(&:name).join(', ')}"
+    ical.color = "blue"
     ical
   end
 
