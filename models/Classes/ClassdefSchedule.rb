@@ -9,7 +9,7 @@ class ClassdefSchedule < Sequel::Model
   def ClassdefSchedule.get_all_occurrences(from,to)
     items = []
     ClassdefSchedule.all.each do |sched|
-      sched.get_occurences(from, to).each do |starttime|
+      sched.get_occurrences(from, to).each do |starttime|
         items << { 
           :day => Date.strptime(starttime.to_time.iso8601).to_s,
           :starttime => starttime,
@@ -40,7 +40,7 @@ class ClassdefSchedule < Sequel::Model
     ical.duration = "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
     ical.rrule = rrule
     ical.summary = "#{classdef.name} w/ #{teachers.map(&:name).join(', ')}"
-    ical.color = "blue"
+    #ical.color = "blue"
     ical
   end
 
