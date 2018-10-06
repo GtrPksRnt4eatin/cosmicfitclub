@@ -1,3 +1,5 @@
+require 'icalendar'
+
 class ScheduleRoutes < Sinatra::Base
 
   get '/:from/:to' do
@@ -12,7 +14,18 @@ class ScheduleRoutes < Sinatra::Base
     items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
     JSON.generate arr.sort_by { |x| x[:day] }
   end
-  
+
+  get '/cosmic.ics' do
+    attachment(filename = 'CosmicCalendar.ics', disposition = :attachment)
+    ScheduleRoutes::schedule_as_ical(params[:from], params[:to])
+  end
+
+  def ScheduleRoutes::schedule_as_ical(from,to)
+    ical = Icalendar::Calendar.new
+    EventSession.between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
+    csessions = ClassdefSchedule.all.map(&:to_ical_event).each { |evt| ical.add_event(evt) }
+    ical.to_ical
+  end  
 
   def get_classitems_between(from,to)
     items = []
@@ -37,19 +50,20 @@ class ScheduleRoutes < Sinatra::Base
   end
 
   def get_eventsessions_between(from,to)
-    items = EventSession.between(from,to)
-    items.map do |i|
-      next nil if i.event.nil? 
-      { :type => 'eventsession',
-        :day => Date.strptime(i.start_time).to_s,
-        :starttime => Time.parse(i.start_time),
-        :endtime => Time.parse(i.end_time),
-        :title => i.title,
-        :event_title => i.event.name,
-        :event_id => i.event_id,
-        :multisession_event => i.event.sessions.count > 1
-      }
-    end.compact
+    EventSession.between(from,to).map(&:schedule_details_hash).compact
+
+    # do |i|
+    ##  next nil if i.event.nil? 
+    #  { :type => 'eventsession',
+    #    :day => Date.strptime(i.start_time).to_s,
+    ##   :starttime => Time.parse(i.start_time),
+    #    :endtime => Time.parse(i.end_time),
+    #    :title => i.title,
+    #    :event_title => i.event.name,
+    #    :event_id => i.event_id,
+    #    :multisession_event => i.event.sessions.count > 1
+    #  }
+    #end.compact
   end
 
 
@@ -70,7 +84,9 @@ class ScheduleRoutes < Sinatra::Base
   end
 
   def get_classoccurrences_between(from,to)
-
+ 
   end
+
+
 
 end

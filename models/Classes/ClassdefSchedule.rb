@@ -4,6 +4,7 @@ class ClassdefSchedule < Sequel::Model
   pg_array_to_many :teachers, :key => :instructors, :class => :Staff
 
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
+  one_to_many :exceptions, :key => :class_schedule_id, :class => :ClassException
 
   def get_occurences(from,to)
     return [] if rrule.nil?
@@ -33,11 +34,28 @@ class ClassdefSchedule < Sequel::Model
     items
   end
 
+  def to_ical_event
+    ical = Icalendar::Event.new
+    ical.dtstart = DateTime.parse(Date.today.to_s + "T" + start_time.to_s)
+    ical.duration = "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
+    ical.rrule = rrule
+    ical.summary = "#{classdef.name} w/ #{teachers.map(&:name).join(', ')}"
+    ical
+  end
+
+  def get_exception_dates
+    exceptions
+  end
+
   def rrule_english;   IceCube::Rule.from_ical(rrule).to_s              end
   def start_time_12hr; Time.parse(start_time.to_s).strftime("%I:%M %P") end
 
   def description_line
     "#{classdef.name} w/ #{teachers.map(&:name).join(", ")} #{rrule_english} @ #{start_time_12hr}"
+  end
+
+  def duration_sec
+    end_time - start_time
   end
 
 end

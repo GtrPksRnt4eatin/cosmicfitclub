@@ -65,6 +65,10 @@ class Event < Sequel::Model
     }
   end
 
+  def multisession?
+    self.sessions.count > 1
+  end
+
   def attendance_csv 
     CSV.generate do |csv|
       csv << [ "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net" ]
