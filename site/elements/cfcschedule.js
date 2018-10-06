@@ -25,6 +25,10 @@ function Schedule(parent) {
     title = val.multisession_event ? val.event_title + '\r\n' + val.title : val.event_title;
     return title;
   }
+
+  rivets.formatters.past = function(val) {
+    return moment(val).isBefore(moment());
+  }
   
   rivets.formatters.instructor_names = function(val) {
     if( val.type != 'classoccurrence' ) return false;
@@ -122,9 +126,9 @@ Schedule.prototype.HTML = `
               <span class='instructor'> { occ | instructor_names } </span>
             </span>
           </span>
-          <span class='register' rv-on-click='this.register' >
-            <span class='headcount'> { occ.headcount } / { occ.capacity } </span>
-            <span class='blue'>Register Now</span>
+          <span class='register'>
+            <span class='headcount' rv-unless='occ.endtime | past'> { occ.headcount } / { occ.capacity } </span>
+            <span class='blue' rv-unless='occ.endtime | past' rv-on-click='this.register'> Register Now </span>
           </span>
         </div>
 
