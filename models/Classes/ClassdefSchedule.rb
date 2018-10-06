@@ -35,7 +35,7 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def to_ical_event
-    ical = Icalendar::Event.new
+    ical = Icalendar::Event.new 
     ical.dtstart = DateTime.parse(Date.today.to_s + "T" + start_time.to_s)
     ical.duration = "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
     ical.rrule = rrule

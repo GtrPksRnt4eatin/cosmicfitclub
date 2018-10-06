@@ -39,10 +39,18 @@ class EventSession < Sequel::Model
   def to_ical_event
     return nil unless event
     ical = Icalendar::Event.new
-    ical.dtstart = Date.strptime(start_time)
-    ical.dtend = Time.parse(end_time)
+    ical.dtstart = DateTime.parse(start_time.to_s)
+    ical.duration = duration_ical
     ical.summary = ( event.multisession? ? "#{event.name} - #{title}" : "#{event.name}" )
     ical
+  end
+
+  def duration_sec
+    end_time - start_time
+  end
+
+  def duration_ical
+    "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
   end
 
 end

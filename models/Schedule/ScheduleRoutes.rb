@@ -20,12 +20,11 @@ class ScheduleRoutes < Sinatra::Base
     JSON.generate arr.sort_by { |x| x[:day] }
   end
 
-
-
   def ScheduleRoutes::schedule_as_ical(from,to)
     ical = Icalendar::Calendar.new
-    EventSession.between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
-    csessions = ClassdefSchedule.all.map(&:to_ical_event).each { |evt| ical.add_event(evt) }
+    EventSession.between(from,to).map(&:to_ical_event).each    { |evt| ical.add_event(evt) }
+    ClassdefSchedule.all.map(&:to_ical_event).each             { |evt| ical.add_event(evt) }
+    ClassOccurrence.between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
     ical.to_ical
   end  
 

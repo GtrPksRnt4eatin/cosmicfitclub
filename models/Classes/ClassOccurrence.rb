@@ -5,6 +5,10 @@ class ClassOccurrence < Sequel::Model
   one_to_many :reservations, :class => :ClassReservation
   many_to_many :customers, :join_table => :class_reservations
 
+  def ClassOccurrence.between(from,to)
+    ClassOccurrence.where{ starttime < Date.today }.where{ starttime >= from }.sql
+  end
+
   def ClassOccurrence.get_headcount( class_id, staff_id, starttime )
     occ = find( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
     return 0 if occ.nil? 
@@ -32,6 +36,14 @@ class ClassOccurrence < Sequel::Model
 
   def reservation_list
     $DB[ClassOccurrence.reservation_list_query, self.id].all
+  end
+
+  def to_ical_event
+    ical = Icalendar::Event.new 
+    ical.dtstart = starttime
+    ical.duration = "P1H"
+    ical.summary = "#{classdef.name} w/ #{teacher}"
+    ical
   end
 
   def ClassOccurrence.reservation_list_query
