@@ -46,7 +46,7 @@ class EventSession < Sequel::Model
   end
 
   def duration_sec
-    end_time - start_time
+    Time.parse(end_time) - Time.parse(start_time)
   end
 
   def duration_ical
