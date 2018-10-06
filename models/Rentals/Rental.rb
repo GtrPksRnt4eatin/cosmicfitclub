@@ -22,4 +22,13 @@ class Rental < Sequel::Model
     Rental.where{ start_time < Date.today.to_time }.order(:start_time)
   end
 
+  def schedule_details_hash
+    { :type => 'private',
+      :day => Date.strptime(start_time.to_s).to_s,
+      :starttime => Time.parse(start_time.to_s),
+      :endtime => end_time,
+      :title => title
+    }
+  end
+
 end

@@ -25,8 +25,12 @@ class ClassOccurrence < Sequel::Model
     $DB[ClassOccurrence.email_list_query, classdef_ids, from, to].all
   end
 
-  def to_full_json
-    to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
+  def headcount
+    reservations.count
+  end
+
+  def reservation_list
+    $DB[ClassOccurrence.reservation_list_query, self.id].all
   end
 
   def make_reservation(customer_id)
@@ -34,8 +38,8 @@ class ClassOccurrence < Sequel::Model
     add_reservation reservation
   end
 
-  def reservation_list
-    $DB[ClassOccurrence.reservation_list_query, self.id].all
+  def to_full_json
+    to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end
 
   def to_ical_event
@@ -44,6 +48,18 @@ class ClassOccurrence < Sequel::Model
     ical.duration = "P1H"
     ical.summary = "#{classdef.name} w/ #{teacher.name}"
     ical
+  end
+
+  def schedule_details_hash
+    { :type => 'classoccurrence',
+      :classdef_id => classdef.id,
+      :title => classdef.name,
+      :instructors => teacher.name,
+      :capacity => 15,
+      :day => Date.strptime(starttime.to_time.iso8601).to_s,
+      :starttime => starttime.to_time, 
+      :headcount => headcount
+    }
   end
 
   def ClassOccurrence.reservation_list_query

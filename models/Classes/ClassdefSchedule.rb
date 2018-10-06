@@ -6,16 +6,6 @@ class ClassdefSchedule < Sequel::Model
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
   one_to_many :exceptions, :key => :class_schedule_id, :class => :ClassException
 
-  def get_occurences(from,to)
-    return [] if rrule.nil?
-    return [] if start_time.nil?
-    from = Time.parse(from) if from.is_a? String
-    to = Time.parse(to) if to.is_a? String
-    IceCube::Schedule.new(start_time) do |sched|
-      sched.add_recurrence_rule IceCube::Rule.from_ical(rrule)
-    end.occurrences_between(from,to)
-  end
-
   def ClassdefSchedule.get_all_occurrences(from,to)
     items = []
     ClassdefSchedule.all.each do |sched|
@@ -34,6 +24,16 @@ class ClassdefSchedule < Sequel::Model
     items
   end
 
+  def get_occurences(from,to)
+    return [] if rrule.nil?
+    return [] if start_time.nil?
+    from = Time.parse(from) if from.is_a? String
+    to = Time.parse(to) if to.is_a? String
+    IceCube::Schedule.new(start_time) do |sched|
+      sched.add_recurrence_rule IceCube::Rule.from_ical(rrule)
+    end.occurrences_between(from,to)
+  end
+
   def to_ical_event
     ical = Icalendar::Event.new 
     ical.dtstart = DateTime.parse(Date.today.to_s + "T" + start_time.to_s)
@@ -42,6 +42,17 @@ class ClassdefSchedule < Sequel::Model
     ical.summary = "#{classdef.name} w/ #{teachers.map(&:name).join(', ')}"
     ical.color = "blue"
     ical
+  end
+
+  def schedule_details_hash
+    { :type => 'classoccurrence',
+      :sched_id => sched.id,
+      :endtime => sched.end_time,
+      :classdef_id => sched.classdef.id,
+      :title => sched.classdef.name,
+      :instructors => sched.teachers,
+      :capacity => sched.capacity
+    }
   end
 
   def get_exception_dates

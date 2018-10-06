@@ -31,22 +31,32 @@ class ScheduleRoutes < Sinatra::Base
   end  
 
   def get_classitems_between(from,to)
-    items = []
+    items = ClassOccurrence.between(from,to).map(&:schedule_details_hash)
     ClassdefSchedule.all.each do |sched|
-      sched.get_occurences(from,to).each do |starttime|
-        items << { 
-          :type => 'classoccurrence',
+      details = sched.schedule_details_hash
+      sched.get_occurrences(from,to).each do |starttime|
+        items << {
           :day => Date.strptime(starttime.to_time.iso8601).to_s,
           :starttime => starttime.to_time, 
-          :endtime => sched.end_time,
-          :title => sched.classdef.name,
-          :classdef_id => sched.classdef.id,
-          :sched_id => sched.id,
-          :instructors => sched.teachers,
           :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), starttime.to_time.iso8601 ),
-          :capacity => sched.capacity,
           :exception => ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 ).try(:details)
-        }
+        }.merge!(details)
+
+
+      #sched.get_occurences(from,to).each do |starttime|
+      #  items << { 
+      #    :type => 'classoccurrence',
+      ##    :day => Date.strptime(starttime.to_time.iso8601).to_s,
+      #    :starttime => starttime.to_time, 
+      ##    :endtime => sched.end_time,
+      #    :title => sched.classdef.name,
+      #    :classdef_id => sched.classdef.id,
+      #    :sched_id => sched.id,
+      #    :instructors => sched.teachers,
+      #    :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), starttime.to_time.iso8601 ),
+      #    :capacity => sched.capacity,
+      #    :exception => ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 ).try(:details)
+      #  }
       end
     end
     items
@@ -54,32 +64,19 @@ class ScheduleRoutes < Sinatra::Base
 
   def get_eventsessions_between(from,to)
     EventSession.between(from,to).map(&:schedule_details_hash).compact
-
-    # do |i|
-    ##  next nil if i.event.nil? 
-    #  { :type => 'eventsession',
-    #    :day => Date.strptime(i.start_time).to_s,
-    ##   :starttime => Time.parse(i.start_time),
-    #    :endtime => Time.parse(i.end_time),
-    #    :title => i.title,
-    #    :event_title => i.event.name,
-    #    :event_id => i.event_id,
-    #    :multisession_event => i.event.sessions.count > 1
-    #  }
-    #end.compact
   end
 
 
   def get_rentals_between(from,to)
-    items = Rental.between(from,to)
-    items.map do |i|
-      { :type => 'private',
-        :day => Date.strptime(i.start_time.to_s).to_s,
-        :starttime => Time.parse(i.start_time.to_s),
-        :endtime => i.end_time,
-        :title => i.title
-      }
-    end
+    items = Rental.between(from,to).map(&:schedule_details_hash).compact
+    #items.map do |i|
+    #  { :type => 'private',
+    #    :day => Date.strptime(i.start_time.to_s).to_s,
+    #    :starttime => Time.parse(i.start_time.to_s),
+    #    :endtime => i.end_time,
+    #    :title => i.title
+    #  }
+    #end
   end
 
   def get_classexceptions_between(from,to)
@@ -89,7 +86,5 @@ class ScheduleRoutes < Sinatra::Base
   def get_classoccurrences_between(from,to)
  
   end
-
-
 
 end
