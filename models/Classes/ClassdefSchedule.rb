@@ -45,13 +45,13 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def schedule_details_hash
-    { :type => 'classoccurrence',
-      :sched_id => sched.id,
-      :endtime => sched.end_time,
-      :classdef_id => sched.classdef.id,
-      :title => sched.classdef.name,
-      :instructors => sched.teachers,
-      :capacity => sched.capacity
+    { :type        => 'classoccurrence',
+      :sched_id    => self.id,
+      :endtime     => self.end_time,
+      :classdef_id => self.classdef.id,
+      :title       => self.classdef.name,
+      :instructors => self.teachers,
+      :capacity    => self.capacity
     }
   end
 

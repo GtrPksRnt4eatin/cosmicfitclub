@@ -43,22 +43,22 @@ class ClassOccurrence < Sequel::Model
   end
 
   def to_ical_event
-    ical = Icalendar::Event.new 
-    ical.dtstart = starttime
+    ical          = Icalendar::Event.new 
+    ical.dtstart  = starttime
     ical.duration = "P1H"
-    ical.summary = "#{classdef.name} w/ #{teacher.name}"
+    ical.summary  = "#{classdef.name} w/ #{teacher.name}"
     ical
   end
 
   def schedule_details_hash
-    { :type => 'classoccurrence',
+    { :type        => 'classoccurrence',
       :classdef_id => classdef.id,
-      :title => classdef.name,
+      :title       => classdef.name,
       :instructors => teacher.name,
-      :capacity => 15,
-      :day => Date.strptime(starttime.to_time.iso8601).to_s,
-      :starttime => starttime.to_time, 
-      :headcount => headcount
+      :capacity    => 15,
+      :day         => Date.strptime(starttime.to_time.iso8601).to_s,
+      :starttime   => starttime.to_time, 
+      :headcount   => headcount
     }
   end
 
