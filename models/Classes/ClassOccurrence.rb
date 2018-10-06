@@ -6,7 +6,7 @@ class ClassOccurrence < Sequel::Model
   many_to_many :customers, :join_table => :class_reservations
 
   def ClassOccurrence.between(from,to)
-    ClassOccurrence.where{ starttime < Date.today }.where{ starttime >= from }.all
+    ClassOccurrence.where{ starttime < Date.today }.where{ starttime >= from }.where{ starttime < to }.all
   end
 
   def ClassOccurrence.get_headcount( class_id, staff_id, starttime )
