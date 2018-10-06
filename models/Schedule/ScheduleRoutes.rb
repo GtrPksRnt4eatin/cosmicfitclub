@@ -2,6 +2,11 @@ require 'icalendar'
 
 class ScheduleRoutes < Sinatra::Base
 
+  get '/ics' do
+    attachment(filename = 'CosmicCalendar.ics', disposition = :attachment)
+    ScheduleRoutes::schedule_as_ical(params[:from], params[:to])
+  end
+
   get '/:from/:to' do
     from = Time.parse(params[:from])
     to = Time.parse(params[:to])
@@ -15,10 +20,7 @@ class ScheduleRoutes < Sinatra::Base
     JSON.generate arr.sort_by { |x| x[:day] }
   end
 
-  get '/cosmic.ics' do
-    attachment(filename = 'CosmicCalendar.ics', disposition = :attachment)
-    ScheduleRoutes::schedule_as_ical(params[:from], params[:to])
-  end
+
 
   def ScheduleRoutes::schedule_as_ical(from,to)
     ical = Icalendar::Calendar.new
