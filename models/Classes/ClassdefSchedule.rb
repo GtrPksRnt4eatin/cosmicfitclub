@@ -24,7 +24,7 @@ class ClassdefSchedule < Sequel::Model
     items
   end
 
-  def get_occurences(from,to)
+  def get_occurrences(from,to)
     return [] if rrule.nil?
     return [] if start_time.nil?
     from = Time.parse(from) if from.is_a? String
