@@ -37,26 +37,11 @@ class ScheduleRoutes < Sinatra::Base
       sched.get_occurrences(from,to).each do |starttime|
         items << {
           :day => Date.strptime(starttime.to_time.iso8601).to_s,
-          :starttime => starttime.to_time, 
+          :starttime => starttime.to_time,
+          :endtime   => starttime.to_time + sched.duration_sec, 
           :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), starttime.to_time.iso8601 ),
           :exception => ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 ).try(:details)
         }.merge!(details)
-
-
-      #sched.get_occurences(from,to).each do |starttime|
-      #  items << { 
-      #    :type => 'classoccurrence',
-      ##    :day => Date.strptime(starttime.to_time.iso8601).to_s,
-      #    :starttime => starttime.to_time, 
-      ##    :endtime => sched.end_time,
-      #    :title => sched.classdef.name,
-      #    :classdef_id => sched.classdef.id,
-      #    :sched_id => sched.id,
-      #    :instructors => sched.teachers,
-      #    :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), starttime.to_time.iso8601 ),
-      #    :capacity => sched.capacity,
-      #    :exception => ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 ).try(:details)
-      #  }
       end
     end
     items
@@ -68,15 +53,7 @@ class ScheduleRoutes < Sinatra::Base
 
 
   def get_rentals_between(from,to)
-    items = Rental.between(from,to).map(&:schedule_details_hash).compact
-    #items.map do |i|
-    #  { :type => 'private',
-    #    :day => Date.strptime(i.start_time.to_s).to_s,
-    #    :starttime => Time.parse(i.start_time.to_s),
-    #    :endtime => i.end_time,
-    #    :title => i.title
-    #  }
-    #end
+    Rental.between(from,to).map(&:schedule_details_hash).compact
   end
 
   def get_classexceptions_between(from,to)

@@ -47,7 +47,7 @@ class ClassdefSchedule < Sequel::Model
   def schedule_details_hash
     { :type        => 'classoccurrence',
       :sched_id    => self.id,
-      :endtime     => self.end_time,
+      :duration    => duration_sec,
       :classdef_id => self.classdef.id,
       :title       => self.classdef.name,
       :instructors => self.teachers,
