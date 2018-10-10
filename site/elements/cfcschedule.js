@@ -242,7 +242,7 @@ Schedule.prototype.CSS = `
 
   #Schedule .register {
     display: inline-block;
-    font-size: .8em;
+    font-size: 1em;
     line-height: 1.5em;
   }
 
@@ -252,10 +252,6 @@ Schedule.prototype.CSS = `
 
   #Schedule .register span.headcount {
     display: none
-  }
-
-  #Schedule .register span.blue {
-    font-size: 1em;
   }
 
   #Schedule .instructors[data-sub=true] {
