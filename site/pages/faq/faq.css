@@ -4,7 +4,6 @@
 }
 
 .faq {
-	padding: 1em;
 	box-sizing: border-box;
 }
 
@@ -13,11 +12,13 @@
 	font-family: 'Industry-DemiItalic';
 	letter-spacing: 0.06em;
 	font-size: 1.1em;
-	padding-bottom: 0.6em;
+	padding: 0.5em 0;
+	background: rgba(255,255,255,0.2);
 }
 
 .answer {
     letter-spacing: 0.04em;
+    padding: 1em;
 }
 
 @media(max-width: 800px) {
