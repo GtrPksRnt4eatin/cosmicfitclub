@@ -133,14 +133,18 @@ Schedule.prototype.HTML = `
         </div>
 
         <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
-          <span class='start'> { occ.starttime | unmilitary } </span> - 
-          <span class='end'>   { occ.endtime | unmilitary } </span>
+          <span class='classtime'>
+            <span class='start'> { occ.starttime | unmilitary } </span> - 
+            <span class='end'>   { occ.endtime | unmilitary } </span>
+          </span>
           <span class='eventtitle'> { occ | event_title } </span>
         </div>
 
         <div class='rental' rv-if="occ.type | equals 'private'">
-          <span class='start'> { occ.starttime | unmilitary } </span> - 
-          <span class='end'>   { occ.endtime | unmilitary } </span>
+          <span class='classtime'>
+            <span class='start'> { occ.starttime | unmilitary } </span> - 
+            <span class='end'>   { occ.endtime | unmilitary } </span>
+          </span>
           <span class='eventtitle'> Private Event: { occ.title } </span>
         </div>
  
