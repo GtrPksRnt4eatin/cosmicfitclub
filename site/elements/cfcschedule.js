@@ -232,6 +232,10 @@ Schedule.prototype.CSS = `
     display: inline-block
   }
 
+  #Schedule .register .blue {
+    cursor: pointer;
+  }
+
   #Schedule .blue {
     color: rgba(150,150,255,0.9);
   }
@@ -244,6 +248,14 @@ Schedule.prototype.CSS = `
 
   #Schedule .register span {
     display: block;
+  }
+
+  #Schedule .register span.headcount {
+    display: none
+  }
+
+  #Schedule .register span.blue {
+    font-size: 1em;
   }
 
   #Schedule .instructors[data-sub=true] {
