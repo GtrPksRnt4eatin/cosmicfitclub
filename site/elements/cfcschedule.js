@@ -153,7 +153,7 @@ Schedule.prototype.HTML = `
 Schedule.prototype.CSS = `
 
   #Schedule {
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
   }
 
   #Schedule .current_date {
