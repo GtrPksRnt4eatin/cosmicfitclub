@@ -80,7 +80,7 @@ class EventRoutes < Sinatra::Base
   end
 
   get '/:id/attendance' do
-    Event[params[:id]].tickets.all.to_json
+    Event[params[:id]].tickets.to_json
   end
 
   def fmt_price(cents)
