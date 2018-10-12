@@ -1,5 +1,18 @@
 require 'twilio-ruby'
 
+def send_sms_to(msg,numbers)
+  client = Twilio::REST::Client.new 'AC3ea86c47d6a22914d5bddff93f335dda', '6cbc0ac3e73eebb57311578021f5ba24'
+  numbers.each do |num|
+    client.api.account.messages.create({
+      :from => '+13476700019',
+      :to   => num,
+      :body => msg
+    })
+  end
+rescue Exception => e
+  Slack.err("Twilio Error", e)
+end
+
 def send_sms(msg)	
   client = Twilio::REST::Client.new 'AC3ea86c47d6a22914d5bddff93f335dda', '6cbc0ac3e73eebb57311578021f5ba24'
   client.api.account.messages.create({
