@@ -81,7 +81,20 @@ class EventRoutes < Sinatra::Base
 
   get '/:id/attendance' do
     content_type :json
-    "[" + EventTicket.where( :event_id => params[:id] ).map(:to_details_json).join(',') + "]"
+
+    class Array
+      def to_json(options = {})
+        JSON.generate(self)
+      end
+    end
+
+    class Hash
+      def to_json(options = {})
+        JSON.generate(self)
+      end
+    end
+    
+    EventTicket.where( :event_id => params[:id] ).all.to_json
   end
 
   def fmt_price(cents)
