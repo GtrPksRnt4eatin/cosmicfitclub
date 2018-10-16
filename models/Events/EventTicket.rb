@@ -25,6 +25,17 @@ class EventTicket < Sequel::Model
     Mail.event_purchase(customer.email, model)
   end
 
+  def resend_email
+    model = {
+      :event_name => event.name,
+      :event_date => event.starttime.strftime('%a %m/%d'),
+      :event_time => event.starttime.strftime('%I:%M %p'),
+      :sessions_string => sessions_string,
+      :code => code
+    }
+    Mail.event_purchase(customer.email, model)
+  end
+
   def sessions_string
     return DateTime.parse(sessions[0].start_time).strftime('%a %m/%d @ %I:%M %p') if event.sessions.length < 2 
     sessions.map { |x| "#{x.title} - #{DateTime.parse(x.start_time).strftime('%a %m/%d @ %I:%M %p')}" }.join("\r\n")
