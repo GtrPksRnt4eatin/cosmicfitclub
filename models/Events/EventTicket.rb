@@ -19,6 +19,7 @@ class EventTicket < Sequel::Model
       :event_name => event.name,
       :event_date => event.starttime.strftime('%a %m/%d'),
       :event_time => event.starttime.strftime('%I:%M %p'),
+      :sessions_string => sessions_string,
       :code => code
     }
     Mail.event_purchase(customer.email, model)
