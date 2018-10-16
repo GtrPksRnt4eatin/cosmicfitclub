@@ -19,3 +19,9 @@ class Hash
     JSON.generate(self)
   end
 end
+
+class Integer
+  def fmt_stripe_money
+    "$ #{ ( self.to_f / 100 ).round(2) }"
+  end
+end

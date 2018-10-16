@@ -97,10 +97,6 @@ class EventRoutes < Sinatra::Base
     EventTicket.where( :event_id => params[:id] ).all.to_json
   end
 
-  def fmt_price(cents)
-    "$ #{ ( cents.to_f / 100 ).round(2) }"
-  end
-
   get '/:id/attendance.csv' do
     event = Event[params[:id]]
     halt 404 if event.nil?

@@ -96,10 +96,10 @@ class Event < Sequel::Model
         name = tic.customer ? tic.customer.name : ""
         email = tic.customer ? tic.customer.email : ""
         csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00" ] unless trans
-        csv << [ id, name, email, fmt_price(trans.amount), fmt_price(trans.fee), fmt_price(refund), fmt_price( trans.net + refund ) ] if trans
+        csv << ( [ id, name, email ] + [trans.amount, trans.fee, refund, (trans.net + refund) ].map(&:fmt_stripe_money) ) if trans
       end 
       csv << []
-      csv << [ "Totals:", self.headcount, "", fmt_price(gross), fmt_price(fees), fmt_price(refunds), fmt_price(net) ]
+      csv << [ "Totals:", self.headcount, "" ] + [ gross, fees, refunds, net ].map(&:fmt_stripe_money)
     end
   end
 
