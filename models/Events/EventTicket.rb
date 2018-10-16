@@ -25,7 +25,7 @@ class EventTicket < Sequel::Model
   end
 
   def sessions_string
-    return sessions[0].start_time.strftime('%a %m/%d') if sessions.length < 2 
+    return DateTime.parse(sessions[0].start_time).strftime('%a %m/%d') if sessions.length < 2 
     sessions.map { |x| "#{x.title} - #{DateTime.parse(x.start_time).strftime('%a %m/%d')} #{DateTime.parse(x.start_time).strftime('%a %m/%d')}" }.join("\r\n")
   end
 
