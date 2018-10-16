@@ -47,7 +47,9 @@ module Sinatra
         :price => data['total_price'],
         :stripe_payment_id => charge['id']
       )
-      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} ticket for #{eventname}.")
+      selected_price_name = (data['selected_price'] ? data['selected_price']['title'] : "")
+      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} #{selected_price_name} ticket for #{eventname}.")
+      send_sms_to("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} #{selected_price_name}ticket for #{eventname}.", ['979-240-0615','805-252-4939'])
       status 204
     end
 

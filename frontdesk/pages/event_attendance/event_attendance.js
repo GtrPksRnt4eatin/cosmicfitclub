@@ -109,5 +109,5 @@ function update_data() {
 }
 
 function on_attendance(attendance) { 
-	data['list'] = JSON.parse(attendance); 
+	data['list'] = attendance; 
 }

@@ -28,6 +28,10 @@ class EventTicket < Sequel::Model
     super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
 
+  def to_details_json
+    self.to_json( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
+  end
+
   def split(recipient_id, session_ids)
     return "Customer Doesn't Exist" if Customer[recipient_id].nil?
     return "Sessions Not Included On Ticket" unless (session_ids - self.included_sessions).empty?
