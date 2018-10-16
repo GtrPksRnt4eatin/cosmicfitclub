@@ -94,7 +94,7 @@ class EventRoutes < Sinatra::Base
       end
     end
     
-    EventTicket.where( :event_id => params[:id] ).all.to_json
+    EventTicket.where( :event_id => params[:id] ).order(:created_on).all.to_json
   end
 
   get '/:id/attendance.csv' do

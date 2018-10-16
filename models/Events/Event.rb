@@ -76,7 +76,7 @@ class Event < Sequel::Model
       gross = 0
       fees = 0
       refunds = 0
-      self.tickets.each do |tic|
+      self.tickets.sort{ |x| x.created_on.nil? ? 0 : x.created_on }.each do |tic|
         trans = nil
         if tic.stripe_payment_id then
           charge = Stripe::Charge.retrieve(tic.stripe_payment_id) rescue nil
@@ -95,8 +95,8 @@ class Event < Sequel::Model
         id = tic.customer ? tic.customer.id : 0
         name = tic.customer ? tic.customer.name : ""
         email = tic.customer ? tic.customer.email : ""
-        csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00", tic.price.name ] unless trans
-        csv << ( [ id, name, email ] + [trans.amount, trans.fee, refund, (trans.net + refund) ].map(&:fmt_stripe_money) + [tic.price.name] ) if trans
+        csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00", tic.price.name, tic.created_on ] unless trans
+        csv << ( [ id, name, email ] + [trans.amount, trans.fee, refund, (trans.net + refund) ].map(&:fmt_stripe_money) + [tic.price.name, tic.created_on ] ) if trans
       end 
       csv << []
       csv << [ "Totals:", self.headcount, "" ] + [ gross, fees, refunds, net ].map(&:fmt_stripe_money)
