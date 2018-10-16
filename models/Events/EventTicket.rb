@@ -25,7 +25,8 @@ class EventTicket < Sequel::Model
     Mail.event_purchase(customer.email, model)
   end
 
-  def resend_email
+  def resend_email(address=nil)
+    address ||= customer.email
     model = {
       :event_name => event.name,
       :event_date => event.starttime.strftime('%a %m/%d'),
@@ -33,7 +34,7 @@ class EventTicket < Sequel::Model
       :sessions_string => sessions_string,
       :code => code
     }
-    Mail.event_purchase(customer.email, model)
+    Mail.event_purchase(address, model)
   end
 
   def sessions_string
