@@ -19,5 +19,6 @@ $(document).ready(function() {
 })
 
 function initialize_rivets() {
+  rivets.formatters.stripe = function(val) { return 'https://manage.stripe.com/payments/' + val; }
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
 }

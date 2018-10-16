@@ -47,6 +47,11 @@ html
           .value 
             | [# {data.ticket.recipient.id}] {data.ticket.recipient.name}
 
+        .tuplet
+          .label Payment ID:
+          .value 
+            a rv-href='data.ticket.stripe_payment_id | stripe' { data.ticket.stripe_payment_id }
+
       .tile
 
         select rv-select='data.recipient'
