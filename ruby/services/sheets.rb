@@ -8,7 +8,7 @@ module Sheets
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
   APPLICATION_NAME = 'Other client 1'
   CREDENTIALS_PATH = File.join(File.dirname(__FILE__), "tokens.yaml")
-  SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS_READONLY
+  SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS
 
   def Sheets.authorize
     FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
@@ -37,6 +37,14 @@ module Sheets
     response = sheets.get_spreadsheet_values(spreadsheet_id, range)
     response.values.map! { |val| { :question => val[0], :answer => val[1] } }
     response.values
+  end
+
+  def Sheets.create(name)
+    sheets = Google::Apis::SheetsV4::SheetsService.new
+    sheets.client_options.application_name = APPLICATION_NAME
+    sheets.authorization = Sheets.authorize
+    request_body = Google::Apis::SheetsV4::Spreadsheet.new
+    service.create_spreadsheet(request_body)
   end
 
 end
