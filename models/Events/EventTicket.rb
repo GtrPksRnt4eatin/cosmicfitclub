@@ -24,6 +24,11 @@ class EventTicket < Sequel::Model
     Mail.event_purchase(customer.email, model)
   end
 
+  def sessions_string
+    return sessions[0].start_time.strftime('%a %m/%d') if sessions.length < 2 
+    sessions.map { |x| "#{x.title} - #{x.start_time.strftime('%a %m/%d')} #{x.start_time.strftime('%a %m/%d')}" }.join("\r\n")
+  end
+
   def to_json(options = {})
     super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end

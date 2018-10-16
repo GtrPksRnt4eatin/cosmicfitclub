@@ -45,7 +45,8 @@ module Sinatra
         :event_id => data['event_id'], 
         :included_sessions => data['included_sessions'], 
         :price => data['total_price'],
-        :stripe_payment_id => charge['id']
+        :stripe_payment_id => charge['id'],
+        :event_price_id => data['selected_price'] ? data['selected_price']['id'] : nil
       )
       selected_price_name = (data['selected_price'] ? data['selected_price']['title'] : "")
       Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} #{selected_price_name} ticket for #{eventname}.")
