@@ -90,14 +90,14 @@ html
                 th Parents:
                 td
                   div 
-                    a href='/checkout/customer_file?id={parent.id}' rv-each-parent='data.customer.family.parents' 
+                    a rv-href={parent.id | custy_file} rv-each-parent='data.customer.family.parents' 
                       | { parent.name } <br>
 
               tr rv-if='data.customer.family.children | count'
                 th Children:
                 td
                   div
-                    a href='/checkout/customer_file?id={child.id}' rv-each-child='data.customer.family.children'
+                    a rv-href={child.id | custy_file} rv-each-child='data.customer.family.children'
                       | { child.name } <br>
 
               tr
