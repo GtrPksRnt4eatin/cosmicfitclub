@@ -286,4 +286,8 @@ class Customer < Sequel::Model
 
 ########################### Event Tickets ##############################
 
+  def to_list_hash
+    { :id => id, :name => name, :email => email }
+  end
+
 end

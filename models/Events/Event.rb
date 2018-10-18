@@ -69,6 +69,10 @@ class Event < Sequel::Model
     self.sessions.count > 1
   end
 
+  def last_day
+    self.sessions.max_by(&:start_time).start_time.to_date
+  end
+
   def attendance_csv 
     CSV.generate do |csv|
       csv << [ "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net" ]
@@ -109,11 +113,13 @@ class Event < Sequel::Model
   end
 
   def Event::list_future
-    Event.exclude( starttime: nil ).where{ starttime >= Date.today }.order(:starttime).all.map { |evt| evt.full_detail }
+    Event.exclude( starttime: nil ).order(:starttime).all.select{|x| x.last_day >= Date.today }.map(&:full_detail)
+    #Event.exclude( starttime: nil ).where{ starttime >= Date.today }.order(:starttime).all.map { |evt| evt.full_detail }
   end
 
   def Event::list_past
-    Event.exclude( starttime: nil ).where{ starttime < Date.today }.order(:starttime).all.map { |evt| evt.full_detail }
+    Event.exclude( starttime: nil ).order(:starttime).all.select{|x| x.last_day < Date.today }.map(&:full_detail)
+    #Event.exclude( starttime: nil ).where{ starttime < Date.today }.order(:starttime).all.map { |evt| evt.full_detail }
   end
 
 end
