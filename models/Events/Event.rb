@@ -134,7 +134,8 @@ class Event < Sequel::Model
         p "#{used_payment_ids} #{tic.stripe_payment_id} #{used_payment_ids.include?(tic.stripe_payment_id)}"
         if used_payment_ids.include?(tic.stripe_payment_id)
           payment_info = [ 0, 0, 0, 0 ]
-        else 
+        else
+          used_payment_ids << tic.stripe_payment_id
           payment      = tic.full_payment_info
           payment_info = [ payment[:gross], payment[:fees], payment[:refunds], payment[:net] ].map(&:fmt_stripe_money)
         end
