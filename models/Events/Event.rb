@@ -140,7 +140,7 @@ class Event < Sequel::Model
 
         totals.merge!(payment) { |key, v1, v2| v1 + v2 }
         
-        [ tic.id, tic.created_on ] + custy_info + payment_info
+        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info
       
       end
 
