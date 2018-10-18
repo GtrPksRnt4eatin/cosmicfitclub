@@ -65,4 +65,15 @@ class EventTicket < Sequel::Model
     self.update( :included_sessions => (self.included_sessions - session_ids) )
   end
 
+  def full_payment_info
+    StripeMethods::get_payment_totals(self.stripe_payment_id)
+  end
+
+  def customer_info
+    { :id    => customer.id    rescue 0
+      :name  => customer.name  rescue ""
+      :email => customer.email rescue ""
+    }
+  end
+
 end

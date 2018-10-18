@@ -1,31 +1,14 @@
 require 'csv'
 
 class Event < Sequel::Model
-
-  one_to_many :tickets, :class => :EventTicket
-  one_to_many :sessions, :class => :EventSession
-  one_to_many :prices, :class => :EventPrice
   
   include ImageUploader[:image]
 
-  def after_save
-  	self.id
-  	super
-  end
+  ###################### ASSOCIATIONS #####################
 
-  def to_json(options = {})
-    val = JSON.parse super
-    val['image_url'] = image.nil? ? '' : image[:original].url
-    JSON.generate val
-  end
-
-  def image_url
-    self.image.nil? ? '' : self.image[:original].url
-  end
-
-  def thumb_image_url
-    self.image.nil? ? '' : ( self.image.is_a?(ImageUploader::UploadedFile) ? self.image_url : self.image[:small].url )
-  end
+  one_to_many :tickets,  :class => :EventTicket
+  one_to_many :sessions, :class => :EventSession
+  one_to_many :prices,   :class => :EventPrice
 
   def create_session
     new_session = EventSession.create
@@ -39,8 +22,45 @@ class Event < Sequel::Model
     new_price
   end
 
+  ###################### ASSOCIATIONS #####################
+
+  #################### ATTRIBUTE ACCESS ###################
+
+  def after_save
+    self.id
+    super
+  end
+
+  def image_url
+    self.image.nil? ? '' : self.image[:original].url
+  end
+
+  def thumb_image_url
+    self.image.nil? ? '' : ( self.image.is_a?(ImageUploader::UploadedFile) ? self.image_url : self.image[:small].url )
+  end
+
   def sessions
     super.sort
+  end
+
+  def tickets
+    super.sort{ |x| x.created_on.nil? ? 0 : x.created_on }
+  end
+
+  #################### ATTRIBUTE ACCESS ###################
+
+  ################# CALCULATED PROPERTIES #################
+
+  def multisession?
+    self.sessions.count > 1
+  end
+
+  def last_day
+    self.sessions.max_by(&:start_time).start_time.to_date
+  end
+
+  def headcount
+    self.tickets.count
   end
 
   def daterange
@@ -50,8 +70,16 @@ class Event < Sequel::Model
     return "#{start.strftime("%a %b %-m %l:%M %p")}-#{finish.strftime("%a %b %-m %l:%M %p")}" 
   end
 
-  def headcount
-    self.tickets.count
+  ################# CALCULATED PROPERTIES #################
+
+  ########################## VIEWS ########################
+
+  def list_item
+    { :id        => id,
+      :name      => name,
+      :starttime => starttime,
+      :image_url => image_url
+    }
   end
 
   def full_detail
@@ -65,61 +93,98 @@ class Event < Sequel::Model
     }
   end
 
-  def multisession?
-    self.sessions.count > 1
+  def to_json(options = {})
+    val = JSON.parse super
+    val['image_url'] = image.nil? ? '' : image[:original].url
+    JSON.generate val
   end
 
-  def last_day
-    self.sessions.max_by(&:start_time).start_time.to_date
-  end
+  ########################## VIEWS ########################
 
-  def attendance_csv 
-    CSV.generate do |csv|
-      csv << [ "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net" ]
-      net = 0
-      gross = 0
-      fees = 0
-      refunds = 0
-      self.tickets.sort{ |x| x.created_on.nil? ? 0 : x.created_on }.each do |tic|
-        trans = nil
-        if tic.stripe_payment_id then
-          charge = Stripe::Charge.retrieve(tic.stripe_payment_id) rescue nil
-          trans = Stripe::BalanceTransaction.retrieve charge.balance_transaction rescue nil
-          net = net + trans.net unless trans.nil?
-          gross = gross + trans.amount unless trans.nil?
-          fees = fees + trans.fee unless trans.nil?
-          refund = 0
-          charge.refunds.data.each do |ref|
-            t = Stripe::BalanceTransaction.retrieve ref.balance_transaction rescue nil
-            net = net + t.net unless t.nil?
-            refund = t.net unless t.nil?
-            refunds = refunds + t.net unless t.nil?
-          end
-        end
-        id = tic.customer ? tic.customer.id : 0
-        name = tic.customer ? tic.customer.name : ""
-        email = tic.customer ? tic.customer.email : ""
-        csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00", tic.created_on ] unless trans
-        csv << ( [ id, name, email ] + [trans.amount, trans.fee, refund, (trans.net + refund) ].map(&:fmt_stripe_money) + [ tic.created_on ] ) if trans
-      end 
-      csv << []
-      csv << [ "Totals:", self.headcount, "" ] + [ gross, fees, refunds, net ].map(&:fmt_stripe_money)
-      csv.read
-    end
-  end
-
-  def Event::short_list
-    Event.order(Sequel.desc(:starttime)).all.to_json( :only => [ :id, :name, :starttime, :image_url ] )
-  end
+  ########################## LISTS ########################
 
   def Event::list_future
-    Event.exclude( starttime: nil ).order(:starttime).all.select{|x| x.last_day >= Date.today }.map(&:full_detail)
-    #Event.exclude( starttime: nil ).where{ starttime >= Date.today }.order(:starttime).all.map { |evt| evt.full_detail }
+    Event.order(:starttime).exclude( starttime: nil ).all.select{|x| x.last_day >= Date.today }.map(&:full_detail)
   end
 
   def Event::list_past
-    Event.exclude( starttime: nil ).order(:starttime).all.select{|x| x.last_day < Date.today }.map(&:full_detail)
-    #Event.exclude( starttime: nil ).where{ starttime < Date.today }.order(:starttime).all.map { |evt| evt.full_detail }
+    Event.reverse( :starttime ).exclude( starttime: nil ).all.select{|x| x.last_day < Date.today }.map(&:full_detail)
   end
+
+  def Event::short_list
+    Event.reverse( :starttime ).all.map(&:list_item).to_json
+  end
+
+  ########################## LISTS ########################
+
+  ######################## REPORTS ########################
+
+  def attendance_csv 
+
+    CSV.generate do |csv|
+
+      totals = { :gross => 0, :fees => 0, :refunds => 0, :net => 0 }
+      
+      rows = self.tickets.map do |tic|
+
+        custy        = tic.customer_info
+        custy_info   = [ custy[:id], custy[:name], custy[:email] ]
+
+        payment      = tic.full_payment_info
+        payment_info = [ payment[:gross], payment[:fees], payment[:refunds], payment[:net] ].map(&:fmt_stripe_money)
+
+        totals.merge!(payment) { |key, v1, v2| v1 + v2 }
+        
+        custy_info + payment_info + [ tic.created_on ] 
+      
+      end
+
+      csv << [ "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net", "Purchase Date" ]
+      rows.each { |r| csv << r }
+      csv << []
+      csv << [ "Totals:", self.headcount, "" ] + [ gross, fees, refunds, net ].map(&:fmt_stripe_money)
+      csv.read
+    
+    end
+
+  end
+
+  #      trans = nil
+
+  #      if tic.stripe_payment_id then
+
+  #        charge = Stripe::Charge.retrieve(tic.stripe_payment_id) rescue nil
+  #        trans  = Stripe::BalanceTransaction.retrieve charge.balance_transaction rescue nil
+
+  #        net   = net + trans.net      unless trans.nil?
+  #        gross = gross + trans.amount unless trans.nil?
+  #        fees  = fees + trans.fee     unless trans.nil?
+
+  #        refund = 0
+
+  #        charge.refunds.data.each do |ref|
+
+  #          t = Stripe::BalanceTransaction.retrieve ref.balance_transaction rescue nil
+
+  #          net = net + t.net unless t.nil?
+  #          refund = t.net unless t.nil?
+  #          refunds = refunds + t.net unless t.nil?
+  #        end
+  #      end
+
+  #       id    = tic.customer.id    rescue 0
+  #      name  = tic.customer.name  rescue ""
+  #      email = tic.customer.email rescue ""
+
+  #      csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00", tic.created_on ] unless trans
+  #      csv << ( [ id, name, email ] + [trans.amount, trans.fee, refund, (trans.net + refund) ].map(&:fmt_stripe_money) + [ tic.created_on ] ) if trans
+  #    end 
+  #    csv << []
+  #    csv << [ "Totals:", self.headcount, "" ] + [ gross, fees, refunds, net ].map(&:fmt_stripe_money)
+  #    csv.read
+  #  end
+  #end
+
+  ######################## REPORTS ########################
 
 end

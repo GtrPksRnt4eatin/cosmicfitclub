@@ -125,6 +125,23 @@ module StripeMethods
     Stripe::Subscription.retrieve(subscription_id)
   end
 
+  def StripeMethods::get_payment_totals(payment_id)
+    empty_row = { :net => 0, :gross => 0, :fees => 0, :refunds => 0 }
+
+    return empty_row unless payment_id
+     
+    charge  = Stripe::Charge.retrieve             payment_id                 rescue nil
+    trans   = Stripe::BalanceTransaction.retrieve charge.balance_transaction rescue nil
+
+    return empty_row if trans.nil?
+
+    refunds = charge.refunds.data.map do |refund|
+      Stripe::BalanceTransaction.retrieve refund.balance_transaction rescue nil
+    end.map(&:net).reduce(0,:+)
+
+    return { :gross => trans.try(:amount), :fees =>  trans.try(:fee), :refunds => refunds, :net => refunds + trans.try(:net),   }
+  end
+
   ##########################################################################
 
   def StripeMethods::sync_plans
