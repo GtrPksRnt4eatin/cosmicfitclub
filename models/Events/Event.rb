@@ -143,6 +143,8 @@ class Event < Sequel::Model
         [ tic.created_on ] + custy_info + payment_info
       
       end
+      
+      p rows
 
       csv << [ "Purchase Date", "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net"  ]
       rows.sort{ |x| x[0] }.each { |r| csv << r }
