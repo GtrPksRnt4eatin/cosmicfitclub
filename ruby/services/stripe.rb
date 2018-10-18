@@ -126,7 +126,7 @@ module StripeMethods
   end
 
   def StripeMethods::get_payment_totals(payment_id)
-    empty_row = { :net => 0, :gross => 0, :fees => 0, :refunds => 0 }
+    empty_row = { :gross => 0, :fees => 0, :refunds => 0, :net => 0 }
 
     return empty_row unless payment_id
      
