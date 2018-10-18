@@ -140,55 +140,19 @@ class Event < Sequel::Model
 
         totals.merge!(payment) { |key, v1, v2| v1 + v2 }
         
-        [ tic.created_on ] + custy_info + payment_info
+        [ tic.id, tic.created_on ] + custy_info + payment_info
       
       end
 
-      csv << [ "Purchase Date", "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net"  ]
+      csv << [ "Ticket ID", "Purchase Date", "Customer ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net"  ]
       rows.sort_by{ |x| x[0].to_i }.each { |r| csv << r }
       csv << []
-      csv << [ "Totals:", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)
+      csv << [ "Totals:", "", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)
       csv.read
     
     end
 
   end
-
-  #      trans = nil
-
-  #      if tic.stripe_payment_id then
-
-  #        charge = Stripe::Charge.retrieve(tic.stripe_payment_id) rescue nil
-  #        trans  = Stripe::BalanceTransaction.retrieve charge.balance_transaction rescue nil
-
-  #        net   = net + trans.net      unless trans.nil?
-  #        gross = gross + trans.amount unless trans.nil?
-  #        fees  = fees + trans.fee     unless trans.nil?
-
-  #        refund = 0
-
-  #        charge.refunds.data.each do |ref|
-
-  #          t = Stripe::BalanceTransaction.retrieve ref.balance_transaction rescue nil
-
-  #          net = net + t.net unless t.nil?
-  #          refund = t.net unless t.nil?
-  #          refunds = refunds + t.net unless t.nil?
-  #        end
-  #      end
-
-  #       id    = tic.customer.id    rescue 0
-  #      name  = tic.customer.name  rescue ""
-  #      email = tic.customer.email rescue ""
-
-  #      csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00", tic.created_on ] unless trans
-  #      csv << ( [ id, name, email ] + [trans.amount, trans.fee, refund, (trans.net + refund) ].map(&:fmt_stripe_money) + [ tic.created_on ] ) if trans
-  #    end 
-  #    csv << []
-  #    csv << [ "Totals:", self.headcount, "" ] + [ gross, fees, refunds, net ].map(&:fmt_stripe_money)
-  #    csv.read
-  #  end
-  #end
 
   ######################## REPORTS ########################
 
