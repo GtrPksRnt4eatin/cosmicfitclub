@@ -141,12 +141,12 @@ class Event < Sequel::Model
           payment_info = [ payment[:gross], payment[:fees], payment[:refunds], payment[:net] ].map(&:fmt_stripe_money)
         end
         
-        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + [ tic.eventprice.try(:title), tic.recipient.try(:id), tic.recipient.try(:name), tic.recipient.try(:email) ]
+        [ tic.id, tic.created_on ] + custy_info + payment_info + [ tic.eventprice.try(:title), tic.recipient.try(:id), tic.recipient.try(:name), tic.recipient.try(:email) ]
       
       end
 
       csv << [ "Ticket ID", "Purchase Date", "Customer ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net", "Ticket Type", "Recipient ID", "Name", "Email" ]
-      rows.sort_by{ |x| x[1].to_i }.each { |r| csv << r }
+      rows.sort_by{ |x| x[1].to_i }.each { |r| r[1] = r[1].strftime("%a %m/%d %I:%M %P"); csv << r }
       csv << []
       csv << [ "Totals:", "", "", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)
       csv.read
