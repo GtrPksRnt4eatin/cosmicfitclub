@@ -133,7 +133,7 @@ class Event < Sequel::Model
 
         puts "#{used_payment_ids} #{tic.stripe_payment_id} #{used_payment_ids.include?(tic.stripe_payment_id)}"
         if used_payment_ids.include?(tic.stripe_payment_id)
-          payment_info = [ 0, 0, 0, 0 ]
+          payment_info = [ 0, 0, 0, 0 ].map(&:fmt_stripe_money)
         else
           used_payment_ids << tic.stripe_payment_id
           payment      = tic.full_payment_info
