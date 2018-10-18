@@ -123,6 +123,7 @@ class Event < Sequel::Model
 
     CSV.generate do |csv|
 
+      used_payment_ids = []
       totals = { :gross => 0, :fees => 0, :refunds => 0, :net => 0 }
       
       rows = self.tickets.map do |tic|
@@ -130,8 +131,12 @@ class Event < Sequel::Model
         custy        = tic.customer_info
         custy_info   = [ custy[:id], custy[:name], custy[:email] ]
 
-        payment      = tic.full_payment_info
-        payment_info = [ payment[:gross], payment[:fees], payment[:refunds], payment[:net] ].map(&:fmt_stripe_money)
+        if used_payment_ids.include?(tic.stripe_payment_id)
+          payment_info = { :gross => 0, :fees => 0, :refunds => 0, :net => 0 }
+        else 
+          payment      = tic.full_payment_info
+          payment_info = [ payment[:gross], payment[:fees], payment[:refunds], payment[:net] ].map(&:fmt_stripe_money)
+        end
 
         totals.merge!(payment) { |key, v1, v2| v1 + v2 }
         
