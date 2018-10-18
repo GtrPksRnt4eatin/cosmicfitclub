@@ -70,9 +70,9 @@ class EventTicket < Sequel::Model
   end
 
   def customer_info
-    { :id    => customer.id    rescue 0
-      :name  => customer.name  rescue ""
-      :email => customer.email rescue ""
+    { :id    => ( customer.id    rescue 0  ),
+      :name  => ( customer.name  rescue "" ),
+      :email => ( customer.email rescue "" )
     }
   end
 
