@@ -137,7 +137,7 @@ class Event < Sequel::Model
         else
           used_payment_ids << tic.stripe_payment_id
           payment      = tic.full_payment_info
-          totals.merge!(payment) { |key, v1, v2| v1 + v2 } unless payment.nil
+          totals.merge!(payment) { |key, v1, v2| v1 + v2 } unless payment.nil?
           payment_info = [ payment[:gross], payment[:fees], payment[:refunds], payment[:net] ].map(&:fmt_stripe_money)
         end
         
