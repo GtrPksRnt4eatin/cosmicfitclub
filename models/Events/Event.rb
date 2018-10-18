@@ -132,7 +132,7 @@ class Event < Sequel::Model
         custy_info   = [ custy[:id], custy[:name], custy[:email] ]
 
         if used_payment_ids.include?(tic.stripe_payment_id)
-          payment_info = { :gross => 0, :fees => 0, :refunds => 0, :net => 0 }
+          payment_info = [ 0, 0, 0, 0 ]
         else 
           payment      = tic.full_payment_info
           payment_info = [ payment[:gross], payment[:fees], payment[:refunds], payment[:net] ].map(&:fmt_stripe_money)
