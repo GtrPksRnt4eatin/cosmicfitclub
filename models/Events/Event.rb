@@ -142,11 +142,11 @@ class Event < Sequel::Model
 
         totals.merge!(payment) { |key, v1, v2| v1 + v2 }
         
-        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + 
+        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + [ tic.eventprice.title, tic.recipient.try(:id), tic.recipient.try(:name), tic.recipient.try(:email) ]
       
       end
 
-      csv << [ "Ticket ID", "Purchase Date", "Customer ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net"  ]
+      csv << [ "Ticket ID", "Purchase Date", "Customer ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net", "Ticket Type", "Recipient ID", "Name", "Email" ]
       rows.sort_by{ |x| x[0].to_i }.each { |r| csv << r }
       csv << []
       csv << [ "Totals:", "", "", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)

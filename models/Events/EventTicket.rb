@@ -4,8 +4,9 @@ class EventTicket < Sequel::Model
 
   many_to_one :event
   many_to_one :customer
-  many_to_one :recipient, :class => :Customer, :key => :purchased_for
-  one_to_many :checkins, :class => :EventCheckin, :key => :ticket_id
+  many_to_one :recipient,     :class => :Customer,     :key => :purchased_for
+  many_to_one :eventprice,    :class => :EventPrice,   :key => :event_price_id
+  one_to_many :checkins,      :class => :EventCheckin, :key => :ticket_id
   pg_array_to_many :sessions, :class => :EventSession, :key => :included_sessions
 
   def generate_code
