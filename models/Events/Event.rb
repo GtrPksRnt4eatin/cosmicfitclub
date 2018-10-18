@@ -142,7 +142,7 @@ class Event < Sequel::Model
       csv << [ "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net", "Purchase Date" ]
       rows.each { |r| csv << r }
       csv << []
-      csv << [ "Totals:", self.headcount, "" ] + [ gross, fees, refunds, net ].map(&:fmt_stripe_money)
+      csv << [ "Totals:", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)
       csv.read
     
     end
