@@ -139,6 +139,8 @@ class Event < Sequel::Model
           totals.merge!(payment) { |key, v1, v2| v1 + v2 } unless payment.nil?
           payment_info = [ payment[:gross], payment[:fees], payment[:refunds], payment[:net] ].map(&:fmt_stripe_money)
         end
+
+        payment_info = [ tic.price, 0, 0, tic.price ].map(&:fmt_stripe_money) if tic.stripe_payment_id.nil?
         
         [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + [ tic.eventprice.try(:title), tic.recipient.try(:id), tic.recipient.try(:name), tic.recipient.try(:email) ]
       
