@@ -143,11 +143,11 @@ class Event < Sequel::Model
         [ tic.created_on ] + custy_info + payment_info
       
       end
-      
+
       p rows
 
       csv << [ "Purchase Date", "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net"  ]
-      rows.sort{ |x| x[0] }.each { |r| csv << r }
+      rows.sort{ |x,y| x[0] <=> y[0] }.each { |r| csv << r }
       csv << []
       csv << [ "Totals:", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)
       csv.read
