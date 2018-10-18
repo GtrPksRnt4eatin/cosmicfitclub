@@ -131,6 +131,7 @@ class Event < Sequel::Model
         custy        = tic.customer_info
         custy_info   = [ custy[:id], custy[:name], custy[:email] ]
 
+        p "#{used_payment_ids} #{tic.stripe_payment_id} #{used_payment_ids.include?(tic.stripe_payment_id)}"
         if used_payment_ids.include?(tic.stripe_payment_id)
           payment_info = [ 0, 0, 0, 0 ]
         else 
