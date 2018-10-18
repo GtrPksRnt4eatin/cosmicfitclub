@@ -146,7 +146,7 @@ class Event < Sequel::Model
       end
 
       csv << [ "Ticket ID", "Purchase Date", "Customer ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net", "Ticket Type", "Recipient ID", "Name", "Email" ]
-      rows.sort_by{ |x| x[0].to_i }.each { |r| csv << r }
+      rows.sort_by{ |x| x[1].to_i }.each { |r| csv << r }
       csv << []
       csv << [ "Totals:", "", "", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)
       csv.read
