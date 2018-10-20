@@ -28,7 +28,7 @@ class User < Sequel::Model
     end
     
     def before_save
-      generateResetToken if password.nil?
+      #generateResetToken if password.nil?
       encrypt_password unless password.nil?
       super 
     end
