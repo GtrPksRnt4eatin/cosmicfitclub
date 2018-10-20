@@ -114,7 +114,7 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/roles' do
-    Role.create( :name => params[:name] );
+    Role.create( :name => params[:name] )
   end
 
   delete '/users/:id/roles/:role_id' do
