@@ -30,7 +30,7 @@ class CFCAuth < Sinatra::Base
     session[:user] = User.authenticate( data['email'], data['password'] )
     if !session[:user] then
       custy = Customer.find_by_email( data['email'] )
-      Slack.raw_err( 'Failed Login', "#{data['email']}\r\n\r\n#{custy.try(:to_json)}")
+      Slack.raw_err( 'Failed Login', custy.to_list_string )
       halt 401
     end
     session[:customer] = session[:user].customer

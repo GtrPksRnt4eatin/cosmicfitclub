@@ -1,5 +1,5 @@
 $root_folder = File.dirname(__FILE__)
-require 'rack/ssl-enforcer'
+#require 'rack/ssl-enforcer'
 
 require 'active_support'
 require 'active_support/core_ext/date/calculations'
@@ -26,8 +26,8 @@ require_relative 'user/user'
 require_relative 'frontdesk/frontdesk'
 require_relative 'offers/offers'
 
-use Rack::SslEnforcer
-use Rack::Deflater
+#use Rack::SslEnforcer
+#use Rack::Deflater
 
 use Rack::Session::Cookie, :key => '_rack_session',
                            :path => '/',
