@@ -68,10 +68,6 @@ class User < Sequel::Model
     end 
 
     def reset_password
-      #self.password = nil
-      #self.encrypted_password = nil
-      #self.salt = nil
-      #self.save
       self.generateResetToken
       self.send_password_email 
     end
@@ -84,6 +80,6 @@ class User < Sequel::Model
       Mail.account_created(customer.email, { :name => customer.name, :url => "https://cosmicfitclub.com/auth/activate?token=#{reset_token}" } )
     end
 
-    def generateResetToken() self.reset_token = rand(36**8).to_s(36) end
+    def generateResetToken() self.update( :reset_token => rand(36**8).to_s(36) ) end
 
 end
