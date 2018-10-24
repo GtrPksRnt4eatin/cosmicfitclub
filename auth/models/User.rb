@@ -10,7 +10,7 @@ class User < Sequel::Model
 
     def after_create
       add_role Role[1]
-      #send_new_account_email
+      send_activation
     end
 
     def has_role?(role)
@@ -28,7 +28,6 @@ class User < Sequel::Model
     end
     
     def before_save
-      #generateResetToken if password.nil?
       encrypt_password unless password.nil?
       super 
     end
@@ -70,6 +69,11 @@ class User < Sequel::Model
     def reset_password
       self.generateResetToken
       self.send_password_email 
+    end
+
+    def send_activation
+      self.generateResetToken
+      self.send_new_account_email
     end
 
     def send_password_email
