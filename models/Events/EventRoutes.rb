@@ -80,20 +80,7 @@ class EventRoutes < Sinatra::Base
   end
 
   get '/:id/attendance' do
-    content_type :json
-
-    class Array
-      def to_json(options = {})
-        JSON.generate(self)
-      end
-    end
-
-    class Hash
-      def to_json(options = {})
-        JSON.generate(self)
-      end
-    end
-    
+    content_type :json    
     EventTicket.where( :event_id => params[:id] ).order(:created_on).all.to_json
   end
 
@@ -171,6 +158,11 @@ class EventRoutes < Sinatra::Base
     recipient = Customer[params[:recipient_id]] or halt 404
     p tic.split( recipient.id, params[:session_ids].map { |x| x.to_i } )
     status 204
+  end
+
+  error do
+    Slack.err( 'Event Route Error', env['sinatra.error'] )
+    'An Error Occurred.'
   end
 
 end

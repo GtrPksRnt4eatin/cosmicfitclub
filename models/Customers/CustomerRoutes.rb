@@ -182,4 +182,9 @@ class CustomerRoutes < Sinatra::Base
     custy.delete
   end
 
+  error do
+    Slack.err( 'Customer Route Error', env['sinatra.error'] )
+    'An Error Occurred.'
+  end
+
 end
