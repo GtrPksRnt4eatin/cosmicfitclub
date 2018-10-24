@@ -113,7 +113,8 @@ $(document).ready( function() {
 
   setupBindings();
 
-  popupmenu = new PopupMenu( id('popupmenu_container') );
+  userview     = new UserView(  id('userview_container')  );
+  popupmenu    = new PopupMenu( id('popupmenu_container') );
   payment_form = new PaymentForm();
 
   payment_form.ev_sub('show', popupmenu.show );
