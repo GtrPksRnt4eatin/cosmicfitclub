@@ -53,6 +53,7 @@ class Wallet < Sequel::Model
   def <<(other)
     other.transactions.each { |t| t.update( :wallet_id => self.id ) }
     self.pass_balance = self.pass_balance + other.pass_balance
+    other.update( :pass_balance => 0 )
     other.delete
     self.save
   end
