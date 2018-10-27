@@ -167,7 +167,7 @@ html
       .tile
         .header Waiver
         hr
-        - if customer.waiver.nil?
+        - if customer.waivers.count == 0
           a href='/waiver' Sign A Waiver
         - unless customer.waiver.nil?
           #signature
