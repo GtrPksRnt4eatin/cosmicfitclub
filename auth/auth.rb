@@ -33,8 +33,8 @@ class CFCAuth < Sinatra::Base
       Slack.raw_err( 'Failed Login', custy.to_list_string )
       halt 401
     end
-    Slack.raw_err( 'Login Successful', custy.to_list_string )
     session[:customer] = session[:user].customer
+    Slack.raw_err( 'Login Successful', session[:customer].to_list_string )
     status 204
   end
 
