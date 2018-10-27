@@ -33,6 +33,7 @@ class CFCAuth < Sinatra::Base
       Slack.raw_err( 'Failed Login', custy.to_list_string )
       halt 401
     end
+    Slack.raw_err( 'Login Successful', custy.to_list_string )
     session[:customer] = session[:user].customer
     status 204
   end
@@ -47,10 +48,9 @@ class CFCAuth < Sinatra::Base
     content_type :json
     data = JSON.parse(request.body.read)
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
-    customer = Customer.create( :name => data['name'], :email => data['email'] )
-    customer.login = User.create
-    customer.send_new_account_email
-    return JSON.generate({ :id => customer.id })
+    custy = Customer.create( :name => data['name'], :email => data['email'] )
+    User.create( :customer => custy )
+    return JSON.generate({ :id => custy.id })
   end
 
   post '/register_and_login' do

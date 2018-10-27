@@ -8,7 +8,7 @@ class Customer < Sequel::Model
   one_to_many :tickets, :class=>:EventTicket
   one_to_many :event_checkins, :class=> :EventCheckin
   one_to_many :training_passes
-  one_to_one  :waiver
+  one_to_many :waivers
   one_to_many :nfc_tags
   many_to_one :wallet
   one_to_many :reservations, :class=>:ClassReservation
@@ -137,6 +137,10 @@ class Customer < Sequel::Model
   def before_save
     self.email = self.email.downcase
     super
+  end
+
+  def waiver_signed?
+    self.waivers.count > 0
   end
 
 ########################### Attribute Access ###########################
