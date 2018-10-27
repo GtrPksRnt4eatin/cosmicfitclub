@@ -79,6 +79,7 @@ class Customer < Sequel::Model
   def add_child(child)
     ( self.wallet = Wallet.create; self.save ) if self.wallet.nil?
     self.wallet << child.wallet unless child.wallet.nil?
+    child.update( :wallet=>self.wallet )
     super
   end
 
