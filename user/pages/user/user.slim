@@ -167,9 +167,9 @@ html
       .tile
         .header Waiver
         hr
-        - if customer.waivers.count == 0
+        - unless customer.waiver_signed?
           a href='/waiver' Sign A Waiver
-        - unless customer.waiver.nil?
+        - if customer.waiver_signed?
           #signature
             img src="/models/customers/#{customer.id}/waiver"
 

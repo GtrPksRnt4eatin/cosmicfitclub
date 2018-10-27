@@ -144,6 +144,11 @@ class Customer < Sequel::Model
     self.waivers.count > 0
   end
 
+  def waiver 
+    return nil unless waiver_signed?
+    return waivers.last
+  end
+
 ########################### Attribute Access ###########################
 
 ############################ Subscriptions #############################
