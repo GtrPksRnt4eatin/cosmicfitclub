@@ -38,8 +38,9 @@ html
             .mvp_list
               - @class_history[:mvp_list].each do |mvp|
                 div.mvp
-                  span #{ mvp[:customer_name] }
                   span #{ mvp[:count]         }
+                  span #{ mvp[:customer_name] }
+
           div 
             | History:
             .history_list
@@ -60,8 +61,9 @@ html
               .mvp_list
                 - cls_hist[:mvp_list].each do |mvp|
                   div.mvp
-                    span #{ mvp[:customer_name] }
                     span #{ mvp[:count]         }
+                    span #{ mvp[:customer_name] }
+
             div
               | History:
               .history_list

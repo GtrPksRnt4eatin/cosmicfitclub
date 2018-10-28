@@ -23,6 +23,9 @@
   display: inline-block;
   height: 15em;
   overflow: auto;
+  background: rgba(255,255,255,0.1);
+  padding: 0.5em;
+  margin: 0.5em;
 }
 
 .history_list span {
@@ -40,8 +43,18 @@
 }
 
 .mvp_list {
-  height: 10em;
+  height: 4em;
   padding: 0.5em;
   background: rgba(255,255,255,0.1);
   overflow: auto;
+  font-size: 0.8em;
+  margin: 0.5em;
 }
+
+.mvp {
+  display: inline-block;
+  box-shadow: 0 0 2px white;
+}
+
+.mvp:nth-child(1) { width: 4em; }
+.mvp:nth-child(2) { width: 20em; }
