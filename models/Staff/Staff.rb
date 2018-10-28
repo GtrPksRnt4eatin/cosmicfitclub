@@ -23,6 +23,7 @@ class Staff < Sequel::Model(:staff)
   end
 
   def class_history
+    mvp_list      = $DB[mvp_query, id].all
     hist_list     = $DB[history_query, id].all
     total_classes = hist_list.count
     avr_headcount = hist_list.inject(0) { |tot,el| tot + el[:count] } / total_classes
@@ -33,6 +34,7 @@ class Staff < Sequel::Model(:staff)
       :avr_headcount => v.inject(0) { |tot,el| tot + el[:count] } / v.count,
       :total_classes => v.count,
       :hist_list     => v,
+      :mvp_list      => mvp_list.group_by
     } ) }
 
     { :avr_headcount => avr_headcount, 
@@ -43,14 +45,24 @@ class Staff < Sequel::Model(:staff)
   end
 
   def mvp_list
-
+    $DB[mvp_query, id].all
   end
-
+  
 end
 
 def mvp_query
   %{
-
+    SELECT
+      customer_id,
+      classdef_id,
+      MAX(classdef_name) AS classdef_name,
+      MAX(customer_name) AS customer_name,
+      COUNT(customer_id)
+    FROM
+    class_reservations_details
+    WHERE staff_id = ?
+    GROUP BY customer_id, classdef_id
+    ORDER BY COUNT(customer_id) DESC
   }
 end
 

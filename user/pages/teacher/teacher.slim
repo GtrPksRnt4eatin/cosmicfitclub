@@ -17,7 +17,7 @@ html
       
     .content
 
-      .tile
+      .tile.tile_ib
         .title Currently Scheduled Classes
 
         - customer.staff[0].schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
@@ -29,7 +29,7 @@ html
       - @class_history = customer.staff[0].class_history
 
       .tile.tile_ib.class_history
-        .title Class History
+        .title All Classes
         .stats
           div Classes Taught:    #{ @class_history[:total_classes] }
           div Average Headcount: #{ @class_history[:avr_headcount] }
