@@ -60,7 +60,7 @@ html
           .hidden rv-if='occur.visible'
             table.reservations  
               tr rv-each-res='occur.reservations'
-                td.field.custy_name rv-on-click='ctrl.edit_reservation_customer'
+                td.field.custy_name rv-on-click='ctrl.edit_customer'
                   | { res.customer_name }
                 td.field
                   | { res.payment_type }
