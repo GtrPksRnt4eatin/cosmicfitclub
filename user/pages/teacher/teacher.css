@@ -20,7 +20,6 @@
 .schedule .time  { width: 4em;  }
 
 .history_list {
-  display: inline-block;
   height: 15em;
   overflow: auto;
   background: rgba(255,255,255,0.1);
@@ -43,7 +42,7 @@
 }
 
 .mvp_list {
-  height: 4em;
+  height: 10em;
   padding: 0.5em;
   background: rgba(255,255,255,0.1);
   overflow: auto;
@@ -59,5 +58,5 @@
   display: inline-block;
 }
 
-.mvp:nth-child(1) { width: 4em; }
-.mvp:nth-child(2) { width: 20em; }
+.mvp span:nth-child(1) { width: 4em; }
+.mvp span:nth-child(2) { width: 20em; }
