@@ -38,3 +38,10 @@
   box-shadow: 0 0 2px white;
   margin: 0.1em;
 }
+
+.mvp_list {
+  height: 10em;
+  padding: 0.5em;
+  background: rgba(255,255,255,0.1);
+  overflow: auto;
+}
