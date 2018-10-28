@@ -34,7 +34,7 @@ class Staff < Sequel::Model(:staff)
       :avr_headcount => v.inject(0) { |tot,el| tot + el[:count] } / v.count,
       :total_classes => v.count,
       :hist_list     => v,
-      :mvp_list      => sort_mvp_list( raw_mvp_list.select { |x| x[:classdef_id] == k[:classdef_id] }
+      :mvp_list      => sort_mvp_list( raw_mvp_list.select { |x| x[:classdef_id] == k[:classdef_id] } )
     } ) }
 
     { :avr_headcount => avr_headcount, 
