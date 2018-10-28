@@ -1,4 +1,5 @@
-.schedule {
+.schedule,
+.class_occ {
   margin: 0.2em;
   padding: 1em;
   box-shadow: 0 0 2px white;
@@ -14,3 +15,8 @@
 .schedule .name  { width: 25em; }
 .schedule .rrule { width: 10em; }
 .schedule .time  { width: 8em; }
+
+
+.history_list {
+  height: 10em;
+}
