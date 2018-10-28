@@ -52,8 +52,11 @@
 }
 
 .mvp {
-  display: inline-block;
   box-shadow: 0 0 2px white;
+}
+
+.mvp span {
+  display: inline-block;
 }
 
 .mvp:nth-child(1) { width: 4em; }
