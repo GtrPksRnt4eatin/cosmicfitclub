@@ -18,7 +18,7 @@ html
     .content
 
       .tile
-        .title #{customer.name}'s Scheduled Classes:
+        .title Currently Scheduled Classes
 
         - customer.staff[0].schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
           div.schedule
@@ -30,8 +30,11 @@ html
         .title Class History
         
         .history_list
-          - customer.staff[0].class_history.each do |hist|
+          - @class_history = customer.staff[0].class_history
+          | Average Headcount: #{ @class_history[:avr_headcount] }
+
+          - @class_history[:hist_list].each do |
             div.class_occ
-              span #{ hist[:starttime].strftime("%Y %b %e %l:%M %P") }
+              span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
               span #{ hist[:classdef_name] }
               span #{ hist[:count]         }
