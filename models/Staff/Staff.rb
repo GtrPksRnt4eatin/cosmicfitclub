@@ -23,7 +23,7 @@ class Staff < Sequel::Model(:staff)
   end
 
   def class_history
-    result = $DB[history_query, from, to].all
+    result = $DB[history_query, id].all
   end
 
 end
