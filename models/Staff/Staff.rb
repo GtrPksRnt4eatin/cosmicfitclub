@@ -46,7 +46,7 @@ class Staff < Sequel::Model(:staff)
   end
 
   def sort_mvp_list(list)
-    list = list.group_by { |x| :customer_id => x[:customer_id], :customer_name => x[:customer_name] }
+    list = list.group_by { |x| { :customer_id => x[:customer_id], :customer_name => x[:customer_name] } }
     list.map { |k,v| k.merge(
       { :count=>v.inject(0) { |mem,el| mem + el[:count] } }
     ) }.sort_by { |x| -x[:count] } 
