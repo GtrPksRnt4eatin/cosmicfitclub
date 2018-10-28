@@ -23,7 +23,7 @@ class Staff < Sequel::Model(:staff)
   end
 
   def class_history
-    mvp_list      = $DB[mvp_query, id].all
+    raw_mvp_list  = $DB[mvp_query, id].all
     hist_list     = $DB[history_query, id].all
     total_classes = hist_list.count
     avr_headcount = hist_list.inject(0) { |tot,el| tot + el[:count] } / total_classes
@@ -34,20 +34,24 @@ class Staff < Sequel::Model(:staff)
       :avr_headcount => v.inject(0) { |tot,el| tot + el[:count] } / v.count,
       :total_classes => v.count,
       :hist_list     => v,
-      :mvp_list      => mvp_list.group_by
+      :mvp_list      => sort_mvp_list( raw_mvp_list.select { |x| x[:classdef_id] == k[:classdef_id] }
     } ) }
 
     { :avr_headcount => avr_headcount, 
       :total_classes => total_classes, 
       :hist_list     => hist_list,
+      :mvp_list      => sort_mvp_list( raw_mvp_list ),
       :grouped_list  => grouped_list
     } 
   end
 
-  def mvp_list
-    $DB[mvp_query, id].all
+  def sort_mvp_list(list)
+    list = list.group_by { |x| :customer_id => x[:customer_id], :customer_name => x[:customer_name] }
+    list.map { |k,v| k.merge(
+      { :count=>v.inject(0) { |mem,el| mem + el[:count] } }
+    ) }.sort_by { |x| -x[:count] } 
   end
-  
+
 end
 
 def mvp_query

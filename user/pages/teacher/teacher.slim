@@ -33,12 +33,21 @@ html
         .stats
           div Classes Taught:    #{ @class_history[:total_classes] }
           div Average Headcount: #{ @class_history[:avr_headcount] }
-        .history_list
-          - @class_history[:hist_list].each do |hist|
-            div.class_occ
-              span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
-              span #{ hist[:classdef_name] }
-              span #{ hist[:count]         }
+          div 
+            | MVP List: 
+            .mvp_list
+              - @class_history[:mvp_list].each do |mvp|
+                div.mvp
+                  span #{ mvp[:customer_name] }
+                  span #{ mvp[:count]         }
+          div 
+            | History:
+            .history_list
+              - @class_history[:hist_list].each do |hist|
+                div.class_occ
+                  span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
+                  span #{ hist[:classdef_name] }
+                  span #{ hist[:count]         }
 
       - @class_history[:grouped_list].each do |cls_hist|
         .tile.tile_ib
@@ -46,9 +55,18 @@ html
           .stats
             div Classes Taught:    #{ cls_hist[:total_classes] }
             div Average Headcount: #{ cls_hist[:avr_headcount] }
-          .history_list
-            - cls_hist[:hist_list].each do |hist|
-              div.class_occ
-                span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
-                span #{ hist[:classdef_name] }
-                span #{ hist[:count]         }
+            div 
+              | MVP List: 
+              .mvp_list
+                - cls_hist[:mvp_list].each do |mvp|
+                  div.mvp
+                    span #{ mvp[:customer_name] }
+                    span #{ mvp[:count]         }
+            div
+              | History:
+              .history_list
+                - cls_hist[:hist_list].each do |hist|
+                  div.class_occ
+                    span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
+                    span #{ hist[:classdef_name] }
+                    span #{ hist[:count]         }
