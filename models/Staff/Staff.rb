@@ -20,8 +20,28 @@ class Staff < Sequel::Model(:staff)
 
   def Staff::token_list
     Staff.all.map { |x| { :id=>x.id, :name=>x.name } }
-  end 
+  end
 
+  def class_history
+    result = $DB[history_query, from, to].all
+  end
+
+end
+
+def history_query
+  %{
+    SELECT
+      class_occurrences.id,
+      starttime,
+      classdef_id,
+      MAX(class_defs.name) AS classdef_name,
+      COUNT(class_reservations.id)
+    FROM class_occurrences
+    LEFT JOIN class_defs ON classdef_id = class_defs.id
+    LEFT JOIN class_reservations ON class_occurrence_id = class_occurrences.id
+    WHERE staff_id = ?
+    GROUP BY class_occurrences.id
+  }
 end
 
 def payroll_query
