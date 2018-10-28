@@ -23,7 +23,7 @@ class Staff < Sequel::Model(:staff)
   end
 
   def class_history
-    result = $DB[history_query, id].all
+    $DB[history_query, id].all
   end
 
 end
@@ -41,6 +41,7 @@ def history_query
     LEFT JOIN class_reservations ON class_occurrence_id = class_occurrences.id
     WHERE staff_id = ?
     GROUP BY class_occurrences.id
+    ORDER BY starttime DESC
   }
 end
 
