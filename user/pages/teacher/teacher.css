@@ -18,5 +18,6 @@
 
 
 .history_list {
+  display: inline-block;
   height: 10em;
 }
