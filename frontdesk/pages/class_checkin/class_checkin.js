@@ -26,7 +26,7 @@ ctrl = {
     cancelEvent(e);
   },
   edit_customer(e,m) {
-    window.location.href = '/frontdesk/customer_file?id=' + $('#customers').val();
+    window.location.href = '/frontdesk/customer_file?id=' + m.res.customer_id;
   },
   dropdown(e,m) {
     data.occurrences[m.index].visible = !data.occurrences[m.index].visible;
