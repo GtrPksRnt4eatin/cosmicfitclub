@@ -1,5 +1,5 @@
 .tile_ib {
-  
+  display: inline-block;
 }
 
 .schedule {
@@ -29,7 +29,7 @@
   display: inline-block;
 }
 
-.history_list .class_occ span:nth-child(1) { width: 12em; }
+.history_list .class_occ span:nth-child(1) { width: 13em; }
 .history_list .class_occ span:nth-child(2) { width: 25em; }
 .history_list .class_occ span:nth-child(3) { width: 5em;  }
 
@@ -38,4 +38,3 @@
   box-shadow: 0 0 2px white;
   margin: 0.1em;
 }
-

@@ -25,10 +25,32 @@ class Staff < Sequel::Model(:staff)
   def class_history
     hist_list     = $DB[history_query, id].all
     total_classes = hist_list.count
-    avr_headcount = hist_list.inject(0) { |total,elem| total + elem[:count] } / total_classes
-    { :avr_headcount => avr_headcount, :total_classes => total_classes, :hist_list => hist_list } 
+    avr_headcount = hist_list.inject(0) { |tot,el| tot + el[:count] } / total_classes
+
+    grouped_list  = hist_list.group_by { |x| { :classdef_id => x[:classdef_id], :classdef_name => x[:classdef_name] } }
+    grouped_list.map! { |k,v| k.merge { 
+      :avr_headcount => v.inject(0) { |tot,el| tot + el[:count] } / v.count
+      :total_classes => v.count
+      :hist_list     => v,
+    } }
+
+    { :avr_headcount => avr_headcount, 
+      :total_classes => total_classes, 
+      :hist_list     => hist_list,
+      :grouped_list  => grouped_list
+    } 
   end
 
+  def mvp_list
+
+  end
+
+end
+
+def mvp_query
+  %{
+
+  }
 end
 
 def history_query

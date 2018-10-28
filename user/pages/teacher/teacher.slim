@@ -28,15 +28,27 @@ html
       
       - @class_history = customer.staff[0].class_history
 
-      .tile.class_history
+      .tile.tile_ib.class_history
         .title Class History
         .stats
           div Classes Taught:    #{ @class_history[:total_classes] }
           div Average Headcount: #{ @class_history[:avr_headcount] }
-          div 
         .history_list
           - @class_history[:hist_list].each do |hist|
             div.class_occ
               span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
               span #{ hist[:classdef_name] }
               span #{ hist[:count]         }
+
+      - @class_history[:grouped_list].each do |cls_hist|
+        .tile.tile_ib
+          .title #{ cls_hist[:classdef_name] }
+          .stats
+            div Classes Taught:    #{ cls_hist[:total_classes] }
+            div Average Headcount: #{ cls_hist[:avr_headcount] }
+          .history_list
+            - cls_hist[:hist_list].each do |hist|
+              div.class_occ
+                span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
+                span #{ hist[:classdef_name] }
+                span #{ hist[:count]         }
