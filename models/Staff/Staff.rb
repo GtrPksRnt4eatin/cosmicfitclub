@@ -28,7 +28,7 @@ class Staff < Sequel::Model(:staff)
     avr_headcount = hist_list.inject(0) { |tot,el| tot + el[:count] } / total_classes
 
     grouped_list  = hist_list.group_by { |x| { :classdef_id => x[:classdef_id], :classdef_name => x[:classdef_name] } }
-    grouped_list.map! { |k,v| k.merge(
+    grouped_list = grouped_list.map { |k,v| k.merge(
       { 
       :avr_headcount => v.inject(0) { |tot,el| tot + el[:count] } / v.count,
       :total_classes => v.count,
