@@ -16,6 +16,10 @@
 .schedule .rrule { width: 10em; }
 .schedule .time  { width: 8em; }
 
+.history_list .class_occ span:nth-child(1) { width: 10em; }
+.history_list .class_occ span:nth-child(2) { width: 10em; }
+.history_list .class_occ span:nth-child(3) { width: 10em; }
+
 
 .history_list {
   display: inline-block;
