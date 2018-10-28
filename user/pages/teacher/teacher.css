@@ -1,3 +1,7 @@
+.tile_ib {
+  
+}
+
 .schedule {
   margin: 0.2em;
   padding: 1em;
@@ -13,11 +17,7 @@
 
 .schedule .name  { width: 25em; }
 .schedule .rrule { width: 10em; }
-.schedule .time  { width: 8em;  }
-
-.history_list .class_occ span:nth-child(1) { width: 12em; }
-.history_list .class_occ span:nth-child(2) { width: 20em; }
-.history_list .class_occ span:nth-child(3) { width: 5em; }
+.schedule .time  { width: 4em;  }
 
 .history_list {
   display: inline-block;
@@ -25,8 +25,17 @@
   overflow: auto;
 }
 
+.history_list span {
+  display: inline-block;
+}
+
+.history_list .class_occ span:nth-child(1) { width: 12em; }
+.history_list .class_occ span:nth-child(2) { width: 25em; }
+.history_list .class_occ span:nth-child(3) { width: 5em;  }
+
 .class_occ {
   font-size: 0.8em;
   box-shadow: 0 0 2px white;
   margin: 0.1em;
 }
+
