@@ -11,9 +11,12 @@ class CFCuser < Sinatra::Base
 
   get( '/',               :auth => 'user' )     { ref_cust; render_page :user }
   get( '/wallet_history', :auth => 'user' )     { ref_cust; render_page :wallet_history }
-
   get( '/teacher',        :auth => 'teacher' )  { ref_cust; render_page :teacher }
-
   get( '/hourly',         :auth => 'frontdesk') { render_page :hourly }
+  
+  error do
+    Slack.err( 'User Page Error', env['sinatra.error'] )
+    'An Error Occurred.'
+  end
 
 end
