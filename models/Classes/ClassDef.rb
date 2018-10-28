@@ -50,7 +50,7 @@ class ClassDef < Sequel::Model
   end
 
   def to_listitem
-    { :id => id. :name => name }
+    { :id => id, :name => name }
   end
 
 end
