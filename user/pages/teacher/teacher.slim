@@ -26,13 +26,15 @@ html
             span.rrule #{ sched.rrule_english   }
             span.time  #{ sched.start_time_12hr }
       
+      - @class_history = customer.staff[0].class_history
+
       .tile.class_history
         .title Class History
-        
+        .stats
+          div Classes Taught:    #{ @class_history[:total_classes] }
+          div Average Headcount: #{ @class_history[:avr_headcount] }
+          div 
         .history_list
-          - @class_history = customer.staff[0].class_history
-          | Average Headcount: #{ @class_history[:avr_headcount] }
-
           - @class_history[:hist_list].each do |hist|
             div.class_occ
               span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }

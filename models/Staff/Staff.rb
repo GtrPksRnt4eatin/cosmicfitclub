@@ -23,9 +23,10 @@ class Staff < Sequel::Model(:staff)
   end
 
   def class_history
-    hist_list = $DB[history_query, id].all
-    avr_headcount = hist_list.inject(0) { |total,elem| total + elem[:count] } / hist_list.count
-    { :avr_headcount => avr_headcount, :hist_list => hist_list } 
+    hist_list     = $DB[history_query, id].all
+    total_classes = hist_list.count
+    avr_headcount = hist_list.inject(0) { |total,elem| total + elem[:count] } / total_classes
+    { :avr_headcount => avr_headcount, :total_classes => total_classes, :hist_list => hist_list } 
   end
 
 end
