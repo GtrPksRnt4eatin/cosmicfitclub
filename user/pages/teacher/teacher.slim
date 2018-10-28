@@ -33,7 +33,7 @@ html
           - @class_history = customer.staff[0].class_history
           | Average Headcount: #{ @class_history[:avr_headcount] }
 
-          - @class_history[:hist_list].each do |
+          - @class_history[:hist_list].each do |hist|
             div.class_occ
               span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
               span #{ hist[:classdef_name] }
