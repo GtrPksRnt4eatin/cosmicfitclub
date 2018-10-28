@@ -64,7 +64,7 @@ def mvp_query
       COUNT(customer_id)
     FROM
     class_reservations_details
-    WHERE staff_id = ?
+    WHERE staff_id = ? AND classdef_id != 78
     GROUP BY customer_id, classdef_id
     ORDER BY COUNT(customer_id) DESC
   }
@@ -81,7 +81,7 @@ def history_query
     FROM class_occurrences
     LEFT JOIN class_defs ON classdef_id = class_defs.id
     LEFT JOIN class_reservations ON class_occurrence_id = class_occurrences.id
-    WHERE staff_id = ?
+    WHERE staff_id = ? AND classdef_id != 78
     GROUP BY class_occurrences.id
     ORDER BY starttime DESC
   }
