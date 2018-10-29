@@ -11,13 +11,14 @@ require_relative 'ruby/services/aws'
 require_relative 'ruby/shrine'
 require_relative 'ruby/patches'
 
+Dir["extensions/*.rb"].each    { |file| require_relative file }
+
 require_relative 'auth/auth'
 
-Dir["extensions/*.rb"].each    { |file| require_relative file }
-Dir["models/mixins/*.rb"].each { |file| require_relative file }
-Dir["models/**/*.rb"].each     { |file| require_relative file }
 Dir["ruby/services/*.rb"].each { |file| require_relative file }
 Dir["ruby/*.rb"].each          { |file| require_relative file }
+Dir["models/mixins/*.rb"].each { |file| require_relative file }
+Dir["models/**/*.rb"].each     { |file| require_relative file }
 
 require_relative 'admin/admin'
 require_relative 'site/CFC'
