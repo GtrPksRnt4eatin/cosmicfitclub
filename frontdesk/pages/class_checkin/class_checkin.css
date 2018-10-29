@@ -251,7 +251,7 @@
   }
 
   table#custom_form .flatpickr-input, select {
-    width: 40em;
+    width: 30em;
     box-sizing: border-box;
     font-family: "Industry-Light";
     font-size: 1em;
@@ -259,6 +259,14 @@
     padding: .5em;
     border-radius: 4px;
     box-shadow: 0 1px 3px 0 #e6ebf1;
+  }
+
+  table th, table td {
+    padding: 0.2em;
+  }
+
+  table th {
+    width: 10em;
   }
 
 
