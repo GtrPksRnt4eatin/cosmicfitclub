@@ -97,7 +97,7 @@ function include_rivets_dates() {
 
   rivets.binders['timefield'] = {
     bind: function(el) {
-      el.style.visibility = "hidden";
+      el.style.display = "none";
       this.flatpickrInstance = $(el).flatpickr({
         enableTime: true, 
         altInput: true, 
