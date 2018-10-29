@@ -11,13 +11,14 @@ require_relative 'ruby/services/aws'
 require_relative 'ruby/shrine'
 require_relative 'ruby/patches'
 
+require_relative 'auth/auth'
+
 Dir["extensions/*.rb"].each    { |file| require_relative file }
 Dir["models/mixins/*.rb"].each { |file| require_relative file }
 Dir["models/**/*.rb"].each     { |file| require_relative file }
 Dir["ruby/services/*.rb"].each { |file| require_relative file }
 Dir["ruby/*.rb"].each          { |file| require_relative file }
 
-require_relative 'auth/auth'
 require_relative 'admin/admin'
 require_relative 'site/CFC'
 require_relative 'checkout/checkout'
@@ -26,12 +27,12 @@ require_relative 'user/user'
 require_relative 'frontdesk/frontdesk'
 require_relative 'offers/offers'
 
-#use Rack::SslEnforcer
-#use Rack::Deflater
+use Rack::SslEnforcer
+use Rack::Deflater
 
 use Rack::Session::Cookie, :key => '_rack_session',
                            :path => '/',
-                           :expire_after => 2592000,
+                           :expire_after => 10*60,
                            :secret => 'asdf123897798128bkjwekhakhjsk38389721387932179831hjsdfkj'
 
 map "/" do 
