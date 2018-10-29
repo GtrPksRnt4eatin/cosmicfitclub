@@ -1,7 +1,12 @@
 data['newsheet'] = {
   classdef_id: 0,
   staff_id: 0,
-  starttime: null
+  starttime: null,
+  reservation: {
+    classdef_id: 0,
+    staff_id: 0,
+    starttime: null
+  }
 }
 
 data['query_date'] = new Date().setHours(0, 0, 0, 0);

@@ -1,4 +1,5 @@
 class CustomerRoutes < Sinatra::Base
+  register Sinatra::Auth
 
   get '/' do
     content_type :json
@@ -51,9 +52,14 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
-  get '/:id/waiver' do
+  get '/waiver' do
     content_type 'image/svg+xml'
-    return Customer[params[:id]].waiver.signature
+    return session[:customer].waiver.signature
+  end
+
+  post( '/waiver', :auth => 'user' ) do
+    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
+    return 204
   end
 
   post '/:id/transfer' do
