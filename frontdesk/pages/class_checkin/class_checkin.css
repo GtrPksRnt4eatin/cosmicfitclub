@@ -240,6 +240,30 @@
 
 /* CLASS SHEETS */
 
+/* CUSTOM FORM */
+
+  table#custom_form {
+    display: inline-block;
+  }
+
+  table#custom_form .chosen-container {
+    width: 100% !important;
+  }
+
+  table#custom_form .flatpickr-input, select {
+    width: 40em;
+    box-sizing: border-box;
+    font-family: "Industry-Light";
+    font-size: 1em;
+    line-height: 1em;
+    padding: .5em;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+  }
+
+
+/* CUSTOM FORM */
+
 
 
 @media(max-width: 1000px) {
