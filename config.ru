@@ -6,8 +6,8 @@ require 'active_support/core_ext/date/calculations'
 require 'active_support/core_ext/integer/inflections'
 
 require_relative 'ruby/environment'
-require_relative 'ruby/integrations/database'
-require_relative 'ruby/integrations/aws'
+require_relative 'integrations/database'
+require_relative 'integrations/aws'
 require_relative 'ruby/shrine'
 require_relative 'ruby/patches'
 
@@ -15,7 +15,7 @@ Dir["extensions/*.rb"].each    { |file| require_relative file }
 
 require_relative 'auth/auth'
 
-Dir["ruby/services/*.rb"].each { |file| require_relative file }
+Dir["integrations/*.rb"].each { |file| require_relative file }
 Dir["ruby/*.rb"].each          { |file| require_relative file }
 Dir["models/mixins/*.rb"].each { |file| require_relative file }
 Dir["models/**/*.rb"].each     { |file| require_relative file }
