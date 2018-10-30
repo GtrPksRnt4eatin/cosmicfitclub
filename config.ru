@@ -6,8 +6,8 @@ require 'active_support/core_ext/date/calculations'
 require 'active_support/core_ext/integer/inflections'
 
 require_relative 'ruby/environment'
-require_relative 'ruby/services/database'
-require_relative 'ruby/services/aws'
+require_relative 'ruby/integrations/database'
+require_relative 'ruby/integrations/aws'
 require_relative 'ruby/shrine'
 require_relative 'ruby/patches'
 
