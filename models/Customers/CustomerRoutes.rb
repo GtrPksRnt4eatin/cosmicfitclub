@@ -10,6 +10,16 @@ class CustomerRoutes < Sinatra::Base
     Customer.all.to_json( { :only => [ :id, :name, :email ] } ) 
   end
 
+  get '/waiver' do
+    content_type 'image/svg+xml'
+    return session[:customer].waiver.signature
+  end
+
+  post( '/waiver', :auth => 'user' ) do
+    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
+    return 204
+  end
+
   get '/:id' do
     content_type :json
     custy = Customer[params[:id].to_i]
@@ -50,16 +60,6 @@ class CustomerRoutes < Sinatra::Base
       :address => data["address"]
     )
     status 204
-  end
-
-  get '/waiver' do
-    content_type 'image/svg+xml'
-    return session[:customer].waiver.signature
-  end
-
-  post( '/waiver', :auth => 'user' ) do
-    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
-    return 204
   end
 
   post '/:id/transfer' do
