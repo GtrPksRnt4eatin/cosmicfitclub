@@ -1,7 +1,7 @@
 
 class PaypalRoutes < Sinatra::Base
 
-  post '/' do 
+  post '/webhooks' do 
   	Slack.post(request.body.read)
   end
 
