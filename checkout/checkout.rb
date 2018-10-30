@@ -7,8 +7,6 @@ class Checkout < Sinatra::Base
   helpers Sinatra::CheckoutHelpers
   helpers Sinatra::PaymentMethods
   
-  #enable :sessions	
-  
   set :root, File.dirname(__FILE__)
 
   register Sinatra::PageFolders
@@ -46,5 +44,10 @@ class Checkout < Sinatra::Base
 
   post('/swipe')             { card_swipe          }
   get('/wait_for_swipe')     { wait_for_swipe      }
+
+  error do
+    Slack.err( 'Checkout Error', env['sinatra.error'] )
+    'An Error Occurred.'
+  end
 
 end

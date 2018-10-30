@@ -16,7 +16,7 @@ module Sinatra
       data = JSON.parse request.body.read
       custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
       custy.buy_pack_card( data['pack_id'], data['token'] )
-      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a #{Package[params[:pack_id]].name}.")
+      Slack.post("[\##{ custy.id }] #{ custy.name } (#{ custy.email }) bought a #{ Package[data['pack_id']].name }.")
       status 204
     end
 
