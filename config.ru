@@ -123,3 +123,7 @@ end
 map "/offers" do
   run CFCOffers
 end
+
+map "/integrations/paypal" do
+  run PayPalRoutes
+end
