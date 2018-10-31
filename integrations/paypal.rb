@@ -1,8 +1,8 @@
-
 class PayPalRoutes < Sinatra::Base
 
   post '/webhooks' do 
-  	Slack.webhook("PayPal Webhook: ", request.body.read)
+  	data = JSON.parse request.body.read
+  	Slack.webhook("PayPal Webhook: #{data['event_type']}", JSON.pretty_generate(data))
   end
 
 end
