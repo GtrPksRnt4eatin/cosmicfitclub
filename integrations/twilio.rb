@@ -49,20 +49,25 @@ class TwilioRoutes < Sinatra::Base
   	end
     response.redirect('/twilio/incoming')
   	response.to_s
+  rescue Exception => e
+    Slack.err("Incoming Call Error:", e)
   end
 
   post '/selection' do
   	response = Twilio::TwiML::VoiceResponse.new
     case params[:Digits]
     when '1'
+      Slack.post("Forwarding Call To Joy")
       response.say('Paging Joy Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '646-704-2405' }
       response.hangup
     when '2'
+      Slack.post("Forwarding Call To Ben")
       response.say('Paging Ben Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '201-280-6512' }
       response.hangup
     when '3'
+      Slack.post("Forwarding Call To Donut")
       response.say('Meow, Meow, Meow.')
       response.pause
       response.say('Purr. Purr. Meow.')
@@ -73,6 +78,8 @@ class TwilioRoutes < Sinatra::Base
       response.redirect('/twilio/incoming')
     end
     response.to_s
+  rescue Exception => e
+    Slack.err("Call Forwarding Error:", e)
   end
 
 end
