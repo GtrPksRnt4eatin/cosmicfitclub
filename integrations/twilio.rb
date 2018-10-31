@@ -38,7 +38,7 @@ end
 class TwilioRoutes < Sinatra::Base
   
   post '/incoming' do
-    Slack.webhook("Incoming Call", "#{params[:CallerName]}\r\n#{params[:From]}\r\n#{params[:CallerCity]}, #{params[:CallerState]} #{params[:CallerZip]}")
+    Slack.custom("Incoming Call", "call_logs","#{params[:CallerName]}\r\n#{params[:From]}\r\n#{params[:CallerCity]}, #{params[:CallerState]} #{params[:CallerZip]}")
     response = Twilio::TwiML::VoiceResponse.new
     response.redirect('/twilio/incoming2')
     response.to_s
@@ -64,17 +64,17 @@ class TwilioRoutes < Sinatra::Base
   	response = Twilio::TwiML::VoiceResponse.new
     case params[:Digits]
     when '1'
-      Slack.post("Forwarding Call To Joy")
+      Slack.custom("Forwarding Call To Joy", "call_logs")
       response.say('Paging Joy Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '646-704-2405' }
       response.hangup
     when '2'
-      Slack.post("Forwarding Call To Ben")
+      Slack.custom("Forwarding Call To Ben", "call_logs")
       response.say('Paging Ben Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '201-280-6512' }
       response.hangup
     when '3'
-      Slack.post("Forwarding Call To Donut")
+      Slack.custom("Forwarding Call To Donut", "call_logs")
       response.say('Meow, Meow, Meow.')
       response.pause
       response.say('Purr. Purr. Meow.')

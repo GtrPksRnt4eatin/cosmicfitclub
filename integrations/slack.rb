@@ -8,8 +8,14 @@ module Slack
     Slack.send({ :text => msg })
   end
 
-  def Slack.CallerID(params)
-  
+  def Slack.custom(message, channel='website_notifications', attachment=nil)
+    Slack.send({
+      :channel     => channel,
+      :text        => message,
+      :mrkdwn      => true,
+      :username    => 'cosmicdonut',
+      :attachments => attachment.nil? ? [] : [ { "text": attachment, "mrkdwn_in": ["text"] } ]
+    })
   end
 
   def Slack.webhook(label, body)
