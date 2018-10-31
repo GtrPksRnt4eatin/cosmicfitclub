@@ -38,7 +38,7 @@ end
 class TwilioRoutes < Sinatra::Base
   
   post '/incoming' do
-    Slack.webhook("Incoming Call From", "#{params[:From]}\r\n#{params[:CallerName]}\r\n#{params[:CallerCity]}, #{params[:CallerState]} #{params[:CallerZip]}")
+    Slack.webhook("Incoming Call", "#{params[:CallerName]}\r\n#{params[:From]}\r\n#{params[:CallerCity]}, #{params[:CallerState]} #{params[:CallerZip]}")
     response = Twilio::TwiML::VoiceResponse.new
     response.redirect('/twilio/incoming2')
     response.to_s

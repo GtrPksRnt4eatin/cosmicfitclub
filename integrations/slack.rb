@@ -8,6 +8,10 @@ module Slack
     Slack.send({ :text => msg })
   end
 
+  def Slack.CallerID(params)
+  
+  end
+
   def Slack.webhook(label, body)
     msg = "#{label}:\r\r"
     Slack.send({ 
@@ -16,9 +20,7 @@ module Slack
       :username => 'cosmicdonut', 
       :mrkdwn => true,     
       :attachments => [
-        {
-            "title": "Body",
-            "text": body,
+        {   "text": body,
             "mrkdwn_in": ["text"]
         }
       ] 
