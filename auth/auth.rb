@@ -71,6 +71,7 @@ class CFCAuth < Sinatra::Base
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user] = user
     session[:customer] = session[:user].customer
+    Slack.post( "Password Reset #{ session[:customer].to_list_string }" )
     redirect '/user'
   end
 
