@@ -39,6 +39,7 @@ class TwilioRoutes < Sinatra::Base
 
   post '/incoming' do
   	content_type 'application/xml'
+    Slack.webhook("Incoming Call:", request.body.read)
   	response = Twilio::TwiML::VoiceResponse.new
   	response.gather(input: 'dtmf', timeout: 4, num_digits: 1, action: 'https://cosmicfitclub.com/twilio/selection') do |gather|
   	  gather.say('Hi, Thanks for calling Cosmic Fit Club!')
