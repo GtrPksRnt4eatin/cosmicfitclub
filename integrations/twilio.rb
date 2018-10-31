@@ -36,10 +36,16 @@ rescue Exception => e
 end
 
 class TwilioRoutes < Sinatra::Base
+  
+  post '/incoming'
+    Slack.webhook("Incoming Call From", "#{params[:From]}\r\n#{params[:CallerName]}\r\n#{params[:CallerCity]}, #{params[:CallerState]} #{params[:CallerZip]}")
+    response = Twilio::TwiML::VoiceResponse.new
+    response.redirect('/twilio/incoming2')
+    response.to_s
+  end
 
-  post '/incoming' do
+  post '/incoming2' do
   	content_type 'application/xml'
-    Slack.webhook("Incoming Call:", request.body.read)
   	response = Twilio::TwiML::VoiceResponse.new
   	response.gather(input: 'dtmf', timeout: 4, num_digits: 1, action: 'https://cosmicfitclub.com/twilio/selection') do |gather|
   	  gather.say('Hi, Thanks for calling Cosmic Fit Club!')
@@ -47,13 +53,14 @@ class TwilioRoutes < Sinatra::Base
   	  gather.say('Press Two to speak with Ben about the website, or billing issues.')
   	  gather.say('Press Three to speak with Donut.')
   	end
-    response.redirect('/twilio/incoming')
+    response.redirect('/twilio/incoming2')
   	response.to_s
   rescue Exception => e
     Slack.err("Incoming Call Error:", e)
   end
 
   post '/selection' do
+    content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
     case params[:Digits]
     when '1'
@@ -75,7 +82,7 @@ class TwilioRoutes < Sinatra::Base
       response.say('Ack. Cough. Hairball.')
       response.pause
       response.say('Woof.. No, Wait.. I mean Meow Meow Meow. Roar!!')
-      response.redirect('/twilio/incoming')
+      response.redirect('/twilio/incoming2')
     end
     response.to_s
   rescue Exception => e
