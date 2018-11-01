@@ -97,12 +97,30 @@ function include_rivets_dates() {
 
   rivets.binders['timefield'] = {
     bind: function(el) {
-      el.style.display = "none";
       this.flatpickrInstance = $(el).flatpickr({
         enableTime: true, 
         altInput: true, 
         altFormat: 'h:i K',
         inline: true,
+        noCalendar: true,
+        onChange: function(val) { this.publish(val); if(this.el.onchange) { this.el.onchange(); } }.bind(this)
+      })
+    },
+    routine: function(el,value) {
+      if(!value) { this.flatpickrInstance.clear(); return; }
+      this.flatpickrInstance.setDate( value ); 
+      this.flatpickrInstance.jumpToDate(value);
+    },
+    getValue: function(el) { return el.value; },
+    unbind:   function(el) { this.flatpickrInstance.destroy(); }
+  }
+
+  rivets.binders['time_popup'] = {
+    bind: function(el) {
+      this.flatpickrInstance = $(el).flatpickr({
+        enableTime: true, 
+        altInput: true, 
+        altFormat: 'h:i K',
         noCalendar: true,
         onChange: function(val) { this.publish(val); if(this.el.onchange) { this.el.onchange(); } }.bind(this)
       })

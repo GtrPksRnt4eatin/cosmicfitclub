@@ -15,13 +15,13 @@ class Door < Sinatra::Base
 
   post('/down', :auth=> 'door') do
     payload = { :value => params[:val].to_i }.to_json
-    RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/22', payload , :content_type => 'application/json' )
+    RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/6', payload , :content_type => 'application/json' )
   end
 
   post('/stop', :auth=> 'door') do
-    RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/6', { :value => 1 }.to_json, :content_type => 'application/json' ) 
+    RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/22', { :value => 1 }.to_json, :content_type => 'application/json' ) 
     sleep(0.5)
-    RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/6', { :value => 0 }.to_json, :content_type => 'application/json' ) 
+    RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/22', { :value => 0 }.to_json, :content_type => 'application/json' ) 
   end
 
 end
