@@ -73,7 +73,13 @@ class Event < Sequel::Model
   ################# CALCULATED PROPERTIES #################
 
   ########################## VIEWS ########################
-
+ 
+  def to_token
+    { :id => id,
+      :name => name
+    }
+  end
+ 
   def list_item
     { :id        => id,
       :name      => name,
