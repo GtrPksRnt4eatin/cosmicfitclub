@@ -82,12 +82,12 @@ class EventRoutes < Sinatra::Base
   get '/:id/attendance' do
     content_type :json    
     JSON.generate EventTicket.where( :event_id => params[:id] ).order(:created_on).all.map do |tic|
-      tic.merge {
+      tic.merge( {
         :checkins  => tic.checkins,
         :customer  => tic.customer.to_list_hash,
         :recipient => tic.recipient.to_list_hash,
         :event     => tic.event.to_token
-      }
+      }  )
     end
   end
 
