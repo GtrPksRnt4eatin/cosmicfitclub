@@ -81,14 +81,15 @@ class EventRoutes < Sinatra::Base
 
   get '/:id/attendance' do
     content_type :json    
-    JSON.generate EventTicket.where( :event_id => params[:id] ).order(:created_on).all.map do |tic|
-      tic.merge( {
-        :checkins  => tic.checkins,
-        :customer  => tic.customer.to_list_hash,
-        :recipient => tic.recipient.to_list_hash,
+    list = EventTicket.where( :event_id => params[:id] ).order(:created_on).all.map do |tic|
+      tic.to_hash.merge( {
+        :checkins  => tic.checkins.map(&:to_hash),
+        :customer  => tic.customer.try(:to_list_hash),
+        :recipient => tic.recipient.try(:to_list_hash),
         :event     => tic.event.to_token
       }  )
     end
+    JSON.generate list
   end
 
   get '/:id/attendance.csv' do
