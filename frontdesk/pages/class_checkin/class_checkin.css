@@ -241,6 +241,12 @@
 /* CLASS SHEETS */
 
 /* CUSTOM FORM */
+  
+  #custom_sheet button {
+    width: 100%;
+    font-size: 1em;
+    font-family: "Industry-Light";
+  }
 
   table#custom_form {
     display: inline-block;

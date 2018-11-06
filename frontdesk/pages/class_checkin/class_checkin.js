@@ -32,10 +32,10 @@ ctrl = {
     data.occurrences[m.index].visible = !data.occurrences[m.index].visible;
   },
   create_custom(e,m) {
-    if(!data.newsheet.classdef_id) { $('#custom_form').shake(); return; }
-    if(!data.newsheet.staff_id)    { $('#custom_form').shake(); return; }
-    if(!data.newsheet.starttime)   { $('#custom_form').shake(); return; }
-    $.post('/models/classdefs/occurrences', JSON.Stringify(data.reservation), get_occurrences );
+    if(!data.newsheet.classdef_id) { $('#custom_sheet').shake(); return; }
+    if(!data.newsheet.staff_id)    { $('#custom_sheet').shake(); return; }
+    if(!data.newsheet.starttime)   { $('#custom_sheet').shake(); return; }
+    $.post('/models/classdefs/occurrences', JSON.stringify(data.reservation), get_occurrences );
   }
 }
 
