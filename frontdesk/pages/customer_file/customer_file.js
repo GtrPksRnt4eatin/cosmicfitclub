@@ -163,7 +163,7 @@ function setupBindings() {
   rivets.formatters.count          = function(val) { return empty(val) ? 0     : val.length;                        }
   rivets.formatters.zero_if_null   = function(val) { return empty(val) ? 0     : val;                               }
   rivets.formatters.has_membership = function(val) { return empty(val) ? false : ( val.name != 'None' );            }
-  rivets.formatters.custy_file     = function(val) { return empty(val) ? '#'   : '/checkout/customer_file?id='+val; }
+  rivets.formatters.custy_file     = function(val) { return empty(val) ? '#'   : '/frontdesk/customer_file?id='+val; }
 
   rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }

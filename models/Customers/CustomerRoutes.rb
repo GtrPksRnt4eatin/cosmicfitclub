@@ -12,6 +12,7 @@ class CustomerRoutes < Sinatra::Base
 
   get '/waiver' do
     content_type 'image/svg+xml'
+    halt 404 if session[:customer].waiver.nil?
     return session[:customer].waiver.signature
   end
 
