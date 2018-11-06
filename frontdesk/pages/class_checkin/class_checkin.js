@@ -1,12 +1,7 @@
 data['newsheet'] = {
   classdef_id: 0,
   staff_id: 0,
-  starttime: null,
-  reservation: {
-    classdef_id: 0,
-    staff_id: 0,
-    starttime: null
-  }
+  starttime: null
 }
 
 data['query_date'] = new Date().setHours(0, 0, 0, 0);
@@ -37,10 +32,10 @@ ctrl = {
     data.occurrences[m.index].visible = !data.occurrences[m.index].visible;
   },
   create_custom(e,m) {
-    if(!data.reservation.classdef_id) { $('#custom_form').shake(); return; }
-    if(!data.reservation.staff_id)    { $('#custom_form').shake(); return; }
-    if(!data.reservation.starttime)   { $('#custom_form').shake(); return; }
-    $.post('/models/classdefs/occurrences', JSON.Stringify(data.reservation) );
+    if(!data.newsheet.classdef_id) { $('#custom_form').shake(); return; }
+    if(!data.newsheet.staff_id)    { $('#custom_form').shake(); return; }
+    if(!data.newsheet.starttime)   { $('#custom_form').shake(); return; }
+    $.post('/models/classdefs/occurrences', JSON.Stringify(data.reservation), get_occurrences );
   }
 }
 

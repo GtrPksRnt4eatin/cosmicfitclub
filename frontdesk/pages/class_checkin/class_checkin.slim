@@ -73,7 +73,7 @@ html
           tr
             th Class:
             td
-              select#classes rv-idselect='data.reservation.classdef_id'
+              select#classes rv-idselect='data.newsheet.classdef_id'
                 option value='0' None
                 - ClassDef.exclude(:deactivated=>true).all.each do |classdef|
                   option value='#{classdef.id}'
@@ -81,7 +81,7 @@ html
           tr
             th Instructor:
             td
-              select#staff rv-idselect='data.reservation.staff_id'
+              select#staff rv-idselect='data.newsheet.staff_id'
                 option value='0' None
                 - Staff.exclude(:deactivated=>true).all.each do |staff|
                   option value='#{staff.id}'
@@ -89,7 +89,7 @@ html
           tr
             th Timeslot:
             td
-              input#timeslot rv-time_popup='data.reservation.starttime'
+              input#timeslot rv-time_popup='data.newsheet.starttime'
           tr
             td
               button rv-on-click='ctrl.create_custom' Create
