@@ -35,6 +35,10 @@ ctrl = {
     if(!data.newsheet.classdef_id) { $('#custom_sheet').shake(); return; }
     if(!data.newsheet.staff_id)    { $('#custom_sheet').shake(); return; }
     if(!data.newsheet.starttime)   { $('#custom_sheet').shake(); return; }
+    var date = new Date(data.newsheet.starttime);
+    var match = /(\d\d):(\d\d)/.exec(data.newsheet.starttime);
+    date.setHours(match[1],match[2]);
+    data.newsheet.starttime = date.toISOString();
     $.post('/models/classdefs/occurrences', data.newsheet, get_occurrences );
   }
 }
