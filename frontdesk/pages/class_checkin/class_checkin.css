@@ -244,8 +244,6 @@
   
   #custom_sheet button {
     width: 100%;
-    font-size: 1em;
-    font-family: "Industry-Light";
   }
 
   table#custom_form {
@@ -256,7 +254,10 @@
     width: 100% !important;
   }
 
-  table#custom_form .flatpickr-input, select {
+  table#custom_form .flatpickr-input, 
+  select, 
+  #custom_form input,
+  #custom_form button {
     width: 30em;
     box-sizing: border-box;
     font-family: "Industry-Light";
