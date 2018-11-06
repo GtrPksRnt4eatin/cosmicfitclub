@@ -35,11 +35,7 @@ ctrl = {
     if(!data.newsheet.classdef_id) { $('#custom_sheet').shake(); return; }
     if(!data.newsheet.staff_id)    { $('#custom_sheet').shake(); return; }
     if(!data.newsheet.starttime)   { $('#custom_sheet').shake(); return; }
-    var date = new Date(data.query_date);
-    var match = /(\d\d):(\d\d)/.exec(data.newsheet.starttime);
-    date.setHours(match[1],match[2]);
-    data.newsheet.starttime = date.toISOString();
-    $.post('/models/classdefs/occurrences', data.newsheet, get_occurrences );
+    $.post('/models/classdefs/occurrences', newsheet_args(), get_occurrences );
   }
 }
 
@@ -78,4 +74,15 @@ function get_occurrences() {
 function on_dropdown_click(e) {
   $(e.delegateTarget).find('.hidden').toggle();
   $(e.currentTarget).toggleClass('quarter_turn');
+}
+
+function newsheet_args() {
+  var date  = new Date(data.query_date);
+  var match = /(\d\d):(\d\d)/.exec(data.newsheet.starttime);
+  date.setHours(match[1],match[2]);
+  return {
+    classdef_id: data.newsheet.classdef_id,
+    staff_id:    data.newsheet.staff_id,
+    starttime:   date.toISOString()
+  }
 }
