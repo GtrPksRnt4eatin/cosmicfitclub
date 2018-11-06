@@ -35,7 +35,7 @@ ctrl = {
     if(!data.newsheet.classdef_id) { $('#custom_sheet').shake(); return; }
     if(!data.newsheet.staff_id)    { $('#custom_sheet').shake(); return; }
     if(!data.newsheet.starttime)   { $('#custom_sheet').shake(); return; }
-    $.post('/models/classdefs/occurrences', JSON.stringify(data.newsheet), get_occurrences );
+    $.post('/models/classdefs/occurrences', data.newsheet, get_occurrences );
   }
 }
 

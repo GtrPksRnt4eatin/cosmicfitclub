@@ -244,6 +244,7 @@
   
   #custom_sheet button {
     width: 100%;
+    cursor: pointer;
   }
 
   table#custom_form {
