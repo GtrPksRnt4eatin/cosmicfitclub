@@ -23,14 +23,16 @@ ctrl = {
 
   edit_customer: function(e,m) {
     document.location.href = '/frontdesk/customer_file?id=' + ( m.tic.purchased_for ? m.tic.purchased_for : m.tic.customer_id );
+  },
+
+  checkout: function(e,m) {
+
   }
 }
 
 $(document).ready(function() { 
 
   update_data();
-  
-  //$('#customers').chosen({ search_contains: true });
 
   initialize_rivets();
 
@@ -38,6 +40,7 @@ $(document).ready(function() {
   popupmenu        = new PopupMenu( id('popupmenu_container') );
 
   tic_selector = new TicketSelector( id('ticketselector_container') );
+  tic_selector.ev_sub('paynow', checkout ) 
   tic_selector.load_event_data(data['event']);
 
   custy_selector = new CustySelector( id('custyselector_container'), data['custylist'] );
@@ -57,7 +60,7 @@ $(document).ready(function() {
 });
 
 function on_purchase() {
-
+  
 }
 
 function initialize_rivets() {

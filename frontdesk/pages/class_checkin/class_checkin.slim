@@ -89,8 +89,8 @@ html
           tr
             th Timeslot:
             td
-              input#timeslot rv-timefield='data.reservation.starttime'
+              input#timeslot rv-time_popup='data.reservation.starttime'
           tr
             td
-              button Create
+              button rv-on-click='ctrl.create_custom' Create
 

@@ -35,6 +35,12 @@ ctrl = {
   },
   dropdown(e,m) {
     data.occurrences[m.index].visible = !data.occurrences[m.index].visible;
+  },
+  create_custom(e,m) {
+    if(!data.reservation.classdef_id) { $('#custom_form').shake(); return; }
+    if(!data.reservation.staff_id)    { $('#custom_form').shake(); return; }
+    if(!data.reservation.starttime)   { $('#custom_form').shake(); return; }
+    $.post('/models/classdefs/occurrences', JSON.Stringify(data.reservation) );
   }
 }
 
