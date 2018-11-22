@@ -52,7 +52,8 @@ class User < Sequel::Model
     end
 
     def match_password(login_password="")
-      encrypted_password == BCrypt::Engine.hash_secret( login_password, salt )
+      return false if self.salt.nil? 
+      encrypted_password == BCrypt::Engine.hash_secret( login_password, self.salt )
     end
 
     def self.authenticate(email="", login_password="")

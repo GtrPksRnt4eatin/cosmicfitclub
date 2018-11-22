@@ -39,7 +39,6 @@ ctrl = {
 
 $(document).ready(function(){
 
-	//include_rivets_dates();
     include_rivets_money();
 
     payment_form     = new PaymentForm();
@@ -99,7 +98,7 @@ function validate_noid() {
 }
 
 function checkout(customer_id) {
-  payment_form.checkout( customer_id, 15000, "Ten Class Pack (discounted)", null, function(payment_id) {
+  payment_form.checkout( customer_id, 14400, "Ten Class Pack (black friday discount)", null, function(payment_id) {
       $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 4, payment_id: payment_id })
        .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
     });
