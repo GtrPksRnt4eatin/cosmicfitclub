@@ -62,7 +62,7 @@ class CFCAuth < Sinatra::Base
     User.create( :customer => custy)
     session[:user] = custy.login
     session[:customer] = custy
-    return JSON.generate({ :id => customer.id })
+    return JSON.generate({ :id => custy.id })
   end
 
   post '/password' do
