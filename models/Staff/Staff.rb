@@ -142,7 +142,7 @@ end
 class StaffRoutes < Sinatra::Base
 
   get '/' do
-    JSON.generate Staff.exclude(:deactivated => true).order(:position).all.map { |s| { :id => s.id, :name => s.name, :title => s.title, :bio => s.bio, :image_url => s.image[:medium].url } }
+    JSON.generate Staff.exclude(:deactivated => true).order(:position).all.map { |s| { :id => s.id, :name => s.name, :title => s.title, :bio => s.bio, :image_url => s.image.nil? ? "" : s.image[:medium].url } }
   end
   
   post '/' do
