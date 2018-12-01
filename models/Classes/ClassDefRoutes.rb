@@ -180,4 +180,9 @@ class ClassDefRoutes < Sinatra::Base
     excep.delete
   end
 
+  error do
+    Slack.err( 'Class Models Error', env['sinatra.error'] )
+    'An Error Occurred.'
+  end
+
 end
