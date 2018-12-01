@@ -18,7 +18,7 @@ class ClassdefSchedule < Sequel::Model
           :title => sched.classdef.name,
           :classdef_id => sched.classdef.id,
           :sched_id => sched.id,
-          :instructors => exception.try(:teacher_id) ? [exception.teacher_id] : sched.teachers
+          :instructors => exception.try(:teacher) ? [exception.teacher] : sched.teachers
         }
       end
     end
