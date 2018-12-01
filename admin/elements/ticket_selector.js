@@ -31,12 +31,14 @@ TicketSelector.prototype = {
   	this.state.event = event;
   },
 
-  load_customer: function(customer) {
-    this.state.customer = customer;
+  load_customer: function(customer_id) {
+    $.get('/models/customers/' + customer_id)
+     .done( function(custy) { this.state.customer = custy; } )
+     .fail( function()    { alert('failed to load customer' + customer_id); } )
   },
 
   load_customer_data: function(customer) {
-
+    this.state.customer = customer;
   },
 
   select_price: function(e,m) {
