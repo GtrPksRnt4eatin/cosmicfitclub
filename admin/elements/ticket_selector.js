@@ -5,10 +5,10 @@ function TicketSelector(parent) {
     event: null,
     event_sessions: [],
     event_tickets: [],
-    customer: {}
+    customer: null
   }
 
-  this.bind_handlers([]);
+  this.bind_handlers(['select_price']);
   this.parent = parent;
   this.build_dom();
   this.mount(parent);
