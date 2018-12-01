@@ -44,7 +44,7 @@ $(document).ready(function() {
   tic_selector.load_event_data(data['event']);
 
   custy_selector = new CustySelector( id('custyselector_container'), data['custylist'] );
-  custy_selector.ev_sub('customer_selected', tic_selector.load_customer_data );
+  custy_selector.ev_sub('customer_selected', tic_selector.load_customer );
 
   payment_form.clear_customer();
   payment_form.ev_sub('show', popupmenu.show );
