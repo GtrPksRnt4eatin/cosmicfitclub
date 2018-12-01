@@ -10,6 +10,7 @@ class ClassdefSchedule < Sequel::Model
     items = []
     ClassdefSchedule.all.each do |sched|
       sched.get_occurrences(from, to).each do |starttime|
+        exception = ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 )
         items << { 
           :day => Date.strptime(starttime.to_time.iso8601).to_s,
           :starttime => starttime,
@@ -17,7 +18,7 @@ class ClassdefSchedule < Sequel::Model
           :title => sched.classdef.name,
           :classdef_id => sched.classdef.id,
           :sched_id => sched.id,
-          :instructors => sched.teachers
+          :instructors => exception.try(:teacher_id) ? [exception.teacher_id] : sched.teachers
         }
       end
     end
