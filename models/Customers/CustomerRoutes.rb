@@ -43,6 +43,7 @@ class CustomerRoutes < Sinatra::Base
   end
 
   get '/:id/subscription' do
+    content_type :json
     custy = Customer[params[:id]] or halt(404)
     custy.subscription.to_json
   end
