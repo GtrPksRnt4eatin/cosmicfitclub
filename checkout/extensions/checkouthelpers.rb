@@ -53,6 +53,22 @@ module Sinatra
       status 204
     end
 
+    def buy_event_precharged
+      EventTicket.create(
+        :customer_id       => params[:customer_id],
+        :event_id          => params[:event_id],
+        :included_sessions => params[:included_sessions],
+        :price             => params[:total_price],
+        :stripe_payment_id => params[:payment_id],
+        :event_price_id    => params[:price_id]
+      )
+      custy = Customer[params[:customer_id]]
+      event = Event[params[:event_id]]
+      price = EventPrice[params[:event_price_id]]
+      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{params[:total_price]/100} #{price.title} ticket for #{event.name}.")
+      status 204
+    end
+
     def register_event
       data = JSON.parse request.body.read
       custy = logged_in? ? customer : Customer.find( :email => data['email'] );

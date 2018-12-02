@@ -53,8 +53,19 @@ TicketSelector.prototype = {
     this.ev_fire('paynow', [ this.state.customer.id, this.price, this.state.event.name + ": " + m.price.title, null, this.on_payment ] );
   },
 
-  on_payment: function(payment){
+  on_payment: function(payment_id){
+    var payload = {
+      customer_id:       this.state.customer.id, 
+      event_id:          this.state.event.id,
+      included_sessions: this.state.selected_price.included_sessions,
+      total_price:       this.price,
+      payment_id:        payment_id,
+      price_id:          this.state.selected_price.id
+    }
 
+    $.post('/checkout/event/precharged', payload )
+     .success( function() { this.ev_fire('ticket_created'); }.bind(this) )
+     .fail( function(e) { alert("Failed Creating Ticket"); } )
   },
 
   get price() {

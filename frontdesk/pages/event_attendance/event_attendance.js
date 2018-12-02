@@ -23,11 +23,8 @@ ctrl = {
 
   edit_customer: function(e,m) {
     document.location.href = '/frontdesk/customer_file?id=' + ( m.tic.purchased_for ? m.tic.purchased_for : m.tic.customer_id );
-  },
-
-  checkout: function(e,m) {
-
   }
+  
 }
 
 $(document).ready(function() { 
@@ -56,11 +53,9 @@ $(document).ready(function() {
     payment_form.checkout(args[0], args[1], args[2], args[3], args[4]) 
   });
 
-});
+  tic_selector.ev_sub('ticket_created', update_data);
 
-function on_purchase() {
-  
-}
+});
 
 function initialize_rivets() {
 

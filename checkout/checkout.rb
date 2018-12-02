@@ -31,13 +31,14 @@ class Checkout < Sinatra::Base
   get('/class_sheet/:id', :auth => 'frontdesk' ) { render_page :class_sheet    }
   get('/customer_file',   :auth => 'frontdesk' ) { render_page :customer_file  }
 
-  post('/plan/charge')       { buy_plan            }
-  post('/pack/charge')       { buy_pack            }
-  post('/pack/buy')          { buy_pack_precharged }
-  post('/training/charge')   { buy_training        }
-  post('/event/charge')      { buy_event           }
-  post('/event/register')    { register_event      }
-  post('/misc/charge')       { buy_misc            }
+  post('/plan/charge')       { buy_plan             }
+  post('/pack/charge')       { buy_pack             }
+  post('/pack/buy')          { buy_pack_precharged  }
+  post('/training/charge')   { buy_training         }
+  post('/event/precharged')  { buy_event_precharged }
+  post('/event/charge')      { buy_event            }
+  post('/event/register')    { register_event       }
+  post('/misc/charge')       { buy_misc             }
 
   post('/charge_card')       { charge_card         }
   post('/charge_saved_card') { charge_saved_card   }
