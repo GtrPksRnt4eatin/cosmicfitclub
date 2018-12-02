@@ -37,7 +37,7 @@ TicketSelector.prototype = {
      .done( function(custy) { this.state.customer = custy; }.bind(this) )
      .fail( function()    { alert('Failed to load Customer: ' + customer_id); } )
 
-    $.get('/models/customers/' + customer_id + '/subscriptions')
+    $.get('/models/customers/' + customer_id + '/subscription')
      .done( function(subsc) { this.state.subscriptions = subsc; }.bind(this) )
      .fail( function()      { alert('Failed to load Subscriptions: ' + customer_id); } )
 
@@ -50,6 +50,10 @@ TicketSelector.prototype = {
   select_price: function(e,m) {
     if( empty(this.state.customer) ) { alert('Select A Customer First'); return; }
     this.ev_fire('paynow', [ this.state.customer.id, m.price ] );
+  },
+
+  get is_member() {
+    
   }
 
 }
