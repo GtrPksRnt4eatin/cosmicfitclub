@@ -40,11 +40,10 @@ $(document).ready(function() {
   popupmenu        = new PopupMenu( id('popupmenu_container') );
 
   tic_selector = new TicketSelector( id('ticketselector_container') );
-  tic_selector.ev_sub('paynow', ctrl.checkout ) 
   tic_selector.load_event_data(data['event']);
 
   custy_selector = new CustySelector( id('custyselector_container'), data['custylist'] );
-  custy_selector.ev_sub('customer_selected', tic_selector.load_customer );
+  custy_selector.ev_sub('customer_selected', ctrl.choose_customer );
 
   payment_form.clear_customer();
   payment_form.ev_sub('show', popupmenu.show );

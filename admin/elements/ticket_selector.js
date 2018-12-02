@@ -32,9 +32,15 @@ TicketSelector.prototype = {
   },
 
   load_customer: function(customer_id) {
+
     $.get('/models/customers/' + customer_id)
      .done( function(custy) { this.state.customer = custy; }.bind(this) )
      .fail( function()    { alert('Failed to load Customer: ' + customer_id); } )
+
+    $.get('/models/customers/' + customer_id + '/subscriptions')
+     .done( function(subsc) { this.state.subscriptions = subsc; }.bind(this) )
+     .fail( function()      { alert('Failed to load Subscriptions: ' + customer_id); } )
+
   },
 
   load_customer_data: function(customer) {
