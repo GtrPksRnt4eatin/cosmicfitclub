@@ -24,7 +24,7 @@ TicketSelector.prototype = {
   load_event: function(event_id) {
     $.get('/models/events/' + event_id)
      .done( function(evt) { this.state.event = evt; } )
-     .fail( function()    { alert('failed to load event' + event_id); } )
+     .fail( function()    { alert('Failed to load Event' + event_id); } )
   },
 
   load_event_data: function(event) {
@@ -64,7 +64,7 @@ TicketSelector.prototype = {
     }
 
     $.post('/checkout/event/precharged', payload )
-     .success( function() { this.ev_fire('ticket_created'); }.bind(this) )
+     .success( function() { alert("Ticket Created"); this.ev_fire('ticket_created'); }.bind(this) )
      .fail( function(e) { alert("Failed Creating Ticket"); } )
   },
 
