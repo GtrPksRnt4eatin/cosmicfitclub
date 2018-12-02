@@ -49,7 +49,7 @@ TicketSelector.prototype = {
 
   select_price: function(e,m) {
     if( empty(this.state.customer) ) { alert('Select A Customer First'); return; }
-    this.ev_fire('paynow', this.state.customer.id, m.price )
+    this.ev_fire('paynow', [ this.state.customer.id, m.price ] );
   }
 
 }
