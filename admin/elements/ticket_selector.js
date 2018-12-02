@@ -58,7 +58,11 @@ TicketSelector.prototype = {
   },
 
   get price() {
-    return ( !!this.state.subscription ? this.state.selected_price.member_price : this.state.selected_price.full_price );
+    return ( this.member ? this.state.selected_price.member_price : this.state.selected_price.full_price );
+  },
+
+  get member() {
+    return !!this.state.subscription;
   }
 
 }
@@ -71,8 +75,8 @@ TicketSelector.prototype.HTML = ES5Template(function(){/**
 
     <div class='price' rv-each-price='state.event.prices' rv-on-click='this.select_price' rv-title='price.id'> 
       <span>{price.title}</span>
-      <span>Member Price: {price.member_price | money}</span>
-      <span>Full Price: {price.full_price | money}</span>
+      <span rv-if='state.subscription'>     Member Price: {price.member_price | money} </span>
+      <span rv-unless='state.subscription'> Full Price: {price.full_price | money}     </span>
     </div>
 
     <div class='alacarte' rv-if='state.event.a_la_carte'>
