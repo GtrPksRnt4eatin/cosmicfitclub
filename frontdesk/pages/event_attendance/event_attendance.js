@@ -53,7 +53,7 @@ $(document).ready(function() {
   tic_selector.ev_sub('paynow', function(args) {
     var custy = custy_selector.selected_customer;
     if(!custy) { alert('No Customer Selected!'); return; } 
-    payment_form.checkout(custy.id, args[0], args[1], args[2], on_purchase) 
+    payment_form.checkout(args[0], args[1], args[2], args[3], args[4]) 
   });
 
 });

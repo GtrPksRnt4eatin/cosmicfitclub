@@ -8,7 +8,7 @@ function TicketSelector(parent) {
     customer: null
   }
 
-  this.bind_handlers(['select_price', 'load_customer']);
+  this.bind_handlers(['select_price', 'load_customer', 'on_payment']);
   this.parent = parent;
   this.build_dom();
   this.mount(parent);
@@ -49,11 +49,16 @@ TicketSelector.prototype = {
 
   select_price: function(e,m) {
     if( empty(this.state.customer) ) { alert('Select A Customer First'); return; }
-    this.ev_fire('paynow', [ this.state.customer.id, m.price, this.is_member ? m.price.member_price : m.price.full_price ] );
+    this.state.selected_price = m.price;
+    this.ev_fire('paynow', [ this.state.customer.id, this.price, this.state.event.name + ": " + m.price.title, null, this.on_payment ] );
   },
 
-  get is_member() {
-    return !!this.state.subscription
+  on_payment: function(payment){
+
+  },
+
+  get price() {
+    return ( !!this.state.subscription ? this.state.selected_price.member_price : this.state.selected_price.full_price );
   }
 
 }
