@@ -8,7 +8,7 @@ function TicketSelector(parent) {
     customer: null
   }
 
-  this.bind_handlers(['select_price']);
+  this.bind_handlers(['select_price', 'load_customer']);
   this.parent = parent;
   this.build_dom();
   this.mount(parent);
@@ -33,7 +33,7 @@ TicketSelector.prototype = {
 
   load_customer: function(customer_id) {
     $.get('/models/customers/' + customer_id)
-     .done( function(custy) { this.state.customer = custy; } )
+     .done( function(custy) { this.state.customer = custy; }.bind(this) )
      .fail( function()    { alert('Failed to load Customer: ' + customer_id); } )
   },
 
