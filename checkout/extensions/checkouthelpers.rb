@@ -65,7 +65,7 @@ module Sinatra
       custy = Customer[params[:customer_id]]
       event = Event[params[:event_id]]
       price = EventPrice[params[:event_price_id]]
-      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{params[:total_price]/100} #{price.title} ticket for #{event.name}.")
+      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{params[:total_price].to_f/100} #{price.title} ticket for #{event.name}.")
       status 204
     end
 
