@@ -41,7 +41,7 @@ CustySelector.prototype = {
   },
 
   custy_selected: function(e,m) {
-    this.ev_fire('customer_selected', this.state.customer_id );
+    this.ev_fire('customer_selected', 0 + e.target.value );
   },
 
   get selected_customer() {
