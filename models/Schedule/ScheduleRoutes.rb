@@ -36,7 +36,7 @@ class ScheduleRoutes < Sinatra::Base
       details = sched.schedule_details_hash
       sched.get_occurrences(from,to).each do |starttime|
         exception = ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 ).try(:details)
-        start = exception ? exception.starttime.to_time : starttime.to_time
+        start = exception ? exception[:starttime].to_time : starttime.to_time
         items << {
           :day => Date.strptime(start.iso8601).to_s,
           :starttime => start,
