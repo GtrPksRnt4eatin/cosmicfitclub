@@ -35,12 +35,14 @@ class ScheduleRoutes < Sinatra::Base
     ClassdefSchedule.all.each do |sched|
       details = sched.schedule_details_hash
       sched.get_occurrences(from,to).each do |starttime|
+        exception = ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 ).try(:details)
+        start = exception.try(:starttime) ? exception.starttime.to_time : starttime.to_time
         items << {
-          :day => Date.strptime(starttime.to_time.iso8601).to_s,
-          :starttime => starttime.to_time,
-          :endtime   => starttime.to_time + sched.duration_sec, 
-          :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), starttime.to_time.iso8601 ),
-          :exception => ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 ).try(:details)
+          :day => Date.strptime(start.iso8601).to_s,
+          :starttime => start,
+          :endtime   => start + sched.duration_sec, 
+          :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), start.iso8601 ),
+          :exception => exception
         }.merge!(details)
       end
     end
