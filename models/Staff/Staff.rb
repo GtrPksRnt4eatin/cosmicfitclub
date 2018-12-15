@@ -18,6 +18,10 @@ class Staff < Sequel::Model(:staff)
   	super
   end
 
+  def Staff::list
+    Staff::token_list
+  end
+
   def Staff::token_list
     Staff.all.map { |x| { :id=>x.id, :name=>x.name } }
   end

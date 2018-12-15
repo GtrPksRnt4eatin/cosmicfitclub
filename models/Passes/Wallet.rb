@@ -15,6 +15,7 @@ class Wallet < Sequel::Model
   def can_delete?
     return false if self.transactions.count > 0
     return false unless empty?
+    return true
   end
 
   def add_passes(number, description, notes)
