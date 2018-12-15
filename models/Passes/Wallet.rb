@@ -8,7 +8,7 @@ class Wallet < Sequel::Model
   
   def delete
     return false unless can_delete?
-    self.customer.update( :wallet_id => nil )
+    self.customers.each { |x| x.update( :wallet_id => nil ) }
     super
   end
 
