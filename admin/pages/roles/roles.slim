@@ -32,7 +32,7 @@ html
         select#customers rv-on-change='ctrl.choose_user'
           option value = '0' Select a User
           - Customer.each do |custy|
-            option value='#{custy.login.id}' #{custy.name} ( #{custy.email} )
+            option value='#{custy.login.try(:id)}' #{custy.name} ( #{custy.email} )
         span.blue rv-on-click='ctrl.assign_role'
          | Add User
       div
