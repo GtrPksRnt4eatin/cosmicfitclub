@@ -23,9 +23,8 @@ module Mail
       track_opens:    true,
       track_links:    'HtmlAndText'
     )
-  rescue Postmark::InvalidApiKeyError, Postmark::TimeoutError, Postmark::InternalServerError,
-         Postmark::HttpClientError, Postmark::InactiveRecipientError, Postmark::ApiInputError => e
-    Slack.err("Postmark Error (#{recipient})", error)
+  rescue Exception => e
+    Slack.err("Postmark Error (#{recipient})", e)
   end
   
 end

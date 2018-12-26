@@ -29,10 +29,8 @@ class CFC < Sinatra::Base
   
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
-
-  get( '/cbdyoga'      )          { redirect '/checkout/event/261' }
-  get( '/talentshow'   )          { redirect '/checkout/event/245' }
-  get( '/jacksonpark'  )          { redirect '/checkout/event/260' }
+  
+  get( '/tarzanandsprout' )          { redirect '/checkout/event/280' }
 
   get( '/checkout')               { render_page :checkout }
   get( '/checkout/plans/:id' )    { render_page :checkout_plan }
@@ -42,7 +40,7 @@ class CFC < Sinatra::Base
   get( '/login' ) { redirect('/auth/login') }
 
   post( '/waiver', :auth => 'user' ) do
-    session[:customer].waiver = Waiver.create(:signature => request.body.read )
+    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
     return 204
   end
 

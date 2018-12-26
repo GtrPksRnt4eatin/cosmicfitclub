@@ -113,7 +113,8 @@ $(document).ready( function() {
 
   setupBindings();
 
-  popupmenu = new PopupMenu( id('popupmenu_container') );
+  userview     = new UserView(  id('userview_container')  );
+  popupmenu    = new PopupMenu( id('popupmenu_container') );
   payment_form = new PaymentForm();
 
   payment_form.ev_sub('show', popupmenu.show );
@@ -159,9 +160,10 @@ function setupBindings() {
   include_rivets_dates();
   include_rivets_select();
 
-  rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
-  rivets.formatters.zero_if_null = function(val) { return empty(val) ? 0 : val; }
-  rivets.formatters.has_membership = function(val) { return( empty(val) ? false : val.name != 'None' ); }
+  rivets.formatters.count          = function(val) { return empty(val) ? 0     : val.length;                        }
+  rivets.formatters.zero_if_null   = function(val) { return empty(val) ? 0     : val;                               }
+  rivets.formatters.has_membership = function(val) { return empty(val) ? false : ( val.name != 'None' );            }
+  rivets.formatters.custy_file     = function(val) { return empty(val) ? '#'   : '/frontdesk/customer_file?id='+val; }
 
   rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }

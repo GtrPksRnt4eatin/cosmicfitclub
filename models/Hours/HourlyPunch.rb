@@ -41,8 +41,11 @@ class HourlyPunch < Sequel::Model
 
   def close; self.update( :endtime   => Time.now ) end
 
+  def closed?; !self.endtime.nil? end
+
   def duration
-    ( self.rounded_end.to_f - self.rounded_start.to_f ) / 60 / 60
+    out = self.closed? ? self.rounded_end.to_f : Time.now.to_f
+    ( out - self.rounded_start.to_f ) / 60 / 60
   end
 
   def rounded_start

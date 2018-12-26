@@ -6,18 +6,20 @@ require 'active_support/core_ext/date/calculations'
 require 'active_support/core_ext/integer/inflections'
 
 require_relative 'ruby/environment'
-require_relative 'ruby/services/database'
-require_relative 'ruby/services/aws'
+require_relative 'integrations/database'
+require_relative 'integrations/aws'
 require_relative 'ruby/shrine'
 require_relative 'ruby/patches'
 
 Dir["extensions/*.rb"].each    { |file| require_relative file }
-Dir["models/mixins/*.rb"].each { |file| require_relative file }
-Dir["models/**/*.rb"].each     { |file| require_relative file }
-Dir["ruby/services/*.rb"].each { |file| require_relative file }
-Dir["ruby/*.rb"].each          { |file| require_relative file }
 
 require_relative 'auth/auth'
+
+Dir["integrations/*.rb"].each { |file| require_relative file }
+Dir["ruby/*.rb"].each          { |file| require_relative file }
+Dir["models/mixins/*.rb"].each { |file| require_relative file }
+Dir["models/**/*.rb"].each     { |file| require_relative file }
+
 require_relative 'admin/admin'
 require_relative 'site/CFC'
 require_relative 'checkout/checkout'
@@ -31,7 +33,7 @@ use Rack::Deflater
 
 use Rack::Session::Cookie, :key => '_rack_session',
                            :path => '/',
-                           :expire_after => 2592000,
+                           :expire_after => 60*60,
                            :secret => 'asdf123897798128bkjwekhakhjsk38389721387932179831hjsdfkj'
 
 map "/" do 
@@ -120,4 +122,8 @@ end
 
 map "/offers" do
   run CFCOffers
+end
+
+map "/integrations/paypal" do
+  run PayPalRoutes
 end

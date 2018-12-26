@@ -5,6 +5,18 @@ class Wallet < Sequel::Model
 
   def empty?;  self.pass_balance == 0   end
   def shared?; self.customers.count > 1 end
+  
+  def delete
+    return false unless can_delete?
+    self.customers.each { |x| x.update( :wallet_id => nil ) }
+    super
+  end
+
+  def can_delete?
+    return false if self.transactions.count > 0
+    return false unless empty?
+    return true
+  end
 
   def add_passes(number, description, notes)
     transaction = add_transaction( PassTransaction.create( :delta => number.to_i, :description => description, :notes => notes ) )
@@ -37,6 +49,14 @@ class Wallet < Sequel::Model
       el[:running_total] = el[:delta] + ( tot.last.nil? ? 0 : tot.last[:running_total] )
       tot << el
     end
+  end
+
+  def <<(other)
+    other.transactions.each { |t| t.update( :wallet_id => self.id ) }
+    self.pass_balance = self.pass_balance + other.pass_balance
+    other.update( :pass_balance => 0 )
+    other.delete
+    self.save
   end
 
 end

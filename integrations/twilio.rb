@@ -1,5 +1,18 @@
 require 'twilio-ruby'
 
+def send_sms_to(msg,numbers)
+  client = Twilio::REST::Client.new 'AC3ea86c47d6a22914d5bddff93f335dda', '6cbc0ac3e73eebb57311578021f5ba24'
+  numbers.each do |num|
+    client.api.account.messages.create({
+      :from => '+13476700019',
+      :to   => num,
+      :body => msg
+    })
+  end
+rescue Exception => e
+  Slack.err("Twilio Error", e)
+end
+
 def send_sms(msg)	
   client = Twilio::REST::Client.new 'AC3ea86c47d6a22914d5bddff93f335dda', '6cbc0ac3e73eebb57311578021f5ba24'
   client.api.account.messages.create({
@@ -23,8 +36,15 @@ rescue Exception => e
 end
 
 class TwilioRoutes < Sinatra::Base
-
+  
   post '/incoming' do
+    Slack.custom("Incoming Call", "call_logs","#{params[:CallerName]}\r\n#{params[:From]}\r\n#{params[:CallerCity]}, #{params[:CallerState]} #{params[:CallerZip]}")
+    response = Twilio::TwiML::VoiceResponse.new
+    response.redirect('/twilio/incoming2')
+    response.to_s
+  end
+
+  post '/incoming2' do
   	content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
   	response.gather(input: 'dtmf', timeout: 4, num_digits: 1, action: 'https://cosmicfitclub.com/twilio/selection') do |gather|
@@ -33,22 +53,28 @@ class TwilioRoutes < Sinatra::Base
   	  gather.say('Press Two to speak with Ben about the website, or billing issues.')
   	  gather.say('Press Three to speak with Donut.')
   	end
-    response.redirect('/twilio/incoming')
+    response.redirect('/twilio/incoming2')
   	response.to_s
+  rescue Exception => e
+    Slack.err("Incoming Call Error:", e)
   end
 
   post '/selection' do
+    content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
     case params[:Digits]
     when '1'
+      Slack.custom("Forwarding Call To Joy", "call_logs")
       response.say('Paging Joy Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '646-704-2405' }
       response.hangup
     when '2'
+      Slack.custom("Forwarding Call To Ben", "call_logs")
       response.say('Paging Ben Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '201-280-6512' }
       response.hangup
     when '3'
+      Slack.custom("Forwarding Call To Donut", "call_logs")
       response.say('Meow, Meow, Meow.')
       response.pause
       response.say('Purr. Purr. Meow.')
@@ -56,9 +82,11 @@ class TwilioRoutes < Sinatra::Base
       response.say('Ack. Cough. Hairball.')
       response.pause
       response.say('Woof.. No, Wait.. I mean Meow Meow Meow. Roar!!')
-      response.redirect('/twilio/incoming')
+      response.redirect('/twilio/incoming2')
     end
     response.to_s
+  rescue Exception => e
+    Slack.err("Call Forwarding Error:", e)
   end
 
 end

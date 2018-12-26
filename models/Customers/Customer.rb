@@ -8,7 +8,7 @@ class Customer < Sequel::Model
   one_to_many :tickets, :class=>:EventTicket
   one_to_many :event_checkins, :class=> :EventCheckin
   one_to_many :training_passes
-  one_to_one  :waiver
+  one_to_many :waivers
   one_to_many :nfc_tags
   many_to_one :wallet
   one_to_many :reservations, :class=>:ClassReservation
@@ -78,7 +78,8 @@ class Customer < Sequel::Model
 
   def add_child(child)
     ( self.wallet = Wallet.create; self.save ) if self.wallet.nil?
-    child.update( :wallet => self.wallet )
+    self.wallet << child.wallet unless child.wallet.nil?
+    child.update( :wallet=>self.wallet )
     super
   end
 
@@ -137,6 +138,15 @@ class Customer < Sequel::Model
   def before_save
     self.email = self.email.downcase
     super
+  end
+
+  def waiver_signed?
+    self.waivers.count > 0
+  end
+
+  def waiver 
+    return nil unless waiver_signed?
+    return waivers.last
   end
 
 ########################### Attribute Access ###########################
@@ -223,10 +233,10 @@ class Customer < Sequel::Model
   end
 
   def buy_pack_precharged(pack_id, payment_id)
-    pack = Package[pack_id] or halt 403, "Can't find Pack"
-    payment = CustomerPayment[payment_id] or halt 403, "Can't find Payment"
-    payment.customer_id == self.id or halt 403, "Payment doesn't match Customer"
-    payment.amount == pack.price or halt 403, "Payment doesn't match amount"
+    pack = Package[pack_id]               or raise "Can't find Pack"
+    payment = CustomerPayment[payment_id] or raise "Can't find Payment"
+    payment.customer_id == self.id        or raise "Payment doesn't match Customer"
+    #payment.amount == pack.price          or raise "Payment doesn't match amount"
     self.add_passes( pack.num_passes, "Bought #{pack.name}", "" ) 
     self.send_pack_email(pack)
   end
@@ -285,5 +295,13 @@ class Customer < Sequel::Model
   end
 
 ########################### Event Tickets ##############################
+
+  def to_list_hash
+    { :id => id, :name => name, :email => email }
+  end
+
+  def to_list_string
+    "[#{id}] #{name} (#{email})"
+  end
 
 end

@@ -4,15 +4,32 @@
 }
 
 .faq {
-	padding: 1em;
 	box-sizing: border-box;
 }
 
 .question {
 	text-align: center;
-	font-family: 'Industry-DemiItalic';
-	font-size: 1.1em;
-	padding-bottom: 0.6em;
+	letter-spacing: 0.06em;
+	padding: 0.5em 0;
+	background: rgba(255,255,255,0.2);
+	animation: glow 2s alternate infinite;
+	font-size: 1.8em;
+    padding: 0.5em;
+    font-family: Industry;
+}
+
+.answer {
+    letter-spacing: 0.04em;
+    padding: 1em;
+}
+
+@keyframes glow {
+  from { 
+  	text-shadow: 0 0 0.2em rgba(255,255,255,0.3);
+  }
+  to {
+  	text-shadow: 0 0 0.2em rgba(255,255,255,0.7);
+  }
 }
 
 @media(max-width: 800px) {

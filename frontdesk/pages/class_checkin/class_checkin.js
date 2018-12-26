@@ -26,16 +26,23 @@ ctrl = {
     cancelEvent(e);
   },
   edit_customer(e,m) {
-    window.location.href = '/frontdesk/customer_file?id=' + $('#customers').val();
+    window.location.href = '/frontdesk/customer_file?id=' + m.res.customer_id;
+  },
+  dropdown(e,m) {
+    data.occurrences[m.index].visible = !data.occurrences[m.index].visible;
+  },
+  create_custom(e,m) {
+    if(!data.newsheet.classdef_id) { $('#custom_sheet').shake(); return; }
+    if(!data.newsheet.staff_id)    { $('#custom_sheet').shake(); return; }
+    if(!data.newsheet.starttime)   { $('#custom_sheet').shake(); return; }
+    $.post('/models/classdefs/occurrences', newsheet_args(), get_occurrences );
   }
 }
 
 $(document).ready( function() { 
 
   setup_bindings();
-
-  $('.sheets').on('click', '.dropdown', on_dropdown_click);
-
+  
   userview = new UserView(id('userview_container'));
 
   var day = getUrlParameter('day')
@@ -53,7 +60,9 @@ $(document).ready( function() {
 
 function setup_bindings() {
   include_rivets_dates();
+  include_rivets_select();
   rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
+  rivets.formatters.no_students = function(val) { return empty(val) ? true : !val.length; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
 
@@ -63,6 +72,17 @@ function get_occurrences() {
 }
 
 function on_dropdown_click(e) {
-  $(e.currentTarget).siblings('.hidden').toggle();
+  $(e.delegateTarget).find('.hidden').toggle();
   $(e.currentTarget).toggleClass('quarter_turn');
+}
+
+function newsheet_args() {
+  var date  = new Date(data.query_date);
+  var match = /(\d\d):(\d\d)/.exec(data.newsheet.starttime);
+  date.setUTCHours(match[1],match[2]);
+  return {
+    classdef_id: data.newsheet.classdef_id,
+    staff_id:    data.newsheet.staff_id,
+    starttime:   date.toISOString()
+  }
 }

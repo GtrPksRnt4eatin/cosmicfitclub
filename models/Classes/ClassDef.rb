@@ -38,7 +38,7 @@ class ClassDef < Sequel::Model
 
   def get_full_occurences(from, to)
     schedules.map do |sched|
-      sched.get_occurences(from,to).map do |x|
+      sched.get_occurrences(from,to).map do |x|
         exception = ClassException.find( :classdef_id => self.id, :original_starttime => x.start_time.iso8601 )
         teachers = ( exception.nil? ? sched.teachers : exception[:teacher_id].nil? ? sched.teachers : [ Staff[exception[:teacher_id]] ] )
         { :teachers => teachers.map { |x| { :id => x[:id], :name => x[:name], :image_url => x.image_url(:small) } }, 
@@ -47,6 +47,10 @@ class ClassDef < Sequel::Model
         }
       end
     end.flatten.sort_by { |x| x[:starttime] }
+  end
+
+  def to_listitem
+    { :id => id, :name => name }
   end
 
 end

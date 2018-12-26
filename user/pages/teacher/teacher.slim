@@ -17,11 +17,65 @@ html
       
     .content
 
-      .tile
-        .title #{customer.name}'s Scheduled Classes:
+      .tile.tile_ib
+        .title Currently Scheduled Classes
 
         - customer.staff[0].schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
           div.schedule
             span.name  #{ sched.classdef.name   }
             span.rrule #{ sched.rrule_english   }
             span.time  #{ sched.start_time_12hr }
+
+      br
+      
+      - @class_history = customer.staff[0].class_history
+
+      .tile.tile_ib.class_history
+        .title Grand Total ( All Classes )
+        hr
+        .stats
+          div Classes Taught:    #{ @class_history[:total_classes] }
+          div Average Headcount: #{ @class_history[:avr_headcount] }
+        hr
+        div 
+          | MVP List: 
+          .mvp_list
+            - @class_history[:mvp_list].each do |mvp|
+              div.mvp
+                span #{ mvp[:count]         }
+                span #{ mvp[:customer_name] }
+        hr
+        div 
+          | History:
+          .history_list
+            - @class_history[:hist_list].each do |hist|
+              div.class_occ
+                span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
+                span #{ hist[:classdef_name] }
+                span #{ hist[:count]         }
+
+      - @class_history[:grouped_list].each do |cls_hist|
+        br
+        .tile.tile_ib
+          .title #{ cls_hist[:classdef_name] }
+          hr
+          .stats
+            div Classes Taught:    #{ cls_hist[:total_classes] }
+            div Average Headcount: #{ cls_hist[:avr_headcount] }
+          hr
+          div 
+            | MVP List: 
+            .mvp_list
+              - cls_hist[:mvp_list].each do |mvp|
+                div.mvp
+                  span #{ mvp[:count]         }
+                  span #{ mvp[:customer_name] }
+
+          div
+            | History:
+            .history_list
+              - cls_hist[:hist_list].each do |hist|
+                div.class_occ
+                  span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
+                  span #{ hist[:classdef_name] }
+                  span #{ hist[:count]         }

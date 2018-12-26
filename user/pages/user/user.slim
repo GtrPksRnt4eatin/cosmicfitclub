@@ -167,11 +167,11 @@ html
       .tile
         .header Waiver
         hr
-        - if customer.waiver.nil?
+        - unless customer.waiver_signed?
           a href='/waiver' Sign A Waiver
-        - unless customer.waiver.nil?
+        - if customer.waiver_signed?
           #signature
-            img src="/models/customers/#{customer.id}/waiver"
+            img src="/models/customers/waiver"
 
 
     == include_slim('slim/partials/footer')

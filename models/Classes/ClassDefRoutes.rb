@@ -62,13 +62,15 @@ class ClassDefRoutes < Sinatra::Base
     schedule = ClassdefSchedule[data['id']]      unless data['id'] == 0
     data.delete('id')
     schedule.update(data)
+    Slack.post("#{session[:customer].name} changed the class schedule: \r\n#{schedule.description_line}")
     schedule.to_json
   end 
 
   delete '/schedules/:id' do
-    halt 404 if ClassdefSchedule[params[:id]].nil?
-    ClassdefSchedule[params[:id]].destroy
-    status 200
+    sched = ClassdefSchedule[params[:id]] or halt(404)
+    Slack.post("#{session[:customer].name} changed the class schedule: \r\n removed #{sched.description_line} from the schedule")
+    sched.destroy
+    status 204
   end
 
   get '/schedule/:start/:end' do
@@ -176,6 +178,11 @@ class ClassDefRoutes < Sinatra::Base
   delete '/exceptions/:id' do
     excep = ClassException[params[:id]] or halt(404,'Class Exception Not Found')
     excep.delete
+  end
+
+  error do
+    Slack.err( 'Class Models Error', env['sinatra.error'] )
+    'An Error Occurred.'
   end
 
 end

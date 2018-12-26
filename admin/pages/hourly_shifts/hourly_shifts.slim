@@ -8,6 +8,12 @@ html
 
     title Cosmicfit Admin
 
+    javascript:
+      data = {
+        shifts: #{{ HourlyShift.all.to_json }},
+        punches: #{{ HourlyPunch.order_by(:starttime).all.to_json }}
+      }
+
     == css [ 'fonts', 'chosen-ems', 'site', 'header', '/admin/hourly_shifts' ]
     == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'rivets', 'rv_dates', 'lib' ]
     == js  [ 'element', 'ev_channel', '/admin/hourly_shifts' ]
@@ -21,14 +27,16 @@ html
         .title Hourly Shifts
 
         - HourlyShift.all.each do |shift|
-          .shift 
+          .shift title="#{ shift.id }"
             span #{ shift.customer.name }
             span #{ shift.rrule_string  }
             span #{ shift.range_string  }
       
       .tile
+        .title Hourly Punches
+        
         - HourlyPunch.order_by(:starttime).all.each do |punch|
-          .punch
-            span #{ punch.starttime.strftime("%a %b %e %l:%M %p") } - #{ punch.endtime.strftime("%a %b %e %l:%M %p") }
+          .punch title="#{ punch.id }"
+            span #{ punch.starttime.try(:strftime,"%a %b %e %l:%M %p") } - #{ punch.endtime.try(:strftime, "%l:%M %p") }
             span #{ punch.duration } Hours
             span #{ punch.customer.name }

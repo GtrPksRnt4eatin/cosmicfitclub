@@ -1,31 +1,23 @@
 class EventRoutes < Sinatra::Base
 
   get '/' do
-    data = Event.order(:starttime).all.map do |c|
-      next if c.starttime.nil?
-      next if c.starttime < Date.today.to_time
-      c.details
-    end.compact!
-    JSON.generate data
+    content_type :json
+    JSON.generate Event::list_future
   end
 
   get '/past' do
-    data = Event.order(:starttime).all.map do |c|
-      next if c.starttime.nil?
-      next if c.starttime >= Date.today.to_time
-      c.details
-    end.compact!
-    JSON.generate data
+    content_type :json
+    JSON.generate Event::list_past
   end
 
   get '/list' do
     content_type :json
-    Event::list
+    Event::short_list
   end
 
   get '/:id' do
     event = Event[params[:id]] or halt(404,'event not found')
-    data = event.details
+    data = event.full_detail
     JSON.generate data
   end
   
@@ -88,11 +80,16 @@ class EventRoutes < Sinatra::Base
   end
 
   get '/:id/attendance' do
-    Event[params[:id]].tickets.to_json
-  end
-
-  def fmt_price(cents)
-    "$ #{ ( cents.to_f / 100 ).round(2) }"
+    content_type :json    
+    list = EventTicket.where( :event_id => params[:id] ).order(:created_on).all.map do |tic|
+      tic.to_hash.merge( {
+        :checkins  => tic.checkins.map(&:to_hash),
+        :customer  => tic.customer.try(:to_list_hash),
+        :recipient => tic.recipient.try(:to_list_hash),
+        :event     => tic.event.to_token
+      }  )
+    end
+    JSON.generate list
   end
 
   get '/:id/attendance.csv' do
@@ -100,37 +97,7 @@ class EventRoutes < Sinatra::Base
     halt 404 if event.nil?
     content_type 'application/csv'
     attachment "#{event.name} Attendance.csv"
-    csv_string = CSV.generate do |csv|
-      csv << [ "ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net" ]
-      net = 0
-      gross = 0
-      fees = 0
-      refunds = 0
-      event.tickets.each do |tic|
-        trans = nil
-        if tic.stripe_payment_id then
-          charge = Stripe::Charge.retrieve(tic.stripe_payment_id) rescue nil
-          trans = Stripe::BalanceTransaction.retrieve charge.balance_transaction rescue nil
-          net = net + trans.net unless trans.nil?
-          gross = gross + trans.amount unless trans.nil?
-          fees = fees + trans.fee unless trans.nil?
-          refund = 0
-          charge.refunds.data.each do |ref|
-            t = Stripe::BalanceTransaction.retrieve ref.balance_transaction rescue nil
-            net = net + t.net unless t.nil?
-            refund = t.net unless t.nil?
-            refunds = refunds + t.net unless t.nil?
-          end
-        end
-        id = tic.customer ? tic.customer.id : 0
-        name = tic.customer ? tic.customer.name : ""
-        email = tic.customer ? tic.customer.email : ""
-        csv << [ id, name, email, "$ 0.00", "$ 0.00", "$0.00", "$ 0.00" ] unless trans
-        csv << [ id, name, email, fmt_price(trans.amount), fmt_price(trans.fee), fmt_price(refund), fmt_price( trans.net + refund ) ] if trans
-      end 
-      csv << []
-      csv << [ "Totals:", event.headcount, "", fmt_price(gross), fmt_price(fees), fmt_price(refunds), fmt_price(net) ]
-    end
+    event.attendance_csv
   end
 
   get '/:id/accounting' do
@@ -199,6 +166,11 @@ class EventRoutes < Sinatra::Base
     recipient = Customer[params[:recipient_id]] or halt 404
     p tic.split( recipient.id, params[:session_ids].map { |x| x.to_i } )
     status 204
+  end
+
+  error do
+    Slack.err( 'Event Route Error', env['sinatra.error'] )
+    'An Error Occurred.'
   end
 
 end

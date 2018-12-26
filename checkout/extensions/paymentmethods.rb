@@ -10,9 +10,8 @@ module Sinatra
       description = "#{custy.name} purchased #{params[:description]}"  
       charge = StripeMethods::charge_card(params[:token], params[:amount], params[:email], description, params[:metadata])
       CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => params[:amount], :reason => params[:description], :type => 'new card').to_json
-    rescue Exception => ex
-      status 400 
-      ex.message
+    rescue Exception => e
+      halt( 400, e.message )
     end
 
     def charge_saved_card
@@ -23,6 +22,8 @@ module Sinatra
       charge = StripeMethods::charge_saved(custy.stripe_id, params[:card], params[:amount], description, params[:metadata])
       ( status 402; return charge.message ) if charge.is_a? Stripe::CardError
       CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => params[:amount], :reason => params[:description], :type => 'saved card').to_json
+    rescue Exception => e
+      halt( 400, e.message )
     end
 
     def pay_cash

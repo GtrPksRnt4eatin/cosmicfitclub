@@ -36,8 +36,18 @@ class CFCAdmin < Sinatra::Base
   post( '/console',              :auth=> 'admin'      ) do
     x = eval(request.body.read)
     x.to_s
-  rescue => e
+  rescue Exception => e
     e.message + "\r\n\r\n" + e.backtrace.join("\r\n")
   end
+
+  not_found do
+    'This is nowhere to be found.'
+  end
+
+  error do
+    Slack.err( 'Admin Error', env['sinatra.error'] )
+    'An Error Occurred.'
+  end
+
 
 end 

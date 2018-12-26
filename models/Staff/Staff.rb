@@ -19,9 +19,76 @@ class Staff < Sequel::Model(:staff)
   end
 
   def Staff::list
-    Staff.all.map
-  end 
+    Staff::token_list
+  end
 
+  def Staff::token_list
+    Staff.all.map { |x| { :id=>x.id, :name=>x.name } }
+  end
+
+  def class_history
+    raw_mvp_list  = $DB[mvp_query, id].all
+    hist_list     = $DB[history_query, id].all
+    total_classes = hist_list.count
+    avr_headcount = hist_list.inject(0) { |tot,el| tot + el[:count] } / total_classes
+
+    grouped_list  = hist_list.group_by { |x| { :classdef_id => x[:classdef_id], :classdef_name => x[:classdef_name] } }
+    grouped_list = grouped_list.map { |k,v| k.merge(
+      { 
+      :avr_headcount => v.inject(0) { |tot,el| tot + el[:count] } / v.count,
+      :total_classes => v.count,
+      :hist_list     => v,
+      :mvp_list      => sort_mvp_list( raw_mvp_list.select { |x| x[:classdef_id] == k[:classdef_id] } )
+    } ) }
+
+    { :avr_headcount => avr_headcount, 
+      :total_classes => total_classes, 
+      :hist_list     => hist_list,
+      :mvp_list      => sort_mvp_list( raw_mvp_list ),
+      :grouped_list  => grouped_list
+    } 
+  end
+
+  def sort_mvp_list(list)
+    list = list.group_by { |x| { :customer_id => x[:customer_id], :customer_name => x[:customer_name] } }
+    list.map { |k,v| k.merge(
+      { :count=>v.inject(0) { |mem,el| mem + el[:count] } }
+    ) }.sort_by { |x| -x[:count] } 
+  end
+
+end
+
+def mvp_query
+  %{
+    SELECT
+      customer_id,
+      classdef_id,
+      MAX(classdef_name) AS classdef_name,
+      MAX(customer_name) AS customer_name,
+      COUNT(customer_id)
+    FROM
+    class_reservations_details
+    WHERE staff_id = ? AND classdef_id != 78
+    GROUP BY customer_id, classdef_id
+    ORDER BY COUNT(customer_id) DESC
+  }
+end
+
+def history_query
+  %{
+    SELECT
+      class_occurrences.id,
+      starttime,
+      classdef_id,
+      MAX(class_defs.name) AS classdef_name,
+      COUNT(class_reservations.id)
+    FROM class_occurrences
+    LEFT JOIN class_defs ON classdef_id = class_defs.id
+    LEFT JOIN class_reservations ON class_occurrence_id = class_occurrences.id
+    WHERE staff_id = ? AND classdef_id != 78
+    GROUP BY class_occurrences.id
+    ORDER BY starttime DESC
+  }
 end
 
 def payroll_query
@@ -79,7 +146,7 @@ end
 class StaffRoutes < Sinatra::Base
 
   get '/' do
-    JSON.generate Staff.exclude(:deactivated => true).order(:position).all.map { |s| { :id => s.id, :name => s.name, :title => s.title, :bio => s.bio, :image_url => s.image[:medium].url } }
+    JSON.generate Staff.exclude(:deactivated => true).order(:position).all.map { |s| { :id => s.id, :name => s.name, :title => s.title, :bio => s.bio, :image_url => s.image.nil? ? "" : s.image[:medium].url } }
   end
   
   post '/' do

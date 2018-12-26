@@ -5,10 +5,10 @@ function TicketSelector(parent) {
     event: null,
     event_sessions: [],
     event_tickets: [],
-    customer: {}
+    customer: null
   }
 
-  this.bind_handlers([]);
+  this.bind_handlers(['select_price', 'load_customer', 'on_payment']);
   this.parent = parent;
   this.build_dom();
   this.mount(parent);
@@ -24,19 +24,56 @@ TicketSelector.prototype = {
   load_event: function(event_id) {
     $.get('/models/events/' + event_id)
      .done( function(evt) { this.state.event = evt; } )
-     .fail( function()    { alert('failed to load event' + event_id); } )
+     .fail( function()    { alert('Failed to load Event' + event_id); } )
   },
 
   load_event_data: function(event) {
   	this.state.event = event;
   },
 
-  load_customer: function(customer) {
-    this.state.customer = customer;
+  load_customer: function(customer_id) {
+
+    $.get('/models/customers/' + customer_id)
+     .done( function(custy) { this.state.customer = custy; }.bind(this) )
+     .fail( function()    { alert('Failed to load Customer: ' + customer_id); } )
+
+    $.get('/models/customers/' + customer_id + '/subscription')
+     .done( function(subsc) { this.state.subscription = subsc; }.bind(this) )
+     .fail( function()      { alert('Failed to load Subscriptions: ' + customer_id); } )
+
   },
 
   load_customer_data: function(customer) {
+    this.state.customer = customer;
+  },
 
+  select_price: function(e,m) {
+    if( empty(this.state.customer) ) { alert('Select A Customer First'); return; }
+    this.state.selected_price = m.price;
+    this.ev_fire('paynow', [ this.state.customer.id, this.price, this.state.event.name + ": " + m.price.title, null, this.on_payment ] );
+  },
+
+  on_payment: function(payment_id){
+    var payload = {
+      customer_id:       this.state.customer.id, 
+      event_id:          this.state.event.id,
+      included_sessions: this.state.selected_price.included_sessions,
+      total_price:       this.price,
+      payment_id:        payment_id,
+      price_id:          this.state.selected_price.id
+    }
+
+    $.post('/checkout/event/precharged', payload )
+     .success( function() { alert("Ticket Created"); this.ev_fire('ticket_created'); }.bind(this) )
+     .fail( function(e) { alert("Failed Creating Ticket"); } )
+  },
+
+  get price() {
+    return ( this.member ? this.state.selected_price.member_price : this.state.selected_price.full_price );
+  },
+
+  get member() {
+    return !!this.state.subscription;
   }
 
 }
@@ -47,10 +84,10 @@ Object.assign( TicketSelector.prototype, ev_channel);
 TicketSelector.prototype.HTML = ES5Template(function(){/**
   <div class='ticket_selector'>
 
-    <div class='price' rv-each-price='state.event.prices'> 
+    <div class='price' rv-each-price='state.event.prices' rv-on-click='this.select_price' rv-title='price.id'> 
       <span>{price.title}</span>
-      <span>Member Price: {price.member_price | money}</span>
-      <span>Full Price: {price.full_price | money}</span>
+      <span rv-if='state.subscription'>     Member Price: {price.member_price | money} </span>
+      <span rv-unless='state.subscription'> Full Price: {price.full_price | money}     </span>
     </div>
 
     <div class='alacarte' rv-if='state.event.a_la_carte'>
@@ -73,10 +110,11 @@ TicketSelector.prototype.CSS = ES5Template(function(){/**
     padding: 0.5em;
     background: rgba(255,255,255,0.1);
     margin: 0.2em;
+    cursor: pointer;
   }
 
   .ticket_selector .price span {
     display: inline-block;
-    width: 10em;
+    width: 11em;
   }
 **/}).untab(2);

@@ -21,15 +21,21 @@ class CFCAuth < Sinatra::Base
 
   get '/email_search' do
     content_type :json
-    custy = Customer.find_by_email params[:email]
+    custy = ( params[:email] == '' ? nil : Customer.find_by_email(params[:email]) )
     JSON.generate( custy.nil? ? false : { id: custy.id, email: custy.email, full_name: custy.name} )
   end
 
   post '/login' do
     data = JSON.parse(request.body.read)
     session[:user] = User.authenticate( data['email'], data['password'] )
-    halt 401 unless session[:user]
+    if !session[:user] then
+      custy = Customer.find_by_email( data['email'] )
+      Slack.post( "Failed Login: Account Not Found - #{data['email']}") if custy.nil?
+      Slack.post( "Failed Login: #{custy.to_list_string}" )         unless custy.nil?
+      halt 401
+    end
     session[:customer] = session[:user].customer
+    Slack.post( "Successful Login #{ session[:customer].to_list_string }" )
     status 204
   end
 
@@ -43,22 +49,20 @@ class CFCAuth < Sinatra::Base
     content_type :json
     data = JSON.parse(request.body.read)
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
-    customer = Customer.create( :name => data['name'], :email => data['email'] )
-    customer.login = User.create
-    customer.send_new_account_email
-    return JSON.generate({ :id => customer.id })
+    custy = Customer.create( :name => data['name'], :email => data['email'] )
+    User.create( :customer => custy )
+    return JSON.generate({ :id => custy.id })
   end
 
   post '/register_and_login' do
     content_type :json
     data = JSON.parse(request.body.read)
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
-    customer = Customer.create( :name => data['name'], :email => data['email'] )
-    customer.login = User.create
-    customer.send_new_account_email
-    session[:user] = customer.login
-    session[:customer] = customer
-    return JSON.generate({ :id => customer.id })
+    custy= Customer.create( :name => data['name'], :email => data['email'] )
+    User.create( :customer => custy)
+    session[:user] = custy.login
+    session[:customer] = custy
+    return JSON.generate({ :id => custy.id })
   end
 
   post '/password' do
@@ -67,6 +71,7 @@ class CFCAuth < Sinatra::Base
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user] = user
     session[:customer] = session[:user].customer
+    Slack.post( "Password Reset #{ session[:customer].to_list_string }" )
     redirect '/user'
   end
 
@@ -110,7 +115,7 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/roles' do
-    Role.create( :name => params[:name] );
+    Role.create( :name => params[:name] )
   end
 
   delete '/users/:id/roles/:role_id' do

@@ -1,3 +1,7 @@
+body {
+  letter-spacing: 0.04em;
+}
+
 .headshot {
   vertical-align: middle;
   position: relative;

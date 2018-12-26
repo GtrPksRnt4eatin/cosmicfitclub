@@ -4,7 +4,9 @@ function include_rivets_dates() {
   rivets.formatters.date       = function(val)     { return moment.parseZone(val).format('MMM Do')             };
   rivets.formatters.datewyr    = function(val)     { return moment.parseZone(val).format('MMM Do YYYY')        };
   rivets.formatters.time       = function(val)     { return moment.parseZone(val).format('h:mm a')             };
+  rivets.formatters.time2      = function(val)     { return moment.parseZone(val).format('h:mm A')             };
   rivets.formatters.padtime    = function(val)     { return moment.parseZone(val).format('hh:mm A')            };
+  rivets.formatters.shortdt    = function(val)     { return moment.parseZone(val).format('MM/DD hh:mm A')      };
   rivets.formatters.fulldate   = function(val)     { return moment.parseZone(val).format('ddd MMM Do hh:mm a') };
   rivets.formatters.simpledate = function(val)     { return moment.parseZone(val).format('MM/DD/YYYY hh:mm A') }; 
   rivets.formatters.eventstart = function(val)     { return moment.parseZone(val).format('ddd M/DD hh:mm A')   };
@@ -100,6 +102,25 @@ function include_rivets_dates() {
         altInput: true, 
         altFormat: 'h:i K',
         inline: true,
+        noCalendar: true,
+        onChange: function(val) { this.publish(val); if(this.el.onchange) { this.el.onchange(); } }.bind(this)
+      })
+    },
+    routine: function(el,value) {
+      if(!value) { this.flatpickrInstance.clear(); return; }
+      this.flatpickrInstance.setDate( value ); 
+      this.flatpickrInstance.jumpToDate(value);
+    },
+    getValue: function(el) { return el.value; },
+    unbind:   function(el) { this.flatpickrInstance.destroy(); }
+  }
+
+  rivets.binders['time_popup'] = {
+    bind: function(el) {
+      this.flatpickrInstance = $(el).flatpickr({
+        enableTime: true, 
+        altInput: true, 
+        altFormat: 'h:i K',
         noCalendar: true,
         onChange: function(val) { this.publish(val); if(this.el.onchange) { this.el.onchange(); } }.bind(this)
       })

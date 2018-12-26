@@ -4,8 +4,9 @@ class EventTicket < Sequel::Model
 
   many_to_one :event
   many_to_one :customer
-  many_to_one :recipient, :class => :Customer, :key => :purchased_for
-  one_to_many :checkins, :class => :EventCheckin, :key => :ticket_id
+  many_to_one :recipient,     :class => :Customer,     :key => :purchased_for
+  many_to_one :eventprice,    :class => :EventPrice,   :key => :event_price_id
+  one_to_many :checkins,      :class => :EventCheckin, :key => :ticket_id
   pg_array_to_many :sessions, :class => :EventSession, :key => :included_sessions
 
   def generate_code
@@ -19,13 +20,35 @@ class EventTicket < Sequel::Model
       :event_name => event.name,
       :event_date => event.starttime.strftime('%a %m/%d'),
       :event_time => event.starttime.strftime('%I:%M %p'),
+      :sessions_string => sessions_string,
       :code => code
     }
     Mail.event_purchase(customer.email, model)
   end
 
+  def resend_email(address=nil)
+    address ||= customer.email
+    model = {
+      :event_name => event.name,
+      :event_date => event.starttime.strftime('%a %m/%d'),
+      :event_time => event.starttime.strftime('%I:%M %p'),
+      :sessions_string => sessions_string,
+      :code => code
+    }
+    Mail.event_purchase(address, model)
+  end
+
+  def sessions_string
+    return DateTime.parse(sessions[0].start_time).strftime('%a %m/%d @ %I:%M %p') if event.sessions.length < 2 
+    sessions.map { |x| "#{x.title} - #{DateTime.parse(x.start_time).strftime('%a %m/%d @ %I:%M %p')}" }.join(", ")
+  end
+
   def to_json(options = {})
     super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
+  end
+
+  def to_details_json
+    self.to_json( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
 
   def split(recipient_id, session_ids)
@@ -41,6 +64,17 @@ class EventTicket < Sequel::Model
       :purchased_for     => recipient_id
     )
     self.update( :included_sessions => (self.included_sessions - session_ids) )
+  end
+
+  def full_payment_info
+    StripeMethods::get_payment_totals(self.stripe_payment_id)
+  end
+
+  def customer_info
+    { :id    => ( customer.id    rescue 0  ),
+      :name  => ( customer.name  rescue "" ),
+      :email => ( customer.email rescue "" )
+    }
   end
 
 end

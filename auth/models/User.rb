@@ -10,7 +10,7 @@ class User < Sequel::Model
 
     def after_create
       add_role Role[1]
-      #send_new_account_email
+      send_activation
     end
 
     def has_role?(role)
@@ -28,7 +28,6 @@ class User < Sequel::Model
     end
     
     def before_save
-      generateResetToken if password.nil?
       encrypt_password unless password.nil?
       super 
     end
@@ -53,7 +52,8 @@ class User < Sequel::Model
     end
 
     def match_password(login_password="")
-      encrypted_password == BCrypt::Engine.hash_secret( login_password, salt )
+      return false if self.salt.nil? 
+      encrypted_password == BCrypt::Engine.hash_secret( login_password, self.salt )
     end
 
     def self.authenticate(email="", login_password="")
@@ -68,12 +68,13 @@ class User < Sequel::Model
     end 
 
     def reset_password
-      #self.password = nil
-      #self.encrypted_password = nil
-      #self.salt = nil
-      #self.save
       self.generateResetToken
       self.send_password_email 
+    end
+
+    def send_activation
+      self.generateResetToken
+      self.send_new_account_email
     end
 
     def send_password_email
@@ -84,6 +85,6 @@ class User < Sequel::Model
       Mail.account_created(customer.email, { :name => customer.name, :url => "https://cosmicfitclub.com/auth/activate?token=#{reset_token}" } )
     end
 
-    def generateResetToken() self.reset_token = rand(36**8).to_s(36) end
+    def generateResetToken() self.update( :reset_token => rand(36**8).to_s(36) ) end
 
 end

@@ -25,6 +25,10 @@ function Schedule(parent) {
     title = val.multisession_event ? val.event_title + '\r\n' + val.title : val.event_title;
     return title;
   }
+
+  rivets.formatters.past = function(val) {
+    return moment(val).isBefore(moment());
+  }
   
   rivets.formatters.instructor_names = function(val) {
     if( val.type != 'classoccurrence' ) return false;
@@ -122,20 +126,25 @@ Schedule.prototype.HTML = `
               <span class='instructor'> { occ | instructor_names } </span>
             </span>
           </span>
-          <span class='register' rv-on-click='this.register' >
-            { occ.headcount } / { occ.capacity } <br> <span class='blue'>Register Now</span>
+          <span class='register'>
+            <span class='headcount' rv-unless='occ.endtime | past'> { occ.headcount } / { occ.capacity } </span>
+            <span class='blue' rv-unless='occ.endtime | past' rv-on-click='this.register'> Register Now </span>
           </span>
         </div>
 
         <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
-          <span class='start'> { occ.starttime | unmilitary } </span> - 
-          <span class='end'>   { occ.endtime | unmilitary } </span>
+          <span class='classtime'>
+            <span class='start'> { occ.starttime | unmilitary } </span> - 
+            <span class='end'>   { occ.endtime | unmilitary } </span>
+          </span>
           <span class='eventtitle'> { occ | event_title } </span>
         </div>
 
         <div class='rental' rv-if="occ.type | equals 'private'">
-          <span class='start'> { occ.starttime | unmilitary } </span> - 
-          <span class='end'>   { occ.endtime | unmilitary } </span>
+          <span class='classtime'>
+            <span class='start'> { occ.starttime | unmilitary } </span> - 
+            <span class='end'>   { occ.endtime | unmilitary } </span>
+          </span>
           <span class='eventtitle'> Private Event: { occ.title } </span>
         </div>
  
@@ -146,6 +155,10 @@ Schedule.prototype.HTML = `
 `.untab(2);
 
 Schedule.prototype.CSS = `
+
+  #Schedule {
+    letter-spacing: 0.04em;
+  }
 
   #Schedule .current_date {
     display: inline-block;
@@ -166,8 +179,8 @@ Schedule.prototype.CSS = `
     padding: 0.5em;
   }
 
-  #Schedule .start,
-  #Schecule .end {
+  #Schedule .classtime .start,
+  #Schedule .classtime .end {
     display: inline-block;
     padding: 0;
   }
@@ -223,14 +236,26 @@ Schedule.prototype.CSS = `
     display: inline-block
   }
 
+  #Schedule .register .blue {
+    cursor: pointer;
+  }
+
   #Schedule .blue {
     color: rgba(150,150,255,0.9);
   }
 
   #Schedule .register {
     display: inline-block;
-    font-size: .8em;
+    font-size: 1em;
     line-height: 1.5em;
+  }
+
+  #Schedule .register span {
+    display: block;
+  }
+
+  #Schedule .register span.headcount {
+    display: none
   }
 
   #Schedule .instructors[data-sub=true] {
@@ -259,7 +284,43 @@ Schedule.prototype.CSS = `
   @media(max-width: 1130px) {
   
     #Schedule .occurrence {
-      font-size: 1.8vw;
+      font-size: 2.5vw;
+      line-height: 1.5em;
+      position: relative;
+    }
+
+    #Schedule .occurrence span {
+      display: block;
+    }
+
+    #Schedule .classdetail span,
+    #Schedule .register span,
+    #Schedule .eventsession .start,
+    #Schedule .eventsession .end {
+      display: inline-block;
+    }
+
+    #Schedule .eventtitle,
+    #Schedule .classdetail .classname,
+    #Schedule .classdetail .instructors {
+      width: auto;
+    }
+        
+    #Schedule .classdetail .classname,
+    #Schedule .classdetail .instructors {
+      padding: 0 0.25em;
+    }
+
+    #Schedule .classdetail .instructors {
+      margin: 0;
+    }
+
+    #Schedule .register br {
+      display: none;
+    }
+
+    #Schedule .register .headcount {
+      display: none;
     }
 
   }

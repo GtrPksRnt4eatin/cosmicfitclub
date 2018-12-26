@@ -1,4 +1,5 @@
 class CustomerRoutes < Sinatra::Base
+  register Sinatra::Auth
 
   get '/' do
     content_type :json
@@ -7,6 +8,17 @@ class CustomerRoutes < Sinatra::Base
 
   get '/list' do
     Customer.all.to_json( { :only => [ :id, :name, :email ] } ) 
+  end
+
+  get '/waiver' do
+    content_type 'image/svg+xml'
+    halt 404 if session[:customer].waiver.nil?
+    return session[:customer].waiver.signature
+  end
+
+  post( '/waiver', :auth => 'user' ) do
+    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
+    return 204
   end
 
   get '/:id' do
@@ -20,14 +32,20 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id/fulldetails' do
     custy = Customer[params[:id]] or halt(404,"Can't Find Customer")
-    { :info => custy,
-      :subscriptions => JSON.parse(custy.subscriptions.to_json( include: :plan )),
-      :tickets => JSON.parse(EventTicket.to_json( array: custy.tickets, include: :event )),
-      :wallet => JSON.parse(custy.wallet.to_json( include: :transactions )),
-      :reservations => JSON.parse(custy.reservations.to_json( include: :occurrence )),
-      :payments => custy.payments,
+    { :info            => custy,
+      :subscriptions   => JSON.parse(custy.subscriptions.to_json( include: :plan )),
+      :tickets         => JSON.parse(EventTicket.to_json( array: custy.tickets, include: :event )),
+      :wallet          => JSON.parse(custy.wallet.to_json( include: :transactions )),
+      :reservations    => JSON.parse(custy.reservations.to_json( include: :occurrence )),
+      :payments        => custy.payments,
       :training_passes => custy.training_passes
     }.to_json
+  end
+
+  get '/:id/subscription' do
+    content_type :json
+    custy = Customer[params[:id]] or halt(404)
+    custy.subscription.to_json
   end
 
   get '/:id/subscriptions' do
@@ -43,17 +61,12 @@ class CustomerRoutes < Sinatra::Base
     data = JSON.parse request.body.read
     custy = Customer[params[:id]] or halt 404
     custy.update(
-      :name => data["name"],
-      :email => data["email"],
-      :phone => data["phone"],
+      :name    => data["name"],
+      :email   => data["email"],
+      :phone   => data["phone"],
       :address => data["address"]
     )
     status 204
-  end
-
-  get '/:id/waiver' do
-    content_type 'image/svg+xml'
-    return Customer[params[:id]].waiver.signature
   end
 
   post '/:id/transfer' do
@@ -180,6 +193,11 @@ class CustomerRoutes < Sinatra::Base
   delete '/:id' do
     custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
     custy.delete
+  end
+
+  error do
+    Slack.err( 'Customer Route Error', env['sinatra.error'] )
+    'An Error Occurred.'
   end
 
 end

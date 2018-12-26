@@ -5,7 +5,7 @@ function include_rivets_select() {
       this.chosen_instance = $(el).chosen({ search_contains: true })
       this.chosen_instance.change(function(e,val) {
         this.publish( parseInt(val.selected) );
-        if(this.el.onchange) { this.el.onchange(); }
+        if(this.el.onchange) { setTimeout(this.el.onchange,100); }
       }.bind(this));
     },
     unbind: function(el) {

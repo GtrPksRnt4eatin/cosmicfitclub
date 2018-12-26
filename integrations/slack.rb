@@ -8,6 +8,39 @@ module Slack
     Slack.send({ :text => msg })
   end
 
+  def Slack.custom(message, channel='website_notifications', attachment=nil)
+    Slack.send({
+      :channel     => channel,
+      :text        => message,
+      :mrkdwn      => true,
+      :username    => 'cosmicdonut',
+      :attachments => attachment.nil? ? [] : [ { "text": attachment, "mrkdwn_in": ["text"] } ]
+    })
+  end
+
+  def Slack.webhook(label, body)
+    msg = "#{label}:\r\r"
+    Slack.send({ 
+      :channel => 'website_notifications', 
+      :text => msg, 
+      :username => 'cosmicdonut', 
+      :mrkdwn => true,     
+      :attachments => [
+        {   "text": body,
+            "mrkdwn_in": ["text"]
+        }
+      ] 
+    })
+  end
+
+  def Slack.raw_err(label, message)
+    Slack.send({
+      :channel => 'website_errors',
+      :text => "#{label}: #{message}",
+      :username => 'cosmicdonut'
+    })
+  end
+
   def Slack.err(label, err)
     msg = "#{label}:\r\r`#{err.message}\r\r`"
     Slack.send({ 

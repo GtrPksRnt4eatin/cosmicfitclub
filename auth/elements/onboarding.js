@@ -1,4 +1,4 @@
-function LoginForm(parent) {
+function Onboarding(parent) {
   
   this.state = {
     "name"         : "",
@@ -16,19 +16,11 @@ function LoginForm(parent) {
   this.load_styles();
   this.bind_dom();
 
-  $(document).keypress(function(e) { 
-    if(e.keyCode != 13) { return true; }
-    switch(this.state.mode) {
-      case "login":    this.login();    break;
-      case "register": this.register(); break;
-      case "reset":    this.reset();    break;
-    }
-  }.bind(this));
-
+  $(document).keypress(function(e) { if(e.keyCode == 13) { this.login(); } }.bind(this));
 }
 
-LoginForm.prototype = {
-	constructor: LoginForm,
+Onboarding.prototype = {
+	constructor: Onboarding,
 
   set_formatters() {
     rivets.formatters.equals = function(val,testval) { return val == testval;  }
@@ -77,14 +69,13 @@ LoginForm.prototype = {
     $(this.dom).shake();
     return false;
   }
-
 }
 
-Object.assign( LoginForm.prototype, element);
-Object.assign( LoginForm.prototype, ev_channel); 
+Object.assign( Onboarding.prototype, element);
+Object.assign( Onboarding.prototype, ev_channel); 
 
-LoginForm.prototype.HTML = `
-  <div id='LoginForm' >
+Onboarding.prototype.HTML = `
+  <div id='Onboarding' >
 
     <div rv-if="state.mode | equals 'login'">
       <div class='section'>Login To Continue</div>
@@ -173,9 +164,9 @@ LoginForm.prototype.HTML = `
   </div>
 `.untab(2);
 
-LoginForm.prototype.CSS = `
+Onboarding.prototype.CSS = `
 
-  #LoginForm {
+  #Onboarding {
     position: relative;
     display: inline-block;
     text-align: center;
@@ -186,7 +177,7 @@ LoginForm.prototype.CSS = `
     padding: 1em;
   }
 
-  #LoginForm .backbtn {
+  #Onboarding .backbtn {
     cursor: pointer;
     display: inline-block;
     position: absolute;
@@ -199,20 +190,20 @@ LoginForm.prototype.CSS = `
     border-right: 10px solid blue;
   }
 
-  #LoginForm .section {
+  #Onboarding .section {
     padding: .5em;
   }
 
-  #LoginForm label {
+  #Onboarding label {
   	line-height: 1.5em;
   }
 
-  #LoginForm input {
+  #Onboarding input {
   	float: right;
     margin-left: 1em;
   }
 
-  #LoginForm .submit {
+  #Onboarding .submit {
   	display: block;
   	cursor: pointer;
     margin-top: .3em;
@@ -221,19 +212,19 @@ LoginForm.prototype.CSS = `
     background: rgba(255,255,255,0.1);
   }
 
-  #LoginForm .submit:hover {
+  #Onboarding .submit:hover {
     cursor: pointer;
     color: rgba(150,255,150,1);
     background: rgba(255,255,255,0.2);
     text-shadow: 0 0 .5em black;
   }
 
-  #LoginForm .fineprint {
+  #Onboarding .fineprint {
     padding: 0.5em;
     font-size: 0.7em;
   }
 
-  #LoginForm .fineprint span {
+  #Onboarding .fineprint span {
     cursor: pointer;
     color: rgba(150,255,150,1);
     text-shadow: 0 0 .5em black;
@@ -243,17 +234,17 @@ LoginForm.prototype.CSS = `
     width: 10em;
   }
 
-  #LoginForm .error {
+  #Onboarding .error {
     color: rgba(255,150,150,1);
     text-shadow: 0 0 .5em black;
     font-size: 0.7em;
   }
 
-  #LoginForm .omni img {
+  #Onboarding .omni img {
     width: 60%;
   }
 
-  #LoginForm img.donut {
+  #Onboarding img.donut {
     margin-top: 1em;
   }
 

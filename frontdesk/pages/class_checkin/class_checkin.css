@@ -1,198 +1,301 @@
-#header {
-  display: block;
-  background: rgba(30,30,30,0.8);
-  box-shadow: 0 0 5px white;
-  height: 3.3em;
-}
+/* HEADER */
 
-#header span {
-  display: inline-block;
-  margin: 1.1em 1em;
-}
+  #header {
+    display: block;
+    background: rgba(30,30,30,0.8);
+    box-shadow: 0 0 5px white;
+    height: 3.3em;
+  }
 
-#header #userview_container {
-  position: absolute;
-  top: 1em;
-  right: 1em;
-}
+  #header span {
+    display: inline-block;
+    margin: 1.1em 1em;
+  }
 
-.tile {
-	text-align: center;
-	padding-bottom: 2em;
-}
+  #header #userview_container {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
 
-table {
-	display: inline-block;
-}
+/* HEADER */
 
-label {
-	margin-right: 1em;
-}
+/* SHEETS PICKER*/
 
-td {
-	padding: 1em;
-	box-shadow: 0 0 .5em rgba(255,255,255,0.8);
-}
+  .sheets_picker {
+    text-align: center;
+    padding-bottom: 2em;
+  }
 
-select,
-input {
-	font-size: 1em;
-	padding: .1em;
-}
+  .datepicker {
+    font-size: 1em;
+    padding: .1em;
+  }
 
-.sheet {
-	padding-bottom: 0;
-	margin-left: 1em;
-	margin-right: 1em;
-	cursor: pointer;
-	position: relative;
-}
+  .sheets_picker .flatpickr-input,
+  .sheets_picker #generate {
+    background: rgba(0,0,0,0);
+    color: rgba(255,255,255,0.8);
+    padding: .5em;
+    cursor: pointer;
+  }
 
-.sheet .field {
-	padding: .5em 1em;
-	display: inline-block;
-	width: 14em;
-}
+  .sheets_picker .flatpickr-input {
+    width: 10em;
+    text-align: center;
+    border-radius: .5em 0 0 .5em;
+    box-shadow: none;
+  }
 
-.sheet div.field:nth-child(1) { width: 10em; }
-.sheet div.field:nth-child(2) { width: 23em; }
-.sheet div.field:nth-child(3) { width: 13em; }
-.sheet div.field:nth-child(4) { width: 8em;  }
+  .sheets_picker #generate {
+    margin-left: .5em;
+    border-radius: 0 .5em .5em 0;
+    font-size: 1em;
+  }
 
-.sheet td.field:nth-child(1) { width: 30em; }
-.sheet td.field:nth-child(2) { width: 15em; }
+  .sheets_picker .flatpickr-input:hover,
+  .sheets_picker #generate:hover {
+    background: rgba(150,50,255,0.3);
+  }
 
-.sheet td.field {
-	width: 15em;
-}
+/* SHEETS PICKER */
 
-.reservations {
-	box-shadow: 0 0 .5em white;
-  margin: 1em 0;
-}
 
-.sheet tr:nth-child(odd) {
-  background: rgba(255,255,255,0.2);
-}
 
-.sheet td {
-	padding: .25em;
-	box-shadow: none;
-}
-	
-.hidden { display: none; }
+/* CLASS SHEETS */
 
-button {
-	font-size: 1em;
-}
+  .sheet {
+    padding-bottom: 0;
+    position: relative;
+    letter-spacing: 0.05em;
+  }
 
-.count {
-	position: absolute;
-	right: 1em;
-	top: .25em; bottom: .25em;
-	background: blue;
-	color: white;
-	width: 2em;
-	height: 2em;
-	border-radius: 2em;
-	line-height: 2em;
-}
+  .sheet .visible {
+    display: flex;
+    padding: 0.4em;
+  }
 
-.edit {
-  display: inline-block;
-  position: absolute;
-  top: .25em;
-  right: 3em;
-  width: 2em;
-  height: 2em;
-  background: url('list.svg');
-  background-size: contain;
-  margin: auto;
-  transition: all .2s ease-in-out;
-}
+  .sheet .visible .dropdown     { flex: 0 0 2em; padding: 0 .5em 0 0; }
+  .sheet .visible .classdetails { flex: 1; }
+  .sheet .visible .tools        { flex: 0 0 6em; padding: 0 0 0 0.5em; }
 
-.delete {
-  display: inline-block;
-  position: absolute;
-  top: .25em;
-  right: .5em;
-  width: 2em;
-  height: 2em;
-  background: url('closecircle.png');
-  background-size: contain;
-  margin: auto;
-  box-shadow: 0 0 0.1em white;
-  border-radius: 1em;
-  transition: all .2s ease-in-out;
-}
+  /* DROPDOWN */
 
-.dropdown {
-  width: 2em;
-  height: 2em;
-  position: absolute;
-  left: .5em;
-  top: .25em;
-  margin: auto;
-  transition: all .2s ease-in-out;
+    .dropdown {
+      transition: all .2s ease-in-out;
+      cursor: pointer;
+      position: relative;
+    }
 
-}
+    .dropdown:before {
+      content: '';
+      height: 100%;
+      vertical-align: middle;
+    }
 
-.dropdown .arrow {
-    background: url('dropdown.svg');
-    background-size: contain;
-    transition: all .2s ease-in-out;
-    height: 100%;
-}
+    .dropdown .arrow {
+      background: url('dropdown.svg');
+      background-size: contain;
+      transition: all .2s ease-in-out;
+      height: 2em;
+      vertical-align: middle;
+    }
 
-.edit:hover,
-.delete:hover,
-.dropdown:hover {
-  transform: scale(1.1);
-}
+    .dropdown[data-rotated=true] .arrow {
+      transform: rotate(-90deg);
+    }
 
-.quarter_turn .arrow {
-  transform: rotate(-90deg);
-}
+    .dropdown:hover {
+      transform: scale(1.1);
+    }
 
-#generate {
-  cursor: pointer;
-  margin-left: .5em;
-  background: rgba(0,0,0,0);
-  color: rgba(255,255,255,0.8);
-  padding: .5em;
-  border-radius: 0 .5em .5em 0;
-}
+  /* DROPDOWN */
 
-#generate:hover {
-  background: rgba(150,50,255,0.3);
-}
+  /* CLASS DETAILS */
 
-.flatpickr-input:hover {
-  background: rgba(150,50,255,0.3);
-}
+    .classdetails {
+      display: flex;
+    }
 
-.flatpickr-input {
-  padding: .5em;
-  border-radius: .5em;
-  width: 10em;
-  text-align: center;
-  border-radius: .5em 0 0 .5em;
-  background: rgba(0,0,0,0);
-  color: rgba(255,255,255,0.8);
-  box-shadow: none;
-}
+    .classdetails .field:nth-child(1) { flex: 0 0 10em; }
+    .classdetails .field:nth-child(2) { flex: 1; }
+    .classdetails .field:nth-child(3) { flex: 0 0 10em; }
 
-.sheet .field {
-  vertical-align: middle;
-}
+    .classdetails .field {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: .5em 1em;
+      display: inline-block;
+      vertical-align: middle;
+    }
 
-.sheet div.field:nth-child(2) {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
+    .classdetails .field .with, 
+    .classdetails .field .teacher {
+      display: inline-block;
+    }
 
-.custy_name:hover {
-  cursor: pointer;
-  color: rgba(160,160,255,1);
+    .classdetails .field .with {
+      margin-right: 0.5em;
+    }
+
+  /* CLASS DETAILS */
+
+  /* TOOLS */
+
+    .tools:before {
+      content: '';
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .tools .edit,
+    .tools .delete {
+      display: inline-block;
+      width: 2em;
+      height: 2em;
+      background-size: contain;
+      transition: all .2s ease-in-out;
+      vertical-align: middle;
+    }
+
+    .tools .edit,
+    .tools .delete {
+      cursor: pointer;
+    }
+
+    .tools .edit {
+      background-image: url('list.svg');
+      position: relative;
+    }
+
+    .tools .delete {
+      margin-left: 0.5em;
+      background-image: url('closecircle.png');
+      box-shadow: 0 0 0.1em white;
+      border-radius: 1em;
+      visibility: hidden;
+    }
+
+    .tools .delete[data-show=true] {
+      visibility: visible;
+    }
+
+    .tools .edit:hover,
+    .tools .delete:hover {
+      transform: scale(1.1);
+    }
+
+    .tools .edit .badge {
+      position: absolute;
+      bottom: -1em;
+      left: -1em;
+      width: 2em;
+      height: 2em;
+      font-size: 0.5em;
+      background: blue;
+      border-radius: 1em;
+      color: white;
+      line-height: 2em;
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+
+  /* TOOLS */
+
+  /* HIDDEN SECTON */
+
+    .reservations {
+      margin: 1em 0;
+    }
+
+    .custy_name:hover {
+      cursor: pointer;
+      color: rgba(160,160,255,1);
+    }
+
+    table.reservations {
+      display: inline-block;
+    }
+
+    table.reservations td {
+      padding: 0.3em;
+      box-shadow: 0 0 .5em rgba(255,255,255,0.6);
+    }
+
+    .reservations td.field:nth-child(1) { width: 30em; }
+    .reservations td.field:nth-child(2) { width: 15em; }
+
+    .reservations tr:nth-child(odd) {
+      background: rgba(255,255,255,0.1);
+    }
+/*
+    .sheet td {
+      padding: .25em;
+      box-shadow: none;
+    }
+  */
+
+  /* HIDDEN SECTON */
+
+/* CLASS SHEETS */
+
+/* CUSTOM FORM */
+  
+  #custom_sheet button {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  table#custom_form {
+    display: inline-block;
+  }
+
+  table#custom_form .chosen-container {
+    width: 100% !important;
+  }
+
+  table#custom_form .flatpickr-input, 
+  select, 
+  #custom_form input,
+  #custom_form button {
+    width: 30em;
+    box-sizing: border-box;
+    font-family: "Industry-Light";
+    font-size: 1em;
+    line-height: 1em;
+    padding: .385em;
+    border-radius: .385em;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+  }
+
+  table th, table td {
+    padding: 0.2em;
+  }
+
+  table th {
+    width: 10em;
+  }
+
+
+/* CUSTOM FORM */
+
+
+
+@media(max-width: 1000px) {
+
+  .classdetails .field {
+    padding: 0 0.5em;
+    font-size: 2vw;
+    display: block;
+    width: auto !important;
+    text-align: left;
+    line-height: 1.2em;
+  }
+
+  .classdetails {
+    text-align: left;
+    display: inline-block;
+  }
+
 }
