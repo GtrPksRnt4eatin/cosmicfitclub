@@ -51,7 +51,7 @@ def payroll_query
   }
 end
 
-def payroll(from, to)
+def Staff::payroll(from, to)
   result = $DB[payroll_query, from, to].all
   result.each { |teacher_row|
     teacher_row[:class_occurrences].reject! { |x| x['classdef_id'].to_i == 78 }
@@ -106,13 +106,13 @@ class StaffRoutes < Sinatra::Base
   end
 
   get '/payroll' do
-    JSON.pretty_generate payroll(params[:from],params[:to])
+    JSON.pretty_generate Staff::payroll(params[:from],params[:to])
   end
 
   get '/payroll.csv' do
     content_type 'application/csv'
     attachment "Payroll #{params[:from]}.csv"
-    proll = payroll(params[:from],params[:to])
+    proll = Staff::payroll(params[:from],params[:to])
     csv_string = CSV.generate do |csv|
       csv << [ 'Payroll' ]
       csv << [ 'Start Date', params[:from] ]
