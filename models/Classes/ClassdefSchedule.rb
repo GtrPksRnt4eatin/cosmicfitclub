@@ -61,7 +61,7 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def rrule_english;   IceCube::Rule.from_ical(rrule).to_s              end
-  def start_time_12hr; Time.parse(start_time.to_s).strftime("%I:%M %P") end
+  def start_time_12hr; Time.parse(start_time.to_s).strftime("%I:%M %P") rescue start_time end
 
   def description_line
     "#{classdef.name} w/ #{teachers.map(&:name).join(", ")} #{rrule_english} @ #{start_time_12hr}"
