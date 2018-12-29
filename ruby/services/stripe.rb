@@ -55,6 +55,14 @@ module StripeMethods
     )['id']
   end
 
+  def StripeMethods::add_card(token, customer_id)
+    custy = Stripe::Customer.retrieve(customer_id)
+    custy.source = token
+    custy.save
+  rescue Exception => e
+    
+  end
+
   def StripeMethods::buy_pack(pack_id, customer_id) 
     Stripe::Order.create(
       :currency => 'usd',
