@@ -143,8 +143,8 @@ def payroll(from, to)
   }
   punch_groups = HourlyPunch.where(starttime: "2018-12-21"..."2019-01-04").all.group_by {|x| x.customer_id }
   result << punch_groups.map { |custy_id, punch_group|
-    { :staff_id => Customer[custy_id].staff.id,
-      :staff_name => Customer[custy_id].staff.name,
+    { :staff_id => Customer[custy_id].staff[0].id,
+      :staff_name => Customer[custy_id].staff[0].name,
       :class_occurrences => 
         punch_group.map { |punch| 
           { :timerange => "#{punch.rounded_start.strftime('%a %m/%d %l:%M %P')} - #{punch.rounded_end.strftime('%l:%M %P')}",
