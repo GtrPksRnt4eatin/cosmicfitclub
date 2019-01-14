@@ -6,6 +6,10 @@ class HourlyPunch < Sequel::Model
 
   ##################################### CLASS METHODS #######################################
 
+  def HourlyPunch::between(start,end)
+    HourlyPunch.where(starttime: Date.parse(start)...Date.parse(end)).all
+  end
+ 
   def HourlyPunch::open_punch(custy_id)
     HourlyPunch[ :customer_id => custy_id, :endtime => nil ]
   end
