@@ -150,7 +150,7 @@ def payroll(from, to)
           { :timerange => "#{punch.rounded_start.strftime('%a %m/%d %l:%M %P')} - #{punch.rounded_end.strftime('%l:%M %P')}",
             :task => "Front Desk",
             :hours => punch.duration,
-            :pay => "$#{punch.duration.to_f*10.to_f}"
+            :pay => punch.duration.to_f*10.to_f
           }
         }
     }
