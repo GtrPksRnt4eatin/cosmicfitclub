@@ -206,7 +206,7 @@ class StaffRoutes < Sinatra::Base
       grand_total = 0
       proll.each do |teacher_row|
         total = 0
-        csv << [ teacher_row[:staff_name].upcase ]
+        csv << [ teacher_row[:staff_name].upcase, "#{params[:from]} to #{params[:to]}" ]
         csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PAY' ]
         csv << []
         teacher_row[:class_occurrences].each do |row|
