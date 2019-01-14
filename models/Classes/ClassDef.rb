@@ -24,8 +24,8 @@ class ClassDef < Sequel::Model
     JSON.generate val
   end
 
-  def create_schedule
-    new_sched = ClassdefSchedule.create
+  def create_schedule(data)
+    new_sched = ClassdefSchedule.create(data)
     add_schedule(new_sched)
     new_sched
   end
