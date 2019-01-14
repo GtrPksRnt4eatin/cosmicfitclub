@@ -211,7 +211,7 @@ class StaffRoutes < Sinatra::Base
         csv << []
         teacher_row[:class_occurrences].each do |row|
           csv << [ Time.parse(row['starttime']).strftime("%a %m/%d %l:%M %P"), row['class_name'], row['headcount'], row[:pay] ] unless row['class_name'].nil?
-          csv << [ row.timerange, row.task, row.hours, row.pay ] if row['class_name'].nil?
+          csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row['class_name'].nil?
           total = total + row[:pay]
         end
         grand_total = grand_total + total
