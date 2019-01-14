@@ -141,6 +141,20 @@ def payroll(from, to)
       end
     }
   }
+  punch_groups = HourlyPunch.where(starttime: "2018-12-21"..."2019-01-04").all.group_by {|x| x.customer_id }
+  result << punch_groups.map { |custy_id, punch_group|
+    { :staff_id => Customer[custy_id].staff.id,
+      :staff_name => Customer[custy_id].staff.name,
+      :class_occurrences => 
+        punch_group.map { |punch| 
+          { :timerange => "#{punch.rounded_start.strftime('%a %m/%d %l:%M %P')} - #{punch.rounded_end.strftime('%l:%M %P')}",
+            :task => "Front Desk",
+            :hours => punch.duration,
+            :pay => "$#{punch.duration.to_f*10.to_f}"
+          }
+        }
+    }
+  }
 end
 
 class StaffRoutes < Sinatra::Base
@@ -192,7 +206,8 @@ class StaffRoutes < Sinatra::Base
         csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PAY' ]
         csv << []
         teacher_row[:class_occurrences].each do |row|
-          csv << [ Time.parse(row['starttime']).strftime("%a %m/%d %l:%M %P"), row['class_name'], row['headcount'], row[:pay] ]
+          csv << [ Time.parse(row['starttime']).strftime("%a %m/%d %l:%M %P"), row['class_name'], row['headcount'], row[:pay] ] unless row['class_name'].nil?
+          csv << [ row.timerange, row.task, row.hours, row.pay ] if row['class_name'].nil?
           total = total + row[:pay]
         end
         grand_total = grand_total + total
