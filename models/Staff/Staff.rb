@@ -142,8 +142,8 @@ def payroll(from, to)
     }
   }
   punch_groups = HourlyPunch.where(starttime: "2018-12-21"..."2019-01-04").all.group_by {|x| x.customer_id }
-  result << punch_groups.map { |custy_id, punch_group|
-    { :staff_id => Customer[custy_id].staff[0].id,
+  punch_groups.each { |custy_id, punch_group|
+    val = { :staff_id => Customer[custy_id].staff[0].id,
       :staff_name => Customer[custy_id].staff[0].name,
       :class_occurrences => 
         punch_group.map { |punch| 
@@ -154,7 +154,11 @@ def payroll(from, to)
           }
         }
     }
+    existing = result.find { |x| x[:staff_id] == val[:staff_id] }
+    existing[:class_occurrences].concat(val[:class_occurrences]) unless existing.nil?
+    result << val if existing.nil?
   }
+  result
 end
 
 class StaffRoutes < Sinatra::Base
