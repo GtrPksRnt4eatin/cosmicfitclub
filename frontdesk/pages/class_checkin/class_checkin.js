@@ -79,10 +79,10 @@ function on_dropdown_click(e) {
 function newsheet_args() {
   var date  = new Date(data.query_date);
   var match = /(\d\d):(\d\d)/.exec(data.newsheet.starttime);
-  date.setUTCHours(match[1],match[2]);
+  date.setHours(match[1],match[2]);
   return {
     classdef_id: data.newsheet.classdef_id,
     staff_id:    data.newsheet.staff_id,
-    starttime:   date.toISOString()
+    starttime:   moment(date).format()
   }
 }
