@@ -37,7 +37,23 @@ CustySelector.prototype = {
   },
 
   new_customer: function(e,m) {
-    var x = 5;
+    var name = prompt("Enter The New Customers Name:", "");
+    var email = prompt("Enter The New Customers E-Mail:", "");
+    $.post('/auth/register', JSON.stringify({
+        "name": name,
+        "email": email
+      }), 'json')
+     .fail( function(req,msg,status) { 
+        alert('failed to create customer');
+      })
+     .success( function(data) {
+        var option = document.createElement("option");
+        option.text = name + ' ( ' + email + ' ) ';
+        option.value = data.id;
+        id('customers').add(option);
+        $('#customers').val(data.id);
+        $('#customers').trigger('chosen:updated');
+      });
   },
 
   custy_selected: function(e,m) {
