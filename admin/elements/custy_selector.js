@@ -50,7 +50,7 @@ CustySelector.prototype = {
         var option = document.createElement("option");
         option.text = name + ' ( ' + email + ' ) ';
         option.value = data.id;
-        var el = this.dom.find('.customers');
+        var el = $(this.dom).find('.customers');
         el.add(option);
         el.val(data.id);
         el.trigger('chosen:updated');
