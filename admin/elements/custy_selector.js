@@ -50,10 +50,11 @@ CustySelector.prototype = {
         var option = document.createElement("option");
         option.text = name + ' ( ' + email + ' ) ';
         option.value = data.id;
-        id('customers').add(option);
-        $('#customers').val(data.id);
-        $('#customers').trigger('chosen:updated');
-      });
+        var el = this.dom.find('.customers');
+        el.add(option);
+        el.val(data.id);
+        el.trigger('chosen:updated');
+      }.bind(this) );
   },
 
   custy_selected: function(e,m) {
