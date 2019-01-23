@@ -37,8 +37,11 @@ html
             td HEADCOUNT
             td PAY
           tr
-          tr rv-each-occ='staff.class_occurrences'
-            td {occ.starttime}
-            td {occ.class_name}
-            td {occ.headcount}
+          tr rv-each-occ='staff.class_occurrences' 
+            td rv-if='occ.starttime' {occ.starttime}
+            td rv-if='occ.timerange' {occ.timerange}
+            td rv-if='occ.class_name' {occ.class_name}
+            td rv-if='occ.task' {occ.task}
+            td rv-if='occ.headcount' {occ.headcount}
+            td rv-if='occ.hours'     {occ.hours}
             td {occ.pay}
