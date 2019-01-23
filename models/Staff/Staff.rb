@@ -143,7 +143,7 @@ def payroll(from, to)
   }
   punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
   punch_groups.each { |custy_id, punch_group|
-    val = { :staff_id => Customer[custy_id].staff[0].id,
+    val = { :staff_id => Customer[custy_id].staff[0].try(:id),
       :staff_name => Customer[custy_id].staff[0].name,
       :class_occurrences => 
         punch_group.map { |punch| 
@@ -191,6 +191,7 @@ class StaffRoutes < Sinatra::Base
   end
 
   get '/payroll' do
+    content_type :json
     JSON.pretty_generate payroll(params[:from],params[:to])
   end
 

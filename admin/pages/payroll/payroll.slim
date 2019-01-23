@@ -25,4 +25,20 @@ html
         button rv-on-click='ctrl.dl_csv'   Download CSV
 
       .tile
-
+        table rv-each-staff='data.payroll'
+          tr
+            td {staff.staff_name}
+            td {data.range}
+            td
+            td
+          tr
+            td DATE
+            td CLASSNAME
+            td HEADCOUNT
+            td PAY
+          tr
+          tr rv-each-occ='staff.class_occurrences'
+            td {occ.starttime}
+            td {occ.class_name}
+            td {occ.headcount}
+            td {occ.pay}
