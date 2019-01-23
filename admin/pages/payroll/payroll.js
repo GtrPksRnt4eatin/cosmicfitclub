@@ -9,5 +9,6 @@ ctrl = {
 }
 
 $(document).ready(function() {
+  include_rivets_dates();
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
 });
