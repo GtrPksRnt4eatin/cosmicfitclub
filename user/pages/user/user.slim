@@ -30,6 +30,9 @@ html
         - if user.has_role? "cameras"
           div
             a href='/admin/cameras' Cameras
+        - if user.has_role? "payroll"
+          div
+            a href='/admin/payroll' Payroll
 
       -if user.has_role? "admin"
         .tile
