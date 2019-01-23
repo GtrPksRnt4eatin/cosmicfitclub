@@ -4,10 +4,6 @@ data = {
 }
 
 ctrl = {
-  rangeselect: function(e,m) {
-    var x = 5;
-  },
-
   get_data: function(e,m) {
   	var match = /(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/.exec(data['range']);
   	if(!match) { return; }
