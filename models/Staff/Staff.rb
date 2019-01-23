@@ -141,7 +141,7 @@ def payroll(from, to)
       end
     }
   }
-  punch_groups = HourlyPunch.where(starttime: "2018-12-21"..."2019-01-04").all.group_by {|x| x.customer_id }
+  punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
   punch_groups.each { |custy_id, punch_group|
     val = { :staff_id => Customer[custy_id].staff[0].id,
       :staff_name => Customer[custy_id].staff[0].name,
