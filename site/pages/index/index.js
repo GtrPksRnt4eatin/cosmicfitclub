@@ -3,7 +3,7 @@ data = {
   first: true,
   images: [
     { "path": "/wide_freeclass_1920_tiny.png",  "msg": "Get Your First Class Free!",            "url": "/first_class_free" },
-    { "path": "/class-core-wide01_tiny.png",    "msg": "Strengthen and Tone Your Core!",        "url": "/class/32" },
+    { "path": "/class-core-wide02_tiny.png",    "msg": "Strengthen and Tone Your Core!",        "url": "/class/32" },
     { "path": "/wide_freeevents_1920_tiny.png", "msg": "Check Out Our Free Events!",            "url": "/free_events" },
     { "path": "/space-rental01_tiny.png",       "msg": "Planning Your Own Event?",              "url": "/"         },
     { "path": "/f2h_tiny.png",                  "msg": "Foot to Hand and Hand to Hand!",        "url": "/class/44" },
