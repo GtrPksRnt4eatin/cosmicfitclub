@@ -6,7 +6,7 @@ data = {
     { "path": "/class-core-wide01_tiny.png",    "msg": "Strengthen and Tone Your Core!",        "url": "/class/32" },
     { "path": "/wide_freeevents_1920_tiny.png", "msg": "Check Out Our Free Events!",            "url": "/free_events" },
     { "path": "/space-rental01_tiny.png",       "msg": "Planning Your Own Event?",              "url": "/"         },
-    { "path": "/wide_class_f2h_tiny.png",       "msg": "Foot to Hand and Hand to Hand!",        "url": "/class/44" },
+    { "path": "/f2h_tiny.png",                  "msg": "Foot to Hand and Hand to Hand!",        "url": "/class/44" },
     { "path": "/wide_membership_1920_tiny.png", "msg": "Join The Club! Become a Member Today!", "url": "/become_a_member"  },
     { "path": "/wide_handstand_1920_tiny.png",  "msg": "Learn How To Handstand!",               "url": "/class/74" }
   ],
