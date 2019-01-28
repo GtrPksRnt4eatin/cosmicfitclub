@@ -53,6 +53,7 @@ $(document).ready(function() {
       type: 'blob',
       size: { width: 1920, height: 600}
       }).then(function (resp) {
+        var urlCreator = window.URL || window.webkitURL;
         $('#result').src = urlCreator.createObjectURL(resp);
       });
     });
@@ -62,6 +63,7 @@ $(document).ready(function() {
       type: 'blob',
       size: { width: 600, height: 600}
       }).then(function (resp) {
+        var urlCreator = window.URL || window.webkitURL;
         $('#result').src = urlCreator.createObjectURL(resp);
       });
     });
