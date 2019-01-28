@@ -12,6 +12,16 @@ var ctrl = {
 
 $(document).ready(function() {
 
+  $widecroppie = $('#uploader .wide').croppie({
+    viewport: { 200, 200 },
+    boundary: { 300, 300 }
+  });
+
+  $tallcroppie = $('#uploader .tall').croppie({
+    viewport: { 200, 200 },
+    boundary: { 300, 300 }
+  });
+
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
   get_saved_slides();
