@@ -12,8 +12,7 @@ var ctrl = {
 
 $(document).ready(function() {
 
-  $widecroppie = $('#upload
-    er .wide').croppie({
+  $widecroppie = $('#uploader .wide').croppie({
     viewport: { width: 480, height: 150 },
     boundary: { width: 530, height: 200 }
   });
