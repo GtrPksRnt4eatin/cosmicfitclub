@@ -66,6 +66,11 @@ form {
   z-index: 1;
 }
 
+#uploader .wide::before,
+#uploader .tall::before {
+  content: 'Upload a file to start cropping';
+}
+
 @media(max-width: 800px) {
 
   #slides {
