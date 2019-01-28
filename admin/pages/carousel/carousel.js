@@ -50,19 +50,19 @@ $(document).ready(function() {
 
   $('.wide_result').on('click', function (ev) {
     $widecroppie.croppie('result', {
-      type: 'jpeg',
+      type: 'blob'
       size: { width: 1920, height: 600}
       }).then(function (resp) {
-        $('#result').src(resp);
+        $('#result').src = urlCreator.createObjectURL(resp);
       });
     });
 
     $('.tall_result').on('click', function (ev) {
     $tallcroppie.croppie('result', {
-      type: 'jpeg',
+      type: 'blob',
       size: { width: 600, height: 600}
       }).then(function (resp) {
-        $('#result').src(resp);
+        $('#result').src = urlCreator.createObjectURL(resp);
       });
     });
 
