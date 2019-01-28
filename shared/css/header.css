@@ -3,11 +3,12 @@ header {
   background: rgba(30,30,30,0.8);
   box-sizing: border-box;
   border-bottom: 1px solid black;
+  white-space: nowrap;
 }
 
 #logo {
   cursor: pointer;
-  max-width: 18em;
+  max-width: 16em;
   vertical-align: bottom;
   margin: 1em;
 }
