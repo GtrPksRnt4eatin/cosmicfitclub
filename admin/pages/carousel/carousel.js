@@ -22,6 +22,30 @@ $(document).ready(function() {
     boundary: { width: 350, height: 350 }
   });
 
+  $('#upload_wide').on('change', function() {
+    if (this.files && this.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#uploader .wide').addClass('ready');
+        $widecroppie.croppie('bind', { url: e.target.result }).then(function(){ console.log('jQuery bind complete'); });   
+      }
+      reader.readAsDataURL(this.files[0]);
+    }
+    else { swal("Sorry - you're browser doesn't support the FileReader API"); }
+  });
+
+  $('#upload_tall').on('change',function() {
+    if (this.files && this.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#uploader .tall').addClass('ready');
+        $tallcroppie.croppie('bind', { url: e.target.result }).then(function(){ console.log('jQuery bind complete'); });   
+      }
+      reader.readAsDataURL(this.files[0]);
+    }
+    else { swal("Sorry - you're browser doesn't support the FileReader API"); }
+  });
+
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
   get_saved_slides();
