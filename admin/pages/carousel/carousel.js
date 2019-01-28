@@ -12,14 +12,15 @@ var ctrl = {
 
 $(document).ready(function() {
 
-  $widecroppie = $('#uploader .wide').croppie({
-    viewport: { 200, 200 },
-    boundary: { 300, 300 }
+  $widecroppie = $('#upload
+    er .wide').croppie({
+    viewport: { width: 480, height: 150 },
+    boundary: { width: 530, height: 200 }
   });
 
   $tallcroppie = $('#uploader .tall').croppie({
-    viewport: { 200, 200 },
-    boundary: { 300, 300 }
+    viewport: { width: 300, height: 300 },
+    boundary: { width: 350, height: 350 }
   });
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
