@@ -48,6 +48,24 @@ $(document).ready(function() {
     else { swal("Sorry - you're browser doesn't support the FileReader API"); }
   });
 
+  $('.wide_result').on('click', function (ev) {
+    $widecroppie.croppie('result', {
+      type: 'html',
+      size: { width: 1920, height: 600}
+      }).then(function (resp) {
+        console.log(resp);
+      });
+    });
+
+    $('.tall_result').on('click', function (ev) {
+    $tallcroppie.croppie('result', {
+      type: 'html',
+      size: { width: 600, height: 600}
+      }).then(function (resp) {
+        console.log(resp);
+      });
+    });
+
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
   get_saved_slides();
