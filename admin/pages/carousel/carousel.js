@@ -50,7 +50,7 @@ $(document).ready(function() {
 
   $('.wide_result').on('click', function (ev) {
     $widecroppie.croppie('result', {
-      type: 'blob'
+      type: 'blob',
       size: { width: 1920, height: 600}
       }).then(function (resp) {
         $('#result').src = urlCreator.createObjectURL(resp);
