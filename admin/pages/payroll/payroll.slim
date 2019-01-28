@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    == css [ 'fonts', 'chosen-ems', 'site', 'header', 'flatpickr', '/admin/payroll' ]
+    == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'flatpickr', 'rivets', 'rv_dates', 'lib' ]
+    == js  [ 'element', 'ev_channel', '/admin/payroll' ]
+
+  body
+    #stars
+
+    #content
+
+      .tile
+        .title Payroll
+
+        input rv-daterangefield='data.range'
+        button rv-on-click='ctrl.get_data' Get Payroll
+        button rv-on-click='ctrl.dl_csv'   Download CSV
+
+      .tile
+        table rv-each-staff='data.payroll'
+          tr
+            td {staff.staff_name}
+            td {data.range}
+            td
+            td
+          tr
+            td DATE
+            td CLASSNAME
+            td HEADCOUNT
+            td PAY
+          tr
+          tr rv-each-occ='staff.class_occurrences' 
+            td rv-if='occ.starttime' {occ.starttime}
+            td rv-if='occ.timerange' {occ.timerange}
+            td rv-if='occ.class_name' {occ.class_name}
+            td rv-if='occ.task' {occ.task}
+            td rv-if='occ.headcount' {occ.headcount}
+            td rv-if='occ.hours'     {occ.hours}
+            td {occ.pay}
