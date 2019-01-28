@@ -15,13 +15,13 @@ $(document).ready(function() {
   $widecroppie = $('#uploader .wide').croppie({
     viewport: { width: 480, height: 150 },
     boundary: { width: 530, height: 200 },
-    showZoom: false
+    showZoomer: false
   });
 
   $tallcroppie = $('#uploader .tall').croppie({
     viewport: { width: 300, height: 300 },
     boundary: { width: 350, height: 350 },
-    showZoom: false
+    showZoomer: false
   });
 
   $('#upload_wide').on('change', function() {
