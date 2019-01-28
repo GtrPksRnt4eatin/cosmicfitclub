@@ -54,7 +54,7 @@ $(document).ready(function() {
       size: { width: 1920, height: 600}
       }).then(function (resp) {
         var urlCreator = window.URL || window.webkitURL;
-        $('#result').src = urlCreator.createObjectURL(resp);
+        $('#result')[0].src = urlCreator.createObjectURL(resp);
       });
     });
 
@@ -64,7 +64,7 @@ $(document).ready(function() {
       size: { width: 600, height: 600}
       }).then(function (resp) {
         var urlCreator = window.URL || window.webkitURL;
-        $('#result').src = urlCreator.createObjectURL(resp);
+        $('#result')[0].src = urlCreator.createObjectURL(resp);
       });
     });
 
