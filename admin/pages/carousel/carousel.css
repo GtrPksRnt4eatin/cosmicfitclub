@@ -66,9 +66,17 @@ form {
   z-index: 1;
 }
 
-#uploader .wide::before,
-#uploader .tall::before {
-  content: 'Upload a file to start cropping';
+.cr-viewport::before {
+  content: 'Upload A File to Start Cropping';
+  background: white;
+  color: #AAA;
+  width: 100%;
+  height: 100%;
+  font-size: 1.5em;
+  box-sizing: border-box;
+  padding: 2em;
+  text-align: center;
+  display: inline-block;
 }
 
 @media(max-width: 800px) {
