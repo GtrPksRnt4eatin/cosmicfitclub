@@ -66,6 +66,10 @@ form {
   z-index: 1;
 }
 
+#uploader .ready .cr-viewport::before {
+  content: none;
+}
+
 .cr-viewport::before {
   content: 'Upload A File to Start Cropping';
   background: white;
