@@ -53,7 +53,7 @@ $(document).ready(function() {
       type: 'html',
       size: { width: 1920, height: 600}
       }).then(function (resp) {
-        console.log(resp);
+        document.body.append(resp);
       });
     });
 
@@ -62,7 +62,7 @@ $(document).ready(function() {
       type: 'html',
       size: { width: 600, height: 600}
       }).then(function (resp) {
-        console.log(resp);
+        document.body.append(resp);
       });
     });
 
