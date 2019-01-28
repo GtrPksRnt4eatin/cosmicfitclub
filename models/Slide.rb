@@ -12,12 +12,12 @@ end
 class SlideRoutes < Sinatra::Base
 
   post '/' do
-    Slide.create( image: params[:file], group: 'index' )
+    Slide.create( image: params[:file], group: 'index2' )
     status 200
   end
 
   get '/' do
-  	JSON.generate Slide.where( :group => 'index' ).all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image[:original].url, :thumb => s.image[:medium].url } }
+  	JSON.generate Slide.where( :group => 'index2' ).all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image[:original].url, :thumb => s.image[:medium].url } }
   end
 
   delete '/:id' do
