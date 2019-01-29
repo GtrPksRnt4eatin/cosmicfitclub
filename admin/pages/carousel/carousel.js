@@ -28,7 +28,7 @@ $(document).ready(function() {
     if (this.files && this.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
-        $('#uploader .wide').addClass('ready');
+        $('.uploader.wide').addClass('ready');
         $widecroppie.croppie('bind', { url: e.target.result }).then(function(){ console.log('jQuery bind complete'); });   
       }
       reader.readAsDataURL(this.files[0]);
@@ -40,7 +40,7 @@ $(document).ready(function() {
     if (this.files && this.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
-        $('#uploader .tall').addClass('ready');
+        $('uploader.tall').addClass('ready');
         $tallcroppie.croppie('bind', { url: e.target.result }).then(function(){ console.log('jQuery bind complete'); });   
       }
       reader.readAsDataURL(this.files[0]);

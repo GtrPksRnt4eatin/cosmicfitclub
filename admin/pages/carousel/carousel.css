@@ -66,7 +66,7 @@ form {
   z-index: 1;
 }
 
-#uploader .ready .cr-viewport::before {
+.uploader.ready .cr-viewport::before {
   content: none;
 }
 
@@ -86,7 +86,7 @@ form {
 #new_slide {
   text-align: center;
   display: inline-block;
-  background: rgba(0,0,0,0.1);
+  background: rgba(80,80,80,0.8);
 }
 
 .heading {
