@@ -12,13 +12,13 @@ var ctrl = {
 
 $(document).ready(function() {
 
-  $widecroppie = $('#uploader .wide .croppie').croppie({
+  $widecroppie = $('.uploader.wide .croppie').croppie({
     viewport: { width: 480, height: 150 },
     boundary: { width: 530, height: 200 },
     showZoomer: false
   });
 
-  $tallcroppie = $('#uploader .tall .croppie').croppie({
+  $tallcroppie = $('.uploader.tall .croppie').croppie({
     viewport: { width: 300, height: 300 },
     boundary: { width: 350, height: 350 },
     showZoomer: false
