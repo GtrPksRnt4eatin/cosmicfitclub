@@ -36,8 +36,8 @@ html
         .frontpage
           img.img1 src='/wide_handstand_1920_tiny.png'
           img.img2.transparent src=''
-        button.prev <
-        button.next >
+        button.prev rv-on-click='ctrl.prev' <
+        button.next rv-on-click='ctrl.next' >
         .counter
  
     == include_slim('slim/partials/footer')

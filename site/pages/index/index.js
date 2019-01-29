@@ -28,7 +28,7 @@ $(document).ready(function() {
   data.msg_elements.push( $(".message_container .msg1") )
   data.msg_elements.push( $(".message_container .msg2") )
 
-  setInterval( function() { transition_img(); }, 6000 );
+  setInterval( function() { increment(); }, 6000 );
 
   $('.img1, .img2').load(function(e){
     if(data.first) { data.first = false; return; }
@@ -41,11 +41,24 @@ $(document).ready(function() {
     data.msg_elements.push(data.msg_elements.shift());
   });
 
+  $('.prev').on('click', decrement);
+  $('.next').on('click', increment);
+
 });
 
-function transition_img() {
+function increment() {
   data.i = data.i + 1;
   if(data.i>=data.images.length) { data.i = 0; }
+  transition_img();
+}
+
+function decrement() {
+  data.i = data.i - 1;
+  if(data.i<0) { data.i = data.images.length-1; }
+  transition_img();
+}
+
+function transition_img() {
   data.img_elements[1].attr('src', data.images[data.i]["path"] );
   data.msg_elements[1][0].textContent = data.images[data.i]["msg"];
 }
