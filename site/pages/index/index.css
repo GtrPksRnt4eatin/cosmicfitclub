@@ -126,9 +126,10 @@ header {
   margin: auto;
   top: 0; bottom: 0;
   background: rgba(255,255,255,0.2);
-  box-shadow: 0 0 0.2em white;
+  box-shadow: 0 0 0.1em white;
   color: rgba(0,0,0,0.6)
   height: 5em;
+  font-size: 2em;
 }
 
 #pagebanner button.prev {
