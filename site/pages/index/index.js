@@ -60,5 +60,5 @@ function decrement() {
 
 function transition_img() {
   data.img_elements[1].attr('src', data.images[data.i]["path"] );
-  data.msg_elements[1][0].textContent = data.images[data.i]["msg"];
+  data.msg_elements[1].textContent = data.images[data.i]["msg"];
 }
