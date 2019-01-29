@@ -152,12 +152,12 @@ header {
 
 .frontpage img {
   opacity: 1;
-  height: 100%;
+  width: 100%;
 }
 
 .frontpage img.img2 {
   margin-top: -56em;
-  margin-bottom: 1.5em;
+  /*margin-bottom: 1.5em;*/
 }
 
 .message {
