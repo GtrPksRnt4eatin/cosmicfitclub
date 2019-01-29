@@ -28,7 +28,7 @@ $(document).ready(function() {
   data.msg_elements.push( $(".message_container .msg1") )
   data.msg_elements.push( $(".message_container .msg2") )
 
-  setInterval( function() { increment(); }, 6000 );
+  setInterval( increment, 6000 );
 
   $('.img1, .img2').load(function(e){
     if(data.first) { data.first = false; return; }
@@ -60,5 +60,5 @@ function decrement() {
 
 function transition_img() {
   data.img_elements[1].attr('src', data.images[data.i]["path"] );
-  data.msg_elements[1].textContent = data.images[data.i]["msg"];
+  data.msg_elements[1][0].textContent = data.images[data.i]["msg"];
 }
