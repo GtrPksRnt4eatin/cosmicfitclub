@@ -16,32 +16,34 @@ html
     #stars
 
     == include_slim('slim/partials/admin_header')
+
+    .content
  
-    #slides
-      .slide rv-each-slide='data.slides'
-        img rv-src='slide.thumb'
-        span 
-          | {slide.data.filename}
-        .delete rv-on-click='ctrl.del'
+      #slides
+        .slide rv-each-slide='data.slides'
+          img rv-src='slide.thumb'
+          span 
+            | {slide.data.filename}
+          .delete rv-on-click='ctrl.del'
 
-    #new_slide
-      #uploader
-        .wide
-          .croppie
-          input#upload_wide type='file' accept="image/*"
-          button.wide_result Result
-        .tall
-          .croppie
-          input#upload_tall type='file' accept="image/*"
-          button.tall_result Result
-      
-      .info
-        span Banner Text
-        input#bannertxt
+      #new_slide
+        #uploader
+          .wide
+            .croppie
+            input#upload_wide type='file' accept="image/*"
+            button.wide_result Result
+          .tall
+            .croppie
+            input#upload_tall type='file' accept="image/*"
+            button.tall_result Result
+        
+        .info
+          span Banner Text
+          input#bannertxt
 
-      .tuple
-        span Link URL
-        input#linkurl
+        .tuple
+          span Link URL
+          input#linkurl
 
     img#result
 
