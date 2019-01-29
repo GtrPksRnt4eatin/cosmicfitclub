@@ -134,12 +134,10 @@ header {
 }
 
 #pagebanner button.prev {
-  content: '<';
   left: 1em;
 }
 
 #pagebanner button.next {
-  content: '>';
   right: 1em;
 
 }
