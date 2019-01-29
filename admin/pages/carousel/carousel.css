@@ -1,3 +1,7 @@
+body {
+  text-align: center;
+}
+
 form {
 	color: black;
 	position: fixed;
@@ -81,6 +85,12 @@ form {
   padding: 2em;
   text-align: center;
   display: inline-block;
+}
+
+#new_slide {
+  text-align: center;
+  display: inline-block;
+  background: rgba(0,0,0,0.1);
 }
 
 @media(max-width: 800px) {

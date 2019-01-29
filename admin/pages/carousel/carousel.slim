@@ -24,23 +24,24 @@ html
           | {slide.data.filename}
         .delete rv-on-click='ctrl.del'
 
-    #uploader
-      .wide
-        .croppie
-        input#upload_wide type='file'
-        button.wide_result Result
-      .tall
-        .croppie
-        input#upload_tall type='file'
-        button.tall_result Result
-    
-    .info
-      span Banner Text
-      input#bannertxt
+    #new_slide
+      #uploader
+        .wide
+          .croppie
+          input#upload_wide type='file' accept="image/*"
+          button.wide_result Result
+        .tall
+          .croppie
+          input#upload_tall type='file' accept="image/*"
+          button.tall_result Result
+      
+      .info
+        span Banner Text
+        input#bannertxt
 
-    .tuple
-      span Link URL
-      input#linkurl
+      .tuple
+        span Link URL
+        input#linkurl
 
     img#result
 
