@@ -104,6 +104,8 @@ form {
   background: rgba(0,0,0,0.2);
   color: rgba(255,255,255,0.8);
   width: 20em;
+  font-size: 1em;
+  font-family: "Industry-Light";
 }
 
 .section {
