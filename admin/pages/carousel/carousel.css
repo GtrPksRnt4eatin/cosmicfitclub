@@ -94,6 +94,12 @@ form {
   background: rgba(255,255,255,0.2);
 }
 
+.description {
+  padding: 0.2em 1em;
+  font-size: 0.8em;
+  background: rgba(255,255,255,0.1); 
+}
+
 .section {
   padding: 1em;
 }
