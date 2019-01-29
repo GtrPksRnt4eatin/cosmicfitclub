@@ -27,15 +27,22 @@ html
           .delete rv-on-click='ctrl.del'
 
       #new_slide
-        #uploader
-          .wide
+      
+        .heading
+          Landscape Banner
+        .section
+          .uploader.wide
             .croppie
-            input#upload_wide type='file' accept="image/*"
-            button.wide_result Result
-          .tall
+              input#upload_wide type='file' accept="image/*"
+              button.wide_result Result
+
+        .heading
+          Portrait Banner
+        .section
+          .uploader.tall
             .croppie
-            input#upload_tall type='file' accept="image/*"
-            button.tall_result Result
+              input#upload_tall type='file' accept="image/*"
+              button.tall_result Result
         
         .info
           span Banner Text
