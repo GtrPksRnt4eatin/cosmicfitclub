@@ -120,6 +120,22 @@ header {
   height: 100%;
 }
 
+#pagebanner button {
+  position: absolute;
+}
+
+#pagebanner button.prev {
+  content: '<';
+  left: 1em;
+  top: 0; bottom: 0;
+}
+
+#pagebanner button.next {
+  content: '>';
+  right: 1em;
+  top: 0; bottom: 0;
+}
+
 .frontpage img {
   -webkit-transition: opacity 2s ease-out;
   -moz-transition: opacity 2s ease-out;
