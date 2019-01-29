@@ -96,8 +96,14 @@ form {
 
 .description {
   padding: 0.2em 1em;
-  font-size: 0.8em;
-  background: rgba(255,255,255,0.1); 
+  font-size: 0.6em;
+  background: rgba(255,255,255,0.2); 
+}
+
+.bannertxt, .linkurl {
+  background: rgba(0,0,0,0.2);
+  color: rgba(255,255,255,0.8);
+  width: 20em;
 }
 
 .section {
