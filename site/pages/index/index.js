@@ -14,6 +14,15 @@ data = {
   msg_elements: []
 }
 
+ctrl = {
+  prev: function(e,m) {
+
+  },
+  next: function(e,m) {
+
+  }
+}
+
 $(document).ready(function() {
 
 //    var imgfader = new ImgFader( 
@@ -46,16 +55,18 @@ $(document).ready(function() {
 
 });
 
-function increment() {
+function increment(e) {
   data.i = data.i + 1;
   if(data.i>=data.images.length) { data.i = 0; }
   transition_img();
+  cancelEvent(e);
 }
 
-function decrement() {
+function decrement(e) {
   data.i = data.i - 1;
   if(data.i<0) { data.i = data.images.length-1; }
   transition_img();
+  cancelEvent(e);
 }
 
 function transition_img() {
