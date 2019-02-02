@@ -59,14 +59,14 @@ function increment(e) {
   data.i = data.i + 1;
   if(data.i>=data.images.length) { data.i = 0; }
   transition_img();
-  cancelEvent(e);
+  return false;
 }
 
 function decrement(e) {
   data.i = data.i - 1;
   if(data.i<0) { data.i = data.images.length-1; }
   transition_img();
-  cancelEvent(e);
+  return false;
 }
 
 function transition_img() {
