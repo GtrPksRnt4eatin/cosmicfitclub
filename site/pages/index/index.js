@@ -32,10 +32,10 @@ $(document).ready(function() {
 //      ]
 //    );
 
-  data.img_elements.push( $(".frontpage img.img1")[0] )
-  data.img_elements.push( $(".frontpage img.img2")[0] )
-  data.msg_elements.push( $(".message_container .msg1")[0] )
-  data.msg_elements.push( $(".message_container .msg2")[0] )
+  data.img_elements.push( $(".frontpage img.img1") )
+  data.img_elements.push( $(".frontpage img.img2") )
+  data.msg_elements.push( $(".message_container .msg1") )
+  data.msg_elements.push( $(".message_container .msg2") )
 
   setInterval( increment, 6000 );
 
@@ -71,5 +71,5 @@ function decrement(e) {
 
 function transition_img() {
   data.img_elements[1].attr('src', data.images[data.i]["path"] );
-  data.msg_elements[1].textContent = data.images[data.i]["msg"];
+  data.msg_elements[1][0].textContent = data.images[data.i]["msg"];
 }
