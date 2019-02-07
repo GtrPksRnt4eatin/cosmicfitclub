@@ -30,7 +30,9 @@ class CFC < Sinatra::Base
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
   
-  get( '/insideflow' )              { redirect '/checkout/event/319' }
+  get( '/jon&ray' )                 { redirect '/checkout/event/364' }
+  get( '/freeday' )                 { redirect '/checkout/event/358' }
+  get( '/candles')                  { redirect '/checkout/event/323' }
 
   get( '/checkout')                 { render_page :checkout }
   get( '/checkout/plans/:id' )      { render_page :checkout_plan }
