@@ -143,6 +143,7 @@ def Staff::payroll(from, to)
   }
   punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
   punch_groups.each { |custy_id, punch_group|
+    p "Missing Staff: #{Customer[custy_id].to_list_hash}" if Customer[custy_id].staff[0].nil?
     val = { :staff_id => Customer[custy_id].staff[0].try(:id),
       :staff_name => Customer[custy_id].staff[0].try(:name),
       :class_occurrences => 
