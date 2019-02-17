@@ -34,7 +34,7 @@ class CustomerRoutes < Sinatra::Base
     custy = Customer[params[:id]] or halt(404,"Can't Find Customer")
     { :info            => custy,
       :subscriptions   => JSON.parse(custy.subscriptions.to_json( include: :plan )),
-      :tickets         => JSON.parse(EventTicket.to_json( array: custy.tickets, include: :event )),
+      :tickets         => JSON.parse(EventTicket.to_json( array: custy.tickets, include: :event )).map{ |x| JSON.parse(x["json"]) },
       :wallet          => JSON.parse(custy.wallet.to_json( include: :transactions )),
       :reservations    => JSON.parse(custy.reservations.to_json( include: :occurrence )),
       :payments        => custy.payments,
