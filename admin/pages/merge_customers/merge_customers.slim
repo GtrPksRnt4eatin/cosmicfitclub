@@ -87,7 +87,9 @@ html
         .label Event Tickets:
         .tuple.tickets rv-each-tic='data.custy1.tickets'
           span
-            | { tic.event.name }
+            | { tic.id }
+          span
+            | { tic.name }
 
         hr
         .label Reservations
@@ -160,7 +162,7 @@ html
           span
             | { tic.id }
           span
-            | { tic.event.name }
+            | { tic.name }
 
         hr
         .label Reservations
