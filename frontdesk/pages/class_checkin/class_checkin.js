@@ -4,17 +4,17 @@ data['newsheet'] = {
   starttime: null
 }
 
-data['query_date'] = new Date().setHours(0, 0, 0, 0);
+data['query_date'] = moment().toISOString().slice(0.10);
 
 ctrl = {
   datechange:      function(e,m) {
     data['occurrences'] = [];
-    var day = new Date(data['query_date']).toISOString();
+    var day = moment(data['query_date']).toISOString().slice(0,10);
     history.pushState({ "day": day }, "", `class_checkin?day=${day}`); 
     get_occurrences(); 
   },
   generate_sheets: function(e,m) { 
-    var day = new Date(data['query_date']).toISOString();
+    var day = moment(data['query_date']).toISOString().slice(0,10);
     $.post(`/models/classdefs/generate?day=${day}`, get_occurrences); 
   },
   delete: function(e,m) {
@@ -47,7 +47,7 @@ $(document).ready( function() {
 
   var day = getUrlParameter('day')
   if( ! empty(day) ) { data['query_date'] = day; }
-  day = new Date(data['query_date']).toISOString();
+  day = moment(data['query_date']).toISOString().slice(0,10);
   history.replaceState({ "day": day }, "", `class_checkin?day=${day}`);
 
   $(window).bind('popstate', function(e) { 
@@ -67,7 +67,7 @@ function setup_bindings() {
 }
 
 function get_occurrences() {
-  var day = new Date(data['query_date']).toISOString();
+  var day = moment(data['query_date']).toISOString().slice(0,10);
   $.get(`/models/classdefs/occurrences?day=${day}`, function(resp) { data['occurrences'] = resp; }, 'json');
 }
 
@@ -77,12 +77,15 @@ function on_dropdown_click(e) {
 }
 
 function newsheet_args() {
-  var date  = new Date(data.query_date + "T00:00:00");
+  var date  = moment(data.query_date);
   var match = /(\d\d):(\d\d)/.exec(data.newsheet.starttime);
-  date.setHours(match[1],match[2]);
+  date.hours(match[1])
+  date.minutes(match[2]);
+  date.seconds(0);
+  date.milliseconds(0);
   return {
     classdef_id: data.newsheet.classdef_id,
     staff_id:    data.newsheet.staff_id,
-    starttime:   moment(date).format()
+    starttime:   date.format()
   }
 }
