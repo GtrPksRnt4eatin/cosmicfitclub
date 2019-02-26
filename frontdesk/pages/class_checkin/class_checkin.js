@@ -77,7 +77,7 @@ function on_dropdown_click(e) {
 }
 
 function newsheet_args() {
-  var date  = new Date(data.query_date);
+  var date  = new Date(data.query_date + "T00:00:00");
   var match = /(\d\d):(\d\d)/.exec(data.newsheet.starttime);
   date.setHours(match[1],match[2]);
   return {
