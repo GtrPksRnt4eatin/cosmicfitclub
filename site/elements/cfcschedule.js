@@ -103,8 +103,8 @@ Schedule.prototype.HTML = `
       <div class='current_date'>
         Week Of { state.formatted_date }
       </div>
-      <span rv-on-click='this.prev_day'> < prev week </span>
-      <span rv-on-click='this.next_day'> next week > </span>
+      <span class='prev' rv-on-click='this.prev_day'> < prev week </span>
+      <span class='next' rv-on-click='this.next_day'> next week > </span>
     </div>
 
     <div class='daygroup' rv-each-group='state.groups' >
@@ -155,8 +155,8 @@ Schedule.prototype.HTML = `
       <div class='current_date'>
         Week Of { state.formatted_date }
       </div>
-      <span rv-on-click='this.prev_day'> < prev week </span>
-      <span rv-on-click='this.next_day'> next week > </span>
+      <span class='prev' rv-on-click='this.prev_day'> < prev week </span>
+      <span class='next' rv-on-click='this.next_day'> next week > </span>
     </div>
 
   </div>
@@ -167,10 +167,6 @@ Schedule.prototype.CSS = `
 
   #Schedule {
     letter-spacing: 0.04em;
-  }
-
-  #Schedule .current_date {
-    display: inline-block;
   }
 
   #Schedule .header {
@@ -189,8 +185,8 @@ Schedule.prototype.CSS = `
     background: rgba(255,255,255,0.2);
   }
 
-  #Schedule .header span:nth-child(1) { padding-right: 5em; }   
-  #Schedule .header span:nth-child(2) { padding-left: 5em; }
+  #Schedule .header span.prev { padding-right: 5em; }   
+  #Schedule .header span.next { padding-left: 5em; }
 
   #Schedule .daygroup {
     margin: 0.5em;
