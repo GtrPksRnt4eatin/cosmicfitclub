@@ -4,7 +4,7 @@ data['newsheet'] = {
   starttime: null
 }
 
-data['query_date'] = moment().toISOString().slice(0.10);
+data['query_date'] = moment().toISOString().slice(0,10);
 
 ctrl = {
   datechange:      function(e,m) {
