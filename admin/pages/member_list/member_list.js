@@ -2,7 +2,8 @@ data = {
   subscriptions: {},
   filtered_subscriptions: {},
   filter_options: {
-  	show_deactivated: false
+  	show_deactivated: false,
+  	show_employees: false
   }
 }
 
@@ -27,6 +28,7 @@ function on_list(resp) {
 function filter_list() {
   data.filtered_subscriptions = data.subscriptions.filter(function(sub) {
     if( sub.deactivated && !data.filter_options.show_deactivated ) return(false);
+    if( sub.plan_id == 10 && !data.filter_options.show_employees ) return(false);
     return(true);
   });
 }
