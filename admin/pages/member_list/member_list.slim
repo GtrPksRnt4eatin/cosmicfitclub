@@ -8,10 +8,6 @@ html
     == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'admin/member_list']
 
     title Member Match
-
-    javascript:
-      data = {}
-      data["subscriptions"] = #{{ $DB["SELECT subscriptions.*, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name FROM Subscriptions LEFT JOIN customers ON customers.id = customer_id JOIN plans ON plans.id = plan_id ORDER BY deactivated"].all.group_by { |x| x[:plan_name] }.to_json }}
   
   body.p5
 
