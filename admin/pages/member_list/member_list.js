@@ -12,7 +12,7 @@ $(document).ready(function(){
 });
 
 function get_data() {
-  $.get("/models/memberships/grouped_list", on_list )
+  $.get("/models/memberships/grouped_list", on_list, 'json')
 }
 
 function on_list(resp) {

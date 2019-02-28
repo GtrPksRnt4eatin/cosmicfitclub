@@ -21,6 +21,7 @@ class MembershipRoutes < Sinatra::Base
   end
 
   get '/grouped_list' do
+    content_type :json
     Subscription::list_all_grouped.to_json
   end
 
