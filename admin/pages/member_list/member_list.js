@@ -1,5 +1,9 @@
 data = {
-  subscriptions: {}
+  subscriptions: {},
+  filtered_subscriptions: {}
+  filter_options: {
+  	show_deactivated: false
+  }
 }
 
 ctrl = {
@@ -7,6 +11,9 @@ ctrl = {
 }
 
 $(document).ready(function(){
+  rivets.formatters.propertyList = function(obj) {
+    return ({key: key, value: value} for key, value of obj)
+  }
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
   get_data();
 });
@@ -17,4 +24,12 @@ function get_data() {
 
 function on_list(resp) {
   data['subscriptions'] = resp;
+  filter_list();
+}
+
+function filter_list() {
+  data.filtered_subscriptions = data.subscriptions.filter(function(sub) {
+    if( data.filter_options.show_deactivated && sub.deactivated ) return(false);
+    return(true);
+  });
 }

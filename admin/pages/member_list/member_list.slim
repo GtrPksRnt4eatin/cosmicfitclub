@@ -16,18 +16,21 @@ html
     .tile
       
       div Subscription List
+      div
+        input type="checkbox" rv-checked='data.filter_options.show_deactivated'
+          | Show Deactivated
       
       table
-        tr
-          th ID
-          th Name
-          th Email
+        tr 
+          th Plan Name
+          th Customer Name
+          th Customer Email
           th Stripe ID
           th Start Date
           th End Date
-        tr rv-each-sub='data.subscriptions'
-          td
-            | { sub.id }
+        tr rv-each-sub='data.filtered_subscriptions' rv-title='sub.id' rv-data-deactivated='sub.deactivated'
+          td 
+            | { sub.plan_name }
           td
             | { sub.name }
           td
