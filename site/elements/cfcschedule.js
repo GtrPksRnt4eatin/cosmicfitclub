@@ -100,11 +100,11 @@ Schedule.prototype.HTML = `
 
   <div id='Schedule'>
     <div class='header'>
-      <span rv-on-click='this.prev_day'> < </span>
+      <span rv-on-click='this.prev_day'> < prev week </span>
       <div class='current_date'>
         Week Of { state.formatted_date }
       </div>
-      <span rv-on-click='this.next_day'> > </span>
+      <span rv-on-click='this.next_day'> next week > </span>
     </div>
 
     <div class='daygroup' rv-each-group='state.groups' >
