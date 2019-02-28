@@ -5,7 +5,7 @@ html
   head
     
     == css ['fonts', 'site', 'header', 'admin/member_list']
-    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'admin/member_list']
+    == js  ['jquery', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'admin/member_list']
 
     title Member List
   
@@ -40,6 +40,6 @@ html
           td
             | { sub.stripe_id }
           td
-            | { sub.began_on }
+            | { sub.began_on | datewyr }
           td
-            | { sub.canceled_on }
+            | { sub.canceled_on | datewyr }
