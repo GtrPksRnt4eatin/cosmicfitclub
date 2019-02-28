@@ -14,6 +14,8 @@ th {
 
 td, th {
   box-shadow: 0 0 0.1em white;
+  padding: 0.2em 0.5em;
+  user-select: text;
 }
 
 tr[data-deactivated=true] {
