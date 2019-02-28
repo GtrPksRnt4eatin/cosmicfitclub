@@ -37,7 +37,7 @@ class Subscription < Sequel::Model
       LEFT JOIN customers ON customers.id = customer_id 
       JOIN plans ON plans.id = plan_id ORDER BY deactivated
     }
-    $DB[query].all.group_by { |x| x[:plan_name] }
+    $DB[query].all.order_by { |x| x[:plan_name] }
   end 
 
 end
