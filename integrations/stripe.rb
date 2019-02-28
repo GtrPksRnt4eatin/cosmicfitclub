@@ -12,15 +12,17 @@ class StripeRoutes < Sinatra::Base
 
     when 'customer.subscription.created'
 
-      customer = Customer.find( :stripe_id => event['data']['object']['customer'] )   
-      customer.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) ) unless customer.nil?
+      customer = Customer.find( :stripe_id => event['data']['object']['customer'] )
+      #subscription = Subscription.find( :stripe_id => )
+      #customer.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) ) unless customer.nil?
       Slack.post("#{customer.to_list_string} Subscription Created!")
 
     when 'customer.subscription.deleted'
       
       customer = Customer.find( :stripe_id => event['data']['object']['customer'] )
-      customer.update( :plan => nil )
-      Slack.post("#{customer.to_list_string} Subscription Deleted!")
+      subscription = Subscription.find( :stripe_id => event['data']['object']['id'] )
+      subscription.cancel unless subscription.nil?
+      Slack.post("#{customer.try(:to_list_string)} Subscription Deleted!")
 
     when 'customer.subscription.trial_will_end'
 
