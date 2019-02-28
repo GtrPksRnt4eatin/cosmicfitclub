@@ -29,12 +29,17 @@ html
             th colspan="4"
               | #{ plan_name }
           tr
+            th ID
             th Name
             th Email
+            th Stripe ID
             th Start Date
+            th End Date
           tr
           - subscriptions.each do |sub|
             tr data-id='#{sub[:id]}' data-deactivated='#{ sub[:deactivated] }'
+              td
+                | #{ sub[:id] }
               td
                 | #{ sub[:name] }
               td
