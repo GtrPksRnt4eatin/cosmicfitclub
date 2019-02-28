@@ -17,5 +17,5 @@ td, th {
 }
 
 tr[data-deactivated=true] {
-  text-decoration: line-through red;
+  background: rgba(255,0,0,0.2);
 }

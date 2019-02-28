@@ -13,6 +13,7 @@ ctrl = {
 
 $(document).ready(function(){
   include_rivets_dates();
+  rivets.formatters.remove_invalid = function(val) { return val == "Invalid Date" ? '' : val; }
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
   get_data();
 });
