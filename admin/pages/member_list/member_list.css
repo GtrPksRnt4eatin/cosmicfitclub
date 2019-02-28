@@ -3,6 +3,18 @@ body {
 	user-select: text;
 }
 
+#header {
+  display: block;
+  background: rgba(30,30,30,0.8);
+  box-shadow: 0 0 5px white;
+  height: 3.3em;
+}
+
+#header span {
+  display: inline-block;
+  margin: 1.1em 1em;
+}
+
 .tile {
 	display: inline-block;
 }
