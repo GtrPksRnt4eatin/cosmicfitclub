@@ -100,10 +100,10 @@ Schedule.prototype.HTML = `
 
   <div id='Schedule'>
     <div class='header'>
-      <span rv-on-click='this.prev_day'> < prev week </span>
       <div class='current_date'>
         Week Of { state.formatted_date }
       </div>
+      <span rv-on-click='this.prev_day'> < prev week </span>
       <span rv-on-click='this.next_day'> next week > </span>
     </div>
 
@@ -152,13 +152,13 @@ Schedule.prototype.HTML = `
     </div>
 
     <div class='header'>
-      <span rv-on-click='this.prev_day'> < prev week </span>
       <div class='current_date'>
         Week Of { state.formatted_date }
       </div>
+      <span rv-on-click='this.prev_day'> < prev week </span>
       <span rv-on-click='this.next_day'> next week > </span>
     </div>
-    
+
   </div>
 
 `.untab(2);
@@ -179,9 +179,18 @@ Schedule.prototype.CSS = `
   }
 
   #Schedule .header span {
+    display: inline-block;
     cursor: pointer;
     padding: 0 1em;
+    background: rgba(255,255,255,0.1);
   }
+
+  #Schedule .header span:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  #Schedule .header span:nth-child(1) { padding-right: 5em; }   
+  #Schedule .header span:nth-child(2) { padding-left: 5em; }
 
   #Schedule .daygroup {
     margin: 0.5em;
@@ -290,7 +299,7 @@ Schedule.prototype.CSS = `
     visibility: hidden;
   }
 
-  @media(max-width: 1130px) {
+  @media(max-width: 1200px) {
   
     #Schedule .occurrence {
       font-size: 2.5vw;
