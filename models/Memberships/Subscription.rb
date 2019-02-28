@@ -30,4 +30,14 @@ class Subscription < Sequel::Model
     self.sum_invoices / self.uses.count
   end
 
+  def Subscription::list_all_grouped
+    query = %{
+      SELECT subscriptions.*, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name 
+      FROM Subscriptions
+      LEFT JOIN customers ON customers.id = customer_id 
+      JOIN plans ON plans.id = plan_id ORDER BY deactivated
+    }
+    $DB[query].all.group_by { |x| x[:plan_name] }
+  end 
+
 end

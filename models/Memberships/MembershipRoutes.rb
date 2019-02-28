@@ -20,6 +20,10 @@ class MembershipRoutes < Sinatra::Base
     sub.update( :stripe_id => params[:value] )
   end
 
+  get '/grouped_list' do
+    Subscription::list_all_grouped.to_json
+  end
+
   get '/matched_list' do
     stripe_list = Stripe::Subscription.list(:limit=>100).data
     cosmic_list = Subscription.where( :deactivated => false ).all

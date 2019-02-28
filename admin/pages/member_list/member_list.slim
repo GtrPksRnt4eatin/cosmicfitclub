@@ -30,8 +30,13 @@ html
       .tile
         table
           tr
-            th colspan="2"
+            th colspan="4"
               | #{ plan_name }
+          tr
+            th Name
+            th Email
+            th Start Date
+          tr
           - subscriptions.each do |sub|
             tr data-id='#{sub[:id]}' data-deactivated='#{ sub[:deactivated] }'
               td
