@@ -41,6 +41,6 @@ html
           td
             | { sub.stripe_id }
           td
-            | { sub.began_on | datewyr remove_invalid }
+            | { sub.began_on | datewyr | remove_invalid }
           td
-            | { sub.canceled_on | datewyr remove_invalid }
+            | { sub.canceled_on | datewyr | remove_invalid }
