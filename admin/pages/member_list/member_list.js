@@ -26,7 +26,7 @@ function on_list(resp) {
 
 function filter_list() {
   data.filtered_subscriptions = data.subscriptions.filter(function(sub) {
-    if( sub_deactivated && !data.filter_options.show_deactivated ) return(false);
+    if( sub.deactivated && !data.filter_options.show_deactivated ) return(false);
     return(true);
   });
 }
