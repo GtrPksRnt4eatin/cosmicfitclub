@@ -150,6 +150,15 @@ Schedule.prototype.HTML = `
  
       </div>
     </div>
+
+    <div class='header'>
+      <span rv-on-click='this.prev_day'> < prev week </span>
+      <div class='current_date'>
+        Week Of { state.formatted_date }
+      </div>
+      <span rv-on-click='this.next_day'> next week > </span>
+    </div>
+    
   </div>
 
 `.untab(2);
