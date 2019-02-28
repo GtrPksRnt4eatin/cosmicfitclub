@@ -76,8 +76,10 @@ Schedule.prototype = {
   },
 
   get_occurrences() {
+    this.dom.setAttribute('data-loading', true);
     $.get(`/models/schedule/${this.state.current_date.toISOString()}/${this.state.current_date.clone().add(7, 'days').toISOString()}`, function(occurrences) {
       this.state.groups = occurrences;
+      this.dom.setAttribute('data-loading', false);
     }.bind(this), 'json');
   },
 
@@ -98,7 +100,7 @@ Object.assign( Schedule.prototype, ev_channel );
 
 Schedule.prototype.HTML = `
 
-  <div id='Schedule'>
+  <div id='Schedule' data-loading='false' >
     <div class='header'>
       <div class='current_date'>
         Week Of { state.formatted_date }
@@ -199,6 +201,18 @@ Schedule.prototype.CSS = `
   #Schedule .daygroup {
     margin: 0.5em;
     padding: 0.5em;
+    position: relative;
+  }
+
+  #Schedule['data-loading'=true] .daygroup:before {
+    content: '';
+    background: rgba(0,0,0,0.6);
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: inline-block;
+    position: absolute;
   }
 
   #Schedule .classtime .start,
