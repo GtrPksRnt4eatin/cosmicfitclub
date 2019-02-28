@@ -172,22 +172,29 @@ Schedule.prototype.CSS = `
 
   #Schedule .header {
     margin-top: 1em;
-    font-size: 1.3em;
+    font-size: 1.2em;
   }
 
-  #Schedule .header span {
+  #Schedule .footer {
+    margin-bottom: 1em;
+    font-size: 1.2em
+  }
+
+  #Schedule .header span,
+  #Schedule .footer span {
     display: inline-block;
     cursor: pointer;
     padding: 0 1em;
     background: rgba(255,255,255,0.1);
   }
 
-  #Schedule .header span:hover {
+  #Schedule .header span:hover,
+  #Schedule .footer span:hover {
     background: rgba(255,255,255,0.2);
   }
 
-  #Schedule .header span.prev { padding: 0.1em 2em 0.1em 0.1em; margin: 0.5em 1em 0 0; }   
-  #Schedule .header span.next { padding: 0.1em 0.1em 0.1em 2em; margin: 0.5em 0 1em 0; }
+  #Schedule span.prev { padding: 0.1em 2em 0.2em 0.2em; margin: 0.5em 1em 0 0; }   
+  #Schedule span.next { padding: 0.1em 0.2em 0.2em 2em; margin: 0.5em 0 0 1em; }
 
   #Schedule .daygroup {
     margin: 0.5em;
