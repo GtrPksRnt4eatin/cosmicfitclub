@@ -13,52 +13,28 @@ html
 
     #stars
 
-    .tile rv-each-group='data.subscriptions'
-
-      div rv-each-group='data.subscriptions'
-        div 
-          | { group }
-        table
-          tr
-            th ID
-            th Name
-            th Email
-            th Stripe ID
-            th Start Date
-            th End Date
-          tr rv-each-sub='group.'
-
+    .tile
+      
+      div Subscription List
+      
       table
         tr
-          th colspan="5"
-            | { group.plan_name }
-
-    - $DB["SELECT subscriptions.*, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name FROM Subscriptions LEFT JOIN customers ON customers.id = customer_id JOIN plans ON plans.id = plan_id ORDER BY deactivated"].all.group_by { |x| x[:plan_name] }.each do |plan_name, subscriptions|
-         
-      .tile
-        table
-          tr
-            th colspan="5"
-              | #{ plan_name }
-          tr
-            th ID
-            th Name
-            th Email
-            th Stripe ID
-            th Start Date
-            th End Date
-          tr
-          - subscriptions.each do |sub|
-            tr data-id='#{sub[:id]}' data-deactivated='#{ sub[:deactivated] }'
-              td
-                | #{ sub[:id] }
-              td
-                | #{ sub[:name] }
-              td
-                | #{ sub[:email] }
-              td
-                | #{ sub[:stripe_id] }
-              td
-                | #{ sub[:began_on] }
-              td
-                | #{ sub[:canceled_on] }
+          th ID
+          th Name
+          th Email
+          th Stripe ID
+          th Start Date
+          th End Date
+        tr rv-each-sub='data.subscriptions'
+          td
+            | #{ sub.id }
+          td
+            | #{ sub.name }
+          td
+            | #{ sub.email }
+          td
+            | #{ sub.stripe_id }
+          td
+            | #{ sub.began_on }
+          td
+            | #{ sub.canceled_on }
