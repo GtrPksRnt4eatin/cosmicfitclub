@@ -8,7 +8,7 @@ data = {
 }
 
 ctrl = {
-	
+  filter_subscriptions: function() { filter_list(); }
 }
 
 $(document).ready(function(){

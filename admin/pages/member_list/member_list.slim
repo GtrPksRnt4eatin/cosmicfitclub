@@ -17,9 +17,9 @@ html
       
       div Subscription List
       div
-        input type="checkbox" rv-checked='data.filter_options.show_deactivated'
+        input type="checkbox" rv-checked='data.filter_options.show_deactivated' rv-on-change='ctrl.filter_subscriptions'
           | Show Deactivated
-        input type="checkbox" rv-checked='data.filter_options.show_employees'
+        input type="checkbox" rv-checked='data.filter_options.show_employees' rv-on-change='ctrl.filter_subscriptions'
           | Show Employees
       
       table
