@@ -1,6 +1,6 @@
 data = {
   subscriptions: {},
-  filtered_subscriptions: {}
+  filtered_subscriptions: {},
   filter_options: {
   	show_deactivated: false
   }
