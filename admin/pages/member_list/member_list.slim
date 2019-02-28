@@ -7,7 +7,7 @@ html
     == css ['fonts', 'site', 'header', 'admin/member_list']
     == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'admin/member_list']
 
-    title Member Match
+    title Member List
   
   body.p5
 
@@ -15,18 +15,30 @@ html
 
     .tile rv-each-group='data.subscriptions'
 
+      div rv-each-group='data.subscriptions'
+        div 
+          | { group }
+        table
+          tr
+            th ID
+            th Name
+            th Email
+            th Stripe ID
+            th Start Date
+            th End Date
+          tr rv-each-sub='group.'
+
       table
         tr
           th colspan="5"
             | { group.plan_name }
-
 
     - $DB["SELECT subscriptions.*, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name FROM Subscriptions LEFT JOIN customers ON customers.id = customer_id JOIN plans ON plans.id = plan_id ORDER BY deactivated"].all.group_by { |x| x[:plan_name] }.each do |plan_name, subscriptions|
          
       .tile
         table
           tr
-            th colspan="4"
+            th colspan="5"
               | #{ plan_name }
           tr
             th ID

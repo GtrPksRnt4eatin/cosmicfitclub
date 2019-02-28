@@ -31,13 +31,12 @@ class Subscription < Sequel::Model
   end
 
   def Subscription::list_all_grouped
-    query = %{
+    $DB[ %{
       SELECT subscriptions.*, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name 
       FROM Subscriptions
       LEFT JOIN customers ON customers.id = customer_id 
-      JOIN plans ON plans.id = plan_id ORDER BY deactivated
-    }
-    $DB[query].all.order_by { |x| x[:plan_name] }
+      JOIN plans ON plans.id = plan_id ORDER BY plan_id, deactivated
+    } ].all
   end 
 
 end
