@@ -35,7 +35,7 @@ class Subscription < Sequel::Model
       SELECT subscriptions.*, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name 
       FROM Subscriptions
       LEFT JOIN customers ON customers.id = customer_id 
-      JOIN plans ON plans.id = plan_id ORDER BY plan_id, deactivated
+      JOIN plans ON plans.id = plan_id ORDER BY plans.id, deactivated
     } ].all
   end 
 
