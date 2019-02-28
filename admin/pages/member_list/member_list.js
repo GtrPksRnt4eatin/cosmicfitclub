@@ -11,9 +11,6 @@ ctrl = {
 }
 
 $(document).ready(function(){
-  rivets.formatters.propertyList = function(obj) {
-    return ({key: key, value: value} for key, value of obj)
-  }
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
   get_data();
 });
