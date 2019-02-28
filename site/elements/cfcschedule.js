@@ -186,8 +186,8 @@ Schedule.prototype.CSS = `
     background: rgba(255,255,255,0.2);
   }
 
-  #Schedule .header span.prev { padding: 0.1em 2em 0.1em 0.1em; margin-right: 1em; }   
-  #Schedule .header span.next { padding: 0.1em 0.1em 0.1em 2em;  margin-left: 1em; }
+  #Schedule .header span.prev { padding: 0.1em 2em 0.1em 0.1em; margin: 1em 1em 0 0; }   
+  #Schedule .header span.next { padding: 0.1em 0.1em 0.1em 2em; margin: 1em 0 1em 0; }
 
   #Schedule .daygroup {
     margin: 0.5em;
