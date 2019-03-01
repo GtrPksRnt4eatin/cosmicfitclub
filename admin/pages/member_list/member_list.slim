@@ -41,7 +41,7 @@ html
             a rv-href='sub.customer_id | customer_url'
               | { sub.name } ( { sub.email } )
           td
-            a rv-href='sub.stripe_id | subscription_url'
+            a rv-href='sub.stripe_id | subscription_url' target="_blank"
               | { sub.stripe_id }
           td
             | { sub.began_on | datewyr | remove_invalid }
