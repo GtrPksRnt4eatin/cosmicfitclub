@@ -349,6 +349,6 @@ table.history .header {
   border-radius: 0 !important;
 }
 
-tr.subscription['data-deactivated'=true] {
+.subscription['data-deactivated'=true] {
   background: rgba(100,100,100,0.3);
 }
