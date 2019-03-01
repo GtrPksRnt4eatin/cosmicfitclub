@@ -348,3 +348,7 @@ table.history .header {
   padding: .31em 1.54em .31em 1.15em !important;
   border-radius: 0 !important;
 }
+
+tr.subscription['data-deactivated'=true] {
+  background: rgba(100,100,100,0.3);
+}

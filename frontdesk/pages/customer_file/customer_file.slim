@@ -54,9 +54,9 @@ html
           ul.tabs
             li.current data-tab='info'  Info
             li data-tab='class_passes'  Class Passes
-            li data-tab='membership'    Membership
+            li data-tab='membership'    Subscriptions
             li data-tab='events'        Events
-            li data-tab='class_checkin' Classes
+            li data-tab='class_checkin' Class History
             li data-tab='page_three'    Miscelaneous Charge
 
           #info.tab-content.current  
@@ -240,42 +240,20 @@ html
 
             table
               tr
-                th
-                  | Current Membership:
-                td
-                  | { data.customer.membership_status.membership.plan.name }
-              tr
-                th
-                  | Stripe ID:
-                td
-                  | { data.customer.membership_status.membership.stripe_id }
-              tr
-                th
-                  | Created On:
-                td
-                  | { data.customer.membership_status.details.created | unixtime }
-              tr
-                th
-                  | Next Billing:
-                td
-                  | { data.customer.membership_status.details.current_period_end | unixtime }
-            br
-            br
-            table
-              tr
-                th Start
-                th End
+                th Period
                 th Plan
                 th Uses
-              tr rv-each-sub='data.customer.subscriptions'
+                th Deactivated
+
+              tr.subscription rv-each-sub='data.customer.subscriptions' rv-data-deactivated='sub.deactivated'
                 td 
-                  | { sub.began_on | datewyr }
-                td
-                  | { sub.cancelled_on | datewyr }
+                  | { sub.began_on | datewyr } - { sub.cancelled_on | datewyr | remove_invalid }
                 td
                   | { sub.plan_name }
                 td
                   | { sub.num_uses }
+                td
+                  | { sub.deactivated }
           
           #events.tab-content
 
@@ -309,48 +287,14 @@ html
 
           #class_checkin.tab-content
 
-            table#class_checkin_table
-              tr
-                th Class:
-                td
-                  select#classes rv-idselect='data.reservation.classdef_id'
-                    option value='0' None
-                    - ClassDef.exclude(:deactivated=>true).all.each do |classdef|
-                      option value='#{classdef.id}'
-                        | #{ classdef.name }
-              tr
-                th Instructor:
-                td
-                  select#staff rv-idselect='data.reservation.staff_id'
-                    option value='0' None
-                    - Staff.exclude(:deactivated=>true).all.each do |staff|
-                      option value='#{staff.id}'
-                        | #{ staff.name }
-              tr
-                th Timeslot:
-                td
-                  input#timeslot rv-datefield='data.reservation.starttime'
-
-              tr                  
-                th
-                td.class_checkout
-                  button rv-on-click='ctrl.reserve_membership' rv-enabled='data.customer.membership_status.plan | has_membership' Use Membership <br>( { data.customer.membership_status.plan.name } ) 
-                  button rv-on-click='ctrl.reserve_class_pass' rv-enabled='data.customer.class_passes | zero_if_null' Use a Class Pass <br>( { data.customer.class_passes | zero_if_null } Remaining )
-                  button rv-on-click='ctrl.reserve_paynow' Pay $25 Now
-              tr#reservation-errors rv-each-err='data.reservation_errors'
-                td.reservation-error colspan='2' { err }
-
-            br
             table.classreservations
               tr
-                th colspan='3' Upcoming Reservations
+                th colspan='3' Class History
               tr rv-each-res='data.customer.reservations'
                 td 
                   | { res.starttime | eventstart }
                 td
                   | { res.classname } w/ { res.instructor }
-                td 
-                  .res_checkin rv-on-click='reservation_checkin' Check In
 
 
 
