@@ -31,6 +31,7 @@ td, th {
   user-select: text;
 }
 
-tr[data-deactivated=true] {
+tr[data-deactivated="true"] {
   background: rgba(255,0,0,0.2);
+  text-decoration: strikeout;
 }
