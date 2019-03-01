@@ -53,7 +53,7 @@ class CustomerRoutes < Sinatra::Base
     custy = Customer[params[:id]] or halt(404)
     custy.subscriptions.map do |sub|
       { :subscription_id => sub.id,
-        :plan_name       => sub.plan.name,
+        :plan_name       => sub.plan.try(:name) | "???",
         :num_uses        => sub.uses.count,
         :began_on        => sub.began_on
       }.merge sub
