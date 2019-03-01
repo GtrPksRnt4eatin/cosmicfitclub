@@ -21,7 +21,7 @@ $(document).ready(function(){
 });
 
 function get_data() {
-  $.get("/models/memberships/grouped_list", on_list, 'json')
+  $.get("/models/memberships/list", on_list, 'json')
 }
 
 function on_list(resp) {

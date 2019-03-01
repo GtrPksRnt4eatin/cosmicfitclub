@@ -20,9 +20,9 @@ class MembershipRoutes < Sinatra::Base
     sub.update( :stripe_id => params[:value] )
   end
 
-  get '/grouped_list' do
+  get '/list' do
     content_type :json
-    Subscription::list_all_grouped.to_json
+    Subscription::list_all.to_json
   end
 
   get '/matched_list' do
