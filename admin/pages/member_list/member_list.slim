@@ -17,7 +17,7 @@ html
     #header
       span Cosmic Fit Club Administration
       #userview_container
-      
+
     .tile
       
       div Subscription List
@@ -38,9 +38,11 @@ html
           td 
             | { sub.plan_name }
           td
-            | { sub.name }
+            a rv-href='sub.customer_id | customer_file_url'
+              | { sub.name } ( { sub.email } )
           td
-            | { sub.stripe_id }
+            a rv-href='sub.stripe_id | subscription_url'
+              | { sub.stripe_id }
           td
             | { sub.began_on | datewyr | remove_invalid }
           td
