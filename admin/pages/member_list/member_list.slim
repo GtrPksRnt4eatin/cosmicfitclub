@@ -38,7 +38,7 @@ html
           td 
             | { sub.plan_name }
           td
-            a rv-href='sub.customer_id | customer_file_url'
+            a rv-href='sub.customer_id | customer_url'
               | { sub.name } ( { sub.email } )
           td
             a rv-href='sub.stripe_id | subscription_url'
