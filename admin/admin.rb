@@ -20,7 +20,7 @@ class CFCAdmin < Sinatra::Base
   get( '/door',                  :auth=> 'door'       ) { render_page :door              }
   get( '/balance',               :auth=> 'admin'      ) { render_page :balance_sheet     }
   get( '/announcements',         :auth=> 'admin'      ) { render_page :announcements     }
-  get( '/subscription_list'      :auth=> 'admin'      ) { render_page :subscription_list }
+  get( '/subscription_list',     :auth=> 'admin'      ) { render_page :subscription_list }
   get( '/kids_slides'                                 ) { render_page :kids_slides       }
   get( '/member_match'                                ) { render_page :member_match      }   
   get( '/class_exceptions',      :auth=> 'admin'      ) { render_page :class_exceptions  }     
