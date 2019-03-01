@@ -54,7 +54,7 @@ html
           ul.tabs
             li.current data-tab='info'  Info
             li data-tab='class_passes'  Class Passes
-            li data-tab='membership'    Subscriptions
+            li data-tab='subscriptions' Subscriptions
             li data-tab='events'        Events
             li data-tab='class_checkin' Class History
             li data-tab='page_three'    Miscelaneous Charge
@@ -236,7 +236,7 @@ html
                   td
                     | { trans.running_total }
 
-          #membership.tab-content
+          #subscriptions.tab-content
 
             table
               tr
@@ -247,7 +247,7 @@ html
 
               tr.subscription rv-each-sub='data.customer.subscriptions' rv-data-deactivated='sub.deactivated'
                 td 
-                  | { sub.began_on | datewyr } - { sub.cancelled_on | datewyr | remove_invalid }
+                  | { sub.began_on | datewyr } - { sub.canceled_on | datewyr | remove_invalid }
                 td
                   | { sub.plan_name }
                 td
