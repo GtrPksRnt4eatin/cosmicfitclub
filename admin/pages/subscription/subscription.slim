@@ -25,8 +25,9 @@ html
           td Subscription
         tr
           td Customer
-          td rv-on-click='ctrl.view_customer'
-            | [ \#{data.subscription.customer.id } ] { data.subscription.customer.name } ( { data.subscription.customer.email } )
+          td
+            a rv-href='data.subscription.customer_id | customer_url'
+              | [ \#{data.subscription.customer.id } ] { data.subscription.customer.name } ( { data.subscription.customer.email } )
         tr
           td Plan
           td
@@ -49,7 +50,8 @@ html
         tr
           td stripe id
           td
-            | { data.subscription.stripe_id }
+            a rv-href='data.subscription.stripe_id | subscription_url' target="_blank"
+              | { data.subscription.stripe_id }
     
     .tile
       table
