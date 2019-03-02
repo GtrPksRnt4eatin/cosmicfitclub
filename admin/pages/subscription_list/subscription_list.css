@@ -38,3 +38,15 @@ tr[data-employee="true"] {
 tr[data-deactivated="true"] {
   background: rgba(255,0,0,0.2);
 }
+
+td.view {
+  cursor: pointer;
+}
+
+td.view:hover {
+  background-color: rgba(0,0,255,0.3);
+}
+
+td.view img {
+  width: 1em;
+}

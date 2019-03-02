@@ -49,5 +49,5 @@ html
             | { sub.began_on | datewyr | remove_invalid }
           td
             | { sub.canceled_on | datewyr | remove_invalid }
-          td
+          td.view
             img src='list.svg' rv-on-click='ctrl.view_subscription'
