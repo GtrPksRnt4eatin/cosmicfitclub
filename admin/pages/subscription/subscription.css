@@ -10,3 +10,11 @@
   display: inline-block;
   margin: 1.1em 1em;
 }
+
+.tile {
+  display: inline-block;
+}
+
+table.uses {
+  display: inline-block;
+}

@@ -20,10 +20,10 @@ html
 
     .tile
 
-      table
+      table.uses
         tr
           th colspan='3'
-            | Subscription Uses
+            | Subscription Uses: { data.uses | count }
         tr
           th Timestamp
           th Description
