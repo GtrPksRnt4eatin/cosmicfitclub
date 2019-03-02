@@ -8,6 +8,17 @@ class Subscription < Sequel::Model
     self.update( :canceled_on => Time.now, :deactivated => true )
   end
 
+  def details
+    {  :id          => id, 
+       :customer    => customer.to_list_hash,
+       :plan        => plan.tokenize,
+       :stripe_id   => stripe_id,
+       :canceled_on => canceled_on,
+       :began_on    => began_on,
+       :deactivated => deactivated 
+    }
+  end
+
   def stripe_info
     return nil if self.stripe_id.nil?
     StripeMethods::get_subscription(self.stripe_id)

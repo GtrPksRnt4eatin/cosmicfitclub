@@ -8,6 +8,11 @@ class MembershipRoutes < Sinatra::Base
 
   get '/:id/details' do
     content_type :json
+    Subscription[params[:id]].details.to_json
+  end
+
+  get '/:id/stripe_info' do
+    content_type :json
     Subscription[params[:id]].stripe_info
   end
 

@@ -6,7 +6,11 @@ class Plan < Sequel::Model
   def formatted_month_price; "$#{ month_price / 100 }.00" end
 
   def Plan::token_list
-  	Plan.all.map { |x| { :id=>x.id, :name=>x.name } }
+  	Plan.all.map { |x| x.tokenize }
+  end
+
+  def tokenize
+    { :id=>x.id, :name=>x.name }
   end
 
 end
