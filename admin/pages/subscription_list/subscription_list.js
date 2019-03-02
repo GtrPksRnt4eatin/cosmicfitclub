@@ -8,7 +8,8 @@ data = {
 }
 
 ctrl = {
-  filter_subscriptions: function() { filter_list(); }
+  filter_subscriptions: function(e,m) { filter_list(); },
+  view_subscription: function(e,m) { window.location = '/admin/subscription?id=' + m.sub.id; }
 }
 
 $(document).ready(function(){

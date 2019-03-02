@@ -56,8 +56,6 @@ html
           .header Superadmin
           hr
           div
-            a href='/admin/subscription_list' Subscription List
-          div
             a href='/admin/member_match' Member Match
           div
             a href='/admin/class_exceptions' Class Exceptions
@@ -81,7 +79,7 @@ html
           div
             a href='/reports/pass_balances' Pass Balances
           div
-            a href='/reports/subscriptions' Subscriptions
+            a href='/admin/subscription_list' Subscription List
 
       -if user.has_role? "frontdesk"
         .tile
