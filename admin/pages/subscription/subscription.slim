@@ -20,6 +20,37 @@ html
 
     .tile
 
+      table
+        tr
+          td Subscription
+        tr
+          td Customer
+          td rv-on-click='ctrl.view_customer'
+            | [ \#{data.subscription.customer.id } ] { data.subscription.customer.name } ( { data.subscription.customer.email } )
+        tr
+          td Plan
+          td
+            | [ \#{ data.subscription.plan.id } ] { data.subscription.plan.name }
+        tr
+          td Status
+          td 
+            span rv-unless='data.subscription.deactivated'
+              | Active
+            span rv-if='data.subscription.deactivated'
+              | Deactivated
+        tr
+          td Started On
+          td
+            | { data.subscription.began_on | datewyr } { data.subscription.began_on | padtime }
+        tr
+          td Ends On
+          td
+            | { data.subscription.cancelled_on | datewyr } { data.subscription.cancelled_on | padtime }
+        tr
+          td stripe id
+          td
+            | { data.subscription.stripe_id }
+
       table.uses
         tr
           th colspan='3'
