@@ -10,7 +10,7 @@ class Plan < Sequel::Model
   end
 
   def tokenize
-    { :id=>x.id, :name=>x.name }
+    { :id=>id, :name=>name }
   end
 
 end
