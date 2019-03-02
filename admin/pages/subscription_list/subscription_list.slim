@@ -26,6 +26,8 @@ html
           | Show Deactivated
         input type="checkbox" rv-checked='data.filter_options.show_employees' rv-on-change='ctrl.filter_subscriptions'
           | Show Employees
+      div
+        | Count: { data.filtered_subscriptions | count }
       
       table
         tr 
