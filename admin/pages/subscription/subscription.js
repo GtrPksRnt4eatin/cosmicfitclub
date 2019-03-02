@@ -1,5 +1,6 @@
 data = {
-  subscription: {}
+  subscription: {},
+  uses: []
 }
 
 ctrl = {
@@ -15,7 +16,11 @@ $(document).ready(function(){
 });
 
 function get_data() {
-  $.get('/models/memberships/' + getUrlParameter('id'), function(resp) {
+  $.get('/models/memberships/' + getUrlParameter('id') + '/details',  function(resp) {
   	data.subscription = resp;
+  }, 'json')
+
+  $.get('/models/memberships/' + getUrlParameter('id') + '/uses',  function(resp) {
+    data.uses = resp;
   }, 'json')
 }
