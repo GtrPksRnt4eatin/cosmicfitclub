@@ -19,4 +19,23 @@ html
       #userview_container
 
     .tile
+
+      table
+        tr
+          th colspan='3'
+            | Subscription Uses
+        tr
+          th Timestamp
+          th Description
+          th Reservation
+
+        tr rv-title='use.id' rv-each-use='data.uses'
+          td 
+            | { use.datetime | datewyr } { use.datetime | padtime }
+          td
+            | { use.reason }
+          td
+            | { use.reservation_id }
+
+
       
