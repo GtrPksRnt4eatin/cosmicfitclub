@@ -15,7 +15,7 @@ $(document).ready(function(){
 });
 
 function get_data() {
-  $.get('/models/memberships/' + GetUrlParameter('id'), function(resp) {
+  $.get('/models/memberships/' + getUrlParameter('id'), function(resp) {
   	data.subscription = resp;
   }, 'json')
 }
