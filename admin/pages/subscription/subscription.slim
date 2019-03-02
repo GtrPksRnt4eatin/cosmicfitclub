@@ -61,9 +61,12 @@ html
           th Amount Paid
 
         tr rv-each-invoice='data.invoices'
-          td { invoice.id }
-          td { invoice.date | datewyr } { invoice.date | padtime }
-          td { invoice.paid }
+          td 
+            | { invoice.id }
+          td 
+            | { invoice.date | datewyr } { invoice.date | padtime }
+          td 
+            | { invoice.paid }
 
     .tile
 
