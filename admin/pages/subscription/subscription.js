@@ -1,6 +1,7 @@
 data = {
   subscription: {},
-  uses: []
+  uses: [],
+  invoices: []
 }
 
 ctrl = {
@@ -23,5 +24,9 @@ function get_data() {
 
   $.get('/models/memberships/' + getUrlParameter('id') + '/uses',  function(resp) {
     data.uses = resp;
+  }, 'json')
+
+  $.get('/models/memberships/' + getUrlParameter('id') + '/invoices',  function(resp) {
+    data.invoices = resp;
   }, 'json')
 }

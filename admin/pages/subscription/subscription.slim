@@ -50,6 +50,22 @@ html
           td stripe id
           td
             | { data.subscription.stripe_id }
+    
+    .tile
+      table
+        tr
+          th Invoices
+        tr
+          th ID
+          th Date
+          th Amount Paid
+
+        tr rv-each-invoice='data.invoices'
+          td { invoice.id }
+          td { invoice.date | datewyr } { invoice.date | padtime }
+          td { invoice.paid }
+
+    .tile
 
       table.uses
         tr

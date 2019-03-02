@@ -26,8 +26,9 @@ class Subscription < Sequel::Model
 
   def invoices
     return [] if self.stripe_id.nil?
-    invoices = Stripe::Invoice.list( customer: self.customer.stripe_id )
-    invoices = invoices.select { |x| x["subscription"] == self.stripe_id }
+    #invoices = Stripe::Invoice.list( customer: self.customer.stripe_id )
+    #invoices = invoices.select { |x| x["subscription"] == self.stripe_id }
+    invoices = Stripe::Invoice.list( subscription: self.stripe_id );
     invoices.map { |x| { :id => x["id"], :paid => x["amount_paid"], :date => DateTime.strptime(x["date"].to_s, "%s") } }
   end
 
