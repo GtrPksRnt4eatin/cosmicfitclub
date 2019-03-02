@@ -245,7 +245,7 @@ html
                 th Uses
                 th Deactivated
 
-              tr.subscription rv-each-sub='data.customer.subscriptions' rv-data-deactivated='sub.deactivated'
+              tr.subscription rv-each-sub='data.customer.subscriptions' rv-data-deactivated='sub.deactivated' rv-title='sub.id'
                 td 
                   | { sub.began_on | datewyr } - { sub.canceled_on | datewyr | remove_invalid }
                 td

@@ -16,6 +16,7 @@ $(document).ready(function(){
   rivets.formatters.remove_invalid = function(val) { return val == "Invalid date" ? '' : val; }
   rivets.formatters.subscription_url = function(val) { return "https://dashboard.stripe.com/subscriptions/" + val; }
   rivets.formatters.customer_url = function(val) { return "/frontdesk/customer_file?id=" + val; }
+  rivets.formatters.employee = function(val) { return( val.plan_id == 10 ); }
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
   get_data();
 });

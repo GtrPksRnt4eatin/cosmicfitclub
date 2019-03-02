@@ -30,7 +30,7 @@ class Subscription < Sequel::Model
     self.sum_invoices / self.uses.count
   end
 
-  def Subscription::list_all
+  def Subscription::list_all                               
     $DB[ %{
       SELECT subscriptions.*, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name 
       FROM Subscriptions

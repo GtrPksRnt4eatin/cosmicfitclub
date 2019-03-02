@@ -34,7 +34,7 @@ html
           th Stripe ID
           th Start Date
           th End Date
-        tr rv-each-sub='data.filtered_subscriptions' rv-title='sub.id' rv-data-deactivated='sub.deactivated'
+        tr rv-each-sub='data.filtered_subscriptions' rv-title='sub.id' rv-data-deactivated='sub.deactivated' rv-data-employee='sub | employee'
           td 
             | { sub.plan_name }
           td
