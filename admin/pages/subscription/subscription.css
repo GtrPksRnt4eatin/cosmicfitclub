@@ -11,6 +11,10 @@
   margin: 1.1em 1em;
 }
 
+body {
+  text-align: center;
+}
+
 .tile {
   display: inline-block;
 }
