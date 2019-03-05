@@ -103,8 +103,7 @@ class EventRoutes < Sinatra::Base
   get '/:id/accounting' do
     tickets = JSON.parse Event[params[:id]].tickets.to_json
     tickets.map! do |tic|
-      stripe_id = ( tic['stripe_payment_id'].to_i > 0 ? CustomerPayment[tic['stripe_payment_id']] : tic['stripe_payment_id'] )
-      tic['charge'] = Stripe::Charge.retrieve(tic['stripe_payment_id'])
+      tic['charge'] = Stripe::Charge.retrieve(tic.get_stripe_id)
       tic['balance_transaction'] = Stripe::BalanceTransaction.retrieve( tic['charge']['balance_transaction'] )
       tic['charge']['refunds']['data'].map! do |refund|
         refund['balance_transaction'] = Stripe::BalanceTransaction.retrieve( refund['balance_transaction'] )
@@ -124,7 +123,7 @@ class EventRoutes < Sinatra::Base
     balance = 0
     tickets = Event[params[:id]].tickets
     tickets.each do |tic|
-      charge =  Stripe::Charge.retrieve(tic.stripe_payment_id)
+      charge =  Stripe::Charge.retrieve(tic.get_stripe_id)
       transaction = Stripe::BalanceTransaction.retrieve charge.balance_transaction
       balance = balance + transaction.net
       puts " + #{transaction.net}"
