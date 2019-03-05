@@ -117,7 +117,7 @@ ReservationForm.prototype = {
 Object.assign( ReservationForm.prototype, element);
 Object.assign( ReservationForm.prototype, ev_channel);
 
-ReservationForm.prototype.HTML = `
+ReservationForm.prototype.HTML = ES5Template(function(){/**
 
   <div class='ReservationForm'>
     <button rv-if='state.occurrence.free' rv-on-click='this.reserve_free'>
@@ -143,9 +143,9 @@ ReservationForm.prototype.HTML = `
     </div>
   </div>
 
-`.untab(2);
+**/}).untab(2);
 
-ReservationForm.prototype.CSS = `
+ReservationForm.prototype.CSS = ES5Template(function(){/**
 
   .ReservationForm {
   	margin: 1em;
@@ -187,4 +187,4 @@ ReservationForm.prototype.CSS = `
     }
   }
 
-`.untab(2);
+**/}).untab(2);

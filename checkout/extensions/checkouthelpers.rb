@@ -40,15 +40,19 @@ module Sinatra
       eventname = Event[data['metadata']['event_id']].name
       data['metadata']['name'] = data['token']['card']['name']
       charge = StripeMethods::charge_card(data['token']['id'], data['total_price'], data['token']['email'], eventname, data['metadata']);
+      selected_price_name = (data['selected_price'] ? data['selected_price']['title'] : "")
+
+      description = "#{custy.name} purchased a #{selected_price_name} ticket for #{eventname}"  
+      payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card').to_json
+      
       EventTicket.create( 
         :customer => custy, 
         :event_id => data['event_id'], 
         :included_sessions => data['included_sessions'], 
         :price => data['total_price'],
-        :stripe_payment_id => charge['id'],
+        :stripe_payment_id => payment.id, #charge['id'],
         :event_price_id => data['selected_price'] ? data['selected_price']['id'] : nil
       )
-      selected_price_name = (data['selected_price'] ? data['selected_price']['title'] : "")
       Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} #{selected_price_name} ticket for #{eventname}.")
       status 204
     end
