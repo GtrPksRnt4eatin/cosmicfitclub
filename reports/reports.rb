@@ -15,7 +15,7 @@ class Reports < Sinatra::Base
 
   get( '/', )                                     { render_page :index         }
   get( '/pass_balances', :auth => 'reports' )     { render_page :pass_balances }
-  get( '/subscriptions', :auth => 'reports' )     { render_page :subscriptions }
+  #get( '/subscriptions', :auth => 'reports' )     { render_page :subscriptions }
   get( '/email_lists',   :auth => 'reports' )     { render_page :email_lists   }
   get( '/attendence',    :auth => 'reports' )     { render_page :attendence    }
 

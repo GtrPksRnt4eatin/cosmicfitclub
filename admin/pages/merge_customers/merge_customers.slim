@@ -66,6 +66,10 @@ html
           span.label Stripe ID
           span
             | {data.custy1.info.stripe_id}
+        .tuple.info
+          span.label Password Set?
+          span
+            | { data.custy1.password }
 
         hr
         .label Subscriptions:
@@ -87,7 +91,9 @@ html
         .label Event Tickets:
         .tuple.tickets rv-each-tic='data.custy1.tickets'
           span
-            | { tic.event.name }
+            | { tic.id }
+          span
+            | { tic.name }
 
         hr
         .label Reservations
@@ -138,6 +144,10 @@ html
           span.label Stripe ID
           span
             |{data.custy2.info.stripe_id}
+        .tuple.info
+          span.label Password Set?
+          span
+            | { data.custy2.password }
 
         hr
         .label Subscriptions:
@@ -160,7 +170,7 @@ html
           span
             | { tic.id }
           span
-            | { tic.event.name }
+            | { tic.name }
 
         hr
         .label Reservations

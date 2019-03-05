@@ -34,11 +34,12 @@ class CustomerRoutes < Sinatra::Base
     custy = Customer[params[:id]] or halt(404,"Can't Find Customer")
     { :info            => custy,
       :subscriptions   => JSON.parse(custy.subscriptions.to_json( include: :plan )),
-      :tickets         => JSON.parse(EventTicket.to_json( array: custy.tickets, include: :event )),
+      :tickets         => EventTicket.select_all(:event_tickets).select_append(:name).join( :events, id: :event_id ).where( :customer_id => custy.id ).all.map(&:values),
       :wallet          => JSON.parse(custy.wallet.to_json( include: :transactions )),
       :reservations    => JSON.parse(custy.reservations.to_json( include: :occurrence )),
       :payments        => custy.payments,
-      :training_passes => custy.training_passes
+      :training_passes => custy.training_passes,
+      :password        => !custy.login.try(:encrypted_password).nil?
     }.to_json
   end
 
@@ -51,8 +52,10 @@ class CustomerRoutes < Sinatra::Base
   get '/:id/subscriptions' do
     custy = Customer[params[:id]] or halt(404)
     custy.subscriptions.map do |sub|
-      { :plan_name => sub.plan.name,
-        :num_uses => sub.uses.count
+      { :subscription_id => sub.id,
+        :plan_name       => sub.plan.try(:name) || "???",
+        :num_uses        => sub.uses.count,
+        :began_on        => sub.began_on
       }.merge sub
     end.to_json
   end

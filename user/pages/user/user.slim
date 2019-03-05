@@ -30,6 +30,9 @@ html
         - if user.has_role? "cameras"
           div
             a href='/admin/cameras' Cameras
+        - if user.has_role? "payroll"
+          div
+            a href='/admin/payroll' Payroll
 
       -if user.has_role? "admin"
         .tile
@@ -52,8 +55,6 @@ html
         .tile
           .header Superadmin
           hr
-          div
-            a href='/admin/member_list' Member List
           div
             a href='/admin/member_match' Member Match
           div
@@ -78,7 +79,7 @@ html
           div
             a href='/reports/pass_balances' Pass Balances
           div
-            a href='/reports/subscriptions' Subscriptions
+            a href='/admin/subscription_list' Subscription List
 
       -if user.has_role? "frontdesk"
         .tile
@@ -102,7 +103,7 @@ html
 
       - unless customer.plan.nil?
         .tile
-          .header Membership Status
+          .header Subscription Status
           hr
           | #{ customer.plan.name }
           br

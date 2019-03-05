@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    
+    == css ['fonts', 'site', 'header', 'admin/subscription']
+    == js  ['jquery', 'moment', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel']
+    == js  ['/auth/elements/userview', 'menu', 'admin/subscription']
+
+    title Subscription
+  
+  body.p5
+
+    #stars
+
+    #header
+      span Cosmic Fit Club Administration
+      #userview_container
+
+    .tile
+
+      table
+        tr
+          td Subscription
+        tr
+          td Customer
+          td
+            a rv-href='data.subscription.customer_id | customer_url'
+              | [ \#{data.subscription.customer.id } ] { data.subscription.customer.name } ( { data.subscription.customer.email } )
+        tr
+          td Plan
+          td
+            | [ \#{ data.subscription.plan.id } ] { data.subscription.plan.name }
+        tr
+          td Status
+          td 
+            span rv-unless='data.subscription.deactivated'
+              | Active
+            span rv-if='data.subscription.deactivated'
+              | Deactivated
+        tr
+          td Started On
+          td
+            | { data.subscription.began_on | datewyr } { data.subscription.began_on | padtime }
+        tr
+          td Ends On
+          td
+            | { data.subscription.cancelled_on | datewyr } { data.subscription.cancelled_on | padtime }
+        tr
+          td stripe id
+          td
+            a rv-href='data.subscription.stripe_id | subscription_url' target="_blank"
+              | { data.subscription.stripe_id }
+    
+    .tile
+      table
+        tr
+          th Invoices
+        tr
+          th ID
+          th Date
+          th Amount Paid
+
+        tr rv-each-invoice='data.invoices'
+          td 
+            | { invoice.id }
+          td 
+            | { invoice.date | datewyr } { invoice.date | padtime }
+          td 
+            | { invoice.paid }
+
+    .tile
+
+      table.uses
+        tr
+          th colspan='3'
+            | Subscription Uses: { data.uses | count }
+        tr
+          th Timestamp
+          th Description
+          th Reservation
+
+        tr rv-title='use.id' rv-each-use='data.uses'
+          td 
+            | { use.datetime | datewyr } { use.datetime | padtime }
+          td
+            | { use.reason }
+          td
+            | { use.reservation_id }
+
+
+      

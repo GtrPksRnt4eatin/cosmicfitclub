@@ -8,19 +8,35 @@ class StripeRoutes < Sinatra::Base
     
     event = JSON.parse request.body.read
 
-    Slack.post("Stripe Webhook: #{ event['type'] }")
-
     case event['type']
 
     when 'customer.subscription.created'
 
-      customer = Customer.find( :stripe_id => event['data']['object']['customer'] )   
-      customer.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) ) unless customer.nil?
+      customer = Customer.find( :stripe_id => event['data']['object']['customer'] )
+      #subscription = Subscription.find( :stripe_id => )
+      #customer.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) ) unless customer.nil?
+      Slack.post("#{customer.to_list_string} Subscription Created!")
 
     when 'customer.subscription.deleted'
       
       customer = Customer.find( :stripe_id => event['data']['object']['customer'] )
-      customer.update( :plan => nil )
+      subscription = Subscription.find( :stripe_id => event['data']['object']['id'] )
+      subscription.cancel unless subscription.nil?
+      Slack.post("#{customer.try(:to_list_string)} Subscription Deleted!")
+
+    when 'customer.subscription.trial_will_end'
+
+      customer = Customer.find( :stripe_id => event['data']['object']['customer'] ) 
+      Slack.post("#{customer.to_list_string} Trial Ending on #{Time.at(event['data']['object']['trial_end']).to_s}")
+
+    when 'invoice.upcoming'
+
+      customer = Customer.find( :stripe_id => event['data']['object']['customer'] ) 
+      Slack.post("#{customer.to_list_string} #{event['data']['object']['total']} Payment Due On #{Time.at(event['data']['object']['trial_end']).to_s}")
+
+    else
+
+      Slack.post("Stripe Webhook: #{ event['type'] }")
 
     end
 
@@ -79,6 +95,14 @@ module StripeMethods
       :description => description,
       :metadata    => metadata
     )
+  end
+
+  def StripeMethods::add_card(token, customer_id)
+    custy = Stripe::Customer.retrieve(customer_id)
+    custy.source = token
+    custy.save
+  rescue Exception => e
+    Slack.err("Stripe Error", e)
   end
 
   def StripeMethods::charge_card(token_id, amount, email, description, metadata)

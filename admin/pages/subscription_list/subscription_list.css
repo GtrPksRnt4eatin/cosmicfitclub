@@ -1,0 +1,52 @@
+body {
+	text-align: center;
+	user-select: text;
+}
+
+#header {
+  display: block;
+  background: rgba(30,30,30,0.8);
+  box-shadow: 0 0 5px white;
+  height: 3.3em;
+  text-align: left;
+}
+
+#header span {
+  display: inline-block;
+  margin: 1.1em 1em;
+}
+
+.tile {
+	display: inline-block;
+}
+
+th {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+td, th {
+  box-shadow: 0 0 0.1em white;
+  padding: 0.2em 0.5em;
+  user-select: text;
+}
+
+tr[data-employee="true"] {
+  background: rgba(0,0,255,0.2);
+}
+
+tr[data-deactivated="true"] {
+  background: rgba(255,0,0,0.2);
+}
+
+td.view {
+  cursor: pointer;
+}
+
+td.view:hover {
+  background-color: rgba(0,0,255,0.3);
+}
+
+td.view img {
+  width: 1em;
+}

@@ -93,13 +93,10 @@ class Customer < Sequel::Model
     self.event_checkins.each { |chk| chk.customer = other; chk.save }
     self.comp_tickets.each   { |tik| tik.customer = other; tik.save }
 
-    if !self.wallet.nil? then
-      other.update( :wallet => Wallet.create ) if other.wallet.nil?
-      self.wallet.transactions.each { |trans| trans.update( :wallet_id => other.wallet.id ) }
-      other.wallet.pass_balance = other.wallet.pass_balance + self.wallet.pass_balance
-      self.wallet.delete
-    end
-
+    return if self.wallet.nil?
+    other.update( :wallet => Wallet.create ) if other.wallet.nil?
+    other.wallet << self.wallet
+    
   end
 
   def delete

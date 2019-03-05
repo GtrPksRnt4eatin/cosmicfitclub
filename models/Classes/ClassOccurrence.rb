@@ -38,6 +38,12 @@ class ClassOccurrence < Sequel::Model
     add_reservation reservation
   end
 
+  def move_reservations_from(occ_id)
+    ClassOccurrence[occ_id].reservations.each do |res|
+      res.update( :class_occurrence_id => self.id )
+    end
+  end
+
   def to_full_json
     to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end

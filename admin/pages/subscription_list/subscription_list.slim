@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+html
+  
+  head
+    
+    == css ['fonts', 'site', 'header', 'admin/subscription_list']
+    == js  ['jquery', 'moment', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel']
+    == js  ['/auth/elements/userview', 'menu', 'admin/subscription_list']
+
+    title Subscription List
+  
+  body.p5
+
+    #stars
+
+    #header
+      span Cosmic Fit Club Administration
+      #userview_container
+
+    .tile
+      
+      div Subscription List
+      div
+        input type="checkbox" rv-checked='data.filter_options.show_deactivated' rv-on-change='ctrl.filter_subscriptions'
+          | Show Deactivated
+        input type="checkbox" rv-checked='data.filter_options.show_employees' rv-on-change='ctrl.filter_subscriptions'
+          | Show Employees
+      div
+        | Count: { data.filtered_subscriptions | count }
+      
+      table
+        tr 
+          th Plan Name
+          th Customer Name
+          th Stripe ID
+          th Start Date
+          th End Date
+        tr rv-each-sub='data.filtered_subscriptions' rv-title='sub.id' rv-data-deactivated='sub.deactivated' rv-data-employee='sub | employee'
+          td 
+            | { sub.plan_name }
+          td
+            a rv-href='sub.customer_id | customer_url'
+              | { sub.name } ( { sub.email } )
+          td
+            a rv-href='sub.stripe_id | subscription_url' target="_blank"
+              | { sub.stripe_id }
+          td
+            | { sub.began_on | datewyr | remove_invalid }
+          td
+            | { sub.canceled_on | datewyr | remove_invalid }
+          td.view
+            img src='list.svg' rv-on-click='ctrl.view_subscription'

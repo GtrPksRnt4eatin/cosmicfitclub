@@ -164,6 +164,7 @@ function setupBindings() {
   rivets.formatters.zero_if_null   = function(val) { return empty(val) ? 0     : val;                               }
   rivets.formatters.has_membership = function(val) { return empty(val) ? false : ( val.name != 'None' );            }
   rivets.formatters.custy_file     = function(val) { return empty(val) ? '#'   : '/frontdesk/customer_file?id='+val; }
+  rivets.formatters.remove_invalid = function(val) { return val == "Invalid date" ? '' : val; }
 
   rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }

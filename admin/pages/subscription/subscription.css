@@ -1,0 +1,24 @@
+#header {
+  display: block;
+  background: rgba(30,30,30,0.8);
+  box-shadow: 0 0 5px white;
+  height: 3.3em;
+  text-align: left;
+}
+
+#header span {
+  display: inline-block;
+  margin: 1.1em 1em;
+}
+
+body {
+  text-align: center;
+}
+
+.tile {
+  display: inline-block;
+}
+
+table.uses {
+  display: inline-block;
+}

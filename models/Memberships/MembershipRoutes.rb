@@ -7,7 +7,23 @@ class MembershipRoutes < Sinatra::Base
   end
 
   get '/:id/details' do
+    content_type :json
+    Subscription[params[:id]].details.to_json
+  end
+
+  get '/:id/invoices' do
+    content_type :json
+    Subscription[params[:id]].invoices.to_json
+  end
+
+  get '/:id/stripe_info' do
+    content_type :json
     Subscription[params[:id]].stripe_info
+  end
+
+  get '/:id/uses' do
+    content_type :json
+    Subscription[params[:id]].uses.to_json
   end
 
   delete '/:id' do
@@ -18,6 +34,11 @@ class MembershipRoutes < Sinatra::Base
   post '/:id/stripe_id' do
     sub = Subscription[params[:id]] or halt 404
     sub.update( :stripe_id => params[:value] )
+  end
+
+  get '/list' do
+    content_type :json
+    Subscription::list_all.to_json
   end
 
   get '/matched_list' do
