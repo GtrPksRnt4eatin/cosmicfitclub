@@ -43,7 +43,7 @@ module Sinatra
       selected_price_name = (data['selected_price'] ? data['selected_price']['title'] : "")
 
       description = "#{custy.name} purchased a #{selected_price_name} ticket for #{eventname}"  
-      payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card').to_json
+      payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card')
       
       EventTicket.create( 
         :customer => custy, 
