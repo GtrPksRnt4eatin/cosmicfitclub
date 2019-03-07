@@ -157,7 +157,7 @@ PaymentForm.prototype = {
 Object.assign( PaymentForm.prototype, element);
 Object.assign( PaymentForm.prototype, ev_channel); 
 
-PaymentForm.prototype.HTML = `
+PaymentForm.prototype.HTML = ES5Template(function(){/**
 
   <div class='PaymentForm form' >
     <h2 class='nocusty'>Charging { state.customer.name } { state.price | money }</h2>
@@ -218,9 +218,9 @@ PaymentForm.prototype.HTML = `
     </table>
   </div>
 
-`.untab(2);
+**/}).untab(2);
 
-PaymentForm.prototype.CSS = `
+PaymentForm.prototype.CSS = ES5Template(function(){/**
 
   .PaymentForm { 
     display: inline-block;
@@ -295,4 +295,4 @@ PaymentForm.prototype.CSS = `
     }
   }
 
-`.untab(2);
+**/}).untab(2);

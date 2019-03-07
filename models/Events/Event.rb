@@ -137,14 +137,14 @@ class Event < Sequel::Model
         custy        = tic.customer_info
         custy_info   = [ custy[:id], custy[:name], custy[:email] ]
 
-        if tic.stripe_payment_id.nil? then
+        if tic.get_stripe_id.nil? then
           payment_info = [ tic.price, 0, 0, tic.price ].map(&:fmt_stripe_money)
           totals.merge!({ :gross => tic.price, :net => tic.price }) { |key, v1, v2| v1 + v2 }
         else
-          if used_payment_ids.include?(tic.stripe_payment_id) then
+          if used_payment_ids.include?(tic.get_stripe_id) then
             payment_info = [ 0, 0, 0, 0 ].map(&:fmt_stripe_money)
           else
-            used_payment_ids << tic.stripe_payment_id
+            used_payment_ids << tic.get_stripe_id
             payment      = tic.full_payment_info
             totals.merge!(payment) { |key, v1, v2| v1 + v2 } unless payment.nil?
             payment_info = [ payment[:gross], payment[:fees], payment[:refunds], payment[:net] ].map(&:fmt_stripe_money)

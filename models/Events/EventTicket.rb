@@ -67,7 +67,7 @@ class EventTicket < Sequel::Model
   end
 
   def full_payment_info
-    StripeMethods::get_payment_totals(self.stripe_payment_id)
+    StripeMethods::get_payment_totals(self.get_stripe_id)
   end
 
   def customer_info
@@ -75,6 +75,10 @@ class EventTicket < Sequel::Model
       :name  => ( customer.name  rescue "" ),
       :email => ( customer.email rescue "" )
     }
+  end
+
+  def get_stripe_id
+    self.stripe_payment_id.to_i > 0 ? CustomerPayment[self.stripe_payment_id].stripe_id : self.stripe_payment_id
   end
 
 end
