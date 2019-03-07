@@ -71,6 +71,17 @@ module Sinatra
         JSON.generate ClassOccurrence.get_email_list(params[:from],params[:to],params[:classdef_ids])
       end
 
+      app.get '/class_email_list.csv' do
+        content_type 'application/csv'
+        attachment "Email List.csv"
+        list = ClassOccurrence.get_email_list(params[:from],params[:to],params[:classdef_ids])
+        CSV.generate do |csv|
+          csv << ["#{params[:from]} - #{params[:to]}"]
+          csv << ["Customer ID", "Customer Name", "Email", "Visits"]
+          list.each { |x| csv << [ x.customer_id, x.customer_name, x.customer_email, x.num_visits ] }
+        end
+      end
+
       app.get '/attendence_list.json' do
         JSON.generate attendence(params[:from], params[:to])
       end
