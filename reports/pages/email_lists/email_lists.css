@@ -45,7 +45,8 @@
   cursor: pointer;
 }
 
-button.getlist {
+button.getlist,
+button.export {
   font-size: 1em;
   width: 50em;
   cursor: pointer;
