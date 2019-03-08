@@ -25,7 +25,6 @@ ctrl = {
 
 $(document).ready(function() {
   initialize_rivets();
-
   $('.list').on('change','.checkbox', function() { data.email_list.push({}); data.email_list.pop(); });
 
 });

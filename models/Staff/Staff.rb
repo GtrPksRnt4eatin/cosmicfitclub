@@ -23,7 +23,31 @@ class Staff < Sequel::Model(:staff)
   end
 
   def Staff::token_list
-    Staff.all.map { |x| { :id=>x.id, :name=>x.name } }
+    Staff.all.map(&:to_token)
+  end
+
+  def Staff::ordered_list
+    Staff.exclude(:deactivated => true).order(:position).all.map(&:to_list_hash)
+  end
+
+  def Staff::detail_list
+    Staff.all.map(&:to_details_hash)
+  end
+
+  def to_token
+    { :id=>self.id, :name=>self.name }
+  end
+
+  def to_list_hash
+    { :id =>self.id, :name => self.name, :title => self.title, :bio => self.bio, :image_url => self.image.nil? ? "" : self.image[:medium].url }
+  end
+
+  def to_details_hash
+    self.to_hash.merge({
+      :image_url    => (  x.image.nil? ? '' : ( x.image.is_a?(ImageUploader::UploadedFile) ? x.image_url : x.image[:medium].url ),
+      :customer     => x.customer.to_list_hash,
+      :subscription => x.customer.subscription.details   
+    }).delete(:image_data)
   end
 
   def class_history
@@ -160,69 +184,4 @@ def Staff::payroll(from, to)
     result << val if existing.nil?
   }
   result
-end
-
-class StaffRoutes < Sinatra::Base
-
-  get '/' do
-    JSON.generate Staff.exclude(:deactivated => true).order(:position).all.map { |s| { :id => s.id, :name => s.name, :title => s.title, :bio => s.bio, :image_url => s.image.nil? ? "" : s.image[:medium].url } }
-  end
-  
-  post '/' do
-  	max = Staff.max(:position)
-  	halt 409 unless Staff[:name => params[:name]].nil?
-    Staff.create(name: params[:name], title: params[:title], bio: params[:bio], image: params[:image], position: max ? max + 1 : 0 )
-    status 200
-  end
-
-  delete '/:id' do
-    halt 404 if Staff[params[:id]].nil?
-    Staff[params[:id]].deactivate
-    status 200
-  end
-
-  post '/:id/moveup' do
-    staff = Staff[params[:id]] or halt 404
-    staff.move(true)
-  end
-
-  post '/:id/movedn' do
-    staff = Staff[params[:id]] or halt 404
-    staff.move(false)
-  end
-
-  get '/payroll' do
-    JSON.pretty_generate Staff::payroll(params[:from],params[:to])
-  end
-
-  get '/payroll.csv' do
-    content_type 'application/csv'
-    attachment "Payroll #{params[:from]}.csv"
-    proll = Staff::payroll(params[:from],params[:to])
-    csv_string = CSV.generate do |csv|
-      csv << [ 'Payroll' ]
-      csv << [ 'Start Date', params[:from] ]
-      csv << [ 'End Date', params[:to] ]
-      csv << []
-      grand_total = 0
-      proll.each do |teacher_row|
-        total = 0
-        csv << [ teacher_row[:staff_name].upcase, "#{params[:from]} to #{params[:to]}" ]
-        csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PAY' ]
-        csv << []
-        teacher_row[:class_occurrences].each do |row|
-          csv << [ Time.parse(row['starttime']).strftime("%a %m/%d %l:%M %P"), row['class_name'], row['headcount'], row[:pay] ] unless row['class_name'].nil?
-          csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row['class_name'].nil?
-          total = total + row[:pay]
-        end
-        grand_total = grand_total + total
-        csv << [ ]
-        csv << [ '','', 'TOTAL', "$ #{total}.00" ]
-        csv << []
-        csv << []
-      end
-      csv << [ '', '', 'GRAND TOTAL', "$ #{grand_total}.00" ]
-    end
-  end
-
 end

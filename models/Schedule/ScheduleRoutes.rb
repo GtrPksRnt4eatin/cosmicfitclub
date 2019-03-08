@@ -22,6 +22,10 @@ class ScheduleRoutes < Sinatra::Base
     JSON.generate arr.sort_by { |x| x[:day] }
   end
 
+  get '/conflicts' do
+    
+  end
+
   def ScheduleRoutes::schedule_as_ical(from,to)
     ical = Icalendar::Calendar.new
     EventSession.between(from,to).map(&:to_ical_event).each    { |evt| ical.add_event(evt) }
@@ -65,5 +69,7 @@ class ScheduleRoutes < Sinatra::Base
   def get_classoccurrences_between(from,to)
  
   end
+
+
 
 end

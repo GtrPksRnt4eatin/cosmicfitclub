@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    == css ['fonts', 'site', 'header', '/admin/staff2', 'admin_footer']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', '/admin/staff2']  
+
+  body.p4
+
+    #stars
+
+    == include_slim('slim/partials/admin_header')
+
+    #content
+
+      .tile.staff 
+        table 
+          tr rv-each-item='data.items'
+            td.headshot
+              img.pic rv-src='item.image_url'
+            td.name 
+              | { item.name }
+            td.title
+              | { item.title }
+            td.bio
+              | { item.bio }
+            td.positionbtns
+              span rv-on-click='ctrl.moveup' <
+              span rv-on-click='ctrl.movedn' >
+            td
+              .delete rv-on-click='ctrl.del'
+
+      form#new
+        
+        img#newpreview
+        input#newpic type='file' accept="image/*" name='image'
+        label Name:
+        input type='text' name='name'
+        label Title:
+        input type='text' name='title'
+        label Bio:
+        textarea name='bio'
+        span#upload Upload
+
+    == analytics
