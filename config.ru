@@ -127,3 +127,7 @@ end
 map "/integrations/paypal" do
   run PayPalRoutes
 end
+
+map "/integrations/eventbrite" do
+  run EventBriteRoutes
+end

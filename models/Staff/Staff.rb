@@ -39,7 +39,7 @@ class Staff < Sequel::Model(:staff)
   end
 
   def to_list_hash
-    { :id =>self.id, :name => self.name, :title => self.title, :bio => self.bio, :image_url => self.get_image_url(:medium) }
+    { :id=>self.id, :name=>self.name, :title=>self.title, :bio=>self.bio, :image_url=>self.get_image_url(:medium) }
   end
 
   def to_details_hash
