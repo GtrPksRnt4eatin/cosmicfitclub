@@ -44,7 +44,7 @@ class Staff < Sequel::Model(:staff)
 
   def to_details_hash
     self.to_hash.merge({
-      :image_url    => (  x.image.nil? ? '' : ( x.image.is_a?(ImageUploader::UploadedFile) ? x.image_url : x.image[:medium].url ),
+      :image_url    => (  x.image.nil? ? '' : ( x.image.is_a?(ImageUploader::UploadedFile) ? x.image_url : x.image[:medium].url ) ),
       :customer     => x.customer.to_list_hash,
       :subscription => x.customer.subscription.details   
     }).delete(:image_data)
