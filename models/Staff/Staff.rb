@@ -39,15 +39,21 @@ class Staff < Sequel::Model(:staff)
   end
 
   def to_list_hash
-    { :id =>self.id, :name => self.name, :title => self.title, :bio => self.bio, :image_url => self.image.nil? ? "" : self.image[:medium].url }
+    { :id =>self.id, :name => self.name, :title => self.title, :bio => self.bio, :image_url => self.get_image_url(:medium) }
   end
 
   def to_details_hash
     self.to_hash.merge({
-      :image_url    => (  x.image.nil? ? '' : ( x.image.is_a?(ImageUploader::UploadedFile) ? x.image_url : x.image[:medium].url ) ),
-      :customer     => x.customer.to_list_hash,
-      :subscription => x.customer.subscription.details   
+      :image_url    => self.get_image_url(:medium),
+      :customer     => self.customer.to_list_hash,
+      :subscription => self.customer.subscription.details   
     }).delete(:image_data)
+  end
+
+  def get_image_url(size)
+    return '' if self.image.nil?
+    return self.image_url if self.image.is_a? ImageUploader::UploadedFile
+    return self.image[size].url
   end
 
   def class_history
