@@ -56,7 +56,7 @@ class Event < Sequel::Model
   end
 
   def last_day
-    self.sessions.max_by{ |x| x.start_time or '' }.start_time.to_date
+    self.sessions.max_by{ |x| x.try(:start_time) or '' }.start_time.to_date
   end
 
   def headcount
