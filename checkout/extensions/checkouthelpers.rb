@@ -75,11 +75,7 @@ module Sinatra
 
     def register_event
       data = JSON.parse request.body.read
-      custy = logged_in? ? customer : Customer.find( :email => data['email'] );
-      if custy.nil? then
-        custy = Customer.create( :email => data['email'] )
-        custy.send_new_account_email
-      end
+      custy = logged_in? ? customer : Customer.get_from_email( data['email'], "");
       EventTicket.create( :customer => custy, :event_id => data['event_id'], :included_sessions => data['included_sessions'], :price => 0 )
       status 204
     end

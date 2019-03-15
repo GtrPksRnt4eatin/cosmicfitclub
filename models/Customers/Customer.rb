@@ -31,7 +31,7 @@ class Customer < Sequel::Model
 
   def Customer.get_from_token(token)
     created = false
-    customer = find_or_create( :email => token['email'] ) { |cust| cust.name = token['card']['name']; created = true }
+    customer = find_or_create( :email => token['email'].downcase ) { |cust| cust.name = token['card']['name']; created = true }
     customer.add_passes(1,"First Class Free", "") if created
     customer.update( :stripe_id => StripeMethods::create_customer(token) ) if customer.stripe_id.nil?
     customer.create_login if customer.login.nil? 
