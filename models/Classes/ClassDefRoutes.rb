@@ -130,10 +130,11 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   post '/reservation' do
-    custy = Customer[ params[:customer_id] ] or halt 400
+    custy = Customer[ params[:customer_id] ] or halt 404
     halt 400 if params[:transaction_type].nil? 
     halt 400 if custy.nil?
-    occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime]) 
+    occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime])
+    message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
     case params[:transaction_type]
     when "class_pass"
       custy.use_class_pass(message) { occurrence.make_reservation( params[:customer_id] ) } or halt 400
