@@ -557,6 +557,8 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     down (4.2.1)
     enum_csv (1.1.0)
+    eventbrite_sdk (3.4.0)
+      rest-client (~> 2.0)
     eventmachine (1.2.5)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -687,6 +689,7 @@ DEPENDENCIES
   autoforme
   aws-sdk
   bcrypt
+  eventbrite_sdk
   google-api-client
   icalendar
   ice_cube
