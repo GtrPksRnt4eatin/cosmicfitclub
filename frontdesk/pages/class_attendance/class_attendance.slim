@@ -17,7 +17,7 @@ html
       data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher ] ) }};
       data['reservations'] = #{{ ClassOccurrence[params[:id]].reservation_list.to_json }};
 
-    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'selectize', 'flatpickr', 'element', 'ev_channel' ]
+    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'selectize.min', 'flatpickr', 'element', 'ev_channel' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib', 'popupmenu']
     == js  [ '/checkout/elements/payment_form', '/checkout/elements/reservation_form', '/auth/elements/userview' ]
     == js  [ 'class_attendance' ]
