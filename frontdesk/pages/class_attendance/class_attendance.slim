@@ -4,7 +4,7 @@ html
 
   head
     
-    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'class_attendance' ]
+    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'selectize', 'flatpickr', 'class_attendance' ]
 
     script src='https://js.stripe.com/v3/'
 
@@ -13,10 +13,11 @@ html
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
+      data['customers'] = [];
       data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher ] ) }};
       data['reservations'] = #{{ ClassOccurrence[params[:id]].reservation_list.to_json }};
 
-    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr', 'element', 'ev_channel' ]
+    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'selectize', 'flatpickr', 'element', 'ev_channel' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib', 'popupmenu']
     == js  [ '/checkout/elements/payment_form', '/checkout/elements/reservation_form', '/auth/elements/userview' ]
     == js  [ 'class_attendance' ]
@@ -57,7 +58,7 @@ html
               | Cancel
         br
 
-        select#customers
+        select#customers rv-selectize='data.customers'
           option value='0'
             | No Customer
           - Customer.all.each do |cust|

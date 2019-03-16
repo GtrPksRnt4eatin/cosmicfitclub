@@ -20,6 +20,26 @@ function include_rivets_select() {
     }
   }
 
+  rivets.binders['selectize'] = {
+    bind: function(el) {
+      this.selectize_instance = $(el).selectize(); 
+      this.selectize_instance.change(function(e,val) {
+        console.log("Publishing: " + val.selected);
+        this.publish(val.selected);
+        if(this.el.onchange) { this.el.onchange(); }
+      }.bind(this));
+    },
+    unbind: function(el) {
+      var x = 5;
+    },
+    routine: function(el,value) {
+      $(el).val(value);
+    },
+    getValue: function(el) {
+      return $(this.selectize_instance).val();
+    }
+  }
+
   rivets.binders['select'] = {
     bind: function(el) {
       this.chosen_instance = $(el).chosen({ search_contains: true });

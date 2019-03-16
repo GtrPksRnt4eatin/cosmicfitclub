@@ -81,3 +81,7 @@ function setup_bindings() {
 function get_reservations()    { 
   $.get(`/models/classdefs/occurrences/${data['occurrence'].id}/reservations`, function(resp) { data['reservations'] = resp; }, 'json');  
 }
+
+function get_customers() {
+  $.get('/models/customers/list', function(val) { data.customers = val; }, 'json');
+}
