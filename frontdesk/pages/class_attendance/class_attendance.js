@@ -35,7 +35,7 @@ ctrl = {
         "email": email
       }), 'json')
      .fail( function(req,msg,status) { 
-        alert('failed to create customer');
+        alert(msg);
       })
      .success( function(data) {
         console.log(data);
