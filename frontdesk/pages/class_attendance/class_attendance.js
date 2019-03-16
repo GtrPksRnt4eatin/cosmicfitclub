@@ -68,6 +68,8 @@ $(document).ready( function() {
     payment_form.ev_sub('hide', popupmenu.hide );
     popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
 
+    include_rivets_select();
+
     //$('#customers').chosen({ search_contains: true });
     //$('#customers').on('change', reservation_form.load_customer );
 
