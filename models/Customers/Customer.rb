@@ -47,14 +47,8 @@ class Customer < Sequel::Model
 
 ############################ Account/Login #############################
 
-  def after_create
-    customer.add_passes(1,"First Class Free", "")
-    create_login
-  end
-
   def create_login
-    return unless login.nil?
-    User.create( :customer => self )
+    User.create( :customer => self ) if self.login.nil?
   end
 
   def reset_password
@@ -128,6 +122,11 @@ class Customer < Sequel::Model
   def email
     val = super
     val.nil? ? '' : val.downcase
+  end
+
+  def after_create
+    add_passes(1,"First Class Free", "")
+    create_login
   end
 
   def before_save
