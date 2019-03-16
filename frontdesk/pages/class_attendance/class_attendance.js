@@ -35,7 +35,7 @@ ctrl = {
         "email": email
       }), 'json')
      .fail( function(req,msg,status) { 
-        alert(msg);
+        alert(req.responseText);
       })
      .success( function(data) {
         console.log(data);
