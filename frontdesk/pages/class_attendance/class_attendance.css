@@ -114,6 +114,7 @@ td.checkin:hover {
 
 .customer_form .selectbox {
   flex: 1;
+  width: 60em;
 }
 
 .customer_form .icons {
