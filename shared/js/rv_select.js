@@ -24,8 +24,8 @@ function include_rivets_select() {
     bind: function(el) {
       this.selectize_instance = $(el).selectize({
         onChange: function(val) {
-          console.log("Publishing: " + val.selected);
-          this.publish(val.selected);
+          console.log("Publishing: " + val);
+          this.publish(val);
           if(this.el.onchange) { this.el.onchange(); }
         }.bind(this)
       })[0];
