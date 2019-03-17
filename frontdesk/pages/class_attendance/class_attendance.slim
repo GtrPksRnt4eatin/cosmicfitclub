@@ -61,6 +61,7 @@ html
         .customer_form
           .selectbox
             select#customers placeholder='Select Customer' rv-selectize='data.customers'
+              option
               - Customer.all.each do |cust|
                 option value='#{cust.id}'
                   | #{ cust.name } ( #{ cust.email } )
