@@ -117,5 +117,14 @@ td.checkin:hover {
 }
 
 .customer_form .icons {
-  flex: 0 0 3em;
+  flex: 0 0 5em;
+}
+
+.selectize-input {
+  height: 1.92em;
+  font-size: 1em;
+}
+
+.tile {
+  padding: 0.1em 1em;
 }
