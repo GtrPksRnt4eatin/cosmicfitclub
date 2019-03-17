@@ -22,12 +22,14 @@ function include_rivets_select() {
 
   rivets.binders['selectize'] = {
     bind: function(el) {
-      this.selectize_instance = $(el).selectize()[0].selectize; 
-      this.selectize_instance.onChange(function(val) {
-        console.log("Publishing: " + val.selected);
-        this.publish(val.selected);
-        if(this.el.onchange) { this.el.onchange(); }
-      }.bind(this));
+      this.selectize_instance = $(el).selectize()[0]; 
+      this.selectize_instance.selectize( {
+        onChange: function(val) {
+          console.log("Publishing: " + val.selected);
+          this.publish(val.selected);
+          if(this.el.onchange) { this.el.onchange(); }
+        }.bind(this)
+      });
     },
     unbind: function(el) {
       var x = 5;
