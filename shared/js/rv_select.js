@@ -23,7 +23,7 @@ function include_rivets_select() {
   rivets.binders['selectize'] = {
     bind: function(el) {
       this.selectize_instance = $(el).selectize(); 
-      this.selectize_instance.change(function(e,val) {
+      this.selectize_instance.onChange(function(val) {
         console.log("Publishing: " + val.selected);
         this.publish(val.selected);
         if(this.el.onchange) { this.el.onchange(); }
