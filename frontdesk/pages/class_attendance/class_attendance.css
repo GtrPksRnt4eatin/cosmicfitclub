@@ -16,6 +16,10 @@
   right: 1em;
 }
 
+.heading {
+  font-size: 1.5vw;
+}
+
 .heading span {
 	font-size: 1.4em;
 	padding: .8em .25em .5em .25em;
@@ -110,11 +114,12 @@ td.checkin:hover {
 
 .customer_form {
   display: flex;
+  max-width: 63em;
+  margin: auto;
 }
 
 .customer_form .selectbox {
   flex: 1;
-  width: 60em;
 }
 
 .customer_form .icons {
