@@ -58,15 +58,18 @@ html
               | Cancel
         br
 
-        select#customers rv-selectize='data.customers'
-          option value='0'
-            | No Customer
-          - Customer.all.each do |cust|
-            option value='#{cust.id}'
-              | #{ cust.name } ( #{ cust.email } )
-        img#person rv-on-click='ctrl.edit_customer' src='/person.svg'
-        #add_user rv-on-click='ctrl.new_customer'
-          span +
+        .customer_form
+          .selectbox
+            select#customers rv-selectize='data.customers'
+              option value='0'
+                | No Customer
+              - Customer.all.each do |cust|
+                option value='#{cust.id}'
+                  | #{ cust.name } ( #{ cust.email } )
+          .icons
+            img#person rv-on-click='ctrl.edit_customer' src='/person.svg'
+            #add_user rv-on-click='ctrl.new_customer'
+              span +
 
         #reservation_form_container
 
