@@ -69,7 +69,7 @@ $(document).ready( function() {
     popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
 
     //$('#customers').chosen({ search_contains: true });
-    //$('#customers').on('change', reservation_form.load_customer );
+    $('#customers').on('change', reservation_form.load_customer );
 
 });
 
