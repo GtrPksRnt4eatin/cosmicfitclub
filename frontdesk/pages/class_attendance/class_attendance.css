@@ -128,3 +128,11 @@ td.checkin:hover {
 .tile {
   padding: 0.1em 1em;
 }
+
+.ReservationForm {
+  margin: 1em 0;
+}
+
+.ReservationForm button {
+  width: 16em;
+}
