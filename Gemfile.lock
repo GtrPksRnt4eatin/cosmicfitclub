@@ -631,7 +631,7 @@ GEM
       json
       rake
     public_suffix (3.0.2)
-    rack (2.0.4)
+    rack (2.0.6)
     rack-protection (2.0.4)
       rack
     rack-ssl-enforcer (0.2.9)
@@ -701,6 +701,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   pg
   postmark
+  rack (>= 2.0.6)
   rack-ssl-enforcer
   rest-client
   sequel
