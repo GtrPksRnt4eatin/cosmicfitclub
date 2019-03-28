@@ -7,7 +7,7 @@ ctrl = {
   get_data: function(e,m) {
   	var match = /(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/.exec(data['range']);
   	if(!match) { return; }
-    $.get('/models/staff/payroll', { from: match[1], to: match[2] }, on_payroll_data);
+    $.get('/models/staff/payroll', { from: match[1], to: match[2] }, on_payroll_data, 'json');
   },
   dl_csv: function(e,m) {
   	var match = /(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/.exec(data['range']);
