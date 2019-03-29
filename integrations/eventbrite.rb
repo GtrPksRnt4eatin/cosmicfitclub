@@ -22,8 +22,9 @@ class EventBriteRoutes < Sinatra::Base
   end
 
   def get_event_obj(event)
+    Slack.post(event['api_url'])
     /https:\/\/www.eventbriteapi.com\/v3\/(<?path>.*)/ =~ event['api_url']
     EventbriteSDK::get({ :url => path })
-  end	
+  end
 
 end
