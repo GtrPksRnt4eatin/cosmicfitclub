@@ -21,7 +21,7 @@ class ScheduleRoutes < Sinatra::Base
       items.each do |day,item|
         csv << ['',day,'']
         item.each do |line|
-          csv << ["#{line[:starttime].strftime('%l:%M %p')} - #{line[:endtime].strftime('%l:%M %p')}", line[:title], line[:instructors].map(&:name).join, line.to_json ]
+          csv << ["#{line[:starttime].strftime('%l:%M %p')} - #{line[:endtime].strftime('%l:%M %p')}", line[:title], line[:instructors].try(:map,&:name).try(:join), line.to_json ]
         end
       end
     end
