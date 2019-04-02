@@ -19,10 +19,11 @@ class ScheduleRoutes < Sinatra::Base
       csv << ['COSMIC FIT CLUB SCHEDULE', from.to_s, to.to_s]
       csv << []
       items.each do |day,item|
-        csv << ['',day,'']
+        csv << ['', day.strftime('%A %b %e') ,'']
         item.each do |line|
           csv << ["#{line[:starttime].strftime('%l:%M %p')} - #{line[:endtime].strftime('%l:%M %p')}", line[:title], line[:instructors].try(:map,&:name).try(:join), line.to_json ]
         end
+        csv << []
       end
     end
   end
@@ -53,7 +54,7 @@ class ScheduleRoutes < Sinatra::Base
     events   = get_eventsessions_between(from,to)
     rentals = get_rentals_between(from,to)
     items = events + classes + rentals
-    items.group_by { |x| x[:day] }
+    items.group_by { |x| x[:day] }.sort.to_h
   end  
 
   def get_classitems_between(from,to)
