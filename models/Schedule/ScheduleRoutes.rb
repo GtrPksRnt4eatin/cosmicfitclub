@@ -9,14 +9,28 @@ class ScheduleRoutes < Sinatra::Base
     ScheduleRoutes::schedule_as_ical(from, to)
   end
 
+  get '/csv' do
+    content_type 'application/csv'
+    from  = Date.today.beginning_of_week
+    to    = Date.today.end_of_week 
+    attachment "#{from} - #{to} Schedule.csv"
+    items = get_all_between(from, to)
+    CSV.generate do |csv|
+      csv << ['COSMIC FIT CLUB SCHEDULE', from.to_s, to.to_s]
+      csv << []
+      items.each do |day,item|
+        csv << ['',day,'']
+        item.each do |line|
+          csv << [ line.to_json ]
+        end
+      end
+    end
+  end
+
   get '/:from/:to' do
     from = Time.parse(params[:from])
     to = Time.parse(params[:to])
-    classes  = get_classitems_between(from,to)
-    events   = get_eventsessions_between(from,to)
-    rentals = get_rentals_between(from,to)
-    items = events + classes + rentals
-    items = items.group_by { |x| x[:day] }
+    items = get_all_between(from,to)
     arr = []
     items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
     JSON.generate arr.sort_by { |x| x[:day] }
@@ -32,6 +46,14 @@ class ScheduleRoutes < Sinatra::Base
     ClassdefSchedule.all.map(&:to_ical_event).each             { |evt| ical.add_event(evt) }
     ClassOccurrence.between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
     ical.to_ical
+  end
+
+  def get_all_between(from,to)
+    classes  = get_classitems_between(from,to)
+    events   = get_eventsessions_between(from,to)
+    rentals = get_rentals_between(from,to)
+    items = events + classes + rentals
+    items.group_by { |x| x[:day] }
   end  
 
   def get_classitems_between(from,to)
