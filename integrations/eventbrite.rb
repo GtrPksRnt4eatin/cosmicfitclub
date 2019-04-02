@@ -15,14 +15,18 @@ class EventBriteRoutes < Sinatra::Base
       Slack.custom("EventBrite Order Placed:\r\revent_id: #{event["api_object"]["event_id"]}\rname: #{event["api_object"]["name"]}\remail: #{event["api_object"]["email"]}")
       ( Slack.custom("But Customer Already Exists!"); return ) if Customer::exists? event["api_object"]["email"]
       custy = Customer.get_from_email( event["api_object"]["email"], event["api_object"]["name"] )
+    when 'event.updated'
+      Slack.post("EventBrite Event Updated: #{event['api_object']['name']['text']}")
     else
       Slack.webhook('EventBrite Webhook: ', JSON.pretty_generate(event) )
     end
 
+    status 204
+
   end
 
   def get_event_obj(event)
-    Slack.post(event['api_url'])
+    #Slack.post(event['api_url'])
     /https:\/\/www.eventbriteapi.com\/v3\/(?<path>.*)/ =~ event['api_url']
     EventbriteSDK::get({ :url => path })
   end
