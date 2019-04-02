@@ -16,10 +16,11 @@ class ScheduleRoutes < Sinatra::Base
     attachment "#{from} - #{to} Schedule.csv"
     items = get_all_between(from, to)
     CSV.generate do |csv|
-      csv << ['COSMIC FIT CLUB SCHEDULE', from.to_s, to.to_s]
+      csv << ['COSMIC FIT CLUB SCHEDULE', "#{from.to_s} to #{to.to_s}" ]
       csv << []
       items.each do |day,item|
-        csv << ['', Date.parse(day).strftime('%A %b %e') ,'']
+        csv << [ Date.parse(day).strftime('%A %b %e').upcase ]
+        item.sort_by! { |x| x[:starttime] }
         item.each do |line|
           csv << ["#{line[:starttime].strftime('%l:%M %p')} - #{line[:endtime].strftime('%l:%M %p')}", line[:title], line[:instructors].try(:map,&:name).try(:join), line.to_json ]
         end
