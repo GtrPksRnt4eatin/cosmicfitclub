@@ -12,7 +12,7 @@ class ScheduleRoutes < Sinatra::Base
   get '/csv' do
     content_type 'application/csv'
     from  = Date.today.beginning_of_week
-    to    = Date.today.end_of_week 
+    to    = Date.today.end_of_week.tomorrow 
     attachment "#{from} - #{to} Schedule.csv"
     items = get_all_between(from, to)
     CSV.generate do |csv|
