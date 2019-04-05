@@ -21,7 +21,7 @@ class EventBriteRoutes < Sinatra::Base
     when 'ticket_class.updated'
 
     else
-      Slack.webhook('EventBrite Webhook: ', JSON.pretty_generate(event) )
+      #Slack.webhook('EventBrite Webhook: ', JSON.pretty_generate(event) )
     end
 
     status 204
