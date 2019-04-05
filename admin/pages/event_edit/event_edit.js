@@ -48,7 +48,8 @@ $(document).ready(function() {
   rivets.formatters.session_names = function(arr) {
     if(empty(arr)) return arr;
     return arr.map(function(id) {
-      return data.event.sessions.find(function(sess) { return sess.id == id }).title;
+      var sess = data.event.sessions.find( function(sess) { return sess.id == id } )
+      return ( sess && sess.title );
     }).join(',');
   }
   
