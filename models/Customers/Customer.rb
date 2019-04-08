@@ -50,8 +50,6 @@ class Customer < Sequel::Model
 ############################ Class Methods ###########################
 
 ############################ Account/Login #############################
-  
-  def password_set?
 
   def create_login
     User.create( :customer => self ) if self.login.nil?
