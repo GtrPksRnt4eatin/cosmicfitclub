@@ -8,18 +8,7 @@ class CustomerRoutes < Sinatra::Base
 
   get '/list' do
     content_type :json
-    Customer.all.to_json( { :only => [ :id, :name, :email ] } ) 
-  end
-
-  get '/waiver' do
-    content_type 'image/svg+xml'
-    halt 404 if session[:customer].waiver.nil?
-    return session[:customer].waiver.signature
-  end
-
-  post( '/waiver', :auth => 'user' ) do
-    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
-    return 204
+    Customer.list.to_json
   end
 
   get '/:id' do
@@ -40,7 +29,7 @@ class CustomerRoutes < Sinatra::Base
       :reservations    => JSON.parse(custy.reservations.to_json( include: :occurrence )),
       :payments        => custy.payments,
       :training_passes => custy.training_passes,
-      :password        => !custy.login.try(:encrypted_password).nil?
+      :password        => custy.password_set?
     }.to_json
   end
 
@@ -73,6 +62,18 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
+  get '/waiver' do
+    content_type 'image/svg+xml'
+    halt 404 if session[:customer].nil?
+    halt 404 if session[:customer].waiver.nil?
+    return session[:customer].waiver.signature
+  end
+
+  post( '/waiver', :auth => 'user' ) do
+    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
+    return 204
+  end
+
   post '/:id/transfer' do
     sugar_daddy = Customer[params[:from]] or halt 404
     minnie_the_moocher = Customer[params[:to]] or halt 404
@@ -103,7 +104,6 @@ class CustomerRoutes < Sinatra::Base
     return '{ "plan": { "name": "None" } }' if custy.subscription.nil?
     return '{ "plan": { "name": "None" } }' if custy.subscription.deactivated
     data = { :membership => JSON.parse( custy.subscription.to_json(:include => [ :plan ])) , :details => custy.subscription.stripe_info }
-    p data
     JSON.generate data
   end
 
@@ -165,7 +165,7 @@ class CustomerRoutes < Sinatra::Base
   end
 
   get '/:id/event_history' do
-    custy = Customer[params[:id]] or halt 404
+    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
     query = %{
       SELECT
         event_tickets.*,

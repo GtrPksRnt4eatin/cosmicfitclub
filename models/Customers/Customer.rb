@@ -20,6 +20,10 @@ class Customer < Sequel::Model
   one_to_many  :hourly_punches
 
 ############################ Class Methods ###########################
+
+  def Customer::list
+    Customer.all.map(&:to_list_hash) 
+  end
   
   def Customer::exists? (email) 
     !! Customer[ :email => email.downcase ]
@@ -46,6 +50,8 @@ class Customer < Sequel::Model
 ############################ Class Methods ###########################
 
 ############################ Account/Login #############################
+  
+  def password_set?
 
   def create_login
     User.create( :customer => self ) if self.login.nil?
@@ -132,6 +138,11 @@ class Customer < Sequel::Model
   def before_save
     self.email = self.email.downcase
     super
+  end
+
+  def password_set?
+    return false if login.nil?
+    return !login.encrypted_password.nil?
   end
 
   def waiver_signed?
