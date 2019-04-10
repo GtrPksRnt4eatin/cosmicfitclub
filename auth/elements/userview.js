@@ -45,7 +45,7 @@ UserView.prototype.HTML = ES5Template(function(){/**
 
   <div id="UserView">
     <div rv-if='state.user'>
-      <div class='name' rv-on-click='this.userpage'>{state.user.name}</div> |
+      <div class='name'><a href='/user'>{state.user.name}</a></div> |
       <div class='logout' rv-on-click='this.logout'>Logout</div>
     </div>
     <div rv-unless='state.user'>
