@@ -1,4 +1,5 @@
-- event = Event[ params[:id] ] or halt 404, "Cant Find Event"
+- id = params[:id].to_i or halt 401, "ID Must Be an Integer"
+- event = Event[ id ] or halt 404, "Cant Find Event"
 
 <!DOCTYPE html>
 
