@@ -47,6 +47,14 @@ class Checkout < Sinatra::Base
   post('/swipe')             { card_swipe          }
   get('/wait_for_swipe')     { wait_for_swipe      }
 
+  error 401 do
+    render_page :error
+  end
+
+  error 404 do
+    render_page :error
+  end
+
   error do
     Slack.err( 'Checkout Error', env['sinatra.error'] )
     'An Error Occurred.'
