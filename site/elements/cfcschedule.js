@@ -143,7 +143,7 @@ Schedule.prototype.HTML = `
             </span>
           </span>
           <span class='register'>
-            <span class='headcount' rv-if='occ | slots_remaining'> { occ.slots_remaining } </span>
+            <span class='headcount' rv-if='occ | slots_remaining'> { occ | slots_remaining } </span>
             <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> Register Now </span>
           </span>
         </div>
