@@ -13,7 +13,7 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id' do
     content_type :json
-    params[:id].to_i or pass
+    params[:id].to_i > 0 or pass
     custy = Customer[params[:id].to_i]
     halt 404 if custy.nil?
     halt(403, 'Not Authorized to View Another Customer') if session[:user].nil?
@@ -61,18 +61,6 @@ class CustomerRoutes < Sinatra::Base
       :address => data["address"]
     )
     status 204
-  end
-
-  get '/waiver' do
-    content_type 'image/svg+xml'
-    halt 404 if session[:customer].nil?
-    halt 404 if session[:customer].waiver.nil?
-    return session[:customer].waiver.signature
-  end
-
-  post( '/waiver', :auth => 'user' ) do
-    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
-    return 204
   end
 
   post '/:id/transfer' do
@@ -198,6 +186,18 @@ class CustomerRoutes < Sinatra::Base
   delete '/:id' do
     custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
     custy.delete
+  end
+
+  get '/waiver' do
+    content_type 'image/svg+xml'
+    halt 404 if session[:customer].nil?
+    halt 404 if session[:customer].waiver.nil?
+    return session[:customer].waiver.signature
+  end
+
+  post( '/waiver', :auth => 'user' ) do
+    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
+    return 204
   end
 
   error do
