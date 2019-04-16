@@ -71,7 +71,9 @@ class ClassOccurrence < Sequel::Model
       :starttime   => starttime.to_time,
       :endtime     => starttime.to_time + 3600,
       :headcount   => headcount,
-      :staff_id    => staff_id
+      :staff_id    => staff_id,
+      :classdef    => classdef.to_token,
+      :teacher     => teacher.to_token
     }
   end
 

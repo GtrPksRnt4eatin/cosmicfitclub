@@ -49,7 +49,7 @@ class ClassDef < Sequel::Model
     end.flatten.sort_by { |x| x[:starttime] }
   end
 
-  def to_listitem
+  def to_token
     { :id => id, :name => name }
   end
 
