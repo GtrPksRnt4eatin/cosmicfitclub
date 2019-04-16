@@ -305,7 +305,8 @@ Schedule.prototype.CSS = `
   }
 
   #Schedule .register span.headcount {
-    display: none
+    color: rgba(150,150,255,0.9);
+    font-size: 0.5em;
   }
 
   #Schedule .instructors[data-sub=true] {
