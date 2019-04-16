@@ -51,8 +51,9 @@ function Schedule(parent) {
     if( val.type != 'classoccurrence' )          return false;
     if( moment(val.endtime).isBefore(moment()) ) return false;
     var remaining = val.capacity - val.headcount
-    if( remaining >= 10 ) return false;
     if( remaining <= 0 )  return false;
+    if( remaining >= 10 ) return "Register Now";
+    if( remaining == 1 )  return "1 Slot Remaining";
     return ( remaining + " Slots Remaining" )
   },
 
@@ -148,8 +149,7 @@ Schedule.prototype.HTML = `
             </span>
           </span>
           <span class='register'>
-            <span class='headcount' rv-if='occ | slots_remaining'> { occ | slots_remaining } </span>
-            <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> Register Now </span>
+            <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> { occ | slots_remaining } </span>
             <span class='red'  rv-if='occ | class_full'> Class Is Full </span>
           </span>
         </div>
