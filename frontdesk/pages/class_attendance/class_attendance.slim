@@ -80,7 +80,7 @@ html
             td Frequent Flyers
           tr
             td
-              select multiple
+              select multiple="true"
                 option rv-each-flyer='data.frequent_flyers' rv-value='flyer.id'
                   | {flyer.count} times - { flyer.name } ( {flyer.email} )
 
