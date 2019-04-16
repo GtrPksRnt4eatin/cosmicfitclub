@@ -37,13 +37,15 @@ html
           span
             | { data.occurrence.starttime | classtime } :
           span
-            | { data.occurrence.classdef.name } 
+            | { data.occurrence.title } 
           span
             | w/ 
           span
-            | { data.occurrence.teacher.name }
+            | { data.occurrence.instructors }
           span
             .edit rv-on-click="ctrl.edit_occurrence"
+          div
+            | Headcount: { data.occurrence.headcount }
 
         table.reservations
           tr rv-each-reservation='data.reservations' rv-title='reservation.id'
