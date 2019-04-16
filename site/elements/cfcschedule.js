@@ -53,8 +53,8 @@ function Schedule(parent) {
     var remaining = val.capacity - val.headcount
     if( remaining <= 0 )  return false;
     if( remaining >= 10 ) return "Register Now";
-    if( remaining == 1 )  return "1 Slot Remaining";
-    return ( remaining + " Slots Remaining" )
+    if( remaining == 1 )  return "1 Spot Left";
+    return ( remaining + " Spots Left" )
   },
 
   rivets.formatters.allow_reg = function(val) {
