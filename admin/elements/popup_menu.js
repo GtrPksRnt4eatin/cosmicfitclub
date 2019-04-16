@@ -57,6 +57,7 @@ PopupMenu.prototype.CSS = `
     border: 1px solid rgba(0,0,0,0.6);
     max-width: 20%;
     display: none;
+    z-index: 999;
   }
 
   #PopupMenu.modal {
