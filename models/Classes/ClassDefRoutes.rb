@@ -128,7 +128,7 @@ class ClassDefRoutes < Sinatra::Base
     occurrence = ClassOccurrence[params[:id]] or halt 404
     occurrence.reservation_list.to_json
   end
-
+  
   post '/reservation' do
     custy = Customer[ params[:customer_id] ] or halt 404
     halt 400 if params[:transaction_type].nil? 
