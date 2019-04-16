@@ -66,7 +66,7 @@ class ClassOccurrence < Sequel::Model
       :classdef_id => classdef.id,
       :title       => classdef.name,
       :instructors => [teacher],
-      :capacity    => 15,
+      :capacity    => capacity,
       :day         => Date.strptime(starttime.to_time.iso8601).to_s,
       :starttime   => starttime.to_time,
       :endtime     => starttime.to_time + 3600,
