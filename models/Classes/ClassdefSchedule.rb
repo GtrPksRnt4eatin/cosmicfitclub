@@ -51,7 +51,7 @@ class ClassdefSchedule < Sequel::Model
       :duration    => duration_sec,
       :classdef_id => self.classdef.id,
       :title       => self.classdef.name,
-      :instructors => self.teachers,
+      :instructors => self.teachers.map(&:to_token),
       :capacity    => self.capacity
     }
   end
