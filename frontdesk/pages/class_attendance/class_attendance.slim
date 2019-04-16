@@ -77,7 +77,7 @@ html
 
         select
           option rv-each-flyer='data.frequent_flyers' rv-value='flyer.id'
-            | { flyer.name } ( {flyer.email} )
+            | {flyer.count} times - { flyer.name } ( {flyer.email} )
 
     #popupmenu_container
 
