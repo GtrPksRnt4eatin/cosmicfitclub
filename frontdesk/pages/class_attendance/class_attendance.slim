@@ -74,10 +74,15 @@ html
               span +
 
         #reservation_form_container
-
-        select
-          option rv-each-flyer='data.frequent_flyers' rv-value='flyer.id'
-            | {flyer.count} times - { flyer.name } ( {flyer.email} )
+        
+        table
+          tr 
+            td Frequent Flyers
+          tr
+            td
+              select multiple
+                option rv-each-flyer='data.frequent_flyers' rv-value='flyer.id'
+                  | {flyer.count} times - { flyer.name } ( {flyer.email} )
 
     #popupmenu_container
 
