@@ -76,7 +76,7 @@ $(document).ready( function() {
 function setup_bindings() {
   include_rivets_dates();
   include_rivets_select();
-  rivets.formatters.teachers = function(val) { return val.join(', '); }
+  rivets.formatters.teachers = function(val) { return val.map(function(x) { x.name } ).join(', '); }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
 
