@@ -29,11 +29,16 @@ class ClassOccurrence < Sequel::Model
     reservations.count
   end
 
+  def full?
+    reservations.count >= capacity
+  end
+
   def reservation_list
     $DB[ClassOccurrence.reservation_list_query, self.id].all
   end
 
   def make_reservation(customer_id)
+    return false if full?
     reservation = ClassReservation.create( :customer_id => customer_id )
     add_reservation reservation
   end
