@@ -13,6 +13,7 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id' do
     content_type :json
+    params[:id].to_i or pass
     custy = Customer[params[:id].to_i]
     halt 404 if custy.nil?
     halt(403, 'Not Authorized to View Another Customer') if session[:user].nil?
