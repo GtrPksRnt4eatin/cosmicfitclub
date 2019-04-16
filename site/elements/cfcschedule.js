@@ -369,10 +369,6 @@ Schedule.prototype.CSS = `
       display: none;
     }
 
-    #Schedule .register .headcount {
-      display: none;
-    }
-
   }
 
 `.untab(2);
