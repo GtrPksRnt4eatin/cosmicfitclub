@@ -14,7 +14,7 @@ html
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
       data['customers'] = [];
-      data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher ] ) }};
+      data['occurrence'] = #{{ ClassOccurrence[params[:id]].schedule_details_hash.to_json }};
       data['reservations'] = #{{ ClassOccurrence[params[:id]].reservation_list.to_json }};
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'selectize.min', 'rv_select', 'flatpickr', 'element', 'ev_channel' ]
