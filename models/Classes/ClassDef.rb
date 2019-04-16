@@ -54,7 +54,7 @@ class ClassDef < Sequel::Model
   end
 
   def frequent_flyers
-    occurrences.map { |occ| occ.reservations.map { |res| res.customer.try(:to_list_hash) } }.flatten.group_by(&:itself).map {|k,v| [k, v.size] }.map{ |k,v| k.nil? ? nil : { :count=>v }.merge(k) }.sort_by{ |x| -x[:count] }.first(20)
+    occurrences.map { |occ| occ.reservations.map { |res| res.customer.try(:to_list_hash) } }.flatten.group_by(&:itself).map {|k,v| [k, v.size] }.map{ |k,v| k.nil? ? { :count=>v } : { :count=>v }.merge(k) }.sort_by{ |x| -x[:count] }.first(20)
   end
 
 end
