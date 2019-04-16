@@ -49,16 +49,21 @@ function Schedule(parent) {
 
   rivets.formatters.slots_remaining = function(val) {
     if( val.type != 'classoccurrence' )          return false;
-    if( val.capacity - val.headcount >= 10 )     return false;
     if( moment(val.endtime).isBefore(moment()) ) return false;
-    remaining = val.capacity - val.headcount
-    if( remaining <= 0 ) return "Class Is Full"
+    var remaining = val.capacity - val.headcount
+    if( remaining >= 10 ) return false;
+    if( remaining <= 0 )  return false;
     return ( remaining + " Slots Remaining" )
   },
 
   rivets.formatters.allow_reg = function(val) {
     if( moment(val.endtime).isBefore(moment()) ) return false;  
     return ( val.capacity - val.headcount > 0 )
+  },
+
+  rivets.formatters.class_full = function(val) {
+    if( moment(val.endtime).isBefore(moment()) ) return false;
+    return ( val.capacity - val.headcount == 0 )
   }
 
   //this.bind_handlers( [ this.prev_day, this.next_day ] );
@@ -145,6 +150,7 @@ Schedule.prototype.HTML = `
           <span class='register'>
             <span class='headcount' rv-if='occ | slots_remaining'> { occ | slots_remaining } </span>
             <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> Register Now </span>
+            <span class='blue' rv-if='occ | class_full'> Class Full </span>
           </span>
         </div>
 
