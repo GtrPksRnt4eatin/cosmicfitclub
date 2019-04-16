@@ -150,7 +150,7 @@ Schedule.prototype.HTML = `
           <span class='register'>
             <span class='headcount' rv-if='occ | slots_remaining'> { occ | slots_remaining } </span>
             <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> Register Now </span>
-            <span class='red'  rv-if='occ | class_full'> Class Full </span>
+            <span class='red'  rv-if='occ | class_full'> Class Is Full </span>
           </span>
         </div>
 
@@ -301,7 +301,7 @@ Schedule.prototype.CSS = `
   }
 
   #Schedule .red {
-    color: rgba(255,150,150,0.9);
+    color: rgba(255,100,100,0.9);
   }
 
   #Schedule .register {
