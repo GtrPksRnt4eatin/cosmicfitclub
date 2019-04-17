@@ -135,7 +135,7 @@ class ClassDefRoutes < Sinatra::Base
     halt 400 if params[:transaction_type].nil? 
     halt 400 if custy.nil?
     occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime])
-    !occ.full?                             or halt(409, "Class is Full")
+    !occurrence.full? or halt(409, "Class is Full")
     message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
     case params[:transaction_type]
     when "class_pass"
@@ -155,8 +155,8 @@ class ClassDefRoutes < Sinatra::Base
     custy_id = params[:customer_id].to_i   or halt(400, "Customer ID must be numeric")
     occ_id   = params[:occurrence_id].to_i or halt(400, "Occurrence ID must be numeric")
     custy = Customer[ custy_id ]           or halt(404, "Customer Doesn't Exist")
-    occ = ClassOccurrence[ occ_id ]        or halt(404, "Occurrence Doesn't Exist")
-    !occ.full?                             or halt(409, "Class is Full")
+    occurrence = ClassOccurrence[ occ_id ] or halt(404, "Occurrence Doesn't Exist")
+    !occurrence.full?                      or halt(409, "Class is Full")
 
     message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
     case params[:transaction_type]
@@ -170,7 +170,7 @@ class ClassDefRoutes < Sinatra::Base
     when "free"
       occurrence.make_reservation( params[:customer_id] ) or halt 400
     end
-    
+
     status 201
   end
 

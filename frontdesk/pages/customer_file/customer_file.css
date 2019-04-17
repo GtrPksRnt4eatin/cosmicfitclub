@@ -232,7 +232,8 @@ ul.tabs li.current{
 .classreservations th,
 .classreservations td {
   text-align: center;
-  padding: .5em;
+  font-size: 0.8em;
+  padding: .2em;
 }
 
 .res_checkin {
