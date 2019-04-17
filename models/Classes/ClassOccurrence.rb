@@ -62,7 +62,8 @@ class ClassOccurrence < Sequel::Model
   end
 
   def schedule_details_hash
-    { :type        => 'classoccurrence',
+    { :id          => id,
+      :type        => 'classoccurrence',
       :classdef_id => classdef.id,
       :title       => classdef.name,
       :instructors => [teacher.to_token],

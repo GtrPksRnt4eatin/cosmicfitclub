@@ -67,6 +67,16 @@ class ClassdefSchedule < Sequel::Model
     "#{classdef.name} w/ #{teachers.map(&:name).join(", ")} #{rrule_english} @ #{start_time_12hr}"
   end
 
+  def details_hash
+    { :id => id,
+      :classdef   => { :id => classdef.id, :name => classdef.name },
+      :teachers   => teachers.map { |t| { :id => t.id, :name => t.name } },
+      :rrule      => rrule.english,
+      :start_time => start_time_12hr,
+      :capacity   => capacity
+    }
+  end
+
   def duration_sec
     end_time - start_time
   end
