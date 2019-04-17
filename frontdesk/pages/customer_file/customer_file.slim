@@ -292,7 +292,7 @@ html
                 th colspan='3' Class History
               tr rv-each-res='data.customer.reservations'
                 td 
-                  | { res.starttime | eventstart }
+                  | { res.starttime | fulldatewyr }
                 td
                   | { res.classname } w/ { res.instructor }
 

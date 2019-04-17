@@ -125,8 +125,8 @@ class ClassDefRoutes < Sinatra::Base
 
   get '/occurrences/:id/reservations' do
     content_type :json
-    id = params[:id].to_i > 0        or halt(404, "ID must be numeric")
-    occurrence = ClassOccurrence[id] or halt(404, "Occurrence Doesn't Exist")
+    id = Integer(params[:id].to_i)   rescue halt(404, "ID must be numeric")
+    occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
     occurrence.reservation_list.to_json
   end
   
@@ -152,11 +152,11 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   post '/reservations' do
-    custy_id = params[:customer_id].to_i   or halt(400, "Customer ID must be numeric")
-    occ_id   = params[:occurrence_id].to_i or halt(400, "Occurrence ID must be numeric")
-    custy = Customer[ custy_id ]           or halt(404, "Customer Doesn't Exist")
-    occurrence = ClassOccurrence[ occ_id ] or halt(404, "Occurrence Doesn't Exist")
-    !occurrence.full?                      or halt(409, "Class is Full")
+    custy_id   = Integer(params[:customer_id])   rescue halt(400, "Customer ID must be numeric")
+    occ_id     = Integer(params[:occurrence_id]) rescue halt(400, "Occurrence ID must be numeric")
+    custy      = Customer[ custy_id ]                or halt(404, "Customer Doesn't Exist")
+    occurrence = ClassOccurrence[ occ_id ]           or halt(404, "Occurrence Doesn't Exist")
+    !occurrence.full?                                or halt(409, "Class is Full")
 
     message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
     case params[:transaction_type]
