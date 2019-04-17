@@ -6,10 +6,6 @@ module Sinatra
 
     def self.registered(app)
 
-      app.configure do
-        set :start_time, Time.now
-      end
-
       app.get '/elements/:file.js' do
         send_file "shared/js/elements/#{params[:file]}.js"
       end
@@ -23,8 +19,6 @@ module Sinatra
       end
 
       app.get /\/(?<path>([^\/]+\/)+)?(?<file>[^\/]+)\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
-        last_modified settings.start_time
-        etag settings.start_time.to_s
         cache_control
         path_arr = params[:path].nil? ? [] : params[:path].scan(/\/?(\w+)/).flatten 
         path = "#{$root_folder}/shared/img/#{params[:file]}.#{params[:ext]}"
