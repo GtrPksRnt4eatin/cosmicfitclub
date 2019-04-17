@@ -227,6 +227,8 @@ ul.tabs li.current{
 }
 
 .classreservations {
+  max-height: 20em;
+  overflow-y: auto;
 }
 
 .classreservations th,
@@ -234,6 +236,7 @@ ul.tabs li.current{
   text-align: center;
   font-size: 0.8em;
   padding: .2em;
+  line-height: 1em;
 }
 
 .res_checkin {
