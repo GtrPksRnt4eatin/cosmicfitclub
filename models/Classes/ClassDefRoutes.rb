@@ -157,7 +157,7 @@ class ClassDefRoutes < Sinatra::Base
     custy      = Customer[ custy_id ]                or halt(404, "Customer Doesn't Exist")
     occurrence = ClassOccurrence[ occ_id ]           or halt(404, "Occurrence Doesn't Exist")
     !occurrence.full?                                or halt(409, "Class is Full")
-    !occurrence.has_reservation_for? custy           or halt(409, "This Person is Already Checked In") 
+    !occurrence.has_reservation_for? custy.id        or halt(409, "This Person is Already Checked In") 
 
     message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
     case params[:transaction_type]
