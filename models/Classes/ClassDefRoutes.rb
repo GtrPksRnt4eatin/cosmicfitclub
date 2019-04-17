@@ -125,7 +125,7 @@ class ClassDefRoutes < Sinatra::Base
 
   get '/occurrences/:id/reservations' do
     content_type :json
-    id = Integer(params[:id].to_i)   rescue halt(404, "ID must be numeric")
+    id = Integer(params[:id])        rescue halt(404, "ID must be numeric")
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
     occurrence.reservation_list.to_json
   end
