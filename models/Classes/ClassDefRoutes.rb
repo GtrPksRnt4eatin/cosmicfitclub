@@ -131,13 +131,18 @@ class ClassDefRoutes < Sinatra::Base
   end
   
   post '/reservation' do
-    custy = Customer[ params[:customer_id] ] or halt 404
-    halt 400 if params[:transaction_type].nil? 
-    halt 400 if custy.nil?
-    occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime])
-    !occurrence.full?                         or halt(409, "Class is Full")
-    !occurrence.has_reservation_for? custy.id or halt(409, "This Person is Already Checked In") 
+    custy_id   = Integer(params[:customer_id])   rescue halt(400, "Customer ID Must Be Numeric")
+    custy      = Customer[ custy_id ]                or halt(404, "Customer Doesn't Exist")
+    
+    occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime]) 
+    !occurrence.nil?                                 or halt(409, "Trouble Getting Class Occurrence")
+    !occurrence.full?                                or halt(409, "Class is Full")
+    !occurrence.has_reservation_for? custy_id        or halt(409, "This Person is Already Checked In") 
+
     message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
+    
+    !params[:transaction_type].nil?                  or halt(400, "Transaction Type Must Be Specified")
+
     case params[:transaction_type]
     when "class_pass"
       custy.use_class_pass(message) { occurrence.make_reservation( params[:customer_id] ) } or halt 400
@@ -149,6 +154,7 @@ class ClassDefRoutes < Sinatra::Base
     when "free"
       occurrence.make_reservation( params[:customer_id] ) or halt 400
     end
+    
     status 201
   end
 
@@ -161,6 +167,9 @@ class ClassDefRoutes < Sinatra::Base
     !occurrence.has_reservation_for? custy_id        or halt(409, "This Person is Already Checked In") 
 
     message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
+    
+    !params[:transaction_type].nil? or halt(400, "Transaction Type Must Be Specified")
+
     case params[:transaction_type]
     when "class_pass"
       custy.use_class_pass(message) { occurrence.make_reservation( params[:customer_id] ) } or halt 400
