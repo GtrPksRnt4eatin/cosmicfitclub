@@ -16,7 +16,7 @@ class CFCFrontDesk < Sinatra::Base
   before do
     last_modified settings.start_time
     etag settings.start_time.to_s
-    cache_control
+    cache_control :public, max_age: 360000
   end
 
   get( '/class_checkin',        :auth => "frontdesk" ) { render_page :class_checkin    }
