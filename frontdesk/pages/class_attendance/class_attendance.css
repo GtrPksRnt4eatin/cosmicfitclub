@@ -10,6 +10,11 @@
   margin: 1.1em 1em;
 }
 
+#header span.small {
+  margin: 0 1em;
+  font-size: 0.8em;
+}
+
 #header #userview_container {
   position: absolute;
   top: 1em;
