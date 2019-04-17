@@ -60,15 +60,20 @@ ReservationForm.prototype = {
   },
 
 	validate_reservation() {
-      this.state.errors = [];
-      if( ! this.state.reservation.customer_id ) { this.state.errors.push("You must select a Customer"); }
-      if( ! this.state.reservation.classdef_id ) { this.state.errors.push("You must select a Class");    }
-      if( ! this.state.reservation.staff_id    ) { this.state.errors.push("You must select a Teacher");  }
-      if( ! this.state.reservation.starttime   ) { this.state.errors.push("You must select a Timeslot"); }
-      if( this.state.errors.length == 0 ) return true;
-      $(this.dom).shake();
-      return false;
-    },
+    this.state.errors = [];
+    if( ! this.state.reservation.customer_id ) { this.state.errors.push("You must select a Customer"); }
+    if( ! this.state.reservation.classdef_id ) { this.state.errors.push("You must select a Class");    }
+    if( ! this.state.reservation.staff_id    ) { this.state.errors.push("You must select a Teacher");  }
+    if( ! this.state.reservation.starttime   ) { this.state.errors.push("You must select a Timeslot"); }
+    if( this.state.errors.length == 0 ) return true;
+    $(this.dom).shake();
+    return false;
+  },
+
+  show_error(error_msg) {
+    this.state.errors = [error_msg];
+    $(this.dom).shake();
+  },
 
 	reserve_membership(e,m) {
     if( ! this.validate_reservation() ) return;
@@ -102,7 +107,9 @@ ReservationForm.prototype = {
     this.state.reservation.transaction_type = type;
     $.post('/models/classdefs/reservation', this.state.reservation)
      .done( this.after_reservation )
-     .fail( function(e) { alert('reservation failed!'); });
+     .fail( function(e) { 
+       this.show_error(e.responseText); 
+      }.bind(this) );
   },
 
   after_reservation() {

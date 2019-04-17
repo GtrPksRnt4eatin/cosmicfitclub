@@ -46,7 +46,10 @@ html
           span
             .edit rv-on-click="ctrl.edit_occurrence"
           div
-            | Headcount: { data.occurrence.headcount }
+            span
+              | Capacity: { data.occurrence.capacity }
+            span
+              | Headcount: { data.occurrence.headcount }
 
         table.reservations
           tr rv-each-reservation='data.reservations' rv-title='reservation.id'
