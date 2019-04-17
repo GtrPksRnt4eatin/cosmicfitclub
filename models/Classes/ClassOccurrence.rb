@@ -50,7 +50,7 @@ class ClassOccurrence < Sequel::Model
   end
 
   def has_reservation_for?(customer_id)
-    reservations.include? { |r| r[:customer_id] == customer_id }
+    reservations.any? { |r| r[:customer_id] == customer_id }
   end
 
   def to_full_json
