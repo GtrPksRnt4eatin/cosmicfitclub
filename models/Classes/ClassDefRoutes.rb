@@ -136,7 +136,7 @@ class ClassDefRoutes < Sinatra::Base
     halt 400 if custy.nil?
     occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime])
     !occurrence.full?                         or halt(409, "Class is Full")
-    !occurrence.has_reservation_for? custy_id or halt(409, "This Person is Already Checked In") 
+    !occurrence.has_reservation_for? custy.id or halt(409, "This Person is Already Checked In") 
     message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
     case params[:transaction_type]
     when "class_pass"
