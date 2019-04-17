@@ -12,9 +12,11 @@ html
     == css [ 'fonts', 'site', 'login']
 
     javascript:
-      $(document).ready(function() {
-        login = new LoginForm( id('login_container') );
-      });
+      window.onload = function() {
+        $(document).ready(function() {
+          login = new LoginForm( id('login_container') );
+        });
+      }
 
   body
 
