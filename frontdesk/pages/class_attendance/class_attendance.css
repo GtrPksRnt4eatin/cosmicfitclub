@@ -10,11 +10,6 @@
   margin: 1.1em 1em;
 }
 
-#header span.small {
-  margin: 0 1em;
-  font-size: 0.8em;
-}
-
 #header #userview_container {
   position: absolute;
   top: 1em;
@@ -29,6 +24,11 @@
 	font-size: 1.4em;
 	padding: .8em .25em .5em .25em;
 	display: inline-block;
+}
+
+.heading span.small {
+  padding: 0 1em;
+  font-size: 0.8em;
 }
 
 table.reservations {

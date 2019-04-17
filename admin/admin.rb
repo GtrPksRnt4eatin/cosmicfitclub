@@ -8,6 +8,16 @@ class CFCAdmin < Sinatra::Base
   register Sinatra::PageFolders
   register Sinatra::SharedResources
   register Sinatra::Auth
+
+  configure do
+    set :start_time, Time.now
+  end
+
+  before do
+    last_modified settings.start_time
+    etag settings.start_time.to_s
+    cache_control
+  end
   
   get( '/',                      :auth=> 'admin'      ) { render_page :index             }
   get( '/carousel',              :auth=> 'admin'      ) { render_page :carousel          }
