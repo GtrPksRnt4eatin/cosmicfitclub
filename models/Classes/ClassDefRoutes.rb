@@ -152,11 +152,12 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   post '/reservations' do
-    custy_id   = Integer(params[:customer_id])   rescue halt(400, "Customer ID must be numeric")
-    occ_id     = Integer(params[:occurrence_id]) rescue halt(400, "Occurrence ID must be numeric")
+    custy_id   = Integer(params[:customer_id])   rescue halt(400, "Customer ID Must Be Numeric")
+    occ_id     = Integer(params[:occurrence_id]) rescue halt(400, "Occurrence ID Must Be Numeric")
     custy      = Customer[ custy_id ]                or halt(404, "Customer Doesn't Exist")
     occurrence = ClassOccurrence[ occ_id ]           or halt(404, "Occurrence Doesn't Exist")
     !occurrence.full?                                or halt(409, "Class is Full")
+    !occurrence.has_reservation_for? custy           or halt(409, "This Person is Already Checked In") 
 
     message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
     case params[:transaction_type]

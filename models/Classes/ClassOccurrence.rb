@@ -49,6 +49,10 @@ class ClassOccurrence < Sequel::Model
     end
   end
 
+  def has_reservation_for?(customer_id)
+    reservations.include? { |r| r[:customer_id] == customer_id }
+  end
+
   def to_full_json
     to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
   end
