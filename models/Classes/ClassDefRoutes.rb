@@ -123,11 +123,25 @@ class ClassDefRoutes < Sinatra::Base
     status 204
   end
 
+  get '/occurrences/:id/details' do
+    content_type :json
+    id = Integer(params[:id])        rescue halt(404, "ID must be numeric")
+    occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
+    occurrence.schedule_details_hash.to_json
+  end
+
   get '/occurrences/:id/reservations' do
     content_type :json
     id = Integer(params[:id])        rescue halt(404, "ID must be numeric")
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
     occurrence.reservation_list.to_json
+  end
+
+  get '/occurrences/:id/frequent_fliers' do
+    content_type :json
+    id = Integer(params[:id])        rescue halt(404, "ID must be numeric")
+    occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
+    opccurrence.classdef.frequent_flyers.to_json
   end
   
   post '/reservation' do
@@ -154,7 +168,7 @@ class ClassDefRoutes < Sinatra::Base
     when "free"
       occurrence.make_reservation( params[:customer_id] ) or halt 400
     end
-    
+
     status 201
   end
 
@@ -165,21 +179,20 @@ class ClassDefRoutes < Sinatra::Base
     occurrence = ClassOccurrence[ occ_id ]           or halt(404, "Occurrence Doesn't Exist")
     !occurrence.full?                                or halt(409, "Class is Full")
     !occurrence.has_reservation_for? custy_id        or halt(409, "This Person is Already Checked In") 
+    !params[:transaction_type].nil?                  or halt(400, "Transaction Type Must Be Specified")
 
-    message = "#{custy.name} Registered for #{ClassDef[params[:classdef_id]].name} with #{Staff[params[:staff_id]].name} on #{params[:starttime]}"    
-    
-    !params[:transaction_type].nil? or halt(400, "Transaction Type Must Be Specified")
+    message = "#{custy.name} Registered for #{occurrence.description}"    
 
     case params[:transaction_type]
     when "class_pass"
-      custy.use_class_pass(message) { occurrence.make_reservation( params[:customer_id] ) } or halt 400
+      custy.use_class_pass(message) { occurrence.make_reservation( params[:customer_id] ) } or halt(400, "Trouble Using Class Pass" )
     when "membership"
-      custy.use_membership(message) { occurrence.make_reservation( params[:customer_id] ) } or halt 400
+      custy.use_membership(message) { occurrence.make_reservation( params[:customer_id] ) } or halt(400, "Trouble Using Membership" )
     when "payment"
-      reservation = occurrence.make_reservation( params[:customer_id] ) or halt 400
+      reservation = occurrence.make_reservation( params[:customer_id] )                     or halt(400, "Trouble Making Reservation" )
       CustomerPayment[params[:payment_id]].update( :class_reservation_id => reservation.id )
     when "free"
-      occurrence.make_reservation( params[:customer_id] ) or halt 400
+      occurrence.make_reservation( params[:customer_id] )                                   or halt(400, "Trouble Making Reservation" )
     end
 
     status 201

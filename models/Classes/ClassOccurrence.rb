@@ -33,6 +33,10 @@ class ClassOccurrence < Sequel::Model
     reservations.count >= capacity
   end
 
+  def description
+    "#{ classdef.try(:name) } with #{ teacher.try(:name) } on #{ starttime.to_time.iso8601 }"
+  end
+
   def reservation_list
     $DB[ClassOccurrence.reservation_list_query, self.id].all
   end

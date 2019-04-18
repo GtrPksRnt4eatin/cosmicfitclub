@@ -1,3 +1,9 @@
+data = {
+  reservations: [],
+  occurrence: {},
+  frequent_fliers: []
+}
+
 ctrl = {
 
   edit_occurrence(e,m) {
@@ -68,8 +74,10 @@ $(document).ready( function() {
     payment_form.ev_sub('hide', popupmenu.hide );
     popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
 
-    //$('#customers').chosen({ search_contains: true });
     $('#customers').on('change', reservation_form.load_customer );
+    get_occurrence_details();
+    get_reservations();
+    get_frequent_fliers();
 
 });
 
@@ -81,9 +89,17 @@ function setup_bindings() {
 }
 
 function get_reservations()    { 
-  $.get(`/models/classdefs/occurrences/${data['occurrence'].id}/reservations`, function(resp) { data['reservations'] = resp; }, 'json');  
+  $.get('/models/classdefs/occurrences/' + data['occurrence'].id + '/reservations', function(resp) { data['reservations'] = resp; }, 'json');  
 }
 
-function get_customers() {
-  $.get('/models/customers/list', function(val) { data.customers = val; }, 'json');
+function get_frequent_fliers() {
+  $.get('/models/classdefs/occurrences/' + data['occurrence'].id + '/frequent_fliers', function(resp) { data['frequent_fliers'] = resp; }, 'json'); 
 }
+
+function get_occurrence_details() {
+  $.get('/models/classdefs/occurrences/' + data['occurrence'].id + '/details', function(resp) { data['occurrence'] = resp; }, 'json'); 
+}
+
+//function get_customers() {
+//  $.get('/models/customers/list', function(val) { data.customers = val; }, 'json');
+//}
