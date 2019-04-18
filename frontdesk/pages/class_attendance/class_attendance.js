@@ -97,7 +97,7 @@ function get_frequent_fliers() {
 }
 
 function get_occurrence_details() {
-  $.get('/models/classdefs/occurrences/' + occurrence_id + '/details', function(resp) { data['occurrence'] = resp; }, 'json'); 
+  $.get('/models/classdefs/occurrences/' + occurrence_id + '/details', function(resp) { data['occurrence'] = resp; reservation_form.set_occurrence(data['occurrence']); }, 'json'); 
 }
 
 //function get_customers() {
