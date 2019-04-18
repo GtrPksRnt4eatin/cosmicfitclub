@@ -10,6 +10,7 @@ html
 
     javascript:
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var occurrence_id = #{{ params[:id].to_i }};
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
 

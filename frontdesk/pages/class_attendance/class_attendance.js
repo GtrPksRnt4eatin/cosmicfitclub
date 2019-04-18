@@ -89,15 +89,15 @@ function setup_bindings() {
 }
 
 function get_reservations()    { 
-  $.get('/models/classdefs/occurrences/' + data['occurrence'].id + '/reservations', function(resp) { data['reservations'] = resp; }, 'json');  
+  $.get('/models/classdefs/occurrences/' + occurrence_id + '/reservations', function(resp) { data['reservations'] = resp; }, 'json');  
 }
 
 function get_frequent_fliers() {
-  $.get('/models/classdefs/occurrences/' + data['occurrence'].id + '/frequent_fliers', function(resp) { data['frequent_fliers'] = resp; }, 'json'); 
+  $.get('/models/classdefs/occurrences/' + occurrence_id + '/frequent_fliers', function(resp) { data['frequent_fliers'] = resp; }, 'json'); 
 }
 
 function get_occurrence_details() {
-  $.get('/models/classdefs/occurrences/' + data['occurrence'].id + '/details', function(resp) { data['occurrence'] = resp; }, 'json'); 
+  $.get('/models/classdefs/occurrences/' + occurrence_id + '/details', function(resp) { data['occurrence'] = resp; }, 'json'); 
 }
 
 //function get_customers() {
