@@ -36,7 +36,7 @@ class Event < Sequel::Model
   end
 
   def thumb_image_url
-    self.image.nil? ? '' : ( self.image.is_a?(ImageUploader::UploadedFile) ? self.image_url : self.image[:small].url )
+    self.image.nil? ? '' : ( self.image.is_a?(ImageUploader::UploadedFile) ? self.image_url : self.image[:medium].url )
   end
 
   def sessions
