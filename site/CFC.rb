@@ -13,11 +13,11 @@ class CFC < Sinatra::Base
     set :start_time, Time.now
   end
 
-  before do
-    last_modified settings.start_time
-    etag settings.start_time.to_s
-    cache_control :public, max_age: 604800
-  end
+  #before do
+  #  last_modified settings.start_time
+  #  etag settings.start_time.to_s
+  #  cache_control :public, max_age: 604800
+  #end
 
   get( '/' )                 { render_page :index    } 
   get( '/events')            { render_page :events   }

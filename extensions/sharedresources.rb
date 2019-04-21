@@ -19,6 +19,8 @@ module Sinatra
       end
 
       app.get /\/(?<path>([^\/]+\/)+)?(?<file>[^\/]+)\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
+        last_modified settings.start_time
+        etag settings.start_time.to_s
         cache_control :public, max_age: 604800
         path_arr = params[:path].nil? ? [] : params[:path].scan(/\/?(\w+)/).flatten 
         path = "#{$root_folder}/shared/img/#{params[:file]}.#{params[:ext]}"
