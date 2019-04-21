@@ -7,29 +7,21 @@ module Sinatra
     def self.registered(app)
 
       app.get '/elements/:file.js' do
-        last_modified app.settings.start_time
-        etag app.settings.start_time.to_s
         cache_control :public, max_age: 604800
         send_file "shared/js/elements/#{params[:file]}.js"
       end
 
       app.get '*/:file.js' do
-        last_modified app.settings.start_time
-        etag app.settings.start_time.to_s
         cache_control :public, max_age: 604800
       	send_file "shared/js/#{params[:file]}.js"
       end
 
       app.get '*/:file.css' do
-        last_modified app.settings.start_time
-        etag app.settings.start_time.to_s
         cache_control :public, max_age: 604800
         send_file "shared/css/#{params[:file]}.css"
       end
 
       app.get /\/(?<path>([^\/]+\/)+)?(?<file>[^\/]+)\.(?<ext>jpeg|jpg|png|gif|ico|svg)/ do
-        last_modified app.settings.start_time
-        etag app.settings.start_time.to_s
         cache_control :public, max_age: 604800
         path_arr = params[:path].nil? ? [] : params[:path].scan(/\/?(\w+)/).flatten 
         path = "#{$root_folder}/shared/img/#{params[:file]}.#{params[:ext]}"
@@ -39,8 +31,6 @@ module Sinatra
       end
 
       app.get /.*?(?<file>[^\/]*)\.(?<ext>ttf|woff|woff2)/ do
-        last_modified app.settings.start_time
-        etag app.settings.start_time.to_s
         cache_control :public, max_age: 604800
         path = "shared/fonts/#{params[:file]}.#{params[:ext]}"
         wfpath = "shared/fonts/webfonts/#{params[:file]}.#{params[:ext]}"
