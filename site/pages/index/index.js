@@ -18,6 +18,4 @@ $(document).ready(function() {
     slidesToShow: 1
   });
 
-  //images.forEach( function(path) { var elem =  $('#imgscroller').slick('slickAdd',`<div><img class='sliderimg' src='${ path }' /></div>`); });
-
 });
