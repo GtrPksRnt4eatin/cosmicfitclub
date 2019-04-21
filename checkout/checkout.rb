@@ -9,6 +9,10 @@ class Checkout < Sinatra::Base
   
   set :root, File.dirname(__FILE__)
 
+  configure do
+    set :start_time, Time.now
+  end
+
   register Sinatra::PageFolders
   register Sinatra::SharedResources
   helpers  Sinatra::ViewHelpers
