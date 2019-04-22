@@ -1,0 +1,67 @@
+body {
+	position: relative;
+	text-align: center;
+  height: 100vh;
+}
+
+body:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+
+#login_container {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 14pt;
+}	
+
+
+
+
+body {
+  background-image: url('background-blu.jpg');
+}
+
+#LoginForm {
+  box-shadow: 0 0 5px white;
+  background: rgba(30,30,30,0.8);
+}
+
+#LoginForm input {
+	background-color: transparent !important;
+	border: 0;
+	border-bottom: 2px solid white;
+	font-family: "Industry-Light";
+  color: rgba(255,255,255,0.8) !important;
+  font-weight: bold;
+  font-size: 1em;
+  line-height: 1.5em;
+  padding-left: .5em;
+}
+
+#LoginForm input:-webkit-autofill {
+  background-color: transparent !important;
+}
+
+#LoginForm input:focus { outline: none; }	
+
+#LoginForm {
+  padding: 2em;
+  line-height: 1.5em;
+  font-size: 1em;
+  display: inline-block;
+  box-shadow: 0 0 5px white !important;
+  background: rgba(30,30,30,0.8) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+@media(max-width: 800px) {
+  
+  #login_container {
+    width: 90%;
+    font-size: 4vw;  
+  }
+
+}

@@ -166,6 +166,14 @@ module Sinatra
         end
       end
 
+      app.set(:onboard) do |role|
+        condition do
+          redirect "/auth/onboard?page=#{request.path}" unless logged_in?
+          redirect '/' unless session[:user].has_role? role
+          true
+        end
+      end
+
     end
 
   end

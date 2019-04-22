@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Login To Cosmic Fit Club
+
+    == js  [ 'jquery', 'rivets', 'lib', 'element', 'ev_channel', 'elements/loginform', 'onboard' ]
+    == css [ 'fonts', 'site', 'onboard']
+
+    javascript:
+      window.onload = function() {
+        login = new Onboarding( id('login_container') );
+      };
+
+  body
+
+    #login_container
+
+    == analytics
