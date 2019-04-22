@@ -40,7 +40,7 @@ $(document).ready(function() {
     if (this.files && this.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
-        $('uploader.tall').addClass('ready');
+        $('.uploader.tall').addClass('ready');
         $tallcroppie.croppie('bind', { url: e.target.result }).then(function(){ console.log('jQuery bind complete'); });   
       }
       reader.readAsDataURL(this.files[0]);
@@ -66,6 +66,12 @@ $(document).ready(function() {
         var urlCreator = window.URL || window.webkitURL;
         $('#result')[0].src = urlCreator.createObjectURL(resp);
       });
+    });
+
+    $('#new_slide .submit').on('click', function(e) {
+      data = {
+        
+      }
     });
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );

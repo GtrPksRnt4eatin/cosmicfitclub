@@ -31,3 +31,9 @@ class ImageUploader < Shrine
   end
 
 end
+
+class CarouselUploader < Shrine
+  
+  
+
+end
