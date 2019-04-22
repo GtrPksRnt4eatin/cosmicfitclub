@@ -24,12 +24,12 @@ body {
   background-image: url('background-blu.jpg');
 }
 
-#LoginForm {
+#Onboarding {
   box-shadow: 0 0 5px white;
   background: rgba(30,30,30,0.8);
 }
 
-#LoginForm input {
+#Onboarding input {
 	background-color: transparent !important;
 	border: 0;
 	border-bottom: 2px solid white;
@@ -41,13 +41,13 @@ body {
   padding-left: .5em;
 }
 
-#LoginForm input:-webkit-autofill {
+#Onboarding input:-webkit-autofill {
   background-color: transparent !important;
 }
 
-#LoginForm input:focus { outline: none; }	
+#Onboarding input:focus { outline: none; }	
 
-#LoginForm {
+#Onboarding {
   padding: 2em;
   line-height: 1.5em;
   font-size: 1em;
