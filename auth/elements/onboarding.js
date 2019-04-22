@@ -7,6 +7,7 @@ function Onboarding(parent) {
     "password"     : "",
     "confirmation" : "",
     "mode"         : "login",
+    "acct_found"   : false,
     "failed"       : false,
     "errors"       : [] 
   }
@@ -32,7 +33,7 @@ Onboarding.prototype = {
       m.state.id = val ? val.id : 0;
       m.state.email = val ? val.email : m.state.email;
       m.state.full_name = val ? val.full_name : '';
-      //id('fullname').disabled = val ? true : false;
+      m.state.acct_found = val ? true : false;
     } );
   },
 
@@ -87,31 +88,30 @@ Onboarding.prototype.HTML = `
   <div id='Onboarding' >
 
     <div rv-if="state.mode | equals 'login'">
-      <div class='section'>Login To Continue</div>
+
+      <div class='section'>Register or Login To Continue</div>
       <hr>
+
       <div class='section'>
         <label>Email:</label>
         <input class='email' rv-value='state.email' rv-on-input='check_email'></input>
       </div>
-      <div class='section'>
+
+      <div class='section' rv-if='state.acct_found'>
         <label>Password:</label>
         <input class='password' type='password' rv-value='state.password'></input>
       </div>
+
+      <div class='section' rv-unless='state.acct_found'>
+        <label>Full Name:</label>
+        <input rv-value='state.full_name'></input>
+      </div>
+
       <hr style='display: none;' >
       <div class='section'>
         <div class='submit' rv-on-click='this.login'>Login</div>
       </div>
-      <hr style='display: none;' >
-      <div class='section' style='display: none;' >
-        <a class='omni' href='omni/facebook'>
-          <img src='login-facebook.png'/>
-        </a>
-      </div>
-      <div class='section' style='display: none;'>
-        <a class='omni' href='omni/google_oauth2'>
-          <img src='login-google.png'/>
-        </a>
-      </div>
+      
       <hr>
       <div class='fineprint'>Not Registered?<span rv-on-click='this.register_mode'>Create An Account</span></div>
       <div class='fineprint' rv-if="state.failed">
