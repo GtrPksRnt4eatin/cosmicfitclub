@@ -36,7 +36,7 @@ class Checkout < Sinatra::Base
 
   get('/transactions')                           { render_page :transactions   }
 
-  get('/class_reg/:id',   :onboard => 'user')    { render_page :class_reg      }
+  get('/class_reg/:id',   :auth => 'user')       { render_page :class_reg      }
 
   get('/class_checkin',   :auth => 'frontdesk' ) { render_page :class_checkin  } 
   get('/class_sheet/:id', :auth => 'frontdesk' ) { render_page :class_sheet    }

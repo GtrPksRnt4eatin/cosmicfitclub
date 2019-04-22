@@ -13,11 +13,13 @@ html
 
     javascript:
       window.onload = function() {
-        login = new Onboarding( id('login_container') );
+        //login = new Onboarding( id('login_container') );
+        rivets.bind(document.body, {});
       };
 
   body
 
     #login_container
+      onboarding
 
     == analytics

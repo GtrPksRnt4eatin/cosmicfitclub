@@ -1,8 +1,9 @@
 function Onboarding(parent) {
   
   this.state = {
-    "name"         : "",
     "email"        : "",
+    "id"           : "",
+    "full_name"    : "",
     "password"     : "",
     "confirmation" : "",
     "mode"         : "login",
@@ -10,11 +11,9 @@ function Onboarding(parent) {
     "errors"       : [] 
   }
 
+  this.load_styles();
   this.set_formatters();
   this.bind_handlers(['login','register','reset','login_mode','register_mode','reset_mode', 'email_mode']);
-  this.build_dom(parent);
-  this.load_styles();
-  this.bind_dom();
 
   $(document).keypress(function(e) { if(e.keyCode == 13) { this.login(); } }.bind(this));
 }
@@ -25,6 +24,16 @@ Onboarding.prototype = {
   set_formatters() {
     rivets.formatters.equals = function(val,testval) { return val == testval;  }
     rivets.formatters.empty  = function(val)         { return val.length == 0; }
+  },
+
+  check_email: function(e,m) { 
+    $.get('/auth/email_search', { email: e.target.value }, function(val) {
+      m.state.errors = [];
+      m.state.id = val ? val.id : 0;
+      m.state.email = val ? val.email : m.state.email;
+      m.state.full_name = val ? val.full_name : '';
+      //id('fullname').disabled = val ? true : false;
+    } );
   },
 
   login() {
@@ -82,7 +91,7 @@ Onboarding.prototype.HTML = `
       <hr>
       <div class='section'>
         <label>Email:</label>
-        <input class='email' rv-value='state.email'></input>
+        <input class='email' rv-value='state.email' rv-on-input='check_email'></input>
       </div>
       <div class='section'>
         <label>Password:</label>
@@ -108,56 +117,6 @@ Onboarding.prototype.HTML = `
       <div class='fineprint' rv-if="state.failed">
         Forgot Password?
         <span rv-on-click='this.reset_mode'>Reset Password</span>
-      </div>
-    </div>
-
-    <div rv-if="state.mode | equals 'register'">
-      <span class='backbtn' rv-on-click="this.login_mode"></span>
-      <div class='section'>Enter Your Information</div>
-      <hr>
-      <div class='section'>
-        <label>Name:</label>
-        <input rv-value='state.name'></input>
-      </div>
-      <div class='section'>
-        <label>E-Mail:</label>
-        <input rv-value='state.email'></input>
-      </div>
-      <hr>
-      <div class='section'>
-        <div class='submit' rv-on-click='this.register'>Register</div>
-      </div>
-      <div rv-unless='this.state.errors | empty'>
-        <hr>
-        <div class='error' rv-each-err='this.state.errors'> {err} </div>
-      </div>
-    </div>
-
-    <div rv-if="state.mode | equals 'reset'">
-      <span class='backbtn' rv-on-click="this.login_mode"></span>
-      <div class='section'>Reset Your Password</div>
-      <hr>
-      <div class='section'>
-        <label>E-Mail:</label>
-        <input rv-value='state.email'></input>
-      </div>
-      <hr>
-      <div class='section'>
-        <div class='submit' rv-on-click='this.reset'>Reset</div>
-      </div>
-      <div rv-unless='this.state.errors | empty'>
-        <hr>
-        <div class='error' rv-each-err='this.state.errors'> {err} </div>
-      </div>
-    </div>
-
-    <div rv-if="state.mode | equals 'email'">
-      <span class='backbtn' rv-on-click="this.login_mode"></span>
-      <div class="section">Check Your Email</div>
-      <hr>
-      <div class="section">
-        <div>Check your E-Mail for a message from Donut!</div>
-        <img class='donut' src='donut_desk.png'/>
       </div>
     </div>
 
@@ -249,3 +208,8 @@ Onboarding.prototype.CSS = `
   }
 
 `.untab(2);
+
+rivets.components['onboarding'] = {
+  template:   function()        { return Onboarding.prototype.HTML },
+  initialize: function(el,attr) { return new Onboarding(attr); }
+}
