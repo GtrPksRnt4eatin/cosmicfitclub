@@ -14,6 +14,7 @@ class CFCAuth < Sinatra::Base
   set :public_folder, File.dirname(__FILE__)
 
   get( '/login'    ) { render_page :login    }
+  get( '/onboard'  ) { render_page :onboard  }
   get( '/reset'    ) { render_page :reset    }
   get( '/register' ) { render_page :register }
   get( '/activate' ) { render_page :activate }
