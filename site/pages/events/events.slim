@@ -35,15 +35,15 @@ html
           .time
             | { event.starttime | time }
         img rv-src='event.image_url'     
-        .nfo
-          .eventname 
-            | { event.name }
-          hr width='60%'
-          .eventdescription
-            | { event.description }
-          .sign_up
-            .burst-12 
-            .text Sign Up
+          .nfo
+            .eventname 
+              | { event.name }
+            hr width='60%'
+            .eventdescription
+              | { event.description }
+            .sign_up
+              .burst-12 
+              .text Sign Up
 
     == include_slim('slim/partials/footer')
 
