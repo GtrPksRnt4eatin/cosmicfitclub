@@ -34,15 +34,14 @@ html
           | |
           .time
             | { event.starttime | time }
-        img rv-src='event.image_url'
-        
+        img rv-src='event.image_url'     
         .nfo
           .eventname 
             | { event.name }
           hr width='60%'
           .eventdescription
             | { event.description }
-          a.sign_up rv-href='event.id | eventpath'
+          .sign_up
             .burst-12 
             .text Sign Up
 
