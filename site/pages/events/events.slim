@@ -35,7 +35,8 @@ html
           .time
             | { event.starttime | time }
         img rv-src='event.image_url'
-        .nfo
+        
+        a.nfo rv-href='event.id | eventpath'
           .eventname 
             | { event.name }
           hr width='60%'
