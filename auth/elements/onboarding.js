@@ -1,7 +1,7 @@
 function Onboarding(el,attr) {
   
   this.dom = el;
-  
+
   this.state = {
     "email"        : "",
     "id"           : "",
@@ -114,12 +114,16 @@ Onboarding.prototype.HTML = `
         <div rv-if='state.acct_found' class='submit' rv-on-click='login'>Login</div>
         <div rv-unless='state.acct_found' class='submit' rv-on-click='register'>Register</div>
       </div>
-      
-      <hr rv-if='state.acct_found'>
 
       <div class='fineprint' rv-if='state.acct_found'>
+        <hr>
         Forgot Password?
         <span rv-on-click='this.reset_mode'>Reset Password</span>
+      </div>
+
+      <div rv-unless='this.state.errors | empty'>
+        <hr>
+        <div class='error' rv-each-err='this.state.errors'> {err} </div>
       </div>
       
     </div>
