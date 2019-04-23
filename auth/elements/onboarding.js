@@ -8,7 +8,6 @@ function Onboarding(parent) {
     "confirmation" : "",
     "mode"         : "login",
     "acct_found"   : false,
-    "failed"       : false,
     "errors"       : [] 
   }
 
@@ -39,7 +38,7 @@ Onboarding.prototype = {
 
   login() {
     $.post('login', JSON.stringify(this.state))
-      .fail( function(req,msg,status) { $(this.dom).shake();  this.state.failed=true; }.bind(this) )
+      .fail( function(req,msg,status) { this.state.errors = [req.responseText]; $(this.dom).shake(); }.bind(this) )
       .success( function() { 
         var page = getUrlParameter('page');
         window.location.replace( empty(page) ? '/user' : page );
@@ -48,12 +47,9 @@ Onboarding.prototype = {
 
   register() {
     if(this.validate_registration()) {
-      $.post('register', JSON.stringify(this.state))
-        .fail( function(req,msg,status) { 
-          $(this.dom).shake(); 
-          this.state.errors=[req.responseText];
-        }.bind(this) )
-        .success( this.email_mode );
+      $.post('/auth/register_and_login', JSON.stringify( { "name": this.state.full_name, "email": this.state.email } ), 'json')
+      .fail(    function(req,msg,status) { this.state.errors = [req.responseText];  $(this.dom).shake(); } )
+      .success( function(resp)           { userview.get_user(); checkout(resp.id);                       } )
     }
   },
 
@@ -89,7 +85,7 @@ Onboarding.prototype.HTML = `
 
     <div rv-if="state.mode | equals 'login'">
 
-      <div class='section'>Register or Login To Continue</div>
+      <div class='section'>Enter Your E-Mail to Register or Login</div>
       <hr>
 
       <div class='section'>
@@ -108,8 +104,8 @@ Onboarding.prototype.HTML = `
       </div>
 
       <div class='section'>
-        <div rv-if='state.acct_found' class='submit' rv-on-click='this.login'>Login</div>
-        <div rv-unless='state.acct_found' class='submit' rv-on-click='this.register'>Register</div>
+        <div rv-if='state.acct_found' class='submit' rv-on-click='login'>Login</div>
+        <div rv-unless='state.acct_found' class='submit' rv-on-click='register'>Register</div>
       </div>
       
       <hr>
