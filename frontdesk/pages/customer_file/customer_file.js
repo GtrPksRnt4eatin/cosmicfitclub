@@ -166,6 +166,7 @@ function setupBindings() {
   rivets.formatters.has_membership = function(val) { return empty(val) ? false : ( val.name != 'None' );            }
   rivets.formatters.custy_file     = function(val) { return empty(val) ? '#'   : '/frontdesk/customer_file?id='+val; }
   rivets.formatters.remove_invalid = function(val) { return val == "Invalid date" ? '' : val; }
+  rivets.formatters.waiver_img     = function(val) { return '/models/customers/' + val + '/waiver.svg'; }
 
   rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
@@ -219,7 +220,6 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/family`,          function(resp) { data.customer.family            = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/subscriptions`,   function(resp) { data.customer.subscriptions     = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/waiver`,          function(resp) { data.customer.waiver            = resp; }, 'json');
   refresh_reservations()
 }
 
