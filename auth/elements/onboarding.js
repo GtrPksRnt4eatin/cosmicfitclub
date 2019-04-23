@@ -121,9 +121,9 @@ Onboarding.prototype.HTML = `
         <span rv-on-click='this.reset_mode'>Reset Password</span>
       </div>
 
-      <div rv-unless='this.state.errors | empty'>
+      <div rv-unless='state.errors | empty'>
         <hr>
-        <div class='error' rv-each-err='this.state.errors'> {err} </div>
+        <div class='error' rv-each-err='state.errors'> {err} </div>
       </div>
       
     </div>
