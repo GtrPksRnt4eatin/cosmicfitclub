@@ -5,7 +5,7 @@ function Onboarding(el,attr) {
   this.state = {
     "email"        : "",
     "id"           : "",
-    "full_name"    : "",
+    "name"         : "",
     "password"     : "",
     "confirmation" : "",
     "mode"         : "login",
@@ -33,7 +33,7 @@ Onboarding.prototype = {
       m.state.errors = [];
       m.state.id = val ? val.id : 0;
       m.state.email = val ? val.email : m.state.email;
-      m.state.full_name = val ? val.full_name : '';
+      m.state.name = val ? val.full_name : '';
       m.state.acct_found = val ? true : false;
     } );
   },
@@ -54,7 +54,7 @@ Onboarding.prototype = {
 
   register() {
     if(this.validate_registration()) {
-      $.post('/auth/register_and_login', JSON.stringify( { "name": this.state.full_name, "email": this.state.email } ), 'json')
+      $.post('/auth/register_and_login', JSON.stringify( { "name": this.state.name, "email": this.state.email } ), 'json')
       .fail(    function(req,msg,status) { this.state.errors = [req.responseText];  $(this.dom).shake(); } )
       .success( function(resp)           { userview.get_user(); checkout(resp.id);                       } )
     }
@@ -107,7 +107,7 @@ Onboarding.prototype.HTML = `
 
       <div class='section' rv-hide='state.acct_found'>
         <label>Full Name:</label>
-        <input rv-value='state.full_name'></input>
+        <input rv-value='state.name'></input>
       </div>
 
       <div class='section'>
