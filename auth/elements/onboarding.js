@@ -97,27 +97,28 @@ Onboarding.prototype.HTML = `
         <input class='email' rv-value='state.email' rv-on-input='check_email'></input>
       </div>
 
-      <div class='section' rv-if='state.acct_found'>
+      <div class='section' rv-show='state.acct_found'>
         <label>Password:</label>
         <input class='password' type='password' rv-value='state.password'></input>
       </div>
 
-      <div class='section' rv-unless='state.acct_found'>
+      <div class='section' rv-hide='state.acct_found'>
         <label>Full Name:</label>
         <input rv-value='state.full_name'></input>
       </div>
 
-      <hr style='display: none;' >
       <div class='section'>
-        <div class='submit' rv-on-click='this.login'>Login</div>
+        <div rv-if='state.acct_found' class='submit' rv-on-click='this.login'>Login</div>
+        <div rv-unless='state.acct_found' class='submit' rv-on-click='this.register'>Register</div>
       </div>
       
       <hr>
-      <div class='fineprint'>Not Registered?<span rv-on-click='this.register_mode'>Create An Account</span></div>
+
       <div class='fineprint' rv-if="state.failed">
         Forgot Password?
         <span rv-on-click='this.reset_mode'>Reset Password</span>
       </div>
+
     </div>
 
   </div>
