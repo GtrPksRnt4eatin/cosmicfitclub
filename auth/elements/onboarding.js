@@ -114,11 +114,11 @@ Onboarding.prototype.HTML = `
       
       <hr>
 
-      <div class='fineprint' rv-if="state.failed">
+      <div class='fineprint'>
         Forgot Password?
         <span rv-on-click='this.reset_mode'>Reset Password</span>
       </div>
-
+      
     </div>
 
   </div>
