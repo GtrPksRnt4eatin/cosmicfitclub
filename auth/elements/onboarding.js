@@ -38,7 +38,12 @@ Onboarding.prototype = {
 
   login() {
     $.post('login', JSON.stringify(this.state))
-      .fail( function(req,msg,status) { this.state.errors = [req.responseText]; $(this.dom).shake(); }.bind(this) )
+      .fail( 
+         function(req,msg,status) { 
+           this.state.errors = [req.responseText];
+           $(this.dom).shake(); 
+         }.bind(this) 
+       )
       .success( function() { 
         var page = getUrlParameter('page');
         window.location.replace( empty(page) ? '/user' : page );
