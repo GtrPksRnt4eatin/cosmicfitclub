@@ -33,7 +33,7 @@ class CFCAuth < Sinatra::Base
       custy = Customer.find_by_email( data['email'] )
       Slack.post( "Failed Login: Account Not Found - #{data['email']}") if custy.nil?
       Slack.post( "Failed Login: #{custy.to_list_string}" )         unless custy.nil?
-      halt 401
+      halt(401, "Login Failed: Incorrect Credentials"
     end
     session[:customer] = session[:user].customer
     Slack.post( "Successful Login #{ session[:customer].to_list_string }" )

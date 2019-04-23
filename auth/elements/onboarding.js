@@ -1,4 +1,6 @@
-function Onboarding(parent) {
+function Onboarding(el,attr) {
+  
+  this.dom = el;
   
   this.state = {
     "email"        : "",
@@ -36,7 +38,7 @@ Onboarding.prototype = {
     } );
   },
 
-  login() {
+  login(e,m) {
     $.post('login', JSON.stringify(this.state))
       .fail( 
          function(req,msg,status) { 
@@ -113,9 +115,9 @@ Onboarding.prototype.HTML = `
         <div rv-unless='state.acct_found' class='submit' rv-on-click='register'>Register</div>
       </div>
       
-      <hr>
+      <hr rv-if='state.acct_found'>
 
-      <div class='fineprint'>
+      <div class='fineprint' rv-if='state.acct_found'>
         Forgot Password?
         <span rv-on-click='this.reset_mode'>Reset Password</span>
       </div>
@@ -213,5 +215,5 @@ Onboarding.prototype.CSS = `
 
 rivets.components['onboarding'] = {
   template:   function()        { return Onboarding.prototype.HTML },
-  initialize: function(el,attr) { return new Onboarding(attr); }
+  initialize: function(el,attr) { return new Onboarding(el,attr); }
 }
