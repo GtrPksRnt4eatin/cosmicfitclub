@@ -188,10 +188,16 @@ class CustomerRoutes < Sinatra::Base
     custy.delete
   end
 
+  get '/:id/waiver.svg' do
+    content_type 'image/svg+xml'
+    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
+    custy.waiver.try(:signature)  or halt(404, "Waiver Not Signed" ) 
+  end
+
   get '/waiver' do
     content_type 'image/svg+xml'
-    halt 404 if session[:customer].nil?
-    halt 404 if session[:customer].waiver.nil?
+    halt(401, "Not Signed In")     if session[:customer].nil?
+    halt(404, "Waiver Not Signed") if session[:customer].waiver.nil?
     return session[:customer].waiver.signature
   end
 

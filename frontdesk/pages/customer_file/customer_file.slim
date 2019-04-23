@@ -114,6 +114,11 @@ html
                         option value='#{cust.id}'
                           | #{ cust.name } ( #{ cust.email } )
                     button rv-on-click='ctrl.add_child' Add Child
+              tr
+                th Waiver:
+                td
+                  div
+                    img rv-src='data.customer.waiver'
 
           #class_passes.tab-content
             table

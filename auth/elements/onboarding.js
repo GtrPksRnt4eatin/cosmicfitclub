@@ -30,7 +30,7 @@ Onboarding.prototype = {
 
   check_email: function(e,m) { 
     $.get('/auth/email_search', { email: e.target.value }, function(val) {
-      m.state.errors = [];
+      this.clear_errors();
       m.state.id = val ? val.id : 0;
       m.state.email = val ? val.email : m.state.email;
       m.state.name = val ? val.full_name : '';
@@ -40,48 +40,47 @@ Onboarding.prototype = {
 
   login(e,m) {
     $.post('login', JSON.stringify(this.state))
-      .fail( 
-         function(req,msg,status) { 
-           this.state.errors = [req.responseText];
-           $(this.dom).shake(); 
-         }.bind(this) 
-       )
-      .success( function() { 
-        var page = getUrlParameter('page');
-        window.location.replace( empty(page) ? '/user' : page );
-      });
+     .fail(    this.show_http_error )
+     .success( this.after_login     )
   },
 
   register() {
-    if(this.validate_registration()) {
-      $.post('/auth/register_and_login', JSON.stringify( { "name": this.state.name, "email": this.state.email } ), 'json')
-      .fail(    function(req,msg,status) { this.state.errors = [req.responseText];  $(this.dom).shake(); } )
-      .success( function(resp)           { userview.get_user(); checkout(resp.id);                       } )
-    }
+    if(!this.validate_registration()) return;
+    var payload = JSON.stringify( { "name": this.state.name, "email": this.state.email } )
+    $.post('/auth/register_and_login', payload, 'json')
+     .fail(    this.show_http_error )
+     .success( this.after_login     )
   },
-
+ 
   reset() {
-    $.post('reset', JSON.stringify(this.state))
-      .fail( function(req,msg,status) {
-        $(this.dom).shake();
-        this.state.errors=["Account Not Found!"]
-      }.bind(this) )
-      .success( this.email_mode );
+    $.post('reset', JSON.stringify( { "email": this.state.email } ) )
+     .fail(    this.show_http_error )
+     .success( this.email_mode      )
   },
-
-  login_mode()    { this.state.mode = "login";    },
-  register_mode() { this.state.mode = "register"; },
-  reset_mode()    { this.state.mode = "reset";    },
-  email_mode()    { this.state.mode = "email";    },
 
   validate_registration() {
-    this.state.errors = [];
+    this.clear_errors();
     if(empty(this.state.name))              { this.state.errors.push("Name Cannot Be Blank");     }
     if(this.state.email.indexOf('@') == -1) { this.state.errors.push("Email Is Not Valid");       }
     if(this.state.errors.length == 0)  { return true; }
     $(this.dom).shake();
     return false;
+  },
+
+  clear_errors() {
+    this.state.errors = [];
+  },
+
+  show_http_error(req,msg,status) {
+    this.state.errors = [req.responseText];
+    $(this.dom).shake();
+  },
+
+  after_login() {
+    var page = getUrlParameter('page'); 
+    window.location.replace( empty(page) ? '/user' : page );
   }
+
 }
 
 Object.assign( Onboarding.prototype, element);
