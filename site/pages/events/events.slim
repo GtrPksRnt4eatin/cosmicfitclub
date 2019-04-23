@@ -23,8 +23,8 @@ html
     == include_slim('slim/partials/header')
       
     .content
-
-      .tile.event rv-each-event='data.events'
+ 
+      a.tile.event rv-each-event='data.events' rv-href='event.id | eventpath'
         .eventhead
           .weekday
             | { event.starttime | dayofwk }
@@ -36,7 +36,7 @@ html
             | { event.starttime | time }
         img rv-src='event.image_url'
         
-        a.nfo rv-href='event.id | eventpath'
+        .nfo
           .eventname 
             | { event.name }
           hr width='60%'
