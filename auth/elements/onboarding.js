@@ -15,7 +15,7 @@ function Onboarding(el,attr) {
 
   this.load_styles();
   this.set_formatters();
-  this.bind_handlers(['login','register','reset','validate_registration','check_email','clear_errors','show_http_error']);
+  this.bind_handlers(['login','register','reset','validate_registration','check_email','email_match','clear_errors','show_http_error']);
 
   $(document).keypress(function(e) { if(e.keyCode == 13) { this.login(); } }.bind(this));
 }
@@ -29,13 +29,18 @@ Onboarding.prototype = {
   },
 
   check_email: function(e,m) { 
-    $.get('/auth/email_search', { email: e.target.value }, function(val) {
-      this.clear_errors();
-      m.state.id = val ? val.id : 0;
-      m.state.email = val ? val.email : m.state.email;
-      m.state.name = val ? val.full_name : '';
-      m.state.acct_found = val ? true : false;
-    } );
+    this.clear_errors();
+    $.get('/auth/email_search', { email: e.target.value }, 'json' )
+     .fail(    this.show_http_error )
+     .success( this.email_match     )
+  },
+
+  email_match: function(val) {
+    this.state.acct_found = !empty(val);
+    if(empty(val)) return;
+    this.state.id    = val.id;
+    this.state.email = val.email;
+    this.state.name  = val.full_name;
   },
 
   login(e,m) {
