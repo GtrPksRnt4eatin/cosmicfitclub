@@ -36,8 +36,8 @@ Onboarding.prototype = {
   },
 
   email_match: function(val) {
-    this.state.acct_found = !empty(val);
-    if(empty(val)) return;
+    this.state.acct_found = !!val;
+    if(!val) return;
     this.state.id    = val.id;
     this.state.email = val.email;
     this.state.name  = val.full_name;
