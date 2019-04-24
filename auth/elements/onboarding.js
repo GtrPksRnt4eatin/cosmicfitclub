@@ -15,7 +15,7 @@ function Onboarding(el,attr) {
 
   this.load_styles();
   this.set_formatters();
-  this.bind_handlers(['login','register','reset','login_mode','register_mode','reset_mode', 'email_mode']);
+  this.bind_handlers(['login','register','reset']);
 
   $(document).keypress(function(e) { if(e.keyCode == 13) { this.login(); } }.bind(this));
 }
