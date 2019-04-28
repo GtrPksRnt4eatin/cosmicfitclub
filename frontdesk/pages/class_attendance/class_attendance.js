@@ -12,7 +12,7 @@ ctrl = {
   },
 
   change_teacher(e,m) {
-    payload = { "staff_id": e.target.value, "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id };
+    payload = { "staff_id": parseInt(e.target.value), "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id };
     $.post('/models/classdefs/occurrences/' + data.occurrence.id, JSON.stringify(payload), function(resp) { data.occurrence = resp; } );
   },
 
