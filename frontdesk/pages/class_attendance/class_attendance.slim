@@ -83,6 +83,15 @@ html
                 option rv-each-flier='data.frequent_fliers' rv-value='flier.id' rv-on-click='ctrl.choose_flier'
                   | {flier.count} times - { flier.name } ( {flier.email} )
 
+        table
+          tr
+            td Reassign Class Teacher
+          tr
+            td
+              select rv-on-change='ctrl.change_teacher'
+                option rv-each-staff='data.staff_list' rv-value='staff.id'
+                  | { staff.name }
+
     #popupmenu_container
 
     == analytics

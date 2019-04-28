@@ -1,13 +1,19 @@
 data = {
   reservations: [],
   occurrence: {},
-  frequent_fliers: []
+  frequent_fliers: [],
+  staff_list: []
 }
 
 ctrl = {
 
   edit_occurrence(e,m) {
     
+  },
+
+  change_teacher(e,m) {
+    payload = { "staff_id": e.target.value, "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id };
+    $.post('/models/classdefs/occurrences/' + data.occurrence.id, JSON.Stringify(payload), function(resp) { data.occurrence = resp; } );
   },
 
   checkin: function(e,m) {
@@ -78,6 +84,7 @@ $(document).ready( function() {
     get_occurrence_details();
     get_reservations();
     get_frequent_fliers();
+    get_staff_list();
 
 });
 
@@ -98,6 +105,10 @@ function get_frequent_fliers() {
 
 function get_occurrence_details() {
   $.get('/models/classdefs/occurrences/' + occurrence_id + '/details', function(resp) { data['occurrence'] = resp; reservation_form.set_occurrence(data['occurrence']); }, 'json'); 
+}
+
+function get_staff_list() {
+  $.get('/models/staff', function(resp) { data['staff_list'] = resp; }, 'json');
 }
 
 //function get_customers() {

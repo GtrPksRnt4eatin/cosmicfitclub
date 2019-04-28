@@ -113,7 +113,15 @@ class ClassDefRoutes < Sinatra::Base
   post '/occurrences' do
     content_type :json
     occurrence = ClassOccurrence.get(params['classdef_id'], params['staff_id'], params['starttime'] )
-    occurrence.to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
+    occurrence.to_full_json
+  end
+
+  post '/occurrences/:id' do
+    content_type :json
+    id = Integer(params[:id])        rescue halt(401, "ID Must Be Numeric")
+    occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
+    occurrence.update( :staff_id=>params[:staff_id], :classdef_id=>params[:classdef_id], :starttime=>params[:starttime] )
+    occurrence.to_full_json
   end
 
   delete '/occurrences/:id' do
