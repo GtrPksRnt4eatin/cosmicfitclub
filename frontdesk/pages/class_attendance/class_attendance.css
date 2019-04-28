@@ -31,6 +31,10 @@
   font-size: 0.8em;
 }
 
+table.inline_block {
+  display: inline-block;
+}
+
 table.reservations {
 	margin: 1em 0;
 	display: inline-block;

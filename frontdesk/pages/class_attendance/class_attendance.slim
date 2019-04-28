@@ -74,7 +74,7 @@ html
 
         #reservation_form_container
         
-        table
+        table.inline_block
           tr 
             td Frequent Fliers
           tr
@@ -83,7 +83,7 @@ html
                 option rv-each-flier='data.frequent_fliers' rv-value='flier.id' rv-on-click='ctrl.choose_flier'
                   | {flier.count} times - { flier.name } ( {flier.email} )
 
-        table
+        table.inline_block
           tr
             td Reassign Class Teacher
           tr
