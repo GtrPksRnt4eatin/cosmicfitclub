@@ -15,12 +15,9 @@ html
     ==js  [ '/auth/elements/userview', 'menu', 'user/hourly' ]
 
     javascript: 
-      data = {
-        hourly_tasks: #{{ HourlyTask.all.to_json }},
-        punches: #{{ HourlyPunch.where( :customer_id => session[:customer].id ).to_json }},
-        current_time: moment()
-      }
-
+      data = {};
+      data['hourly_tasks'] = #{{ HourlyTask.all.to_json }};
+      data['punches']      = #{{ HourlyPunch.where( :customer_id => session[:customer].id ).to_json }};
   body
   
     #stars
