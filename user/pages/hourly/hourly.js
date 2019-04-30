@@ -15,7 +15,8 @@ ctrl = {
 }
 
 $(document).ready(function() {
-  
+
+  data['current_time'] = moment();  
   userview = new UserView( id('userview_container'));
 
   include_rivets_dates();
