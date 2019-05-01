@@ -22,7 +22,10 @@ class ScheduleRoutes < Sinatra::Base
         csv << [ Date.parse(day).strftime('%A %b %e').upcase ]
         item.sort_by! { |x| x[:starttime] }
         item.each do |line|
-          csv << ["#{line[:starttime].strftime('%l:%M %p')} - #{line[:endtime].strftime('%l:%M %p')}", line[:title], line[:instructors].try(:map,&:name).try(:join) ]
+          instructors = line[:instructors]
+          instructors = instructors.map { |v| v[:name] } if instructors.is_a? Array
+          instructors.join if instructors.is_a? Array
+          csv << ["#{line[:starttime].strftime('%l:%M %p')} - #{line[:endtime].strftime('%l:%M %p')}", line[:title], instructors ]
         end
         csv << []
       end
