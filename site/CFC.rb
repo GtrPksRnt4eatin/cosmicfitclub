@@ -44,6 +44,7 @@ class CFC < Sinatra::Base
   get( '/NicolasInNY')              { redirect '/checkout/event/368' }
   get( '/meditation' )              { redirect '/checkout/event/362' }
   get( '/insideflow' )              { redirect '/checkout/event/363' }
+  get( '/waterfrontyoga')           { redirect '/auth/onboard?page=/checkout/class_reg/3170' }
 
   get( '/checkout')                 { render_page :checkout }
   get( '/checkout/plans/:id' )      { render_page :checkout_plan }
