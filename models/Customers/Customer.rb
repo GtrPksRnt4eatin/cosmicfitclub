@@ -40,11 +40,11 @@ class Customer < Sequel::Model
   end
 
   def Customer.get_from_email(email, name)
-    find_or_create( :email => email.downcase ) { |cust| cust.name = name }    
+    find_or_create( :email => email.downcase.strip ) { |cust| cust.name = name }    
   end
 
   def Customer.find_by_email(email)
-    Customer[ :email => email.downcase ]
+    Customer[ :email => email.downcase.strip ]
   end
 
 ############################ Class Methods ###########################
