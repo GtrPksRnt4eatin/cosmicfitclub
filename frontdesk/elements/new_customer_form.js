@@ -1,13 +1,14 @@
 function NewCustomerForm(el, attr, build_dom) {
 
-  this.dom  = el || render(this.HTML);;
+  this.dom  = el;
   this.attr = attr;
 
   this.load_styles();
   this.bind_handlers([]);
-  this.build_dom(parent);
-  this.bind_dom();
-
+  if(this.dom == null) {
+    this.build_dom();
+    this.bind_dom();
+  }
 }
 
 NewCustomerForm.prototype = {
