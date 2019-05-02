@@ -45,7 +45,9 @@ html
             span.small
               | Capacity: { data.occurrence.capacity }
             span.small
-              | Headcount: { data.occurrence.headcount }
+              | Registered: { data.reservations | reg_count }
+            span.small
+              | Headcount: { data.reservations | head_count }
 
         table.reservations
           tr rv-each-reservation='data.reservations' rv-title='reservation.id'
