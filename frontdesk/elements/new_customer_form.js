@@ -5,11 +5,8 @@ function NewCustomerForm(el, attr, build_dom) {
 
   this.load_styles();
   this.bind_handlers([]);
-
-  if(build_dom) {
-    this.build_dom(parent);
-    this.bind_dom()
-  }
+  this.build_dom(parent);
+  this.bind_dom();
 
 }
 
@@ -54,7 +51,7 @@ NewCustomerForm.prototype.CSS = ES5Template(function(){ /**
 
 **/}).untab(2);
 
-rivets.components['new_customer_form'] = {
-  template:   function()        { return NewCustomerForm.prototype.HTML },
-  initialize: function(el,attr) { return new NewCustomerForm(el,attr); }
-}
+//rivets.components['new_customer_form'] = {
+//  template:   function()        { return NewCustomerForm.prototype.HTML },
+//  initialize: function(el,attr) { return new NewCustomerForm(el,attr); }
+//}
