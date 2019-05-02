@@ -59,8 +59,13 @@ NewCustomerForm.prototype.CSS = ES5Template(function(){ /**
     box-shadow: 0em 0em 2em white;
   }
 
+  .new_customer_form .tuple {
+    padding: 0.5em;
+  }
+
   .new_customer_form .tuple .label {
     display: inline-block;
+    width: 10em;
   }
 
   .new_customer_form .tuple .value {
