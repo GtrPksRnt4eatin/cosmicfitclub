@@ -17,7 +17,7 @@ ctrl = {
   },
 
   checkin: function(e,m) {
-    $.post(`/models/classdefs/reservations/${m.reservation.id}/checkin`, get_reservations);
+    $.post(`/models/classdefs/reservations/${m.reservation.id}/checkin`, function(e) { get_reservations(); get_occurrence_details(); } );
   },
 
 	cancel: function(e,m) {
@@ -67,10 +67,11 @@ $(document).ready( function() {
 
     setup_bindings();
     
-    userview         = new UserView( id('userview_container') );
-    popupmenu        = new PopupMenu( id('popupmenu_container') );
-    reservation_form = new ReservationForm(id('reservation_form_container'));
-    payment_form     = new PaymentForm();
+    userview          = new UserView( id('userview_container') );
+    popupmenu         = new PopupMenu( id('popupmenu_container') );
+    reservation_form  = new ReservationForm(id('reservation_form_container'));
+    payment_form      = new PaymentForm();
+    new_customer_form = new NewCustomerForm();
 
     reservation_form.set_occurrence(data['occurrence']);
     reservation_form.ev_sub('reservation_made', get_reservations);
@@ -79,6 +80,9 @@ $(document).ready( function() {
     payment_form.ev_sub('show', popupmenu.show );
     payment_form.ev_sub('hide', popupmenu.hide );
     popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
+
+    new_customer_form.ev_sub('show', popupmenu.show );
+    new_customer_form.ev_sub('hide', popupmenu.hide );
 
     $('#customers').on('change', reservation_form.load_customer );
     get_occurrence_details();
