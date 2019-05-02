@@ -1,6 +1,6 @@
 function NewCustomerForm(el, attr, build_dom) {
 
-  this.dom  = el;
+  this.dom  = el || render(this.HTML);;
   this.attr = attr;
 
   this.load_styles();
