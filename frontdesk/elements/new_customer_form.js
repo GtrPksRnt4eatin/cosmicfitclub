@@ -54,22 +54,31 @@ NewCustomerForm.prototype.CSS = ES5Template(function(){ /**
     display: inline-block;
     vertical-align: middle;
     background: rgb(60,60,60);
-    padding: 2em;
+    padding: 1.2em;
     border-radius: 1em;
     box-shadow: 0em 0em 2em white;
   }
 
+  .new_customer_form .form_title {
+    font-size: 1.2em;
+    padding: 0.5em;
+  }
+
   .new_customer_form .tuple {
     padding: 0.5em;
+    display: flex;
+
   }
 
   .new_customer_form .tuple .label {
     display: inline-block;
     width: 10em;
+    flex: 0 0 8em;
   }
 
   .new_customer_form .tuple .value {
     display: inline-block;
+    flex: 1 0 8em;
   }
 
 **/}).untab(2);
