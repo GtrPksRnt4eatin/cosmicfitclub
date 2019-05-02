@@ -50,6 +50,23 @@ NewCustomerForm.prototype.HTML = ES5Template(function(){ /**
 
 NewCustomerForm.prototype.CSS = ES5Template(function(){ /**
 
+  .new_customer_form {
+    display: inline-block;
+    vertical-align: middle;
+    background: rgb(60,60,60);
+    padding: 2em;
+    border-radius: 1em;
+    box-shadow: 0em 0em 2em white;
+  }
+
+  .new_customer_form .tuple .label {
+    display: inline-block;
+  }
+
+  .new_customer_form .tuple .value {
+    display: inline-block;
+  }
+
 **/}).untab(2);
 
 //rivets.components['new_customer_form'] = {
