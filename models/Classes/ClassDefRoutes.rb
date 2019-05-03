@@ -67,7 +67,8 @@ class ClassDefRoutes < Sinatra::Base
   end 
 
   delete '/schedules/:id' do
-    sched = ClassdefSchedule[params[:id]] or halt(404)
+    id = Integer(params[:id])         rescue halt(401, "ID Must Be Numeric" )
+    sched = ClassdefSchedule[params[:id]] or halt(404, "Schedule Not Found" )
     Slack.post("#{session[:customer].name} changed the class schedule: \r\n removed #{sched.description_line} from the schedule")
     sched.destroy
     status 204
