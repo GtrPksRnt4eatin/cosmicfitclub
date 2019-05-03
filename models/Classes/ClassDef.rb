@@ -40,13 +40,27 @@ class ClassDef < Sequel::Model
     schedules.map do |sched|
       sched.get_occurrences(from,to).map do |x|
         exception = ClassException.find( :classdef_id => self.id, :original_starttime => x.start_time.iso8601 )
+        return nil if exception.cancelled
         teachers = ( exception.nil? ? sched.teachers : exception[:teacher_id].nil? ? sched.teachers : [ Staff[exception[:teacher_id]] ] )
         { :teachers => teachers.map { |x| { :id => x[:id], :name => x[:name], :image_url => x.image_url(:small) } }, 
           :starttime => x.start_time.iso8601, 
           :exception => exception 
         }
       end
-    end.flatten.sort_by { |x| x[:starttime] }
+    end.flatten.compact.sort_by { |x| x[:starttime] }
+  end
+
+  def get_next_occurrences(num)
+    results = []
+    period_start = Time.now
+    while results.length < num
+      next_week = get_full_occurrences(period_start, period_start + (60*60*24*7) )
+      while results.length < num && next_week.length < 0
+        results << next_week.shift
+      end
+      period_start = period_start + (60*60*24*7)
+    end
+    results
   end
 
   def to_token
