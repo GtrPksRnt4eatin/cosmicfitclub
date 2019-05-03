@@ -13,6 +13,10 @@ class ClassDef < Sequel::Model
     ClassDef.exclude(:deactivated=>true).order(:position).all.select! { |x| x.schedules.count > 0 }
   end
 
+  def ClassDef.list
+    all.map(&:to_token)
+  end
+
   def after_save
   	self.id
   	super
@@ -32,7 +36,7 @@ class ClassDef < Sequel::Model
 
   def get_occurences(from, to)
     schedules.map do |sched|
-      sched.get_occurences(from,to)
+      sched.get_occurrences(from,to)
     end.flatten
   end
 

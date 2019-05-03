@@ -27,3 +27,7 @@ $(document).ready(function() {
   rivets.bind( document.body, { data: data, ctrl: ctrl })
 
 })
+
+function get_class() {
+  $.get('/models/classdef/')
+}
