@@ -1,10 +1,12 @@
 class StaffRoutes < Sinatra::Base
 
   get '/' do
+    content_type :json
     JSON.generate Staff::ordered_list
   end
 
   get '/detail_list' do
+    content_type :json
     JSON.generate Staff::detail_list
   end
   
