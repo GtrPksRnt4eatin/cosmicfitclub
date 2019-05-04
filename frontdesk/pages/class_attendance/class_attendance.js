@@ -6,16 +6,6 @@ data = {
 }
 
 ctrl = {
-  show_change_teacher(e,m) {
-    popupmenu.show_modal($('.new_teacher'));
-  },
-
-  change_teacher(e,m) {
-    popupmenu.hide();
-    payload = { "staff_id": parseInt(e.target.value), "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id };
-    $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; }, 'json' );
-  },
-
   checkin: function(e,m) {
     $.post('/models/classdefs/reservations/' + m.reservation.id + '/checkin', get_reservations);
   },
@@ -74,6 +64,7 @@ $(document).ready( function() {
     reservation_form  = new ReservationForm(id('reservation_form_container'));
     payment_form      = new PaymentForm();
     new_customer_form = new NewCustomerForm();
+    teacher_selector  = new TeacherSelector();
 
     reservation_form.set_occurrence(data['occurrence']);
     reservation_form.ev_sub('reservation_made', get_reservations);
@@ -85,6 +76,10 @@ $(document).ready( function() {
 
     new_customer_form.ev_sub('show', popupmenu.show );
     new_customer_form.ev_sub('hide', popupmenu.hide );
+
+    teacher_selector.ev_sub('show', popupmenu.show_modal);
+    teacher_selector.ev_sub('select', change_teacher);
+    teacher_selector.ev_sub('hide', popupmenu.hide );
 
     $('#customers').on('change', reservation_form.load_customer );
     get_occurrence_details();
@@ -115,6 +110,7 @@ function get_occurrence_details() {
   $.get('/models/classdefs/occurrences/' + occurrence_id + '/details', function(resp) { data['occurrence'] = resp; reservation_form.set_occurrence(data['occurrence']); }, 'json'); 
 }
 
-function get_staff_list() {
-  $.get('/models/staff', function(resp) { data['staff_list'] = resp; }, 'json');
+function change_teacher(staff_id) {
+  payload = { "staff_id": staff_id, "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id };
+  $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; }, 'json' );
 }

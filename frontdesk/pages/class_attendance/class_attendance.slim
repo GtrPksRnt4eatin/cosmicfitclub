@@ -16,7 +16,8 @@ html
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'selectize.min', 'rv_select', 'flatpickr', 'element', 'ev_channel' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib', 'popupmenu']
-    == js  [ '/checkout/elements/payment_form', '/checkout/elements/reservation_form', '/auth/elements/userview', '/frontdesk/elements/new_customer_form' ]
+    == js  [ '/checkout/elements/payment_form', '/checkout/elements/reservation_form', '/auth/elements/userview']
+    == js  [ '/frontdesk/elements/new_customer_form', '/frontdesk/elements/teacher_selector']
     == js  [ 'class_attendance' ]
 
   body
@@ -39,7 +40,7 @@ html
             | w/ 
           span.relative
             | { data.occurrence.instructors | teachers }
-            .edit rv-on-click='ctrl.show_change_teacher'
+            .edit onclick='teacher_selector.show'
               .img
           span
             .edit rv-on-click="ctrl.edit_occurrence"
@@ -86,16 +87,6 @@ html
               select multiple="true"
                 option rv-each-flier='data.frequent_fliers' rv-value='flier.id' rv-on-click='ctrl.choose_flier'
                   | {flier.count} times - { flier.name } ( {flier.email} )
-
-      template
-        table.new_teacher
-          tr
-            td Choose A New Class Teacher
-          tr
-            td
-              select rv-on-change='ctrl.change_teacher'
-                option rv-each-staff='data.staff_list' rv-value='staff.id'
-                  | { staff.name }
 
     #popupmenu_container
 
