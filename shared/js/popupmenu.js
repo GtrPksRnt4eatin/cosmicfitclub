@@ -32,7 +32,7 @@ PopupMenu.prototype = {
 
   show_modal(dom) {
     this.show( {"dom": dom, "positon": "modal"});
-  }
+  },
 
   hide() { this.ev_fire('close'); this.state.showing = false; this.state.content=null; $(this.dom).hide(); },
 
