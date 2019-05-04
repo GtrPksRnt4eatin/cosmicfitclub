@@ -37,8 +37,9 @@ html
             | { data.occurrence.title } 
           span
             | w/ 
-          span
+          span.relative
             | { data.occurrence.instructors | teachers }
+            .edit rv-on-click='ctrl.change_teacher'
           span
             .edit rv-on-click="ctrl.edit_occurrence"
           div

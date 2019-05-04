@@ -151,3 +151,20 @@ td.checkin:hover {
 .ReservationForm button {
   width: 16em;
 }
+
+.relative {
+  position: relative;
+}
+
+.edit {
+  background: url('/edit.svg');
+  background-size: contain;
+  position: absolute;
+  top: 0; right: 0;
+  cursor: pointer;
+}
+
+.edit:hover {
+  transform: scale(1.1);
+}
+
