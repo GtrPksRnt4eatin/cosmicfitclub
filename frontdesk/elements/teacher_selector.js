@@ -8,7 +8,7 @@ function TeacherSelector(el, attr, build_dom) {
   }
 
   this.load_styles();
-  this.bind_handlers(['show','get_staff']);
+  this.bind_handlers(['show','get_staff','select']);
   this.get_staff();
   
   if(this.dom == null) {
