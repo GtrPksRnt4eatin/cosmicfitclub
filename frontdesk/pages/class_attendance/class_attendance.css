@@ -21,7 +21,6 @@
 }
 
 .heading span {
-	font-size: 1.4em;
 	padding: .8em .25em .5em .25em;
 	display: inline-block;
 }
@@ -157,11 +156,17 @@ td.checkin:hover {
 }
 
 .edit {
+  
+  position: absolute;
+  top: 0.5em; right: -0.5em;
+  cursor: pointer;
+}
+
+.edit .img {
   background: url('/edit.svg');
   background-size: contain;
-  position: absolute;
-  top: 0; right: 0;
-  cursor: pointer;
+  width: 0.5em;
+  height: 0.5em;
 }
 
 .edit:hover {
