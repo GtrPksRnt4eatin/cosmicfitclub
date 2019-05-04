@@ -40,7 +40,7 @@ html
             | w/ 
           span.relative
             | { data.occurrence.instructors | teachers }
-            .edit onclick='teacher_selector.show'
+            .edit onclick="teacher_selector.show();"
               .img
           span
             .edit rv-on-click="ctrl.edit_occurrence"
