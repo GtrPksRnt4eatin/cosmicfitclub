@@ -30,6 +30,7 @@ TeacherSelector.prototype = {
   },
 
   select: function(e,m) {
+    this.hide();
     this.ev_fire('select', e.target.value);
   },
 
