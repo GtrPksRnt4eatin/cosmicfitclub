@@ -52,12 +52,13 @@ PopupMenu.prototype.CSS = `
   #PopupMenu {
     position: fixed;
     left: 0; right: 0;
+    z-index: 999;
     margin: auto;
     text-align: center; 
     border: 1px solid rgba(0,0,0,0.6);
     max-width: 20%;
     display: none;
-    z-index: 999;
+    
   }
 
   #PopupMenu.modal {
