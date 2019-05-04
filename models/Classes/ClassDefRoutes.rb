@@ -130,7 +130,7 @@ class ClassDefRoutes < Sinatra::Base
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
     p params
     occurrence.update( :staff_id=>params[:staff_id], :classdef_id=>params[:classdef_id], :starttime=>params[:starttime] )
-    occurrence.to_full_json
+    occurrence.schedule_details_hash.to_json
   end
 
   delete '/occurrences/:id' do
