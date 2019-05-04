@@ -39,7 +39,7 @@ html
             | w/ 
           span.relative
             | { data.occurrence.instructors | teachers }
-            .edit rv-on-click='ctrl.change_teacher'
+            .edit rv-on-click='ctrl.show_change_teacher'
               .img
           span
             .edit rv-on-click="ctrl.edit_occurrence"
@@ -87,9 +87,10 @@ html
                 option rv-each-flier='data.frequent_fliers' rv-value='flier.id' rv-on-click='ctrl.choose_flier'
                   | {flier.count} times - { flier.name } ( {flier.email} )
 
-        table.inline_block
+      template
+        table.new_teacher
           tr
-            td Reassign Class Teacher
+            td Choose A New Class Teacher
           tr
             td
               select rv-on-change='ctrl.change_teacher'

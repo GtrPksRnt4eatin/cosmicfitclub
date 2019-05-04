@@ -6,7 +6,7 @@ function PopupMenu(parent) {
     content: null
   }
   
-  this.bind_handlers( [ 'show', 'hide' ] );
+  this.bind_handlers( [ 'show', 'hide', 'show_modal' ] );
   this.parent = parent;
   this.build_dom();
   this.mount(parent,false);
@@ -29,6 +29,10 @@ PopupMenu.prototype = {
     this.state.showing = true;
     $(this.dom).show();
   },
+
+  show_modal(dom) {
+    this.show( {"dom": dom, "positon": "modal"});
+  }
 
   hide() { this.ev_fire('close'); this.state.showing = false; this.state.content=null; $(this.dom).hide(); },
 

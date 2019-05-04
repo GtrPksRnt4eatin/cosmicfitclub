@@ -6,12 +6,12 @@ data = {
 }
 
 ctrl = {
-
-  edit_occurrence(e,m) {
-    
+  show_change_teacher(e,m) {
+    popupmenu.show_modal($('.new_teacher'));
   },
 
   change_teacher(e,m) {
+    popupmenu.hide();
     payload = { "staff_id": parseInt(e.target.value), "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id };
     $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; }, 'json' );
   },
@@ -21,14 +21,16 @@ ctrl = {
   },
 
 	cancel: function(e,m) {
-		var proceed;
-		if( m.reservation.payment_type == 'membership' ) { proceed = confirm("Undo Membership Use?");   }
-		if( m.reservation.payment_type == 'class pass' ) { proceed = confirm("Refund One Class Pass?"); }
-		if( m.reservation.payment_type == 'card'       ) { proceed = confirm("Refund Credit Card?");    }
-    if( m.reservation.payment_type == 'cash'       ) { proceed = confirm("Refund $25 Cash?");       }
-    if( m.reservation.payment_type == 'free'       ) { proceed = confirm("Cancel Registration?");   }
-		if( !proceed ) return;
-		$.del(`/models/classdefs/reservations/${m.reservation.id}`, function() { get_reservations(); reservation_form.refresh_customer(); } );
+    var msg = { 
+      "membership": "Undo Membership Use?",
+      "class pass": "Refund One Class Pass?",
+      "card":       "Refund Credit Card?",
+      "cash":       "Refund $25 Cash?",
+      "free":       "Cancel Registration?" 
+    }[m.reservation.payment_type];
+    if( !confirm(msg) ) return;
+    $.del('/models/classdefs/reservations/' + m.reservation.id)
+     .success( function() { get_reservations(); reservation_form.refresh_customer(); } );
 	},
 
   edit_reservation_customer(e,m) {
