@@ -34,7 +34,7 @@ TeacherSelector.prototype = {
   },
 
   get_staff: function() {
-    $.get('/models/staff', 'json')
+    $.get('/models/staff', null, null, 'json')
      .success( function(resp) { this.state['staff_list'] = resp; }.bind(this) );
   }
 }
