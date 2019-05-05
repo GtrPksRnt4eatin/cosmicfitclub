@@ -24,12 +24,12 @@ function include_rivets_select() {
     bind: function(el) {
       this.selectize_instance = $(el).selectize({
         onChange: function(val) {
-          this.publish(val);
+          //this.publish(val);
           if(this.el.onchange) { this.el.onchange(); }
         }.bind(this)
       })[0];
       $(el).next().on( 'click', function () {
-        this.selectize_instance.selectize.clear(true);
+        this.selectize_instance.selectize.setValue(null);
         this.publish(null);
         if(this.el.onchange) { this.el.onchange(); }
       }.bind(this));
