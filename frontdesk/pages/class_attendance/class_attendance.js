@@ -49,7 +49,7 @@ ctrl = {
         //console.log(data);
         //var option = document.createElement("option");
         //option.text = name + ' ( ' + email + ' ) ';
-        /option.value = data.id;
+        //option.value = data.id;
         $('#customers')[0].selectize.addOption({ value: data.id, text: name + ' ( ' + email + ' ) ');
         $('#customers')[0].selectize.refreshOptions();
         $('#customers')[0].selectize.addItem(data.id);
