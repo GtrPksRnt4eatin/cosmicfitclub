@@ -28,8 +28,9 @@ function include_rivets_select() {
           if(this.el.onchange) { this.el.onchange(); }
         }.bind(this)
       })[0];
-      $('.selectize-control' ).on( 'click', function () {
+      $(el).next().on( 'click', function () {
         this.selectize_instance.selectize.clear(true);
+        this.publish(null);
       }.bind(this));
     },
     unbind: function(el) {
