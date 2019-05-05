@@ -33,7 +33,7 @@ function include_rivets_select() {
       var x = 5;
     },
     routine: function(el,value) {
-      this.selectize_instance.setValue(value);
+      el.selectize.setValue(value);
     },
     getValue: function(el) {
       return $(this.selectize_instance).val();
