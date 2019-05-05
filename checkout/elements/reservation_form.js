@@ -28,8 +28,9 @@ ReservationForm.prototype = {
 	constructor: ReservationForm,
 
 	load_customer(id) {
-    if(id==null) { this.clear_customer(); return; }
 	  if(id.target) { id = id.target.value; }
+    id = parseInt(id);
+    if(isNaN(id)) { this.clear_customer(); return; }
     this.state.reservation.customer_id = id;
     $.get(`/models/customers/${parseInt(id)}/status`,  this.on_customer, 'json');
 	},
