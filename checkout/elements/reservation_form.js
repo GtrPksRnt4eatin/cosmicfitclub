@@ -17,7 +17,7 @@ function ReservationForm(parent) {
   rivets.formatters.zero_if_null   = function(val) { return empty(val) ? 0 : val; }
 	rivets.formatters.has_membership = function(val) { return( empty(val) ? false : val.name != 'None' ); }
 
-	this.bind_handlers(['load_customer', 'refresh_customer', 'on_customer', 'reserve_membership', 'reserve_class_pass', 'reserve_free', 'reserve_paynow', 'after_reservation', 'after_paynow']);
+	this.bind_handlers(['load_customer', 'clear_customer', 'refresh_customer', 'on_customer', 'reserve_membership', 'reserve_class_pass', 'reserve_free', 'reserve_paynow', 'after_reservation', 'after_paynow']);
 	this.build_dom(parent);
 	this.load_styles();
 	this.bind_dom();
@@ -28,6 +28,7 @@ ReservationForm.prototype = {
 	constructor: ReservationForm,
 
 	load_customer(id) {
+    if(id==null) { this.clear_customer(); return; }
 	  if(id.target) { id = id.target.value; }
     this.state.reservation.customer_id = id;
     $.get(`/models/customers/${parseInt(id)}/status`,  this.on_customer, 'json');
@@ -35,6 +36,12 @@ ReservationForm.prototype = {
 
   refresh_customer() {
     this.load_customer(this.state.reservation.customer_id);
+  },
+
+  clear_customer() {
+    this.state.reservation.customer_id = 0;
+    this.state.membership_plan = { "id": 0, "name": "None" };
+    this.state.class_passes = 0;
   },
 
 	on_customer(data) { 
