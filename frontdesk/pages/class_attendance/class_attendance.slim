@@ -85,7 +85,7 @@ html
           tr
             td
               select multiple="true"
-                option rv-each-flier='data.frequent_fliers' rv-value='flier.id' rv-on-click='ctrl.choose_flier'
+                option rv-each-flyer='data.frequent_flyers' rv-value='flyer.id' rv-on-click='ctrl.choose_flyer'
                   | {flier.count} times - { flier.name } ( {flier.email} )
 
     #popupmenu_container

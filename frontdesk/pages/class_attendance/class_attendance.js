@@ -1,7 +1,7 @@
 data = {
   reservations: [],
   occurrence: {},
-  frequent_fliers: [],
+  frequent_flyers: [],
   staff_list: []
 }
 
@@ -106,7 +106,7 @@ function get_reservations()    {
 }
 
 function get_frequent_fliers() {
-  $.get('/models/classdefs/occurrences/' + occurrence_id + '/frequent_fliers', function(resp) { data['frequent_fliers'] = resp; }, 'json'); 
+  $.get('/models/classdefs/occurrences/' + occurrence_id + '/frequent_flyers', function(resp) { data['frequent_flyers'] = resp; }, 'json'); 
 }
 
 function get_occurrence_details() {
