@@ -46,14 +46,13 @@ ctrl = {
         alert(req.responseText);
       })
      .success( function(data) {
-        console.log(data);
-        var option = document.createElement("option");
-        option.text = name + ' ( ' + email + ' ) ';
-        option.value = data.id;
-        id('customers').add(option);
-        $('#customers').val(data.id);
-        $('#customers').trigger('chosen:updated');
-        reservation_form.load_customer(data.id);
+        //console.log(data);
+        //var option = document.createElement("option");
+        //option.text = name + ' ( ' + email + ' ) ';
+        /option.value = data.id;
+        id('customers')[0].selectize.addOption({ value: data.id, text: name + ' ( ' + email + ' ) ');
+        $('#customers')[0].selectize.setValue(data.id);
+        //reservation_form.load_customer(data.id);
       });
   }
 
