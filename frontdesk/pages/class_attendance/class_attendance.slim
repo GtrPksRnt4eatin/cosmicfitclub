@@ -81,12 +81,12 @@ html
         
         table.inline_block
           tr 
-            td Frequent Fliers
+            td Frequent Flyers
           tr
             td
               select multiple="true"
                 option rv-each-flyer='data.frequent_flyers' rv-value='flyer.id' rv-on-click='ctrl.choose_flyer'
-                  | {flier.count} times - { flier.name } ( {flier.email} )
+                  | {flyer.count} times - { flyer.name } ( {flyer.email} )
 
     #popupmenu_container
 
