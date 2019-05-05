@@ -17,7 +17,7 @@ function ReservationForm(parent) {
   rivets.formatters.zero_if_null   = function(val) { return empty(val) ? 0 : val; }
 	rivets.formatters.has_membership = function(val) { return( empty(val) ? false : val.name != 'None' ); }
 
-	this.bind_handlers(['load_customer', 'clear_customer', 'refresh_customer', 'on_customer', 'reserve_membership', 'reserve_class_pass', 'reserve_free', 'reserve_paynow', 'after_reservation', 'after_paynow']);
+	this.bind_handlers(['load_customer', 'clear_customer', 'clear_errors', 'refresh_customer', 'on_customer', 'reserve_membership', 'reserve_class_pass', 'reserve_free', 'reserve_paynow', 'after_reservation', 'after_paynow']);
 	this.build_dom(parent);
 	this.load_styles();
 	this.bind_dom();
@@ -40,12 +40,14 @@ ReservationForm.prototype = {
   },
 
   clear_customer() {
+    this.clear_errors();
     this.state.reservation.customer_id = 0;
     this.state.membership_plan = { "id": 0, "name": "None" };
     this.state.class_passes = 0;
   },
 
-	on_customer(data) { 
+	on_customer(data) {
+    this.clear_errors();
 	  this.state.membership_plan = data.membership;
 	  this.state.class_passes = data.passes;
 	},
@@ -76,6 +78,10 @@ ReservationForm.prototype = {
     if( this.state.errors.length == 0 ) return true;
     $(this.dom).shake();
     return false;
+  },
+
+  clear_errors() {
+    this.state.errors = [];
   },
 
   show_error(error_msg) {
@@ -147,7 +153,7 @@ ReservationForm.prototype.HTML = ES5Template(function(){/**
         Use a Class Pass <br>
         ( { state.class_passes | zero_if_null } Remaining )
       </button>
-      <button rv-on-click='this.reserve_paynow'>
+      <button rv-on-click='this.reserve_paynow' rv-enabled='state.reservation.customer_id'>
         Pay $25 Now
       </button>
     </div>
