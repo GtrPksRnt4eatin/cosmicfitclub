@@ -24,7 +24,6 @@ function include_rivets_select() {
     bind: function(el) {
       this.selectize_instance = $(el).selectize({
         onChange: function(val) {
-          console.log("Publishing: " + val);
           this.publish(val);
           if(this.el.onchange) { this.el.onchange(); }
         }.bind(this)
@@ -34,7 +33,7 @@ function include_rivets_select() {
       var x = 5;
     },
     routine: function(el,value) {
-      $(el).val(value);
+      this.selectize_instance.setValue(value);
     },
     getValue: function(el) {
       return $(this.selectize_instance).val();
