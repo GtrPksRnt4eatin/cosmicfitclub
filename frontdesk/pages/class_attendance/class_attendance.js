@@ -6,6 +6,10 @@ data = {
 }
 
 ctrl = {
+  choose_flyer: function(e,m) {
+    var x = 5;
+  },
+
   checkin: function(e,m) {
     $.post('/models/classdefs/reservations/' + m.reservation.id + '/checkin', get_reservations);
   },
