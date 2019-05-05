@@ -31,6 +31,7 @@ function include_rivets_select() {
       $(el).next().on( 'click', function () {
         this.selectize_instance.selectize.clear(true);
         this.publish(null);
+        if(this.el.onchange) { this.el.onchange(); }
       }.bind(this));
     },
     unbind: function(el) {
