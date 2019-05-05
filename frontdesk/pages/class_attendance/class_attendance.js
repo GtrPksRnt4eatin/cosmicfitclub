@@ -7,7 +7,7 @@ data = {
 
 ctrl = {
   choose_flyer: function(e,m) {
-    var x = 5;
+    $('#customers')[0].selectize.setValue(e.target.value);
   },
 
   checkin: function(e,m) {
