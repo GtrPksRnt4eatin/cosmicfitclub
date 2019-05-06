@@ -41,9 +41,7 @@ $(document).ready(function() {
 });
 
 function get_saved_items() {
-  $.get( path, function(items) {
-    data.items = JSON.parse(items);
-  })
+  $.get( path, function(items) { data.items = items; });
 } 
 
 function post_new_item(e){
