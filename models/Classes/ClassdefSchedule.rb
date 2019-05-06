@@ -74,9 +74,9 @@ class ClassdefSchedule < Sequel::Model
 
   def details_hash
     { :id => id,
-      :classdef   => { :id => classdef.id, :name => classdef.name },
-      :teachers   => teachers.map { |t| { :id => t.id, :name => t.name } },
-      :rrule      => rrule.english,
+      :classdef   => classdef.to_token,
+      :teachers   => teachers.map(&:to_token),
+      :rrule      => rrule_english,
       :start_time => start_time_12hr,
       :capacity   => capacity
     }
