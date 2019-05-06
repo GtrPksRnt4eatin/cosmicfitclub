@@ -89,7 +89,7 @@ class ClassOccurrence < Sequel::Model
   def details_hash
     self.to_hash.merge({
       :classdef => self.classdef.to_token,
-      :teacher => self,teacher.to_token
+      :teacher => self.teacher.to_token
     })
   end
 
