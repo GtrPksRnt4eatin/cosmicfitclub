@@ -8,8 +8,8 @@ html
 
     title Cosmicfit Admin
 
-    == css ['fonts', 'site', 'header', '/admin/staff2', 'admin_footer']
-    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', '/admin/staff2']  
+    == css ['fonts', 'site', 'header', '/admin/staff_list', 'admin_footer']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', '/admin/staff_list']  
 
   body.p4
 
@@ -25,6 +25,8 @@ html
             td.positionbtns
               div rv-on-click='ctrl.moveup' ^
               div rv-on-click='ctrl.movedn' v
+            td
+              | { item.id }
             td.headshot
               img.pic rv-src='item.image_url'
             td.name 
@@ -32,6 +34,7 @@ html
             td.title
               | { item.title }
             td.subscription
+              a rv-href='item.subscription.id | subscription_link'
               | { item.subscription.id} - { item.subscription.began_on } - { item.subscription.cancelled_on }
             td
               .delete rv-on-click='ctrl.del'
