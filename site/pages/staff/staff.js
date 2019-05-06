@@ -15,7 +15,5 @@ $(document).ready(function() {
 });
 
 function get_saved_items() {
-  $.get( '/models/staff', function(items) {
-    data.items = JSON.parse(items);
-  })
+  $.get( '/models/staff', function(items) { data.items = items; })
 } 
