@@ -31,7 +31,8 @@ html
               | { item.name }
             td.title
               | { item.title }
-
+            td.subscription
+              | { item.subscription.id} - { item.subscription.began_on } - { item.subscription.cancelled_on }
             td
               .delete rv-on-click='ctrl.del'
 
