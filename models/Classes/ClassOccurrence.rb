@@ -86,6 +86,13 @@ class ClassOccurrence < Sequel::Model
     }
   end
 
+  def details_hash
+    self.to_hash.merge({
+      :classdef => self.classdef.to_token,
+      :teacher => self,teacher.to_token
+    })
+  end
+
   def ClassOccurrence.reservation_list_query
     %{
       SELECT

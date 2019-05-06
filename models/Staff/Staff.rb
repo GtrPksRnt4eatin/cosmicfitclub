@@ -56,6 +56,16 @@ class Staff < Sequel::Model(:staff)
     }).tap { |hsh| hsh.delete(:image_data) }
   end
 
+  def full_details
+    self.to_hash.merge({
+      :image_url    => self.get_image_url(:medium),
+      :customer     => self.try(:customer).try(:to_list_hash),
+      :subscription => self.try(:customer).try(:subscription).try(:details),
+      :schedules    => self.schedules.map(&:details_hash),
+      :occurrences  => self.class_occurrences.map(&:details_hash)
+    })
+  end
+
   ############################## VIEWS ###############################
 
   ########################### ATTRIBUTES #############################
