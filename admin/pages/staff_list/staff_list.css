@@ -1,6 +1,11 @@
+.content {
+  text-align: center;
+}
+
 .staff {
   position: relative;
   margin: 2em;
+  display: inline-block;
 }
 
 .staff tr[data-deactivated="true"] {
@@ -13,12 +18,6 @@
 
 .headshot .name {
     margin-top: 0.5em;
-}
-
-.title {
-  display: inline-block;
-  font-size: 1.5em;
-  margin-bottom: .5em;
 }
 
 .headshot {
