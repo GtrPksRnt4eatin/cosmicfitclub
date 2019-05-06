@@ -1,5 +1,6 @@
 #content {
   text-align: center;
+  margin-bottom: 8em;
 }
 
 .staff {
@@ -27,10 +28,6 @@
     width: 6em;
     padding: 1em;
     box-sizing: border-box;
-}
-
-#content {
-  margin-bottom: 8em;
 }
 
 .delete {
