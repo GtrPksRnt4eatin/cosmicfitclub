@@ -34,8 +34,10 @@ html
             td.title
               | { item.title }
             td.subscription
-              a rv-href='item.subscription.id | subscription_link'
-                | { item.subscription.id} - { item.plan_name }
+              a rv-show='item.subscription' rv-href='item.subscription.id | subscription_link'
+                | { item.subscription.id} - { item.subscription.plan.name }
+              span rv-hide='item.subscription'
+                | No Subscription
             td
               .delete rv-on-click='ctrl.del'
 
