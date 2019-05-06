@@ -46,8 +46,6 @@
 .delete {
   cursor: pointer;
   font-size: 2em;
-  position: absolute;
-  top: -.75em; left: -.75em;
   background-image: url('/closecircle.png');
   width: 1.5em; height: 1.5em;
   background-size: contain;
@@ -64,7 +62,7 @@
   box-shadow: none;
 }
 
-.positionbtns span {
+.positionbtns div {
   padding: .5em;
   cursor: pointer;
 }
