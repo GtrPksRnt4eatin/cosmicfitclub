@@ -35,7 +35,7 @@ html
               | { item.title }
             td.subscription
               a rv-href='item.subscription.id | subscription_link'
-              | { item.subscription.id} - { item.subscription.began_on } - { item.subscription.cancelled_on }
+                | { item.subscription.id} - { item.subscription.began_on } - { item.subscription.cancelled_on }
             td
               .delete rv-on-click='ctrl.del'
 
