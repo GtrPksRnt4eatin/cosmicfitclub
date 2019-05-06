@@ -31,7 +31,7 @@ class Staff < Sequel::Model(:staff)
   end
 
   def Staff::detail_list
-    Staff.all.map(&:to_details_hash)
+    Staff.order_by(:deactivated).map(&:to_details_hash)
   end
 
   def to_token
