@@ -3,6 +3,10 @@
   margin: 2em;
 }
 
+.staff tr[data-deactivated="true"] {
+  background: rgba(255,0,0,0.3);
+}
+
 .bio {
     vertical-align: middle;
     box-sizing: border-box;

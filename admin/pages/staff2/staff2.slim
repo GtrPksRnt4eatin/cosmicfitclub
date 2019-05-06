@@ -21,7 +21,7 @@ html
 
       .tile.staff 
         table 
-          tr rv-each-item='data.items'
+          tr rv-each-item='data.items' rv-data-deactivated='item.deactivated'
             td.headshot
               img.pic rv-src='item.image_url'
             td.name 
