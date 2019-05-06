@@ -18,6 +18,8 @@ class Staff < Sequel::Model(:staff)
   	super
   end
 
+  ############################## LISTS ##############################
+
   def Staff::list
     Staff::token_list
   end
@@ -33,6 +35,10 @@ class Staff < Sequel::Model(:staff)
   def Staff::detail_list
     Staff.order_by(:deactivated,:position).map(&:to_details_hash)
   end
+
+  ############################## LISTS ###############################
+
+  ############################## VIEWS ###############################
 
   def to_token
     { :id=>self.id, :name=>self.name }
@@ -50,11 +56,29 @@ class Staff < Sequel::Model(:staff)
     }).tap { |hsh| hsh.delete(:image_data) }
   end
 
+  ############################## VIEWS ###############################
+
+  ########################### ATTRIBUTES #############################
+
   def get_image_url(size)
     return '' if self.image.nil?
     return self.image_url if self.image.is_a? ImageUploader::UploadedFile
     return self.image[size].url
   end
+
+  ########################### ATTRIBUTES #############################
+
+  ############################# HELPERS ##############################
+  
+    def generate_subscription
+      return false if self.customer.nil?
+      return false unless self.customer.subscription.nil?
+      Subscription.create( :customer => self.customer, :plan_id => 10 )
+    end
+
+  ############################# HELPERS ##############################
+
+  ############################# REPORTS ##############################
 
   def class_history
     raw_mvp_list  = $DB[mvp_query, id].all
@@ -85,6 +109,8 @@ class Staff < Sequel::Model(:staff)
       { :count=>v.inject(0) { |mem,el| mem + el[:count] } }
     ) }.sort_by { |x| -x[:count] } 
   end
+
+  ############################# REPORTS ##############################
 
 end
 
