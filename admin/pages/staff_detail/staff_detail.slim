@@ -19,49 +19,35 @@ html
 
     #content
 
-      .tile.staff 
-        table 
-          thead
-            tr 
-              th Pos
-              th ID
-              th Headshot
-              th Name
-              th Title
-              th Subscription
-              th Edit/Delete
-          tbody
-            tr rv-each-item='data.items' rv-data-deactivated='item.deactivated'
-              td.positionbtns
-                div rv-on-click='ctrl.moveup' ^
-                div rv-on-click='ctrl.movedn' v
-              td
-                | { item.id }
-              td.headshot
-                img.pic rv-src='item.image_url'
-              td.name 
-                | { item.name }
-              td.title
-                | { item.title }
-              td.subscription
-                a rv-show='item.subscription' rv-href='item.subscription.id | subscription_link'
-                  | { item.subscription.id} - { item.subscription.plan.name }
-                span rv-hide='item.subscription'
-                  | No Subscription
-              td
-                .edit   rv-on-click='ctrl.edit'
-                .delete rv-on-click='ctrl.del'
+      .tile
+        table
+          tr
+            td ID
+            td 
+              | { data.staff.id }
+          tr
+            td Name
+            td 
+              | { data.staff.id }
+          tr
+            td Title
+            td
+              | { data.staff.title }
+          tr
+            td Headshot
+            td
+              | img rv-src='data.staff.image_url'
+          tr
+            td Bio
+            td
+              | { data.staff.bio }
 
-      form#new
-        
-        img#newpreview
-        input#newpic type='file' accept="image/*" name='image'
-        label Name:
-        input type='text' name='name'
-        label Title:
-        input type='text' name='title'
-        label Bio:
-        textarea name='bio'
-        span#upload Upload
+        .classes
+          .title Scheduled Classes
+          .sched rv-each-sched='data.staff.schedules'
+            | {sched.id}
 
-    == analytics
+        .occurrences
+          .title Taught Classes
+          .sched rv-each-occ='data.staff.occurrences'
+            | {occ.id}

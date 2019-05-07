@@ -5,11 +5,18 @@ class StaffRoutes < Sinatra::Base
     JSON.generate Staff::ordered_list
   end
 
+  get '/:id/details' do
+    content_type :json
+    id = params[:id].to_i
+    staff = Staff[id] or halt(404,"Can't Find Staff Account") 
+    staff.full_details.to_json
+  end
+
   get '/detail_list' do
     content_type :json
     JSON.generate Staff::detail_list
   end
-  
+ 
   post '/' do
   	max = Staff.max(:position)
   	halt 409 unless Staff[:name => params[:name]].nil?
