@@ -30,26 +30,37 @@
     box-sizing: border-box;
 }
 
-.delete {
+.delete,
+.edit {
   cursor: pointer;
-  font-size: 2em;
-  background-image: url('/closecircle.png');
-  width: 1.5em; height: 1.5em;
+  font-size: 1.5em;
+  width: 1em; height: 1em;
   background-size: contain;
   border-radius: 1em;
   box-shadow: 0 0 0.1em white;
   transition: all .2s ease-in-out;
 }
 
-.delete:hover {
+.delete { 
+  background-image: url('/closecircle.png'); 
+}
+
+.edit {
+  background-image: url('/edit.svg');
+}
+
+.delete:hover,
+.edit:hover {
   transform: scale(1.1);
 }
 
-.delete:active {
+.delete:active,
+.edit:hover {
   box-shadow: none;
 }
 
 .positionbtns div {
   padding: .5em;
   cursor: pointer;
+  font-family: 'IcoMoon';
 }

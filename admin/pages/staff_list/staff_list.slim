@@ -21,25 +21,36 @@ html
 
       .tile.staff 
         table 
-          tr rv-each-item='data.items' rv-data-deactivated='item.deactivated'
-            td.positionbtns
-              div rv-on-click='ctrl.moveup' ^
-              div rv-on-click='ctrl.movedn' v
-            td
-              | { item.id }
-            td.headshot
-              img.pic rv-src='item.image_url'
-            td.name 
-              | { item.name }
-            td.title
-              | { item.title }
-            td.subscription
-              a rv-show='item.subscription' rv-href='item.subscription.id | subscription_link'
-                | { item.subscription.id} - { item.subscription.plan.name }
-              span rv-hide='item.subscription'
-                | No Subscription
-            td
-              .delete rv-on-click='ctrl.del'
+          thead
+            tr 
+              th Position
+              th ID
+              th Headshot
+              th Name
+              th Title
+              th Subscription
+              th Edit/Delete
+          tbody
+            tr rv-each-item='data.items' rv-data-deactivated='item.deactivated'
+              td.positionbtns
+                div rv-on-click='ctrl.moveup' ^
+                div rv-on-click='ctrl.movedn' v
+              td
+                | { item.id }
+              td.headshot
+                img.pic rv-src='item.image_url'
+              td.name 
+                | { item.name }
+              td.title
+                | { item.title }
+              td.subscription
+                a rv-show='item.subscription' rv-href='item.subscription.id | subscription_link'
+                  | { item.subscription.id} - { item.subscription.plan.name }
+                span rv-hide='item.subscription'
+                  | No Subscription
+              td
+                .edit   rv-on-click='ctrl.edit'
+                .delete rv-on-click='ctrl.del'
 
       form#new
         
