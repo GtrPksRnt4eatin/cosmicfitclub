@@ -9,8 +9,12 @@
   display: inline-block;
 }
 
+.staff thead {
+  display: block;
+}
+
 .staff tbody {
-  display: inline-block;
+  display: block;
   max-height: 65vh;
   overflow: auto;
 }
