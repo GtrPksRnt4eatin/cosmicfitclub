@@ -11,6 +11,7 @@ ctrl = {
     request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/classes';  }
     request.open("POST", "/models/classdefs");
     request.send(fdata); 
+    setTimeout(get_schedules,500);
   },
 
   choose_img(e,m) {
@@ -43,6 +44,8 @@ $(document).ready(function() {
     popupmenu.hide();
   });
 
+  get_schedules();
+
 });
 
 function initialize_rivets() {
@@ -66,4 +69,8 @@ function initialize_rivets() {
     })
   }
 
+}
+
+function get_schedules() {
+  $.get('/models/classdefs/' + data['class_id'] + '/schedules', function(resp) { data.class.schedules = resp; } );
 }

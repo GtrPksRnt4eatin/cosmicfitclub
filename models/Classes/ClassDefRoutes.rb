@@ -63,6 +63,13 @@ class ClassDefRoutes < Sinatra::Base
     JSON.generate classdef.get_full_occurences(from, to)
   end
 
+  get '/:id/schedules' do
+    content_type :json
+    id   = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
+    cdef = ClassDef[params[:id]]    or halt(404, "Classdef Not Found" )
+    cdef.schedules.to_json
+  end
+
   post '/:id/schedules' do
     data = JSON.parse(request.body.read)
     id = data['id']
