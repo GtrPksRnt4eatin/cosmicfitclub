@@ -5,6 +5,8 @@
 
 .staff_tile {
   display: flex;
+  width: 40em;
+  text-align: left;
 }
 
 .staff_tile .headshot {
@@ -12,7 +14,7 @@
 }
 
 .staff_tile .staff_nfo {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
 }
 
 .staff {
