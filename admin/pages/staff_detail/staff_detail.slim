@@ -8,8 +8,8 @@ html
 
     title Cosmicfit Admin
 
-    == css ['fonts', 'site', 'header', '/admin/staff_list', 'admin_footer']
-    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', '/admin/staff_list']  
+    == css ['fonts', 'site', 'header', '/admin/staff_detail', 'admin_footer']
+    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', '/admin/staff_detail']  
 
   body.p4
 
@@ -49,7 +49,7 @@ html
                 span rv-hide='item.subscription'
                   | No Subscription
               td
-                a.edit rv-href='item.id | detail_link'
+                .edit   rv-on-click='ctrl.edit'
                 .delete rv-on-click='ctrl.del'
 
       form#new

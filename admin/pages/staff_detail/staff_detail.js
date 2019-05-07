@@ -23,7 +23,6 @@ var ctrl = {
 $(document).ready(function() {
 
   rivets.formatters.subscription_link = function(val) { return '/admin/subscription?id=' + val; }
-  rivets.formatters.detail_link       = function(val) { return '/admin/staff_detail?id=' + val; }
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
