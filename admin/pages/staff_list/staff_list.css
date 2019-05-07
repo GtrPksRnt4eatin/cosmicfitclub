@@ -22,15 +22,16 @@
 .staff td,
 .staff th {
   background-color: rgba(255,255,255,0.1);
+  box-sizing: border-box;
 }
 
-.staff td:nth-child(1), .staff th:nth-child(1) { width: 2em; }
-.staff td:nth-child(2), .staff th:nth-child(2) { width: 2em; }
-.staff td:nth-child(3), .staff th:nth-child(3) { width: 7em; }
-.staff td:nth-child(4), .staff th:nth-child(4) { width: 15em; }
-.staff td:nth-child(5), .staff th:nth-child(5) { width: 25em; }
-.staff td:nth-child(6), .staff th:nth-child(6) { width: 15em; }
-.staff td:nth-child(7), .staff th:nth-child(7) { width: 7em; }
+.staff td:nth-child(1), .staff th:nth-child(1) { width: 2.5em; }
+.staff td:nth-child(2), .staff th:nth-child(2) { width: 2.5em; }
+.staff td:nth-child(3), .staff th:nth-child(3) { width: 7em;   }
+.staff td:nth-child(4), .staff th:nth-child(4) { width: 15em;  }
+.staff td:nth-child(5), .staff th:nth-child(5) { width: 25em;  }
+.staff td:nth-child(6), .staff th:nth-child(6) { width: 15em;  }
+.staff td:nth-child(7), .staff th:nth-child(7) { width: 7em;   }
 
 .headshot .pic {
     width: 100%;
@@ -45,8 +46,7 @@
     position: relative;
     display: inline-block;
     width: 6em;
-    padding: 1em;
-    box-sizing: border-box;
+    padding: 0.5em;
 }
 
 .delete,
