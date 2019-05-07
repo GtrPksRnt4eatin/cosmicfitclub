@@ -3,6 +3,18 @@
   margin-bottom: 8em;
 }
 
+.staff_tile {
+  display: flex;
+}
+
+.staff_tile .headshot {
+  flex: 10em 0 0;
+}
+
+.staff_tile .staff_nfo {
+  flex: 0 1 0;
+}
+
 .staff {
   position: relative;
   margin: 2em;

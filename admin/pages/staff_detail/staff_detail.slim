@@ -19,28 +19,27 @@ html
 
     #content
 
-      .tile
-        table
-          tr
-            td ID
-            td 
-              | { data.staff.id }
-          tr
-            td Name
-            td 
-              | { data.staff.name }
-          tr
-            td Title
-            td
-              | { data.staff.title }
-          tr
-            td Headshot
-            td
-              img rv-src='data.staff.image_url'
-          tr
-            td Bio
-            td
-              | { data.staff.bio }
+      .tile.staff_tile
+        .headshot
+          img rv-src='data.staff.image_url'
+        .staff_nfo
+          table
+            tr
+              td ID
+              td 
+                | { data.staff.id }
+            tr
+              td Name
+              td 
+                | { data.staff.name }
+            tr
+              td Title
+              td
+                | { data.staff.title }
+            tr
+              td Bio
+              td
+                | { data.staff.bio }
       
       .tile
         .classes
