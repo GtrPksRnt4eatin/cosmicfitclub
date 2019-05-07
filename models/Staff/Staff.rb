@@ -65,7 +65,6 @@ class Staff < Sequel::Model(:staff)
       :occurrences  => self.class_occurrences.map(&:details_hash)
     })
   end
-
   ############################## VIEWS ###############################
 
   ########################### ATTRIBUTES #############################
