@@ -28,7 +28,7 @@ html
           tr
             td Name
             td 
-              | { data.staff.id }
+              | { data.staff.name }
           tr
             td Title
             td
@@ -57,4 +57,3 @@ html
             tr rv-each-occ='data.staff.occurrences'
               td {occ.starttime | fulldatewyr} 
               td {occ.classdef.name}
-              td
