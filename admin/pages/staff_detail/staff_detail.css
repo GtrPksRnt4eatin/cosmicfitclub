@@ -14,7 +14,11 @@
 }
 
 .staff_tile .headshot {
-  flex: 0 0 20em;
+  flex: 0 0 auto;
+}
+
+.staff_tile .headshot img {
+  height: 15em;
 }
 
 .staff_tile .staff_nfo {
