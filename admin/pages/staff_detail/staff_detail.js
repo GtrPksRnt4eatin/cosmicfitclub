@@ -13,5 +13,5 @@ $(document).ready(function() {
 });
 
 function get_staff_details() {
-  $.get( "/models/staff/" +  getUrlParameter('id') + "/detail_list", function(resp) { data.staff = resp; });
+  $.get( "/models/staff/" +  getUrlParameter('id') + "/details", function(resp) { data.staff = resp; });
 }
