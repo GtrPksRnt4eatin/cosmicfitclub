@@ -3,9 +3,13 @@
   margin-bottom: 8em;
 }
 
-.staff_tile {
+.tile {
   display: flex;
-  width: 40em;
+  margin: auto;
+  width: 70em;
+}
+
+.staff_tile {
   text-align: left;
 }
 
