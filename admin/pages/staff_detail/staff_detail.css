@@ -8,11 +8,11 @@
 }
 
 .staff_tile .headshot {
-  flex: 10em 0 0;
+  flex: 0 0 20em;
 }
 
 .staff_tile .staff_nfo {
-  flex: 0 1 0;
+  flex: 1 0 auto;
 }
 
 .staff {
