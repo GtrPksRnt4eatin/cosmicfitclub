@@ -9,7 +9,7 @@ html
     title Cosmicfit Admin
 
     == css ['fonts', 'site', 'header', '/admin/staff_detail', 'admin_footer']
-    == js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', '/admin/staff_detail']  
+    == js  ['jquery', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', '/admin/staff_detail']  
 
   body.p4
 
@@ -36,18 +36,22 @@ html
           tr
             td Headshot
             td
-              | img rv-src='data.staff.image_url'
+              img rv-src='data.staff.image_url'
           tr
             td Bio
             td
               | { data.staff.bio }
-
+      
+      .tile
         .classes
           .title Scheduled Classes
           .sched rv-each-sched='data.staff.schedules'
             | {sched.id}
 
+      .tile
         .occurrences
           .title Taught Classes
+          .stats
+            | Class Taught: { data.staff.occurrences | count }
           .sched rv-each-occ='data.staff.occurrences'
-            | {occ.id}
+            | {occ.starttime | fulldatewyr} - {occ.classdef.name}
