@@ -9,6 +9,12 @@
   display: inline-block;
 }
 
+.staff tbody {
+  display: inline-block;
+  max-height: 65vh;
+  overflow: auto;
+}
+
 .staff tr[data-deactivated="true"] {
   background: rgba(255,0,0,0.3);
 }
