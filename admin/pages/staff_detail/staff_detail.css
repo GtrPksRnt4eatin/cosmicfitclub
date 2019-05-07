@@ -5,7 +5,7 @@
 
 .tile {
   display: flex;
-  margin: auto;
+  margin: 0 auto 1em;
   width: 70em;
 }
 
