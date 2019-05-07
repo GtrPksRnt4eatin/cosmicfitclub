@@ -44,14 +44,17 @@ html
       
       .tile
         .classes
-          .title Scheduled Classes
+          .title Currently Scheduled Classes
           .sched rv-each-sched='data.staff.schedules'
-            | {sched.id}
+            | {sched.id} - {sched.classdef.name} - {sched.rrule} @ {sched.start_time}
 
       .tile
         .occurrences
           .title Taught Classes
           .stats
             | Class Taught: { data.staff.occurrences | count }
-          .sched rv-each-occ='data.staff.occurrences'
-            | {occ.starttime | fulldatewyr} - {occ.classdef.name}
+          table
+            tr rv-each-occ='data.staff.occurrences'
+              td {occ.starttime | fulldatewyr} 
+              td {occ.classdef.name}
+              td
