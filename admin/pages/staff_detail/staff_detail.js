@@ -8,7 +8,7 @@ $(document).ready(function() {
   
   include_rivets_dates();
 
-  rivets.formatters.count = function(val) { return val.length; }
+  rivets.formatters.count = function(val) { return ( val ? val.length : 0 ); }
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
