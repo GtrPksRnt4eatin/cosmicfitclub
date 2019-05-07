@@ -55,5 +55,7 @@ html
             | Class Taught: { data.staff.occurrences | count }
           table
             tr rv-each-occ='data.staff.occurrences'
-              td {occ.starttime | fulldatewyr} 
-              td {occ.classdef.name}
+              td 
+                | {occ.starttime | fulldatewyr} 
+              td 
+                | {occ.classdef.name}
