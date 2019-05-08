@@ -15,7 +15,7 @@
 .tuple .value {
   background: rgba(255,255,255,0.5);
   color: black;
-  padding: 0.25em;
+  padding: 0.25em 0.5em;
   border-radius: 1em;
 }
 
