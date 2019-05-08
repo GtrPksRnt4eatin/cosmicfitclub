@@ -19,6 +19,7 @@
 .staff_tile .headshot {
   flex: 0 0 auto;
   width: auto;
+  padding: 0.25em;
 }
 
 .staff_tile .headshot img {
@@ -28,6 +29,12 @@
 .staff_tile .staff_nfo {
   flex: 1 1 auto;
 }
+
+
+.staff_tile .bio { 
+  height: 8em;
+}
+
 
 /* STAFF TILE */
 
@@ -52,10 +59,6 @@
   color: black;
   padding: 0.25em 1em;
   border-radius: 0.5em;
-}
-
-.tuple .value.bio { 
-  height: 8.25em;
 }
 
 .editable {
