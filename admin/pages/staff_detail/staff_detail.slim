@@ -25,16 +25,16 @@ html
         .staff_nfo
           .tuple
             .attrib ID:
-            input.value disabled='true' rv-value='data.staff.id'
+            .value: | { data.staff.id }
           .tuple
             .attrib Name:
-            input.value rv-value='data.staff.name'
+            .value rv-value='data.staff.name'
           .tuple
             .attrib Title:
-            input.value rv-value='data.staff.title'
+            .value rv-value='data.staff.title'
           .tuple
             .attrib Bio:
-            textarea.value rows='5' rv-value='data.staff.bio'                
+            .value rows='5' rv-value='data.staff.bio'                
       
       .tile
         .classes
