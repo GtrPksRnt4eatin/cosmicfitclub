@@ -31,10 +31,10 @@ html
             .value[] { data.staff.name }
           .tuple
             .attrib Title:
-            .value rv-value='data.staff.title'
+            .value[] { data.staff.title }
           .tuple
             .attrib Bio:
-            .value rv-value='data.staff.bio'                
+            .value.bio[] { data.staff.bio }                
       
       .tile
         .classes
