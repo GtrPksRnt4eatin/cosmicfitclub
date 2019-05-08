@@ -23,23 +23,26 @@ html
         .headshot
           img rv-src='data.staff.image_url'
         .staff_nfo
-          table
-            tr
-              td ID
-              td 
-                | { data.staff.id }
-            tr
-              td Name
-              td 
-                | { data.staff.name }
-            tr
-              td Title
-              td
-                | { data.staff.title }
-            tr
-              td Bio
-              td
-                | { data.staff.bio }
+          .tuple
+            .attrib
+              | ID:
+            .value
+              | { data.staff.id }
+          .tuple
+            .attrib
+              | Name:
+            .value
+              | { data.staff.name }
+          .tuple
+            .attrib
+              | Title:
+            .value 
+              | { data.staff.title }
+          .tuple
+            .attrib
+              | Bio:
+            .value
+              | { data.staff.bio }                
       
       .tile
         .classes
