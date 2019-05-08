@@ -24,25 +24,17 @@ html
           img rv-src='data.staff.image_url'
         .staff_nfo
           .tuple
-            .attrib
-              | ID:
-            .value
-              | { data.staff.id }
+            .attrib ID:
+            input.value disabled='true' rv-value='data.staff.id'
           .tuple
-            .attrib
-              | Name:
-            .value
-              | { data.staff.name }
+            .attrib Name:
+            input.value rv-value='data.staff.name'
           .tuple
-            .attrib
-              | Title:
-            .value 
-              | { data.staff.title }
+            .attrib Title:
+            input.value rv-value='data.staff.title'
           .tuple
-            .attrib
-              | Bio:
-            .value
-              | { data.staff.bio }                
+            .attrib Bio:
+            input.value rv-value='data.staff.bio'                
       
       .tile
         .classes
