@@ -15,12 +15,32 @@
 .tuple .value {
   background: rgba(255,255,255,0.5);
   color: black;
-  padding: 0.25em 0.5em;
+  padding: 0.25em 1em;
   border-radius: 1em;
 }
 
 .tuple .value.bio { 
-  height: 5em;
+  height: 8.25em;
+}
+
+.editable {
+  position: relative;
+  cursor: pointer;
+}
+
+.editable::after {
+  background-image: url('/edit.svg');
+  cursor: pointer;
+  width: 1.5em; height: 1.5em;
+  background-size: contain;
+  transition: all .2s ease-in-out;
+  display: inline-block;
+  position: absolute;
+  top: 0; right: 0;
+}
+
+.editable::after:hover {
+  transform: scale(1.1);
 }
 
 #content {
