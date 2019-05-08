@@ -70,7 +70,7 @@ $(document).ready(function() {
 });
 
 function get_scheditems() {
-  $.get('/models/classdefs/' + data.selected_classdef.id + '/schedule','json')
+  $.get('/models/classdefs/' + data.selected_classdef.id + '/schedule')
    .done(  function(val) { data.scheditems = val;  } )
    .error( function(xhr) { alert(xhr.responseText); } )
 }
