@@ -1,6 +1,11 @@
 data = {}
 
-var ctrl = {}
+var ctrl = {
+  edit_headshot: function(e,m) {},
+  edit_name:     function(e,m) {},
+  edit_title:    function(e,m) {},
+  edit_bio:      function(e,m) {}
+}
 
 $(document).ready(function() {
 

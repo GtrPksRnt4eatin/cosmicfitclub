@@ -21,21 +21,32 @@ html
 
       .tile.staff_tile
         .headshot
-          img rv-src='data.staff.image_url'
+          img.editable rv-on-click='edit_headshot' rv-src='data.staff.image_url'
         .staff_nfo
           .tuple
             .attrib ID:
             .value[] { data.staff.id }
           .tuple
             .attrib Name:
-            .value.editable[] { data.staff.name }
+            .value.editable[rv-on-click='edit_name'] { data.staff.name }
           .tuple
             .attrib Title:
-            .value.editable[] { data.staff.title }
+            .value.editable[rv-on-click='edit_title'] { data.staff.title }
           .tuple
             .attrib Bio:
-            .value.editable.bio[] { data.staff.bio }                
-      
+            .value.editable.bio[rv-on-click='edit_bio'] { data.staff.bio }
+
+      .tile      
+        .tuple
+          .attrib Linked Customer:
+          .value.editable[rv-on-click='edit_customer'] [{ data.staff.customer.id}] {data.staff.customer.name} ({data.staff.customer.email})
+        .tuple
+          .attrib Subscription:
+          .value[] [{data.staff.subscription.id}] {data.staff.subscription.plan.name}
+        .tuple
+          .attrib Subscription Active:
+          .value[] { data.staff.subscription.began_on | datewyr } - { data.staff.subscription.cancelled_on | datewyr }
+
       .tile
         .classes
           .title Currently Scheduled Classes
