@@ -11,7 +11,7 @@ class HourlyShift < Sequel::Model
     "#{ starttime.strftime('%l:%M %P') } - #{ (starttime + duration*60*60).strftime('%l:%M %P') }"
   end
 
-  def to_details_hash
+  def details_hash
   	{ :staff      => self.staff.to_token,
       :recurrence => self.rrule_string,
       :range      => self.range_string 
