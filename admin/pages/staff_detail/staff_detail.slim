@@ -20,8 +20,8 @@ html
     #content
 
       .tile.staff_tile
-        .headshot
-          img.editable rv-on-click='edit_headshot' rv-src='data.staff.image_url'
+        .headshot.editable rv-on-click='edit_headshot'
+          img rv-src='data.staff.image_url'
         .staff_nfo
           .tuple
             .attrib ID:
@@ -42,7 +42,9 @@ html
           .value.editable[rv-on-click='edit_customer'] [{ data.staff.customer.id}] {data.staff.customer.name} ({data.staff.customer.email})
         .tuple
           .attrib Subscription:
-          .value[] [{data.staff.subscription.id}] {data.staff.subscription.plan.name}
+          .value
+            | [{data.staff.subscription.id}] { data.staff.subscription.plan.name }
+            button rv-hide='data.staff.subscription' Create Employee Subscription
         .tuple
           .attrib Subscription Active:
           .value[] { data.staff.subscription.began_on | datewyr } - { data.staff.subscription.cancelled_on | datewyr }

@@ -45,6 +45,10 @@
 
 /* CUSTOMER TILE */
 
+.customer_tile {
+  padding: 0.25em;
+}
+
 .customer_tile .attrib {
   width: 15em;
 }
