@@ -25,7 +25,7 @@ html
         .staff_nfo
           .tuple
             .attrib ID:
-            .value: | { data.staff.id }
+            .value< { data.staff.id }
           .tuple
             .attrib Name:
             .value rv-value='data.staff.name'
@@ -34,7 +34,7 @@ html
             .value rv-value='data.staff.title'
           .tuple
             .attrib Bio:
-            .value rows='5' rv-value='data.staff.bio'                
+            .value rv-value='data.staff.bio'                
       
       .tile
         .classes
