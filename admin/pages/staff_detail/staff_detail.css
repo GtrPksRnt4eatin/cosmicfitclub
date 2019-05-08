@@ -16,7 +16,7 @@
   background: rgba(255,255,255,0.5);
   color: black;
   padding: 0.25em 1em;
-  border-radius: 1em;
+  border-radius: 0.5em;
 }
 
 .tuple .value.bio { 
