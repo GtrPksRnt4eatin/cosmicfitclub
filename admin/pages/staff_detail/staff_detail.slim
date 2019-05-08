@@ -64,7 +64,7 @@ html
         .shifts
           .title Hourly Shifts
           .shift rv-each-shift='data.staff.shifts'
-            | { shift.recurrence } - { shift.range }
+            | { shift.task.name } { shift.recurrence } { shift.range }
 
       .tile
         .occurrences
