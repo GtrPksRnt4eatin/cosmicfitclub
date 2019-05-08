@@ -67,6 +67,7 @@
 }
 
 .editable::after {
+  content: '';
   background-image: url('/edit.svg');
   cursor: pointer;
   width: 1.5em; height: 1.5em;
