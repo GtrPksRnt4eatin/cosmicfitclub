@@ -63,7 +63,8 @@ class Staff < Sequel::Model(:staff)
       :customer     => self.try(:customer).try(:to_list_hash),
       :subscription => self.try(:customer).try(:subscription).try(:details),
       :schedules    => self.schedules.map(&:details_hash),
-      :occurrences  => self.class_occurrences.map(&:details_hash)
+      :occurrences  => self.class_occurrences.map(&:details_hash),
+      :shifts       => self.hourly_shifts
     })
   end
   ############################## VIEWS ###############################
