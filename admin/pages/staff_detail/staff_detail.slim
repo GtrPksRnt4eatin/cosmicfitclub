@@ -25,10 +25,10 @@ html
         .staff_nfo
           .tuple
             .attrib ID:
-            .value< { data.staff.id }
+            .value[] { data.staff.id }
           .tuple
             .attrib Name:
-            .value rv-value='data.staff.name'
+            .value[] { data.staff.name }
           .tuple
             .attrib Title:
             .value rv-value='data.staff.title'
