@@ -1,3 +1,38 @@
+#content {
+  text-align: center;
+  margin-bottom: 8em;
+}
+
+.tile {
+  display: flex;
+  margin: 0 auto 1em;
+  width: 70em;
+}
+
+/* STAFF TILE */
+
+.staff_tile {
+  text-align: left;
+  padding: 0.25em;
+}
+
+.staff_tile .headshot {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.staff_tile .headshot img {
+  height: 15em;
+}
+
+.staff_tile .staff_nfo {
+  flex: 1 1 auto;
+}
+
+/* STAFF TILE */
+
+/* TUPLES */
+
 .tuple {
   display: flex;
   padding: 0.25em;
@@ -43,119 +78,4 @@
   transform: scale(1.1);
 }
 
-#content {
-  text-align: center;
-  margin-bottom: 8em;
-}
-
-.tile {
-  display: flex;
-  margin: 0 auto 1em;
-  width: 70em;
-}
-
-.staff_tile {
-  text-align: left;
-  padding: 0.25em;
-}
-
-.staff_tile .headshot {
-  flex: 0 0 auto;
-  width: auto;
-}
-
-.staff_tile .headshot img {
-  height: 15em;
-}
-
-.staff_tile .staff_nfo {
-  flex: 1 1 auto;
-}
-
-.staff {
-  position: relative;
-  margin: 2em;
-  display: inline-block;
-}
-
-.staff thead {
-  display: block;
-}
-
-.staff tbody {
-  display: block;
-  max-height: 65vh;
-  overflow: auto;
-}
-
-.staff tr[data-deactivated="true"] {
-  background: rgba(255,0,0,0.3);
-}
-
-.staff td,
-.staff th {
-  background-color: rgba(255,255,255,0.1);
-  box-sizing: border-box;
-}
-
-.staff td:nth-child(1), .staff th:nth-child(1) { width: 2.5em; }
-.staff td:nth-child(2), .staff th:nth-child(2) { width: 2.5em; }
-.staff td:nth-child(3), .staff th:nth-child(3) { width: 7em;   }
-.staff td:nth-child(4), .staff th:nth-child(4) { width: 15em;  }
-.staff td:nth-child(5), .staff th:nth-child(5) { width: 25em;  }
-.staff td:nth-child(6), .staff th:nth-child(6) { width: 15em;  }
-.staff td:nth-child(7), .staff th:nth-child(7) { width: 7em;   }
-
-.headshot .pic {
-    width: 100%;
-}
-
-.headshot .name {
-    margin-top: 0.5em;
-}
-
-.headshot {
-    vertical-align: middle;
-    position: relative;
-    display: inline-block;
-    width: 6em;
-    padding: 0.5em;
-    min-height: 5em;
-}
-
-.delete,
-.edit {
-  cursor: pointer;
-  font-size: 1.5em;
-  width: 1em; height: 1em;
-  background-size: contain;
-  border-radius: 1em;
-  box-shadow: 0 0 0.1em white;
-  transition: all .2s ease-in-out;
-  display: inline-block;
-  margin: 0 0.2em;
-}
-
-.delete { 
-  background-image: url('/closecircle.png'); 
-}
-
-.edit {
-  background-image: url('/edit.svg');
-}
-
-.delete:hover,
-.edit:hover {
-  transform: scale(1.1);
-}
-
-.delete:active,
-.edit:hover {
-  box-shadow: none;
-}
-
-.positionbtns div {
-  padding: .5em;
-  cursor: pointer;
-  font-family: 'IcoMoon';
-}
+/* TUPLES */
