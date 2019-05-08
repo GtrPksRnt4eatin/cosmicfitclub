@@ -1,3 +1,23 @@
+.tuple {
+  display: flex;
+}
+
+.tuple .attrib {
+  flex: 0 0 10em;
+}
+
+.tuple .value {
+  flex: 1 0 auto;
+  width: auto;
+}
+
+.tuple .value {
+  background: rgba(255,255,255,0.8);
+  color: black;
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+
 #content {
   text-align: center;
   margin-bottom: 8em;
