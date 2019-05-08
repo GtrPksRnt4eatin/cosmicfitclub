@@ -9,8 +9,7 @@
 }
 
 .tuple .value {
-  flex: 1 0 auto;
-  width: auto;
+  flex: 1 0 0;
 }
 
 .tuple .value {
