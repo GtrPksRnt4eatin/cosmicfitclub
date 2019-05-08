@@ -36,18 +36,31 @@
   height: 8em;
 }
 
+.staff_tile .attrib {
+  width: 5em;
+}
+
 
 /* STAFF TILE */
+
+/* CUSTOMER TILE */
+
+.customer_tile .attrib {
+  width: 15em;
+}
+
+/* CUSTOMER TILE */
 
 /* TUPLES */
 
 .tuple {
   display: flex;
   padding: 0.25em;
+  text-align: left;
 }
 
 .tuple .attrib {
-  flex: 0 0 5em;
+  flex: 0 0 auto;
   padding: 0.25em;
 }
 
