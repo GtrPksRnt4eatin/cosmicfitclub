@@ -71,12 +71,12 @@
   content: '';
   background-image: url('/edit.svg');
   cursor: pointer;
-  width: 1.5em; height: 1.5em;
+  width: 1em; height: 1em;
   background-size: contain;
   transition: all .2s ease-in-out;
   display: inline-block;
   position: absolute;
-  top: 0; right: 0;
+  top: 0.25em; right: 0.25em;
 }
 
 .editable:hover::after {
