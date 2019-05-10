@@ -111,6 +111,7 @@ class Customer < Sequel::Model
     objects << "Customer Has Comps"        if self.comp_tickets.count > 0
     objects << "Customer Has Payments"     if self.payments.count > 0
     objects << "Customer Has Checkins"     if self.event_checkins.count > 0
+    objects << "Customer Has Login"        if self.login != nil
     objects
   end
 
