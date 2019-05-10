@@ -36,6 +36,11 @@ class User < Sequel::Model
       clear_password
       super
     end
+
+    def before_delete
+      self.remove_all_roles
+      super
+    end
     
     def validate
       super
