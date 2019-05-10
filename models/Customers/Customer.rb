@@ -155,7 +155,7 @@ class Customer < Sequel::Model
 
   def waiver 
     return nil unless waiver_signed?
-    return waivers.last
+    return waivers.sort_by(&:signed_on).last
   end
 
 ########################### Attribute Access ###########################
