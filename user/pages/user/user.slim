@@ -20,19 +20,13 @@ html
     .content
 
       .tile
-        .header User Information
-        hr
-        | Name: #{ session[:user].customer.name }
-        
-        - if user.has_role? "door"
+        | Welcome #{ session[:user].customer.name }      
+
+      - if user.has_role? "door"
+        .tile
+          .header Door Access
           div
-            a href='/admin/door' Door
-        - if user.has_role? "cameras"
-          div
-            a href='/admin/cameras' Cameras
-        - if user.has_role? "payroll"
-          div
-            a href='/admin/payroll' Payroll
+            a href='/admin/door' Door Controls
 
       -if user.has_role? "admin"
         .tile
@@ -50,6 +44,12 @@ html
             a href='/admin/carousel' Carousel
           div
             a href='/admin/rentals' Rentals
+          - if user.has_role? "payroll"
+            div
+              a href='/admin/payroll' Payroll
+          - if user.has_role? "cameras"
+            div
+              a href='/admin/cameras' Cameras
 
       -if user.has_role? "superadmin"
         .tile
