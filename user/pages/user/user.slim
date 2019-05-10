@@ -26,11 +26,15 @@ html
     .content
 
       .tile
-        | Welcome #{ session[:user].customer.name }      
+        | Welcome #{ session[:user].customer.name } 
+        hr
+        a href='/classes' Register For a Class
+        a href='/events'  Register For an Event  
 
       - if user.has_role? "door"
         .tile
           .header Door Access
+          hr
           div
             a href='/admin/door' Door Controls
 
