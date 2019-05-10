@@ -186,7 +186,7 @@ class CustomerRoutes < Sinatra::Base
   delete '/:id' do
     custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
     dependencies = custy.linked_objects
-    halt(409, dependencies.join("\r\n") )
+    halt(409, dependencies.join("\r\n") ) unless dependencies.count == 0
     custy.delete
   end
 
