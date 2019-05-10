@@ -28,7 +28,7 @@ ctrl = {
 
   del_custy2(e,m) {
     $.del('/models/customers/' + data.custy2_id, function() { data.custy2_id = 0; data.custy2 = {}; })
-     .fail( function() { alert('delete failed')});
+     .fail( function(resp) { alert("delete failed\r\n" + resp)});
   }
 }
 
