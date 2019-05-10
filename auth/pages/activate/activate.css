@@ -70,3 +70,8 @@ input:focus {outline: none; }
 	background: rgba(255,255,255,0.2);
 	box-shadow: 0 0 1em white;
 }
+
+.errors {
+  color: red;
+  font-size: 0.6em;
+}

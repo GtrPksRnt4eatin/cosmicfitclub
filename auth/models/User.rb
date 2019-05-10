@@ -39,6 +39,7 @@ class User < Sequel::Model
 
     def delete
       self.remove_all_roles
+      self.save
       super
     end
     
