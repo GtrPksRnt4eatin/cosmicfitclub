@@ -96,21 +96,26 @@ class Customer < Sequel::Model
   end
 
   def delete
-    (puts "Customer Not Empty"; return) unless self.can_delete?
+    return false unless self.can_delete?
     super
   end
 
+  def linked_objects
+    objects = []
+    objects << "Customer Has Subscription" if self.subscriptions.count > 0
+    objects << "Customer Has Passes"       if self.passes.count > 0
+    objects << "Customer Has Event Tics"   if self.tickets.count > 0
+    objects << "Customer Has Trainings"    if self.training_passes.count > 0
+    objects << "Customer Has A Wallet"     if self.wallet != nil
+    objects << "Customer Has Reservations" if self.reservations.count > 0
+    objects << "Customer Has Comps"        if self.comp_tickets.count > 0
+    objects << "Customer Has Payments"     if self.payments.count > 0
+    objects << "Customer Has Checkins"     if self.event_checkins.count > 0
+    objects
+  end
+
   def can_delete?
-    (puts 'subscriptions';  return false) if self.subscriptions.count > 0
-    (puts 'passes';         return false) if self.passes.count > 0
-    (puts 'tickets';        return false) if self.tickets.count > 0
-    (puts 'train_passes';   return false) if self.training_passes.count > 0
-    (puts 'wallet';         return false) if self.wallet != nil
-    (puts 'reservations';   return false) if self.reservations.count > 0
-    (puts 'tickets';        return false) if self.comp_tickets.count > 0
-    (puts 'payments';       return false) if self.payments.count > 0
-    (puts 'event_checkins'; return false) if self.event_checkins.count > 0
-    return true
+    return self.linked_objects.count == 0
   end
 
   def email_login_url

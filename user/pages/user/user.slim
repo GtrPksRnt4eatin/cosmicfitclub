@@ -29,6 +29,7 @@ html
         | Welcome #{ session[:user].customer.name } 
         hr
         a href='/classes' Register For a Class
+        br
         a href='/events'  Register For an Event  
 
       - if user.has_role? "door"
