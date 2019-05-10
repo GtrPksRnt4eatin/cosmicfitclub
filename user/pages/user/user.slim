@@ -1,3 +1,6 @@
+- unless customer.login.activated?
+  - redirect '/auth/activate?token=#{customer.login.get_reset_token}'
+
 - unless customer.waiver_signed?
   - redirect '/waiver'
 
