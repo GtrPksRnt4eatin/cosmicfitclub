@@ -179,7 +179,7 @@ td.checkin:hover {
   display: none;
 }
 
-.tools .delete {
+.delete {
   margin-left: 0.5em;
   background-image: url('closecircle.png');
   box-shadow: 0 0 0.1em white;
