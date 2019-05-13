@@ -28,11 +28,11 @@ html
         table.paystub
           tbody 
             tr
-              th[] { staff.staff_name | upcase }
-              th[] { data.range }
-              th
-              th
-              th
+              th.date[] { staff.staff_name | upcase }
+              th.name[] { data.range }
+              th.count
+              th.pay
+              th.edit
             tr
               th.date  DATE
               th.name  CLASSNAME
@@ -51,8 +51,8 @@ html
                 a rv-href='occ.id | occlink'
                   | edit
             tr
-              th
-              th
-              th TOTAL:
-              th[] { staff.total_pay | dollars }
-              th
+              th.date
+              th.name
+              th.count TOTAL:
+              th.pay[] { staff.total_pay | dollars }
+              th.edit
