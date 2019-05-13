@@ -9,7 +9,7 @@ html
     title Cosmicfit Admin
 
     == css [ 'fonts', 'chosen-ems', 'site', 'header', 'flatpickr', '/admin/payroll' ]
-    == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'flatpickr', 'rivets', 'rv_dates', 'lib' ]
+    == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'flatpickr', 'rivets', 'rv_dates', 'rv_money', 'lib' ]
     == js  [ 'element', 'ev_channel', '/admin/payroll' ]
 
   body
@@ -25,10 +25,10 @@ html
         button rv-on-click='ctrl.dl_csv'   Download CSV
 
       .tile rv-each-staff='data.payroll'
-        table 
+        table.paystub
           tbody 
             tr
-              td[] { staff.staff_name }
+              td[] { staff.staff_name | upcase }
               td[] { data.range }
               td
               td
@@ -38,10 +38,10 @@ html
               td HEADCOUNT
               td PAY
             tr rv-each-occ='staff.class_occurrences' 
-              td[rv-if='occ.starttime']  {occ.starttime}
+              td[rv-if='occ.starttime']  {occ.starttime | fulldatewyr }
               td[rv-if='occ.timerange']  {occ.timerange}
               td[rv-if='occ.class_name'] {occ.class_name}
               td[rv-if='occ.task']       {occ.task}
               td[rv-if='occ.headcount']  {occ.headcount}
-              td[rv-if='occ.hours']      {occ.hours}
-              td[]                       {occ.pay}
+              td[rv-if='occ.hours']      {occ.hours} hrs
+              td[]                       {occ.pay | money}
