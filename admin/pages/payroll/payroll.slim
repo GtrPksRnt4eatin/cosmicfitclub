@@ -32,11 +32,13 @@ html
               th[] { data.range }
               th
               th
+              th
             tr
               th.date  DATE
               th.name  CLASSNAME
               th.count HEADCOUNT
               th.pay   PAY
+              th.edit
             tr rv-each-occ='staff.class_occurrences'
               td.date  [rv-if='occ.starttime']           { occ.starttime | eventstart }
               td.date  [rv-if='occ.timerange']           { occ.timerange }

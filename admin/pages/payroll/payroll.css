@@ -14,8 +14,8 @@
   padding: 0.1em 2em;
 }
 
-.paystub .date  { width: 15em; }
-.paystub .name  { width: 20em; }
+.paystub .date  { width: 15em; text-align: left; }
+.paystub .name  { width: 20em; text-align: left; }
 .paystub .count { width: 6em; }
 .paystub .pay   { width: 6em; }
 .paystub .edit  { width: 4.5em; }
