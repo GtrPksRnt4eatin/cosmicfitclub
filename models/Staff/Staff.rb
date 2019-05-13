@@ -227,5 +227,5 @@ def Staff::payroll(from, to)
     existing[:class_occurrences].concat(val[:class_occurrences]) unless existing.nil?
     result << val if existing.nil?
   }
-  result
+  result.reject { |x| x[:class_occurrences].length == 0 }
 end
