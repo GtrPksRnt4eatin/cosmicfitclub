@@ -184,7 +184,6 @@ td.checkin:hover {
   background-image: url('closecircle.png');
   box-shadow: 0 0 0.1em white;
   border-radius: 1em;
-  visibility: hidden;
   display: inline-block;
   width: 1.5em;
   height: 1.5em;
