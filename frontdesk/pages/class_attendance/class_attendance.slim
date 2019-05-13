@@ -53,7 +53,7 @@ html
             span.small
               | Headcount: { data.reservations | head_count }
 
-          .delete rv-hide='data.reservations | head_count' rv-on-click='ctrl.delete'
+          .delete rv-hide='data.reservations | reg_count' rv-on-click='ctrl.delete'
 
           
 

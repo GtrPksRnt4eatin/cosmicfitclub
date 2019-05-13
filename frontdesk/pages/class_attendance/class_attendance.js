@@ -7,7 +7,8 @@ data = {
 
 ctrl = {
   delete: function(e,m) {
-    var x=5;
+    if( !empty(data.reservations) ) return;
+    $.del('/models/classdefs/occurrences/' + data.occurrence.id, function() {  window.history.back(); }, 'json');
   },
 
   choose_flyer: function(e,m) {
