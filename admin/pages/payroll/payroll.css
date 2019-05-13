@@ -1,3 +1,18 @@
+.tile {
+  display: block;
+  margin: 0 auto;
+}
+
+.paystub th {
+  background: rgba(255,255,255,0.1);
+}
+
+.paystub th,
 .paystub td {
   padding: 1em 0.25em;
 }
+
+.paystub td.date  { width: 10em; }
+.paystub td.name  { width: ; }
+.paystub td.count { width: ; }
+.paystub td.pay   { width: ; }

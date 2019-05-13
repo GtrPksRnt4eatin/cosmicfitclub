@@ -1,6 +1,7 @@
 function include_rivets_money() {
 
-  rivets.formatters.money = function(val) { return "$ " + (val/100).toFixed(2) };
+  rivets.formatters.money   = function(val) { return "$ " + (val/100).toFixed(2) };
+  rivets.formatters.dollars = function(val) { return "$ " + val.toFixed(2) };
 
   rivets.binders['moneyfield'] = {
 

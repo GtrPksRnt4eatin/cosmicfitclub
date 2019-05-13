@@ -28,20 +28,20 @@ html
         table.paystub
           tbody 
             tr
-              td[] { staff.staff_name | upcase }
-              td[] { data.range }
-              td
-              td
+              th[] { staff.staff_name | upcase }
+              th[] { data.range }
+              th
+              th
             tr
-              td DATE
-              td CLASSNAME
-              td HEADCOUNT
-              td PAY
+              th DATE
+              th CLASSNAME
+              th HEADCOUNT
+              th PAY
             tr rv-each-occ='staff.class_occurrences' 
-              td[rv-if='occ.starttime']  {occ.starttime | fulldatewyr }
-              td[rv-if='occ.timerange']  {occ.timerange}
-              td[rv-if='occ.class_name'] {occ.class_name}
-              td[rv-if='occ.task']       {occ.task}
-              td[rv-if='occ.headcount']  {occ.headcount}
-              td[rv-if='occ.hours']      {occ.hours} hrs
-              td[]                       {occ.pay | money}
+              td.date  [rv-if='occ.starttime']  { occ.starttime | eventstart }
+              td.date  [rv-if='occ.timerange']  { occ.timerange }
+              td.name  [rv-if='occ.class_name'] { occ.class_name }
+              td.name  [rv-if='occ.task']       { occ.task }
+              td.count [rv-if='occ.headcount']  { occ.headcount }
+              td.count [rv-if='occ.hours']      { occ.hours } hrs
+              td.pay[]                          { occ.pay | dollars }
