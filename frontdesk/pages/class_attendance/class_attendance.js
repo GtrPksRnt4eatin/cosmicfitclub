@@ -6,6 +6,10 @@ data = {
 }
 
 ctrl = {
+  delete: function(e,m) {
+    var x=5;
+  },
+
   choose_flyer: function(e,m) {
     $('#customers')[0].selectize.setValue(e.target.value);
   },

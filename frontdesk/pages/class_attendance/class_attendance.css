@@ -186,11 +186,12 @@ td.checkin:hover {
   border-radius: 1em;
   visibility: hidden;
   display: inline-block;
-  width: 2em;
-  height: 2em;
+  width: 1.5em;
+  height: 1.5em;
   background-size: contain;
   transition: all .2s ease-in-out;
   position: absolute;
-  top: 1em;
-  right: 1em;
+  top: 0.5em;
+  right: 0;
+  cursor: pointer;
 }
