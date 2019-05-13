@@ -44,6 +44,7 @@ html
               .img
           span
             .edit rv-on-click="ctrl.edit_occurrence"
+
           div
             span.small
               | Capacity: { data.occurrence.capacity }
@@ -51,6 +52,10 @@ html
               | Registered: { data.reservations | reg_count }
             span.small
               | Headcount: { data.reservations | head_count }
+
+          .delete rv-hide='data.reservations | head_count' rv-on-click='ctrl.delete'
+
+          
 
         table.reservations
           tr rv-each-reservation='data.reservations' rv-title='reservation.id'
