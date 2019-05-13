@@ -38,10 +38,10 @@ html
               th.count HEADCOUNT
               th.pay   PAY
             tr rv-each-occ='staff.class_occurrences' 
-              td.date  [rv-if='occ.starttime']       { occ.starttime | eventstart }
-              td.date  [rv-if='occ.timerange']       { occ.timerange }
-              td.name  [rv-if='occ.class_name']      { occ.class_name }
-              td.name  [rv-if='occ.task']            { occ.task }
-              td.count [rv-if='occ.headcount']       { occ.headcount }
-              td.count [rv-if='occ.hours | noempty'] { occ.hours } hrs
-              td.pay[]                               { occ.pay | dollars }
+              td.date  [rv-if='occ.starttime']           { occ.starttime | eventstart }
+              td.date  [rv-if='occ.timerange']           { occ.timerange }
+              td.name  [rv-if='occ.class_name']          { occ.class_name }
+              td.name  [rv-if='occ.task']                { occ.task }
+              td.count [rv-if='occ.headcount | noempty'] { occ.headcount }
+              td.count [rv-if='occ.hours']               { occ.hours } hrs
+              td.pay[]                                   { occ.pay | dollars }
