@@ -13,7 +13,7 @@
   padding: 0.1em 2em;
 }
 
-.paystub td.date  { width: 15em; }
-.paystub td.name  { width: 20em; }
-.paystub td.count { width: 6em; }
-.paystub td.pay   { width: 6em; }
+.paystub .date  { width: 15em; }
+.paystub .name  { width: 20em; }
+.paystub .count { width: 6em; }
+.paystub .pay   { width: 6em; }

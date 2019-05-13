@@ -188,8 +188,8 @@ end
 def Staff::payroll(from, to)
   result = $DB[payroll_query, from, to].all
   result.each { |teacher_row|
-    teacher_row[:class_occurrences].reject! { |x| x['classdef_id'].to_i == 78 }
-    teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime']) }
+    teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 78 }
+    teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime'])  }
     teacher_row[:class_occurrences].each { |occurrence_row|
       occurrence_row[:pay] = 
       case occurrence_row['headcount'].to_i
@@ -211,7 +211,8 @@ def Staff::payroll(from, to)
   punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
   punch_groups.each { |custy_id, punch_group|
     p "Missing Staff: #{Customer[custy_id].to_list_hash}" if Customer[custy_id].staff[0].nil?
-    val = { :staff_id => Customer[custy_id].staff[0].try(:id),
+    val = { 
+      :staff_id => Customer[custy_id].staff[0].try(:id),
       :staff_name => Customer[custy_id].staff[0].try(:name),
       :class_occurrences => 
         punch_group.map { |punch| 
