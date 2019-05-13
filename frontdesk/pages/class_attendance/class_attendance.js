@@ -7,7 +7,7 @@ data = {
 
 ctrl = {
   delete: function(e,m) {
-    if( !empty(data.reservations) ) return;
+    if( data.reservations.length!=0 ) return;
     $.del('/models/classdefs/occurrences/' + data.occurrence.id, function() {  window.history.back(); }, 'json');
   },
 
