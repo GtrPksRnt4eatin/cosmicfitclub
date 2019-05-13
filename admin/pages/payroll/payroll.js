@@ -20,7 +20,8 @@ $(document).ready(function() {
   include_rivets_dates();
   include_rivets_money();
   rivets.formatters.upcase  = function(val) { return val.toUpperCase(); }
-  rivets.formatters.noempty = function(val) { return !empty(val);       }   
+  rivets.formatters.noempty = function(val) { return !empty(val);       }
+  rivets.formatters.occlink = function(val) { return('/frontdesk/class_attendance/' + val); }
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
 });
 

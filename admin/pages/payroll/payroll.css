@@ -1,7 +1,8 @@
 .tile {
   display: block;
   margin: 0.5em auto;
-  width: 50em;
+  width: 68em;
+  font-weight: bold;
 }
 
 .paystub th {
@@ -17,3 +18,4 @@
 .paystub .name  { width: 20em; }
 .paystub .count { width: 6em; }
 .paystub .pay   { width: 6em; }
+.paystub .edit  { width: 4.5em; }
