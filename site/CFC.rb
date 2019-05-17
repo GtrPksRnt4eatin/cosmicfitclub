@@ -40,10 +40,13 @@ class CFC < Sinatra::Base
 
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
   
-  get( '/nicolasinny' )             { redirect '/checkout/event/368' }
-  get( '/NicolasInNY')              { redirect '/checkout/event/368' }
-  get( '/meditation' )              { redirect '/checkout/event/362' }
-  get( '/insideflow' )              { redirect '/checkout/event/363' }
+  get( '/communityday' )            { redirect '/checkout/event/368' }
+  get( '/voyager')                  { redirect '/checkout/event/368' }
+  get( '/lux')                      { redirect '/checkout/event/380' }
+  get( '/parkjam')                  { redirect '/checkout/event/376' }
+  get( '/muscleups')                { redirect '/checkout/event/378' }
+  get( '/insideflow' )              { redirect '/checkout/event/374' }
+  get( '/candlelight')              { redirect '/checkout/event/371' }
   get( '/waterfrontyoga')           { redirect '/auth/onboard?page=/checkout/class_reg/3170' }
 
   get( '/checkout')                 { render_page :checkout }
