@@ -53,7 +53,7 @@ html
           div.singletime rv-each-sess='event.sessions'
             | { sess.start_time | dtrange sess.end_time }
 
-        #sessions rv-if='event.sessions | multiple' rv-data-selectable='data.mode | equals 'a_la_carte' '
+        #sessions rv-if='event.sessions | multiple' rv-data-selectable="data.mode | equals 'a_la_carte' "
           h4 Sessions
           .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
               .fine 
