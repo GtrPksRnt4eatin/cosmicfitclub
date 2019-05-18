@@ -33,7 +33,7 @@ CustySelector.prototype = {
   },
 
   edit_customer: function(e,m) {
-    window.location.href = '/checkout/customer_file?id=' + this.state.customer_id;
+    window.location.href = '/frontdesk/customer_file?id=' + this.state.customer_id;
   },
 
   new_customer: function(e,m) {
