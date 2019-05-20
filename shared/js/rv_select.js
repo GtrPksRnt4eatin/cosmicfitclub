@@ -30,6 +30,7 @@ function include_rivets_select() {
       })[0];
       $(el).next().on( 'click', function () {
         this.selectize_instance.selectize.clear(false);
+        this.selectize_instance.selectize.focus();
         this.publish(null);
         if(this.el.onchange) { this.el.onchange(); }
       }.bind(this));
