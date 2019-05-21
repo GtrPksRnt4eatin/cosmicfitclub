@@ -15,7 +15,7 @@ class ClassException < Sequel::Model
 
   def type
     return 'cancellation' if self.cancelled
-    return 'time_change'  unless self.starttime.nil?
+    return 'rescheduled'  unless self.starttime.nil?
     return 'substitute'   unless self.teacher_id.nil?
     return nil
   end
@@ -49,14 +49,14 @@ class ClassException < Sequel::Model
   end
 
   def time_12h(val) 
-    Time.parse(val.to_s).strftime("%Y %b %e %I:%M %P") rescue val 
+    Time.parse(val.to_s).strftime("%Y %b %-d %I:%M %P") rescue val 
   end
 
   def description
     str = "#{self.classdef.name} #{time_12h(self.original_starttime)} "
-    str << "Was Cancelled" if self.type == 'cancellation'
-    str << "Will Be Subbed By #{self.teacher.name}" if self.type == 'substitute'
-    str << "Was Rescheduled to #{time_12h(self.starttime)}"
+    str << "Was Cancelled"                                  if self.type == 'cancellation'
+    str << "Will Be Subbed By #{self.teacher.name}"         if self.type == 'substitute'
+    str << "Was Rescheduled to #{time_12h(self.starttime)}" if self.type == 'rescheduled'
     return str
   end
   
