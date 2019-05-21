@@ -33,5 +33,31 @@ class ClassException < Sequel::Model
       :type => self.type
     }
   end
+
+  def full_details
+    { :id        => self.id,
+      :classdef  => self.classdef.to_token,
+      :starttime => self.original_starttime,
+      :type      => self.type,
+      :changes   => {
+        :sub       => self.teacher.try(:to_token),
+        :starttime => self.starttime,
+        :cancelled => self.cancelled,
+        :hidden    => self.hidden,
+      }  
+    }
+  end
+
+  def description
+    str = "#{self.classdef.name} #{12hr(self.original_starttime)} "
+    str << "Was Cancelled" if self.type == 'cancellation'
+    str << "Will Be Subbed By #{self.teacher.name}" if self.type == 'substitute'
+    str << "Was Rescheduled to #{12hr(self.starttime)}"
+    return str
+  end
+
+  def 12hr(val)
+    Time.parse(val.to_s).strftime("%Y %b %e %I:%M %P") rescue val 
+  end
   
 end
