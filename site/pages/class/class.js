@@ -38,13 +38,13 @@ $(document).ready(function() {
 })
 
 function get_class() {
-  $.get('/models/classdef/' + CLASSDEF_ID )
+  $.get('/models/classdefs/' + CLASSDEF_ID )
    .success( function(resp) { data.class = resp; } )
    .fail( function() { alert("Couldn't Get Class"); } )
 }
 
 function get_occurrences() {
-  $.get('/models/classdef/' + CLASSDEF_ID + '/next_occurrences/5')
+  $.get('/models/classdefs/' + CLASSDEF_ID + '/next_occurrences/5')
    .success( function(resp) { data.sessions = resp; } )
    .fail( function() { alert("Couldn't Get Sessions!"); } )
 }
