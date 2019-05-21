@@ -13,6 +13,13 @@ class ClassException < Sequel::Model
     end.compact!
   end
 
+  def type
+    return 'cancellation' if self.cancelled
+    return 'time_change'  unless self.starttime.nil?
+    return 'substitute'   unless self.teacher_id.nil?
+    return nil
+  end
+
   def details
     { :id => self.id,
       :classdef_id => self.classdef_id,
@@ -21,7 +28,8 @@ class ClassException < Sequel::Model
       :starttime => self.starttime,
       :original_starttime => self.original_starttime,
       :cancelled => self.cancelled,
-      :hidden => self.hidden
+      :hidden => self.hidden,
+      :type => self.type
     }
   end
   
