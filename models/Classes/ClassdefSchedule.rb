@@ -38,8 +38,8 @@ class ClassdefSchedule < Sequel::Model
 
   def get_occurrences_with_exceptions(from,to)
     get_occurrences(from,to).map do |starttime|
-      exception  =  ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 )
-      occurrence = ClassOccurrence.find( :classdef_id => sched.classdef_id, :starttime => starttime.to_time.iso8601 )
+      exception  =  ClassException.find( :classdef_id => self.classdef.id, :original_starttime => starttime.to_time.iso8601 )
+      occurrence = ClassOccurrence.find( :classdef_id => self.classdef_id, :starttime          => starttime.to_time.iso8601 )
       {  :sched_id   => self.id, 
          :starttime  => starttime,
          :classdef   => self.classdef.to_token,
