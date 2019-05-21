@@ -62,9 +62,10 @@ class ClassDef < Sequel::Model
   end
 
   def get_next_occurrences(num)
+    num = Integer(num)
     results = []
     period_start = Time.now
-    while results.length < Integer(num)
+    while results.length < num
       next_week = get_final_occurrences(period_start, period_start + (60*60*24*7) )
       next if next_week.nil?
       next if results.nil?
