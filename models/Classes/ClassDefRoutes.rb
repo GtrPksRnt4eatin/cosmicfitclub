@@ -57,7 +57,9 @@ class ClassDefRoutes < Sinatra::Base
 
   get '/:id/next_occurrences/:count' do
     content_type :json
-    ClassDef.get_next_occurrences(params[:count]).to_json
+    id       = Integer(params[:id]) or halt(401, "ID Must Be Numeric")
+    classdef = ClassDef[ id ]       or halt(404, "ClassDef Doesn't Exist")
+    classdef.get_next_occurrences(params[:count]).to_json
   end
 
   get '/:id/schedule' do
