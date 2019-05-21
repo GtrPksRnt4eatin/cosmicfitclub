@@ -44,7 +44,7 @@ class ClassdefSchedule < Sequel::Model
          :starttime  => starttime,
          :classdef   => self.classdef.to_token,
          :teachers   => self.teachers,
-         :occurrence => occurrence.to_hash,
+         :occurrence => occurrence.try(:to_hash),
          :exception  => exception.try(:full_details),
       }
     end
