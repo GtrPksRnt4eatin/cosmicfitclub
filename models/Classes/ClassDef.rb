@@ -4,8 +4,9 @@ require 'active_support/core_ext/numeric/time.rb'
 class ClassDef < Sequel::Model
   include PositionAndDeactivate
 
-  one_to_many :schedules, :class => :ClassdefSchedule, :key => :classdef_id 
-  one_to_many :occurrences, :class => :ClassOccurrence, :key => :classdef_id
+  one_to_many :schedules,   :class => :ClassdefSchedule, :key => :classdef_id 
+  one_to_many :occurrences, :class => :ClassOccurrence,  :key => :classdef_id
+  one_to_many :exceptions,  :class => :ClassException,   :key => :classdef_id
 
   include ImageUploader[:image]
 

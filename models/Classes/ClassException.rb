@@ -1,6 +1,7 @@
 class ClassException < Sequel::Model
 
   many_to_one :teacher, :key => :teacher_id, :class => :Staff
+  many_to_one :classdef
   
   def ClassException.between(from,to)
     self.order_by(:starttime).map do |ex|
