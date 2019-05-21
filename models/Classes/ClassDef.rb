@@ -55,11 +55,17 @@ class ClassDef < Sequel::Model
     end.flatten.compact.sort_by { |x| x[:starttime] }
   end
 
+  def get_final_occurrences(from, to)
+    schedules.map do |sched|
+      sched.get_occurrences_with_exceptions_merged(from,to)
+    end.flatten.compact.sort_by { |x| x[:starttime] }
+  end
+
   def get_next_occurrences(num)
     results = []
     period_start = Time.now
     while results.length < num
-      next_week = get_full_occurences(period_start, period_start + (60*60*24*7) )
+      next_week = get_final_occurences(period_start, period_start + (60*60*24*7) )
       next if next_week.nil?
       next if results.nil?
       while results.length < num && next_week.length > 0 
