@@ -18,6 +18,7 @@ $(document).ready(function() {
   include_rivets_dates();
 
   rivets.formatters.no_parens = function(val) {
+    if( empty(val) ) return null;
   	return val.replace(/ ?\(.*\)/,'');
   }
    
