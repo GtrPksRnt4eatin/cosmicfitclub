@@ -16,9 +16,7 @@ html
     title Cosmic Fit Club
 
     javascript:
-      data = {}
-      data['class'] = #{{ cls.to_json }}
-      data['sessions'] = #{{ cls.get_full_occurences( Time.now, Time.now + (24*7*60*60) ).to_json }}
+      CLASSDEF_ID = #{{ cls.id }};
 
     ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'class']
     ==js  ['jquery', 'slick', 'moment', 'rivets', 'rv_rrule', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'class']

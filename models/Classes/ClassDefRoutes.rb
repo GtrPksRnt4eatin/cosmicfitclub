@@ -55,6 +55,11 @@ class ClassDefRoutes < Sinatra::Base
     status 200
   end
 
+  get '/:id/next_occurrences/:count' do
+    content_type :json
+    ClassDef.get_next_occurrences(params[:count]).to_json
+  end
+
   get '/:id/schedule' do
     content_type :json
     classdef = ClassDef[params[:id]] or halt 404, 'class definition not found'
