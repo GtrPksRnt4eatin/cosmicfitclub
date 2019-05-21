@@ -33,7 +33,7 @@ class CFC < Sinatra::Base
   ####################### TEST PAGES #########################
 
   get( '/kids')              { render_page :kids     }
-  get( '/class/:id')         { render_page :class    }
+  get( '/class/:id')         { p params; render_page :class    }
 
   ####################### TEST PAGES #########################
   
