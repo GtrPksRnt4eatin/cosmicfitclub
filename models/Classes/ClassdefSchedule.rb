@@ -42,8 +42,8 @@ class ClassdefSchedule < Sequel::Model
       occurrence = ClassOccurrence.find( :classdef_id => sched.classdef_id, :starttime => starttime.to_time.iso8601 )
       {  :sched_id   => self.id, 
          :starttime  => starttime,
-         :classdef   => sched.classdef.to_token,
-         :teachers   => sched.teachers,
+         :classdef   => self.classdef.to_token,
+         :teachers   => self.teachers,
          :occurrence => occurrence.to_hash,
          :exception  => exception.try(:full_details),
       }
