@@ -48,16 +48,16 @@ class ClassException < Sequel::Model
     }
   end
 
-  def description
-    str = "#{self.classdef.name} #{12hr(self.original_starttime)} "
-    str << "Was Cancelled" if self.type == 'cancellation'
-    str << "Will Be Subbed By #{self.teacher.name}" if self.type == 'substitute'
-    str << "Was Rescheduled to #{12hr(self.starttime)}"
-    return str
+  def time_12h(val) 
+    Time.parse(val.to_s).strftime("%Y %b %e %I:%M %P") rescue val 
   end
 
-  def 12hr(val)
-    Time.parse(val.to_s).strftime("%Y %b %e %I:%M %P") rescue val 
+  def description
+    str = "#{self.classdef.name} #{time_12hr(self.original_starttime)} "
+    str << "Was Cancelled" if self.type == 'cancellation'
+    str << "Will Be Subbed By #{self.teacher.name}" if self.type == 'substitute'
+    str << "Was Rescheduled to #{time_12hr(self.starttime)}"
+    return str
   end
   
 end
