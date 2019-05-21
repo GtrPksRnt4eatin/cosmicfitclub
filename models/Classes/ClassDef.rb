@@ -45,7 +45,7 @@ class ClassDef < Sequel::Model
     schedules.map do |sched|
       sched.get_occurrences(from,to).map do |x|
         exception = ClassException.find( :classdef_id => self.id, :original_starttime => x.start_time.iso8601 )
-        #next if exception.cancelled unless exception.nil?
+        next if exception.cancelled unless exception.nil?
         teachers = ( exception.nil? ? sched.teachers : exception[:teacher_id].nil? ? sched.teachers : [ Staff[exception[:teacher_id]] ] )
         { :teachers => teachers.map { |x| { :id => x[:id], :name => x[:name], :image_url => x.image_url(:small) } }, 
           :starttime => x.start_time.iso8601, 
@@ -62,7 +62,7 @@ class ClassDef < Sequel::Model
       next_week = get_full_occurences(period_start, period_start + (60*60*24*7) )
       next if next_week.nil?
       next if results.nil?
-      while results.length < num && next_week.length > 0
+      while results.length < num && next_week.length > 0 
         results << next_week.shift
       end
       period_start = period_start + (60*60*24*7)
