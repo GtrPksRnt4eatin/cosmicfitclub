@@ -26,8 +26,8 @@ class ClassDefRoutes < Sinatra::Base
 
   get '/:id' do
     content_type :json
-    id       = Integer(params[:customer_id]) rescue pass
-    classdef = ClassDef[ custy_id ]              or halt(404, "ClassDef Doesn't Exist")
+    id       = Integer(params[:id]) rescue pass
+    classdef = ClassDef[ id ]           or halt(404, "ClassDef Doesn't Exist")
     classdef.to_json
   end
 
