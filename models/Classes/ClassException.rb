@@ -23,6 +23,7 @@ class ClassException < Sequel::Model
   def details
     { :id => self.id,
       :classdef_id => self.classdef_id,
+      :classdef_name => self.classdef.name,
       :teacher_id => self.teacher_id,
       :teacher_name => self.teacher.try(:name),
       :starttime => self.starttime,
