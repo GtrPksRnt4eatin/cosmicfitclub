@@ -29,7 +29,7 @@ class CFC < Sinatra::Base
   get( '/media')             { render_page :media    }
   get( '/faq')               { render_page :faq      }
 
-  get( '/class')             { render_page :class    }  
+  get( '/class/:id')         { render_page :class    }  
 
 
   ####################### TEST PAGES #########################
