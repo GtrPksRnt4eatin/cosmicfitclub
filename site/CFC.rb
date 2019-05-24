@@ -48,7 +48,7 @@ class CFC < Sinatra::Base
   get( '/muscleups')                { redirect '/checkout/event/378' }
   get( '/insideflow' )              { redirect '/checkout/event/374' }
   get( '/candlelight')              { redirect '/checkout/event/371' }
-  get( '/waterfrontyoga')           { redirect '/auth/onboard?page=/checkout/class/62' }
+  get( '/waterfrontyoga')           { redirect '/auth/onboard?page=/class/62' }
 
   get( '/checkout')                 { render_page :checkout }
   get( '/checkout/plans/:id' )      { render_page :checkout_plan }
