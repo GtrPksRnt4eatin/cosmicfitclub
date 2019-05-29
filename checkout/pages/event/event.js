@@ -50,7 +50,7 @@ function initialize_rivets() {
 }
 
 function get_event_data() {
-  $.get('/models/event/' + EVENT_ID)
+  $.get('/models/events/' + EVENT_ID)
    .success( function(val) { data.event = val } )
    .fail( function() { alert("Failed to get Event"); } )
 }
