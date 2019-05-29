@@ -45,7 +45,7 @@ function initialize_rivets() {
   rivets.formatters.equals    = function(val,val2) { return val== val2;                            }
   rivets.formatters.is_member = function(val)      { return empty(val) ? false : !empty(val.plan); } 
 
-  rivets.bind( $('body'), { event: data.event_data, customer: CUSTOMER, data: data, ctrl: ctrl } );  
+  rivets.bind( $('body'), { customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
 }
 
