@@ -17,11 +17,9 @@ var data = {
 }
 
 $(document).ready( function() {
-
   initialize_stripe();
   initialize_rivets();
   get_event_data();
-
 });
 
 function initialize_stripe() {
