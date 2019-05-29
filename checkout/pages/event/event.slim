@@ -22,7 +22,7 @@ html
     == js  [ 'jquery', 'lib', 'moment', 'rivets', 'rv_dates', 'rv_money', 'event' ]
 
     javascript:
-
+      EVENT_ID          = #{{ id }}
       EVENT             = #{{ event.to_json( :include => [ :sessions, :prices ] ) }};
       CUSTOMER          = #{{ customer.to_json( :include => [ :subscription, :plan ] ) }};
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
@@ -38,7 +38,7 @@ html
         h2
           | { event.name }
 
-        img src='#{ event.image[:medium].url }'
+        img rv-src='event.image_url'
 
         .description
           | { event.description }

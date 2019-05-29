@@ -12,7 +12,8 @@ var data = {
   mode: '',
   a_la_carte: '',
   custom_full_price: '',
-  custom_member_price: ''
+  custom_member_price: '',
+  event: {}
 }
 
 $(document).ready( function() {
@@ -21,6 +22,7 @@ $(document).ready( function() {
   initialize_rivets();
   set_event_mode();
   set_first_price();
+  get_event_data();
 
 });
 
@@ -43,8 +45,14 @@ function initialize_rivets() {
   rivets.formatters.equals    = function(val,val2) { return val== val2;                            }
   rivets.formatters.is_member = function(val)      { return empty(val) ? false : !empty(val.plan); } 
 
-  rivets.bind( $('body'), { event: EVENT, customer: CUSTOMER, data: data, ctrl: ctrl } );  
+  rivets.bind( $('body'), { event: data.event, customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
+}
+
+function get_event_data() {
+  $.get('/models/event/' + EVENT_ID)
+   .success( function(val) { data.event = val } )
+   .fail( function() { alert("Failed to get Event"); } )
 }
 
 /////////////////////////////////////// INITIALIZATION //////////////////////////////////////////////////

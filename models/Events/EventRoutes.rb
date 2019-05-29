@@ -20,6 +20,11 @@ class EventRoutes < Sinatra::Base
     data = event.full_detail
     JSON.generate data
   end
+
+  get '/:id/image_url' do
+    event = Event[params[:id]] or halt(404,'event not found')
+    event.image_url
+  end
   
   post '/' do
     if Event[params[:id]].nil?
