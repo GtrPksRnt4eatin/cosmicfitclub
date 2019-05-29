@@ -23,7 +23,6 @@ html
 
     javascript:
       EVENT_ID          = #{{ id }}
-      EVENT             = #{{ data.event_data.to_json( :include => [ :sessions, :prices ] ) }};
       CUSTOMER          = #{{ customer.to_json( :include => [ :subscription, :plan ] ) }};
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
 
@@ -77,7 +76,7 @@ html
         #register rv-unless='data.event_data.registration_closed'
 
           #free_event rv-if="data.mode | equals 'free' "
-            h4 This Is A Free data.event_data.
+            h4 This Is A Free Event
 
           #free_member_event rv-if="data.mode | equals 'memberfree' "
             h4 This Event Is Free For Members!
