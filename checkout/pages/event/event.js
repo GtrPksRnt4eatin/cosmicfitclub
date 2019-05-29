@@ -20,8 +20,6 @@ $(document).ready( function() {
 
   initialize_stripe();
   initialize_rivets();
-  set_event_mode();
-  set_first_price();
   get_event_data();
 
 });
@@ -51,7 +49,7 @@ function initialize_rivets() {
 
 function get_event_data() {
   $.get('/models/events/' + EVENT_ID)
-   .success( function(val) { data.event_data = val } )
+   .success( function(val) { data.event_data = val; set_event_mode(); set_first_price(); } )
    .fail( function() { alert("Failed to get Event"); } )
 }
 
