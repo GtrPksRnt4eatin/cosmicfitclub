@@ -13,7 +13,7 @@ var data = {
   a_la_carte: '',
   custom_full_price: '',
   custom_member_price: '',
-  event: {}
+  event_data: {}
 }
 
 $(document).ready( function() {
@@ -45,13 +45,13 @@ function initialize_rivets() {
   rivets.formatters.equals    = function(val,val2) { return val== val2;                            }
   rivets.formatters.is_member = function(val)      { return empty(val) ? false : !empty(val.plan); } 
 
-  rivets.bind( $('body'), { event: data.event, customer: CUSTOMER, data: data, ctrl: ctrl } );  
+  rivets.bind( $('body'), { event: data.event_data, customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
 }
 
 function get_event_data() {
   $.get('/models/events/' + EVENT_ID)
-   .success( function(val) { data.event = val } )
+   .success( function(val) { data.event_data = val } )
    .fail( function() { alert("Failed to get Event"); } )
 }
 

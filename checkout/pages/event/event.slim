@@ -36,9 +36,9 @@ html
       .tile
 
         h2
-          | { event.name }
+          | { data.event.name }
 
-        img rv-src='event.image_url'
+        img rv-src='data.event.image_url'
 
         .description
           | { event.description }
