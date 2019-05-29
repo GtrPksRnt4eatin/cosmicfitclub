@@ -16,6 +16,7 @@ class EventRoutes < Sinatra::Base
   end
 
   get '/:id' do
+    content_type :json
     event = Event[params[:id]] or halt(404,'event not found')
     data = event.full_detail
     JSON.generate data
