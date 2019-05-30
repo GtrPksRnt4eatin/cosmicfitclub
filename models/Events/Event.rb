@@ -94,7 +94,8 @@ class Event < Sequel::Model
   def full_detail
     { :id          => self.id, 
       :name        => self.name, 
-      :description => self.description, 
+      :description => self.description,
+      :details     => self.details,
       :starttime   => self.starttime.try(:iso8601), 
       :image_url   => self.thumb_image_url,
       :sessions    => self.sessions,
