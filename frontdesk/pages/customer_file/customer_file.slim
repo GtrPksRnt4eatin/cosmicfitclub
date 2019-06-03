@@ -249,6 +249,7 @@ html
                 th Plan
                 th Uses
                 th Deactivated
+                th
 
               tr.subscription rv-each-sub='data.customer.subscriptions' rv-data-deactivated='sub.deactivated' rv-title='sub.id'
                 td 
@@ -259,6 +260,9 @@ html
                   | { sub.num_uses }
                 td
                   | { sub.deactivated }
+                td
+                  a rv-href='sub.id | subscription_link'
+                    | details
           
           #events.tab-content
 
