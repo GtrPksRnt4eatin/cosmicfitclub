@@ -5,6 +5,8 @@ class ClassOccurrence < Sequel::Model
   one_to_many :reservations, :class => :ClassReservation
   many_to_many :customers, :join_table => :class_reservations
 
+  ############################ Class Methods ################################
+
   def ClassOccurrence.between(from,to)
     ClassOccurrence.where{ starttime < Date.today }.where{ starttime >= from }.where{ starttime < to }.all
   end
@@ -25,6 +27,18 @@ class ClassOccurrence < Sequel::Model
     $DB[ClassOccurrence.email_list_query, classdef_ids, from, to].all
   end
 
+  ############################ Class Methods ################################
+
+  ############################# Model Hooks ################################
+
+  def after_create
+    self.update( :capacity => self.classdef.capacity ) unless self.classdef.capacity.nil?
+  end
+
+  ############################# Model Hooks ################################
+
+  ############################## Properties ################################
+
   def headcount
     reservations.count
   end
@@ -36,6 +50,10 @@ class ClassOccurrence < Sequel::Model
   def description
     "#{ classdef.try(:name) } with #{ teacher.try(:name) } on #{ starttime.to_time.iso8601 }"
   end
+
+  ############################## Properties ################################
+
+  ############################ Reservations ################################
 
   def reservation_list
     $DB[ClassOccurrence.reservation_list_query, self.id].all
@@ -56,6 +74,10 @@ class ClassOccurrence < Sequel::Model
   def has_reservation_for?(customer_id)
     reservations.any? { |r| r[:customer_id] == customer_id }
   end
+
+  ############################ Reservations ################################
+
+  ############################# Views ################################
 
   def to_full_json
     to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
@@ -92,6 +114,10 @@ class ClassOccurrence < Sequel::Model
       :teacher => self.teacher.to_token
     })
   end
+
+  ############################# Views ################################
+
+  ############################## SQL ################################
 
   def ClassOccurrence.reservation_list_query
     %{
@@ -144,5 +170,7 @@ class ClassOccurrence < Sequel::Model
       ORDER BY count(class_reservations.id) DESC
     }
   end
+
+  ############################## SQL ################################
 
 end
