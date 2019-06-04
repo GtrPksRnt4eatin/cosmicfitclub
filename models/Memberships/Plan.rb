@@ -9,6 +9,10 @@ class Plan < Sequel::Model
   	Plan.all.map { |x| x.tokenize }
   end
 
+  def create_subscription(custy_id)
+    Subscription.create( :customer_id => custy_id, :plan => self )
+  end
+
   def tokenize
     { :id=>id, :name=>name }
   end
