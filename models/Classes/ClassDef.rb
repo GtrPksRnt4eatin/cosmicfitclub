@@ -35,17 +35,29 @@ class ClassDef < Sequel::Model
     new_sched
   end
 
-  def get_occurences(from, to)
+  def get_occurrences(from, to)
     schedules.map do |sched|
       sched.get_occurrences(from,to)
     end.flatten
   end
 
-  def get_full_occurences(from, to)
+  def get_occurrences_with_exceptions(from, to)
+    schedules.map do |sched|
+      sched.get_occurrences_with_exceptions(from,to)
+    end.flatten
+  end
+
+  def get_occurrences_with_exceptions_merged(from,to)
+    schedules.map do |sched|
+      sched.get_occurrences_with_exceptions_merged(from,to)
+    end.flatten
+  end
+
+  def get_full_occurrences(from, to)
     schedules.map do |sched|
       sched.get_occurrences(from,to).map do |x|
         exception = ClassException.find( :classdef_id => self.id, :original_starttime => x.start_time.iso8601 )
-        next if exception.cancelled unless exception.nil?
+        #next if exception.cancelled unless exception.nil?
         teachers = ( exception.nil? ? sched.teachers : exception[:teacher_id].nil? ? sched.teachers : [ Staff[exception[:teacher_id]] ] )
         { :teachers => teachers.map { |x| { :id => x[:id], :name => x[:name], :image_url => x.image_url(:small) } }, 
           :starttime => x.start_time.iso8601, 

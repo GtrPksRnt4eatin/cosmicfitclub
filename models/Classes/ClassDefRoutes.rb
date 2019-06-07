@@ -67,7 +67,7 @@ class ClassDefRoutes < Sinatra::Base
     classdef = ClassDef[params[:id]] or halt 404, 'class definition not found'
     from = ( params[:from] or DateTime.now.beginning_of_day.to_time )
     to = ( params[:to] or Time.now.months_since(6) )
-    JSON.generate classdef.get_full_occurences(from, to)
+    JSON.generate classdef.get_full_occurrences(from, to)
   end
 
   get '/:id/schedules' do
@@ -98,7 +98,7 @@ class ClassDefRoutes < Sinatra::Base
   get '/schedule/:start/:end' do
     items = []
     ClassdefSchedule.all.each do |sched|
-      sched.get_occurences(params[:start], params[:end]).each do |starttime|
+      sched.get_occurrences(params[:start], params[:end]).each do |starttime|
         items << { 
           :day => Date.strptime(starttime.to_time.iso8601).to_s,
           :starttime => starttime,
