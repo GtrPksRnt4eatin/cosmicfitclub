@@ -56,7 +56,7 @@ class ClassdefSchedule < Sequel::Model
       next nil if occ[:exception][:changes][:cancelled]
       occ[:teachers]  = [occ[:exception][:changes][:sub]]     unless occ[:exception][:changes][:sub].nil?
       occ[:starttime] = occ[:exception][:changes][:starttime] unless occ[:exception][:changes][:starttime].nil?
-      occ[:exception].delete
+      occ.delete(:exception)
       next occ      
     end
   end

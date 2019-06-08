@@ -22,12 +22,14 @@ ctrl = {
   },
 
   del_custy1(e,m) {
-    $.del('/models/customers/' + data.custy1_id, function() { data.custy1_id = 0; data.custy1 = {}; })
+    $.del('/models/customers/' + data.custy1_id)
+     .success(  function() { alert("customer deleted"); data.custy1_id = 0; data.custy1 = {}; } )
      .fail( function(resp) { alert("delete failed\r\n" + resp.responseText)});
   },
 
   del_custy2(e,m) {
-    $.del('/models/customers/' + data.custy2_id, function() { data.custy2_id = 0; data.custy2 = {}; })
+    $.del('/models/customers/' + data.custy2_id)
+     .success(  function() { alert("customer deleted"); data.custy2_id = 0; data.custy2 = {}; })
      .fail( function(resp) { alert("delete failed\r\n" + resp.responseText)});
   }
 }
