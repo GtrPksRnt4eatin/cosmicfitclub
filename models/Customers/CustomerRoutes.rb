@@ -2,7 +2,7 @@ class CustomerRoutes < Sinatra::Base
   register Sinatra::Auth
 
   before do
-    cache_control :no_cache
+    cache_control :no_store
   end
 
   get '/' do

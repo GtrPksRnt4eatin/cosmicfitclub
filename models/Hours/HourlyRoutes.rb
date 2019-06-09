@@ -1,7 +1,7 @@
 class HourlyRoutes < Sinatra::Base
 
   before do
-    cache_control :no_cache
+    cache_control :no_store
   end
 
   get '/shifts' do
