@@ -2,6 +2,16 @@ require 'icalendar'
 
 class ScheduleRoutes < Sinatra::Base
 
+  configure do
+    set :start_time, Time.now
+  end
+
+  before do
+    last_modified settings.start_time
+    etag settings.start_time.to_s
+    cache_control :no_cache
+  end
+
   get '/ics' do
     from = params[:from] || Date.today.beginning_of_month
     to   = params[:to]   || Date.today.end_of_month

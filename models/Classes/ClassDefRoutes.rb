@@ -1,5 +1,15 @@
 class ClassDefRoutes < Sinatra::Base
 
+  configure do
+    set :start_time, Time.now
+  end
+
+  before do
+    last_modified settings.start_time
+    etag settings.start_time.to_s
+    cache_control :no_cache
+  end
+
   get '/' do
     data = ClassDef.exclude(:deactivated=>true).order(:position).all.map do |c| 
       { :id => c.id, 

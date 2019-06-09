@@ -1,5 +1,15 @@
 class MembershipRoutes < Sinatra::Base
 
+  configure do
+    set :start_time, Time.now
+  end
+
+  before do
+    last_modified settings.start_time
+    etag settings.start_time.to_s
+    cache_control :no_cache
+  end
+
   post '/' do
     custy = Customer.find_by_email(params[:email]) or halt 404, 'No account found to add subscription to'
     plan = Plan[ :stripe_id => params[:plan_id]] or halt 404, 'Plan id did not link to a valid plan'

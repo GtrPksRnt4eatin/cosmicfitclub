@@ -1,5 +1,15 @@
 class PassRoutes < Sinatra::Base
 
+  configure do
+    set :start_time, Time.now
+  end
+
+  before do
+    last_modified settings.start_time
+    etag settings.start_time.to_s
+    cache_control :no_cache
+  end
+
   get '/all' do
     Pass.list_all
   end
