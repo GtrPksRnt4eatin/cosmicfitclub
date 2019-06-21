@@ -42,6 +42,8 @@ class CFC < Sinatra::Base
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
   
   get( '/charandnico' )             { redirect '/checkout/event/387' }
+  get( '/traincation2')             { redirect '/checkout/event/386' }
+  get( '/tumblingseries')           { redirect '/checkout/event/388' }
   get( '/insideflow' )              { redirect '/checkout/event/374' }
   get( '/candlelight')              { redirect '/checkout/event/371' }
   get( '/waterfrontyoga')           { redirect '/auth/onboard?page=/class/62' }
