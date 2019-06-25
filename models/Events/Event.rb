@@ -24,12 +24,33 @@ class Event < Sequel::Model
 
   ###################### ASSOCIATIONS #####################
 
-  #################### ATTRIBUTE ACCESS ###################
+  ####################### LIFE CYCLE ######################
 
   def after_save
     self.id
     super
   end
+
+  def linked_objects
+    objects = []
+    objects << "Event Has Sessions" if self.sessions.count > 0
+    objects << "Event Has Tickets"  if self.tickets.count > 0
+    objects << "Event Has Prices"   if self.prices.count > 0
+    objects
+  end
+
+  def can_delete?
+    return self.linked_objects.count == 0
+  end
+
+  def delete
+    return false unless self.can_delete?
+    super
+  end
+
+  ####################### LIFE CYCLE ######################
+
+  #################### ATTRIBUTE ACCESS ###################
 
   def image_url
     self.image.nil? ? '' : self.image[:original].url
