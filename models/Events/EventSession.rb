@@ -1,17 +1,13 @@
 class EventSession < Sequel::Model
+
+  ###################### ASSOCIATIONS #####################
   
   many_to_one :event
   one_to_many :prices, :class => :EventPrice
 
-  def start_time; val=super; val.nil? ? nil : val.iso8601 end
-  def end_time;   val=super; val.nil? ? nil : val.iso8601 end
+  ###################### ASSOCIATIONS #####################
 
-  def <=> other
-    return 0 if !start_time && !other.start_time
-    return 1 if !start_time
-    return -1 if !other.start_time
-    start_time <=> other.start_time
-  end
+  ##################### CLASS METHODS #####################
 
   def EventSession.between(from,to)
     self.order_by(:start_time).map do |sess|
@@ -23,15 +19,73 @@ class EventSession < Sequel::Model
     end.compact
   end
 
+  ##################### CLASS METHODS #####################
+
+  ####################### LIFE CYCLE ######################
+
+  def linked_objects
+    objects = []
+    objects << "Session Has Tickets" if self.tickets.count > 0
+    objects << "Session Has Prices"  if self.prices.count > 0
+    objects
+  end
+
+  def can_delete?
+    return self.linked_objects.count == 0
+  end
+
+  def delete
+    return false unless self.can_delete?
+    super
+  end
+
+  ####################### LIFE CYCLE ######################
+
+  #################### ATTRIBUTE ACCESS ###################
+
+  def start_time; val=super; val.nil? ? nil : val.iso8601 end
+  def end_time;   val=super; val.nil? ? nil : val.iso8601 end
+
+  def tickets
+    EventTicket.where(Sequel.lit("included_sessions @> ARRAY[?::bigint]", self.id)).all
+  end
+
+  #################### ATTRIBUTE ACCESS ###################
+
+  ################# CALCULATED PROPERTIES #################
+
+  def duration_sec
+    Time.parse(end_time) - Time.parse(start_time)
+  end
+
+  def duration_ical
+    "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
+  end
+
+  ################# CALCULATED PROPERTIES #################
+
+  ######################## SORTING ########################
+
+  def <=> other
+    return 0 if !start_time && !other.start_time
+    return 1 if !start_time
+    return -1 if !other.start_time
+    start_time <=> other.start_time
+  end
+
+  ######################## SORTING ########################
+
+  ########################## VIEWS ########################
+
   def schedule_details_hash
     return nil unless event
-    { :type => 'eventsession',
-      :day => Date.strptime(start_time).to_s,
-      :starttime => Time.parse(start_time),
-      :endtime => Time.parse(end_time),
-      :title => title,
-      :event_title => event.name,
-      :event_id => event_id,
+    { :type               => 'eventsession',
+      :day                => Date.strptime(start_time).to_s,
+      :starttime          => Time.parse(start_time),
+      :endtime            => Time.parse(end_time),
+      :title              => title,
+      :event_title        => event.name,
+      :event_id           => event_id,
       :multisession_event => event.sessions.count > 1
     }
   end
@@ -45,16 +99,5 @@ class EventSession < Sequel::Model
     ical
   end
 
-  def duration_sec
-    Time.parse(end_time) - Time.parse(start_time)
-  end
-
-  def duration_ical
-    "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
-  end
-
-  def tickets
-    EventTicket.where(Sequel.lit("included_sessions @> ARRAY[?::bigint]", self.id)).all
-  end
-
+  ########################## VIEWS ########################
 end
