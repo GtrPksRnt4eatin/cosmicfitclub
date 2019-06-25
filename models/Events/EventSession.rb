@@ -53,4 +53,8 @@ class EventSession < Sequel::Model
     "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
   end
 
+  def tickets
+    EventTicket.where(Sequel.lit("included_sessions @> ARRAY[?::bigint]", self.id)).all
+  end
+
 end
