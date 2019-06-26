@@ -81,4 +81,8 @@ class EventTicket < Sequel::Model
     self.stripe_payment_id.to_i > 0 ? CustomerPayment[self.stripe_payment_id].stripe_id : self.stripe_payment_id
   end
 
+  def recipient
+    super || self.customer
+  end
+
 end
