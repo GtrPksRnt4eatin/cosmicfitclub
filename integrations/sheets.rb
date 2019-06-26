@@ -31,7 +31,7 @@ module Sheets
   def Sheets.create(name)
     sheets = Sheets::get_service or return
     request_body = Google::Apis::SheetsV4::Spreadsheet.new
-    service.create_spreadsheet(request_body)
+    sheets.create_spreadsheet(request_body)
   end
 
   def Sheets::get_service
