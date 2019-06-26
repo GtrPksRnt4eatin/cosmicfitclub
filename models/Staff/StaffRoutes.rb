@@ -70,11 +70,11 @@ class StaffRoutes < Sinatra::Base
         end
         grand_total = grand_total + total
         csv << [ ]
-        csv << [ '','', 'TOTAL', "$ #{total}.00" ]
+        csv << [ '','', 'TOTAL', "$ %.2f" % total ]
         csv << []
         csv << []
       end
-      csv << [ '', '', 'GRAND TOTAL', "$ #{grand_total}.00" ]
+      csv << [ '', '', 'GRAND TOTAL', "$ %.2f" % grand_total ]
     end
   end
 
