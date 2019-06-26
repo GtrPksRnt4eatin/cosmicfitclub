@@ -8,7 +8,7 @@ class EventPass < Sequel::Model
     EventTicket.all.each do |tic|
       tic.included_sessions.each do |sess|
       	checkin = EventCheckin.find( :ticket_id => tic.id, :session_id => sess, :customer_id => tic.recipient.id )
-        EventPass.create( :ticket => tic, :session_id => sess, :customer_id => tic.recipient, :checked_in => checkin.try(:timestamp) )
+        EventPass.create( :ticket => tic, :session_id => sess, :customer_id => tic.recipient.id, :checked_in => checkin.try(:timestamp) )
       end
     end
   end
