@@ -72,7 +72,6 @@ class StaffRoutes < Sinatra::Base
         csv << [ ]
         csv << [ '','', 'TOTAL', "$ %.2f" % total ]
         csv << []
-        csv << []
       end
       csv << [ '', '', 'GRAND TOTAL', "$ %.2f" % grand_total ]
     end

@@ -7,6 +7,7 @@ class EventTicket < Sequel::Model
   many_to_one :recipient,     :class => :Customer,     :key => :purchased_for
   many_to_one :eventprice,    :class => :EventPrice,   :key => :event_price_id
   one_to_many :checkins,      :class => :EventCheckin, :key => :ticket_id
+  one_to_many :passes,        :class => :EventPass,    :key => :ticket_id
   pg_array_to_many :sessions, :class => :EventSession, :key => :included_sessions
 
   def generate_code
@@ -24,6 +25,9 @@ class EventTicket < Sequel::Model
       :code => code
     }
     Mail.event_purchase(customer.email, model)
+    included_sessions.each do |sess_id|
+      EventPass.create( :customer_id => self.recipient, :ticket => self, :session_id => sess_id )
+    end
   end
 
   def resend_email(address=nil)
