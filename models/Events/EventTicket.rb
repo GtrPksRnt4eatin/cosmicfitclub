@@ -2,6 +2,8 @@ class EventTicket < Sequel::Model
   
   plugin :pg_array_associations
 
+  ###################### ASSOCIATIONS #####################
+
   many_to_one :event
   many_to_one :customer
   many_to_one :recipient,     :class => :Customer,     :key => :purchased_for
@@ -10,24 +12,65 @@ class EventTicket < Sequel::Model
   one_to_many :passes,        :class => :EventPass,    :key => :ticket_id
   pg_array_to_many :sessions, :class => :EventSession, :key => :included_sessions
 
-  def generate_code
-    rand(36**8).to_s(36)
-  end
+  ###################### ASSOCIATIONS #####################
+
+  ####################### LIFE CYCLE ######################
 
   def after_create
     super
-    update( :code => generate_code )
-    model = {
-      :event_name => event.name,
-      :event_date => event.starttime.strftime('%a %m/%d'),
-      :event_time => event.starttime.strftime('%I:%M %p'),
-      :sessions_string => sessions_string,
-      :code => code
+    self.generate_code
+    Mail.event_purchase(customer.email, self.mailer_model)
+    self.generate_passes
+  end
+
+  ####################### LIFE CYCLE ######################
+
+  #################### ATTRIBUTE ACCESS ###################
+
+  def recipient
+    super || self.customer
+  end
+
+  #################### ATTRIBUTE ACCESS ###################
+
+  ################# CALCULATED PROPERTIES #################
+
+  def get_stripe_id
+    self.stripe_payment_id.to_i > 0 ? CustomerPayment[self.stripe_payment_id].stripe_id : self.stripe_payment_id
+  end
+
+  def customer_info
+    { :id    => ( customer.id    rescue 0  ),
+      :name  => ( customer.name  rescue "" ),
+      :email => ( customer.email rescue "" )
     }
-    Mail.event_purchase(customer.email, model)
-    included_sessions.each do |sess_id|
+  end
+
+  def full_payment_info
+    StripeMethods::get_payment_totals(self.get_stripe_id)
+  end
+
+  def mailer_model
+    { :event_name      => self.event.name,
+      :event_date      => self.event.starttime.strftime('%a %m/%d'),
+      :event_time      => self.event.starttime.strftime('%I:%M %p'),
+      :sessions_string => self.sessions_string,
+      :code            => self.code
+    }
+  end
+
+  ################# CALCULATED PROPERTIES #################
+
+  #################### ACTION METHODS #####################
+
+  def generate_passes
+    self.included_sessions.each do |sess_id|
       EventPass.create( :customer_id => self.recipient, :ticket => self, :session_id => sess_id )
     end
+  end
+
+  def generate_code
+    self.update( :code=> rand(36**8).to_s(36) )
   end
 
   def resend_email(address=nil)
@@ -40,19 +83,6 @@ class EventTicket < Sequel::Model
       :code => code
     }
     Mail.event_purchase(address, model)
-  end
-
-  def sessions_string
-    return DateTime.parse(sessions[0].start_time).strftime('%a %m/%d @ %I:%M %p') if event.sessions.length < 2 
-    sessions.map { |x| "#{x.title} - #{DateTime.parse(x.start_time).strftime('%a %m/%d @ %I:%M %p')}" }.join(", ")
-  end
-
-  def to_json(options = {})
-    super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
-  end
-
-  def to_details_json
-    self.to_json( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
 
   def split(recipient_id, session_ids)
@@ -70,23 +100,23 @@ class EventTicket < Sequel::Model
     self.update( :included_sessions => (self.included_sessions - session_ids) )
   end
 
-  def full_payment_info
-    StripeMethods::get_payment_totals(self.get_stripe_id)
+  #################### ACTION METHODS #####################
+
+  ########################## VIEWS ########################
+
+  def sessions_string
+    return DateTime.parse(sessions[0].start_time).strftime('%a %m/%d @ %I:%M %p') if event.sessions.length < 2 
+    sessions.map { |x| "#{x.title} - #{DateTime.parse(x.start_time).strftime('%a %m/%d @ %I:%M %p')}" }.join(", ")
   end
 
-  def customer_info
-    { :id    => ( customer.id    rescue 0  ),
-      :name  => ( customer.name  rescue "" ),
-      :email => ( customer.email rescue "" )
-    }
+  def to_json(options = {})
+    super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
 
-  def get_stripe_id
-    self.stripe_payment_id.to_i > 0 ? CustomerPayment[self.stripe_payment_id].stripe_id : self.stripe_payment_id
+  def to_details_json
+    self.to_json( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
 
-  def recipient
-    super || self.customer
-  end
+  ########################## VIEWS ########################
 
 end
