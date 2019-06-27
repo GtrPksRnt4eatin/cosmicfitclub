@@ -53,7 +53,7 @@ module Sinatra
         :stripe_payment_id => payment.id, #charge['id'],
         :event_price_id => data['selected_price'] ? data['selected_price']['id'] : nil
       )
-      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} #{selected_price_name} ticket for #{eventname}.")
+      #Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} #{selected_price_name} ticket for #{eventname}.")
       status 204
     end
 
@@ -66,10 +66,10 @@ module Sinatra
         :stripe_payment_id => params[:payment_id],
         :event_price_id    => params[:price_id]
       )
-      custy = Customer[params[:customer_id]]
-      event = Event[params[:event_id]]
-      price = EventPrice[params[:price_id]]
-      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{params[:total_price].to_f/100} #{price.title} ticket for #{event.name}.")
+      #custy = Customer[params[:customer_id]]
+      #event = Event[params[:event_id]]
+      #price = EventPrice[params[:price_id]]
+      #Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{params[:total_price].to_f/100} #{price.title} ticket for #{event.name}.")
       status 204
     end
 

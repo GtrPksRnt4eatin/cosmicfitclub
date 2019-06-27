@@ -21,6 +21,7 @@ class EventTicket < Sequel::Model
     self.generate_code
     Mail.event_purchase(customer.email, self.mailer_model)
     self.generate_passes
+    self.send_notification
   end
 
   ####################### LIFE CYCLE ######################
@@ -53,6 +54,11 @@ class EventTicket < Sequel::Model
   ################# CALCULATED PROPERTIES #################
 
   #################### ACTION METHODS #####################
+
+  def send_notification
+    Slack.post(self.summary)
+    Slack.custom(self.summary,"@b.konash") if self.event.id == 386
+  end
 
   def generate_passes
     self.included_sessions.each do |sess_id|
@@ -87,6 +93,10 @@ class EventTicket < Sequel::Model
   #################### ACTION METHODS #####################
 
   ########################## VIEWS ########################
+   
+  def summary
+    "#{self.customer.to_list_string} bought a $#{self.price.to_f/100} #{self.price.title} ticket for #{self.event.name}."
+  end
 
   def sessions_string
     return DateTime.parse(sessions[0].start_time).strftime('%a %m/%d @ %I:%M %p') if event.sessions.length < 2 
