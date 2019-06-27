@@ -65,7 +65,7 @@ class EventTicket < Sequel::Model
 
   def generate_passes
     self.included_sessions.each do |sess_id|
-      EventPass.create( :customer_id => self.recipient, :ticket => self, :session_id => sess_id )
+      EventPass.create( :customer => self.recipient, :ticket => self, :session_id => sess_id )
     end
   end
 
