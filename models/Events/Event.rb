@@ -120,7 +120,7 @@ class Event < Sequel::Model
       :starttime   => self.starttime.try(:iso8601), 
       :image_url   => self.thumb_image_url,
       :sessions    => self.sessions,
-      :prices      => self.prices
+      :prices      => self.prices.reject{ |x| x.hidden }
     }
   end
 

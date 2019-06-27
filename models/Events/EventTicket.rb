@@ -39,25 +39,16 @@ class EventTicket < Sequel::Model
     self.stripe_payment_id.to_i > 0 ? CustomerPayment[self.stripe_payment_id].stripe_id : self.stripe_payment_id
   end
 
-  def customer_info
-    { :id    => ( customer.id    rescue 0  ),
-      :name  => ( customer.name  rescue "" ),
-      :email => ( customer.email rescue "" )
-    }
-  end
-
   def full_payment_info
     StripeMethods::get_payment_totals(self.get_stripe_id)
   end
 
-  def mailer_model
-    { :event_name      => self.event.name,
-      :event_date      => self.event.starttime.strftime('%a %m/%d'),
-      :event_time      => self.event.starttime.strftime('%I:%M %p'),
-      :sessions_string => self.sessions_string,
-      :code            => self.code
-    }
-  end
+  #def customer_info
+  #  { :id    => ( customer.id    rescue 0  ),
+  #    :name  => ( customer.name  rescue "" ),
+  #    :email => ( customer.email rescue "" )
+  #  }
+  #end
 
   ################# CALCULATED PROPERTIES #################
 
@@ -75,14 +66,7 @@ class EventTicket < Sequel::Model
 
   def resend_email(address=nil)
     address ||= customer.email
-    model = {
-      :event_name => event.name,
-      :event_date => event.starttime.strftime('%a %m/%d'),
-      :event_time => event.starttime.strftime('%I:%M %p'),
-      :sessions_string => sessions_string,
-      :code => code
-    }
-    Mail.event_purchase(address, model)
+    Mail.event_purchase(address, self.mailer_model)
   end
 
   def split(recipient_id, session_ids)
@@ -107,6 +91,15 @@ class EventTicket < Sequel::Model
   def sessions_string
     return DateTime.parse(sessions[0].start_time).strftime('%a %m/%d @ %I:%M %p') if event.sessions.length < 2 
     sessions.map { |x| "#{x.title} - #{DateTime.parse(x.start_time).strftime('%a %m/%d @ %I:%M %p')}" }.join(", ")
+  end
+
+  def mailer_model
+    { :event_name      => self.event.name,
+      :event_date      => self.event.starttime.strftime('%a %m/%d'),
+      :event_time      => self.event.starttime.strftime('%I:%M %p'),
+      :sessions_string => self.sessions_string,
+      :code            => self.code
+    }
   end
 
   def to_json(options = {})
