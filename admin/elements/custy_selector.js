@@ -94,7 +94,7 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
     display: flex;	
   }
 
-  .custy_selector .chosen-container {
+  .custy_selector .customers {
     flex: 1;
   }
 
