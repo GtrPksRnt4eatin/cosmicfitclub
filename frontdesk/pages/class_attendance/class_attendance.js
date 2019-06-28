@@ -51,7 +51,8 @@ ctrl = {
         alert(req.responseText);
       })
      .success( function(data) {
-        customer_form.get_custy_list();
+        custy_selector.get_custy_list();
+        custy_selector.select_customer(data.id);
         $('#customers')[0].selectize.addOption({ value: data.id, text: name + ' ( ' + email + ' ) '});
         $('#customers')[0].selectize.refreshOptions();
         $('#customers')[0].selectize.addItem(data.id);
