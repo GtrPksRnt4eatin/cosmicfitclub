@@ -26,7 +26,7 @@ CustySelector.prototype = {
 
   on_data: function(list) {
     this.state.customers = list;
-    this.selectize_instance = $(this.dom).find('select.customers')[0].selectize({
+    this.selectize_instance = $(this.dom).find('select.customers').selectize({
       options: this.state.customers,
       labelField: 'name',
       valueField: 'id',
