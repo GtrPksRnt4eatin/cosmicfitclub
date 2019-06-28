@@ -21,10 +21,10 @@ html
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
 
-    == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', 'event_attendance' ]
+    == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', 'selectize', 'event_attendance' ]
 
     == js  [ 'jquery', 'jquery.chosen.min' ]
-    == js  [ 'moment', 'lib' ]
+    == js  [ 'moment', 'selectize.min', 'lib' ]
     == js  [ 'rivets', 'rv_dates', 'rv_select', 'rv_money', 'lib' ]
     == js  [ 'element', 'ev_channel', 'popupmenu', '/admin/elements/custy_selector' ]
     == js  [ '/admin/elements/ticket_selector', '/checkout/elements/payment_form' ]
