@@ -12,7 +12,7 @@ ctrl = {
   },
 
   choose_flyer: function(e,m) {
-    $('#customers')[0].selectize.setValue(e.target.value);
+    custy_selector.select_customer(e.target.value);
   },
 
   checkin: function(e,m) {
@@ -53,10 +53,6 @@ ctrl = {
      .success( function(data) {
         custy_selector.get_custy_list();
         custy_selector.select_customer(data.id);
-        $('#customers')[0].selectize.addOption({ value: data.id, text: name + ' ( ' + email + ' ) '});
-        $('#customers')[0].selectize.refreshOptions();
-        $('#customers')[0].selectize.addItem(data.id);
-        $('#customers')[0].selectize.setValue(data.id);
       });
   }
 
@@ -92,7 +88,6 @@ $(document).ready( function() {
 
     custy_selector.ev_sub('customer_selected', reservation_form.load_customer );
 
-    $('#customers').on('change', reservation_form.load_customer );
     get_occurrence_details();
     get_reservations();
     get_frequent_fliers();
