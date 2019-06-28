@@ -21,9 +21,9 @@ CustySelector.prototype = {
   constructor: CustySelector,
 
   get_custy_list: function() {
-    $.get('/models/customers/list')
-     .fail(this.on_data_failed)
-     .done(this.on_data);
+    return $.get('/models/customers/list')
+            .fail(this.on_data_failed)
+            .done(this.on_data);
   },
 
   on_data: function(list) {
