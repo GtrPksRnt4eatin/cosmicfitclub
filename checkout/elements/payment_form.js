@@ -49,6 +49,7 @@ PaymentForm.prototype = {
     this.state.reason = reason;
     this.state.metadata = metadata;
     this.state.callback = callback;
+    this.swipe_source = null;
     if(customer_id) { this.get_customer(customer_id).done(this.show).fail( function() { this.clear_customer(); this.show(); }.bind(this) ) }
     else            { this.clear_customer(); this.show(); }
     this.show_err(null);
