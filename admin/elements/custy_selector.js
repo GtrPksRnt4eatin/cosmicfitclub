@@ -26,6 +26,7 @@ CustySelector.prototype = {
 
   on_data: function(list) {
     this.state.customers = list;
+    this.bind_dom();
   },
 
   on_data_failed: function() {
