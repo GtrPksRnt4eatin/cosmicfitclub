@@ -28,11 +28,11 @@ CustySelector.prototype = {
 
   on_data: function(list) {
     this.state.customers = list.map(function(val){ val['list_string'] = ( val.name || val.email ) + " ( " + val.email + " )"; return val; });
-    selectize.clear();
-    selectize.clearOptions();
-    selectize.renderCache['option'] = {};
-    selectize.renderCache['item'] = {};
-    selectize.addOption(this.state.customers);
+    this.selectize_instance.selectize.clear();
+    this.selectize_instance.selectize.clearOptions();
+    this.selectize_instance.selectize.renderCache['option'] = {};
+    this.selectize_instance.selectize.renderCache['item'] = {};
+    this.selectize_instance.selectize.addOption(this.state.customers);
   },
 
   init_selectize: function() {
