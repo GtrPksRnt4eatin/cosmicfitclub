@@ -25,12 +25,12 @@ CustySelector.prototype = {
   },
 
   on_data: function(list) {
-    this.state.customers = list;
+    this.state.customers = list.map(function(val){ val['list_string'] = ( val.name | val.email ) + " ( " + val.email + " )"; return val; });
     this.selectize_instance = $(this.dom).find('select.customers').selectize({
       options: this.state.customers,
-      labelField: 'name',
+      labelField: 'list_string',
       valueField: 'id',
-      searchField: 'name',
+      searchField: 'list_string',
     });
   },
 
@@ -81,7 +81,7 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
-    <select class='customers'></select>
+    <select class='customers' placeholder='Select Customer...'></select>
     <img class='edit_custy' rv-on-click='this.edit_customer' src='/person.svg'>
     <div class='add_custy'  rv-on-click='this.new_customer'>
       <span>+</span>
