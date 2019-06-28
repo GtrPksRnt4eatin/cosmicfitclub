@@ -1,7 +1,7 @@
-function CustySelector(parent,list) {
+function CustySelector(parent) {
   
   this.state = { 
-    customers: empty(list) ? [] : list,
+    customers: [],
     customer_id: 0
   }
 
@@ -12,9 +12,7 @@ function CustySelector(parent,list) {
   this.bind_dom();
 
   this.init_selectize();
-
-  if(empty(list)) { this.get_custy_list(); }
-
+  this.get_custy_list();
 }
 
 CustySelector.prototype = {
