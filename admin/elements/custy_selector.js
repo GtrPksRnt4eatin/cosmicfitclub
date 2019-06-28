@@ -25,7 +25,7 @@ CustySelector.prototype = {
   },
 
   on_data: function(list) {
-    this.state.customers = list.map(function(val){ val['list_string'] = ( val.name | val.email ) + " ( " + val.email + " )"; return val; });
+    this.state.customers = list.map(function(val){ val['list_string'] = ( val.name || val.email ) + " ( " + val.email + " )"; return val; });
     this.selectize_instance = $(this.dom).find('select.customers').selectize({
       options: this.state.customers,
       labelField: 'list_string',
