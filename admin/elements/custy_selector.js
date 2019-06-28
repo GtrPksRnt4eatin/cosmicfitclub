@@ -11,8 +11,6 @@ function CustySelector(parent,list) {
   this.load_styles();
   this.bind_dom();
 
-  })
-
   if(empty(list)) { this.get_custy_list(); }
 
 }
