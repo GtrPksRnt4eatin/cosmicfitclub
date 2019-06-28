@@ -121,6 +121,11 @@ td.checkin:hover {
   color: rgba(160,160,255,1);
 }
 
+#customer_form_container {
+  margin: auto;
+  max-width: 63em;
+}
+
 .selectize-input {
   height: 1.92em;
   font-size: 1em;
