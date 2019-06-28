@@ -56,9 +56,10 @@ module Sinatra
       content_type 'text/event-stream'
       stream do |out|
         until out.closed?
-        sleep(10)
-        out << "event: swipe\n"
-        out << "data:  mytoken\n\n"
+          sleep(10)
+          out << "event: swipe\n"
+          out << "data:  mytoken\n\n"
+        end
       end
       status 200
     end
