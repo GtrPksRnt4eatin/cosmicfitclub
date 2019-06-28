@@ -81,7 +81,7 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
-    <select class='customers' placeholder='Select Customer...' rv-on-change='this.custy_selected'></select>
+    <select class='customers' placeholder='Select Customer...' rv-on-change='this.custy_selected' rv-value='this.state.customer_id'></select>
     <img class='edit_custy' rv-on-click='this.edit_customer' src='/person.svg'>
     <div class='add_custy'  rv-on-click='this.new_customer'>
       <span>+</span>
