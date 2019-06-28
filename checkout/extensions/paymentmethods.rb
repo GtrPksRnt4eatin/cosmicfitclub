@@ -49,7 +49,7 @@ module Sinatra
         end
         $SWIPELISTENERS.delete out
       end
-      status 204
+      status 200
     end
 
     def teststream
@@ -60,6 +60,7 @@ module Sinatra
         out << "event: swipe\n"
         out << "data:  mytoken\n\n"
       end
+      status 200
     end
 
   end
