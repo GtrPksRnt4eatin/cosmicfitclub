@@ -68,13 +68,7 @@ CustySelector.prototype = {
         alert('failed to create customer');
       })
      .success( function(data) {
-        var option = document.createElement("option");
-        option.text = name + ' ( ' + email + ' ) ';
-        option.value = data.id;
-        var el = $(this.dom).find('.customers');
-        el.add(option);
-        el.val(data.id);
-        el.trigger('chosen:updated');
+        this.get_custy_list().then( function() { this.select_customer(data.id) }.bind(this));
       }.bind(this) );
   },
 
