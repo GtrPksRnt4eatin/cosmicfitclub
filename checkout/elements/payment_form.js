@@ -45,11 +45,11 @@ PaymentForm.prototype = {
 
   checkout(customer_id, price, reason, metadata, callback)  {
     this.state.customer_id = customer_id;
-    this.state.price = price;
-    this.state.reason = reason;
-    this.state.metadata = metadata;
-    this.state.callback = callback;
-    this.swipe_source = null;
+    this.state.price       = price;
+    this.state.reason      = reason;
+    this.state.metadata    = metadata;
+    this.state.callback    = callback;
+    this.state.swipe       = null;
     if(customer_id) { this.get_customer(customer_id).done(this.show).fail( function() { this.clear_customer(); this.show(); }.bind(this) ) }
     else            { this.clear_customer(); this.show(); }
     this.show_err(null);
