@@ -5,11 +5,13 @@ function CustySelector(parent,list) {
     customer_id: 0
   }
 
-  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer']);
+  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer','init_selectize']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
   this.bind_dom();
+
+  this.init_selectize();
 
   if(empty(list)) { this.get_custy_list(); }
 
@@ -26,6 +28,14 @@ CustySelector.prototype = {
 
   on_data: function(list) {
     this.state.customers = list.map(function(val){ val['list_string'] = ( val.name || val.email ) + " ( " + val.email + " )"; return val; });
+    selectize.clear();
+    selectize.clearOptions();
+    selectize.renderCache['option'] = {};
+    selectize.renderCache['item'] = {};
+    selectize.addOption(this.state.customers);
+  },
+
+  init_selectize: function() {
     var el = $(this.dom).find('select.customers');
     this.selectize_instance = el.selectize({
       options: this.state.customers,
