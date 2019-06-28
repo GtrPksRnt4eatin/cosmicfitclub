@@ -33,6 +33,8 @@ TicketSelector.prototype = {
 
   load_customer: function(customer_id) {
 
+    if(customer_id==0) { this.state.customer = null; this.state.subscription = null; return; }
+
     $.get('/models/customers/' + customer_id)
      .done( function(custy) { this.state.customer = custy; }.bind(this) )
      .fail( function()    { alert('Failed to load Customer: ' + customer_id); } )

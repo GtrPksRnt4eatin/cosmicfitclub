@@ -36,7 +36,7 @@ ClassSelector.prototype = {
 Object.assign( ClassSelector.prototype, element);
 Object.assign( ClassSelector.prototype, ev_channel); 
 
-ClassSelector.prototype.HTML = `
+ClassSelector.prototype.HTML = ES5Template(function(){/**
   <div class='ClassSelector form'>
     <div class='tuplet'>
       <label>Title:</label>
@@ -58,9 +58,9 @@ ClassSelector.prototype.HTML = `
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
-`.untab(2);
+**/}).untab(2);
 
-ClassSelector.prototype.CSS = `
+ClassSelector.prototype.CSS = ES5Template(function(){/**
   .ClassSelector { }
 
   .ClassSelector input,
@@ -83,4 +83,4 @@ ClassSelector.prototype.CSS = `
   .ClassSelector label {
     width: 7em
   }
-`.untab(2);
+**/}).untab(2);
