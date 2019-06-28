@@ -72,11 +72,10 @@ CustySelector.prototype = {
 
   select_customer: function(custy_id) {
     this.selectize_instance.selectize.setValue(custy_id);
-    //this.state.customer_id = custy_id;
   },
 
   custy_selected: function(e,m) {
-    this.ev_fire('customer_selected', parseInt(e.target.value) );
+    this.ev_fire('customer_selected', parseInt(e.target.value || 0) );
   },
 
   get selected_customer() {
