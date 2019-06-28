@@ -26,12 +26,17 @@ CustySelector.prototype = {
 
   on_data: function(list) {
     this.state.customers = list.map(function(val){ val['list_string'] = ( val.name || val.email ) + " ( " + val.email + " )"; return val; });
-    this.selectize_instance = $(this.dom).find('select.customers').selectize({
+    var el = $(this.dom).find('select.customers');
+    this.selectize_instance = el.selectize({
       options: this.state.customers,
-      labelField: 'list_string',
       valueField: 'id',
+      labelField: 'list_string',
       searchField: 'list_string',
-    });
+    })[0];
+    $(el).next().on( 'click', function () {
+      this.selectize_instance.selectize.clear(false);
+      this.selectize_instance.selectize.focus();
+    }.bind(this));
   },
 
   on_data_failed: function() {
@@ -64,7 +69,8 @@ CustySelector.prototype = {
   },
 
   select_customer: function(custy_id) {
-    this.state.customer_id = custy_id;
+    this.selectize_instance.selectize.setValue(custy_id);
+    //this.state.customer_id = custy_id;
   },
 
   custy_selected: function(e,m) {
