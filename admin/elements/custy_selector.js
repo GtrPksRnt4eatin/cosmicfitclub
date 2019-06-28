@@ -5,7 +5,7 @@ function CustySelector(parent,list) {
     customer_id: 0
   }
 
-  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected']);
+  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
@@ -55,6 +55,10 @@ CustySelector.prototype = {
         el.val(data.id);
         el.trigger('chosen:updated');
       }.bind(this) );
+  },
+
+  select_customer: function(custy_id) {
+    this.state.customer_id = custy_id;
   },
 
   custy_selected: function(e,m) {

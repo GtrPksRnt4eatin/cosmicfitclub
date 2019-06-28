@@ -17,7 +17,7 @@ html
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'selectize.min', 'rv_select', 'flatpickr', 'element', 'ev_channel' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib', 'popupmenu']
     == js  [ '/checkout/elements/payment_form', '/checkout/elements/reservation_form', '/auth/elements/userview']
-    == js  [ '/frontdesk/elements/new_customer_form', '/frontdesk/elements/teacher_selector']
+    == js  [ '/frontdesk/elements/new_customer_form', '/frontdesk/elements/teacher_selector', '/admin/elements/custy_selector']
     == js  [ 'class_attendance' ]
 
   body
@@ -81,6 +81,8 @@ html
             img#person rv-on-click='ctrl.edit_customer' src='/person.svg'
             #add_user rv-on-click='ctrl.new_customer'
               span +
+              
+        #customer_form_container
 
         #reservation_form_container
         

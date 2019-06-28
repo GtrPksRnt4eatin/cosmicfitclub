@@ -19,9 +19,10 @@ class EventTicket < Sequel::Model
   def after_create
     super
     self.generate_code
-    Mail.event_purchase(customer.email, self.mailer_model)
+    self.send_email
     self.generate_passes
     self.send_notification
+  rescue
   end
 
   ####################### LIFE CYCLE ######################
@@ -54,6 +55,10 @@ class EventTicket < Sequel::Model
   ################# CALCULATED PROPERTIES #################
 
   #################### ACTION METHODS #####################
+
+  def send_email
+    Mail.event_purchase(self.customer.email, self.mailer_model)
+  end
 
   def send_notification
     Slack.post(self.summary)

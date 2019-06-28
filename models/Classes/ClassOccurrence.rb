@@ -51,6 +51,14 @@ class ClassOccurrence < Sequel::Model
     "#{ classdef.try(:name) } with #{ teacher.try(:name) } on #{ starttime.to_time.iso8601 }"
   end
 
+  def next_occurrence_id
+    $DB[ClassOccurrence.next_query, self.classdef_id, self.staff_id, self.starttime].first[:id]
+  end
+
+  def previous_occurrence_id
+    $DB[ClassOccurrence.previous_query, self.classdef_id, self.staff_id, self.starttime].first[:id]
+  end
+
   ############################## Properties ################################
 
   ############################ Reservations ################################
@@ -118,6 +126,32 @@ class ClassOccurrence < Sequel::Model
   ############################# Views ################################
 
   ############################## SQL ################################
+
+  def ClassOccurrence.previous_query
+    %{
+      SELECT id FROM "class_occurrences" 
+        WHERE (
+              (classdef_id = ?) 
+          AND (staff_id    = ?)
+          AND (starttime   < ?)
+          AND (extract(isodow from date ?) = extract(isodow from starttime))
+        )
+      ORDER BY "starttime" DESC LIMIT 1
+    }
+  end
+
+  def ClassOccurrence.next_query
+    %{
+      SELECT id FROM "class_occurrences" 
+        WHERE (
+              (classdef_id = ?) 
+          AND (staff_id    = ?)
+          AND (starttime   > ?)
+          AND (extract(isodow from date ?) = extract(isodow from starttime))
+        )
+      ORDER BY "starttime" LIMIT 1
+    }
+  end
 
   def ClassOccurrence.reservation_list_query
     %{

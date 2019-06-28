@@ -51,6 +51,7 @@ ctrl = {
         alert(req.responseText);
       })
      .success( function(data) {
+        customer_form.get_custy_list();
         $('#customers')[0].selectize.addOption({ value: data.id, text: name + ' ( ' + email + ' ) '});
         $('#customers')[0].selectize.refreshOptions();
         $('#customers')[0].selectize.addItem(data.id);
@@ -66,7 +67,9 @@ $(document).ready( function() {
     
     userview          = new UserView( id('userview_container') );
     popupmenu         = new PopupMenu( id('popupmenu_container') );
+    customer_form     = new CustomerForm( id('customer_form_container'));
     reservation_form  = new ReservationForm(id('reservation_form_container'));
+
     payment_form      = new PaymentForm();
     new_customer_form = new NewCustomerForm();
     teacher_selector  = new TeacherSelector();
@@ -85,6 +88,8 @@ $(document).ready( function() {
     teacher_selector.ev_sub('show', popupmenu.show_modal);
     teacher_selector.ev_sub('select', change_teacher);
     teacher_selector.ev_sub('hide', popupmenu.hide );
+
+    custy_selector.ev_sub('customer_selected', reservation_form.load_customer );
 
     $('#customers').on('change', reservation_form.load_customer );
     get_occurrence_details();
