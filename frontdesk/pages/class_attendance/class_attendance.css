@@ -121,20 +121,6 @@ td.checkin:hover {
   color: rgba(160,160,255,1);
 }
 
-.customer_form {
-  display: flex;
-  max-width: 63em;
-  margin: auto;
-}
-
-.customer_form .selectbox {
-  flex: 1;
-}
-
-.customer_form .icons {
-  flex: 0 0 5em;
-}
-
 .selectize-input {
   height: 1.92em;
   font-size: 1em;

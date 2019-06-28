@@ -71,18 +71,7 @@ html
         br
 
         .customer_form
-          .selectbox
-            select#customers placeholder='Select Customer...' rv-selectize='data.customers'
-              option
-              - Customer.all.each do |cust|
-                option value='#{cust.id}'
-                  | #{ cust.name } ( #{ cust.email } )
-          .icons
-            img#person rv-on-click='ctrl.edit_customer' src='/person.svg'
-            #add_user rv-on-click='ctrl.new_customer'
-              span +
-              
-        #customer_form_container
+          #customer_form_container
 
         #reservation_form_container
         
