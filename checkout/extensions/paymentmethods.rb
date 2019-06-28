@@ -32,6 +32,7 @@ module Sinatra
     end
 
     def card_swipe
+      p params
       halt 400 if params[:token].nil?
       $SWIPELISTENERS.each do |out|
         out << "event: swipe\n"
