@@ -11,6 +11,8 @@ function CustySelector(parent,list) {
   this.load_styles();
   this.bind_dom();
 
+  })
+
   if(empty(list)) { this.get_custy_list(); }
 
 }
@@ -26,7 +28,12 @@ CustySelector.prototype = {
 
   on_data: function(list) {
     this.state.customers = list;
-    this.bind_dom();
+    this.selectize_instance = $(this.dom).find('select.customers')[0].selectize({
+      options: this.state.customers,
+      labelField: 'name',
+      valueField: 'id',
+      searchField: 'name',
+    });
   },
 
   on_data_failed: function() {
@@ -76,12 +83,7 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
-    <select class='customers' rv-idselect='state.customer_id' rv-on-change='this.custy_selected'>
-      <option value='0' selected='true'>No Customer</option>
-      <option rv-each-cust='state.customers' rv-value='cust.id'>
-        { cust.name } ( { cust.email } )
-      </option>
-    </select>
+    <select class='customers'></select>
     <img class='edit_custy' rv-on-click='this.edit_customer' src='/person.svg'>
     <div class='add_custy'  rv-on-click='this.new_customer'>
       <span>+</span>
