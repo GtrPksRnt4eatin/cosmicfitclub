@@ -159,7 +159,7 @@ class Event < Sequel::Model
       
       rows = self.tickets.sort_by{ |x| x.created_on ? x.created_on.to_i : 0 }.map do |tic|
 
-        custy        = tic.customer_info
+        custy        = tic.customer.to_list_hash
         custy_info   = [ custy[:id], custy[:name], custy[:email] ]
 
         if tic.get_stripe_id.nil? then
