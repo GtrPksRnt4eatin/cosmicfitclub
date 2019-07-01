@@ -128,6 +128,13 @@ $(document).ready( function() {
   popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
 
   tic_selector = new TicketSelector( id('ticketselector_container') );
+  tic_selector.ev_sub('paynow', function(args) {
+    var custy = custy_selector.selected_customer;
+    if(!custy) { alert('No Customer Selected!'); return; } 
+    payment_form.checkout(args[0], args[1], args[2], args[3], args[4]) 
+  });
+
+  tic_selector.ev_sub('ticket_created', refresh_customer_data);
 
   $.get('/models/customers', on_custylist, 'json');
 
