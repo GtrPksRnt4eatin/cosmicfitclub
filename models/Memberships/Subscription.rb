@@ -47,7 +47,7 @@ class Subscription < Sequel::Model
   def email_model
     { :name      => self.customer.name,
       :plan_name => self.plan.name,
-      :login_url => email_login_url
+      :login_url => self.customer.email_login_url
     }
   end
 
