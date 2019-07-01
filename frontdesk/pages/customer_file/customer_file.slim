@@ -268,8 +268,8 @@ html
 
             select#events rv-idselect='data.selected_event_id'
               option value='0' None
-              option rv-each-event='data.event_list' value='#{event.id}'
-                  | #{ event.name }
+              option rv-each-event='data.event_list' rv-value='event.id'
+                  | { event.name }
 
             table.tickets
               tr 
