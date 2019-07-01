@@ -238,7 +238,7 @@ function resetCustomer() {
 }
 
 function init_event_selector() {
-  this.selectize_instance = $('#event_selector').selectize({
+  this.selectize_instance = $('.event_selector').selectize({
     options: data.event_list,
     valueField: 'id',
     labelField: 'name',
