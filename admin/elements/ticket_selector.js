@@ -23,7 +23,7 @@ TicketSelector.prototype = {
 
   load_event: function(event_id) {
     $.get('/models/events/' + event_id)
-     .done( function(evt) { this.state.event = evt; } )
+     .done( function(evt) { this.state.event = evt; }.bind(this) )
      .fail( function()    { alert('Failed to load Event' + event_id); } )
   },
 
