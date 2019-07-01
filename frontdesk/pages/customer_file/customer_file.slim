@@ -266,10 +266,7 @@ html
           
           #events.tab-content
 
-            select#events rv-idselect='data.selected_event_id'
-              option value='0' None
-              option rv-each-event='data.event_list' rv-value='event.id'
-                  | { event.name }
+            select.event_selector placeholder='Select Event...' rv-on-change='this.event_selected' rv-idselect='data.selected_event_id'
 
             table.tickets
               tr 

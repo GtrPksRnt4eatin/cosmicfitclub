@@ -222,7 +222,7 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/family`,          function(resp) { data.customer.family            = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/subscriptions`,   function(resp) { data.customer.subscriptions     = resp; }, 'json');
-  $.get('/models/events',                                        function(resp) { data.event_list                 = resp; }, 'json');
+  $.get('/models/events',                                        function(resp) { data.event_list                 = resp; init_event_selector(); }, 'json');
   refresh_reservations()
 }
 
@@ -237,3 +237,11 @@ function resetCustomer() {
   data.customer.event_history = null;
 }
 
+function init_event_selector() {
+  this.selectize_instance = $('#event_selector').selectize({
+    options: data.event_list,
+    valueField: 'id',
+    labelField: 'name',
+    searchField: 'name',
+  })[0];
+}
