@@ -268,8 +268,7 @@ html
 
             select#events rv-idselect='data.selected_event_id'
               option value='0' None
-              - Event.all.each do |event|
-                option value='#{event.id}'
+              option rv-each-event='data.event_list' value='#{event.id}'
                   | #{ event.name }
 
             table.tickets
