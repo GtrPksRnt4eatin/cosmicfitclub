@@ -1,28 +1,32 @@
 class Subscription < Sequel::Model
 
+  ###################### ASSOCIATIONS #####################
+
   many_to_one :customer
   many_to_one :plan
   one_to_many :uses, :class => :MembershipUse, :key=>:subscription_id
+
+  ###################### ASSOCIATIONS #####################
+
+  ####################### LIFE CYCLE ######################
 
   def cancel
     self.update( :canceled_on => Time.now, :deactivated => true )
   end
 
-  def details
-    {  :id          => id, 
-       :customer    => customer.to_list_hash,
-       :plan        => plan.tokenize,
-       :stripe_id   => stripe_id,
-       :canceled_on => canceled_on,
-       :began_on    => began_on,
-       :deactivated => deactivated 
-    }
+  def send_email
+    Mail.membership_welcome(self.customer.email, self.email_model) unless self.customer.login.activated?
+    Mail.membership(self.customer.email, self.email_model)             if self.customer.login.activated?
   end
 
-  def stripe_info
-    return nil if self.stripe_id.nil?
-    StripeMethods::get_subscription(self.stripe_id)
+  def after_create
+    super
+    send_email
   end
+
+  ####################### LIFE CYCLE ######################
+
+  ################# CALCULATED PROPERTIES #################
 
   def invoices
     return [] if self.stripe_id.nil?
@@ -40,6 +44,37 @@ class Subscription < Sequel::Model
     self.sum_invoices / self.uses.count
   end
 
+  def email_model
+    { :name      => self.customer.name,
+      :plan_name => self.plan.name,
+      :login_url => email_login_url
+    }
+  end
+
+  ################# CALCULATED PROPERTIES #################
+
+  ########################## VIEWS ########################
+
+    def details
+    {  :id          => id, 
+       :customer    => customer.to_list_hash,
+       :plan        => plan.tokenize,
+       :stripe_id   => stripe_id,
+       :canceled_on => canceled_on,
+       :began_on    => began_on,
+       :deactivated => deactivated 
+    }
+  end
+
+  def stripe_info
+    return nil if self.stripe_id.nil?
+    StripeMethods::get_subscription(self.stripe_id)
+  end
+
+  ########################## VIEWS ########################
+
+  ########################## LISTS ########################
+
   def Subscription::list_all                               
     $DB[ %{
       SELECT subscriptions.*, customer_id, customers.name, customers.email, plan_id, plans.name AS plan_name 
@@ -48,5 +83,7 @@ class Subscription < Sequel::Model
       LEFT JOIN plans ON plans.id = plan_id ORDER BY plans.id, deactivated, began_on
     } ].all
   end 
+
+  ########################## LISTS ########################
 
 end

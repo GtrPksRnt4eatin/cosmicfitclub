@@ -179,17 +179,8 @@ class Customer < Sequel::Model
 
   def add_subscription(plan_id)
     plan = Plan[plan_id]
-    StripeMethods::create_subscription( plan.stripe_id, stripe_id )
-    self.update( :plan => plan )
-
-    model = {
-      :name => name, 
-      :plan_name => plan.name,
-      :login_url => email_login_url
-    }
-
-    Mail.membership_welcome(email, model) unless login.activated?
-    Mail.membership(email, model) if login.activated?
+    sub_id = StripeMethods::create_subscription( plan.stripe_id, stripe_id )
+    subscrip = Subscription.create(:customer_id=>self.id, :plan_id=>plan_id, :stripe_id=>sub_id )
   end
 
   def use_membership(reason, &block)
