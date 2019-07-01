@@ -100,6 +100,10 @@ ctrl = {
     $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.transfer_from, to: data.customer.id, amount: data.transfer_from_amount } )
      .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
      .fail( function(e) { alert('Transfer Failed') });
+  },
+
+  event_selected(e,m) {
+    tic_selector.load_event(e.target.value);
   }
 
 }
@@ -122,6 +126,8 @@ $(document).ready( function() {
   payment_form.ev_sub('show', popupmenu.show );
   payment_form.ev_sub('hide', popupmenu.hide );
   popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
+
+  tic_selector = new TicketSelector( id('ticketselector_container') );
 
   $.get('/models/customers', on_custylist, 'json');
 
@@ -154,6 +160,8 @@ $(document).ready( function() {
 
   $('#comp_reason').on('focus', function(e) { if(e.target.value == "Reason for Comps") { e.target.value = ""; } } )
   $('#comp_reason').on('blur', function(e) { if(e.target.value == "") { e.target.value = "Reason for Comps"; } } )
+
+  $.get('/models/events', function(resp) { data.event_list = resp; init_event_selector(); }, 'json');
 
 });
 
@@ -203,6 +211,7 @@ function choose_customer(id) {
   data.customer.id = parseInt(id);
   $('#customers').val(id);
   $('#customers').trigger('chosen:updated');
+  tic_selector.load_customer(id);
   refresh_customer_data();
 }
 
@@ -222,7 +231,6 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/family`,          function(resp) { data.customer.family            = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/subscriptions`,   function(resp) { data.customer.subscriptions     = resp; }, 'json');
-  $.get('/models/events',                                        function(resp) { data.event_list                 = resp; init_event_selector(); }, 'json');
   refresh_reservations()
 }
 

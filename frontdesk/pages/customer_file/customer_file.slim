@@ -13,8 +13,10 @@ html
     script src='https://js.stripe.com/v3/'
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
-    == js  [ 'rivets', 'moment', 'selectize.min', 'rv_money', 'flatpickr', 'rv_dates', 'rv_select' ]
-    == js  [ 'lib', 'element', 'ev_channel', 'popupmenu', '/checkout/elements/payment_form', '/auth/elements/userview' ]
+    == js  [ 'rivets', 'moment', 'selectize.min', 'flatpickr' ]
+    == js  [ 'lib', 'element', 'ev_channel', 'popupmenu' ]
+    == js  [ 'rv_money', 'rv_dates', 'rv_select' ]
+    == js  [ '/admin/elements/ticket_selector', '/checkout/elements/payment_form', '/auth/elements/userview' ]
     == js  [ 'customer_file' ]
 
     javascript:
@@ -266,7 +268,7 @@ html
           
           #events.tab-content
 
-            select.event_selector placeholder='Select Event...' rv-on-change='this.event_selected'
+            select.event_selector placeholder='Select Event...' rv-on-change='ctrl.event_selected'
 
             table.tickets
               tr 
