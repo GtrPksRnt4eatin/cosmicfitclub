@@ -12,6 +12,7 @@ $(document).ready(function() {
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
   get_stripe_data();
+  setup_history_api();
 
 });
 
