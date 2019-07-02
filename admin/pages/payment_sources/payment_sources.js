@@ -26,5 +26,5 @@ function setup_history_api() {
 }
 
 function get_stripe_data() {
-  $.get('/models/customer/' + data.customer_id + '/stripe_details', function(resp) { data.stripe_details = resp; }, 'json')
+  $.get('/models/customers/' + data.customer_id + '/stripe_details', function(resp) { data.stripe_details = resp; }, 'json')
 }
