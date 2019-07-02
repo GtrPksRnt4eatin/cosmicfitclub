@@ -13,39 +13,40 @@ html
 
     #stars
 
-      #custyselector_container
+      .tile
+        #custyselector_container
 
-      table
-        tr
-          td stripe_id
-          td[] | { data.stripe_details.id }
-        tr 
-          td name
-          td[] | { data.stripe_details.name }
-        tr
-          td email
-          td[] | { data.stripe_details.email }
-        tr
-          td account balance
-          td[] | { data.stripe_details.account_balance }
-        tr
-          td created
-          td[] | { data.stripe_details.created }
-        tr
-          td delinquent
-          td[] | { data.stripe_details.delinquent }
-      
-      table
-        tr
-          td colspan='2' payment sources
-        tr rv-each-source='data.stripe_details.sources.data'
-          td[] | { source.id }
-          td[] | { source.brand }
-          td[] | { source.exp_month } / { source.exp_year }
-          td[] | { source.last4 }
+        table
+          tr
+            td stripe_id
+            td[] | { data.stripe_details.id }
+          tr 
+            td name
+            td[] | { data.stripe_details.name }
+          tr
+            td email
+            td[] | { data.stripe_details.email }
+          tr
+            td account balance
+            td[] | { data.stripe_details.account_balance }
+          tr
+            td created
+            td[] | { data.stripe_details.created }
+          tr
+            td delinquent
+            td[] | { data.stripe_details.delinquent }
+        
+        table
+          tr
+            td colspan='2' payment sources
+          tr rv-each-source='data.stripe_details.sources.data'
+            td[] | { source.id }
+            td[] | { source.brand }
+            td[] | { source.exp_month } / { source.exp_year }
+            td[] | { source.last4 }
 
-      table
-        tr
-          td colspan='2' subscriptions
-        tr rv-each-subscription='data.stripe_details.subscriptions.data'
-          td[] | { subscription }
+        table
+          tr
+            td colspan='2' subscriptions
+          tr rv-each-subscription='data.stripe_details.subscriptions.data'
+            td[] | { subscription }
