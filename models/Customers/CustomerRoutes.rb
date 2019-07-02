@@ -86,6 +86,13 @@ class CustomerRoutes < Sinatra::Base
     JSON.generate custy.payment_sources
   end
 
+  get '/:id/stripe_details' do
+    content_type :json
+    custy = Customer[params[:id]] or halt 404
+    return nil if custy.stripe_id.nil?
+    StripeMethods.get_customer(custy.stripe_id)
+  end
+
   get '/:id/class_passes' do
     custy = Customer[params[:id]] or halt 404
     custy.num_passes.to_json
@@ -210,6 +217,12 @@ class CustomerRoutes < Sinatra::Base
   post( '/waiver', :auth => 'user' ) do
     session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
     return 204
+  end
+
+  post '/:id/save_card' do
+    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
+    custy.update( :stripe_id => StripeMethods::create_stripe_customer(custy, params[:token]) ) if custy.stripe_id.nil?
+    StripeMethods::add_card(params[:token], custy.stripe_id)                               unless custy.stripe_id.nil?
   end
 
   error do

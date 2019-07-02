@@ -56,6 +56,17 @@ module StripeMethods
     p e.message
   end
 
+  def StripeMethods::create_stripe_customer(customer, card_token)
+    id = Stripe::Customer.create(
+      :source   => token['id'],
+      :name     => customer.name,
+      :email    => customer.email
+    )['id']
+    customer.update( :stripe_id => id )
+  rescue Exception => e
+    Slack.err("Stripe Error", e)
+  end
+
   def StripeMethods::create_customer(token)
     Stripe::Customer.create(
       :source   => token['id'],

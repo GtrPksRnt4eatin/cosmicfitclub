@@ -13,37 +13,38 @@ function PaymentForm() {
     swipe_source: null
   }
 
-  this.bind_handlers(['checkout', 'pay_cash', 'charge_saved', 'clear_customer', 'failed_charge', 'charge_token', 'charge_swiped', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
+  this.bind_handlers(['init_stripe', 'checkout', 'pay_cash', 'charge_saved', 'clear_customer', 'failed_charge', 'charge_token', 'charge_swiped', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
-
-  this.card = elements.create('card', { 
-    hidePostalCode: true,
-    style: {
-      base: {
-        lineHeight: '1.5em',
-        fontFamily: '"Industry-Light", sans-serif',
-        fontWeight: 'bold',
-        fontSmoothing: 'antialiased',
-        fontSize: '1em',
-        '::placeholder': { color: '#aab7c4' }
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
-      }
-    }
-  });
-
-  this.card.addEventListener('change', this.on_card_change);
-
+  this.init_stripe();
 }
 
 PaymentForm.prototype = {
   constructor: PaymentForm,
 
-  checkout(customer_id, price, reason, metadata, callback)  {
+  init_stripe: function() {
+    this.card = elements.create('card', { 
+      hidePostalCode: true,
+      style: {
+        base: {
+          lineHeight: '1.5em',
+          fontFamily: '"Industry-Light", sans-serif',
+          fontWeight: 'bold',
+          fontSmoothing: 'antialiased',
+          fontSize: '1em',
+          '::placeholder': { color: '#aab7c4' }
+        },
+        invalid: {
+          color: '#fa755a',
+          iconColor: '#fa755a'
+        }
+      }
+    });
+    this.card.addEventListener('change', this.on_card_change);
+  },
+
+  checkout: function(customer_id, price, reason, metadata, callback)  {
     this.state.customer_id = customer_id;
     this.state.price       = price;
     this.state.reason      = reason;
@@ -59,36 +60,36 @@ PaymentForm.prototype = {
 
   //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
   
-  start_listen_cardswipe() {
+  start_listen_cardswipe: function() {
     if(this.state.swipe_source) return;  
     this.state.swipe_source = new EventSource('/checkout/wait_for_swipe');
     this.state.swipe_source.addEventListener('swipe', this.on_cardswipe);
   },
 
-  stop_listen_cardswipe() {
+  stop_listen_cardswipe: function() {
     if(!this.state.swipe_source) return;
     this.state.swipe_source.close();
     this.state.swipe_source = null;
   },
 
-  on_cardswipe(e) {
+  on_cardswipe: function(e) {
     this.state.swipe = JSON.parse(e.data);
   },
 
   //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
 
-  clear_customer() {
+  clear_customer: function() {
     this.state.customer = null;
   },
 
-  get_customer(id) {
+  get_customer: function(id) {
     this.clear_customer();
     this.state.customer_id = id;
     return $.get("/models/customers/" + id, this.on_customer, 'json')
             .fail( function(e) { console.log('failed getting payment sources!'); })  
   },
 
-  on_customer(customer) { this.state.customer = customer; },
+  on_customer: function(customer) { this.state.customer = customer; },
 
   on_card_change(e) {
     this.show_err( e.error );
@@ -96,61 +97,61 @@ PaymentForm.prototype = {
     stripe.createToken(this.card).then(this.on_card_token);
   },
 
-  on_card_token(result) {
+  on_card_token: function(result) {
     this.show_err(result.error);
     this.state.token = result.token;
   },
 
-  show_err(err) {
+  show_err: function(err) {
     var displayError = $(this.dom).find('#card-errors')[0];
     if( err ) { displayError.textContent = err.message; }
     else      { displayError.textContent = '';          }
   },
 
-  show() {
+  show: function() {
     this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
     this.card.mount('#card-element');
   },
 
-  charge_saved(e,m) {
+  charge_saved: function(e,m) {
     this.stop_listen_cardswipe();
     body = { customer: this.state.customer_id, card: m.card.id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_saved_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
-  charge_new() {
+  charge_new: function() {
     this.charge_token(this.state.token.id)
   },
 
-  charge_swiped() {
+  charge_swiped: function() {
     this.charge_token(this.state.swipe.id)
   },
 
-  charge_token(token_id) {
+  charge_token: function(token_id) {
     this.stop_listen_cardswipe();
     if(!token_id) return;
     body = { customer: this.state.customer_id, token: token_id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
-  pay_cash() {
+  pay_cash: function() {
     this.stop_listen_cardswipe();
     body = { customer: this.state.customer_id, amount: this.state.price, description: this.state.reason }
     $.post('/checkout/pay_cash', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
-  failed_charge(e) {
+  failed_charge: function(e) {
     $(this.dom).shake();
     e.message = e.responseText;
     this.show_err(e);
   },
 
-  after_charge(payment) {
+  after_charge: function(payment) {
     this.state.callback(payment.id);
     this.ev_fire('hide');
   },
 
-  customer_facing() {
+  customer_facing: function() {
     $(this.dom).addClass('custy_facing');
   }
 }
