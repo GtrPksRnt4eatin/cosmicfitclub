@@ -5,6 +5,9 @@ data = {
 }
 
 ctrl = {
+  deactivate: function(e,m) {
+    $.post('/models/memberships/' + data.subscription.id + '/deactivate', get_data } )
+  }
 }
 
 $(document).ready(function(){

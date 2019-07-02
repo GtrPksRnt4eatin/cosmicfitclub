@@ -40,6 +40,12 @@ class MembershipRoutes < Sinatra::Base
     sub.update( :stripe_id => params[:value] )
   end
 
+  post '/:id/deactivate' do
+    sub = Subscription[params[:id]] or halt 404
+    sub.cancel
+    status 204
+  end
+
   get '/list' do
     content_type :json
     Subscription::list_all.to_json

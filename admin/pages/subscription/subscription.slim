@@ -37,6 +37,7 @@ html
           td 
             span rv-unless='data.subscription.deactivated'
               | Active
+              button rv-on-click='ctrl.deactivate' Deactivate!
             span rv-if='data.subscription.deactivated'
               | Deactivated
         tr

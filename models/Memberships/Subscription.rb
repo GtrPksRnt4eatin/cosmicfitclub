@@ -11,7 +11,8 @@ class Subscription < Sequel::Model
   ####################### LIFE CYCLE ######################
 
   def cancel
-    self.update( :canceled_on => Time.now, :deactivated => true )
+    time_of_death = self.canceled_on || Time.now
+    self.update( :canceled_on => time_of_death, :deactivated => true )
   end
 
   def send_email
