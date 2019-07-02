@@ -1,5 +1,5 @@
 data = {
-  customer: null,
+  customer_id: 0,
   stripe_details: null
 }
 
@@ -8,7 +8,7 @@ ctrl = {}
 $(document).ready(function() {
 
   custy_selector = new CustySelector( id('custyselector_container') );
-  custy_selector.ev_sub('customer_selected', function() { data.customer = custy_selector.selected_customer; get_stripe_data(); } );
+  custy_selector.ev_sub('customer_selected', function(custy_id) { data.customer_id = custy_id; get_stripe_data(); } );
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
   get_stripe_data();
