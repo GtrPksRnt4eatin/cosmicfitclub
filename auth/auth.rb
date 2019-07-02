@@ -67,9 +67,10 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/password' do
+    user = User.find( :reset_token  => params[:token] )         
+    halt(400, "This Reset Token is Invalid or Has Expired")     if user.nil?
     halt(400, "Your Password Must Be at least Five Characters") if params[:password].length < 5
     halt(400, "Your Password Does Not Match The Confirmation")  if params[:password] != params[:confirmation]
-    user = User.find( :reset_token  => params[:token] )
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user] = user
     session[:customer] = session[:user].customer
