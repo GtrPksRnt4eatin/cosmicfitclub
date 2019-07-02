@@ -31,6 +31,7 @@ CustySelector.prototype = {
     this.selectize_instance.selectize.renderCache['option'] = {};
     this.selectize_instance.selectize.renderCache['item'] = {};
     this.selectize_instance.selectize.addOption(this.state.customers);
+    if(this.state.customer_id) { this.select_customer(this.state.customer_id) }
   },
 
   init_selectize: function() {
@@ -71,6 +72,7 @@ CustySelector.prototype = {
   },
 
   select_customer: function(custy_id) {
+    this.state.customer_id = custy_id;
     this.selectize_instance.selectize.setValue(custy_id);
   },
 

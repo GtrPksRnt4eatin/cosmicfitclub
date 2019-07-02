@@ -11,7 +11,6 @@ $(document).ready(function() {
   custy_selector.ev_sub('customer_selected', function(custy_id) { data.customer_id = custy_id; get_stripe_data(); } );
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
-  get_stripe_data();
   setup_history_api();
 
 });
