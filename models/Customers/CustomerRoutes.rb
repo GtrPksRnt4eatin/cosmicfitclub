@@ -90,7 +90,7 @@ class CustomerRoutes < Sinatra::Base
     content_type :json
     custy = Customer[params[:id]] or halt 404
     return nil if custy.stripe_id.nil?
-    StripeMethods.get_customer(custy.stripe_id)
+    JSON.generate StripeMethods.get_customer(custy.stripe_id)
   end
 
   get '/:id/class_passes' do
