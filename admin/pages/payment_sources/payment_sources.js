@@ -4,7 +4,7 @@ data = {
 }
 
 ctrl = {
-  add_source(e,m) {
+  add_source: function(e,m) {
     savecardform.get_new_card();
   }
 }
