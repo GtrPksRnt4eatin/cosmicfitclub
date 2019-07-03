@@ -3,9 +3,17 @@
 html
   
   head
+
+    script src='https://js.stripe.com/v3/'
+
+    javascript:
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+
     == css ['fonts', 'site', 'header', 'selectize', 'admin/payment_sources']
-    == js  ['jquery', 'rivets', 'lib', 'selectize.min', 'element', 'ev_channel', '/auth/elements/userview', 'menu' ]
-    == js  ['admin/elements/custy_selector', 'admin/payment_sources']
+    == js  ['jquery', 'rivets', 'rv-money', 'lib', 'selectize.min', 'element', 'ev_channel', '/auth/elements/userview', 'menu' ]
+    == js  ['admin/elements/custy_selector', 'checkout/elements/save_card_form', 'admin/payment_sources']
 
     title Member List
   
@@ -39,16 +47,27 @@ html
         
         table.shade
           tr
-            td colspan='4' payment sources
+            td colspan='3' payment sources
+            td rv-onclick='ctrl.add_source'
+              | Add Source
           tr rv-each-source='data.stripe_details.sources.data'
-            td[]: a rv-href='source.id | stripe_payment_link' { source.id }
+            td[] { source.id }
             td[] { source.brand }
             td[] { source.exp_month } / { source.exp_year }
             td[] { source.last4 }
+            td[] 
+              span rv-if='source.id | default_source'
+                | Default Source
+              span rv-unless='source.id | default_source'
+                button rv-on-click='ctrl.set_default'
+                  | Set As Default
+              span
+                button rv-on-click='ctrl.remove_source'
+                  | Remove
 
         table.shade
           tr
             td colspan='2' subscriptions
           tr rv-each-subscription='data.stripe_details.subscriptions.data'
             td[]: a rv-href='subscription.id | stripe_subscription_link' { subscription.id }
-            td[] 
+            td[] { subscription.plan.name }

@@ -6,15 +6,26 @@ data = {
 ctrl = {}
 
 $(document).ready(function() {
+  
+  savecardform     = new SaveCardForm( id())
+  popupmenu        = new PopupMenu( id('popupmenu_container') );
 
-  custy_selector = new CustySelector( id('custyselector_container') );
+  custy_selector   = new CustySelector( id('custyselector_container') );
   custy_selector.ev_sub('customer_selected', function(custy_id) { data.customer_id = custy_id; get_stripe_data(); } );
+
+  savecardform.clear_customer();
+  savecardform.ev_sub('show', popupmenu.show );
+  savecardform.ev_sub('hide', popupmenu.hide );
+  popupmenu.ev_sub('close', savecardform.stop_listen_cardswipe);
 
   rivets.formatters.stripe_custy_link        = function(val) { return 'https://dashboard.stripe.com/customers/' + val;     }
   rivets.formatters.stripe_payment_link      = function(val) { return 'https://dashboard.stripe.com/payments/' + val;      }
   rivets.formatters.stripe_subscription_link = function(val) { return 'https://dashboard.stripe.com/subscriptions/' + val; }
+  rivets.formatters.default_source           = function(val) { return val === data.stripe_details.default_source;          }
   rivets.formatters.created_date             = function(val) { return new Date(val*1000).toDateString(); }
-  rivets.bind(document.body, { data: data, ctrl: ctrl } );
+
+  rivets.bind( document.body, { data: data, ctrl: ctrl } );
+
   setup_history_api();
 
 });
