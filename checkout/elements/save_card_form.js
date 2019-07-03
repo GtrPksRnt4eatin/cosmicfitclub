@@ -3,7 +3,7 @@ function SaveCardForm() {
   	swipe_source: null
   }
 
-  this.bind_handlers(['init_stripe', 'show', ]);
+  this.bind_handlers(['init_stripe', 'show', 'on_card_change', 'on_card_token']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
@@ -58,6 +58,17 @@ SaveCardForm.prototype = {
   },
 
   //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
+
+  on_card_change: function(e) {
+    this.show_err( e.error );
+    if( !e.complete ) { return; }
+    stripe.createToken(this.card).then(this.on_card_token);
+  },
+
+  on_card_token: function(result) {
+    this.show_err(result.error);
+    this.state.token = result.token;
+  }
 }
 
 Object.assign( SaveCardForm.prototype, element);
