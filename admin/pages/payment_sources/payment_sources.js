@@ -3,7 +3,9 @@ data = {
   stripe_details: null
 }
 
-ctrl = {}
+ctrl = {
+  add_source: 
+}
 
 $(document).ready(function() {
   
@@ -13,7 +15,6 @@ $(document).ready(function() {
   custy_selector   = new CustySelector( id('custyselector_container') );
   custy_selector.ev_sub('customer_selected', function(custy_id) { data.customer_id = custy_id; get_stripe_data(); } );
 
-  savecardform.clear_customer();
   savecardform.ev_sub('show', popupmenu.show );
   savecardform.ev_sub('hide', popupmenu.hide );
   popupmenu.ev_sub('close', savecardform.stop_listen_cardswipe);
