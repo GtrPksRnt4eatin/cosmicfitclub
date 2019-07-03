@@ -19,7 +19,8 @@ html
         table.shade
           tr
             td stripe_id
-            td[] a rv-href='data.stripe_details.id | stripe_custy_link' { data.stripe_details.id }
+            td
+              a rv-href='data.stripe_details.id | stripe_custy_link' { data.stripe_details.id }
           tr 
             td name
             td[] { data.stripe_details.name }
@@ -38,7 +39,7 @@ html
         
         table.shade
           tr
-            td colspan='2' payment sources
+            td colspan='4' payment sources
           tr rv-each-source='data.stripe_details.sources.data'
             td[] a rv-href='source.id | stripe_payment_link' { source.id }
             td[] { source.brand }
