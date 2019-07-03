@@ -177,13 +177,14 @@ function setupBindings() {
   include_rivets_dates();
   include_rivets_select();
 
-  rivets.formatters.count             = function(val) { return empty(val) ? 0     : val.length;                           }
-  rivets.formatters.zero_if_null      = function(val) { return empty(val) ? 0     : val;                                  }
-  rivets.formatters.has_membership    = function(val) { return empty(val) ? false : ( val.name != 'None' );               }
-  rivets.formatters.custy_file        = function(val) { return empty(val) ? '#'   : '/frontdesk/customer_file?id=' + val; }
-  rivets.formatters.subscription_link = function(val) { return empty(val) ? '#'   : '/admin/subscription?id=' + val;      }
-  rivets.formatters.remove_invalid    = function(val) { return val == "Invalid date" ? '' : val; }
-  rivets.formatters.waiver_img        = function(val) { return '/models/customers/' + val + '/waiver.svg'; }
+  rivets.formatters.count               = function(val) { return empty(val) ? 0     : val.length;                           }
+  rivets.formatters.zero_if_null        = function(val) { return empty(val) ? 0     : val;                                  }
+  rivets.formatters.has_membership      = function(val) { return empty(val) ? false : ( val.name != 'None' );               }
+  rivets.formatters.custy_file          = function(val) { return empty(val) ? '#'   : '/frontdesk/customer_file?id=' + val; }
+  rivets.formatters.subscription_link   = function(val) { return empty(val) ? '#'   : '/admin/subscription?id=' + val;      }
+  rivets.formatters.remove_invalid      = function(val) { return val == "Invalid date" ? '' : val; }
+  rivets.formatters.waiver_img          = function(val) { return '/models/customers/' + val + '/waiver.svg'; }
+  rivets.formatters.href_stripe_details = function(val) { return '/admin/payment_sources?id=' + val; }
 
   rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
