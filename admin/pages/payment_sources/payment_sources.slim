@@ -16,7 +16,7 @@ html
       .tile
         #custyselector_container
 
-        table
+        table.shade
           tr
             td stripe_id
             td[] a rv-href='data.stripe_details.id | stripe_custy_link' { data.stripe_details.id }
@@ -36,7 +36,7 @@ html
             td delinquent
             td[] { data.stripe_details.delinquent }
         
-        table
+        table.shade
           tr
             td colspan='2' payment sources
           tr rv-each-source='data.stripe_details.sources.data'
@@ -45,8 +45,9 @@ html
             td[] { source.exp_month } / { source.exp_year }
             td[] { source.last4 }
 
-        table
+        table.shade
           tr
             td colspan='2' subscriptions
           tr rv-each-subscription='data.stripe_details.subscriptions.data'
-            td[] { subscription }
+            td[] a rv-href='subscription.id | stripe_subscription_link' { subscription.id }
+            td[] 

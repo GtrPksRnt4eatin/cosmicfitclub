@@ -1,0 +1,5 @@
+
+table.shade                    {  margin-top: 1em;                  }
+table.shade tr:nth-child(odd)  { background: rgba(255,255,255,0.1); }
+table.shade tr:nth-child(even) { background: rgba(0,0,0,0.1);       }
+table.shade td, table.shade th { box-shadow: 0 0 1px white;         }
