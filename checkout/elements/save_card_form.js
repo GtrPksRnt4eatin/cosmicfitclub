@@ -1,5 +1,6 @@
 function SaveCardForm() {
   this.state = {
+    customer_id: 0,
   	swipe_source: null
   }
 
@@ -39,6 +40,7 @@ SaveCardForm.prototype = {
     this.show_err(null);
     this.stop_listen_cardswipe();
     this.start_listen_cardswipe();
+    this.show();
   },
 
   show: function() {
@@ -66,6 +68,19 @@ SaveCardForm.prototype = {
 
   //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
 
+  clear_customer: function() {
+    this.state.customer = null;
+  },
+
+  get_customer: function(id) {
+    this.clear_customer();
+    this.state.customer_id = id;
+    return $.get("/models/customers/" + id, this.on_customer, 'json')
+            .fail( function(e) { console.log('failed getting payment sources!'); })  
+  },
+
+  on_customer: function(customer) { this.state.customer = customer; },
+
   on_card_change: function(e) {
     this.show_err( e.error );
     if( !e.complete ) { return; }
@@ -81,7 +96,7 @@ SaveCardForm.prototype = {
     var displayError = $(this.dom).find('#card-errors')[0];
     if( err ) { displayError.textContent = err.message; }
     else      { displayError.textContent = '';          }
-  },
+  }
 }
 
 Object.assign( SaveCardForm.prototype, element);

@@ -35,12 +35,17 @@ $(document).ready(function() {
 
 function setup_history_api() {
   var id = getUrlParameter('id') ? getUrlParameter('id') : 0;
-  if( ! empty(id) ) { custy_selector.select_customer(id); }  
+  if( ! empty(id) ) { set_customer(id); }  
   history.replaceState( { "id": id }, "", 'payment_sources?id=' + id );
 
   $(window).bind('popstate', function(e) { 
-    custy_selector.select_customer(history.state.id);
+    set_customer(history.state.id)
   });
+}
+
+function set_customer(id) {
+  custy_selector.select_customer(id);
+  savecardform.get_customer(id)
 }
 
 function get_stripe_data() {
