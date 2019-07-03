@@ -4,7 +4,9 @@ data = {
 }
 
 ctrl = {
-  add_source: 
+  add_source: function() {
+    savecardform.show();
+  }
 }
 
 $(document).ready(function() {

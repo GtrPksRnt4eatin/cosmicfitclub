@@ -34,6 +34,13 @@ SaveCardForm.prototype = {
     this.card.addEventListener('change', this.on_card_change);
   },
 
+  get_new_card: function() {
+    this.state.swipe = null;
+    this.show_err(null);
+    this.stop_listen_cardswipe();
+    this.start_listen_cardswipe();
+  },
+
   show: function() {
     this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
     this.card.mount('.SaveCardForm #card-element');
