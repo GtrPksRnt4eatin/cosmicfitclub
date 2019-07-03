@@ -48,7 +48,7 @@ html
         table.shade
           tr
             td colspan='4' payment sources
-            td rv-onclick='ctrl.add_source'
+            td rv-on-click='ctrl.add_source'
               | Add Source
           tr rv-each-source='data.stripe_details.sources.data'
             td[] { source.id }
