@@ -41,7 +41,7 @@ html
           tr
             td colspan='4' payment sources
           tr rv-each-source='data.stripe_details.sources.data'
-            td[]; a rv-href='source.id | stripe_payment_link' { source.id }
+            td[]: a rv-href='source.id | stripe_payment_link' { source.id }
             td[] { source.brand }
             td[] { source.exp_month } / { source.exp_year }
             td[] { source.last4 }
@@ -50,5 +50,5 @@ html
           tr
             td colspan='2' subscriptions
           tr rv-each-subscription='data.stripe_details.subscriptions.data'
-            td[]; a rv-href='subscription.id | stripe_subscription_link' { subscription.id }
+            td[]: a rv-href='subscription.id | stripe_subscription_link' { subscription.id }
             td[] 
