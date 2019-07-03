@@ -75,7 +75,13 @@ SaveCardForm.prototype = {
   on_card_token: function(result) {
     this.show_err(result.error);
     this.state.token = result.token;
-  }
+  },
+
+  show_err: function(err) {
+    var displayError = $(this.dom).find('#card-errors')[0];
+    if( err ) { displayError.textContent = err.message; }
+    else      { displayError.textContent = '';          }
+  },
 }
 
 Object.assign( SaveCardForm.prototype, element);
