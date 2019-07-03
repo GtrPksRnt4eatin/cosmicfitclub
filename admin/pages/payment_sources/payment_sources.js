@@ -11,7 +11,7 @@ ctrl = {
 
 $(document).ready(function() {
   
-  savecardform     = new SaveCardForm( id())
+  savecardform     = new SaveCardForm()
   popupmenu        = new PopupMenu( id('popupmenu_container') );
 
   custy_selector   = new CustySelector( id('custyselector_container') );
