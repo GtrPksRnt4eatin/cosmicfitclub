@@ -4,7 +4,7 @@ function SaveCardForm() {
   	swipe_source: null
   }
 
-  this.bind_handlers(['init_stripe', 'show', 'on_card_change', 'on_card_token', 'on_customer']);
+  this.bind_handlers(['init_stripe', 'show', 'on_card_change', 'on_card_token', 'on_customer', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
