@@ -10,8 +10,9 @@ $(document).ready(function() {
   custy_selector = new CustySelector( id('custyselector_container') );
   custy_selector.ev_sub('customer_selected', function(custy_id) { data.customer_id = custy_id; get_stripe_data(); } );
 
-  rivets.formatters.stripe_custy_link = function(val) { return 'https://dashboard.stripe.com/customers/' + val; }
-  rivets.formatters.created_date      = function(val) { return new Date(val*1000).toDateString(); }
+  rivets.formatters.stripe_custy_link        = function(val) { return 'https://dashboard.stripe.com/customers/' + val; }
+  rivets.formatters.stripe_subscription_link = function(val) { return 'https://dashboard.stripe.com/subscriptions/' + val; }
+  rivets.formatters.created_date             = function(val) { return new Date(val*1000).toDateString(); }
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
   setup_history_api();
 
