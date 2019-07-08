@@ -4,7 +4,7 @@ function SaveCardForm() {
   	swipe_source: null
   }
 
-  this.bind_handlers(['init_stripe', 'show', 'on_card_change', 'on_card_token', 'on_customer', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe','hide','save_new_card','save_swiped_card']);
+  this.bind_handlers(['init_stripe', 'show', 'on_card_change', 'on_card_token', 'on_customer', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe','hide','save_entered','save_swiped']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
@@ -98,14 +98,14 @@ SaveCardForm.prototype = {
     else      { displayError.textContent = '';          }
   },
 
-  save_new_card: function(e,m) {
+  save_entered: function(e,m) {
     $.post('/checkout/save_card', { token: this.state.token, customer_id: this.state.customer.id } )
      .success( function() { alert('Card Saved'); } )
      .fail( function() { alert('Card Not Saved'); } )
      .then( this.hide )
   },
 
-  save_swiped_card: function(e,m) {
+  save_swiped: function(e,m) {
     $.post('/checkout/save_card', { token: this.state.swipe, customer_id: this.state.customer.id } )
      .success( function() { alert('Card Saved'); } )
      .fail( function() { alert('Card Not Saved'); } )
@@ -147,7 +147,7 @@ SaveCardForm.prototype.HTML = ES5Template(function(){/**
           <div id='card-element'></div> 
         </td>
         <td>
-          <button rv-on-click='this.save_new' > Save Card </button>
+          <button rv-on-click='this.save_entered' > Save Card </button>
         </td>
       </tr>
       <tr>
