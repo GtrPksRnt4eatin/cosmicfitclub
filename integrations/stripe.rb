@@ -68,10 +68,19 @@ module StripeMethods
   end
 
   def StripeMethods::add_card(token_id, customer_id)
-    #custy = Stripe::Customer.retrieve(customer_id)
     Stripe::Customer.create_source( customer_id, { source: token_id } )
-    #custy.source = token_id
-    #custy.save
+  rescue Exception => e
+    Slack.err("Stripe Error", e)
+  end
+
+  def StripeMethods::set_default_card(customer_id, source_id)
+    Stripe::Customer.update( customer_id, { default_source: source_id } )
+  rescue Exception => e
+    Slack.err("Stripe Error", e)
+  end
+
+  def StripeMethods::remove_card(customer_id, source_id)
+    Stripe::Customer.delete_source( customer_id, source_id )
   rescue Exception => e
     Slack.err("Stripe Error", e)
   end

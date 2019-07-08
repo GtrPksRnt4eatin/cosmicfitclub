@@ -4,9 +4,22 @@ data = {
 }
 
 ctrl = {
+
   add_source: function(e,m) {
     savecardform.get_new_card();
-  }
+  },
+
+  remove_source: function(e,m) {
+    $.post('/checkout/remove_card', { source_id: m.source.id, customer_id: data.customer_id } )
+     .success( get_stripe_data )
+     .fail( function() { alert( 'failed to remove card') } )
+  },
+
+  set_default: function(e,m) {
+    $.post('/checkout/set_default_card', { source_id: m.source.id, customer_id: data.customer_id } )
+     .success( get_stripe_data )
+     .fail( function() { alert( 'failed to set default card') } )
+  } 
 }
 
 $(document).ready(function() {
@@ -19,6 +32,7 @@ $(document).ready(function() {
 
   savecardform.ev_sub('show', popupmenu.show );
   savecardform.ev_sub('hide', popupmenu.hide );
+  savecardform.ev_sub('card_saved', get_stripe_data);
   popupmenu.ev_sub('close', savecardform.stop_listen_cardswipe);
 
   rivets.formatters.stripe_custy_link        = function(val) { return 'https://dashboard.stripe.com/customers/' + val;     }

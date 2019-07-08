@@ -4,7 +4,7 @@ function SaveCardForm() {
   	swipe_source: null
   }
 
-  this.bind_handlers(['init_stripe', 'show', 'on_card_change', 'on_card_token', 'on_customer', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe','hide','save_entered','save_swiped']);
+  this.bind_handlers(['init_stripe', 'show', 'on_card_change', 'on_card_token', 'on_customer', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe','hide','save_entered','save_swiped', 'after_save']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
@@ -100,16 +100,20 @@ SaveCardForm.prototype = {
 
   save_entered: function(e,m) {
     $.post('/checkout/save_card', { token: this.state.token, customer_id: this.state.customer.id } )
-     .success( function() { alert('Card Saved'); } )
+     .success( this.after_save )
      .fail( function() { alert('Card Not Saved'); } )
      .then( this.hide )
   },
 
   save_swiped: function(e,m) {
     $.post('/checkout/save_card', { token: this.state.swipe, customer_id: this.state.customer.id } )
-     .success( function() { alert('Card Saved'); } )
+     .success( this.after_save )
      .fail( function() { alert('Card Not Saved'); } )
      .then( this.hide )
+  },
+
+  after_save: function() {
+    this.ev_fire('card_saved');
   },
 
   hide: function() {

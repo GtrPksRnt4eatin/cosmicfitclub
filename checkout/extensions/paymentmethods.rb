@@ -62,5 +62,17 @@ module Sinatra
       end
     end
 
+    def set_default_card
+      custy = Customer[params[:customer_id]] or halt( 404, 'Customer Not Found')
+      custy.stripe_id                        or halt( 404, 'Customer Has No Stripe Account')
+      StripeMethods::set_default_card( custy.stripe_id, params[:source_id] ) 
+    end
+
+    def remove_card
+      custy = Customer[params[:customer_id]] or halt( 404, 'Customer Not Found')
+      custy.stripe_id                        or halt( 404, 'Customer Has No Stripe Account')
+      StripeMethods::remove_card( custy.stripe_id, params[:source_id] )
+    end
+
   end
 end
