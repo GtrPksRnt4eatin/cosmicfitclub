@@ -67,6 +67,14 @@ module StripeMethods
     Slack.err("Stripe Error", e)
   end
 
+  def StripeMethods::add_card(token_id, customer_id)
+    custy = Stripe::Customer.retrieve(customer_id)
+    custy.source = token_id
+    custy.save
+  rescue Exception => e
+    Slack.err("Stripe Error", e)
+  end
+
   def StripeMethods::create_customer(token)
     Stripe::Customer.create(
       :source   => token['id'],
@@ -106,14 +114,6 @@ module StripeMethods
       :description => description,
       :metadata    => metadata
     )
-  end
-
-  def StripeMethods::add_card(token, customer_id)
-    custy = Stripe::Customer.retrieve(customer_id)
-    custy.source = token.id
-    custy.save
-  rescue Exception => e
-    Slack.err("Stripe Error", e)
   end
 
   def StripeMethods::charge_card(token_id, amount, email, description, metadata)
