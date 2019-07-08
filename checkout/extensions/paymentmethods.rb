@@ -53,16 +53,13 @@ module Sinatra
       status 200
     end
 
-    def teststream
-      content_type 'text/event-stream'
-      stream do |out|
-        until out.closed?
-          sleep(10)
-          out << "event: swipe\n"
-          out << "data:  mytoken\n\n"
-        end
+    def save_card
+      custy = Customer[params[:customer_id]] or halt( 404, 'Customer Not Found')
+      if custy.stripe_id then
+        StripeMethods::add_card( params[:token], custy.stripe_id )
+      else
+        
       end
-      status 200
     end
 
   end

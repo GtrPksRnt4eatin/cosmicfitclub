@@ -57,7 +57,8 @@ class Checkout < Sinatra::Base
 
   post('/swipe')             { card_swipe          }
   get('/wait_for_swipe')     { wait_for_swipe      }
-  get('/teststream')         { teststream          }
+
+  post('/save_card')         { save_card           }
 
   error 401 do
     render_page :error

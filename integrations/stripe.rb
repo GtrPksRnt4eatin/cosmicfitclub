@@ -110,7 +110,7 @@ module StripeMethods
 
   def StripeMethods::add_card(token, customer_id)
     custy = Stripe::Customer.retrieve(customer_id)
-    custy.source = token
+    custy.source = token.id
     custy.save
   rescue Exception => e
     Slack.err("Stripe Error", e)
