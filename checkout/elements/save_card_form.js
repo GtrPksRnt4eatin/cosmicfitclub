@@ -4,7 +4,7 @@ function SaveCardForm() {
   	swipe_source: null
   }
 
-  this.bind_handlers(['init_stripe', 'show', 'on_card_change', 'on_card_token', 'on_customer', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe']);
+  this.bind_handlers(['init_stripe', 'show', 'on_card_change', 'on_card_token', 'on_customer', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe','hide','save_new_card','save_swiped_card']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
@@ -96,7 +96,26 @@ SaveCardForm.prototype = {
     var displayError = $(this.dom).find('#card-errors')[0];
     if( err ) { displayError.textContent = err.message; }
     else      { displayError.textContent = '';          }
+  },
+
+  save_new_card: function(e,m) {
+    $.post('/checkout/save_card', { token: this.state.token, customer_id: this.state.customer.id } )
+     .success( function() { alert('Card Saved'); } )
+     .fail( function() { alert('Card Not Saved'); } )
+     .then( this.hide )
+  },
+
+  save_swiped_card: function(e,m) {
+    $.post('/checkout/save_card', { token: this.state.swipe, customer_id: this.state.customer.id } )
+     .success( function() { alert('Card Saved'); } )
+     .fail( function() { alert('Card Not Saved'); } )
+     .then( this.hide )
+  },
+
+  hide: function() {
+    this.ev_fire('hide');
   }
+
 }
 
 Object.assign( SaveCardForm.prototype, element);
