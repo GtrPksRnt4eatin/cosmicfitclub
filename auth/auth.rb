@@ -177,6 +177,13 @@ module Sinatra
         end
       end
 
+      app.set(:self) do |customer_id|
+        condition do
+          halt(401, "Cannot Modify Someone Elses Account!") unless session[:customer].id == customer_id
+          true
+        end
+      end
+
     end
 
   end
