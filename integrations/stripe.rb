@@ -50,15 +50,11 @@ end
 
 module StripeMethods
 
-  def StripeMethods::refund(charge_id)
-    Stripe::Refund.create( :charge => charge_id )
-  rescue Stripe::InvalidRequestError => e
-    p e.message
-  end
+  ############### Manage Payment Sources ###############
 
   def StripeMethods::create_stripe_customer(customer, card_token)
     id = Stripe::Customer.create(
-      :source   => token['id'],
+      :source   => card_token['id'],
       :name     => customer.name,
       :email    => customer.email
     )['id']
@@ -83,6 +79,14 @@ module StripeMethods
     Stripe::Customer.delete_source( customer_id, source_id )
   rescue Exception => e
     Slack.err("Stripe Error", e)
+  end
+
+  ############### Manage Payment Sources ###############
+
+  def StripeMethods::refund(charge_id)
+    Stripe::Refund.create( :charge => charge_id )
+  rescue Stripe::InvalidRequestError => e
+    p e.message
   end
 
   def StripeMethods::create_customer(token)
