@@ -55,13 +55,13 @@ function setup_history_api() {
 
 function customer_selected(id) {
   history.replaceState( { "id": id }, "", 'payment_sources?id=' + id );
+  savecardform.get_customer(id)
   data.customer_id = id; 
   get_stripe_data(); 
 }
 
 function set_customer(id) {
   custy_selector.select_customer(id);
-  savecardform.get_customer(id)
 }
 
 function get_stripe_data() {
