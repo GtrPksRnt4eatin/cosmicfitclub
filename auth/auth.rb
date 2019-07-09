@@ -179,10 +179,7 @@ module Sinatra
 
       app.set(:self) do |role|
         condition do
-          p session[:customer].id
-          p Integer(params[:customer_id])
-          p params
-          p session[:customer].id == Integer(params[:customer_id])
+          return true if session[:user].has_role? role
           halt(401, "Cannot Modify Someone Elses Account!") unless session[:customer].id == Integer(params[:customer_id])
           true
         end
