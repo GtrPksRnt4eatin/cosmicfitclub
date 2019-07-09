@@ -69,6 +69,12 @@ module StripeMethods
     Slack.err("Stripe Error", e)
   end
 
+  def StripeMethods::add_card_as_default(token_id, customer_id)
+    Stripe::Customer.update( customer_id, { default_source: source_id } )
+  rescue Exception => e
+    Slack.err("Stripe Error", e)
+  end
+
   def StripeMethods::set_default_card(customer_id, source_id)
     Stripe::Customer.update( customer_id, { default_source: source_id } )
   rescue Exception => e

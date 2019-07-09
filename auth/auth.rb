@@ -177,7 +177,7 @@ module Sinatra
         end
       end
 
-      app.set(:self) do |role|
+      app.set(:self_or) do |role|
         condition do
           return true if session[:user].has_role? role
           halt(401, "Cannot Modify Someone Elses Account!") unless session[:customer].id == Integer(params[:customer_id])

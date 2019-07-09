@@ -56,11 +56,12 @@ class Checkout < Sinatra::Base
   post('/pay_cash')          { pay_cash            }
 
   post('/swipe')             { card_swipe          }
-  get('/wait_for_swipe')     { wait_for_swipe      }
 
-  post('/save_card',        :self => 'frontdesk' ) { save_card           }
-  post('/set_default_card', :self => 'frontdesk' ) { set_default_card    }
-  post('/remove_card',      :self => 'frontdesk' ) { remove_card         }
+  get('/wait_for_swipe',    :auth => 'frontdesk' ) { wait_for_swipe      }
+
+  post('/save_card',        :self_or => 'frontdesk' ) { save_card           }
+  post('/set_default_card', :self_or => 'frontdesk' ) { set_default_card    }
+  post('/remove_card',      :self_or => 'frontdesk' ) { remove_card         }
 
   #error 401 do
   #  render_page :error

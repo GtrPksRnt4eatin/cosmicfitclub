@@ -25,6 +25,13 @@ class CustomerRoutes < Sinatra::Base
     return custy.to_json(:include=>:payment_sources)
   end
 
+  delete '/:id' do
+    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
+    dependencies = custy.linked_objects
+    halt(409, dependencies.join("\r\n") ) unless dependencies.count == 0
+    custy.delete
+  end
+
   get '/:id/fulldetails' do
     custy = Customer[params[:id]] or halt(404,"Can't Find Customer")
     { :info            => custy,
@@ -37,6 +44,90 @@ class CustomerRoutes < Sinatra::Base
       :password        => custy.password_set?
     }.to_json
   end
+ 
+  post '/:id/info' do
+    data = JSON.parse request.body.read
+    custy = Customer[params[:id]] or halt 404
+    custy.update(
+      :name    => data["name"],
+      :email   => data["email"],
+      :phone   => data["phone"],
+      :address => data["address"]
+    )
+    status 204
+  end
+
+  get '/:id/status' do
+    content_type :json
+    custy = Customer[params[:id].to_i] or halt 404
+    { :membership => custy.subscription.nil? ? { :id => 0, :name => 'None' } : custy.subscription.plan,
+      :passes => custy.num_passes
+    }.to_json
+  end
+
+  post '/:id/merge_into/:merge_id' do
+    custy1 = Customer[params[:id]] or halt(404, "Cant Find Customer")
+    custy1.merge_with(params[:merge_id])
+    status 200
+  end
+
+  #################################### CLASS PASSES ####################################
+
+  post '/:id/add_passes' do
+    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
+    custy.add_passes( params[:value], params[:reason], "" );
+  end
+
+  post '/:id/transfer' do
+    sugar_daddy        = Customer[params[:from]] or halt( 404, "Couldn't Find Customer" )
+    minnie_the_moocher = Customer[params[:to]]   or halt( 404, "Couldn't Find Customer" )
+    sugar_daddy.transfer_passes_to( minnie_the_moocher.id, params[:amount] ) or halt 403
+    status 204
+  end
+
+  get '/:id/class_passes' do
+    custy = Customer[params[:id]] or halt 404
+    custy.num_passes.to_json
+  end
+
+  get '/:id/wallet' do
+    content_type :json
+    custy = Customer[params[:id]] or halt 404
+    wallet = custy.wallet
+    return '{ id: 0 }' if wallet.nil?
+    hsh = {}
+    hsh[:id] = wallet.id
+    hsh[:shared] = wallet.shared?
+    hsh[:shared_with] = wallet.customers.reject{ |x| x.id == custy.id }.map { |c| { :id => c.id, :name => c.name } }
+    hsh[:pass_balance] = wallet.pass_balance
+    hsh[:pass_transactions] = wallet.history 
+    return hsh.to_json
+  end
+
+  get '/:id/transaction_history' do
+    custy = Customer[params[:id]] or halt 404
+    data = {
+      :pass_transactions => custy.pass_transactions,
+      :membership_uses => custy.membership_uses 
+    }
+    data.to_json
+  end
+
+  get '/:id/reservations' do
+    custy = Customer[params[:id].to_i] or halt 404
+    reservations = custy.reservations.map { |res|
+      { :id => res.id,
+        :classname => res.occurrence.nil? ? "Orphaned Reservation" : res.occurrence.classdef.name, 
+        :instructor=> res.occurrence.nil? ? "Some Teacher" : res.occurrence.teacher.name, 
+        :starttime => res.occurrence.nil? ? Time.new : res.occurrence.starttime 
+      } 
+    }
+    JSON.generate reservations.sort_by { |r| r[:starttime] }.reverse
+  end
+
+  #################################### CLASS PASSES ####################################
+
+  #################################### SUBSCRIPTION ####################################
 
   get '/:id/subscription' do
     content_type :json
@@ -54,49 +145,6 @@ class CustomerRoutes < Sinatra::Base
       }.merge sub
     end.to_json
   end
- 
-  post '/:id/info' do
-    data = JSON.parse request.body.read
-    custy = Customer[params[:id]] or halt 404
-    custy.update(
-      :name    => data["name"],
-      :email   => data["email"],
-      :phone   => data["phone"],
-      :address => data["address"]
-    )
-    status 204
-  end
-
-  post '/:id/transfer' do
-    sugar_daddy = Customer[params[:from]] or halt 404
-    minnie_the_moocher = Customer[params[:to]] or halt 404
-    sugar_daddy.transfer_passes_to( minnie_the_moocher.id, params[:amount] ) or halt 403
-    status 204
-  end
-
-  post '/:id/add_child' do
-    custy = Customer[params[:id]] or halt 404
-    child = Customer[params[:child_id]] or halt 404
-    custy.add_child(child)
-    status 204
-  end
-
-  get '/:id/payment_sources' do
-    custy = Customer[params[:id]] or halt 404
-    JSON.generate custy.payment_sources
-  end
-
-  get '/:id/stripe_details' do
-    content_type :json
-    custy = Customer[params[:id]] or halt 404
-    return nil if custy.stripe_id.nil?
-    JSON.generate StripeMethods.get_customer(custy.stripe_id)
-  end
-
-  get '/:id/class_passes' do
-    custy = Customer[params[:id]] or halt 404
-    custy.num_passes.to_json
-  end
 
   get '/:id/membership' do
     content_type :json
@@ -113,93 +161,62 @@ class CustomerRoutes < Sinatra::Base
     custy.subscriptions.to_json
   end
 
-  get '/:id/wallet' do
-    content_type :json
-    custy = Customer[params[:id]] or halt 404
-    wallet = custy.wallet
-    return '{ id: 0 }' if wallet.nil?
-    hsh = {}
-    hsh[:id] = wallet.id
-    hsh[:shared] = wallet.shared?
-    hsh[:shared_with] = wallet.customers.reject{ |x| x.id == custy.id }.map { |c| { :id => c.id, :name => c.name } }
-    hsh[:pass_balance] = wallet.pass_balance
-    hsh[:pass_transactions] = wallet.history 
-    return hsh.to_json
-  end
+  #################################### SUBSCRIPTION ####################################
 
-  get '/:id/status' do
-    content_type :json
-    custy = Customer[params[:id].to_i] or halt 404
-    { :membership => custy.subscription.nil? ? { :id => 0, :name => 'None' } : custy.subscription.plan,
-      :passes => custy.num_passes
-    }.to_json
+  #################################### RELATIONSHIP ####################################
+
+  post '/:id/add_child' do
+    custy = Customer[params[:id]] or halt 404
+    child = Customer[params[:child_id]] or halt 404
+    custy.add_child(child)
+    status 204
   end
 
   get '/:id/family' do
     content_type :json
     custy = Customer[params[:id].to_i] or halt 404
-    { :parents => JSON.parse(custy.parents.to_json( :only => [:id, :name] )),
+    { :parents  => JSON.parse(custy.parents.to_json( :only => [:id, :name] )),
       :children => JSON.parse(custy.children.to_json( :only => [:id, :name] ))
     }.to_json
   end
 
-  get '/:id/reservations' do
-    custy = Customer[params[:id].to_i] or halt 404
-    reservations = custy.reservations.map { |res|
-      { :id => res.id,
-        :classname => res.occurrence.nil? ? "Orphaned Reservation" : res.occurrence.classdef.name, 
-        :instructor=> res.occurrence.nil? ? "Some Teacher" : res.occurrence.teacher.name, 
-        :starttime => res.occurrence.nil? ? Time.new : res.occurrence.starttime 
-      } 
-    }
-    JSON.generate reservations.sort_by { |r| r[:starttime] }.reverse
-  end
+  #################################### RELATIONSHIP ####################################
 
-  get '/:id/transaction_history' do
+  ################################## PAYMENT SOURCES ###################################
+
+  get '/:id/payment_sources' do
     custy = Customer[params[:id]] or halt 404
-    data = {
-      :pass_transactions => custy.pass_transactions,
-      :membership_uses => custy.membership_uses 
-    }
-    data.to_json
+    JSON.generate custy.payment_sources
   end
 
-  get '/:id/event_history' do
-    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
-    query = %{
-      SELECT
-        event_tickets.*,
-        events.name,
-        events.starttime
-        FROM event_tickets 
-        LEFT JOIN events ON events.id = event_id
-        WHERE customer_id = ?;
-    }
-    tics = $DB[query, params[:id]].all
-    data = {
-      :past => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] < Time.now },
-      :upcoming => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] >= Time.now }
-    }
-    data.to_json
+  get '/:id/stripe_details' do
+    content_type :json
+    custy = Customer[params[:id]] or halt 404
+    return nil if custy.stripe_id.nil?
+    JSON.generate StripeMethods.get_customer(custy.stripe_id)
   end
 
-  post '/:id/add_passes' do
-    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
-    custy.add_passes( params[:value], params[:reason], "" );
+  post('/:customer_id/cards', :self_or => 'frontdesk') do
+    custy = Customer[params[:customer_id]] or halt(404, "Cant Find Customer")
+    StripeMethods::create_stripe_customer(custy, params[:token])      if custy.stripe_id.nil?
+    StripeMethods::add_card(params[:token][:id], custy.stripe_id) unless custy.stripe_id.nil?
   end
 
-  post '/:id/merge_into/:merge_id' do
-    custy1 = Customer[params[:id]] or halt(404, "Cant Find Customer")
-    custy1.merge_with(params[:merge_id])
-    status 200
+  post('/:customer_id/cards/set_default', :self_or => 'frontdesk') do
+    custy = Customer[params[:customer_id]] or halt( 404, 'Customer Not Found')
+    custy.stripe_id                        or halt( 404, 'Customer Has No Stripe Account')
+    StripeMethods::set_default_card( custy.stripe_id, params[:source_id] ) 
   end
 
-  delete '/:id' do
-    custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
-    dependencies = custy.linked_objects
-    halt(409, dependencies.join("\r\n") ) unless dependencies.count == 0
-    custy.delete
+  delete('/:customer_id/cards/:source_id', :self_or=> 'frontdesk') do
+    custy = Customer[params[:customer_id]] or halt( 404, 'Customer Not Found')
+    custy.stripe_id                        or halt( 404, 'Customer Has No Stripe Account')
+    StripeMethods::remove_card( custy.stripe_id, params[:source_id] )
   end
+
+  ################################## PAYMENT SOURCES ###################################
+
+  ###################################### WAIVER ########################################
 
   get '/:id/waiver.svg' do
     content_type 'image/svg+xml'
@@ -219,10 +236,25 @@ class CustomerRoutes < Sinatra::Base
     return 204
   end
 
-  post '/:id/save_card' do
+  ###################################### WAIVER ########################################
+
+  get '/:id/event_history' do
     custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
-    custy.update( :stripe_id => StripeMethods::create_stripe_customer(custy, params[:token]) ) if custy.stripe_id.nil?
-    StripeMethods::add_card(params[:token], custy.stripe_id)                               unless custy.stripe_id.nil?
+    query = %{
+      SELECT
+        event_tickets.*,
+        events.name,
+        events.starttime
+        FROM event_tickets 
+        LEFT JOIN events ON events.id = event_id
+        WHERE customer_id = ?;
+    }
+    tics = $DB[query, params[:id]].all
+    data = {
+      :past => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] < Time.now },
+      :upcoming => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] >= Time.now }
+    }
+    data.to_json
   end
 
   error do

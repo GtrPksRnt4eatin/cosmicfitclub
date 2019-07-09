@@ -24,6 +24,14 @@ class Event < Sequel::Model
 
   ###################### ASSOCIATIONS #####################
 
+  ##################### CLASS METHODS #####################
+
+  def Event::customer_history(customer_id)
+
+  end
+
+  ##################### CLASS METHODS #####################
+
   ####################### LIFE CYCLE ######################
 
   def after_save

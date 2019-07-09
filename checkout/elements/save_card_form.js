@@ -134,9 +134,7 @@ Object.assign( SaveCardForm.prototype, ev_channel);
 SaveCardForm.prototype.HTML = ES5Template(function(){/**
 
   <div class='SaveCardForm form' >
-    <h2 class='nocusty'>Charging { state.customer.name } { state.price | money }</h2>
-    <h2 class='custy'>Pay { state.price | money } now.</h2>
-    <h3 rv-if='state.reason'>{ state.reason }</h3>
+    <h2 class='nocusty'>Adding New Card For { state.customer.name }</h2>
     <table>
       <tr rv-if='state.swipe' >
         <th>Swiped Card</th>
