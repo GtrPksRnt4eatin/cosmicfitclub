@@ -28,7 +28,7 @@ $(document).ready(function() {
   popupmenu        = new PopupMenu( id('popupmenu_container') );
 
   custy_selector   = new CustySelector( id('custyselector_container') );
-  custy_selector.ev_sub('customer_selected', function(custy_id) { data.customer_id = custy_id; get_stripe_data(); } );
+  custy_selector.ev_sub('customer_selected', customer_selected );
 
   savecardform.ev_sub('show', popupmenu.show );
   savecardform.ev_sub('hide', popupmenu.hide );
@@ -50,11 +50,12 @@ $(document).ready(function() {
 function setup_history_api() {
   var id = getUrlParameter('id') ? getUrlParameter('id') : 0;
   if( ! empty(id) ) { set_customer(id); }  
-  history.replaceState( { "id": id }, "", 'payment_sources?id=' + id );
+  $(window).bind('popstate', function(e) { set_customer(history.state.id) });
+}
 
-  $(window).bind('popstate', function(e) { 
-    set_customer(history.state.id)
-  });
+function customer_selected(id) {
+  history.replaceState( { "id": id }, "", 'payment_sources?id=' + id );
+  data.customer_id = custy_id; get_stripe_data(); 
 }
 
 function set_customer(id) {
