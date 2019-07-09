@@ -47,9 +47,10 @@ html
         
         table.shade
           tr
-            td colspan='4' payment sources
-            td rv-on-click='ctrl.add_source'
-              | Add Source
+            td colspan='4' Payment Sources
+            td 
+              button rv-on-click='ctrl.add_source'
+                | Add Source
           tr rv-each-source='data.stripe_details.sources.data'
             td[] { source.id }
             td[] { source.brand }
@@ -57,7 +58,7 @@ html
             td[] { source.last4 }
             td[] 
               span rv-if='source.id | default_source'
-                | Default Source
+                button Default Source
               span rv-unless='source.id | default_source'
                 button rv-on-click='ctrl.set_default'
                   | Set As Default

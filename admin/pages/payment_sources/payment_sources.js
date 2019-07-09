@@ -67,5 +67,5 @@ function set_customer(id) {
 function get_stripe_data() {
   $.get('/models/customers/' + data.customer_id + '/stripe_details', 'json')
    .success( function(resp) { data.stripe_details = resp; } )
-   .fail( function(resp) { data.stripe_details = null; } )
+   .fail( function(resp)    { data.stripe_details = null; } )
 }
