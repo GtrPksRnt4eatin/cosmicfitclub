@@ -101,15 +101,15 @@ SaveCardForm.prototype = {
   save_entered: function(e,m) {
     $.post('/checkout/save_card', { token: this.state.token, customer_id: this.state.customer.id } )
      .success( this.after_save )
-     .fail( function() { alert('Card Not Saved'); } )
-     .then( this.hide )
+     .fail(    this.on_fail    )
+     .then(    this.hide       )
   },
 
   save_swiped: function(e,m) {
     $.post('/checkout/save_card', { token: this.state.swipe, customer_id: this.state.customer.id } )
      .success( this.after_save )
-     .fail( function() { alert('Card Not Saved'); } )
-     .then( this.hide )
+     .fail(    this.on_fail    )
+     .then(    this.hide       )
   },
 
   after_save: function() {
@@ -118,6 +118,12 @@ SaveCardForm.prototype = {
 
   hide: function() {
     this.ev_fire('hide');
+  },
+
+  on_fail: function(e) {
+    $(this.dom).shake();
+    e.message = e.responseText;
+    this.show_err(e);
   }
 
 }
