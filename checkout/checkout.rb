@@ -62,13 +62,13 @@ class Checkout < Sinatra::Base
   post('/set_default_card', :self => true ) { set_default_card    }
   post('/remove_card',      :self => true ) { remove_card         }
 
-  error 401 do
-    render_page :error
-  end
+  #error 401 do
+  #  render_page :error
+  #end
 
-  error 404 do
-    render_page :error
-  end
+  #error 404 do
+  #  render_page :error
+  #end
 
   error do
     Slack.err( 'Checkout Error', env['sinatra.error'] )
