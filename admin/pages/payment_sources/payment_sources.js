@@ -55,7 +55,8 @@ function setup_history_api() {
 
 function customer_selected(id) {
   history.replaceState( { "id": id }, "", 'payment_sources?id=' + id );
-  data.customer_id = custy_id; get_stripe_data(); 
+  data.customer_id = id; 
+  get_stripe_data(); 
 }
 
 function set_customer(id) {
