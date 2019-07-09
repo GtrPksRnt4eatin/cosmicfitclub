@@ -58,9 +58,9 @@ class Checkout < Sinatra::Base
   post('/swipe')             { card_swipe          }
   get('/wait_for_swipe')     { wait_for_swipe      }
 
-  post('/save_card',        :self => true ) { save_card           }
-  post('/set_default_card', :self => true ) { set_default_card    }
-  post('/remove_card',      :self => true ) { remove_card         }
+  post('/save_card',        :self ) { save_card           }
+  post('/set_default_card', :self ) { set_default_card    }
+  post('/remove_card',      :self ) { remove_card         }
 
   error 401 do
     render_page :error
