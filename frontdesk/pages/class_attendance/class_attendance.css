@@ -31,8 +31,7 @@
   font-size: 0.8em;
 }
 
-a.small,
-span.small {
+.heading a.small {
   padding: 0 1em;
   font-size: 0.5em;
 }
