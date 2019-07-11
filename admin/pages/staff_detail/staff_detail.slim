@@ -29,13 +29,13 @@ html
             .value[] { data.staff.id }
           .tuple
             .attrib Name:
-            .value.editable[rv-on-click='edit_name'] { data.staff.name }
+            .value.editable[rv-on-click='ctrl.edit_name'] { data.staff.name }
           .tuple
             .attrib Title:
-            .value.editable[rv-on-click='edit_title'] { data.staff.title }
+            .value.editable[rv-on-click='ctrl.edit_title'] { data.staff.title }
           .tuple
             .attrib Bio:
-            .value.editable.bio[rv-on-click='edit_bio'] { data.staff.bio }
+            .value.editable.bio[rv-on-click='ctrl.edit_bio'] { data.staff.bio }
 
       .tile.customer_tile    
         .tuple
@@ -78,5 +78,5 @@ html
                 | {occ.starttime | fulldatewyr} 
               td 
                 | {occ.classdef.name}
-                
+
     #popupmenu_container
