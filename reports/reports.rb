@@ -19,4 +19,9 @@ class Reports < Sinatra::Base
   get( '/email_lists',   :auth => 'reports' )     { render_page :email_lists   }
   get( '/attendence',    :auth => 'reports' )     { render_page :attendence    }
 
+  error do
+    Slack.err( 'Reports Error', env['sinatra.error'] )
+    'An Error Occurred.'
+  end
+
 end
