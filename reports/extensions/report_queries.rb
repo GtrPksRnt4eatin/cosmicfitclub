@@ -78,7 +78,7 @@ module Sinatra
         CSV.generate do |csv|
           csv << ["#{params[:from]} - #{params[:to]}"]
           csv << ["Customer ID", "Customer Name", "Email", "Visits"]
-          list.each { |x| csv << [ x.customer_id, x.customer_name, x.customer_email, x.num_visits ] }
+          list.each { |x| csv << [ x[:customer_id], x[:customer_name], x[:customer_email], x[:num_visits] ] }
         end
       end
 
