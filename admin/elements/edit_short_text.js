@@ -41,7 +41,7 @@ Object.assign( EditShortText.prototype, element);
 Object.assign( EditShortText.prototype, ev_channel);
 
 EditShortText.prototype.HTML = ES5Template(function(){/**
-  <div class='edit_short_text' >
+  <div class='edit_short_text form' >
     <input rv-value='state.value'>
     <button rv-on-click='this.save'>Save</button>
   </div>
