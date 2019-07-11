@@ -34,13 +34,18 @@ class StaffRoutes < Sinatra::Base
     status 200
   end
 
+  post '/:id' do
+    staff = Staff[params[:id]] or halt(404,"Staff Not Found")
+    staff.update(params[:values])
+  end
+
   post '/:id/moveup' do
-    staff = Staff[params[:id]] or halt 404
+    staff = Staff[params[:id]] or halt(404, "Staff Not Found")
     staff.move(true)
   end
 
   post '/:id/movedn' do
-    staff = Staff[params[:id]] or halt 404
+    staff = Staff[params[:id]] or halt(404, "Staff Not Found")
     staff.move(false)
   end
 
