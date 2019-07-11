@@ -76,7 +76,7 @@ module Sinatra
         attachment "Email List.csv"
         list = ClassOccurrence.get_email_list(params[:from],params[:to],params[:classdef_ids])
         CSV.generate do |csv|
-          csv << ["#{params[:from]} - #{params[:to]}"]
+          csv << ["#{params[:from]} - #{params[:to]}", params[:classdef_ids].map { |id| Classdef[id].name }.join(' ,') ]
           csv << ["Customer ID", "Customer Name", "Email", "Visits"]
           list.each { |x| csv << [ x[:customer_id], x[:customer_name], x[:customer_email], x[:num_visits] ] }
         end
