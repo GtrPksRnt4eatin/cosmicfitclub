@@ -31,6 +31,16 @@
   font-size: 0.8em;
 }
 
+a.small,
+span.small {
+  padding: 0 1em;
+  font-size: 0.8em;
+}
+
+span.disabled {
+  color: rgb(50,50,50);
+}
+
 table.inline_block {
   display: inline-block;
 }
