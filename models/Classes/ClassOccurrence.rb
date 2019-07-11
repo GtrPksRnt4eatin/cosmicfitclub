@@ -24,6 +24,7 @@ class ClassOccurrence < Sequel::Model
   end
 
   def ClassOccurrence.get_email_list(from,to,classdef_ids)
+    classdef_ids = [classdef_ids.to_i] unless classdef_ids.is_a? Array
     $DB[ClassOccurrence.email_list_query, classdef_ids, from, to].all
   end
 
