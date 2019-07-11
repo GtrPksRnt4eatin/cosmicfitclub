@@ -54,12 +54,10 @@ html
               | Headcount: { data.reservations | head_count }
 
           div
-            span
-              a.small rv-if='data.occurrence.prev_id' rv-href='data.occurrence.prev_id | occurrence_href' <-Previous Session-
-              span.small.disabled rv-unless='data.occurrence.prev_id' <-Previous Session-
-            span
-              a.small rv-if='data.occurrence.next_id' rv-href='data.occurrence.next_id | occurrence_href' -Next Session->
-              span.small.disabled rv-unless='data.occurrence.next_id' -Next Session->
+            a.small rv-if='data.occurrence.prev_id' rv-href='data.occurrence.prev_id | occurrence_href' <-Previous Session-
+            span.small.disabled rv-unless='data.occurrence.prev_id' <-Previous Session-
+            a.small rv-if='data.occurrence.next_id' rv-href='data.occurrence.next_id | occurrence_href' -Next Session->
+            span.small.disabled rv-unless='data.occurrence.next_id' -Next Session->
 
           .delete rv-hide='data.reservations | reg_count' rv-on-click='ctrl.delete'
 
