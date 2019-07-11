@@ -119,3 +119,7 @@ function change_teacher(staff_id) {
   payload = { "staff_id": staff_id, "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id };
   $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; }, 'json' );
 }
+
+function change_capacity(new_capacity) {
+  payload = { }
+}

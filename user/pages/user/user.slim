@@ -14,8 +14,13 @@ html
 
     title Cosmic Fit Club
 
+    javascript:
+      data = {}
+      data['customer'] = #{{ customer.to_json }}
+
     ==css ['fonts', 'site', 'header', 'footer', 'user/user']
-    ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user/user']
+    ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel']
+    ==js  ['/checkout/elements/payment_sources', '/auth/elements/userview', 'menu', 'user/user']
 
   body
   
@@ -177,6 +182,11 @@ html
               td 
                 | **** **** **** #{ source['last4'] }
               td #{source['exp_month']} / #{source['exp_year']}
+
+      .tile
+        .header Payment Sources
+        hr
+        payment_sources customer_id='data.customer.id'
 
       .tile
         .header Waiver

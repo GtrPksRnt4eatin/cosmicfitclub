@@ -112,7 +112,10 @@ class ClassOccurrence < Sequel::Model
       :headcount   => headcount,
       :staff_id    => staff_id,
       :classdef    => classdef.to_token,
-      :teacher     => teacher.to_token
+      :teacher     => teacher.to_token,
+      :next_id     => self.next_occurrence_id,
+      :prev_id     => self.previous_occurrence_id
+
     }
   end
 
