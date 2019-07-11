@@ -52,11 +52,11 @@ class ClassOccurrence < Sequel::Model
   end
 
   def next_occurrence_id
-    $DB[ClassOccurrence.next_query, self.classdef_id, self.staff_id, self.starttime, self.starttime].first[:id]
+    $DB[ClassOccurrence.next_query, self.classdef_id, self.staff_id, self.starttime, self.starttime].first.try(:id)
   end
 
   def previous_occurrence_id
-    $DB[ClassOccurrence.previous_query, self.classdef_id, self.staff_id, self.starttime, self.starttime].first[:id]
+    $DB[ClassOccurrence.previous_query, self.classdef_id, self.staff_id, self.starttime, self.starttime].first.try(:id)
   end
 
   ############################## Properties ################################
