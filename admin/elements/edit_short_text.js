@@ -42,12 +42,21 @@ Object.assign( EditShortText.prototype, ev_channel);
 
 EditShortText.prototype.HTML = ES5Template(function(){/**
   <div class='edit_short_text form' >
-    <h2>{state.title}</h2>
-    <input rv-value='state.value'>
+    <h3>{state.title}</h3>
+    <div>
+      <input rv-value='state.value'></input>
+    </div>
     <button rv-on-click='this.save'>Save</button>
   </div>
 **/}).untab(2);
 
 EditShortText.prototype.CSS = ES5Template(function(){/**
+  
+  .edit_short_text input {
+	background: rgba(255,255,255,0.5);
+    color: black;
+    padding: 0.25em 1em;
+    border-radius: 0.5em;
+  }
 
 **/}).untab(2);
