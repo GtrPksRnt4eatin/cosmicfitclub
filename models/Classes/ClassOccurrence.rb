@@ -53,6 +53,8 @@ class ClassOccurrence < Sequel::Model
   end
 
   def next_occurrence_id
+    p [self.classdef_id, self.staff_id, self.starttime, self.starttime]
+    p $DB[ClassOccurrence.next_query, self.classdef_id, self.staff_id, self.starttime, self.starttime].first
     $DB[ClassOccurrence.next_query, self.classdef_id, self.staff_id, self.starttime, self.starttime].first.try(:id)
   end
 
