@@ -34,4 +34,16 @@ class EventBriteRoutes < Sinatra::Base
     EventbriteSDK::get({ :url => path })
   end
 
+  get '/event_list' do
+    content_type :json
+    full_list = []
+    eb_user   = EventbriteSDK::User.retrieve(id: 'me')
+    loop do
+      page = JSON.parse(eb_user.owned_events.page(0).to_json)
+      full_list << page['events'].select{ |e| e['status'] == 'live' }
+    break unless page['pagination']['has_more_items']
+    end
+    full_list.to_json
+  end
+
 end
