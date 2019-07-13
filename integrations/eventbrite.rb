@@ -41,6 +41,7 @@ class EventBriteRoutes < Sinatra::Base
     loop do
       page = JSON.parse(eb_user.owned_events.page(0).to_json)
       full_list << page['events'].select{ |e| e['status'] == 'live' }
+      puts page['pagination']['has_more_items']
     break unless page['pagination']['has_more_items']
     end
     full_list.to_json
