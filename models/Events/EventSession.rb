@@ -3,7 +3,7 @@ class EventSession < Sequel::Model
   ###################### ASSOCIATIONS #####################
   
   many_to_one :event
-  one_to_many :prices, :class => :EventPrice
+  #one_to_many :prices, :class => :EventPrice
 
   ###################### ASSOCIATIONS #####################
 
@@ -26,7 +26,7 @@ class EventSession < Sequel::Model
   def linked_objects
     objects = []
     objects << "Session Has Tickets" if self.tickets.count > 0
-    objects << "Session Has Prices"  if self.prices.count > 0
+    #objects << "Session Has Prices"  if self.prices.count > 0
     objects
   end
 
