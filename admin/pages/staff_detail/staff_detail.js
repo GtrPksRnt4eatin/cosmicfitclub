@@ -16,7 +16,7 @@ $(document).ready(function() {
 
   edit_text.ev_sub('show', popupmenu.show );
   edit_text.ev_sub('done', popupmenu.hide );
-  popupmenu.ev_sub('close', edit_short_text.cancel);
+  popupmenu.ev_sub('close', edit_text.cancel);
 
   rivets.formatters.subscription_link = function(val) { return '/admin/subscription?id=' + val; }
   
