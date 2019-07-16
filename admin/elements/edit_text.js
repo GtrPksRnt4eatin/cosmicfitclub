@@ -29,7 +29,7 @@ EditText.prototype = {
   show_long: function(title, value, callback) {
     this.state.long = true;
     this.show(title,value,callback);
-  }
+  },
 
 	save: function() {
 	  this.state.callback.call(null,this.state.value);
