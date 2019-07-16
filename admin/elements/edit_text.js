@@ -19,11 +19,10 @@ EditText.prototype = {
 	constructor: EditText,
 
 	show: function(title, value, callback) {
-    this.state.long  = false;
 	  this.state.title = title;
 	  this.state.value = value;
 	  this.state.callback = callback;
-      this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
+    this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
 	},
 
   show_long: function(title, value, callback) {
@@ -33,14 +32,16 @@ EditText.prototype = {
 
 	save: function() {
 	  this.state.callback.call(null,this.state.value);
+    this.state.long = false
 	  this.state.callback = null;
 	  this.ev_fire('done', value);
 	},
 
 	cancel: function() {
-      this.state.title = null;
-      this.state.value = null;
-      this.state.callback = null;
+    this.state.long = false;
+    this.state.title = null;
+    this.state.value = null;
+    this.state.callback = null;
 	}
 }
 
