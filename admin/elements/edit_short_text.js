@@ -1,9 +1,10 @@
-function EditShortText() {
+function EditText() {
   
   this.state = {
   	title: "", 
     value: "",
-    callback: null
+    callback: null,
+    long: false
   }
 
   this.bind_handlers(['show','save','cancel']);
@@ -13,16 +14,22 @@ function EditShortText() {
 
 }
 
-EditShortText.prototype = {
+EditText.prototype = {
 
-	constructor: EditShortText,
+	constructor: EditText,
 
 	show: function(title, value, callback) {
+    this.state.long  = false;
 	  this.state.title = title;
 	  this.state.value = value;
 	  this.state.callback = callback;
       this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
 	},
+
+  show_long: function(title, value, callback) {
+    this.state.long = true;
+    this.show(title,value,callback);
+  }
 
 	save: function() {
 	  this.state.callback.call(null,this.state.value);
@@ -37,22 +44,24 @@ EditShortText.prototype = {
 	}
 }
 
-Object.assign( EditShortText.prototype, element);
-Object.assign( EditShortText.prototype, ev_channel);
+Object.assign( EditText.prototype, element);
+Object.assign( EditText.prototype, ev_channel);
 
-EditShortText.prototype.HTML = ES5Template(function(){/**
-  <div class='edit_short_text form' >
+EditText.prototype.HTML = ES5Template(function(){/**
+  <div class='edit_text form' >
     <h3>{state.title}</h3>
     <div>
-      <input rv-value='state.value'></input>
+      <input rv-unless='state.long' rv-value='state.value'></input>
+      <textarea rv-if='state.long'  rv-value='state.value'></input>
     </div>
     <button rv-on-click='this.save'>Save</button>
   </div>
 **/}).untab(2);
 
-EditShortText.prototype.CSS = ES5Template(function(){/**
+EditText.prototype.CSS = ES5Template(function(){/**
   
-  .edit_short_text input {
+  .edit_text input,
+  .edit_text textarea {
 	background: rgba(255,255,255,0.5);
     color: black;
     padding: 0.25em 1em;

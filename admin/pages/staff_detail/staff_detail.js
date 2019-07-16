@@ -4,18 +4,18 @@ data = {
 
 var ctrl = {
   edit_headshot: function(e,m) {},
-  edit_name:     function(e,m) { edit_short_text.show("Edit Staff Name",  data.staff.name,  function(val) { data.staff.name = val;  post_staff_details({ name:  val }); } ) },
-  edit_title:    function(e,m) { edit_short_text.show("Edit Staff Title", data.staff.title, function(val) { data.staff.title = val; post_staff_details({ title: val }); } ) },
-  edit_bio:      function(e,m) {}
+  edit_name:     function(e,m) { edit_text.show("Edit Staff Name",  data.staff.name,   function(val) { data.staff.name = val;  post_staff_details({ name:  val }); } ) },
+  edit_title:    function(e,m) { edit_text.show("Edit Staff Title", data.staff.title,  function(val) { data.staff.title = val; post_staff_details({ title: val }); } ) },
+  edit_bio:      function(e,m) { edit_text.show_long("Edit Staff Bio", data.staff.bio, function(val) { data.staff.bio   = val; post_staff_details({ bio: val   }); } ) }
 }
 
 $(document).ready(function() {
 
-  popupmenu       = new PopupMenu( id('popupmenu_container') );
-  edit_short_text = new EditShortText();
+  popupmenu = new PopupMenu( id('popupmenu_container') );
+  edit_text = new EditText();
 
-  edit_short_text.ev_sub('show', popupmenu.show );
-  edit_short_text.ev_sub('done', popupmenu.hide );
+  edit_text.ev_sub('show', popupmenu.show );
+  edit_text.ev_sub('done', popupmenu.hide );
   popupmenu.ev_sub('close', edit_short_text.cancel);
 
   rivets.formatters.subscription_link = function(val) { return '/admin/subscription?id=' + val; }
