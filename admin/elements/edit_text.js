@@ -79,6 +79,8 @@ EditText.prototype.CSS = ES5Template(function(){/**
   }
 
   .edit_text button {
+    font-size: 1em;
+    border-radius: 0.5em;
     width: 15em;
     margin: 1em 0 0 0;
   }
