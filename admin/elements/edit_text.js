@@ -7,7 +7,7 @@ function EditText() {
     long: false
   }
 
-  this.bind_handlers(['show','save','cancel']);
+  this.bind_handlers(['show','show_long','save','cancel']);
   this.build_dom();
   this.bind_dom();
   this.load_styles();
