@@ -53,7 +53,7 @@ EditText.prototype.HTML = ES5Template(function(){/**
     <h3>{state.title}</h3>
     <div>
       <input rv-unless='state.long' rv-value='state.value'></input>
-      <textarea rv-if='state.long'  rv-value='state.value'></input>
+      <textarea rv-if='state.long'  rv-value='state.value'></textarea>
     </div>
     <button rv-on-click='this.save'>Save</button>
   </div>
