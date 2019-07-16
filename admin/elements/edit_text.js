@@ -61,12 +61,26 @@ EditText.prototype.HTML = ES5Template(function(){/**
 
 EditText.prototype.CSS = ES5Template(function(){/**
   
+  .edit_text h3 {
+    margin: 0 0 1em 0;
+  }
+
   .edit_text input,
   .edit_text textarea {
 	background: rgba(255,255,255,0.5);
     color: black;
     padding: 0.25em 1em;
     border-radius: 0.5em;
+    width: 15em;
+  }
+
+  .edit_text textarea {
+    height: 10em;
+  }
+
+  .edit_text button {
+    width: 15em;
+    margin: 1em 0 0 0;
   }
 
 **/}).untab(2);
