@@ -49,7 +49,7 @@ html
           .value 
             span rv-show='data.staff.subscription'
               | [{data.staff.subscription.id}] { data.staff.subscription.plan.name }
-            button rv-hide='data.staff.subscription' 
+            button rv-on-click='create_sub' rv-hide='data.staff.subscription' 
               | Create Employee Subscription
         .tuple
           .attrib Subscription Active:

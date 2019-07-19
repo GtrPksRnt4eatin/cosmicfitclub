@@ -40,6 +40,12 @@ class StaffRoutes < Sinatra::Base
     status 204
   end
 
+  post '/:id/create_sub' do
+    staff = Staff[params[:id]] or halt(404,"Staff Not Found")
+    custy = staff.customer
+    Subscription.create(:customer_id=>custy.id, :plan_id=>10 )
+  end
+
   post '/:id/moveup' do
     staff = Staff[params[:id]] or halt(404, "Staff Not Found")
     staff.move(true)
