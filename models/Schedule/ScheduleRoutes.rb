@@ -45,6 +45,15 @@ class ScheduleRoutes < Sinatra::Base
     JSON.generate arr.sort_by { |x| x[:day] }
   end
 
+  get '/test/:from/:to' do
+    from = Time.parse(params[:from])
+    to = Time.parse(params[:to])
+    items = new_get_all_between(from,to)
+    arr = []
+    items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
+    JSON.generate arr.sort_by { |x| x[:day] }
+  end
+
   get '/conflicts' do
     
   end
@@ -53,7 +62,7 @@ class ScheduleRoutes < Sinatra::Base
     ical = Icalendar::Calendar.new
     EventSession.between(from,to).map(&:to_ical_event).each    { |evt| ical.add_event(evt) }
     ClassdefSchedule.all.map(&:to_ical_event).each             { |evt| ical.add_event(evt) }
-    ClassOccurrence.between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
+    ClassOccurrence.past_between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
     ical.to_ical
   end
 
@@ -63,10 +72,10 @@ class ScheduleRoutes < Sinatra::Base
     rentals = get_rentals_between(from,to)
     items = events + classes + rentals
     items.group_by { |x| x[:day] }.sort.to_h
-  end  
+  end
 
   def get_classitems_between(from,to)
-    items = ClassOccurrence.between(from,to).map(&:schedule_details_hash)
+    items = ClassOccurrence.past_between(from,to).map(&:schedule_details_hash)
     ClassdefSchedule.all.each do |sched|
       details = sched.schedule_details_hash
       sched.get_occurrences(from,to).each do |starttime|
@@ -82,6 +91,20 @@ class ScheduleRoutes < Sinatra::Base
       end
     end
     items
+  end
+
+  def new_get_all_between(from,to)
+    classes  = new_get_classitems_between(from,to)
+    events   = get_eventsessions_between(from,to)
+    rentals  = get_rentals_between(from,to)
+    items = events + classes + rentals
+    items.group_by { |x| x[:day] }.sort.to_h
+  end
+
+  def new_get_classitems_between(from,to)
+    occurrences = ClassOccurrence.all_between(from,to).map(&:schedule_details_hash)
+    scheduled   = ClassdefSchedule.all.each { |s| s.get_occurrences_with_exceptions(from,to) }
+    return JSON.pretty_generate { :occurrences => occurrences, :scheduled => scheduled }
   end
 
   def get_eventsessions_between(from,to)

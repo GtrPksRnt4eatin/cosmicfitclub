@@ -7,8 +7,12 @@ class ClassOccurrence < Sequel::Model
 
   ############################ Class Methods ################################
 
-  def ClassOccurrence.between(from,to)
+  def ClassOccurrence.past_between(from,to)
     ClassOccurrence.where{ starttime < Date.today }.where{ starttime >= from }.where{ starttime < to }.all
+  end
+
+  def ClassOccurrence.all_between(from,to)
+    ClassOccurrence.where{ starttime >= from }.where{ starttime < to }.all
   end
 
   def ClassOccurrence.get_headcount( class_id, staff_id, starttime )
