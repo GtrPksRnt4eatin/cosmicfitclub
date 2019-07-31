@@ -103,8 +103,8 @@ class ScheduleRoutes < Sinatra::Base
 
   def new_get_classitems_between(from,to)
     occurrences = ClassOccurrence.all_between(from,to).map(&:schedule_details_hash)
-    scheduled   = ClassdefSchedule.all.each { |s| s.get_occurrences_with_exceptions(from,to) }
-    return ( occurrences + scheduled )
+    scheduled   = ClassdefSchedule.all.map { |s| s.get_occurrences_with_exceptions(from,to) }.flatten
+    return ( scheduled + occurrences ).uniq { |x| { :classdef_id => x.classdef_id || x.classdef.id, :starttime => x.starttime } }
   end
 
   def get_eventsessions_between(from,to)
