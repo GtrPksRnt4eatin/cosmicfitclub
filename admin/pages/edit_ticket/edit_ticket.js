@@ -13,6 +13,9 @@ ctrl = {
 }
 
 $(document).ready(function() {
+  
+  custy_selector = new CustySelector();
+
   include_rivets_select();
   include_rivets_dates();
   initialize_rivets() 
@@ -21,4 +24,11 @@ $(document).ready(function() {
 function initialize_rivets() {
   rivets.formatters.stripe = function(val) { return 'https://manage.stripe.com/payments/' + val; }
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
+}
+
+function get_ticket() {
+  var ticket_id = getUrlParameter('id') ? getUrlParameter('id') : 0;
+  $.get('/models/events/tickets/' + ticket_id )
+   .success( function(tic) { data['ticket'] = tic; $('#json-viewer').jsonViewer(data['ticket']); } )
+   .fail   ( function()    { alert("failed to get ticket data"); } )
 }

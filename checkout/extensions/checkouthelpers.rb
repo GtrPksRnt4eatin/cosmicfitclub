@@ -46,30 +46,27 @@ module Sinatra
       payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card')
       
       EventTicket.create( 
-        :customer => custy, 
-        :event_id => data['event_id'], 
-        :included_sessions => data['included_sessions'], 
-        :price => data['total_price'],
-        :stripe_payment_id => payment.id, #charge['id'],
-        :event_price_id => data['selected_price'] ? data['selected_price']['id'] : nil
+        :customer            => custy, 
+        :event_id            => data['event_id'], 
+        :included_sessions   => data['included_sessions'], 
+        :price               => data['total_price'],
+        :event_price_id      => data['selected_price'] ? data['selected_price']['id'] : nil,
+        :customer_payment_id => payment.id,
+        :stripe_payment_id   => charge.id
       )
-      #Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} #{selected_price_name} ticket for #{eventname}.")
       status 204
     end
 
     def buy_event_precharged
       EventTicket.create(
-        :customer_id       => params[:customer_id],
-        :event_id          => params[:event_id],
-        :included_sessions => params[:included_sessions],
-        :price             => params[:total_price],
-        :stripe_payment_id => params[:payment_id],
-        :event_price_id    => params[:price_id]
+        :customer_id         => params[:customer_id],
+        :event_id            => params[:event_id],
+        :included_sessions   => params[:included_sessions],
+        :price               => params[:total_price],
+        :stripe_payment_id   => CustomerPayment[params[:payment_id]].try(:stripe_id),
+        :customer_payment_id => params[:payment_id], 
+        :event_price_id      => params[:price_id]
       )
-      #custy = Customer[params[:customer_id]]
-      #event = Event[params[:event_id]]
-      #price = EventPrice[params[:price_id]]
-      #Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{params[:total_price].to_f/100} #{price.title} ticket for #{event.name}.")
       status 204
     end
 

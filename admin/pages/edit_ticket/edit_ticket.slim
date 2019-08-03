@@ -8,15 +8,9 @@ html
 
     title Cosmicfit Admin
 
-    javascript:
-      data = {};
-      data['customers'] = #{{ Customer.all.to_json( :only => [ :id, :name, :email ] ) }}
-      data['ticket']    = #{{ EventTicket[params[:id]].to_json( :include => [ :customer, :event, :recipient ]) }};
-      data['sessions']  = #{{ EventTicket[params[:id]].sessions.to_json }}
-
-    == css [ 'fonts', 'site', 'chosen', '/admin/edit_ticket' ]
+    == css [ 'fonts', 'site', 'chosen', 'jquery.json-viewer', 'admin/custy_selector', '/admin/edit_ticket' ]
     == js  [ 'jquery', 'rivets', 'lib', 'rv_select', 'moment', 'flatpickr', 'rv_dates']
-    == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min' ]
+    == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min', 'jquery.json-viewer' ]
     == js  [ '/admin/edit_ticket' ]
 
   html
@@ -73,3 +67,6 @@ html
         button rv-on-click='ctrl.split_ticket' Split Ticket
 
         div {data.ticket}
+
+      .tile
+        pre#json-viewer

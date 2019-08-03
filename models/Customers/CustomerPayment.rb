@@ -8,4 +8,8 @@ class CustomerPayment < Sequel::Model
     self.delete
   end
 
+  def to_token
+    { :id => self.id, :amount => self.amount, :timestamp => self.timestamp }
+  end
+
 end
