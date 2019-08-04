@@ -165,7 +165,7 @@ class EventRoutes < Sinatra::Base
 
   post '/tickets/:tic_id/checkout' do
     checkin = EventCheckin[params[:id]] or halt(404,"Couldn't Find Event Checkin")
-    checkin.ticket.passes.find { |x| x.session_id == checkin.session_id && x.customer_id == checkin.customer_id && x.checked_in != nil }.checkout
+    checkin.ticket.passes.find { |x| x.session_id == checkin.session_id && x.customer_id == checkin.customer_id && x.checked_in != nil }.try(:checkout)
     checkin.destroy
     status 204
   end
