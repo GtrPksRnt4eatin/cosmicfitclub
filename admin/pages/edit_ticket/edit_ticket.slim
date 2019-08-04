@@ -35,10 +35,10 @@ html
           .value 
             | [# {data.ticket.customer.id}] {data.ticket.customer.name}
 
-        .tuplet rv-if='data.ticket.recipient'
+        .tuplet rv-if='data.ticket.old.recipient'
           .label Purchased For: 
           .value 
-            | [# {data.ticket.recipient.id}] {data.ticket.recipient.name}
+            | [# {data.ticket.old.recipient.id}] {data.ticket.old.recipient.name}
 
         .tuplet
           .label Price:
