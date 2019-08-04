@@ -13,6 +13,14 @@ class EventPass < Sequel::Model
     end
   end
 
+  def checkin
+    self.update( :checked_in => Time.now )
+  end
+
+  def checkout
+    self.update( :checked_in => nil )
+  end
+
   def to_token
     { :id => self.id, :session => self.session.to_token, :customer => self.customer.to_token, :checked_in => self.checked_in } 
   end
