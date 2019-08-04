@@ -3,7 +3,6 @@ class EventSession < Sequel::Model
   ###################### ASSOCIATIONS #####################
   
   many_to_one :event
-  #one_to_many :prices, :class => :EventPrice
 
   ###################### ASSOCIATIONS #####################
 
@@ -26,7 +25,6 @@ class EventSession < Sequel::Model
   def linked_objects
     objects = []
     objects << "Session Has Tickets" if self.tickets.count > 0
-    #objects << "Session Has Prices"  if self.prices.count > 0
     objects
   end
 
@@ -76,6 +74,10 @@ class EventSession < Sequel::Model
   ######################## SORTING ########################
 
   ########################## VIEWS ########################
+
+  def to_token
+    { :id => self.id, :start_time => self.start_time, :title => self.title }
+  end
 
   def schedule_details_hash
     return nil unless event
