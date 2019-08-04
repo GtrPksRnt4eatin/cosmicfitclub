@@ -159,7 +159,7 @@ class EventRoutes < Sinatra::Base
     ticket = EventTicket[params[:id]] or halt(404, "Couldn't Find Event Ticket")
     halt 500 unless ticket.included_sessions.include? params[:session_id].to_i
     EventCheckin.create( :ticket_id => ticket.id, :event_id => ticket.event.id, :session_id => params[:session_id], :customer_id => params[:customer_id], :timestamp => DateTime.now )
-    ticket.passes.find { |x| x.session_id == params[:session_id] && x.customer_id == params[:customer_id] }.try(:checkin)
+    ticket.passes.find { |x| x.session_id == params[:session_id].to_i && x.customer_id == params[:customer_id].to_i }.try(:checkin)
     status 204
   end
 
