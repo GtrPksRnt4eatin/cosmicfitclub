@@ -1,3 +1,7 @@
+data = {
+
+}
+
 ctrl = {
   assign_recipient: function(e,m) {
     $.post('/models/events/tickets/' + data.ticket.id + '/assign_recipient', { recipient_id: data.recipient })
