@@ -39,7 +39,7 @@ class EventTicket < Sequel::Model
   ################# CALCULATED PROPERTIES #################
 
   def get_stripe_id
-    self.stripe_payment_id.to_i > 0 ? CustomerPayment[self.stripe_payment_id].stripe_id : self.stripe_payment_id
+    self.payment.try(:stripe_id)
   end
 
   def full_payment_info
