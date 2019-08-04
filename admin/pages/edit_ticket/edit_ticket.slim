@@ -28,8 +28,7 @@ html
         .tuplet
           .label Included Sessions:
           .value
-            .sess rv-each-sess='data.ticket.old.included_sessions'
-              | {sess.start_time | eventstart } - {sess.end_time | time} : {sess.title}
+            | { data.ticket.old.included_sessions }
 
         .tuplet
           .label Purchased By: 
