@@ -77,7 +77,7 @@ html
             span { pass.session.start_time | eventstart }
             span { pass.session.title }
             span 
-              | [#{ pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
+              | [{ pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
             input type='checkbox' rv-checked='pass.checked_in'
 
       .tile
