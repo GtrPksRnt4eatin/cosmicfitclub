@@ -28,8 +28,12 @@
 }
 
 .pass {
-  background: rgba(100,100,255,0.3);
-  padding: 1em;
-  margin: 0 0 1em 0;
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  padding: 0.5em;
+  line-height: 1.3em;
+  margin: 0 auto 1em auto;
   text-align: left;
+  width: 30em;
+  box-shadow: 0 0 1em white;
 }
