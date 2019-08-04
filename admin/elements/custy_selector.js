@@ -48,6 +48,12 @@ CustySelector.prototype = {
     }.bind(this));
   },
 
+  show_modal: function(value, callback) {
+    this.select_customer(value);
+    this.state.callback = callback;
+    this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
+  },
+
   on_data_failed: function() {
     console.log("failed getting customer list");
   },
@@ -77,6 +83,7 @@ CustySelector.prototype = {
   },
 
   custy_selected: function(e,m) {
+    if( this.state.callback ) { this.state.callback.call(null,this.state.customer_id); this.state.callback = null; }
     this.ev_fire('customer_selected', parseInt(e.target.value || 0) );
   },
 

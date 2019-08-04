@@ -55,8 +55,7 @@ class EventTicket < Sequel::Model
   end
 
   def send_notification
-    Slack.post(self.summary)
-    Slack.custom(self.summary,"@b.konash") if self.event.id == 386
+    Slack.custom(self.summary, 'events')
   end
 
   def generate_passes

@@ -11,7 +11,7 @@ html
     == css [ 'fonts', 'site', 'chosen', 'jquery.json-viewer', '/admin/edit_ticket', 'selectize' ]
     == js  [ 'jquery', 'rivets', 'lib', 'rv_select', 'rv_money', 'moment', 'selectize.min', 'flatpickr', 'rv_dates']
     == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min', 'jquery.json-viewer' ]
-    == js  [ 'elements/custy_selector', '/admin/edit_ticket' ]
+    == js  [ 'elements/popup_menu', 'elements/custy_selector', '/admin/edit_ticket' ]
 
   html
     #stars
@@ -80,7 +80,8 @@ html
           .pass rv-each-pass='data.ticket.new.passes'
             div[] { pass.session.title }
             div[] { pass.session.start_time | eventstart }
-            div[] [# { pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
+            div rv-on-click='ctrl.edit_pass_recipient' 
+              | [# { pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
             input type='checkbox' rv-checked='pass.checked_in'
 
       .tile
@@ -92,3 +93,5 @@ html
 
       .tile
         pre#json-viewer
+
+    #popupmenu_container

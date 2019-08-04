@@ -13,12 +13,22 @@ ctrl = {
     $.post('/models/events/tickets/' + data.ticket.id + '/split', { recipient_id: data.split_recipient, session_ids: data.split_sessions })
      .done(function() { location.reload() } )
      .fail( function(a,b,c) { alert('Splitting Ticket Failed') } )
+  },
+
+  edit_pass_recipient: function(e,m) {
+    custy_selector.show_modal(m.pass.customer.id, function(custy_id) {
+      $.post('/models/events/passes/' + m.pass.id + '/transfer', { customer_id: custy_id } );
+    } );
   }
 }
 
 $(document).ready(function() {
   
+  popupmenu      = new PopupMenu(id('popupmenu_container'));
   custy_selector = new CustySelector();
+
+  custy_selector.ev_sub('show', popupmenu.show );
+  custy_selector.ev_sub('customer_selected', popupmenu.hide );
 
   include_rivets_select();
   include_rivets_dates();
@@ -26,6 +36,7 @@ $(document).ready(function() {
   initialize_rivets();
 
   get_ticket();
+
 })
 
 function initialize_rivets() {
