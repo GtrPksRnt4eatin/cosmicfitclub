@@ -51,8 +51,7 @@ module Sinatra
         :included_sessions   => data['included_sessions'], 
         :price               => data['total_price'],
         :event_price_id      => data['selected_price'] ? data['selected_price']['id'] : nil,
-        :customer_payment_id => payment.id,
-        :stripe_payment_id   => charge.id
+        :customer_payment_id => payment.id
       )
       status 204
     end
@@ -63,7 +62,6 @@ module Sinatra
         :event_id            => params[:event_id],
         :included_sessions   => params[:included_sessions],
         :price               => params[:total_price],
-        :stripe_payment_id   => CustomerPayment[params[:payment_id]].try(:stripe_id),
         :customer_payment_id => params[:payment_id], 
         :event_price_id      => params[:price_id]
       )
