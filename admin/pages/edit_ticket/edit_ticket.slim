@@ -28,7 +28,7 @@ html
         .tuplet
           .label Included Sessions:
           .value
-            .sess rv-each-sess='data.ticket.included_sessions'
+            .sess rv-each-sess='data.ticket.old.included_sessions'
               | {sess.start_time | eventstart } - {sess.end_time | time} : {sess.title}
 
         .tuplet
