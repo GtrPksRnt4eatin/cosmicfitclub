@@ -130,7 +130,6 @@ class EventTicket < Sequel::Model
       :ticketclass => self.eventprice.try(:to_token),
 
       :old         => {
-        :stripe_payment_id => self.stripe_payment_id,
         :included_sessions => self.included_sessions,
         :recipient         => self.recipient.to_token,
         :checkins          => self.checkins.map(&:to_token)
