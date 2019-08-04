@@ -127,7 +127,7 @@ class EventTicket < Sequel::Model
 
       :customer    => self.customer.to_list_hash,
       :event       => self.event.to_token,
-      :ticketclass => self.eventprice.to_token,
+      :ticketclass => self.eventprice.try(:to_token),
 
       :old         => {
         :stripe_payment_id => self.stripe_payment_id,
