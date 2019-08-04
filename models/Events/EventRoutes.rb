@@ -148,6 +148,12 @@ class EventRoutes < Sinatra::Base
     end
     ""
   end
+
+  get '/tickets/:id' do
+    content_type :json
+    ticket = EventTicket[params[:id]] or halt(404, "Couldn't Find Ticket")
+    JSON.generate(ticket.edit_details)
+  end
   
   post '/tickets/:id/checkin' do
     ticket = EventTicket[params[:id]]
