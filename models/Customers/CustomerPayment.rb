@@ -9,7 +9,7 @@ class CustomerPayment < Sequel::Model
   end
 
   def to_token
-    { :id => self.id, :amount => self.amount, :timestamp => self.timestamp }
+    { :id => self.id, :amount => self.amount, :timestamp => self.timestamp, :stripe_id=> self.stripe_id }
   end
 
 end

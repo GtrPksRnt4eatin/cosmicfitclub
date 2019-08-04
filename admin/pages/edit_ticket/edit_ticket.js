@@ -22,6 +22,7 @@ $(document).ready(function() {
 
   include_rivets_select();
   include_rivets_dates();
+  include_rivets_money();
   initialize_rivets();
 
   get_ticket();

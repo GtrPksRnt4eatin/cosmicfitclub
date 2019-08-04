@@ -9,7 +9,7 @@ html
     title Cosmicfit Admin
 
     == css [ 'fonts', 'site', 'chosen', 'jquery.json-viewer', '/admin/edit_ticket', 'selectize' ]
-    == js  [ 'jquery', 'rivets', 'lib', 'rv_select', 'moment', 'selectize.min', 'flatpickr', 'rv_dates']
+    == js  [ 'jquery', 'rivets', 'lib', 'rv_select', 'rv_money', 'moment', 'selectize.min', 'flatpickr', 'rv_dates']
     == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min', 'jquery.json-viewer' ]
     == js  [ 'elements/custy_selector', '/admin/edit_ticket' ]
 
@@ -42,6 +42,11 @@ html
             | [# {data.ticket.recipient.id}] {data.ticket.recipient.name}
 
         .tuplet
+          .label Price:
+          .value
+            | { data.ticket.price | money }
+
+        .tuplet
           .label Payment ID:
           .value 
             a rv-href='data.ticket.stripe_payment_id | stripe' target='_blank' { data.ticket.stripe_payment_id }
@@ -70,14 +75,21 @@ html
 
       .tile
         
-        H2 Passes
+        H2 Session Passes
 
         #pass_list
           .pass rv-each-pass='data.ticket.new.passes'
-            div[] { pass.session.start_time | eventstart }
             div[] { pass.session.title }
+            div[] { pass.session.start_time | eventstart }
             div[] [# { pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
             input type='checkbox' rv-checked='pass.checked_in'
+
+      .tile
+
+        H2 Payment
+
+        #payment
+          | [# { data.ticket.new.payment.id }] Purchased on { data.ticket.new.payment.timestamp | simpledate } For { data.ticket.new.payment.amount | money }
 
       .tile
         pre#json-viewer
