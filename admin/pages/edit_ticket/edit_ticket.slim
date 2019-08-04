@@ -23,12 +23,12 @@ html
         .tuplet
           .label Event:
           .value 
-            | [# {data.ticket.event_id}] {data.ticket.event.name}
+            | [# {data.ticket.event.id}] {data.ticket.event.name}
 
         .tuplet
           .label Included Sessions:
           .value
-            .sess rv-each-sess='data.sessions'
+            .sess rv-each-sess='data.ticket.included_sessions'
               | {sess.start_time | eventstart } - {sess.end_time | time} : {sess.title}
 
         .tuplet
@@ -67,6 +67,17 @@ html
         button rv-on-click='ctrl.split_ticket' Split Ticket
 
         div {data.ticket}
+
+      .tile
+        
+        H2 Passes
+
+        #pass_list
+          .pass rv-each-pass='data.ticket.passes'
+            span { pass.session.start_time | eventstart }
+            span { pass.session.title }
+            span [#{ pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
+            input type='checkbox' rv-checked='pass.checked_in'
 
       .tile
         pre#json-viewer
