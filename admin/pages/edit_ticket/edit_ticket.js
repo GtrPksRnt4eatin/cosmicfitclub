@@ -22,7 +22,9 @@ $(document).ready(function() {
 
   include_rivets_select();
   include_rivets_dates();
-  initialize_rivets() 
+  initialize_rivets();
+
+  get_ticket();
 })
 
 function initialize_rivets() {
