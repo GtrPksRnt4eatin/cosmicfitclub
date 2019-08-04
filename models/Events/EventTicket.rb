@@ -138,7 +138,7 @@ class EventTicket < Sequel::Model
 
       :new         => {
         :payment   => self.payment.try(:to_token),
-        :passes    => self.passes.map(&:to_token)
+        :passes    => self.passes.map(&:to_token).sort_by { |x| x.start_time }
       }
 
     }
