@@ -78,6 +78,7 @@ CustySelector.prototype = {
 
   custy_selected: function(e,m) {
     this.ev_fire('customer_selected', parseInt(e.target.value || 0) );
+    if(e.target.value != 0 ) { this.ev_fire('close_modal', null); }
   },
 
   get selected_customer() {
@@ -100,7 +101,8 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
 
 CustySelector.prototype.CSS = ES5Template(function(){/**
   .custy_selector {
-    display: flex;	
+    display: flex;
+    max-width: 30em;
   }
 
   .custy_selector .customers {
