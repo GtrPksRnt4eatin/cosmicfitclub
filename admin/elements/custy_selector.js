@@ -83,9 +83,12 @@ CustySelector.prototype = {
   },
 
   custy_selected: function(e,m) {
-    if( this.state.callback ) { this.state.callback.call(null,this.state.customer_id); this.state.callback = null; }
-    this.ev_fire('customer_selected', parseInt(e.target.value || 0) );
-    if(e.target.value != 0 ) { this.ev_fire('close_modal', null); }
+    var id = parseInt(e.target.value || 0);
+    this.ev_fire('customer_selected', id );
+    if(id!=0) { 
+      this.ev_fire('close_modal', null); 
+      if( this.state.callback ) { this.state.callback.call(null,id); this.state.callback = null; }
+    }
   },
 
   get selected_customer() {
