@@ -300,6 +300,10 @@ class Customer < Sequel::Model
     { :id => id, :name => name, :email => email }
   end
 
+  def to_token
+    self.to_list_hash
+  end
+
   def to_list_string
     "[#{id}] #{name} (#{email})"
   end

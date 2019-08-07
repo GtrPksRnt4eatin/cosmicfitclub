@@ -600,7 +600,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mini_magick (4.8.0)
+    mini_magick (4.9.5)
     minitest (5.11.3)
     multi_json (1.13.1)
     multi_xml (0.6.0)
@@ -695,7 +695,7 @@ DEPENDENCIES
   ice_cube
   image_processing
   json
-  mini_magick (>= 4.3.5)
+  mini_magick (>= 4.9.4)
   omniauth
   omniauth-facebook
   omniauth-google-oauth2

@@ -148,33 +148,53 @@ class EventRoutes < Sinatra::Base
     end
     ""
   end
+
+  get '/tickets/:id' do
+    content_type :json
+    ticket = EventTicket[params[:id]] or halt(404, "Couldn't Find Ticket")
+    JSON.generate(ticket.edit_details)
+  end
   
   post '/tickets/:id/checkin' do
-    ticket = EventTicket[params[:id]]
-    halt 404 if ticket.nil?
+    ticket = EventTicket[params[:id]] or halt(404, "Couldn't Find Event Ticket")
     halt 500 unless ticket.included_sessions.include? params[:session_id].to_i
     EventCheckin.create( :ticket_id => ticket.id, :event_id => ticket.event.id, :session_id => params[:session_id], :customer_id => params[:customer_id], :timestamp => DateTime.now )
+    ticket.passes.find { |x| x.session_id == params[:session_id].to_i && x.customer_id == params[:customer_id].to_i }.try(:checkin)
     status 204
   end
 
   post '/tickets/:tic_id/checkout' do
-    checkin = EventCheckin[params[:id]]
-    halt 404 if checkin.nil?
+    checkin = EventCheckin[params[:id]] or halt(404,"Couldn't Find Event Checkin")
+    checkin.ticket.passes.find { |x| x.session_id == checkin.session_id && x.customer_id == checkin.customer_id && x.checked_in != nil }.try(:checkout)
     checkin.destroy
     status 204
   end
 
-  post'/tickets/:tic_id/assign_recipient' do
-    tic = EventTicket[params[:tic_id]] or halt 404
-    recipient = Customer[params[:recipient_id]] or halt 404
+  post '/tickets/:tic_id/assign_recipient' do
+    tic = EventTicket[params[:tic_id]]          or halt(404, "Couldn't Find Event Ticket")
+    recipient = Customer[params[:recipient_id]] or halt(404, "Couldn't Find Recipient")
     tic.update( :recipient => recipient )
     status 204
   end
 
-  post'/tickets/:tic_id/split' do
-    tic = EventTicket[params[:tic_id]] or halt 404
-    recipient = Customer[params[:recipient_id]] or halt 404
+  post '/tickets/:tic_id/split' do
+    tic = EventTicket[params[:tic_id]]          or halt(404, "Couldn't Find Event Ticket")
+    recipient = Customer[params[:recipient_id]] or halt(404, "Couldn't Find Recipient")
     p tic.split( recipient.id, params[:session_ids].map { |x| x.to_i } )
+    status 204
+  end
+
+  post '/passes/:id/checkin' do
+    pass = EventPass[params[:id]] or halt(404, "Couldn't Find Event Pass")
+    pass.checkin
+    EventCheckin.create( :ticket_id => pass.ticket_id, :event_id => pass.event_id, :session_id => pass.session_id, :customer_id => pass.customer_id, :timestamp => DateTime.now )
+    status 204
+  end
+
+  post '/passes/:id/checkout' do
+    pass = EventPass[params[:id]] or halt(404, "Couldn't Find Event Pass")
+    pass.checkout
+    pass.event.checkins.find { |x| x.session_id == pass.session_id && x.customer_id == pass.customer_id }.destroy
     status 204
   end
 

@@ -6,11 +6,12 @@ class EventTicket < Sequel::Model
 
   many_to_one :event
   many_to_one :customer
-  many_to_one :recipient,     :class => :Customer,     :key => :purchased_for
-  many_to_one :eventprice,    :class => :EventPrice,   :key => :event_price_id
-  one_to_many :checkins,      :class => :EventCheckin, :key => :ticket_id
-  one_to_many :passes,        :class => :EventPass,    :key => :ticket_id
-  pg_array_to_many :sessions, :class => :EventSession, :key => :included_sessions
+  many_to_one :recipient,     :class => :Customer,        :key => :purchased_for
+  many_to_one :eventprice,    :class => :EventPrice,      :key => :event_price_id
+  one_to_many :checkins,      :class => :EventCheckin,    :key => :ticket_id
+  one_to_many :passes,        :class => :EventPass,       :key => :ticket_id
+  many_to_one :payment,       :class => :CustomerPayment, :key => :customer_payment_id 
+  pg_array_to_many :sessions, :class => :EventSession,    :key => :included_sessions
 
   ###################### ASSOCIATIONS #####################
 
@@ -38,19 +39,12 @@ class EventTicket < Sequel::Model
   ################# CALCULATED PROPERTIES #################
 
   def get_stripe_id
-    self.stripe_payment_id.to_i > 0 ? CustomerPayment[self.stripe_payment_id].stripe_id : self.stripe_payment_id
+    self.payment.try(:stripe_id)
   end
 
   def full_payment_info
     StripeMethods::get_payment_totals(self.get_stripe_id)
   end
-
-  #def customer_info
-  #  { :id    => ( customer.id    rescue 0  ),
-  #    :name  => ( customer.name  rescue "" ),
-  #    :email => ( customer.email rescue "" )
-  #  }
-  #end
 
   ################# CALCULATED PROPERTIES #################
 
@@ -61,8 +55,7 @@ class EventTicket < Sequel::Model
   end
 
   def send_notification
-    Slack.post(self.summary)
-    Slack.custom(self.summary,"@b.konash") if self.event.id == 386
+    Slack.custom(self.summary, 'events')
   end
 
   def generate_passes
@@ -123,6 +116,30 @@ class EventTicket < Sequel::Model
 
   def to_details_json
     self.to_json( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
+  end
+
+  def edit_details
+    { :id          => self.id,
+      :code        => self.code,
+      :price       => self.price,
+      :created_on  => self.created_on,
+
+      :customer    => self.customer.to_list_hash,
+      :event       => self.event.to_token,
+      :ticketclass => self.eventprice.try(:to_token),
+
+      :old         => {
+        :included_sessions => self.included_sessions,
+        :recipient         => self.recipient.to_token,
+        :checkins          => self.checkins.map(&:to_token)
+      },
+
+      :new         => {
+        :payment   => self.payment.try(:to_hash),
+        :passes    => self.passes.sort_by { |x| x['start_time'] }.map(&:to_token)
+      }
+
+    }
   end
 
   ########################## VIEWS ########################
