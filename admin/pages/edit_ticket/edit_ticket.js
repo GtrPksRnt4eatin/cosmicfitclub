@@ -27,8 +27,8 @@ $(document).ready(function() {
   popupmenu      = new PopupMenu(id('popupmenu_container'));
   custy_selector = new CustySelector();
 
-  custy_selector.ev_sub('show', popupmenu.show );
-  custy_selector.ev_sub('customer_selected', popupmenu.hide );
+  custy_selector.ev_sub('show'       , popupmenu.show );
+  custy_selector.ev_sub('close_modal', popupmenu.hide );
 
   include_rivets_select();
   include_rivets_dates();
