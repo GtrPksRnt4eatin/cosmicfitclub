@@ -23,6 +23,10 @@ td {
   background: white;
 }
 
+#passes_remaining {
+  color: rgba(255,0,0,0.8);
+}
+
 button {
   font-family: "Industry-Light";;
   cursor: pointer;
