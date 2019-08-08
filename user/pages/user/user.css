@@ -24,7 +24,7 @@ td {
 }
 
 #passes_remaining {
-  color: rgba(255,0,0,0.8);
+  text-shadow: 0 0 0.5em rgb(100,100,255), 0 0 0.5em rgb(100,100,255);
 }
 
 button {
