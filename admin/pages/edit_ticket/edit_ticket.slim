@@ -78,11 +78,16 @@ html
 
         #pass_list
           .pass rv-each-pass='data.ticket.new.passes'
-            div[] { pass.session.title }
-            div[] { pass.session.start_time | eventstart }
-            div rv-on-click='ctrl.edit_pass_recipient' 
-              | [# { pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
-            input type='checkbox' rv-checked='pass.checked_in'
+            .nfo
+              div[] { pass.session.title }
+              div[] { pass.session.start_time | eventstart }
+              div rv-on-click='ctrl.edit_pass_recipient' 
+                | [# { pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
+            .punch rv-if='pass.checked_in'
+              | { pass.checked_in | time }
+            .punch rv-unless='pass.checked_in'
+              span rv-on-click='ctrl.pass_checkin'
+                | Check In
 
       .tile
 
