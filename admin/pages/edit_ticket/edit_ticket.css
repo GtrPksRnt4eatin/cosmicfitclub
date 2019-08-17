@@ -56,7 +56,7 @@
   background: rgba( 150,255,150, 0.2 );
 }
 
-.pass .punch span:before {
+.pass .punch span::before {
   vertical-align: middle;
   height: 100%;
 }
