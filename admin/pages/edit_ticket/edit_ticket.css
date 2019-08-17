@@ -14,7 +14,7 @@
   width: 40em;
   text-align: left;
   vertical-align: middle;
-}
+0
 
 .sess {
   margin: 0.2em;
@@ -35,4 +35,33 @@
   text-align: left;
   width: 30em;
   box-shadow: 0 0 0.2em white;
+  display: flex;
+}
+
+.pass .nfo {
+  flex: 1;
+}
+
+.pass .punch {
+  flex: 6em 0 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.pass .punch.in {
+  background: rgba( 150,150,255, 0.2 );
+}
+
+.pass .punch.out {
+  background: rgba( 150,255,150, 0.2 );
+}
+
+.pass .punch span::before {
+  vertical-align: middle;
+  height: 100%;
+}
+
+.pass .punch span {
+  vertical-align: middle;
+  display: inline-block;
 }

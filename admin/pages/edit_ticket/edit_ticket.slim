@@ -83,9 +83,10 @@ html
               div[] { pass.session.start_time | eventstart }
               div rv-on-click='ctrl.edit_pass_recipient' 
                 | [# { pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
-            .punch rv-if='pass.checked_in'
-              | { pass.checked_in | time }
-            .punch rv-unless='pass.checked_in'
+            .punch.in rv-if='pass.checked_in'
+              span 
+                | { pass.checked_in | time }
+            .punch.out rv-unless='pass.checked_in'
               span rv-on-click='ctrl.pass_checkin'
                 | Check In
 
