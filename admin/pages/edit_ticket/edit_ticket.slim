@@ -81,7 +81,7 @@ html
             .nfo
               div[] { pass.session.title }
               div[] { pass.session.start_time | eventstart }
-              div rv-on-click='ctrl.edit_pass_recipient' 
+              div.edit rv-on-click='ctrl.edit_pass_recipient' 
                 | [# { pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
             .punch.in rv-if='pass.checked_in'
               span 
