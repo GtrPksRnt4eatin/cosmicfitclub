@@ -198,6 +198,13 @@ class EventRoutes < Sinatra::Base
     status 204
   end
 
+  post '/passes/:id/transfer' do
+    pass  = EventPass[params[:id]]         or halt(404, "Couldn't Find Event Pass")
+    custy = Customer[params[:customer_id]] or halt(404, "Couldn't Find Customer")
+    pass.update( :customer=> custy )
+    pass.to_json
+  end
+
   error do
     Slack.err( 'Event Route Error', env['sinatra.error'] )
     'An Error Occurred.'

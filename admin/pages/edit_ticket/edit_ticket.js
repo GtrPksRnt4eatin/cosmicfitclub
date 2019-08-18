@@ -18,11 +18,23 @@ ctrl = {
   edit_pass_recipient: function(e,m) {
     custy_selector.show_modal(m.pass.customer.id, function(custy_id) {
       $.post('/models/events/passes/' + m.pass.id + '/transfer', { customer_id: custy_id } );
+       .done(get_ticket)
     } );
   },
 
-  remove_pass: function(e,m) {
+  pass_checkin: function(e,m) {
+    $.post('/models/events/passes/' + m.pass.id + '/checkin' )
+     .done(get_ticket)
+  },
 
+  pass_checkout: function(e,m) {
+    $.post('/models/events/passes/' + m.pass.id + '/checkout' )
+     .done(get_ticket)
+  },
+
+  remove_pass: function(e,m) {
+    $.del('/models/events/passes/' + m.pass.id)
+     .done(get_ticket)
   }
 }
 
