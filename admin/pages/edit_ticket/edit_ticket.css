@@ -103,7 +103,9 @@
 
 .delete {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -1em;
+  right: -1em;
   background-image: url(/close.svg);
+  width: 1.5em;
+  height: 1.5em;
 }
