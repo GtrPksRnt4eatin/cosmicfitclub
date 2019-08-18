@@ -205,6 +205,11 @@ class EventRoutes < Sinatra::Base
     pass.to_json
   end
 
+  delete '/passes/:id' do
+    pass  = EventPass[params[:id]]         or halt(404, "Couldn't Find Event Pass")
+    pass.delete
+  end
+
   error do
     Slack.err( 'Event Route Error', env['sinatra.error'] )
     'An Error Occurred.'
