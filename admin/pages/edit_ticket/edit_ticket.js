@@ -22,7 +22,7 @@ ctrl = {
   },
 
   remove_pass: function(e,m) {
-    
+
   }
 }
 
