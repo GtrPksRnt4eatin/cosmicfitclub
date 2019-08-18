@@ -35,6 +35,11 @@ ctrl = {
   remove_pass: function(e,m) {
     $.del('/models/events/passes/' + m.pass.id)
      .done(get_ticket)
+  },
+
+  add_pass: function(e,m) {
+    var payload = { customer_id: data.ticket.customer.id, event_id: data.ticket.event.id }
+    $.post('/models/events/passes')
   }
 }
 

@@ -184,6 +184,10 @@ class EventRoutes < Sinatra::Base
     status 204
   end
 
+  post '/passes' do
+    EventPass.create( :ticket_id => params[:ticket_id], :session_id => params[:session_id], :customer_id => params[:customer_id] )
+  end
+
   post '/passes/:id/checkin' do
     pass = EventPass[params[:id]] or halt(404, "Couldn't Find Event Pass")
     pass.checkin
