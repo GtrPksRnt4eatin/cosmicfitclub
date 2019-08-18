@@ -4,6 +4,8 @@ class EventPass < Sequel::Model
   many_to_one :ticket, :class => :EventTicket, :key => :ticket_id
   many_to_one :session, :class => :EventSession, :key => :session_id
 
+
+
   def EventPass.generate_from_old_schema
     EventTicket.all.each do |tic|
       tic.included_sessions.each do |sess|
@@ -23,7 +25,11 @@ class EventPass < Sequel::Model
 
   def start_time
     self.session.start_time
-  end 
+  end
+
+  def event
+    self.session.event
+  end
 
   def to_token
     { :id => self.id, :session => self.session.to_token, :customer => self.customer.to_token, :checked_in => self.checked_in } 
