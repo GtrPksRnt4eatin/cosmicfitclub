@@ -19,6 +19,10 @@ ctrl = {
     custy_selector.show_modal(m.pass.customer.id, function(custy_id) {
       $.post('/models/events/passes/' + m.pass.id + '/transfer', { customer_id: custy_id } );
     } );
+  },
+
+  remove_pass: function(e,m) {
+    
   }
 }
 
