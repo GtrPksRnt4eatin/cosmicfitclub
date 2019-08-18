@@ -21,6 +21,10 @@ class EventPass < Sequel::Model
     self.update( :checked_in => nil )
   end
 
+  def start_time
+    self.session.start_time
+  end 
+
   def to_token
     { :id => self.id, :session => self.session.to_token, :customer => self.customer.to_token, :checked_in => self.checked_in } 
   end
