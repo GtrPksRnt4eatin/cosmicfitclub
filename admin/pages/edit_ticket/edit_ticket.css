@@ -28,6 +28,7 @@
 }
 
 .pass {
+  position: relative;
   background: rgba(0,0,0,0.2);
   padding: 0.5em;
   line-height: 1.3em;
@@ -40,7 +41,7 @@
 
 .pass .nfo {
   flex: 1;
-  padding-right: 1em;
+  padding-right: 0.5em;
 }
 
 .pass .punch {
@@ -98,4 +99,11 @@
   position: absolute;
   top: 0.25em;
   right: 0.25em;
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-image: url(/delete.svg);
 }
