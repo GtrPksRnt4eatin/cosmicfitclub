@@ -96,7 +96,7 @@ CustySelector.prototype = {
     el.setAttribute("style", "display: inline-block; left: 0; right: 0; margin: auto; vertical-align: middle; background: rgb(100,100,100); padding: 1em; box-shadow: 0 0 0.5em white;");
     el.appendChild(this.dom);
     return el;
-  }
+  },
 
   get selected_customer() {
     return this.state.customers.find( function(val) { return val.id == this.state.customer_id; }.bind(this) );
