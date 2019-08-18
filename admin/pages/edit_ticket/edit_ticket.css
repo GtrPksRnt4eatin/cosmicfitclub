@@ -75,3 +75,26 @@
   vertical-align: middle;
   display: inline-block;
 }
+
+.editable {
+  background: rgba(255,255,255,0.5);
+  color: black;
+  padding: 0.25em 1em;
+  border-radius: 0.5em;
+  position: relative;
+  cursor: pointer;
+}
+
+.editable::after {
+  content: '';
+  background-image: url(/edit.svg);
+  cursor: pointer;
+  width: 1em;
+  height: 1em;
+  background-size: contain;
+  transition: all .2s ease-in-out;
+  display: inline-block;
+  position: absolute;
+  top: 0.25em;
+  right: 0.25em;
+}
