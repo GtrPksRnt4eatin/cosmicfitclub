@@ -33,13 +33,14 @@
   line-height: 1.3em;
   margin: 0 auto 0.5em auto;
   text-align: left;
-  width: 30em;
+  width: 40em;
   box-shadow: 0 0 0.2em white;
   display: flex;
 }
 
 .pass .nfo {
   flex: 1;
+  padding-right: 1em;
 }
 
 .pass .punch {
