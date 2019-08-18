@@ -9,6 +9,7 @@ class Event < Sequel::Model
   one_to_many :tickets,  :class => :EventTicket
   one_to_many :sessions, :class => :EventSession
   one_to_many :prices,   :class => :EventPrice
+  one_to_many :checkins, :class => :EventCheckin
 
   def create_session
     new_session = EventSession.create
