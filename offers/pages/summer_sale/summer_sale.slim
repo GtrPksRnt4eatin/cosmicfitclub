@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title
+      | CFC Black Friday Deal
+
+    script src='https://js.stripe.com/v3/'
+
+    javascript:
+      data = {};
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+
+    == css [ 'fonts', 'site', 'header', 'footer', 'summer_sale' ]
+    == js  [ 'jquery' ]
+    == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
+    == js  [ 'lib', 'element', 'ev_channel', '/checkout/elements/payment_form', '/auth/elements/userview', 'popupmenu']
+    == js  [ 'summer_sale' ]
+
+  body
+
+    #stars
+
+    #banner_photo
+
+    == include_slim('slim/partials/header')
+
+    .content
+
+      .tile
+        .name_container
+          .name
+            | 2019 End Of Summer Sale!
+
+        .description
+          span
+            | Twelve Cosmic Fit Club Classes for just $150.
+            br
+            | One per recipient, more can be purchased as gifts.
+            br
+            | Good for All Classes Offered on the Regular Schedule.
+
+        .upcoming#offer_form
+          .heading
+            | Redeem Now! One Per Customer
+          .register
+            .tuple
+              span.label
+                | E-Mail:
+              span.value
+                input#email rv-value='data.email' rv-on-input='ctrl.check_email'
+            .tuple rv-hide='data.id'
+              span.label
+                | Full Name:
+              span.value
+                input#fullname rv-value='data.full_name'
+            .tuple rv-if='data.id | not_if_loggedin' 
+              span.label 
+                | Password:
+              span.value
+                input#password type='password' rv-value='data.password'
+          .small rv-if='data.id | not_if_loggedin'
+            | Email Has Account.. Login or 
+            span#reset rv-on-click='ctrl.reset_password'
+              | Reset Password
+          .errors
+            .err rv-each-err='data.errors'
+              | {err} 
+          button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
+
+
+    == include_slim('slim/partials/footer')
+
+    #popupmenu_container
+
+    == analytics
