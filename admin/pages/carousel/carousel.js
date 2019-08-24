@@ -24,11 +24,11 @@ $(document).ready(function() {
     showZoomer: false
   });
 
-  $('.uploader.wide .cr-viewport').on('click', function() {
+  $('.uploader.wide .cr-viewport::before').on('click', function() {
     $('.uploader.wide input').trigger("click");
   });
 
-  $('.uploader.tall .cr-viewport').on('click', function() {
+  $('.uploader.tall .cr-viewport::before').on('click', function() {
     $('.uploader.tall input').trigger("click");
   });
 
