@@ -1,6 +1,5 @@
 function AspectImageChooser(parent) {
   this.state = {
-
   }
 
   this.bind_handlers([]);

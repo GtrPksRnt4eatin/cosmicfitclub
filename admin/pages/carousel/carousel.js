@@ -24,6 +24,14 @@ $(document).ready(function() {
     showZoomer: false
   });
 
+  $('.uploader.wide .cr-viewport').on('click', function() {
+    $('.uploader.wide input').trigger("click");
+  });
+
+  $('.uploader.tall .cr-viewport').on('click', function() {
+    $('.uploader.tall input').trigger("click");
+  });
+
   $('#upload_wide').on('change', function() {
     if (this.files && this.files[0]) {
       var reader = new FileReader();
