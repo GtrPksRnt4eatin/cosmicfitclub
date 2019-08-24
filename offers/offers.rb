@@ -10,8 +10,8 @@ class CFCOffers < Sinatra::Base
   register Sinatra::Auth
 
   get( '/waterfront_deal')  { render_page :waterfront_deal }
-  get( '/summersale' )      { render_page :summer_sale      }
-  #get( '/testoffer'  )     { render_page :black_friday    }
+  get( '/summersale' )      { render_page :summer_sale     }
+  get( '/newstudent'  )     { render_page :new_student     }
 
   not_found do
     'This is nowhere to be found.'
