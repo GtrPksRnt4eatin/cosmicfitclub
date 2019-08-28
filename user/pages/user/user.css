@@ -60,12 +60,12 @@ a:visited {
   margin: 0.5em;
 }
 
-td.cancel {
+td.cancel_res {
   cursor: pointer;
   background: rgba(255,255,255,0.1);
 }
 
-td.cancel::hover {
+td.cancel_res::hover {
   background: rgba(255,255,255,0.3);
 }
 
