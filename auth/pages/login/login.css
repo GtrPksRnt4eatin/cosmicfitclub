@@ -55,7 +55,7 @@ body:before {
 @media(max-aspect-ratio: 1/1) {
   
   #login_container {
-    width: 90%;
+    width: 90vw;
     font-size: 4vw;  
   }
 

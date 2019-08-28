@@ -19,7 +19,6 @@ body:before {
 }
 
 #activate_container {
-  padding: 2em;
   line-height: 1.5em;
 }
 
@@ -85,7 +84,7 @@ input:focus {outline: none; }
 @media(max-aspect-ratio: 1/1) {
   
   #activate_container {
-    width: 90%;
+    width: 90vw;
     font-size: 4vw;  
   }
 
