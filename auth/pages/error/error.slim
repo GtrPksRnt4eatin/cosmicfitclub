@@ -1,0 +1,14 @@
+head
+
+    == no_scaling
+
+    title Cosmic Error
+
+    == css [ 'fonts', 'site', 'error']
+
+  body
+
+    .tile
+      | #{ ENV['sinatra.error'] }
+  
+    == analytics
