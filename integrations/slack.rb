@@ -16,6 +16,10 @@ module Slack
     Slack.custom(msg,'website_scheduling')
   end
 
+  def Slack.website_purchases(msg)
+    Slack.custom(msg,'website_purchases')
+  end
+
   def Slack.custom(message, channel='website_notifications', attachment=nil)
     Slack.send({
       :channel     => channel,

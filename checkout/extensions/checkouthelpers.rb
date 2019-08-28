@@ -8,7 +8,7 @@ module Sinatra
       custy = Customer.get_from_token( data['token'] )
       halt 409 if ( custy.plan != nil ) && ( !custy.plan.deactivated ) ## Already Has A Plan, Log in to Update instead
       custy.add_subscription( data['plan_id'] )
-      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) became a member!")
+      Slack.website_purchases("[\##{custy.id}] #{custy.name} (#{custy.email}) became a member!")
       status 204
     end
 
@@ -16,20 +16,21 @@ module Sinatra
       data = JSON.parse request.body.read
       custy = logged_in? ? customer : Customer.get_from_email( data['token']['email'], data['token']['card']['name'] )
       custy.buy_pack_card( data['pack_id'], data['token'] )
-      Slack.post("[\##{ custy.id }] #{ custy.name } (#{ custy.email }) bought a #{ Package[data['pack_id']].name }.")
+      Slack.website_purchases("[\##{ custy.id }] #{ custy.name } (#{ custy.email }) bought a #{ Package[data['pack_id']].name }.")
       status 204
     end
 
     def buy_pack_precharged
       custy = Customer[params[:customer_id]] or halt 403
       custy.buy_pack_precharged( params[:pack_id], params[:payment_id] )
-      Slack.post("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a #{Package[params[:pack_id]].name} precharged.")
+      Slack.website_purchases("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a #{Package[params[:pack_id]].name} precharged.")
     end
 
     def buy_training
       data = JSON.parse request.body.read
       custy = Customer.get_from_token( data['token'] )
       custy.buy_training( data['num_hours'], 2, data['trainer'] )
+      Slack.website_purchases("[\##{custy.id}] #{custy.name} (#{custy.email}) bought personal training.")
       status 204
     end
 

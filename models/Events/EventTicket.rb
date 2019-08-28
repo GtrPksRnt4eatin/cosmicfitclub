@@ -55,7 +55,7 @@ class EventTicket < Sequel::Model
   end
 
   def send_notification
-    Slack.custom(self.summary, 'events')
+    Slack.website_payments(self.summary)
   end
 
   def generate_passes

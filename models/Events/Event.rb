@@ -36,7 +36,7 @@ class Event < Sequel::Model
   ####################### LIFE CYCLE ######################
 
   def after_create
-    Slack.custom("Event Created: [\##{self.id}] #{self.name}")
+    Slack.website_scheduling("Event Created: [\##{self.id}] #{self.name}")
   end
 
   def after_save
