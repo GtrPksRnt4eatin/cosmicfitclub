@@ -65,4 +65,8 @@ a:visited {
     width: auto;
     display: block;
   }
+
+  .content {
+    font-size: 4vw;
+  }
 }
