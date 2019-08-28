@@ -20,8 +20,7 @@ html
         input type='hidden' name='token' value='#{@user.reset_token}'
 
         .instructions
-          | #{@user.customer.name}, <br>
-          | Choose a password!
+          | #{@user.customer.name}, Choose a password!
 
         .field
           label PASSWORD:
