@@ -16,11 +16,13 @@ html
     .tile#activate_container
       
       form#myform
-      
+    
         input type='hidden' name='token' value='#{@user.reset_token}'
 
-        .instructions
+        .section.instructions
           | #{@user.customer.name}, Choose a password!
+
+        hr
 
         .field
           label PASSWORD:

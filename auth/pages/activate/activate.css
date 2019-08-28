@@ -26,6 +26,10 @@ body:before {
   background: rgba(30,30,30,0.8);
 }
 
+.section {
+  padding: 0.5em;
+}
+
 .instructions {
   line-height: 1.5em;
   padding-bottom: .5em;
@@ -62,6 +66,7 @@ input {
 input:focus {outline: none; }	
 
 .submit {
+  display: block;
 	margin-top: 3em;
 	border: 2px solid white;
 	padding: 1em;
