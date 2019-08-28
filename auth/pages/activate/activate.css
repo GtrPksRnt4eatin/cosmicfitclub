@@ -48,7 +48,7 @@ body:before {
 
 .field input { 
   display: inline-block;
-  width: 15em;
+  width: 11em;
   float: right;
 }
 
@@ -68,14 +68,16 @@ input:focus {outline: none; }
 
 .submit {
   display: block;
-	margin-top: 3em;
-	border: 2px solid white;
+	margin-top: .3em;
+	border: none;
 	cursor: pointer;
   font-size: 1em;
   padding: .5em 2em;
   box-shadow: 0 0 0.1em white;
   background: rgba(255,255,255,0.1);
-  color: white;
+  font-family: "Industry-Light";
+  width: 100%;
+  line-height: 1.5em;
 }
 
 .errors {
