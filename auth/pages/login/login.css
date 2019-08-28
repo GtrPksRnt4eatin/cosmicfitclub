@@ -1,4 +1,5 @@
 body {
+  background-image: url('background-blu.jpg');
 	position: relative;
 	text-align: center;
   height: 100vh;
@@ -6,8 +7,8 @@ body {
 
 body:before {
 	content: '';
+  height: 100%;
 	display: inline-block;
-	height: 100%;
 	vertical-align: middle;
 }
 
@@ -17,12 +18,6 @@ body:before {
 	font-size: 14pt;
 }	
 
-
-
-
-body {
-  background-image: url('background-blu.jpg');
-}
 
 #LoginForm {
   box-shadow: 0 0 5px white;

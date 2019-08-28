@@ -1,6 +1,8 @@
 body {
   background-image: url('background-blu.jpg');
+  position: relative;
   text-align: center;
+  height: 100vh;
 }
 
 body:before {
@@ -10,12 +12,15 @@ body:before {
   vertical-align: middle;
 }
 
-.tile {
+#activate_container {
+  display: inline-block;
   vertical-align: middle;
+  font-size: 14pt;
+}
+
+#activate_container {
   padding: 2em;
   line-height: 1.5em;
-  font-size: 1em;
-  display: inline-block;
 }
 
 .instructions {
@@ -75,4 +80,13 @@ input:focus {outline: none; }
   padding: 1em;
   color: red;
   font-size: 0.6em;
+}
+
+@media(max-width: 800px) {
+  
+  #activate_container {
+    width: 90%;
+    font-size: 4vw;  
+  }
+
 }
