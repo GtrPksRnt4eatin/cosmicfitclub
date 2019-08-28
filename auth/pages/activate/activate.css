@@ -82,7 +82,7 @@ input:focus {outline: none; }
   font-size: 0.6em;
 }
 
-@media(max-width: 800px) {
+@media(max-aspect-ratio: 1/1) {
   
   #activate_container {
     width: 90%;

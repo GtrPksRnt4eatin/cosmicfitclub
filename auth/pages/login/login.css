@@ -52,7 +52,7 @@ body:before {
   color: rgba(255,255,255,0.8) !important;
 }
 
-@media(max-width: 800px) {
+@media(max-aspect-ratio: 1/1) {
   
   #login_container {
     width: 90%;
