@@ -20,7 +20,7 @@ body:before {
 
 #activate_container {
   line-height: 1.5em;
-  padding: 2em;
+  padding: 1em;
   box-sizing: border-box;
   box-shadow: 0 0 5px white !important;
   background: rgba(30,30,30,0.8);
@@ -44,12 +44,12 @@ body:before {
 .field label {
   display: inline-block;
   text-align: right;
-  width: 10em;
 }
 
 .field input { 
   display: inline-block;
   width: 15em;
+  float: right;
 }
 
 input {

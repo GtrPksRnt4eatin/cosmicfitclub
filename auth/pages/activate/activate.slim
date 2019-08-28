@@ -22,16 +22,16 @@ html
         input type='hidden' name='token' value='#{@user.reset_token}'
 
         .section.instructions
-          | #{@user.customer.name}, Choose a password!
+          | #{@user.customer.name}, Choose a Password.
 
         hr
 
         .section.field
-          label PASSWORD:
+          label Password:
           input name='password' type='password'
 
         .section.field
-          label CONFIRM PASSWORD:
+          label Confirmation:
           input name='confirmation' type='password'
         .section
           button.submit type='submit' SUBMIT
