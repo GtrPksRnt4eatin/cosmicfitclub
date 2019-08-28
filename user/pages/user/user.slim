@@ -164,7 +164,7 @@ html
                   td #{ occ.starttime.strftime('%a %m/%d %l:%M %P') }
                   td #{ occ.classdef.name }
                   td w/ #{ occ.teacher.name  }
-                  td.cancel_res rv-on-click='ctrl.cancel_res'
+                  td.cancel_res data-id='#{res.id}'
                     | Cancel
 
       - if false

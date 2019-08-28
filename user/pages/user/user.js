@@ -10,6 +10,10 @@ $(document).ready(function() {
 
   userview = new UserView( id('userview_container'));
 
+  $('.cancel_res').on('click', function() {
+  	var x = 5;
+  } );
+
   rivets.bind({ data: data, ctrl: ctrl })
 
 });
