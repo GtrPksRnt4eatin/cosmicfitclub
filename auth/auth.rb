@@ -17,8 +17,16 @@ class CFCAuth < Sinatra::Base
   get( '/onboard'  ) { render_page :onboard  }
   get( '/reset'    ) { render_page :reset    }
   get( '/register' ) { render_page :register }
-  get( '/activate' ) { render_page :activate }
   get( '/reset'    ) { render_page :activate }
+  get( '/activate' ) { 
+    @user = User.find( :reset_token => params[:token] )
+    if @user then
+      render_page :activate
+    else
+      @err="This Token Is No Longer Valid"
+      render_page :error
+    end
+  }
 
   get '/email_search' do
     content_type :json
