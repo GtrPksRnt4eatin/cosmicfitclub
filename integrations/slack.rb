@@ -8,6 +8,14 @@ module Slack
     Slack.send({ :text => msg })
   end
 
+  def Slack.website_access(msg)
+    Slack.custom(msg,'website_access')
+  end
+
+  def Slack.website_scheduling(msg)
+    Slack.custom(msg,'website_scheduling')
+  end
+
   def Slack.custom(message, channel='website_notifications', attachment=nil)
     Slack.send({
       :channel     => channel,

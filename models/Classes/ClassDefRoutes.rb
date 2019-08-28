@@ -87,14 +87,14 @@ class ClassDefRoutes < Sinatra::Base
     data.delete('id')
     schedule = ClassDef[params[:id]].create_schedule(data) if id == 0 
     schedule = ClassdefSchedule[id].update(data)       unless id == 0
-    Slack.post("#{session[:customer].name} changed the class schedule: \r\n#{schedule.description_line}")
+    Slack.website_scheduling("#{session[:customer].name} changed the class schedule: \r\n#{schedule.description_line}")
     schedule.to_json
   end 
 
   delete '/schedules/:id' do
     id = Integer(params[:id])         rescue halt(401, "ID Must Be Numeric" )
     sched = ClassdefSchedule[params[:id]] or halt(404, "Schedule Not Found" )
-    Slack.post("#{session[:customer].name} changed the class schedule: \r\n removed #{sched.description_line} from the schedule")
+    Slack.website_scheduling("#{session[:customer].name} changed the class schedule: \r\n removed #{sched.description_line} from the schedule")
     sched.destroy
     status 204
   end
@@ -257,6 +257,7 @@ class ClassDefRoutes < Sinatra::Base
     excep = ClassException.find_or_create( classdef_id: params[:classdef_id], original_starttime: params[:original_starttime] ) 
     teacher_id = ( params[:teacher_id].to_i == 0 ? nil : params[:teacher_id].to_i )
     excep.update( :teacher_id => teacher_id, :starttime => params[:starttime], :cancelled => params[:cancelled], :hidden => params[:hidden])
+    Slack.website_scheduling(excep.description)
   end
 
   delete '/exceptions/:id' do
