@@ -24,6 +24,7 @@ body:before {
   box-sizing: border-box;
   box-shadow: 0 0 5px white !important;
   background: rgba(30,30,30,0.8);
+  color: rgba(255,255,255,0.8) !important;
 }
 
 .section {
@@ -74,6 +75,7 @@ input:focus {outline: none; }
   padding: .5em 2em;
   box-shadow: 0 0 0.1em white;
   background: rgba(255,255,255,0.1);
+  color: white;
 }
 
 .errors {
