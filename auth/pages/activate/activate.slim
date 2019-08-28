@@ -1,4 +1,4 @@
-- @user = User.find( :reset_token => params[:token] ) or halt( 404,"This Token Is No Longer Valid" )
+- @user = User.find( :reset_token => params[:token] ) or ( @err="This Token Is No Longer Valid"; render_page :error )
 
 <!DOCTYPE html>
 

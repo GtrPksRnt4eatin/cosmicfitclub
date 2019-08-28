@@ -135,8 +135,7 @@ class CFCAuth < Sinatra::Base
 
   error do
     Slack.err( 'Auth Error', env['sinatra.error'] )
-    render_page :error
-    #ENV['sinatra.error']
+    ENV['sinatra.error']
   end
 
 end
