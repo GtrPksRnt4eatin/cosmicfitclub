@@ -39,12 +39,12 @@ class CFCAuth < Sinatra::Base
     session[:user] = User.authenticate( data['email'], data['password'] )
     if !session[:user] then
       custy = Customer.find_by_email( data['email'] )
-      Slack.post( "Failed Login: Account Not Found - [#{data['email']}]") if custy.nil?
-      Slack.post( "Failed Login: #{custy.to_list_string}" )         unless custy.nil?
+      Slack.website_access( "Failed Login: Account Not Found - [#{data['email']}]") if custy.nil?
+      Slack.website_access( "Failed Login: #{custy.to_list_string}" )          unless custy.nil?
       halt(401, "Login Failed: Incorrect Credentials" )
     end
     session[:customer] = session[:user].customer
-    Slack.post( "Successful Login #{ session[:customer].to_list_string }" )
+    Slack.website_access( "Successful Login #{ session[:customer].to_list_string }" )
     status 204
   end
 
@@ -82,7 +82,7 @@ class CFCAuth < Sinatra::Base
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user] = user
     session[:customer] = session[:user].customer
-    Slack.post( "Password Reset #{ session[:customer].to_list_string }" )
+    Slack.website_access( "Password Reset #{ session[:customer].to_list_string }" )
     redirect '/user'
   end
 
