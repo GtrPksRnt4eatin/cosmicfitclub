@@ -22,7 +22,7 @@ $(document).ready(function() {
 });
 
 function get_saved_classes() {
-  $.get('/models/classdefs', function(classes) {
-    data.classes = JSON.parse(classes).filter(function(x) { return x.schedules.length > 0; } );
+  $.get('/models/classdefs/ranked_list', function(classes) {
+    data.classes = classes;
   })
 } 

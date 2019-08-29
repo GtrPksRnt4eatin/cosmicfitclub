@@ -89,6 +89,12 @@ class ClassDef < Sequel::Model
     results
   end
 
+  def thumbnail_image
+    return ''             if self.image.nil?
+    return self.image_url if self.image.is_a? ImageUploader::UploadedFile
+    return self.image[:small].url
+  end
+
   def to_token
     { :id => id, :name => name }
   end
@@ -97,4 +103,10 @@ class ClassDef < Sequel::Model
     occurrences.map { |occ| occ.reservations.map { |res| res.customer.try(:to_list_hash) } }.flatten.group_by(&:itself).map {|k,v| [k, v.size] }.map{ |k,v| k.nil? ? { :count=>v } : { :count=>v }.merge(k) }.sort_by{ |x| -x[:count] }.first(20)
   end
 
+  def classpage_view
+    { :id => self.id, 
+      :name => self.name, 
+      :image_url => self.thumbnail_image,
+    }
+  end
 end

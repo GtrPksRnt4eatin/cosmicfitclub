@@ -2,6 +2,7 @@ class ClassDefRoutes < Sinatra::Base
 
   before do
     cache_control :no_store
+    content_type  :json
   end
 
   get '/' do
@@ -14,6 +15,10 @@ class ClassDefRoutes < Sinatra::Base
       }
     end
     JSON.generate data
+  end
+
+  get '/ranked_list' do
+    ClassdefSchedule.get_class_page_rankings.map { |x| Classdef[x].classpage_view }.to_json
   end
 
   post '/' do
