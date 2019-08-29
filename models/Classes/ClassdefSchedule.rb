@@ -28,6 +28,8 @@ class ClassdefSchedule < Sequel::Model
 
   def ClassdefSchedule.get_class_page_rankings
     items = []
+    from = DateTime.now
+    to = from.next_day(7)
     ClassdefSchedule.all.each do |sched|
       sched.get_occurrences(from,to).each do |starttime|
         items << { :starttime => starttime, :classdef => sched.classdef.to_token }
