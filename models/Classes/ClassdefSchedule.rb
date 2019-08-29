@@ -26,6 +26,17 @@ class ClassdefSchedule < Sequel::Model
     items
   end
 
+  def ClassdefSchedule.get_class_page_rankings
+    items = []
+    ClassdefSchedule.all.each do |sched|
+      sched.get_occurrences(from,to).each do |starttime|
+        items << { :starttime => starttime, :classdef => sched.classdef.to_token }
+      end
+    end
+    items.sort_by!{ |x| x[:starttime] }
+    items.uniq!{ |x| x[:classdef] }
+  end
+
   def get_occurrences(from,to)
     return [] if rrule.nil?
     return [] if start_time.nil?
