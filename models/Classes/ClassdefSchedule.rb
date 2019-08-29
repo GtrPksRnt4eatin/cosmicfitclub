@@ -39,7 +39,7 @@ class ClassdefSchedule < Sequel::Model
     items.sort_by!{ |x| x[:starttime] }
     items.map!{ |x| x[:classdef][:id] }
     items.uniq!
-    items | Classdef.all_active
+    items | ClassDef.all_active
   end
 
   def get_occurrences(from,to)
