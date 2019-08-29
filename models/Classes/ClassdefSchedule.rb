@@ -35,6 +35,7 @@ class ClassdefSchedule < Sequel::Model
         items << { :starttime => starttime, :classdef => sched.classdef.to_token }
       end
     end
+    items.reject!{ |x| x[:starttime] < DateTime.now }
     items.sort_by!{ |x| x[:starttime] }
     items.uniq!{ |x| x[:classdef] }
   end
