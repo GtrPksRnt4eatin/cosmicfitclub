@@ -249,6 +249,7 @@ class ClassDefRoutes < Sinatra::Base
     reservation = ClassReservation[params[:id]]
     halt 400 if reservation.nil?
     reservation.check_in
+    reservation.to_json
   end
 
   post '/generate' do
