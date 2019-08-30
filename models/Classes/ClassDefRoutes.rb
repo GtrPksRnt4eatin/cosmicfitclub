@@ -210,6 +210,7 @@ class ClassDefRoutes < Sinatra::Base
     end
 
     status 201
+    {}.to_json
   end
 
   post '/reservations' do
