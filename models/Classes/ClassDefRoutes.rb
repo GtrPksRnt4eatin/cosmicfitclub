@@ -263,6 +263,7 @@ class ClassDefRoutes < Sinatra::Base
     teacher_id = ( params[:teacher_id].to_i == 0 ? nil : params[:teacher_id].to_i )
     excep.update( :teacher_id => teacher_id, :starttime => params[:starttime], :cancelled => params[:cancelled], :hidden => params[:hidden])
     Slack.website_scheduling(excep.description)
+    excep.to_json
   end
 
   delete '/exceptions/:id' do
