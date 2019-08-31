@@ -76,5 +76,7 @@ function get_scheditems() {
 }
 
 function get_scheditems_bydate(date) {
-  $.get('/models/classdefs')
+  $.get('/models/classdefs/schedule_by_day/' + date)
+   .done(  function(val) { data.scheditems = val;   } )
+   .error( function(xhr) { alert(xhr.responseText); } )
 }
