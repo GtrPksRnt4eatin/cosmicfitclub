@@ -101,6 +101,11 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   ###################### SCHEDULES #######################################
+ 
+  get '/schedule_by_day/:day' do
+    day = Time.parse(params[:day])
+    ClassdefSchedule.get_all_occurrences(day,day+(3600*24)).to_json
+  end 
 
   get '/:id/schedule' do
     id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
