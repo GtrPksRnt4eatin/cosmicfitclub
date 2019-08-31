@@ -19,6 +19,12 @@ class ClassDefRoutes < Sinatra::Base
 
   ################################## CLASSDEF CRUD ##################################################
 
+  get '/:id' do
+    id       = Integer(params[:id]) rescue pass
+    classdef = ClassDef[ id ]           or halt(404, "ClassDef Doesn't Exist")
+    classdef.to_json
+  end
+
   post '/' do
     if ClassDef[params[:id]].nil?
       classdef = ClassDef.create(name: params[:name], description: params[:description], image: params[:image], position: ClassDef.max(:position) + 1)
@@ -27,22 +33,17 @@ class ClassDefRoutes < Sinatra::Base
       classdef.update_fields(params, [ :name, :description ] )
       classdef.update( :image => params[:image] ) unless params[:image].nil?
     end
-    status 200
-    classdef.to_json
-  end
-
-  get '/:id' do
-    id       = Integer(params[:id]) rescue pass
-    classdef = ClassDef[ id ]           or halt(404, "ClassDef Doesn't Exist")
     classdef.to_json
   end
 
   delete '/:id' do
-    halt 404 if ClassDef[params[:id]].nil?
-    ClassDef[params[:id]].deactivate
-    status 200
+    id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
+    classdef = ClassDef[ id ]           or halt(404, 'Class Definition not found.')
+    classdef.deactivate
     {}.to_json
   end
+
+  ################################## CLASSDEF CRUD ##################################################
 
   get '/:id/thumb' do
     classdef = ClassDef[params[:id]] or halt 404
@@ -51,34 +52,28 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   post '/:id/moveup' do
-    classdef = ClassDef[params[:id]] or halt 404
+    id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
+    classdef = ClassDef[ id ]           or halt(404, 'Class Definition not found.')
     classdef.move(true)
     status 200
     {}.to_json
   end
 
   post '/:id/movedn' do
-    classdef = ClassDef[params[:id]] or halt 404
+    id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
+    classdef = ClassDef[id]             or halt(404, 'Class Definition not found.')
     classdef.move(false)
     status 200
     {}.to_json
   end
 
   get '/:id/next_occurrences/:count' do
-    id       = Integer(params[:id]) or halt(401, "ID Must Be Numeric")
-    classdef = ClassDef[ id ]       or halt(404, 'Class Definition not found.')
+    id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
+    classdef = ClassDef[ id ]           or halt(404, 'Class Definition not found.')
     classdef.get_next_occurrences(params[:count]).to_json
   end
 
   ###################### SCHEDULES #######################################
-
-  get '/:id/schedule' do
-    id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
-    classdef = ClassDef[params[:id]]    or halt(404, 'Class Definition not found.')
-    from = ( params[:from] or DateTime.now.beginning_of_day.to_time )
-    to = ( params[:to] or Time.now.months_since(6) )
-    JSON.generate classdef.get_full_occurrences(from, to)
-  end
 
   get '/:id/schedules' do
     id   = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
@@ -103,6 +98,16 @@ class ClassDefRoutes < Sinatra::Base
     sched.destroy
     status 204
     {}.to_json
+  end
+
+  ###################### SCHEDULES #######################################
+
+  get '/:id/schedule' do
+    id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
+    classdef = ClassDef[params[:id]]    or halt(404, 'Class Definition not found.')
+    from = ( params[:from] or DateTime.now.beginning_of_day.to_time )
+    to = ( params[:to] or Time.now.months_since(6) )
+    JSON.generate classdef.get_full_occurrences(from, to)
   end
 
   get '/schedule/:start/:end' do
@@ -137,14 +142,16 @@ class ClassDefRoutes < Sinatra::Base
     {}.to_json
   end
 
+  ###################### OCCURRENCES #######################################
+
   get '/occurrences' do
     day = params[:day].nil? ? Date.today : Date.parse(params[:day])
     sheets = ClassOccurrence.where{ |o| (o.starttime >= day) & (o.starttime < day + 1)}.order(:starttime).all.map do |occ|
       { 
         :id           => occ.id,
         :starttime    => occ.starttime.to_time.iso8601,
-        :classdef     => { :id => occ.classdef.id, :name => occ.classdef.name },
-        :teacher      => { :id => occ.teacher.id, :name => occ.teacher.name },
+        :classdef     => occ.classdef.to_token,
+        :teacher      => occ.teacher.to_token,
         :reservations => occ.reservation_list
       }
     end
@@ -152,13 +159,11 @@ class ClassDefRoutes < Sinatra::Base
   end   
 
   post '/occurrences' do
-    content_type :json
     occurrence = ClassOccurrence.get(params['classdef_id'], params['staff_id'], params['starttime'] )
     occurrence.to_full_json
   end
 
   post '/occurrences/:id' do
-    content_type :json
     id = Integer(params[:id])        rescue halt(401, "ID Must Be Numeric")
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
     occurrence.update( :staff_id=>params[:staff_id], :classdef_id=>params[:classdef_id], :starttime=>params[:starttime] )
@@ -166,33 +171,33 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   delete '/occurrences/:id' do
-    occurrence = ClassOccurrence[params[:id]] or halt 404
-    halt 409 unless occurrence.reservations.count == 0
+    id = Integer(params[:id])        rescue halt(401, "ID Must Be Numeric")
+    occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
+    occurrence.reservations.count == 0   or halt(409, "Occurrence Still Has Reservations!")
     occurrence.delete
     status 204
     {}.to_json
   end
 
   get '/occurrences/:id/details' do
-    content_type :json
     id = Integer(params[:id])        rescue halt(404, "ID must be numeric")
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
     occurrence.schedule_details_hash.to_json
   end
 
   get '/occurrences/:id/reservations' do
-    content_type :json
     id = Integer(params[:id])        rescue halt(404, "ID must be numeric")
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
     occurrence.reservation_list.to_json
   end
 
   get '/occurrences/:id/frequent_flyers' do
-    content_type :json
     id = Integer(params[:id])        rescue halt(404, "ID must be numeric")
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
     occurrence.classdef.frequent_flyers.to_json
   end
+
+  ###################### OCCURRENCES #######################################
 
   ######################### RESERVATIONS ##########################
   

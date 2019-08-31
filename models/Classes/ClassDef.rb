@@ -46,7 +46,7 @@ class ClassDef < Sequel::Model
   def all_reservations
     self.occurrences.map { |o| o.reservations }.flatten
   end
-  
+
   def frequent_flyers
     all_reservations.map do |res| 
       res.customer.try(:to_list_hash)
@@ -131,10 +131,10 @@ class ClassDef < Sequel::Model
   end
 
   def adminpage_view
-    classpage_view.merge {
+    classpage_view.merge({
       :description => self.description,
       :schedules   => self.schedules
-    }
+    })
   end
 
   #################### VIEWS #####################
