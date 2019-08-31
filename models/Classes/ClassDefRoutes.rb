@@ -5,21 +5,19 @@ class ClassDefRoutes < Sinatra::Base
     content_type  :json
   end
 
+  ####################################### LISTS #####################################################
+
   get '/' do
-    data = ClassDef.exclude(:deactivated=>true).order(:position).all.map do |c| 
-      { :id => c.id, 
-        :name => c.name, 
-        :description => c.description,
-        :image_url => (  c.image.nil? ? '' : ( c.image.is_a?(ImageUploader::UploadedFile) ? c.image_url : c.image[:small].url ) ),
-        :schedules => c.schedules
-      }
-    end
-    JSON.generate data
+    ClassDef.list_active.map(&:adminpage_view).to_json
   end
 
   get '/ranked_list' do
     ClassdefSchedule.get_class_page_rankings.map { |x| ClassDef[x].classpage_view }.to_json
   end
+
+  ####################################### LISTS #####################################################
+
+  ################################## CLASSDEF CRUD ##################################################
 
   post '/' do
     if ClassDef[params[:id]].nil?
@@ -34,7 +32,6 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   get '/:id' do
-    content_type :json
     id       = Integer(params[:id]) rescue pass
     classdef = ClassDef[ id ]           or halt(404, "ClassDef Doesn't Exist")
     classdef.to_json
@@ -44,6 +41,7 @@ class ClassDefRoutes < Sinatra::Base
     halt 404 if ClassDef[params[:id]].nil?
     ClassDef[params[:id]].deactivate
     status 200
+    {}.to_json
   end
 
   get '/:id/thumb' do
@@ -56,33 +54,35 @@ class ClassDefRoutes < Sinatra::Base
     classdef = ClassDef[params[:id]] or halt 404
     classdef.move(true)
     status 200
+    {}.to_json
   end
 
   post '/:id/movedn' do
     classdef = ClassDef[params[:id]] or halt 404
     classdef.move(false)
     status 200
+    {}.to_json
   end
 
   get '/:id/next_occurrences/:count' do
-    content_type :json
     id       = Integer(params[:id]) or halt(401, "ID Must Be Numeric")
-    classdef = ClassDef[ id ]       or halt(404, "ClassDef Doesn't Exist")
+    classdef = ClassDef[ id ]       or halt(404, 'Class Definition not found.')
     classdef.get_next_occurrences(params[:count]).to_json
   end
 
+  ###################### SCHEDULES #######################################
+
   get '/:id/schedule' do
-    content_type :json
-    classdef = ClassDef[params[:id]] or halt 404, 'class definition not found'
+    id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
+    classdef = ClassDef[params[:id]]    or halt(404, 'Class Definition not found.')
     from = ( params[:from] or DateTime.now.beginning_of_day.to_time )
     to = ( params[:to] or Time.now.months_since(6) )
     JSON.generate classdef.get_full_occurrences(from, to)
   end
 
   get '/:id/schedules' do
-    content_type :json
     id   = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
-    cdef = ClassDef[params[:id]]    or halt(404, "Classdef Not Found" )
+    cdef = ClassDef[params[:id]]    or halt(404, 'Class Definition not found.')
     cdef.schedules.to_json
   end
 
@@ -102,6 +102,7 @@ class ClassDefRoutes < Sinatra::Base
     Slack.website_scheduling("#{session[:customer].name} changed the class schedule: \r\n removed #{sched.description_line} from the schedule")
     sched.destroy
     status 204
+    {}.to_json
   end
 
   get '/schedule/:start/:end' do
@@ -125,6 +126,15 @@ class ClassDefRoutes < Sinatra::Base
     arr = []
     items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
     JSON.generate arr.sort_by { |x| x[:day] }
+  end
+
+  post '/generate' do
+    day = params[:day].nil? ? Date.today : Date.parse(params[:day])
+    ClassdefSchedule.get_all_occurrences(day.to_s,(day+1).to_s).each do |occ|
+      ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0].try(:id), Time.parse(occ[:starttime].to_s) )
+    end
+    status 204
+    {}.to_json
   end
 
   get '/occurrences' do
@@ -151,7 +161,6 @@ class ClassDefRoutes < Sinatra::Base
     content_type :json
     id = Integer(params[:id])        rescue halt(401, "ID Must Be Numeric")
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
-    p params
     occurrence.update( :staff_id=>params[:staff_id], :classdef_id=>params[:classdef_id], :starttime=>params[:starttime] )
     occurrence.schedule_details_hash.to_json
   end
@@ -161,6 +170,7 @@ class ClassDefRoutes < Sinatra::Base
     halt 409 unless occurrence.reservations.count == 0
     occurrence.delete
     status 204
+    {}.to_json
   end
 
   get '/occurrences/:id/details' do
@@ -183,6 +193,8 @@ class ClassDefRoutes < Sinatra::Base
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
     occurrence.classdef.frequent_flyers.to_json
   end
+
+  ######################### RESERVATIONS ##########################
   
   post '/reservation' do
     custy_id   = Integer(params[:customer_id])   rescue halt(400, "Customer ID Must Be Numeric")
@@ -237,12 +249,14 @@ class ClassDefRoutes < Sinatra::Base
     end
 
     status 201
+    {}.to_json
   end
 
   delete '/reservations/:id' do
     res = ClassReservation[params[:id]] or halt 404
     res.cancel
     status 204
+    {}.to_json
   end
 
   post '/reservations/:id/checkin' do
@@ -252,13 +266,9 @@ class ClassDefRoutes < Sinatra::Base
     reservation.to_json
   end
 
-  post '/generate' do
-    day = params[:day].nil? ? Date.today : Date.parse(params[:day])
-    ClassdefSchedule.get_all_occurrences(day.to_s,(day+1).to_s).each do |occ|
-      ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0].try(:id), Time.parse(occ[:starttime].to_s) )
-    end
-    status 204
-  end
+  ######################### RESERVATIONS ##########################
+
+  ######################### EXCEPTIONS ############################
 
   post '/exceptions' do
     excep = ClassException.find_or_create( classdef_id: params[:classdef_id], original_starttime: params[:original_starttime] ) 
@@ -271,7 +281,10 @@ class ClassDefRoutes < Sinatra::Base
   delete '/exceptions/:id' do
     excep = ClassException[params[:id]] or halt(404,'Class Exception Not Found')
     excep.delete
+    {}.to_json
   end
+
+  ######################### EXCEPTIONS ############################
 
   error do
     Slack.err( 'Class Models Error', env['sinatra.error'] )
