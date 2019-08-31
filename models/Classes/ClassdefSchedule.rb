@@ -39,7 +39,7 @@ class ClassdefSchedule < Sequel::Model
     items.sort_by!{ |x| x[:starttime] }
     items.map!{ |x| x[:classdef][:id] }
     items.uniq!
-    items | ClassDef.all_active.map(&:id)
+    items | ClassDef.list_active_and_current.map(&:id)
   end
 
   def get_occurrences(from,to)
@@ -77,33 +77,16 @@ class ClassdefSchedule < Sequel::Model
     end
   end
 
-  def to_ical_event
-    ical = Icalendar::Event.new 
-    ical.dtstart = DateTime.parse(Date.today.to_s + "T" + start_time.to_s)
-    ical.duration = "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
-    ical.rrule = rrule
-    ical.summary = "#{classdef.name} w/ #{teachers.map(&:name).join(', ')}"
-    ical
-  end
-
-  def schedule_details_hash
-    { :type        => 'classoccurrence',
-      :sched_id    => self.id,
-      :duration    => duration_sec,
-      :classdef_id => self.classdef.id,
-      :title       => self.classdef.name,
-      :instructors => self.teachers.map(&:to_token),
-      :capacity    => self.capacity
-    }
-  end
-
   def get_exception_dates
     exceptions
   end
 
+  def duration_sec;    end_time - start_time                            end
   def rrule_english;   IceCube::Rule.from_ical(rrule).to_s              end
   def start_time_12hr; Time.parse(start_time.to_s).strftime("%I:%M %P") rescue start_time end
   def end_time_12hr;   Time.parse(end_time.to_s).strftime("%I:%M %P")   rescue end_time   end
+
+  ###################################### VIEWS #######################################
 
   def description_line
     "#{classdef.name} w/ #{teachers.map(&:name).join(", ")} #{rrule_english} @ #{start_time_12hr}"
@@ -123,8 +106,26 @@ class ClassdefSchedule < Sequel::Model
     }
   end
 
-  def duration_sec
-    end_time - start_time
+  def schedule_details_hash
+    { :type        => 'classoccurrence',
+      :sched_id    => self.id,
+      :duration    => self.duration_sec,
+      :classdef_id => self.classdef.id,
+      :title       => self.classdef.name,
+      :instructors => self.teachers.map(&:to_token),
+      :capacity    => self.capacity
+    }
   end
+
+  def to_ical_event
+    ical = Icalendar::Event.new 
+    ical.dtstart = DateTime.parse(Date.today.to_s + "T" + start_time.to_s)
+    ical.duration = "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
+    ical.rrule = rrule
+    ical.summary = "#{classdef.name} w/ #{teachers.map(&:name).join(', ')}"
+    ical
+  end
+
+  ###################################### VIEWS #######################################
 
 end
