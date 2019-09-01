@@ -9,6 +9,10 @@ class CFCOffers < Sinatra::Base
   register Sinatra::SharedResources
   register Sinatra::Auth
 
+  before do
+    cache_control :no_store
+  end
+
   get( '/waterfront_deal')  { render_page :waterfront_deal }
   get( '/newstudent'  )     { render_page :new_student     }
 
