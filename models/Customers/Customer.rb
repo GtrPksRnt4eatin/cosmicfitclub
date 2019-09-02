@@ -88,6 +88,7 @@ class Customer < Sequel::Model
     self.tickets.each        { |tic| tic.customer = other; tic.save }
     self.event_checkins.each { |chk| chk.customer = other; chk.save }
     self.comp_tickets.each   { |tik| tik.customer = other; tik.save }
+    self.waivers.each        { |wav| wav.customer = other; wav.save }
 
     return if self.wallet.nil?
     other.update( :wallet => Wallet.create ) if other.wallet.nil?
@@ -112,6 +113,7 @@ class Customer < Sequel::Model
     objects << "Customer Has Comps"        if self.comp_tickets.count > 0
     objects << "Customer Has Payments"     if self.payments.count > 0
     objects << "Customer Has Checkins"     if self.event_checkins.count > 0
+    objects << "Customer Has Waivers"      if self.waivers.count > 0
     objects
   end
 
