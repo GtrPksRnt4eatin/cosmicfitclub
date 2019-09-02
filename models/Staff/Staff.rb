@@ -37,6 +37,10 @@ class Staff < Sequel::Model(:staff)
     Staff.order_by(:deactivated,:position).map(&:to_details_hash)
   end
 
+  def Staff::desk_staff_list
+    Staff.exclude(:deactivated => true).all.select{ |x| x.customer.try(:login).try(:has_role?, 'frontdesk') }.map(&:to_token)
+  end
+
   ############################## LISTS ###############################
 
   ############################## VIEWS ###############################

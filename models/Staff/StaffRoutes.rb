@@ -20,6 +20,10 @@ class StaffRoutes < Sinatra::Base
     content_type :json
     JSON.generate Staff::detail_list
   end
+
+  get '/desk_staff' do
+    JSON.generate Staff::desk_staff_list
+  end
  
   post '/' do
   	max = Staff.max(:position)

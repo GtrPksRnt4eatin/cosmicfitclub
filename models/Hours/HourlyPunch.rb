@@ -26,6 +26,10 @@ class HourlyPunch < Sequel::Model
     HourlyPunch.where( :customer_id => custy_id ).order_by(:starttime).all
   end
 
+  def HourlyPunch::open_punches
+    HourlyPunch.where( :endtime => nil ).order_by(:starttime).all.map(&:details)
+  end
+
   def HourlyPunch::punch_in(customer_id, hourly_task_id)
     HourlyPunch.create( 
   	  :customer_id => customer_id, 
@@ -61,5 +65,22 @@ class HourlyPunch < Sequel::Model
   end
 
   ################################### INSTANCE METHODS ######################################
+
+  ######################################## VIEWS ############################################
+
+  def details
+    { :id            => self.id, 
+      :staff         => self.customer.to_token,
+      :task          => self.hourly_task.to_token,
+      :starttime     => self.starttime,
+      :rounded_start => self.rounded_start,
+      :endtime       => self.endtime,
+      :rounded_end   => self.rounded_end,
+      :duration      => self.duration,
+      :closed        => self.closed?,
+    }
+  end
+
+  ######################################## VIEWS ############################################
 
 end
