@@ -40,4 +40,8 @@ class Rental < Sequel::Model
     "#{ time_12h(self.start_time) } - #{ self.title }"
   end
 
+  def time_12h(val) 
+    Time.parse(val.to_s).strftime("%Y %b %-d @ %I:%M %P") rescue val 
+  end
+
 end
