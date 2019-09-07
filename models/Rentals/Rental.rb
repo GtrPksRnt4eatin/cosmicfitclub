@@ -1,6 +1,7 @@
 class Rental < Sequel::Model
 
   def after_create
+    super
     Slack.website_scheduling("Private Rental Added: #{ self.description }")
   end
   
@@ -36,7 +37,7 @@ class Rental < Sequel::Model
   end
 
   def description
-    "#{ time_12h(self.starttime) } - #{ self.title }"
+    "#{ time_12h(self.start_time) } - #{ self.title }"
   end
 
 end
