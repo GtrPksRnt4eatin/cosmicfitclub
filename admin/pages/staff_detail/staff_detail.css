@@ -11,7 +11,7 @@
 
 /* STAFF TILE */
 
-.staff_tile {
+taff_tile {
   display: flex;
   text-align: left;
   padding: 0.25em;
@@ -55,6 +55,24 @@
 }
 
 /* CUSTOMER TILE */
+
+/* SCHEDULE TILE */
+
+  .classes, .shifts {
+    margin: 0.5em;
+  }
+
+  .classes .sched,
+  .shifts .shift {
+    background: rgba(255,255,255,0.2);
+    display: inline-block;
+    margin: 0.5em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    box-shadow: 0 0 0.5em black;
+  }
+
+/* SCHEDULE TILE */
 
 /* TUPLES */
 

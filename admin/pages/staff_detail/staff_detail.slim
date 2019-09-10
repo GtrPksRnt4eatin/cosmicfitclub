@@ -59,13 +59,13 @@ html
               | { data.staff.subscription.began_on | datewyr } - { data.staff.subscription.cancelled_on | datewyr }
 
       .tile
-
+        h3 Scheduling
         .classes rv-show='data.staff.schedules'
           .title Currently Scheduled Classes
           .sched rv-each-sched='data.staff.schedules'
-            div {sched.id}
-            div {sched.classdef.name}
-            div {sched.rrule} @ {sched.start_time}
+            div[] {sched.id}
+            div[] {sched.classdef.name}
+            div[] {sched.rrule} @ {sched.start_time}
 
         .shifts rv-show='data.staff.shifts'
           .title Hourly Shifts
