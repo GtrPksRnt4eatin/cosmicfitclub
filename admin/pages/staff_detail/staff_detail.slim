@@ -41,9 +41,9 @@ html
       .tile.customer_tile    
         .tuple
           .attrib Linked Customer:
-          .value.editable rv-on-click='edit_customer' rv-show='data.staff.customer' 
+          .value.editable rv-on-click='ctrl.edit_customer' rv-show='data.staff.customer' 
             | [{ data.staff.customer.id}] {data.staff.customer.name} ({data.staff.customer.email})
-          .value.editable rv-on-click='edit_customer' rv-hide='data.staff.customer'
+          .value.editable rv-on-click='ctrl.edit_customer' rv-hide='data.staff.customer'
             | No Customer Linked
         .tuple
           .attrib Subscription:
