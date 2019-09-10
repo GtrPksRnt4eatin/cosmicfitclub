@@ -17,6 +17,7 @@ $(document).ready(function() {
   popupmenu      = new PopupMenu( id('popupmenu_container') );
   custy_selector = new CustySelector();
   edit_text      = new EditText();
+  img_chooser    = new AspectImageChooser();
 
   custy_selector.ev_sub('show'       , popupmenu.show );
   custy_selector.ev_sub('close_modal', popupmenu.hide );
