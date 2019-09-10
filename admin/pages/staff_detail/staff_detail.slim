@@ -10,7 +10,8 @@ html
 
     == css ['fonts', 'site', 'header', '/admin/staff_detail', 'admin_footer']
     == js  ['jquery', 'moment', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', 'popupmenu' ]
-    == js  [ '/auth/elements/userview', '/admin/elements/edit_text', 'menu', '/admin/staff_detail' ]  
+    == js  [ '/auth/elements/userview', '/admin/elements/edit_text', '/admin/elements/custy_selector' ]
+    == js  [ 'menu', '/admin/staff_detail' ]  
 
   body.p4
 
@@ -42,7 +43,7 @@ html
           .attrib Linked Customer:
           .value.editable rv-on-click='edit_customer' rv-show='data.staff.customer' 
             | [{ data.staff.customer.id}] {data.staff.customer.name} ({data.staff.customer.email})
-          .value.editable rv-hide='data.staff.customer'
+          .value.editable rv-on-click='edit_customer' rv-hide='data.staff.customer'
             | No Customer Linked
         .tuple
           .attrib Subscription:

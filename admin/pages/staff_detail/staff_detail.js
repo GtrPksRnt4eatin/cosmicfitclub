@@ -1,5 +1,6 @@
 data = {
-  staff: {}
+  staff: {},
+  customer_id: function() { return data.staff.customer ? data.staff.customer.id : 0; }
 }
 
 var ctrl = {
@@ -7,16 +8,22 @@ var ctrl = {
   edit_name:     function(e,m) { edit_text.show("Edit Staff Name",  data.staff.name,   function(val) { data.staff.name = val;  post_staff_details({ name:  val }); } ) },
   edit_title:    function(e,m) { edit_text.show("Edit Staff Title", data.staff.title,  function(val) { data.staff.title = val; post_staff_details({ title: val }); } ) },
   edit_bio:      function(e,m) { edit_text.show_long("Edit Staff Bio", data.staff.bio, function(val) { data.staff.bio   = val; post_staff_details({ bio: val   }); } ) },
+  edit_customer: function(e,m) { custy_selector.show_modal( data.customer_id, function(val) { post_staff_details({ customer_id: val }); } ) },
   create_sub:    function(e,m) { $.post("/models/staff/" + data.staff.id + "/create_sub", function() { get_staff_details(); } ); }
 }
 
 $(document).ready(function() {
 
-  popupmenu = new PopupMenu( id('popupmenu_container') );
-  edit_text = new EditText();
+  popupmenu      = new PopupMenu( id('popupmenu_container') );
+  custy_selector = new CustySelector();
+  edit_text      = new EditText();
+
+  custy_selector.ev_sub('show'       , popupmenu.show );
+  custy_selector.ev_sub('close_modal', popupmenu.hide );
 
   edit_text.ev_sub('show', popupmenu.show );
   edit_text.ev_sub('done', popupmenu.hide );
+
   popupmenu.ev_sub('close', edit_text.cancel);
 
   init_rivets();

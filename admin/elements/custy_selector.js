@@ -48,8 +48,8 @@ CustySelector.prototype = {
     }.bind(this));
   },
 
-  show_modal: function(value, callback) {
-    this.select_customer(value);
+  show_modal: function(customer_id, callback) {
+    this.select_customer(customer_id);
     this.state.callback = callback;
     this.ev_fire('show', { 'dom': this.modal_dom, 'position': 'modal'} );
   },
