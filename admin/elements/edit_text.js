@@ -34,7 +34,7 @@ EditText.prototype = {
 	  this.state.callback.call(null,this.state.value);
     this.state.long = false
 	  this.state.callback = null;
-	  this.ev_fire('done', value);
+	  this.ev_fire('done', this.state.value);
 	},
 
 	cancel: function() {
