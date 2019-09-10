@@ -41,7 +41,7 @@ class StaffRoutes < Sinatra::Base
   post '/:id' do
     staff = Staff[params[:id]] or halt(404,"Staff Not Found")
     staff.update(params[:values])
-    status 204
+    status 204; [].to_json
   end
 
   post '/:id/create_sub' do

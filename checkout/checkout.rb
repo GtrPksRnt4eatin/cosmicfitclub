@@ -1,11 +1,13 @@
 require 'sinatra/base'
 require_relative './extensions/checkouthelpers'
 require_relative './extensions/paymentmethods'
+require_relative './extensions/rental_text'
 
 class Checkout < Sinatra::Base
 
   helpers Sinatra::CheckoutHelpers
   helpers Sinatra::PaymentMethods
+  helpers Sinatra::RentalText
   
   set :root, File.dirname(__FILE__)
 
@@ -62,14 +64,6 @@ class Checkout < Sinatra::Base
   post('/save_card',        :self_or => 'frontdesk' ) { save_card           }
   post('/set_default_card', :self_or => 'frontdesk' ) { set_default_card    }
   post('/remove_card',      :self_or => 'frontdesk' ) { remove_card         }
-
-  #error 401 do
-  #  render_page :error
-  #end
-
-  #error 404 do
-  #  render_page :error
-  #end
 
   error do
     Slack.err( 'Checkout Error', env['sinatra.error'] )
