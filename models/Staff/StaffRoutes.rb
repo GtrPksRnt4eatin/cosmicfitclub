@@ -39,6 +39,7 @@ class StaffRoutes < Sinatra::Base
   end
 
   post '/:id' do
+    content_type :json
     staff = Staff[params[:id]] or halt(404,"Staff Not Found")
     staff.update(params[:values])
     status 204; [].to_json

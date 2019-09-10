@@ -37,6 +37,6 @@ function get_staff_details() {
 
 function post_staff_details(values) {
   $.post( "/models/staff/" + data.staff.id, { values: values } )
-   .success( get_staff_details )
+   .done( get_staff_details )
    .fail( alert("Failed To Save Updated Value") )
 }
