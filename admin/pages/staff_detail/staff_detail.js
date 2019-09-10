@@ -22,6 +22,8 @@ $(document).ready(function() {
   custy_selector.ev_sub('show'       , popupmenu.show );
   custy_selector.ev_sub('close_modal', popupmenu.hide );
 
+  img_chooser.ev_sub('show', popupmenu.show );
+
   edit_text.ev_sub('show', popupmenu.show );
   edit_text.ev_sub('done', popupmenu.hide );
 
