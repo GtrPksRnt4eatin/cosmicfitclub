@@ -1,13 +1,11 @@
 require 'sinatra/base'
 require_relative './extensions/checkouthelpers'
 require_relative './extensions/paymentmethods'
-require_relative './extensions/rental_text'
 
 class Checkout < Sinatra::Base
 
   helpers Sinatra::CheckoutHelpers
   helpers Sinatra::PaymentMethods
-  helpers Sinatra::RentalText
   
   set :root, File.dirname(__FILE__)
 
