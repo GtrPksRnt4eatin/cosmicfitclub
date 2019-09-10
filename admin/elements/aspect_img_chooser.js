@@ -36,7 +36,7 @@ AspectImageChooser.prototype = {
         reader.onload = function (e) {
           $('.AspectImageChooser .upload').addClass('ready');
           this.state.croppie.croppie('bind', { url: e.target.result }).then(function(){ console.log('jQuery bind complete'); });   
-        }
+        }.bind(this);
         reader.readAsDataURL(this.files[0]);
       }
       else { swal("Sorry - you're browser doesn't support the FileReader API"); }
