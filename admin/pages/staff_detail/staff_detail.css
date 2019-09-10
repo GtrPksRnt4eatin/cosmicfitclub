@@ -11,7 +11,7 @@
 
 /* STAFF TILE */
 
-taff_tile {
+.staff_tile {
   display: flex;
   text-align: left;
   padding: 0.25em;
