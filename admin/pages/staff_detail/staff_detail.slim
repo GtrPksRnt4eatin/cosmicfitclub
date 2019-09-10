@@ -8,7 +8,7 @@ html
 
     title Cosmicfit Admin
 
-    == css ['fonts', 'site', 'header', '/admin/staff_detail', 'admin_footer']
+    == css ['fonts', 'site', 'header', '/admin/staff_detail', 'admin_footer', 'selectize']
     == js  ['jquery', 'moment', 'selectize.min', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', 'popupmenu' ]
     == js  [ '/auth/elements/userview', '/admin/elements/edit_text', '/admin/elements/custy_selector' ]
     == js  [ 'menu', '/admin/staff_detail' ]  
@@ -59,11 +59,15 @@ html
               | { data.staff.subscription.began_on | datewyr } - { data.staff.subscription.cancelled_on | datewyr }
 
       .tile
-        .classes
+
+        .classes rv-show='data.staff.schedules'
           .title Currently Scheduled Classes
           .sched rv-each-sched='data.staff.schedules'
-            | {sched.id} - {sched.classdef.name} - {sched.rrule} @ {sched.start_time}
-        .shifts
+            div {sched.id}
+            div {sched.classdef.name}
+            div {sched.rrule} @ {sched.start_time}
+
+        .shifts rv-show='data.staff.shifts'
           .title Hourly Shifts
           .shift rv-each-shift='data.staff.shifts'
             | { shift.task.name } { shift.recurrence } { shift.range }
