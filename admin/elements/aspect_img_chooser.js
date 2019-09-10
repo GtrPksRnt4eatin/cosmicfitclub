@@ -26,7 +26,7 @@ AspectImageChooser.prototype = {
       showZoomer: false
     });
 
-    $(this.dom).find('.AspectImageChooser .cr-viewport::before').on('click', function() {
+    $(this.dom).find('.AspectImageChooser .cr-viewport').on('click', function() {
       $(this.dom).find('.AspectImageChooser input').trigger("click");
     }.bind(this));
 
