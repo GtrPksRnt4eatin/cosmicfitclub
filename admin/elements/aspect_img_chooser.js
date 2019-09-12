@@ -7,12 +7,14 @@ function AspectImageChooser(parent) {
     'filename' : ""
   }
 
-  this.bind_handlers(['build_croppie', 'input_change']);
+  this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
   this.bind_dom();
 
+  this.reader = new FileReader();
+  this.reader.onload = this.on_reader_load;
   this.croppie = {};
   this.input = $(this.dom).find('.upload')[0];
 
@@ -24,7 +26,7 @@ AspectImageChooser.prototype = {
   build_croppie: function(width,height) {
   	this.state.width  = width  | this.state.width;
   	this.state.height = height | this.state.height;
-  	this.croppie = $(this.dom).find('.croppie').croppie({
+  	this.croppie = $(this.dom).find('.croppie')[0].croppie({
       viewport: { width: this.state.width, height: this.state.height },
       boundary: { width: this.state.width + 50, height: this.state.height + 50 },
       showZoomer: false
@@ -39,12 +41,11 @@ AspectImageChooser.prototype = {
     if( !this.input.files    ) { console.log("Browser doesn't support FileReader API!"); return; }
     if( !this.input.files[0] ) { console.log("Browser doesn't support FileReader API!"); return; }
     this.state.filename = this.input.files[0].name;
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      $(this.dom).addClass('ready');
-      this.croppie.croppie('bind', { url: e.target.result });
-    }.bind(this);
-    reader.readAsDataURL(this.input.files[0]);
+    this.reader.readAsDataURL(this.input.files[0]);
+  },
+
+  on_reader_load: function(e) {
+    this.load_url(e.target.result);
   },
 
   show_modal: function(title, value, callback) {
@@ -52,6 +53,15 @@ AspectImageChooser.prototype = {
     this.state.value = value;
     this.state.callback = callback;
     this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
+  },
+
+  load_url: function(url) {
+    $(this.dom).addClass('ready');
+    this.croppie.croppie('bind', { url: url });
+  },
+
+  crop_image: function(filename,url,width,height) {
+    this.build_croppie
   }
 
 }
