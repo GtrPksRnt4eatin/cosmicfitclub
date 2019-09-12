@@ -20,17 +20,17 @@ AspectImageChooser.prototype = {
   build_croppie: function(width,height) {
   	this.state.width  = width  | this.state.width;
   	this.state.height = height | this.state.height;
-  	this.state.croppie = $(this.dom).find('.AspectImageChooser .croppie').croppie({
+  	this.state.croppie = $(this.dom).find('.croppie').croppie({
       viewport: { width: this.state.width, height: this.state.height },
       boundary: { width: this.state.width + 50, height: this.state.height + 50 },
       showZoomer: false
     });
 
-    $(this.dom).find('.AspectImageChooser .cr-viewport').on('click', function() {
-      $(this.dom).find('.AspectImageChooser input').trigger("click");
+    $(this.dom).find('.cr-viewport').on('click', function() {
+      $(this.dom).find('input').trigger("click");
     }.bind(this));
 
-    $('.AspectImageChooser .upload').on('change', function(el) {
+    $(this.dom).find('.upload').on('change', function(el) {
       if (this.files && this.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
