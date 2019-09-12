@@ -2,8 +2,8 @@ function AspectImageChooser(parent) {
   
   this.state = {
     'croppie' : {},
-    'width'   : 300,
-    'height'  : 300 
+    'width'   : 500,
+    'height'  : 500 
   }
 
   this.bind_handlers(['build_croppie', 'input_change']);
@@ -95,7 +95,7 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   }
 
   .AspectImageChooser.ready .cr-image {
-    display: auto;
+    display: inline-block;
   }
 
 **/}).untab(2);
