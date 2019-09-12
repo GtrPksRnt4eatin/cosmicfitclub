@@ -30,7 +30,7 @@ AspectImageChooser.prototype = {
       viewport: { width: this.state.width, height: this.state.height },
       boundary: { width: this.state.width + 50, height: this.state.height + 50 },
       showZoomer: false
-    })[0];
+    });
 
     $(this.dom).find('.cr-viewport').on('click', function() {
       $(this.input).trigger("click");
