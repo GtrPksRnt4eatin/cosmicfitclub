@@ -35,3 +35,4 @@ Rentals
     - $25/hr up to 2 students
     - $10/student/hr after 2
     - Max 4 students
+    
