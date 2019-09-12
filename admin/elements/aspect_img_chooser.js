@@ -13,10 +13,10 @@ function AspectImageChooser(parent) {
   this.load_styles();
   this.bind_dom();
 
-  this.reader = new FileReader();
+  this.reader        = new FileReader();
   this.reader.onload = this.on_reader_load;
-  this.croppie = {};
-  this.input = $(this.dom).find('.upload')[0];
+  this.croppie       = this.build_croppie();
+  this.input         = $(this.dom).find('.upload')[0];
 
 }
 
@@ -35,6 +35,8 @@ AspectImageChooser.prototype = {
     $(this.dom).find('.cr-viewport').on('click', function() {
       $(this.input).trigger("click");
     }.bind(this));
+
+    return this.croppie;
   },
 
   input_change: function(e,m) {
@@ -61,7 +63,6 @@ AspectImageChooser.prototype = {
   },
 
   crop_image: function(filename,url,width,height) {
-    this.build_croppie
   }
 
 }
