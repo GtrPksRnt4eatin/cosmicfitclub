@@ -42,7 +42,7 @@ AspectImageChooser.prototype = {
       $(this.dom).addClass('ready');
       this.croppie.croppie('bind', { url: e.target.result });   
     }.bind(this);
-    reader.readAsDataURL(input.files[0]);
+    reader.readAsDataURL(this.input.files[0]);
   },
 
   show_modal: function(title, value, callback) {
