@@ -28,7 +28,7 @@ AspectImageChooser.prototype = {
   	this.state.height = height | this.state.height;
   	this.croppie = $(this.dom).find('.croppie').croppie({
       viewport: { width: this.state.width, height: this.state.height },
-      boundary: { width: this.state.width + 150, height: this.state.height + 150 },
+      boundary: { width: this.state.width + 100, height: this.state.height + 100 },
       showZoomer: false
     });
 
@@ -91,8 +91,8 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   .AspectImageChooser {
     display: inline-block;
     vertical-align: middle;
-    padding: 2em;
-    background: rgb(230,230,230);
+    padding: 100px;
+    background: rgb(10,10,10);
     border-radius: 
   }
   
