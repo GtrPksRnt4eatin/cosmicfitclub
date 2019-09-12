@@ -34,7 +34,7 @@ AspectImageChooser.prototype = {
       if (this.files && this.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-          $('.AspectImageChooser .upload').addClass('ready');
+          $(this.dom).find('.upload').addClass('ready');
           this.state.croppie.croppie('bind', { url: e.target.result }).then(function(){ console.log('jQuery bind complete'); });   
         }.bind(this);
         reader.readAsDataURL(this.files[0]);
@@ -70,6 +70,10 @@ AspectImageChooser.prototype.HTML =  ES5Template(function(){/**
 **/}).untab(2);
 
 AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
+
+  .AspectImageChooser {
+    display: inline-block;
+  }
   
   .AspectImageChooser .upload.ready .cr-viewport::before {
     content: none;
