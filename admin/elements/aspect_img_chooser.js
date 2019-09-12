@@ -39,7 +39,7 @@ AspectImageChooser.prototype = {
     if( !this.input.files[0] ) { console.log("Browser doesn't support FileReader API!"); return; }
     var reader = new FileReader();
     reader.onload = function (e) {
-      $(this.input).addClass('ready');
+      $(this.dom).addClass('ready');
       this.croppie.croppie('bind', { url: e.target.result });   
     }.bind(this);
     reader.readAsDataURL(input.files[0]);
@@ -73,7 +73,7 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
     display: inline-block;
   }
   
-  .AspectImageChooser .upload.ready .cr-viewport::before {
+  .AspectImageChooser.ready .cr-viewport::before {
     content: none;
   }
 
@@ -88,6 +88,14 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
     padding: 2em;
     text-align: center;
     display: inline-block;
+  }
+
+  .AspectImageChooser .cr-image {
+    display: none;
+  }
+
+  .AspectImageChooser.ready .cr-image {
+    display: auto;
   }
 
 **/}).untab(2);
