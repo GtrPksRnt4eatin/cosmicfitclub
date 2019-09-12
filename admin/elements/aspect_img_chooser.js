@@ -7,7 +7,7 @@ function AspectImageChooser(parent) {
     'filename' : ""
   }
 
-  this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url']);
+  this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url', 'open_file', 'edit_image']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
@@ -32,11 +32,13 @@ AspectImageChooser.prototype = {
       showZoomer: false
     });
 
-    $(this.dom).find('.cr-viewport').on('click', function() {
-      $(this.input).trigger("click");
-    }.bind(this));
+    $(this.dom).find('.cr-viewport').on('click', this.open_file);
 
     return this.croppie;
+  },
+
+  open_file: function(e,m) {
+    $(this.input).trigger("click");
   },
 
   input_change: function(e,m) {
@@ -62,7 +64,9 @@ AspectImageChooser.prototype = {
     this.croppie.croppie('bind', { url: url });
   },
 
-  crop_image: function(filename,url,width,height) {
+  edit_image: function(filename,url) {
+    this.state.filename = filename;
+    this.load_url(url);
   }
 
 }
@@ -78,9 +82,8 @@ AspectImageChooser.prototype.HTML =  ES5Template(function(){/**
     </div>
     <div class="toolbar">
       <span class='filename'>{ state.filename }</span>
-      <button>Open</button>
-      <button>Done</button>
-      <button>Cancel</button>
+      <button rv-on-click='this.open_file'>Upload</button>
+      <button>Save Crop</button>
     </div>
   </div>
   
@@ -135,6 +138,11 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
 
   .AspectImageChooser .toolbar button {
     font-size: 1em;
+    background: rgb(100,100,100);
+    color: white;
+    padding: 0.25em 1em;
+    border: 0;
+    cursor: pointer;
   }
 
 **/}).untab(2);
