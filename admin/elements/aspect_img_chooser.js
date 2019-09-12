@@ -6,7 +6,7 @@ function AspectImageChooser(parent) {
     'height'  : 300 
   }
 
-  this.bind_handlers(['build_croppie']);
+  this.bind_handlers(['build_croppie', 'input_change']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
@@ -29,22 +29,18 @@ AspectImageChooser.prototype = {
     $(this.dom).find('.cr-viewport').on('click', function() {
       $(this.dom).find('input').trigger("click");
     }.bind(this));
-
-    $(this.dom).find('.upload').on('change', function(el) {
-      if (this.files && this.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          $(this.dom).find('.upload').addClass('ready');
-          this.state.croppie.croppie('bind', { url: e.target.result }).then(function(){ console.log('jQuery bind complete'); });   
-        }.bind(this);
-        reader.readAsDataURL(this.files[0]);
-      }
-      else { swal("Sorry - you're browser doesn't support the FileReader API"); }
-    });
   },
 
   input_change: function(e,m) {
-  	var x = 5;
+  	input = $(this.dom).find('.upload').first();
+    if( !input.files    ) { console.log("Browser doesn't support FileReader API!"); return; }
+    if( !input.files[0] ) { console.log("Browser doesn't support FileReader API!"); return; }
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $(this.dom).find('.upload').addClass('ready');
+      this.state.croppie.croppie('bind', { url: e.target.result });   
+    }.bind(this);
+    reader.readAsDataURL(input.files[0]);
   },
 
   show_modal: function(title, value, callback) {
