@@ -113,6 +113,12 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
     display: inline-block;
   }
 
+  .AspectImageChooser .upload {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
   .AspectImageChooser .cr-image {
     display: none;
   }
