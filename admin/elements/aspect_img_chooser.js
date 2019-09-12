@@ -1,9 +1,10 @@
 function AspectImageChooser(parent) {
   
   this.state = {
-    'croppie' : {},
-    'width'   : 500,
-    'height'  : 500 
+    'croppie'  : {},
+    'width'    : 500,
+    'height'   : 500,
+    'filename' : ""
   }
 
   this.bind_handlers(['build_croppie', 'input_change']);
@@ -37,10 +38,11 @@ AspectImageChooser.prototype = {
   input_change: function(e,m) {
     if( !this.input.files    ) { console.log("Browser doesn't support FileReader API!"); return; }
     if( !this.input.files[0] ) { console.log("Browser doesn't support FileReader API!"); return; }
+    this.state.filename = this.input.files[0].name;
     var reader = new FileReader();
     reader.onload = function (e) {
       $(this.dom).addClass('ready');
-      this.croppie.croppie('bind', { url: e.target.result });   
+      this.croppie.croppie('bind', { url: e.target.result });
     }.bind(this);
     reader.readAsDataURL(this.input.files[0]);
   },
@@ -63,6 +65,12 @@ AspectImageChooser.prototype.HTML =  ES5Template(function(){/**
     <div class="croppie">
       <input class="upload" rv-on-change="this.input_change" type="file" accept="image/*"></input>
     </div>
+    <div class="toolbar">
+      <span class='filename'>{ state.filename }</span>
+      <button>Open</button>
+      <button>Done</button>
+      <button>Cancel</button>
+    </div>
   </div>
   
 **/}).untab(2);
@@ -71,6 +79,7 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
 
   .AspectImageChooser {
     display: inline-block;
+    vertical-align: middle;
   }
   
   .AspectImageChooser.ready .cr-viewport::before {
