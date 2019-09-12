@@ -128,7 +128,12 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   }
 
   .AspectImageChooser .toolbar {
-    background: rgba(200,200,200,1);
+    background: rgba(50,50,50,1);
+    font-size: 2em;
+  }
+
+  .AspectImageChooser .toolbar button {
+    font-size: 2em;
   }
 
 **/}).untab(2);
