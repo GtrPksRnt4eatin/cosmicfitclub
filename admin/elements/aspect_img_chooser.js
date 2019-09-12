@@ -26,11 +26,11 @@ AspectImageChooser.prototype = {
   build_croppie: function(width,height) {
   	this.state.width  = width  | this.state.width;
   	this.state.height = height | this.state.height;
-  	this.croppie = $(this.dom).find('.croppie')[0].croppie({
+  	this.croppie = $(this.dom).find('.croppie').croppie({
       viewport: { width: this.state.width, height: this.state.height },
       boundary: { width: this.state.width + 50, height: this.state.height + 50 },
       showZoomer: false
-    });
+    })[0];
 
     $(this.dom).find('.cr-viewport').on('click', function() {
       $(this.input).trigger("click");
