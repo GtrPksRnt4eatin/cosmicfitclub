@@ -28,7 +28,7 @@ AspectImageChooser.prototype = {
   	this.state.height = height | this.state.height;
   	this.croppie = $(this.dom).find('.croppie').croppie({
       viewport: { width: this.state.width, height: this.state.height },
-      boundary: { width: this.state.width + 50, height: this.state.height + 50 },
+      boundary: { width: this.state.width + 150, height: this.state.height + 150 },
       showZoomer: false
     });
 
@@ -91,6 +91,9 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   .AspectImageChooser {
     display: inline-block;
     vertical-align: middle;
+    padding: 2em;
+    background: rgb(230,230,230);
+    border-radius: 
   }
   
   .AspectImageChooser.ready .cr-viewport::before {
@@ -116,6 +119,10 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
 
   .AspectImageChooser.ready .cr-image {
     display: inline-block;
+  }
+
+  .AspectImageChooser .toolbar {
+    background: rgba(200,200,200,1);
   }
 
 **/}).untab(2);
