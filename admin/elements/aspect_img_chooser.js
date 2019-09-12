@@ -92,8 +92,9 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
     display: inline-block;
     vertical-align: middle;
     padding: 100px;
-    background: rgb(10,10,10);
-    border-radius: 
+    background: rgb(20,20,20);
+    border-radius: 50px;
+    box-shadow: 0 0 10px black; 
   }
   
   .AspectImageChooser.ready .cr-viewport::before {
