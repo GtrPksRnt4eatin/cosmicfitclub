@@ -32,7 +32,7 @@ AspectImageChooser.prototype = {
   },
 
   input_change: function(e,m) {
-  	input = $(this.dom).find('.upload').first();
+  	input = $(this.dom).find('.upload')[0];
     if( !input.files    ) { console.log("Browser doesn't support FileReader API!"); return; }
     if( !input.files[0] ) { console.log("Browser doesn't support FileReader API!"); return; }
     var reader = new FileReader();
