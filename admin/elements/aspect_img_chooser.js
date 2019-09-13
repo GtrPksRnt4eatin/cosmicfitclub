@@ -138,10 +138,15 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
     display: flex
   }
 
+  .AspectImageChooser .toolbar .filename {
+    flex: 1;
+  }
+
   .AspectImageChooser .toolbar .filename span {
     max-width: 25em;
-    text-overflow: elipsis;
-    flex: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
   }
 
   .AspectImageChooser .toolbar button {
@@ -151,7 +156,8 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
     padding: 0.25em 1em;
     border: 0;
     cursor: pointer;
-    flex: 0 0 12em;
+    flex: 0 0 8em;
+    margin-left: 0.5em;
   }
 
 **/}).untab(2);
