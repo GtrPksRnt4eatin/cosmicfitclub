@@ -1,7 +1,6 @@
 function AspectImageChooser(parent) {
   
   this.state = {
-    'croppie'  : {},
     'width'    : 500,
     'height'   : 500,
     'filename' : ""
@@ -81,7 +80,9 @@ AspectImageChooser.prototype.HTML =  ES5Template(function(){/**
       <input class="upload" rv-on-change="this.input_change" type="file" accept="image/*"></input>
     </div>
     <div class="toolbar">
-      <span class='filename'>{ state.filename }</span>
+      <span class='filename'>
+        <span>{ state.filename }</span>
+      </span>
       <button rv-on-click='this.open_file'>Upload</button>
       <button>Save Crop</button>
     </div>
@@ -134,6 +135,13 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   .AspectImageChooser .toolbar {
     background: rgba(50,50,50,1);
     font-size: 1em;
+    display: flex
+  }
+
+  .AspectImageChooser .toolbar .filename span {
+    max-width: 25em;
+    text-overflow: elipsis;
+    flex: 1;
   }
 
   .AspectImageChooser .toolbar button {
@@ -143,6 +151,7 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
     padding: 0.25em 1em;
     border: 0;
     cursor: pointer;
+    flex: 0 0 12em;
   }
 
 **/}).untab(2);
