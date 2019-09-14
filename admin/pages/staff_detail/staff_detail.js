@@ -4,7 +4,7 @@ data = {
 }
 
 var ctrl = {
-  edit_headshot: function(e,m) { img_chooser.edit_image(data.staff.image_url, data.staff.image_url); img_chooser.show_modal(); },
+  edit_headshot: function(e,m) { img_chooser.edit_image(data.staff.image_data.original.metadata.filename, data.staff.image_url); img_chooser.show_modal(); },
   edit_name:     function(e,m) { edit_text.show("Edit Staff Name",  data.staff.name,   function(val) { data.staff.name = val;  post_staff_details({ name:  val }); } ) },
   edit_title:    function(e,m) { edit_text.show("Edit Staff Title", data.staff.title,  function(val) { data.staff.title = val; post_staff_details({ title: val }); } ) },
   edit_bio:      function(e,m) { edit_text.show_long("Edit Staff Bio", data.staff.bio, function(val) { data.staff.bio   = val; post_staff_details({ bio: val   }); } ) },
