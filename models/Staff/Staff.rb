@@ -46,7 +46,7 @@ class Staff < Sequel::Model(:staff)
   ############################## VIEWS ###############################
 
   def to_hash
-    super.tap { |h| h[:image_data] = JSON.parse(h[:image_data]) }
+    super.tap { |h| h[:image_data] = JSON.parse(h[:image_data]) unless h[:image_data].nil? }
   end
 
   def to_token
