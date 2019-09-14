@@ -65,7 +65,7 @@ AspectImageChooser.prototype = {
   load_url: function(url) {
     this.state.url = url
     $(this.dom).addClass('ready');
-    this.croppie.croppie('bind', { url: url });
+    this.croppie.bind({ url: url });
   },
 
   edit_image: function(filename,url) {
