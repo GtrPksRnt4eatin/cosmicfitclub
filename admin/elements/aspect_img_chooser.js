@@ -26,7 +26,8 @@ AspectImageChooser.prototype = {
   build_croppie: function(width,height) {
   	this.state.width  = width  | this.state.width;
   	this.state.height = height | this.state.height;
-  	this.croppie = $(this.dom).find('.croppie').croppie({
+    el = $(this.dom).find('.croppie')[0];
+  	this.croppie = new Croppie( el, {
       viewport: { width: this.state.width, height: this.state.height },
       boundary: { width: this.state.width + 100, height: this.state.height + 100 },
       showZoomer: false
@@ -73,7 +74,7 @@ AspectImageChooser.prototype = {
   },
 
   save_crop: function() {
-    this.ev_fire('image_cropped', { 'filename': this.state.filename, 'blob': this.croppie.croppie.result('blob') } )
+    this.ev_fire('image_cropped', { 'filename': this.state.filename, 'blob': this.croppie.result('blob') } )
   },
 
   resize: function(width,height) {
@@ -83,7 +84,7 @@ AspectImageChooser.prototype = {
   },
 
   rebuild_croppie: function() {
-    this.croppie.croppie('destroy');
+    this.croppie.destroy();
     this.build_croppie();
   }
 
