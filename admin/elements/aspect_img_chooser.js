@@ -3,7 +3,8 @@ function AspectImageChooser(parent) {
   this.state = {
     'width'    : 500,
     'height'   : 500,
-    'filename' : ""
+    'filename' : '',
+    'url'      : null
   }
 
   this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url', 'open_file', 'edit_image']);
@@ -33,6 +34,8 @@ AspectImageChooser.prototype = {
 
     $(this.dom).find('.cr-viewport').on('click', this.open_file);
 
+    if(this.state.url) { this.load_url(this.state.url); }
+
     return this.croppie;
   },
 
@@ -59,6 +62,7 @@ AspectImageChooser.prototype = {
   },
 
   load_url: function(url) {
+    this.state.url = url
     $(this.dom).addClass('ready');
     this.croppie.croppie('bind', { url: url });
   },
@@ -66,6 +70,17 @@ AspectImageChooser.prototype = {
   edit_image: function(filename,url) {
     this.state.filename = filename;
     this.load_url(url);
+  },
+
+  save_crop: function() {
+
+  },
+
+  resize: function(width,height) {
+    this.state.width = width;
+    this.state.height = height;
+    this.croppie.croppie('destroy');
+    this.build_croppie();
   }
 
 }
@@ -95,7 +110,7 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   .AspectImageChooser {
     display: inline-block;
     vertical-align: middle;
-    padding: 100px;
+    padding: 150px;
     background: rgb(20,20,20);
     border-radius: 50px;
     box-shadow: 0 0 10px black; 
