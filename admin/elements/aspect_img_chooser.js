@@ -107,7 +107,7 @@ AspectImageChooser.prototype.HTML =  ES5Template(function(){/**
         <span>{ state.filename }</span>
       </span>
       <button rv-on-click='this.open_file'>Upload</button>
-      <button>Save Crop</button>
+      <button rv-on-click='this.save_crop'>Save Crop</button>
     </div>
   </div>
   
