@@ -23,6 +23,13 @@ $(document).ready(function() {
   custy_selector.ev_sub('close_modal', popupmenu.hide );
 
   img_chooser.ev_sub('show', popupmenu.show );
+  img_chooser.ev_sub('image_cropped', function(val) { 
+    fd = new FormData(); 
+    fd.append('image', val['blob'], val['filename'] ); 
+    request = new XMLHttpRequest();
+    request.open( "POST", "/models/staff/" + data.staff.id, true );
+    request.send(fd);
+  } )
 
   edit_text.ev_sub('show', popupmenu.show );
   edit_text.ev_sub('done', popupmenu.hide );
