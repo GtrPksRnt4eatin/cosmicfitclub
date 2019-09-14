@@ -46,9 +46,7 @@ class Staff < Sequel::Model(:staff)
   ############################## VIEWS ###############################
 
   def to_hash
-    hsh = super
-    hsh[:image_data] = JSON.parse(hsh[:image_data])
-    hsh
+    super.tap { |h| h[:image_data] = JSON.parse(h[:image_data]) }
   end
 
   def to_token
