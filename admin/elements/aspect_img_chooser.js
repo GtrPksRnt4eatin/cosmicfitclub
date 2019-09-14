@@ -183,4 +183,11 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
     margin-left: 0.5em;
   }
 
+  .AspectImageChooser .toolbar input {
+    width: 8em;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 0;
+  }
+
 **/}).untab(2);
