@@ -7,7 +7,7 @@ function AspectImageChooser(parent) {
     'url'      : null
   }
 
-  this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url', 'open_file', 'edit_image']);
+  this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url', 'open_file', 'edit_image', 'resize', 'rebuild_croppie', 'save_crop']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
@@ -73,12 +73,16 @@ AspectImageChooser.prototype = {
   },
 
   save_crop: function() {
-
+    this.ev_fire('image_cropped', { 'blob': this.croppie.croppie.result('blob') } )
   },
 
   resize: function(width,height) {
     this.state.width = width;
     this.state.height = height;
+    this.rebuild_croppie();
+  },
+
+  rebuild_croppie: function() {
     this.croppie.croppie('destroy');
     this.build_croppie();
   }
@@ -91,6 +95,10 @@ Object.assign( AspectImageChooser.prototype, ev_channel);
 AspectImageChooser.prototype.HTML =  ES5Template(function(){/**
 
   <div class="AspectImageChooser">
+    <div class="toolbar">
+      <input rv-value='state.width'></input> x <input rv-value='state.height'></input>
+      <button rv-on-click='this.rebuild_croppie'>Resize</button>
+    </div>
     <div class="croppie">
       <input class="upload" rv-on-change="this.input_change" type="file" accept="image/*"></input>
     </div>

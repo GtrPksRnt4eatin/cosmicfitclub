@@ -1,23 +1,21 @@
 class StaffRoutes < Sinatra::Base
 
   before do
+    content_type :json
     cache_control :no_store
   end
 
   get '/' do
-    content_type :json
     JSON.generate Staff::ordered_list
   end
 
   get '/:id/details' do
-    content_type :json
     id = params[:id].to_i
     staff = Staff[id] or halt(404,"Can't Find Staff Account") 
     staff.full_details.to_json
   end
 
   get '/detail_list' do
-    content_type :json
     JSON.generate Staff::detail_list
   end
 
@@ -29,36 +27,43 @@ class StaffRoutes < Sinatra::Base
   	max = Staff.max(:position)
   	halt 409 unless Staff[:name => params[:name]].nil?
     Staff.create(name: params[:name], title: params[:title], bio: params[:bio], image: params[:image], position: max ? max + 1 : 0 )
-    status 200
+    status 200; {}.to_json
   end
 
   delete '/:id' do
     halt 404 if Staff[params[:id]].nil?
     Staff[params[:id]].deactivate
-    status 200
+    status 200; {}.to_json
   end
 
   post '/:id' do
-    content_type :json
     staff = Staff[params[:id]] or halt(404,"Staff Not Found")
     staff.update(params[:values])
-    status 204; [].to_json
+    status 204; {}.to_json
+  end
+
+  post '/:id/image' do
+    staff = Staff[params[:id]] or halt(404,"Staff Not Found")
+    staff.update( :image => params[:image] )
+    status 204; {}.to_json
   end
 
   post '/:id/create_sub' do
     staff = Staff[params[:id]] or halt(404,"Staff Not Found")
     custy = staff.customer
-    Subscription.create(:customer_id=>custy.id, :plan_id=>10 )
+    Subscription.create(:customer_id=>custy.id, :plan_id=>10 ).to_json
   end
 
   post '/:id/moveup' do
     staff = Staff[params[:id]] or halt(404, "Staff Not Found")
     staff.move(true)
+    status 204; {}.to_json
   end
 
   post '/:id/movedn' do
     staff = Staff[params[:id]] or halt(404, "Staff Not Found")
     staff.move(false)
+    status 204; {}.to_json
   end
 
   get '/payroll' do
