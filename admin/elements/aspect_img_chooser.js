@@ -74,8 +74,9 @@ AspectImageChooser.prototype = {
   },
 
   save_crop: function() {
-    this.croppie.result('blob').then( function(val) { 
-      this.ev_fire('image_cropped', { 'filename': this.state.filename, 'blob': val } )
+    this.croppie.result('blob').then( function(val) {
+      filename = this.state.filename.replace(/\..*/, '.png')
+      this.ev_fire('image_cropped', { 'filename': filename, 'blob': val } )
     }.bind(this))
   },
 
