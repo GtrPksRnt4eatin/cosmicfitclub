@@ -146,9 +146,7 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   }
 
   .AspectImageChooser .upload {
-    opacity: 0;
-    width: 0;
-    height: 0;
+    display: none;
   }
 
   .AspectImageChooser .cr-image {
@@ -188,10 +186,12 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   }
 
   .AspectImageChooser .toolbar input {
-    width: 8em;
+    width: 6em;
     background: rgba(255,255,255,0.2);
     color: white;
     border: 0;
+    padding: 0 1em;
+    margin: 0 1em;
   }
 
 **/}).untab(2);
