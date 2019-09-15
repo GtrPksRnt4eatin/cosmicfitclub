@@ -41,7 +41,11 @@ a:visited {
 
 .upcoming_reservations {
   font-size: 0.6em;
-  line-height: 1em;
+  line-height: 1.3em;
+}
+
+.upcoming_reservations tr:nth-child(odd) {
+  background: rgba(255,255,255,0.1);
 }
 
 .upcoming_reservations button {

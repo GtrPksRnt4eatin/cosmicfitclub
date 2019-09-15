@@ -161,7 +161,7 @@ html
               - customer.upcoming_reservations.each do |res|
                 - occ = res.occurrence
                 tr
-                  td #{ occ.starttime.strftime('%a %m/%d %l:%M %P') }
+                  td #{ occ.starttime.strftime('%a %m/%d %l:%M %P') } - #{occ.endtime.strftime('%l:%M %P')}
                   td #{ occ.classdef.name }
                   td w/ #{ occ.teacher.name  }
                   td.cancel_res data-id='#{res.id}'
