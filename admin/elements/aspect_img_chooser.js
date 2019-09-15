@@ -196,7 +196,7 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   }
 
   .AspectImageChooser .toolbar .filler {
-    padding: 0 1em;
+    padding: 0 0.25em;
   }
 
 **/}).untab(2);
