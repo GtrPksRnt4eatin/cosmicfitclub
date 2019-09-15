@@ -100,7 +100,9 @@ AspectImageChooser.prototype.HTML =  ES5Template(function(){/**
 
   <div class="AspectImageChooser">
     <div class="toolbar">
-      <input rv-value='state.width'></input> x <input rv-value='state.height'></input>
+      <input rv-value='state.width'></input>
+      <span class='filler'>x</span>
+      <input rv-value='state.height'></input>
       <button rv-on-click='this.rebuild_croppie'>Resize</button>
     </div>
     <div class="croppie">
@@ -186,12 +188,15 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   }
 
   .AspectImageChooser .toolbar input {
-    width: 6em;
+    width: 3em;
     background: rgba(255,255,255,0.2);
     color: white;
     border: 0;
     padding: 0 1em;
-    margin: 0 1em;
+  }
+
+  .AspectImageChooser .toolbar .filler {
+    padding: 0 1em;
   }
 
 **/}).untab(2);
