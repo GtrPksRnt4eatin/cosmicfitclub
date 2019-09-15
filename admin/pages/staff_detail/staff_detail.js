@@ -32,7 +32,7 @@ $(document).ready(function() {
     fd = new FormData(); 
     fd.append('image', val['blob'], val['filename'] ); 
     request = new XMLHttpRequest();
-    request.open( "POST", "/models/staff/" + data.staff.id, true );
+    request.open( "POST", "/models/staff/" + data.staff.id + "/image", true );
     request.send(fd);
   } )
 
