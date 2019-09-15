@@ -24,7 +24,8 @@ html
 
       .tile.staff_tile
         .headshot.editable rv-on-click='ctrl.edit_headshot'
-          img rv-src='data.staff.image_url'
+          img rv-if='data.staff.image_url' rv-src='data.staff.image_url'
+          img.filler rv-unless='data.staff.image_url' 
         .staff_nfo
           .tuple
             .attrib ID:
