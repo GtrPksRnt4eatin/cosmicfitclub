@@ -28,11 +28,13 @@ $(document).ready(function() {
   custy_selector.ev_sub('close_modal', popupmenu.hide );
 
   img_chooser.ev_sub('show', popupmenu.show );
-  img_chooser.ev_sub('image_cropped', function(val) { 
+  img_chooser.ev_sub('image_cropped', function(val) {
     fd = new FormData(); 
     fd.append('image', val['blob'], val['filename'] ); 
     request = new XMLHttpRequest();
     request.open( "POST", "/models/staff/" + data.staff.id + "/image", true );
+    request.onload  = function(e) { get_staff_details(); popupmenu.hide(); }
+    request.onerror = function(e) { alert("Failed to Upload Image"); }
     request.send(fd);
   } )
 
