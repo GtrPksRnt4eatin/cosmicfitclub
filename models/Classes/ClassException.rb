@@ -15,8 +15,8 @@ class ClassException < Sequel::Model
 
   def type
     return 'cancellation' if self.cancelled
-    return 'rescheduled'  unless self.starttime.nil?
     return 'substitute'   unless self.teacher_id.nil?
+    return 'rescheduled'  unless self.starttime.nil?
     return nil
   end
 
