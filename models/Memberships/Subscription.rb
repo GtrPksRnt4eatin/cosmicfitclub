@@ -5,6 +5,8 @@ class Subscription < Sequel::Model
   many_to_one :customer
   many_to_one :plan
   one_to_many :uses, :class => :MembershipUse, :key=>:subscription_id
+  many_to_many :payments, :class => :CustomerPayment, :join_table => :subscriptions_payments, :left_key => :subscription_id, :right_key => :payment_id
+
 
   ###################### ASSOCIATIONS #####################
 

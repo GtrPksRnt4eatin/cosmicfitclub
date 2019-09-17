@@ -20,7 +20,6 @@ class Customer < Sequel::Model
   many_to_one :wallet
   many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
   many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
-  many_to_many :payments, :class => :CustomerPayment, :join_table => :subscriptions_payments, :left_key => :subscription_id, :right_key => :payment_id
 
 ############################ Class Methods ###########################
 
