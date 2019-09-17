@@ -48,10 +48,10 @@ class TwilioRoutes < Sinatra::Base
   	content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
   	response.gather(input: 'dtmf', timeout: 4, num_digits: 1, action: 'https://cosmicfitclub.com/twilio/selection') do |gather|
-  	  gather.say('Hi, Thanks for calling Cosmic Fit Club!')
-  	  gather.say('Press One to speak with Joy about classes and personal training.')
-  	  gather.say('Press Two to speak with Ben about the website, or billing issues.')
-  	  gather.say('Press Three to speak with Donut.')
+  	  gather.say(message: 'Hi, Thanks for calling Cosmic Fit Club!')
+  	  gather.say(message: 'Press One to speak with Joy about classes and personal training.')
+  	  gather.say(message: 'Press Two to speak with Ben about the website, or billing issues.')
+  	  gather.say(message: 'Press Three to speak with Donut.')
   	end
     response.redirect('/twilio/incoming2')
   	response.to_s
@@ -65,7 +65,7 @@ class TwilioRoutes < Sinatra::Base
     case params[:Digits]
     when '1'
       Slack.custom("Forwarding Call To Joy", "call_logs")
-      response.say('Paging Joy Now. Please Wait.')
+      response.say(message: 'Paging Joy Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '646-704-2405' }
       response.hangup
     when '2'
@@ -75,13 +75,13 @@ class TwilioRoutes < Sinatra::Base
       response.hangup
     when '3'
       Slack.custom("Forwarding Call To Donut", "call_logs")
-      response.say('Meow, Meow, Meow.')
+      response.say(message: 'Meow, Meow, Meow.')
       response.pause
-      response.say('Purr. Purr. Meow.')
+      response.say(message: 'Purr. Purr. Meow.')
       response.pause
-      response.say('Ack. Cough. Hairball.')
+      response.say(message: 'Ack. Cough. Hairball.')
       response.pause
-      response.say('Woof.. No, Wait.. I mean Meow Meow Meow. Roar!!')
+      response.say(message: 'Woof.. No, Wait.. I mean Meow Meow Meow. Roar!!')
       response.redirect('/twilio/incoming2')
     end
     response.to_s
