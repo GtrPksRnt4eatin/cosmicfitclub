@@ -15,7 +15,7 @@ class MembershipRoutes < Sinatra::Base
     custy = Customer[params[:customer_id]]         or halt 404, 'No account found to add subscription to'
     plan  = Plan[params[:plan_id]]                 or halt 404, 'Plan id did not link to a valid plan'
     payment = CustomerPayment[params[:payment_id]] or halt 404, 'Payment Not Found'
-    Subscription.create({ :customer => custy, :plan => plan, :payment => payment, :canceled_on => DateTime.now >> 1 }).to_json  
+    Subscription.create({ :customer => custy, :plan => plan, :canceled_on => DateTime.now >> 1 }).add_payment( payment ).to_json  
   end
 
   get( '/:id/details'     ) { Subscription[params[:id]].details.to_json     }
