@@ -7,7 +7,14 @@ class MembershipRoutes < Sinatra::Base
   post '/' do
     custy = Customer.find_by_email(params[:email]) or halt 404, 'No account found to add subscription to'
     plan = Plan[ :stripe_id => params[:plan_id]] or halt 404, 'Plan id did not link to a valid plan'
-    Subscription.create({ :customer => custy, :plan => plan, :stripe_id => params[:stripe_id] })
+    Subscription.create({ :customer => custy, :plan => plan, :stripe_id => params[:stripe_id] }, :payment_id => params[:payment_id] ).to_json
+  end
+
+  post '/prepaid' do
+    custy = Customer[params[:customer_id]]         or halt 404, 'No account found to add subscription to'
+    plan  = Plan[params[:plan_id]]                 or halt 404, 'Plan id did not link to a valid plan'
+    payment = CustomerPayment[params[:payment_id]] or halt 404, 'Payment Not Found'
+    Subscription.create({ :customer => custy, :plan => plan, :payment => payment, :canceled_on => DateTime.Now >> 1 }).to_json  
   end
 
   get '/:id/details' do
@@ -32,7 +39,7 @@ class MembershipRoutes < Sinatra::Base
 
   delete '/:id' do
     sub = Subscription[params[:id]] or halt 404
-    sub.delete
+    sub.delete; status 204; {}.to_json
   end
 
   post '/:id/stripe_id' do
@@ -42,8 +49,7 @@ class MembershipRoutes < Sinatra::Base
 
   post '/:id/deactivate' do
     sub = Subscription[params[:id]] or halt 404
-    sub.cancel
-    status 204
+    sub.cancel; status 204; {}.to_json
   end
 
   get '/list' do

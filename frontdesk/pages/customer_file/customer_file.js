@@ -75,7 +75,7 @@ ctrl = {
     .fail( function(e) { alert('failed'); });
   },
 
-  buy_package(e,m) {
+  buy_package: function(e,m) {
     var package_id = $('#packages option:selected').val();
     var package_name = $('#packages option:selected').data("name");
     var package_price = $('#packages option:selected').data("price");
@@ -85,25 +85,43 @@ ctrl = {
     });
   },
 
-  update_customer_info(e,m) {
+  update_customer_info: function(e,m) {
     $.post('/models/customers/' + data.customer.id + '/info', JSON.stringify(data.customer_info));
   },
 
-  send_passes(e,m) {
+  send_passes: function(e,m) {
     $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.customer.id, to: data.transfer_to, amount: data.transfer_to_amount } )
      .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
      .fail( function(e) { alert('Transfer Failed') });
 
   },
 
-  receive_passes(e,m) {
+  receive_passes: function(e,m) {
     $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.transfer_from, to: data.customer.id, amount: data.transfer_from_amount } )
      .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
      .fail( function(e) { alert('Transfer Failed') });
   },
 
-  event_selected(e,m) {
+  event_selected: function(e,m) {
     tic_selector.load_event(e.target.value);
+  },
+
+  prepaid_month: function(e,m) {
+    payment_form.checkout(
+      data.customer_id, 
+      16000, 
+      "Prepaid Monthly Subscription", 
+      { "customer_id": data.customer_id }, 
+      function(payment_id) {
+        $.post('/models/memberships/prepaid', {
+          customer_id: data.customer.id, 
+          plan_id:     16,
+          payment_id:  payment_id
+        })
+        .done( function(e) { refresh_customer_data(); } )
+        .fail( function(e) { alert('subscription failed!'); }); 
+      }
+    )
   }
 
 }
