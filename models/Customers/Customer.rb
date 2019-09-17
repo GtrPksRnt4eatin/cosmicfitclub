@@ -1,23 +1,25 @@
 
 class Customer < Sequel::Model
   
+  one_to_one      :login, :class=>:User
   one_through_one :plan, :join_table => :subscriptions
-  one_to_many :subscriptions
-  one_to_one :login, :class=>:User
-  one_to_many :passes
-  one_to_many :tickets, :class=>:EventTicket
-  one_to_many :event_checkins, :class=> :EventCheckin
-  one_to_many :training_passes
-  one_to_many :waivers
-  one_to_many :nfc_tags
-  many_to_one :wallet
-  one_to_many :reservations, :class=>:ClassReservation
-  one_to_many :comp_tickets
-  one_to_many :payments, :class=>:CustomerPayment
-  many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
-  many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
+
+  one_to_many  :subscriptions
+  one_to_many  :passes
+  one_to_many  :tickets, :class=>:EventTicket
+  one_to_many  :event_checkins, :class=> :EventCheckin
+  one_to_many  :training_passes
+  one_to_many  :waivers
+  one_to_many  :nfc_tags
+  one_to_many  :reservations, :class=>:ClassReservation
+  one_to_many  :comp_tickets
+  one_to_many  :payments, :class=>:CustomerPayment
   one_to_many  :staff
   one_to_many  :hourly_punches
+
+  many_to_one :wallet
+  many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
+  many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
 
 ############################ Class Methods ###########################
 
