@@ -38,7 +38,9 @@ end
 class TwilioRoutes < Sinatra::Base
   
   post '/incoming' do
-    Slack.custom("Incoming Call", "call_logs","#{params[:CallerName]}\r\n#{params[:From]}\r\n#{params[:CallerCity]}, #{params[:CallerState]} #{params[:CallerZip]}")
+    num = /\+(\d)(\d\d\d)(\d\d\d)(\d\d\d\d)/.match(params[:From])
+    num = num ? num[1..4].join('-') : params[:From]
+    Slack.custom("Incoming Call", "call_logs","#{params[:CallerName]}\r\n#{num}\r\n#{params[:CallerCity]}, #{params[:CallerState]} #{params[:CallerZip]}")
     response = Twilio::TwiML::VoiceResponse.new
     response.redirect('/twilio/incoming2')
     response.to_s
