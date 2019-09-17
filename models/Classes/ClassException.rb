@@ -13,10 +13,15 @@ class ClassException < Sequel::Model
     end.compact!
   end
 
+  def before_save
+    self.starttime == nil if self.starttime == self.original_starttime
+    super
+  end
+
   def type
     return 'cancellation' if self.cancelled
-    return 'rescheduled'  unless self.starttime.nil?
     return 'substitute'   unless self.teacher_id.nil?
+    return 'rescheduled'  unless self.starttime.nil?
     return nil
   end
 
