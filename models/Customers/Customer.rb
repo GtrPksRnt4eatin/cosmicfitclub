@@ -188,10 +188,6 @@ class Customer < Sequel::Model
     subscrip = Subscription.create(:customer_id=>self.id, :plan_id=>plan_id, :stripe_id=>sub_id )
   end
 
-  def add_prepaid_month(payment_id)
-    Subscription.create( :customer_id = self.id, :plan_id => 16, :began_on => DateTime.now, :canceled_on => DateTime.now >> 1 )
-  end
-
   def use_membership(reason, &block)
     return false if self.subscription.nil?
     MembershipUse.create( :reason=> reason, :membership=>self.subscription ) do |use|
