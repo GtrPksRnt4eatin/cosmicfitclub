@@ -249,11 +249,6 @@ html
                     | { trans.running_total }
 
           #subscriptions.tab-content
-          
-            .get_subscription
-              button rv-on-click='ctrl.prepaid_month' Prepaid Month
-              button rv-on-click='ctrl.monthly_subscription' Monthly Subscription
-              button rv-on-click='ctrl.annual_subscription' Annual Subscription
 
             table
               tr
@@ -276,6 +271,10 @@ html
                   a rv-href='sub.id | subscription_link'
                     | details
 
+            .get_subscription
+              button rv-on-click='ctrl.prepaid_month' Prepaid Month
+              button rv-on-click='ctrl.monthly_subscription' Monthly Subscription
+              button rv-on-click='ctrl.annual_subscription' Annual Subscription
           
           #events.tab-content
 
