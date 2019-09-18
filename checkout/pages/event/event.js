@@ -13,10 +13,19 @@ var data = {
   a_la_carte: '',
   custom_full_price: '',
   custom_member_price: '',
-  event_data: {}
+  event_data: {},
+  customer_info: {};
+  customer_status: {};
 }
 
 $(document).ready( function() {
+  userview = new UserView();
+
+  userview.ev_sub('on_user', function(id) {
+    data.customer_info = userview.user;
+    $.get('/models/customers/' + id + '/status', function(val) { data.customer_status = val; } )
+  });
+
   initialize_stripe();
   initialize_rivets();
   get_event_data();
