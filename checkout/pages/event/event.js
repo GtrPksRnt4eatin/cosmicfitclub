@@ -14,8 +14,8 @@ var data = {
   custom_full_price: '',
   custom_member_price: '',
   event_data: {},
-  customer_info: null;
-  customer_status: null;
+  customer_info: null,
+  customer_status: null
 }
 
 $(document).ready( function() {
@@ -217,7 +217,7 @@ function register() {
   body = JSON.stringify({
     "event_id": data.event_data['id'],
     "included_sessions": data.included_sessions,
-    "email": signed_in() ? CUSTOMER.email : id('email').value
+    "email": signed_in() ? data.customer_info.email : id('email').value
   });
 
   $.post('register', body )
