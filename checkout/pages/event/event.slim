@@ -137,7 +137,7 @@ html
             div
               button#checkout rv-on-click='ctrl.checkout' Buy For { data.total_price | money }
 
-            .fineprint rv-if='customer | empty'
+            .fineprint rv-if='data.customer_info | empty'
               a.signin href='/pricing' Sign Up
               | /
               a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In

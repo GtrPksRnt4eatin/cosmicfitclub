@@ -14,14 +14,15 @@ var data = {
   custom_full_price: '',
   custom_member_price: '',
   event_data: {},
-  customer_info: {};
-  customer_status: {};
+  customer_info: null;
+  customer_status: null;
 }
 
 $(document).ready( function() {
   userview = new UserView();
 
   userview.ev_sub('on_user', function(id) {
+    if(id==null) { data.customer_info = null; data.customer_status = null; return; }
     data.customer_info = userview.user;
     $.get('/models/customers/' + id + '/status', function(val) { data.customer_status = val; } )
   });
@@ -159,8 +160,11 @@ function clear_selected_price() {
 
 function free_event() { return data.event_data.prices[0].member_price==0 && data.event_data.prices[0].full_price==0 }
 
-function signed_in()  { return !empty(CUSTOMER); }
-function member()     { return signed_in() ? !empty(CUSTOMER.plan) : false; }
+//function signed_in()  { return !empty(CUSTOMER); }
+//function member()     { return signed_in() ? !empty(CUSTOMER.plan) : false; }
+
+function signed_in()  { return !empty(data.customer_info) }
+function member()     { return signed_in() ? data.customer_status.subscription.id != 0 : false; }
 
 ///////////////////////////////////////// DERIVATIONS ///////////////////////////////////////////////////
 
