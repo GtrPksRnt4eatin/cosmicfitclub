@@ -21,10 +21,10 @@ var data = {
 $(document).ready( function() {
   userview = new UserView();
 
-  userview.ev_sub('on_user', function(id) {
-    if(id==null) { data.customer_info = null; data.customer_status = null; return; }
-    data.customer_info = userview.user;
-    $.get('/models/customers/' + id + '/status', function(val) { data.customer_status = val; } )
+  userview.ev_sub('on_user', function(custy) {
+    if(custy==null) { data.customer_info = null; data.customer_status = null; return; }
+    data.customer_info = custy;
+    $.get('/models/customers/' + custy.id + '/status', function(val) { data.customer_status = val; } )
   });
 
   initialize_stripe();
