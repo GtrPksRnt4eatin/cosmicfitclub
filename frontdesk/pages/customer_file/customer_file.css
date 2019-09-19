@@ -266,6 +266,10 @@ table.history {
   font-size: 0.7em;
 }
 
+table.payments {
+  font-size: 0.7em;
+}
+
 .history td:nth-child(1) { width: 10em; }
 .history td:nth-child(2) { width: 56em; }
 .history td:nth-child(3) { width: 3em; }
