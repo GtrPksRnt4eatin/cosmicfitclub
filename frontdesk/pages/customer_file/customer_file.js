@@ -135,7 +135,10 @@ ctrl = {
       data.misc_charge.amount,
       data.misc_charge.reason,
       { "customer_id": data.customer_id },
-      function(payment_id) { get_customer_payments(); }
+      function(payment_id) { 
+        $.post('/models/customers/misc_payment', { payment_id: payment_id });
+        get_customer_payments(); 
+      }
     )
   }
 

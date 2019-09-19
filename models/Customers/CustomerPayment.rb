@@ -8,8 +8,16 @@ class CustomerPayment < Sequel::Model
     self.delete
   end
 
+  def send_notification
+  	Slack.website_purchases(self.summary)   
+  end
+
   def to_token
     { :id => self.id, :amount => self.amount, :timestamp => self.timestamp, :stripe_id=> self.stripe_id }
+  end
+
+  def summary
+  	"#{self.customer.to_list_string} - Made a $#{self.amount.to_f/100} Payment For #{self.reason}"
   end
 
 end
