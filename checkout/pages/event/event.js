@@ -13,10 +13,20 @@ var data = {
   a_la_carte: '',
   custom_full_price: '',
   custom_member_price: '',
-  event_data: {}
+  event_data: {},
+  customer_info: null,
+  customer_status: null
 }
 
 $(document).ready( function() {
+  userview = new UserView();
+
+  userview.ev_sub('on_user', function(custy) {
+    if(custy==null) { data.customer_info = null; data.customer_status = null; return; }
+    data.customer_info = custy;
+    $.get('/models/customers/' + custy.id + '/status', function(val) { data.customer_status = val; calculate_total(); } )
+  });
+
   initialize_stripe();
   initialize_rivets();
   get_event_data();
@@ -150,8 +160,11 @@ function clear_selected_price() {
 
 function free_event() { return data.event_data.prices[0].member_price==0 && data.event_data.prices[0].full_price==0 }
 
-function signed_in()  { return !empty(CUSTOMER); }
-function member()     { return signed_in() ? !empty(CUSTOMER.plan) : false; }
+//function signed_in()  { return !empty(CUSTOMER); }
+//function member()     { return signed_in() ? !empty(CUSTOMER.plan) : false; }
+
+function signed_in()  { return !empty(data.customer_info) }
+function member()     { return signed_in() ? data.customer_status.membership.id != 0 : false; }
 
 ///////////////////////////////////////// DERIVATIONS ///////////////////////////////////////////////////
 
@@ -204,7 +217,7 @@ function register() {
   body = JSON.stringify({
     "event_id": data.event_data['id'],
     "included_sessions": data.included_sessions,
-    "email": signed_in() ? CUSTOMER.email : id('email').value
+    "email": signed_in() ? data.customer_info.email : id('email').value
   });
 
   $.post('register', body )
