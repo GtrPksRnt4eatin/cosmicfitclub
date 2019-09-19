@@ -88,6 +88,7 @@ class ScheduleRoutes < Sinatra::Base
           :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), start.iso8601 ),
           :exception => exception
         }.merge!(details)
+        items[:instructors] = ( exception && exception.teacher_id ) ? [exception[:teacher_id]] : items[:instructors]
       end
     end
     items
