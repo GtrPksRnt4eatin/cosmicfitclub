@@ -326,6 +326,13 @@ html
                 td 
                   input#amount rv-moneyfield='data.amount'
             table
+              tr 
+                th colspan='4' Payments
+              tr
+                th Timestamp
+                th Description
+                th Amount
+                th Stripe ID
               tr rv-each-paymt='data.customer.payments'
                 td[] { paymt.timestamp | eventstart }
                 td[] { paymt.reason }
