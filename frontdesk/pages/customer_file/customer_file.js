@@ -3,6 +3,7 @@ data = {
   customers: [],
   customer: {
     id: 0,
+    payments: [],
     payment_sources: [],
     class_passes: [],
     membership_status: null,
@@ -257,10 +258,13 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/family`,          function(resp) { data.customer.family            = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/subscriptions`,   function(resp) { data.customer.subscriptions     = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/payments`,        function(resp) { data.customer.payments          = resp; }, 'json');
   refresh_reservations()
 }
 
-function refresh_reservations() { $.get(`/models/customers/${data.customer.id}/reservations`, function(resp) { data.customer.reservations = resp; }, 'json'); }
+function refresh_reservations() { 
+  $.get(`/models/customers/${data.customer.id}/reservations`, function(resp) { data.customer.reservations = resp; }, 'json'); 
+}
 
 function resetCustomer() {
   data.customer_info = {};

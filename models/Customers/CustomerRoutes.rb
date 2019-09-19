@@ -65,6 +65,12 @@ class CustomerRoutes < Sinatra::Base
     }.to_json
   end
 
+  get '/:id/payments' do
+    content_type :json
+    custy = Customer[params[:id].to_i] or halt(404, "Customer Not Found")
+    custy.payments.to_json
+  end
+
   post '/:id/merge_into/:merge_id' do
     custy1 = Customer[params[:id]] or halt(404, "Cant Find Customer")
     custy1.merge_with(params[:merge_id])
