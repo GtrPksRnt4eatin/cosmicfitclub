@@ -327,12 +327,12 @@ html
                   input#amount rv-moneyfield='data.amount'
             table
               tr rv-each-paymt='data.customer.payments'
-                td[] { paym.timestamp | eventstart }
-                td[] { paym.reason }
-                td[] { paym.amount }
+                td[] { paymt.timestamp | eventstart }
+                td[] { paymt.reason }
+                td[] { paymt.amount }
                 td
-                  a rv-href='paym.stripe_id | href_stripe_payment'
-                    | { paym.stripe_id }
+                  a rv-href='paymt.stripe_id | href_stripe_payment'
+                    | { paymt.stripe_id }
 
     #popupmenu_container
 
