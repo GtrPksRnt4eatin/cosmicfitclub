@@ -315,8 +315,6 @@ html
                 td
                   | { res.classname } w/ { res.instructor }
 
-
-
           #page_three.tab-content
             table
               tr
@@ -327,6 +325,14 @@ html
                 th Amount
                 td 
                   input#amount rv-moneyfield='data.amount'
+            table
+              tr rv-each-paymt='data.customer.payments'
+                td[] { paym.timestamp | eventstart }
+                td[] { paym.reason }
+                td[] { paym.amount }
+                td
+                  a rv-href={ paym.stripe_id | href_stripe_payment }
+                    | { paym.stripe_id }
 
     #popupmenu_container
 
