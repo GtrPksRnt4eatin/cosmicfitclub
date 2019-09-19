@@ -331,7 +331,7 @@ html
                 td[] { paym.reason }
                 td[] { paym.amount }
                 td
-                  a rv-href={ paym.stripe_id | href_stripe_payment }
+                  a rv-href='paym.stripe_id | href_stripe_payment'
                     | { paym.stripe_id }
 
     #popupmenu_container
