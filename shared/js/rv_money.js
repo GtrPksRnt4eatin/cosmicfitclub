@@ -16,7 +16,7 @@ function include_rivets_money() {
 
     routine: function(el,value) {
       if(!empty(value)) { 
-        this.priceformatInstance.val( value/100 );
+        this.priceformatInstance.val( value );
         this.priceformatInstance.keyup();
       }
     },
