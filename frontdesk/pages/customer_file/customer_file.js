@@ -113,10 +113,10 @@ ctrl = {
 
   prepaid_month: function(e,m) {
     payment_form.checkout(
-      data.customer_id, 
+      data.customer.id, 
       16000, 
       "Prepaid Monthly Subscription", 
-      { "customer_id": data.customer_id }, 
+      { "customer_id": data.customer.id }, 
       function(payment_id) {
         $.post('/models/memberships/prepaid', {
           customer_id: data.customer.id, 
@@ -131,7 +131,7 @@ ctrl = {
 
   misc_charge: function(e,m) {
     payment_form.checkout(
-      data.customer_id,
+      data.customer.id,
       data.misc_charge.amount,
       data.misc_charge.reason,
       { "customer_id": data.customer_id },
