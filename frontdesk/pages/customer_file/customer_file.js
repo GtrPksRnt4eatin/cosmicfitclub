@@ -31,7 +31,11 @@ data = {
   transfer_to_amount: 0,
   transfer_from_amount: 0,
   num_comp_tix: 0,
-  comp_reason: "Reason for Comps"
+  comp_reason: "Reason for Comps",
+  misc_charge: {
+    amount: 0,
+    reason: ""
+  }
 }
 
 ctrl = {
@@ -122,6 +126,16 @@ ctrl = {
         .done( function(e) { refresh_customer_data(); } )
         .fail( function(e) { alert('subscription failed!'); }); 
       }
+    )
+  },
+
+  misc_charge: function(e,m) {
+    payment_form.checkout(
+      data.customer_id,
+      data.misc_charge.amount,
+      data.misc_charge.reason,
+      { "customer_id": data.customer_id },
+      function(payment_id) { get_customer_payments(); }
     )
   }
 
@@ -259,8 +273,12 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/family`,          function(resp) { data.customer.family            = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/subscriptions`,   function(resp) { data.customer.subscriptions     = resp; }, 'json');
+  get_customer_payments();
+  refresh_reservations();
+}
+
+function get_customer_payments() {
   $.get(`/models/customers/${data.customer.id}/payments`,        function(resp) { data.customer.payments          = resp; }, 'json');
-  refresh_reservations()
 }
 
 function refresh_reservations() { 

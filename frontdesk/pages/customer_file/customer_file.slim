@@ -320,11 +320,15 @@ html
               tr
                 th Reason
                 td 
-                  textarea#reason
+                  textarea#reason rv-value='data.misc_charge.reason'
               tr
                 th Amount
                 td 
-                  input#amount rv-moneyfield='data.amount'
+                  input#amount rv-moneyfield='data.misc_charge.amount'
+                td
+                  button rv-on-click='ctrl.misc_charge'
+                    | Charge
+            br
             table.payments
               tr 
                 th colspan='4' Payments
