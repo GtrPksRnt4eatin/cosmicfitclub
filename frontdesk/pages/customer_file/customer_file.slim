@@ -120,7 +120,7 @@ html
                 th Waiver:
                 td
                   div
-                    img rv-src='data.customer.id | waiver_img'
+                    img#waiver_signature rv-src='data.customer.id | waiver_img'
 
               tr
                 th Stripe Details
@@ -325,7 +325,7 @@ html
                 th Amount
                 td 
                   input#amount rv-moneyfield='data.amount'
-            table
+            table.payments
               tr 
                 th colspan='4' Payments
               tr
