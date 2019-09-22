@@ -188,11 +188,6 @@ html
               td #{source['exp_month']} / #{source['exp_year']}
 
       .tile
-        .header Payment Sources
-        hr
-        payment_sources customer_id='data.customer.id'
-
-      .tile
         .header Waiver
         hr
         - unless customer.waiver_signed?

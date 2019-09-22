@@ -72,7 +72,7 @@ class TwilioRoutes < Sinatra::Base
       response.hangup
     when '2'
       Slack.custom("Forwarding Call To Ben", "call_logs")
-      response.say('Paging Ben Now. Please Wait.')
+      response.say(message: 'Paging Ben Now. Please Wait.')
       response.dial(caller_id: '+13476700019') { |dial| dial.number '201-280-6512' }
       response.hangup
     when '3'
