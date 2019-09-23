@@ -67,14 +67,19 @@ html
             div
               a href='/admin/cameras' Cameras
 
+      -if user.has_role? "scheduling"
+        .tile
+          .header Scheduling
+          hr
+          div
+            a href='/admin/class_exceptions' Class Exceptions
+
       -if user.has_role? "superadmin"
         .tile
           .header Superadmin
           hr
           div
             a href='/admin/member_match' Member Match
-          div
-            a href='/admin/class_exceptions' Class Exceptions
           div
             a href='/admin/roles' Manage Roles
           div
