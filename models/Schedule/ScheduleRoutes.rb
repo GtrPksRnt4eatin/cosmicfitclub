@@ -121,10 +121,4 @@ class ScheduleRoutes < Sinatra::Base
     items = ClassException.between(from,to)
   end
 
-  def get_classoccurrences_between(from,to)
- 
-  end
-
-
-
 end
