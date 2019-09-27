@@ -1,7 +1,7 @@
 module Scheduling
 
   def Scheduling::get_all_between(from,to)
-    classes  = new_get_classitems_between(from,to)
+    classes  = get_classitems_between(from,to)
     events   = get_eventsessions_between(from,to)
     rentals  = get_rentals_between(from,to)
     items = events + classes + rentals

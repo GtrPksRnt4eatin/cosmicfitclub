@@ -1,3 +1,4 @@
+require_relative '../ruby/db_models.rb'
 require 'date'
 require 'mini_magick'
 
