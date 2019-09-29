@@ -2,7 +2,7 @@ require_relative './db_models'
 require 'date'
 require 'mini_magick'
 
-items = Scheduling::get_all_between(Time.parse("2019-09-27"),Time.parse("2019-10-04"))
+items = Scheduling::get_all_between(Time.parse("2019-09-28"),Time.parse("2019-10-05"))
 arr = []
 items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
 

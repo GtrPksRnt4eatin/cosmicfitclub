@@ -56,7 +56,8 @@ class ClassdefSchedule < Sequel::Model
     get_occurrences(from,to).map do |starttime|
       exception  =  ClassException.find( :classdef_id => self.classdef.id, :original_starttime => starttime.to_time.iso8601 )
       occurrence = ClassOccurrence.find( :classdef_id => self.classdef_id, :starttime          => starttime.to_time.iso8601 )
-      { :sched_id   => self.id, 
+      { :sched_id   => self.id,
+        :type       => 'classoccurrence',
         :day        => Date.strptime(starttime.to_time.iso8601).to_s,
         :starttime  => starttime.to_time,
         :classdef   => self.classdef.to_token,
