@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    javascript:
+      data = {};
+      data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
+      data['event']['image_data'] = JSON.parse(data['event']['image_data']);
+
+    == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', '/admin/event_proposal' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel']
+    == js  [ 'elements/session_form', 'elements/price_form', 'elements/popup_menu', 'elements/aspect_img_chooser' '/admin/event_proposal' ]
+
+  body
+    #stars
+
+    #content
+
+      .tile
+        .tuplet
+          label Event Name: 
+          textarea#name rv-value='event.name'
+        .tuplet
+          label Image:
+          label.imgbox for='pic'
+            input#pic type='file' accept="image/*" name='image' rv-on-change='ctrl.choose_img'
+            img#picpreview rv-src='event.image_url'
+            #nopic rv-unless='event.image_url'
+        .tuplet
+          label Description:
+          textarea#description rv-value='event.description'
+        .tuplet
+          label Details:
+          textarea#details rv-value='event.details'
+      
+      .tile
+        .tuplet
+          label Promotional Poster
+          canvas#poster
+        .tuplet
+          label Instagram Square
+          canvas#instagram
+        .tuplet
+          label Front Monitor Promo
+          canvas#frontmon
+      
+      .tile
+
+        div.tuplet
+          label Sessions:
+          .sessions
+            table.reflections
+              tr
+                th Start
+                th End
+                th Title
+                th Description
+                th
+                  .add rv-on-click='ctrl.add_session'
+                    .plus +
+              tr rv-each-sess='event.sessions'
+                td
+                  | { sess.start_time | simpledate }
+                td
+                  | { sess.end_time | simpledate }
+                td rv-title='sess.title'
+                  | { sess.title } 
+                td rv-title='sess.description'
+                  | { sess.description }
+                td
+                  .edit   rv-on-click='ctrl.edit_session'
+                  .delete rv-on-click='ctrl.del_session'
+
+        div.tuplet
+          label Prices:
+          .prices
+            table.reflections
+              tr
+                th Title
+                th Sessions
+                th Member Price
+                th Full Price
+                th
+                  .add rv-on-click='ctrl.add_price'
+                    .plus +
+              tr rv-each-price='event.prices'
+                td
+                  | { price.title }
+                td rv-title='price.included_sessions | session_names'
+                  | { price.included_sessions | session_names }
+                td
+                  | { price.member_price }
+                td
+                  | { price.full_price }
+                td
+                  .edit   rv-on-click='ctrl.edit_price'
+                  .delete rv-on-click='ctrl.del_price'
+
+        button#submit rv-on-click='ctrl.save_changes' Save Event
+
+    #popupmenu_container
+
+    == analytics

@@ -56,15 +56,17 @@ class ClassdefSchedule < Sequel::Model
     get_occurrences(from,to).map do |starttime|
       exception  =  ClassException.find( :classdef_id => self.classdef.id, :original_starttime => starttime.to_time.iso8601 )
       occurrence = ClassOccurrence.find( :classdef_id => self.classdef_id, :starttime          => starttime.to_time.iso8601 )
-      { :sched_id   => self.id,
-        :type       => 'classoccurrence',
-        :day        => Date.strptime(starttime.to_time.iso8601).to_s,
-        :starttime  => starttime.to_time,
-        :classdef   => self.classdef.to_token,
-        :teachers   => self.teachers.map(&:to_token),
-        :scheduled  => { :starttime => starttime.to_time.iso8601, :teachers => self.teachers.map(&:to_token) },
-        :occurrence => occurrence.try(:to_hash),
-        :exception  => exception.try(:full_details),
+      { :sched_id    => self.id,
+        :type        => 'classoccurrence',
+        :day         => Date.strptime(starttime.to_time.iso8601).to_s,
+        :starttime   => starttime.to_time,
+        :endtime     => starttime + ( self.end_time - self.start_time ),
+        :title       => self.classdef.name,
+        :classdef    => self.classdef.to_token,
+        :instructors => self.teachers.map(&:to_token),
+        :scheduled   => { :starttime => starttime.to_time.iso8601, :teachers => self.teachers.map(&:to_token) },
+        :occurrence  => occurrence.try(:to_hash),
+        :exception   => exception.try(:full_details),
       }
     end
   end
