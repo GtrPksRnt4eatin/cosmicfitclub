@@ -1,5 +1,6 @@
 body {
   background-image: url('background-blu.jpg');
+  background-size: cover;
 	position: relative;
 	text-align: center;
   height: 100vh;
