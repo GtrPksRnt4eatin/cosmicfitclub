@@ -14,12 +14,14 @@ html
 
     .tile
 
-      div rv-each-event='data.fb_events'
+      div.fb_event rv-each-event='data.fb_events'
         span[] { event.id }
         span[] { event.name }
         span[] { event.starttime }
 
     .tile
 
-      div rv-each-event='data.eb_events'
-        span[] { hi }
+      div.eb_event rv-each-event='data.eb_events'
+        span[] { event.name.text }
+        span[]
+          a rv-href='event.url' Link
