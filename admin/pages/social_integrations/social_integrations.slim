@@ -17,11 +17,13 @@ html
       div.fb_event rv-each-event='data.fb_events'
         span[] { event.id }
         span[] { event.name }
-        span[] { event.starttime }
 
     .tile
 
       div.eb_event rv-each-event='data.eb_events'
+        span
+          img rv-src='event.logo.url'
         span[] { event.name.text }
+        span[] { event.status }
         span[]
           a rv-href='event.url' Link
