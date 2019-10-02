@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+html
+  
+  title Social Integrations
+  
+  head
+    == css ['fonts', 'site', 'header', 'chosen-ems', 'admin/social_integrations']
+    == js  ['jquery', 'jquery.chosen.min', 'rivets', 'lib']
+    == js  ['element', 'ev_channel', '/auth/elements/userview', 'admin/social_integrations']
+
+  body
+    #stars
+
+    .tile
+
+      div rv-each-event='data.fb_events'
+        span[] { event.id }
+        span[] { event.name }
+        span[] { event.starttime }
+
+    .tile
+
+      div rv-each-event='data.eb_events'
+        span[] { hi }

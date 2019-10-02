@@ -131,3 +131,7 @@ end
 map "/integrations/eventbrite" do
   run EventBriteRoutes
 end
+
+map "/integrations/facebook" do
+  run FacebookRoutes
+end
