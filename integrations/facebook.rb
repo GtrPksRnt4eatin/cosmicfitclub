@@ -14,7 +14,8 @@ class FacebookRoutes < Sinatra::Base
 
   get '/event_list' do
   	content_type :json
-  	Facebook.event_list.to_json
+  	list = Facebook.event_list.map(&:to_json)
+    "[#{list.join(',')}]"
   end
 
 end
