@@ -88,7 +88,7 @@ class Event < Sequel::Model
       next nil if DateTime.now < p.available_after        unless p.available_after.nil?
       next nil if p.event_tickets.count >= p.max_quantity unless p.max_quantity.nil?
       next p
-    end
+    end.compact
   end
 
   #################### ATTRIBUTE ACCESS ###################
