@@ -49,11 +49,11 @@ PriceForm.prototype.HTML = `
       </select>
     </div>
     <div class='tuplet'>
-      <label>Available Before<label>
+      <label>Available Before</label>
       <input rv-datefield='state.price.available_before' />
     </div>
     <div class='tuplet'>
-      <label>Available After<label>
+      <label>Available After</label>
       <input rv-datefield='state.price.available_after' />
     </div>
     <div class='tuplet'>
