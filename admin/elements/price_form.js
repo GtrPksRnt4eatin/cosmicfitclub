@@ -57,7 +57,7 @@ PriceForm.prototype.HTML = `
       <input rv-datefield='state.price.available_after' />
     </div>
     <div class='tuplet'>
-      <label>Max Quantity<label>
+      <label>Max Quantity</label>
       <input type='number' rv-value='state.price.max_quantity' />
     </div>
     <div class='tuplet'>
@@ -93,6 +93,6 @@ PriceForm.prototype.CSS = `
   }
 
   .PriceForm label {
-    width: 7em
+    width: 8em
   }
 `.untab(2);
