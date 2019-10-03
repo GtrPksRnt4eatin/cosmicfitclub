@@ -1,5 +1,12 @@
 module Scheduling
 
+  def Scheduling::get_all_sorted_by_days(from,to)
+    arr   = []
+    items = Scheduling::get_all_between(from,to)
+    items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
+    arr.sort_by { |x| x[:day] }
+  end
+
   def Scheduling::get_all_between(from,to)
     classes  = get_classitems_between(from,to)
     events   = get_eventsessions_between(from,to)

@@ -84,9 +84,10 @@ class Event < Sequel::Model
   def available_prices
     self.prices.map do |p| 
       next nil if p.hidden
-      next nil if DateTime.now > p.available_before
-      next nil if DateTime.now < p.available_after
-      next nil if p.event_tickets.count >= p.max_quantity
+      next nil if DateTime.now > p.available_before       unless p.available_before.nil?
+      next nil if DateTime.now < p.available_after        unless p.available_after.nil?
+      next nil if p.event_tickets.count >= p.max_quantity unless p.max_quantity.nil?
+      next p
     end
   end
 

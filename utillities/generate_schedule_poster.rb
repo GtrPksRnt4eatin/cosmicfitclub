@@ -45,27 +45,35 @@ def draw_box(x_offset,y_offset)
   draw_box_raw(x_offset,y_offset,2250,350)
 end
 
-def render_text_line(occ, x_offset, y_offset)
-  font_size
+def render_header_line(image, )
+  image.combine_options do |i|
+    
+  end
+end
+
+def render_text_line(image, occ, x_offset, y_offset)
   col1_x, col2_x, col3_x = 75, 600, 1750
   col2_trunc, col3_trunc = 53, 28
 
-  IMAGE.combine_options do |i|
+  image.combine_options do |i|
     i.pointsize 42
     i.font "../shared/fonts/webfonts/329F99_3_0.ttf"
     case occ[:type]
     when 'classoccurrence'
-      i.fill "\#FFFFFFFF"
+      i.fill "\#FFFFFFFF" unless HIGH_CONTRAST
+      i.fill "\#000000FF"     if HIGH_CONTRAST
       i.draw "text #{x_offset + col1_x },#{y_offset} '#{line}'"
       i.draw "text #{x_offset + col2_x },#{y_offset} '#{truncate(occ['title'],col2_trunc)}'"
       i.draw "text #{x_offset + col3_x },#{y_offset} 'w/ #{truncate(occ['instructors'][0]['name'],col3_trunc)}'"
     when 'eventsession'
-      i.fill "\#FFFFAAFF"
+      i.fill "\#FFFFAAFF" unless HIGH_CONTRAST
+      i.fill "\#999900FF"     if HIGH_CONTRAST
       i.draw "text #{x_offset + col1_x },#{y_offset} '#{line}'"
       i.draw "text #{x_offset + col2_x },#{y_offset} '#{truncate(occ['event_title'],col2_trunc)}'"
       i.draw "text #{x_offset + col3_x },#{y_offset} '#{truncate(occ['title'],col3_trunc)}'"
     when 'private' then
-      i.fill "\#AAAAFFFF"
+      i.fill "\#AAAAFFFF" unless HIGH_CONTRAST
+      i.fill "\#000099FF"     if HIGH_CONTRAST
       i.draw "text #{x_offset + 75 },#{y_offset} '#{line}'"
       i.draw "text #{x_offset + 600 },#{y_offset} '#{truncate(occ[:title],53)}'"
     end
@@ -88,28 +96,7 @@ def build_day(idx, x_offset, y_offset)
     y_offset = y_offset + ( line_height * 0.1 )
     SCHEDULE[idx][:occurrences].each do |occ|
       y_offset = y_offset + line_height
-      i.pointsize 42
-      line = "#{parse_time(occ)}"
-      if occ[:type]=='classoccurrence' then
-        i.fill "\#FFFFFFFF" unless HIGH_CONTRAST
-        i.fill "\#000000FF"     if HIGH_CONTRAST
-        i.draw "text #{x_offset + 75 },#{y_offset} '#{line}'"
-        i.draw "text #{x_offset + 600 },#{y_offset} '#{truncate(occ[:title],53)}'"
-        i.draw "text #{x_offset + 1750 },#{y_offset} 'w/ #{truncate(occ[:instructors][0][:name],25)}'"
-      end
-      if occ[:type]=='eventsession' then
-        i.fill "\#FFFFAAFF" unless HIGH_CONTRAST
-        i.fill "\#999900FF"     if HIGH_CONTRAST
-        i.draw "text #{x_offset + 75 },#{y_offset} '#{line}'"
-        i.draw "text #{x_offset + 600 },#{y_offset} '#{truncate(occ[:event_title],53)}'"
-        i.draw "text #{x_offset + 1750 },#{y_offset} '#{truncate(occ[:title],28)}'"
-      end
-      if occ[:type]=='private' then
-        i.fill "\#AAAAFFFF" unless HIGH_CONTRAST
-        i.fill "\#000099FF"     if HIGH_CONTRAST
-        i.draw "text #{x_offset + 75 },#{y_offset} '#{line}'"
-        i.draw "text #{x_offset + 600 },#{y_offset} '#{truncate(occ[:title],53)}'"
-      end
+      render_text_line(IMAGE, occ, x_offset, y_offset)
     end
     y_offset = y_offset + line_height*0.5
   end
