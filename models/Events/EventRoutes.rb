@@ -4,6 +4,8 @@ class EventRoutes < Sinatra::Base
     cache_control :no_store
   end
 
+  #################################### EVENT LISTS ##############################
+
   get '/' do
     content_type :json
     JSON.generate Event::list_future
@@ -19,6 +21,10 @@ class EventRoutes < Sinatra::Base
     Event::short_list
   end
 
+  #################################### EVENT LISTS ##############################
+
+  ###################################### EVENTS #################################
+
   get '/:id' do
     content_type :json
     event = Event[params[:id]] or halt(404,'event not found')
@@ -26,11 +32,6 @@ class EventRoutes < Sinatra::Base
     JSON.generate data
   end
 
-  get '/:id/image_url' do
-    event = Event[params[:id]] or halt(404,'event not found')
-    event.image_url
-  end
-  
   post '/' do
     if Event[params[:id]].nil?
       event = Event.create(name: params[:name], description: params[:description], details: params[:details], :starttime => params[:starttime], image: params[:image] )
@@ -42,6 +43,31 @@ class EventRoutes < Sinatra::Base
     status 200
     event.to_json
   end
+
+  delete '/:id' do
+    halt 404 if Event[params[:id]].nil?
+    Event[params[:id]].destroy
+    status 200
+  end
+
+  ###################################### EVENTS #################################
+
+  ################################### EVENT PROPS ###############################
+
+  get '/:id/image_url' do
+    event = Event[params[:id]] or halt(404,'event not found')
+    event.image_url
+  end
+
+  get '/:id/thumbnail' do
+    event = Event[params[:id]] or halt 404
+    content_type event.image[:small].mime_type
+    send_file event.image[:small].download.path
+  end
+
+  ################################### EVENT PROPS ###############################
+
+  ################################## EVENT SESSIONS #############################
 
   get '/:id/sessions' do
     event = Event[params[:id]] or halt(404,'event not found')
@@ -63,9 +89,18 @@ class EventRoutes < Sinatra::Base
     status 200
   end
 
+  ################################## EVENT SESSIONS #############################
+
+  ################################### EVENT PRICES ##############################
+
   get '/:id/prices' do
     event = Event[params[:id]] or halt(404,'event not found')
     event.prices.to_json
+  end
+
+  get '/:id/prices/available' do
+    event = Event[params[:id]] or halt(404,'event not found')
+    event.available_prices.to_json
   end
 
   post '/:id/prices' do
@@ -83,71 +118,9 @@ class EventRoutes < Sinatra::Base
     status 200
   end
 
-  delete '/:id' do
-    halt 404 if Event[params[:id]].nil?
-    Event[params[:id]].destroy
-    status 200
-  end
+  ################################### EVENT PRICES ##############################
 
-  get '/:id/attendance' do
-    content_type :json    
-    list = EventTicket.where( :event_id => params[:id] ).order(:created_on).all.map do |tic|
-      tic.to_hash.merge( {
-        :checkins  => tic.checkins.map(&:to_hash),
-        :customer  => tic.customer.try(:to_list_hash),
-        :recipient => tic.recipient.try(:to_list_hash),
-        :event     => tic.event.to_token
-      }  )
-    end
-    JSON.generate list
-  end
-
-  get '/:id/attendance.csv' do
-    event = Event[params[:id]]
-    halt 404 if event.nil?
-    content_type 'application/csv'
-    attachment "#{event.name} Attendance.csv"
-    event.attendance_csv
-  end
-
-  get '/:id/accounting' do
-    tickets = JSON.parse Event[params[:id]].tickets.to_json
-    tickets.map! do |tic|
-      tic['charge'] = Stripe::Charge.retrieve(tic.get_stripe_id)
-      tic['balance_transaction'] = Stripe::BalanceTransaction.retrieve( tic['charge']['balance_transaction'] )
-      tic['charge']['refunds']['data'].map! do |refund|
-        refund['balance_transaction'] = Stripe::BalanceTransaction.retrieve( refund['balance_transaction'] )
-      end
-      tic 
-    end
-    JSON.pretty_generate tickets
-  end
-
-  get '/:id/thumbnail' do
-    event = Event[params[:id]] or halt 404
-    content_type event.image[:small].mime_type
-    send_file event.image[:small].download.path
-  end
-
-  get '/:id/total' do
-    balance = 0
-    tickets = Event[params[:id]].tickets
-    tickets.each do |tic|
-      charge =  Stripe::Charge.retrieve(tic.get_stripe_id)
-      transaction = Stripe::BalanceTransaction.retrieve charge.balance_transaction
-      balance = balance + transaction.net
-      puts " + #{transaction.net}"
-      puts " = #{balance}"
-
-      charge.refunds.data.each do |refund|
-        transaction = Stripe::BalanceTransaction.retrieve refund.balance_transaction
-        balance = balance + transaction.net
-        puts " + #{transaction.net}"
-        puts " = #{balance}"
-      end
-    end
-    ""
-  end
+  ################################## EVENT TICKETS ##############################
 
   get '/tickets/:id' do
     content_type :json
@@ -184,6 +157,10 @@ class EventRoutes < Sinatra::Base
     status 204
   end
 
+  ################################## EVENT TICKETS ##############################
+
+  ################################## EVENT PASSES ###############################
+
   post '/passes' do
     EventPass.create( :ticket_id => params[:ticket_id], :session_id => params[:session_id], :customer_id => params[:customer_id] )
   end
@@ -213,6 +190,55 @@ class EventRoutes < Sinatra::Base
     pass  = EventPass[params[:id]]         or halt(404, "Couldn't Find Event Pass")
     pass.delete
   end
+
+  ################################## EVENT PASSES ###############################
+
+  get '/:id/attendance' do
+    content_type :json
+    event = Event[params[:id]] or halt(404, "Event Not Found")
+    event.attendance.to_json
+  end
+
+  get '/:id/attendance.csv' do
+    content_type 'application/csv'
+    event = Event[params[:id]] or halt(404, "Event Not Found")
+    attachment "#{event.name} Attendance.csv"
+    event.attendance_csv
+  end
+
+  get '/:id/accounting' do
+    content_type :json
+    tickets = JSON.parse Event[params[:id]].tickets.to_json
+    tickets.map! do |tic|
+      tic['charge'] = Stripe::Charge.retrieve(tic.get_stripe_id)
+      tic['balance_transaction'] = Stripe::BalanceTransaction.retrieve( tic['charge']['balance_transaction'] )
+      tic['charge']['refunds']['data'].map! do |refund|
+        refund['balance_transaction'] = Stripe::BalanceTransaction.retrieve( refund['balance_transaction'] )
+      end
+      tic 
+    end
+    JSON.pretty_generate tickets
+  end
+
+#  get '/:id/total' do
+#    balance = 0
+#    tickets = Event[params[:id]].tickets
+#    tickets.each do |tic|
+#     charge =  Stripe::Charge.retrieve(tic.get_stripe_id)
+#      transaction = Stripe::BalanceTransaction.retrieve charge.balance_transaction
+#      balance = balance + transaction.net
+#      puts " + #{transaction.net}"
+#      puts " = #{balance}"
+
+#      charge.refunds.data.each do |refund|
+#        transaction = Stripe::BalanceTransaction.retrieve refund.balance_transaction
+#        balance = balance + transaction.net
+#        puts " + #{transaction.net}"
+#        puts " = #{balance}"
+#      end
+#    end
+#    ""
+#  end
 
   error do
     Slack.err( 'Event Route Error', env['sinatra.error'] )

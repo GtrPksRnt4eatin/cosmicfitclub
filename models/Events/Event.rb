@@ -81,6 +81,15 @@ class Event < Sequel::Model
     super.sort{ |x| x.created_on.nil? ? 0 : x.created_on }
   end
 
+  def available_prices
+    self.prices.map do |p| 
+      next nil if p.hidden
+      next nil if DateTime.now > p.available_before
+      next nil if DateTime.now < p.available_after
+      next nil if p.event_tickets.count >= p.max_quantity
+    end
+  end
+
   #################### ATTRIBUTE ACCESS ###################
 
   ################# CALCULATED PROPERTIES #################
@@ -133,7 +142,7 @@ class Event < Sequel::Model
       :starttime   => self.starttime.try(:iso8601), 
       :image_url   => self.thumb_image_url,
       :sessions    => self.sessions,
-      :prices      => self.prices.reject{ |x| x.hidden }
+      :prices      => self.available_prices
     }
   end
 
@@ -162,6 +171,17 @@ class Event < Sequel::Model
   ########################## LISTS ########################
 
   ######################## REPORTS ########################
+
+  def attendance
+    tickets.map do |tic|
+      tic.to_hash.merge( {
+        :checkins  => tic.checkins.map(&:to_hash),
+        :customer  => tic.customer.try(:to_list_hash),
+        :recipient => tic.recipient.try(:to_list_hash),
+        :event     => self.to_token
+      } )
+    end
+  end  
 
   def attendance_csv 
 
