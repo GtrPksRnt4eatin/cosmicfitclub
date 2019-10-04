@@ -44,6 +44,8 @@ module Sinatra
 
       payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card')
       
+      params[:multiplier] ||= 1
+
       params[:multiplier].times do 
         EventTicket.create( 
           :customer            => custy, 
