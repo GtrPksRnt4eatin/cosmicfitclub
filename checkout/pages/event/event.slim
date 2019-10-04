@@ -143,7 +143,7 @@ html
             hr width='75%'
 
             div
-              button#checkout rv-on-click='ctrl.checkout' Buy { data.multiplier > 1 ? data.multiplier + ' Tickets' : "" } For { data.total_price | money }
+              button#checkout rv-on-click='ctrl.checkout' Buy { data.multiplier | num_tix }For { data.total_price | money }
 
             .fineprint rv-if='data.customer_info | empty'
               a.signin href='/pricing' Sign Up

@@ -51,6 +51,7 @@ function initialize_rivets() {
   rivets.formatters.empty     = function(val)      { return empty(val) || val=='';                 }
   rivets.formatters.equals    = function(val,val2) { return val== val2;                            }
   rivets.formatters.is_member = function(val)      { return empty(val) ? false : !empty(val.plan); } 
+  rivets.formatters.num_tix   = function(val)      { return ( val && val > 1 ) ? val + ' Tickets ' : ''; }
 
   rivets.bind( $('body'), { customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
