@@ -9,6 +9,10 @@
   margin-top: .7em;
 }
 
+.num_tix {
+  font-size: 1em;
+}
+
 td, th {
   padding: .5em;
   text-align: left;

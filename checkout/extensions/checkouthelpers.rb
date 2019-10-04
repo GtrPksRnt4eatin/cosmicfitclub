@@ -41,19 +41,19 @@ module Sinatra
       eventname = Event[data['metadata']['event_id']].name
       data['metadata']['name'] = data['token']['card']['name']
       charge = StripeMethods::charge_card(data['token']['id'], data['total_price'], data['token']['email'], eventname, data['metadata']);
-      selected_price_name = (data['selected_price'] ? data['selected_price']['title'] : "")
 
-      description = "#{custy.name} purchased a #{selected_price_name} ticket for #{eventname}"  
       payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card')
       
-      EventTicket.create( 
-        :customer            => custy, 
-        :event_id            => data['event_id'], 
-        :included_sessions   => data['included_sessions'], 
-        :price               => data['total_price'],
-        :event_price_id      => data['selected_price'] ? data['selected_price']['id'] : nil,
-        :customer_payment_id => payment.id
-      )
+      params[:multiplier].times do 
+        EventTicket.create( 
+          :customer            => custy, 
+          :event_id            => data['event_id'], 
+          :included_sessions   => data['included_sessions'], 
+          :price               => data['total_price'],
+          :event_price_id      => data['selected_price'] ? data['selected_price']['id'] : nil,
+          :customer_payment_id => payment.id
+        )
+      end
       status 204
     end
 
