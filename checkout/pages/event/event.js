@@ -211,7 +211,7 @@ function checkout() {
 
   STRIPE_HANDLER.open({
     name: 'Cosmic Fit Club',
-    description: data.event_data['title'] + data.multiplier > 1 ? ' (x' + data.multiplier + ')' : "",
+    description: data.event_data.name + ( data.multiplier > 1 ? ' (x' + data.multiplier + ')' : "" ),
     image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
     amount: data.total_price
   });
