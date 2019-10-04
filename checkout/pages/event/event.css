@@ -10,6 +10,9 @@
 }
 
 .num_tix {
+  margin-top: 0.5em;
+  font-family: "Industry-Light";
+  width: 15em;
   font-size: 1em;
 }
 
