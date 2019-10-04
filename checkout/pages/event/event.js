@@ -163,7 +163,10 @@ function clear_selected_price() {
 function free_event() { return data.event_data.prices[0].member_price==0 && data.event_data.prices[0].full_price==0 }
 
 function signed_in()  { return !empty(data.customer_info) }
-function member()     { return signed_in() ? data.customer_status.membership.id != 0 : false; }
+function member()     { 
+  if( empty(data.customer_status)==null ) { return false; }
+  return signed_in() ? data.customer_status.membership.id != 0 : false; 
+}
 
 ///////////////////////////////////////// DERIVATIONS ///////////////////////////////////////////////////
 
