@@ -164,7 +164,7 @@ function free_event() { return data.event_data.prices[0].member_price==0 && data
 
 function signed_in()  { return !empty(data.customer_info) }
 function member()     { 
-  if( empty(data.customer_status)==null ) { return false; }
+  if( empty(data.customer_status) ) { return false; }
   return signed_in() ? data.customer_status.membership.id != 0 : false; 
 }
 
