@@ -190,7 +190,7 @@ var ctrl = {
   },
   set_multiplier(e,m) {
     data.multiplier = parseInt(e.target.value);
-
+    calculate_total()
   }
 }
 
