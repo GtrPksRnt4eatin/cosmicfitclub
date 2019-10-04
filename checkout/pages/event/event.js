@@ -189,6 +189,10 @@ var ctrl = {
     toggle_included_session(m.sess);
     calculate_custom_prices();
     calculate_total();    
+  },
+  set_multiplier(e,m) {
+    data.multiplier = e.target.value;
+    
   }
 }
 

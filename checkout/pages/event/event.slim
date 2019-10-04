@@ -132,6 +132,14 @@ html
                   td
                     | { data.custom_member_price | money } for members
 
+              div How many of this Ticket would you Like?
+              select rv-on-change='ctrl.set_multiplier'
+                option value='1' 1 Ticket
+                option value='2' 2 Tickets
+                option value='3' 3 Tickets
+                option value='4' 4 Tickets
+                option value='5' 5 Tickets
+
             hr width='75%'
 
             div
