@@ -44,14 +44,14 @@ module Sinatra
 
       payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card')
       
-      params[:multiplier] ||= 1
+      params['multiplier'] ||= 1
 
-      params[:multiplier].times do 
+      params['multiplier'].times do 
         EventTicket.create( 
           :customer            => custy, 
           :event_id            => data['event_id'], 
           :included_sessions   => data['included_sessions'], 
-          :price               => data['total_price'],
+          :price               => data['total_price'] / params['multiplier'],
           :event_price_id      => data['selected_price'] ? data['selected_price']['id'] : nil,
           :customer_payment_id => payment.id
         )
@@ -60,15 +60,19 @@ module Sinatra
     end
 
     def buy_event_precharged
-      EventTicket.create(
-        :customer_id         => params[:customer_id],
-        :event_id            => params[:event_id],
-        :included_sessions   => params[:included_sessions],
-        :price               => params[:total_price],
-        :customer_payment_id => params[:payment_id], 
-        :event_price_id      => params[:price_id]
-      )
-      status 204
+      params[:multiplier] ||= 1
+
+      params[:multiplier].times do 
+        EventTicket.create(
+          :customer_id         => params[:customer_id],
+          :event_id            => params[:event_id],
+          :included_sessions   => params[:included_sessions],
+          :price               => params[:total_price] / params[:multiplier],
+          :customer_payment_id => params[:payment_id], 
+          :event_price_id      => params[:price_id]
+        )
+        status 204
+      end
     end
 
     def register_event
