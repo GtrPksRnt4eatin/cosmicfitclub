@@ -41,11 +41,17 @@ module Sinatra
       eventname = Event[data['metadata']['event_id']].name
       data['metadata']['name'] = data['token']['card']['name']
       charge = StripeMethods::charge_card(data['token']['id'], data['total_price'], data['token']['email'], eventname, data['metadata']);
+      params['multiplier'] ||= 1
+
+      
+      if params['multiplier'] > 1 then
+        description = "[\##{custy.id}] #{custy.name} (#{custy.email}) bought #{params['multiplier']} $#{data['total_price']/params['multiplier']/100} tickets for #{eventname}."
+      else
+        description = "[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} ticket for #{eventname}."
+      end
 
       payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card')
       
-      params['multiplier'] ||= 1
-
       params['multiplier'].times do 
         EventTicket.create( 
           :customer            => custy, 
