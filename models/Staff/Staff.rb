@@ -196,13 +196,14 @@ end
 def Staff::payroll(from, to)
   result = $DB[payroll_query, from, to].all
   result.each { |teacher_row|
-    teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 78 }
-    teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime'])  }
+    teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 78  }  # Open Studio
+    teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 123 }  # Tuesday Open Studio 
+    teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime'])   } 
     teacher_row[:class_occurrences].each { |occurrence_row|
       occurrence_row[:pay] = 
       case occurrence_row['headcount'].to_i
       when 0..1
-        20
+        20 
       when 2..5
         40
       when 6..10
