@@ -8,7 +8,7 @@ class ScheduleRoutes < Sinatra::Base
 
   get '/schedule.jpg' do
     content_type :jpeg
-    starttime = params[:starttime] || DateTime.today
+    starttime = Date.parse(params[:starttime]) || Date.today
     attachment "cosmic_schedule.jpg"
     SchedulePoster::generate(starttime)
   end

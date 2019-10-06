@@ -15,8 +15,7 @@ module SchedulePoster
   def SchedulePoster::generate(starttime, high_contrast=false)
 
   	set_class_vars
-  	starttime       = Time.parse(starttime) 
-
+    
   	@@high_contrast = high_contrast
     @@schedule      = Scheduling::get_all_sorted_by_days(starttime, starttime >> 7)
     
