@@ -67,7 +67,7 @@
 .pass .punch span::before {
   content: '';
   vertical-align: middle;
-  height: 3.5em;
+  height: 3.8em;
   display: inline-block;
 }
 
