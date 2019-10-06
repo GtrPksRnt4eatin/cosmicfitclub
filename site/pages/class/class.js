@@ -23,6 +23,7 @@ $(document).ready(function() {
   }
    
   rivets.formatters.list = function(val,param) {
+    if( empty(val) ) return "";
   	if( val.length == 1 ) return val[0][param];
   	if( val.length == 2 ) return val[0][param] + " & " + val[1][param];
   	if( val.length == 3 ) return val[0][param] + ", " + val[1][param] + " & " + val[2][param];

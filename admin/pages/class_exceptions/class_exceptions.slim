@@ -18,9 +18,9 @@ html
       div
         .section.schedlist
           select rv-idselect='data.classdef' rv-on-change='ctrl.class_selected'
-            - ClassDef.all_active.each do |cls|
+            - ClassDef.list_active_and_current.each do |cls|
               option value='#{cls.id}' #{cls.name}
-          input rv-datefield='data.search_date' rv-on-change='ctrl.date_selected'
+          input rv-calendar='data.search_date' rv-on-change='ctrl.date_selected'
 
           div.heading Upcoming Sessions
 

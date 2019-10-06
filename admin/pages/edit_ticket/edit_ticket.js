@@ -1,25 +1,36 @@
 data = {
-
+  ticket: {}
 }
 
 ctrl = {
-  assign_recipient: function(e,m) {
-    $.post('/models/events/tickets/' + data.ticket.id + '/assign_recipient', { recipient_id: data.recipient })
-     .done(function() { location.reload() } )
-     .fail( alert('Assigning Recipient Failed') )
+
+  add_pass: function(e,m) {
+    var payload = { customer_id: data.ticket.customer.id, event_id: data.ticket.event.id }
+    $.post('/models/events/passes')
   },
 
-  split_ticket: function(e,m) {
-    $.post('/models/events/tickets/' + data.ticket.id + '/split', { recipient_id: data.split_recipient, session_ids: data.split_sessions })
-     .done(function() { location.reload() } )
-     .fail( function(a,b,c) { alert('Splitting Ticket Failed') } )
+  remove_pass: function(e,m) {
+    $.del('/models/events/passes/' + m.pass.id)
+     .done(get_ticket)
+  },
+
+  pass_checkin: function(e,m) {
+    $.post('/models/events/passes/' + m.pass.id + '/checkin' )
+     .done(get_ticket)
+  },
+
+  pass_checkout: function(e,m) {
+    $.post('/models/events/passes/' + m.pass.id + '/checkout' )
+     .done(get_ticket)
   },
 
   edit_pass_recipient: function(e,m) {
     custy_selector.show_modal(m.pass.customer.id, function(custy_id) {
-      $.post('/models/events/passes/' + m.pass.id + '/transfer', { customer_id: custy_id } );
+      $.post('/models/events/passes/' + m.pass.id + '/transfer', { customer_id: custy_id } )
+       .done(get_ticket)
     } );
   }
+
 }
 
 $(document).ready(function() {

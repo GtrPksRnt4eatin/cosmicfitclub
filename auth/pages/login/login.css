@@ -1,4 +1,6 @@
 body {
+  background-image: url('background-blu.jpg');
+  background-size: cover;
 	position: relative;
 	text-align: center;
   height: 100vh;
@@ -6,8 +8,8 @@ body {
 
 body:before {
 	content: '';
+  height: 100%;
 	display: inline-block;
-	height: 100%;
 	vertical-align: middle;
 }
 
@@ -17,12 +19,6 @@ body:before {
 	font-size: 14pt;
 }	
 
-
-
-
-body {
-  background-image: url('background-blu.jpg');
-}
 
 #LoginForm {
   box-shadow: 0 0 5px white;
@@ -57,10 +53,10 @@ body {
   color: rgba(255,255,255,0.8) !important;
 }
 
-@media(max-width: 800px) {
+@media(max-aspect-ratio: 1/1) {
   
   #login_container {
-    width: 90%;
+    width: 90vw;
     font-size: 4vw;  
   }
 

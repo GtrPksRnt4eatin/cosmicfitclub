@@ -120,7 +120,7 @@ html
                 th Waiver:
                 td
                   div
-                    img rv-src='data.customer.id | waiver_img'
+                    img#waiver_signature rv-src='data.customer.id | waiver_img'
 
               tr
                 th Stripe Details
@@ -270,6 +270,11 @@ html
                 td
                   a rv-href='sub.id | subscription_link'
                     | details
+
+            .get_subscription
+              button rv-on-click='ctrl.prepaid_month' Prepaid Month
+              button rv-on-click='ctrl.monthly_subscription' Monthly Subscription
+              button rv-on-click='ctrl.annual_subscription' Annual Subscription
           
           #events.tab-content
 
@@ -310,18 +315,35 @@ html
                 td
                   | { res.classname } w/ { res.instructor }
 
-
-
           #page_three.tab-content
             table
               tr
                 th Reason
                 td 
-                  textarea#reason
+                  textarea#reason rv-value='data.misc_charge.reason'
               tr
                 th Amount
                 td 
-                  input#amount rv-moneyfield='data.amount'
+                  input#amount rv-moneyfield='data.misc_charge.amount'
+                td
+                  button rv-on-click='ctrl.misc_charge'
+                    | Charge
+            br
+            table.payments
+              tr 
+                th colspan='4' Payments
+              tr
+                th Timestamp
+                th Description
+                th Amount
+                th Stripe ID
+              tr rv-each-paymt='data.customer.payments'
+                td[] { paymt.timestamp | eventstart }
+                td[] { paymt.reason }
+                td[] { paymt.amount }
+                td
+                  a rv-href='paymt.stripe_id | href_stripe_payment'
+                    | { paymt.stripe_id }
 
     #popupmenu_container
 

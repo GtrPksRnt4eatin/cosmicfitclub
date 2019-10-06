@@ -49,6 +49,18 @@ PriceForm.prototype.HTML = `
       </select>
     </div>
     <div class='tuplet'>
+      <label>Available Before</label>
+      <input rv-datefield='state.price.available_before' />
+    </div>
+    <div class='tuplet'>
+      <label>Available After</label>
+      <input rv-datefield='state.price.available_after' />
+    </div>
+    <div class='tuplet'>
+      <label>Max Quantity</label>
+      <input type='number' rv-value='state.price.max_quantity' />
+    </div>
+    <div class='tuplet'>
       <label>Member Price:</label>
       <input rv-value='state.price.member_price'/>
     </div>
@@ -81,6 +93,6 @@ PriceForm.prototype.CSS = `
   }
 
   .PriceForm label {
-    width: 7em
+    width: 8em
   }
 `.untab(2);

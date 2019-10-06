@@ -49,6 +49,13 @@ table {
   vertical-align: middle;
 }
 
+#waiver_signature {
+  width: 24em;
+  background: white;
+  border-radius: 0.5em;
+  padding: 1em;
+}
+
 .flatpickr-input,
 textarea,
 select,
@@ -259,17 +266,23 @@ table.history {
   font-size: 0.7em;
 }
 
+table.payments {
+  font-size: 0.7em;
+}
+
 .history td:nth-child(1) { width: 10em; }
 .history td:nth-child(2) { width: 56em; }
 .history td:nth-child(3) { width: 3em; }
 
 .history tr:nth-child(odd),
-.tickets tr:nth-child(odd) {
+.tickets tr:nth-child(odd),
+.payments tr:nth-child(odd)  {
   background: rgba(255,255,255,0.1);
 }
 
 .history tr:nth-child(even),
-.tickets tr:nth-child(even) {
+.tickets tr:nth-child(even),
+.payments tr:nth-child(even) {
   background: rgba(0,0,0,0.1);
 }
 

@@ -9,6 +9,7 @@ class Event < Sequel::Model
   one_to_many :tickets,  :class => :EventTicket
   one_to_many :sessions, :class => :EventSession
   one_to_many :prices,   :class => :EventPrice
+  one_to_many :checkins, :class => :EventCheckin
 
   def create_session
     new_session = EventSession.create
@@ -35,7 +36,7 @@ class Event < Sequel::Model
   ####################### LIFE CYCLE ######################
 
   def after_create
-    Slack.custom("Event Created: [\##{self.id}] #{self.name}")
+    Slack.website_scheduling("Event Created: [\##{self.id}] #{self.name}")
   end
 
   def after_save
@@ -78,6 +79,16 @@ class Event < Sequel::Model
 
   def tickets
     super.sort{ |x| x.created_on.nil? ? 0 : x.created_on }
+  end
+
+  def available_prices
+    self.prices.map do |p| 
+      next nil if p.hidden
+      next nil if DateTime.now > p.available_before       unless p.available_before.nil?
+      next nil if DateTime.now < p.available_after        unless p.available_after.nil?
+      next nil if p.event_tickets.count >= p.max_quantity unless p.max_quantity.nil?
+      next p
+    end.compact
   end
 
   #################### ATTRIBUTE ACCESS ###################
@@ -132,7 +143,7 @@ class Event < Sequel::Model
       :starttime   => self.starttime.try(:iso8601), 
       :image_url   => self.thumb_image_url,
       :sessions    => self.sessions,
-      :prices      => self.prices.reject{ |x| x.hidden }
+      :prices      => self.available_prices
     }
   end
 
@@ -161,6 +172,17 @@ class Event < Sequel::Model
   ########################## LISTS ########################
 
   ######################## REPORTS ########################
+
+  def attendance
+    tickets.map do |tic|
+      tic.to_hash.merge( {
+        :checkins  => tic.checkins.map(&:to_hash),
+        :customer  => tic.customer.try(:to_list_hash),
+        :recipient => tic.recipient.try(:to_list_hash),
+        :event     => self.to_token
+      } )
+    end
+  end  
 
   def attendance_csv 
 

@@ -101,7 +101,7 @@ class ClassOccurrence < Sequel::Model
     ical          = Icalendar::Event.new 
     ical.dtstart  = starttime
     ical.duration = "P1H"
-    ical.summary  = "#{classdef.name} w/ #{teacher.name}"
+    ical.summary  = self.summary
     ical
   end
 
@@ -132,6 +132,10 @@ class ClassOccurrence < Sequel::Model
       :next_id => self.next_occurrence_id,
       :prev_id => self.previous_occurrence_id
     })
+  end
+
+  def summary
+    "#{classdef.name} w/ #{teacher.name}"
   end
 
   ############################# Views ################################

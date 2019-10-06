@@ -56,6 +56,25 @@
 
 /* CUSTOMER TILE */
 
+/* SCHEDULE TILE */
+
+  .classes, .shifts {
+    margin: 0.5em;
+  }
+
+  .classes .sched,
+  .shifts .shift {
+    background: rgba(255,255,255,0.2);
+    display: inline-block;
+    margin: 0.5em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    box-shadow: 0 0 0.5em black;
+    text-align: left;
+  }
+
+/* SCHEDULE TILE */
+
 /* TUPLES */
 
 .tuple {
@@ -102,3 +121,9 @@
 }
 
 /* TUPLES */
+
+img.filler {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
+  width: 15em;
+  height: 15em;
+}

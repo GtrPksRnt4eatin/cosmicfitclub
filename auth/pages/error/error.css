@@ -1,0 +1,28 @@
+body {
+  background-image: url('background-blu.jpg');
+  position: relative;
+  text-align: center;
+  height: 100vh;
+}
+
+body:before {
+  content: '';
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#error_container {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14pt;
+}
+
+#error_container {
+  line-height: 1.5em;
+  padding: 1em;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px white !important;
+  background: rgba(30,30,30,0.8);
+  color: rgba(255,255,255,0.8) !important;
+}

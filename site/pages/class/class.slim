@@ -41,7 +41,7 @@ html
             | Join Us For an Upcoming Session:
           .occurrences
             .occurence rv-each-occ='data.sessions' rv-on-click='ctrl.register'
-              | { occ.starttime | classtime } with { occ.teachers | list 'name' }
+              | { occ.starttime | classtime } with { occ.instructors | list 'name' }
 
     == include_slim('slim/partials/footer')
 

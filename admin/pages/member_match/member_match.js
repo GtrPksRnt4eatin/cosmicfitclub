@@ -34,7 +34,5 @@ $(document).ready(function() {
 });
 
 function get_match_list() {
-  $.get('/models/memberships/matched_list', function(list) {
-    data.list = JSON.parse(list);
-  })
+  $.get('/models/memberships/matched_list', function(list) { data.list = list; } )
 }

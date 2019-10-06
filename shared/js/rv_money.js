@@ -7,7 +7,7 @@ function include_rivets_money() {
 
     bind: function(el) {
       this.priceformatInstance = $(el).priceFormat({ prefix: '$' });
-      this.priceformatInstance.on('pricechange', function(val) { this.publish(val); }.bind(this) )
+      this.priceformatInstance.on('pricechange', function(e) { this.publish(e.target.value); }.bind(this) )
     },
 
     unbind: function(el) {
@@ -16,7 +16,7 @@ function include_rivets_money() {
 
     routine: function(el,value) {
       if(!empty(value)) { 
-        this.priceformatInstance.val( value/100 );
+        this.priceformatInstance.val( value );
         this.priceformatInstance.keyup();
       }
     },

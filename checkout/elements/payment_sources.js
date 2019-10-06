@@ -1,7 +1,7 @@
 function PaymentSources(el, attr) {
 
   this.state = {
-    attrib:  attr 
+    attrib:  attr,
   	sources: []
   }
 

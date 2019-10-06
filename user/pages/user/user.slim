@@ -67,14 +67,19 @@ html
             div
               a href='/admin/cameras' Cameras
 
+      -if user.has_role? "scheduling"
+        .tile
+          .header Scheduling
+          hr
+          div
+            a href='/admin/class_exceptions' Class Exceptions
+
       -if user.has_role? "superadmin"
         .tile
           .header Superadmin
           hr
           div
             a href='/admin/member_match' Member Match
-          div
-            a href='/admin/class_exceptions' Class Exceptions
           div
             a href='/admin/roles' Manage Roles
           div
@@ -164,6 +169,9 @@ html
                   td #{ occ.starttime.strftime('%a %m/%d %l:%M %P') }
                   td #{ occ.classdef.name }
                   td w/ #{ occ.teacher.name  }
+                  td.cancel_res data-id='#{res.id}'
+                    | Cancel
+
       - if false
         .tile
           .header Personal Training Sessions
@@ -183,11 +191,6 @@ html
               td 
                 | **** **** **** #{ source['last4'] }
               td #{source['exp_month']} / #{source['exp_year']}
-
-      .tile
-        .header Payment Sources
-        hr
-        payment_sources customer_id='data.customer.id'
 
       .tile
         .header Waiver

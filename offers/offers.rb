@@ -9,11 +9,16 @@ class CFCOffers < Sinatra::Base
   register Sinatra::SharedResources
   register Sinatra::Auth
 
-  #get( '/waterfront_deal') { render_page :waterfront_deal }
-  get( '/testoffer')        { render_page :black_friday   }
+  before do
+    cache_control :no_store
+  end
+
+  get( '/waterfront_deal')  { render_page :waterfront_deal }
+  get( '/newstudent'  )     { render_page :new_student     }
 
   not_found do
-    'This is nowhere to be found.'
+    @err="Sorry, This Offer Is No Longer Available."
+    render_page :error
   end
 
   error do

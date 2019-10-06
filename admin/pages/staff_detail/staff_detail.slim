@@ -8,9 +8,11 @@ html
 
     title Cosmicfit Admin
 
-    == css ['fonts', 'site', 'header', '/admin/staff_detail', 'admin_footer']
-    == js  ['jquery', 'moment', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', 'popupmenu' ]
-    == js  [ '/auth/elements/userview', '/admin/elements/edit_text', 'menu', '/admin/staff_detail' ]  
+    == css ['fonts', 'site', 'header', '/admin/staff_detail', 'admin_footer', 'selectize', 'croppie' ]
+    == js  ['jquery', 'moment', 'selectize.min', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', 'popupmenu' ]
+    == js  [ '/auth/elements/userview', '/admin/elements/edit_text', '/admin/elements/custy_selector' ]
+    == js  [ 'croppie.min', '/admin/elements/aspect_img_chooser']
+    == js  [ 'menu', '/admin/staff_detail' ]  
 
   body.p4
 
@@ -21,8 +23,9 @@ html
     #content
 
       .tile.staff_tile
-        .headshot.editable rv-on-click='edit_headshot'
-          img rv-src='data.staff.image_url'
+        .headshot.editable rv-on-click='ctrl.edit_headshot'
+          img rv-if='data.staff.image_url' rv-src='data.staff.image_url'
+          img.filler rv-unless='data.staff.image_url' 
         .staff_nfo
           .tuple
             .attrib ID:
@@ -40,9 +43,9 @@ html
       .tile.customer_tile    
         .tuple
           .attrib Linked Customer:
-          .value.editable rv-on-click='edit_customer' rv-show='data.staff.customer' 
+          .value.editable rv-on-click='ctrl.edit_customer' rv-show='data.staff.customer' 
             | [{ data.staff.customer.id}] {data.staff.customer.name} ({data.staff.customer.email})
-          .value.editable rv-hide='data.staff.customer'
+          .value.editable rv-on-click='ctrl.edit_customer' rv-hide='data.staff.customer'
             | No Customer Linked
         .tuple
           .attrib Subscription:
@@ -58,11 +61,15 @@ html
               | { data.staff.subscription.began_on | datewyr } - { data.staff.subscription.cancelled_on | datewyr }
 
       .tile
-        .classes
+        h3 Scheduling
+        .classes rv-show='data.staff.schedules'
           .title Currently Scheduled Classes
           .sched rv-each-sched='data.staff.schedules'
-            | {sched.id} - {sched.classdef.name} - {sched.rrule} @ {sched.start_time}
-        .shifts
+            div[] {sched.id}
+            div[] {sched.classdef.name}
+            div[] {sched.rrule} @ {sched.start_time}
+
+        .shifts rv-show='data.staff.shifts'
           .title Hourly Shifts
           .shift rv-each-shift='data.staff.shifts'
             | { shift.task.name } { shift.recurrence } { shift.range }

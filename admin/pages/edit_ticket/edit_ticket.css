@@ -28,18 +28,20 @@
 }
 
 .pass {
+  position: relative;
   background: rgba(0,0,0,0.2);
   padding: 0.5em;
   line-height: 1.3em;
   margin: 0 auto 0.5em auto;
   text-align: left;
-  width: 30em;
+  width: 40em;
   box-shadow: 0 0 0.2em white;
   display: flex;
 }
 
 .pass .nfo {
   flex: 1;
+  padding-right: 0.5em;
 }
 
 .pass .punch {
@@ -74,4 +76,42 @@
 .pass .punch span {
   vertical-align: middle;
   display: inline-block;
+}
+
+.editable {
+  background: rgba(255,255,255,0.5);
+  color: black;
+  padding: 0.25em 1em;
+  border-radius: 0.5em;
+  position: relative;
+  cursor: pointer;
+}
+
+.editable::after {
+  content: '';
+  background-image: url(/edit.svg);
+  cursor: pointer;
+  width: 1em;
+  height: 1em;
+  background-size: contain;
+  transition: all .2s ease-in-out;
+  display: inline-block;
+  position: absolute;
+  top: 0.25em;
+  right: 0.25em;
+}
+
+.delete {
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  background-image: url(/close.svg);
+  width: 1.5em;
+  height: 1.5em;
+  background-size: contain;
+}
+
+.delete:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }

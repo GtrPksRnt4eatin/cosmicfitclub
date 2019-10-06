@@ -2,31 +2,39 @@ require 'ice_cube'
 require 'active_support/core_ext/numeric/time.rb'
 
 class ClassDef < Sequel::Model
+
   include PositionAndDeactivate
+  include ImageUploader[:image]
 
   one_to_many :schedules,   :class => :ClassdefSchedule, :key => :classdef_id 
   one_to_many :occurrences, :class => :ClassOccurrence,  :key => :classdef_id
   one_to_many :exceptions,  :class => :ClassException,   :key => :classdef_id
 
-  include ImageUploader[:image]
+  ####################### LISTS ############################
 
-  def ClassDef.all_active
-    ClassDef.exclude(:deactivated=>true).order(:position).all.select! { |x| x.schedules.count > 0 }
+  def ClassDef.list_active_and_current
+    ClassDef.list_active.select! { |x| x.schedules.count > 0 }
   end
 
-  def ClassDef.list
+  def ClassDef.list_active
+    ClassDef.exclude(:deactivated=>true).order(:position).all
+  end
+
+  def ClassDef.list_all
     all.map(&:to_token)
   end
+
+  ####################### LISTS ############################
 
   def after_save
   	self.id
   	super
-  end 
+  end
 
-  def to_json(options = {})
-    val = JSON.parse super
-    val['image_url'] = image.nil? ? '' : image[:original].url
-    JSON.generate val
+  def thumbnail_image
+    return ''             if self.image.nil?
+    return self.image_url if self.image.is_a? ImageUploader::UploadedFile
+    return self.image[:small].url
   end
 
   def create_schedule(data)
@@ -35,22 +43,34 @@ class ClassDef < Sequel::Model
     new_sched
   end
 
+  def all_reservations
+    self.occurrences.map { |o| o.reservations }.flatten
+  end
+
+  def frequent_flyers
+    all_reservations.map do |res| 
+      res.customer.try(:to_list_hash)
+    end.group_by(&:itself).map do |k,v| 
+      [k, v.size]
+    end.map do |k,v| 
+      k.nil? ? { :count=>v } : { :count=>v }.merge(k)
+    end.sort_by do |x|
+      -x[:count]
+    end.first(20)
+  end
+
+  ####################### OCCURRENCES ############################
+ 
   def get_occurrences(from, to)
-    schedules.map do |sched|
-      sched.get_occurrences(from,to)
-    end.flatten
+    schedules.map { |s| s.get_occurrences(from,to) }.flatten
   end
 
   def get_occurrences_with_exceptions(from, to)
-    schedules.map do |sched|
-      sched.get_occurrences_with_exceptions(from,to)
-    end.flatten
+    schedules.map { |s| s.get_occurrences_with_exceptions(from,to) }.flatten
   end
 
   def get_occurrences_with_exceptions_merged(from,to)
-    schedules.map do |sched|
-      sched.get_occurrences_with_exceptions_merged(from,to)
-    end.flatten
+    schedules.map { |s| s.get_occurrences_with_exceptions_merged(from,to) }.flatten
   end
 
   def get_full_occurrences(from, to)
@@ -89,12 +109,34 @@ class ClassDef < Sequel::Model
     results
   end
 
+  ######################### OCCURRENCES ##########################
+
+  ########################### VIEWS ##############################
+
+  def to_json(options = {})
+    val = JSON.parse super
+    val['image_url'] = image.nil? ? '' : image[:original].url
+    JSON.generate val
+  end
+
   def to_token
     { :id => id, :name => name }
   end
 
-  def frequent_flyers
-    occurrences.map { |occ| occ.reservations.map { |res| res.customer.try(:to_list_hash) } }.flatten.group_by(&:itself).map {|k,v| [k, v.size] }.map{ |k,v| k.nil? ? { :count=>v } : { :count=>v }.merge(k) }.sort_by{ |x| -x[:count] }.first(20)
+  def classpage_view
+    { :id => self.id, 
+      :name => self.name, 
+      :image_url => self.thumbnail_image
+    }
   end
+
+  def adminpage_view
+    classpage_view.merge({
+      :description => self.description,
+      :schedules   => self.schedules
+    })
+  end
+
+  ########################## VIEWS ##############################
 
 end

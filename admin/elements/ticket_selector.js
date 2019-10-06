@@ -117,6 +117,6 @@ TicketSelector.prototype.CSS = ES5Template(function(){/**
 
   .ticket_selector .price span {
     display: inline-block;
-    width: 11em;
+    width: 13em;
   }
 **/}).untab(2);

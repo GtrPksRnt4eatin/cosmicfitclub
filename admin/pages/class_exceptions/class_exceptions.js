@@ -26,6 +26,7 @@ ctrl = {
   },
 
   date_selected(e,m) {
+    if( e.target.value == "" ) return; 
     get_scheditems_bydate(data.search_date);
   },
 
@@ -45,6 +46,7 @@ ctrl = {
   },
 
   post_exception(e,m) {
+    if( e.target.value == "" ) return;
     setTimeout( function(){
       $.post('/models/classdefs/exceptions', data.exception)
        .done(  function(val) { setTimeout(get_scheditems,200); } )
@@ -76,5 +78,7 @@ function get_scheditems() {
 }
 
 function get_scheditems_bydate(date) {
-  $.get('/models/classdefs')
+  $.get('/models/classdefs/schedule_by_day/' + date)
+   .done(  function(val) { data.scheditems = val;   } )
+   .error( function(xhr) { alert(xhr.responseText); } )
 }

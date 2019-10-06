@@ -1,0 +1,11 @@
+Ticket Modifications
+
+add_pass          			pass_id
+
+remove_pass                 pass_id, customer_id, session_id
+
+change_pass_recipient       pass_id, old_customer_id, new_customer_id
+
+check in pass               pass_id
+
+check out pass              pass_id, punch_in_time

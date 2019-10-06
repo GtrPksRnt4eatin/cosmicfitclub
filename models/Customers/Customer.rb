@@ -1,23 +1,25 @@
 
 class Customer < Sequel::Model
   
+  one_to_one      :login, :class=>:User
   one_through_one :plan, :join_table => :subscriptions
-  one_to_many :subscriptions
-  one_to_one :login, :class=>:User
-  one_to_many :passes
-  one_to_many :tickets, :class=>:EventTicket
-  one_to_many :event_checkins, :class=> :EventCheckin
-  one_to_many :training_passes
-  one_to_many :waivers
-  one_to_many :nfc_tags
-  many_to_one :wallet
-  one_to_many :reservations, :class=>:ClassReservation
-  one_to_many :comp_tickets
-  one_to_many :payments, :class=>:CustomerPayment
-  many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
-  many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
+
+  one_to_many  :subscriptions
+  one_to_many  :passes
+  one_to_many  :tickets, :class=>:EventTicket
+  one_to_many  :event_checkins, :class=> :EventCheckin
+  one_to_many  :training_passes
+  one_to_many  :waivers
+  one_to_many  :nfc_tags
+  one_to_many  :reservations, :class=>:ClassReservation
+  one_to_many  :comp_tickets
+  one_to_many  :payments, :class=>:CustomerPayment
   one_to_many  :staff
   one_to_many  :hourly_punches
+
+  many_to_one :wallet
+  many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
+  many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
 
 ############################ Class Methods ###########################
 
@@ -88,6 +90,7 @@ class Customer < Sequel::Model
     self.tickets.each        { |tic| tic.customer = other; tic.save }
     self.event_checkins.each { |chk| chk.customer = other; chk.save }
     self.comp_tickets.each   { |tik| tik.customer = other; tik.save }
+    self.waivers.each        { |wav| wav.customer = other; wav.save }
 
     return if self.wallet.nil?
     other.update( :wallet => Wallet.create ) if other.wallet.nil?
@@ -96,8 +99,8 @@ class Customer < Sequel::Model
   end
 
   def delete
-    return false unless self.can_delete?
-    self.login.delete
+    return false      unless self.can_delete?
+    self.login.delete unless self.login.nil?
     super
   end
 
@@ -112,6 +115,7 @@ class Customer < Sequel::Model
     objects << "Customer Has Comps"        if self.comp_tickets.count > 0
     objects << "Customer Has Payments"     if self.payments.count > 0
     objects << "Customer Has Checkins"     if self.event_checkins.count > 0
+    objects << "Customer Has Waivers"      if self.waivers.count > 0
     objects
   end
 

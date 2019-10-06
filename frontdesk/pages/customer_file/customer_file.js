@@ -3,6 +3,7 @@ data = {
   customers: [],
   customer: {
     id: 0,
+    payments: [],
     payment_sources: [],
     class_passes: [],
     membership_status: null,
@@ -30,7 +31,11 @@ data = {
   transfer_to_amount: 0,
   transfer_from_amount: 0,
   num_comp_tix: 0,
-  comp_reason: "Reason for Comps"
+  comp_reason: "Reason for Comps",
+  misc_charge: {
+    amount: 0,
+    reason: ""
+  }
 }
 
 ctrl = {
@@ -75,7 +80,7 @@ ctrl = {
     .fail( function(e) { alert('failed'); });
   },
 
-  buy_package(e,m) {
+  buy_package: function(e,m) {
     var package_id = $('#packages option:selected').val();
     var package_name = $('#packages option:selected').data("name");
     var package_price = $('#packages option:selected').data("price");
@@ -85,25 +90,56 @@ ctrl = {
     });
   },
 
-  update_customer_info(e,m) {
+  update_customer_info: function(e,m) {
     $.post('/models/customers/' + data.customer.id + '/info', JSON.stringify(data.customer_info));
   },
 
-  send_passes(e,m) {
+  send_passes: function(e,m) {
     $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.customer.id, to: data.transfer_to, amount: data.transfer_to_amount } )
      .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
      .fail( function(e) { alert('Transfer Failed') });
 
   },
 
-  receive_passes(e,m) {
+  receive_passes: function(e,m) {
     $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.transfer_from, to: data.customer.id, amount: data.transfer_from_amount } )
      .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
      .fail( function(e) { alert('Transfer Failed') });
   },
 
-  event_selected(e,m) {
+  event_selected: function(e,m) {
     tic_selector.load_event(e.target.value);
+  },
+
+  prepaid_month: function(e,m) {
+    payment_form.checkout(
+      data.customer.id, 
+      16000, 
+      "Prepaid Monthly Subscription", 
+      { "customer_id": data.customer.id }, 
+      function(payment_id) {
+        $.post('/models/memberships/prepaid', {
+          customer_id: data.customer.id, 
+          plan_id:     16,
+          payment_id:  payment_id
+        })
+        .done( function(e) { refresh_customer_data(); } )
+        .fail( function(e) { alert('subscription failed!'); }); 
+      }
+    )
+  },
+
+  misc_charge: function(e,m) {
+    payment_form.checkout(
+      data.customer.id,
+      data.misc_charge.amount,
+      data.misc_charge.reason,
+      { "customer_id": data.customer_id },
+      function(payment_id) { 
+        $.post('/models/customers/misc_payment', { payment_id: payment_id });
+        get_customer_payments(); 
+      }
+    )
   }
 
 }
@@ -185,6 +221,7 @@ function setupBindings() {
   rivets.formatters.remove_invalid      = function(val) { return val == "Invalid date" ? '' : val; }
   rivets.formatters.waiver_img          = function(val) { return '/models/customers/' + val + '/waiver.svg'; }
   rivets.formatters.href_stripe_details = function(val) { return '/admin/payment_sources?id=' + val; }
+  rivets.formatters.href_stripe_payment = function(val) { return 'https://dashboard.stripe.com/payments/' + val; }
 
   rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
@@ -239,10 +276,17 @@ function refresh_customer_data() {
   $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/family`,          function(resp) { data.customer.family            = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/subscriptions`,   function(resp) { data.customer.subscriptions     = resp; }, 'json');
-  refresh_reservations()
+  get_customer_payments();
+  refresh_reservations();
 }
 
-function refresh_reservations() { $.get(`/models/customers/${data.customer.id}/reservations`, function(resp) { data.customer.reservations = resp; }, 'json'); }
+function get_customer_payments() {
+  $.get(`/models/customers/${data.customer.id}/payments`,        function(resp) { data.customer.payments          = resp; }, 'json');
+}
+
+function refresh_reservations() { 
+  $.get(`/models/customers/${data.customer.id}/reservations`, function(resp) { data.customer.reservations = resp; }, 'json'); 
+}
 
 function resetCustomer() {
   data.customer_info = {};

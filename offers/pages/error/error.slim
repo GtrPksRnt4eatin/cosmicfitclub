@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmic Error
+
+    == css [ 'fonts', 'site', 'error']
+
+  body
+
+    #error_container.tile
+      img src='donut-phone.png'
+      br
+      | #{ @err }
+      br
+      a href='/' Home
+  
+    == analytics

@@ -51,28 +51,6 @@ html
             a rv-href='data.ticket.new.payment.stripe_id | stripe' target='_blank' { data.ticket.new.payment.stripe_id }
 
       .tile
-
-        select rv-select='data.recipient'
-          option value='0' selected='true' No Customer
-          option rv-each-custy='data.customers' rv-value='custy.id' {custy.name} ( {custy.email} )
-
-        button rv-on-click='ctrl.assign_recipient' Change Recipient
-
-      .tile
-
-        select.split_sessions rv-multiselect='data.split_sessions'
-          option rv-each-sess='data.sessions' rv-value='sess.id'
-            | {sess.start_time | eventstart } - {sess.end_time | time} : {sess.title}
-
-        select rv-select='data.split_recipient'
-          option value='0' selected='true' No Customer
-          option rv-each-custy='data.customers' rv-value='custy.id' {custy.name} ( {custy.email} )
-          
-        button rv-on-click='ctrl.split_ticket' Split Ticket
-
-        div {data.ticket}
-
-      .tile
         
         H2 Session Passes
 
@@ -81,14 +59,15 @@ html
             .nfo
               div[] { pass.session.title }
               div[] { pass.session.start_time | eventstart }
-              div.edit rv-on-click='ctrl.edit_pass_recipient' 
+              div.editable rv-on-click='ctrl.edit_pass_recipient' 
                 | [# { pass.customer.id}] { pass.customer.name } ( {pass.customer.email} )
             .punch.in rv-if='pass.checked_in'
-              span 
+              span rv-on-click='ctrl.pass_checkout'
                 | { pass.checked_in | time }
             .punch.out rv-unless='pass.checked_in'
               span rv-on-click='ctrl.pass_checkin'
                 | Check In
+            .delete rv-on-click='ctrl.remove_pass'
 
       .tile
 

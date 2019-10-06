@@ -48,10 +48,10 @@ CustySelector.prototype = {
     }.bind(this));
   },
 
-  show_modal: function(value, callback) {
-    this.select_customer(value);
+  show_modal: function(customer_id, callback) {
+    this.select_customer(customer_id);
     this.state.callback = callback;
-    this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
+    this.ev_fire('show', { 'dom': this.modal_dom, 'position': 'modal'} );
   },
 
   on_data_failed: function() {
@@ -91,6 +91,14 @@ CustySelector.prototype = {
     }
   },
 
+  get modal_dom() {
+    var el = document.createElement("div");
+    el.className = 'modal_container';
+    el.setAttribute("style", "display: inline-block; left: 0; right: 0; margin: auto; vertical-align: middle; background: rgb(100,100,100); padding: 1em; box-shadow: 0 0 0.5em white;");
+    el.appendChild(this.dom);
+    return el;
+  },
+
   get selected_customer() {
     return this.state.customers.find( function(val) { return val.id == this.state.customer_id; }.bind(this) );
   }
@@ -112,7 +120,10 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
 CustySelector.prototype.CSS = ES5Template(function(){/**
   .custy_selector {
     display: flex;
-    max-width: 30em;
+  }
+
+  .modal_container .custy_selector {
+    width: 30em;
   }
 
   .custy_selector .customers {

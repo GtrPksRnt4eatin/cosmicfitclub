@@ -42,7 +42,7 @@ $(document).ready(function() {
 
 function get_saved_classes() {
   $.get('/models/classdefs', function(classes) {
-    data.classes = JSON.parse(classes);
+    data.classes = classes;
   })
 } 
 

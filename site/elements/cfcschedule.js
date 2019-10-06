@@ -373,6 +373,7 @@ Schedule.prototype.CSS = `
     }
 
     #Schedule .classdetail .instructors {
+      vertical-align: bottom;
       margin: 0;
     }
 

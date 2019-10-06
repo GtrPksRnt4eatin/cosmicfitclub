@@ -1,4 +1,9 @@
 class Rental < Sequel::Model
+
+  def after_create
+    super
+    Slack.website_scheduling("Private Rental Added: #{ self.description }")
+  end
   
   def end_time
     self.start_time + self.duration_hours.hours
@@ -29,6 +34,14 @@ class Rental < Sequel::Model
       :endtime => end_time,
       :title => title
     }
+  end
+
+  def description
+    "#{ time_12h(self.start_time) } - #{ self.title }"
+  end
+
+  def time_12h(val) 
+    Time.parse(val.to_s).strftime("%Y %b %-d @ %I:%M %P") rescue val 
   end
 
 end

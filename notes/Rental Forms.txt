@@ -1,0 +1,38 @@
+
+
+Rentals
+  - Kids Birthday Parties
+    - $175/hr
+    - Parents Name & Email
+    - Childs Name/Age
+    - Approx # of Guests
+    - Class or Entertainment Requested
+    - Dates & Times requested
+    - AV Requests
+    - Furniture / Layout Requests
+    - Credit Card on file
+  
+  - Shows/Events
+    - $175/hr
+    - Split of Door?
+  	- Bookers Name, Email & Phone
+  	- Event Name and Acts Description
+  	- External Ticket Link
+  	- Sell on cosmic site too?
+  	- AV Needs
+  	- Room Layout
+
+  - Film Shoots/Music Videos
+    - Inquire For Price
+  	- $80/hr  Independent?
+  	- $175/hr Corporate?
+    - Prices vary with cancellations and times
+
+  - Daytime Dance/Music Rehearsals
+    -
+
+  - Private Lessons
+    - $25/hr up to 2 students
+    - $10/student/hr after 2
+    - Max 4 students
+    
