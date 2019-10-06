@@ -1,0 +1,47 @@
+
+
+Ask Email?
+
+  Matches Known Account
+
+    Password Entered
+
+      Unresolved Tasks
+
+        To Resource
+
+    Reset Clicked
+
+      Email Sent
+
+      Enter Code
+
+        Enter Password
+
+          Unresolved Tasks
+
+            To Resource
+
+  Does Not Match Known Account
+
+    Set Name
+
+      Unresolved Tasks
+
+
+
+Unresolved Tasks
+
+  Add Name
+
+  Add Address
+  
+  Add Phone #
+
+  Add Emergency Contacts
+
+  Sign Waiver
+
+  Sign Up For Your First Class Free
+
+  

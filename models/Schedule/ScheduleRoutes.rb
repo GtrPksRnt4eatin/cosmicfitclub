@@ -6,6 +6,13 @@ class ScheduleRoutes < Sinatra::Base
     cache_control :no_store
   end
 
+  get '/schedule.jpg' do
+    content_type :jpeg
+    starttime = params[:starttime] || DateTime.today
+    attachment "cosmic_schedule.jpg"
+    SchedulePoster::generate(starttime)
+  end
+
   get '/ics' do
     from = params[:from] || Date.today.beginning_of_month
     to   = params[:to]   || Date.today.end_of_month

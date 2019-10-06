@@ -45,9 +45,13 @@ def draw_box(x_offset,y_offset)
   draw_box_raw(x_offset,y_offset,2250,350)
 end
 
-def render_header_line(image, )
+def render_header_line(idx, x_offset, y_offset)
   image.combine_options do |i|
-    
+    i.fill "\#FFFFFFFF" unless HIGH_CONTRAST
+    i.fill "\#000000FF"     if HIGH_CONTRAST
+    i.font "../shared/fonts/webfonts/329F99_3_0.ttf"
+    i.pointsize 55
+    i.draw "text #{x_offset},#{y_offset} '#{parse_day(SCHEDULE[idx][:day])}'"
   end
 end
 
@@ -87,19 +91,13 @@ def build_day(idx, x_offset, y_offset)
   draw_box_raw(x_offset, y_offset, box_width, box_height ) unless HIGH_CONTRAST
   x_offset = x_offset + 20
   y_offset = y_offset + (line_height * 1.1)
-  IMAGE.combine_options do |i|
-    i.fill "\#FFFFFFFF" unless HIGH_CONTRAST
-    i.fill "\#000000FF"     if HIGH_CONTRAST
-    i.font "../shared/fonts/webfonts/329F99_3_0.ttf"
-    i.pointsize 55
-    i.draw "text #{x_offset},#{y_offset} '#{parse_day(SCHEDULE[idx][:day])}'"
-    y_offset = y_offset + ( line_height * 0.1 )
-    SCHEDULE[idx][:occurrences].each do |occ|
-      y_offset = y_offset + line_height
-      render_text_line(IMAGE, occ, x_offset, y_offset)
-    end
-    y_offset = y_offset + line_height*0.5
+  render_header_line(idx,x_offset,y_offset)
+  y_offset = y_offset + ( line_height * 0.1 )
+  SCHEDULE[idx][:occurrences].each do |occ|
+    y_offset = y_offset + line_height
+    render_text_line(IMAGE, occ, x_offset, y_offset)
   end
+  y_offset = y_offset + line_height*0.5
   return y_offset
 end
 
