@@ -70,7 +70,7 @@ module SchedulePoster
         i.fill "\#000000FF"     if @@high_contrast
         i.draw "text #{x_offset + col1_x },#{y_offset} '#{SchedulePoster::parse_time(occ)}'"
         i.draw "text #{x_offset + col2_x },#{y_offset} '#{SchedulePoster::truncate(occ['title'],col2_trunc)}'"
-        i.draw "text #{x_offset + col3_x },#{y_offset} 'w/ #{SchedulePoster::truncate(,col3_trunc)}'"
+        i.draw "text #{x_offset + col3_x },#{y_offset} 'w/ #{SchedulePoster::truncate(teachers,col3_trunc)}'"
       when 'eventsession'
         i.fill "\#FFFFAAFF" unless @@high_contrast
         i.fill "\#999900FF"     if @@high_contrast
