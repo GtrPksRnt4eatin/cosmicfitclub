@@ -81,7 +81,7 @@ module SchedulePoster
         i.fill "\#AAAAFFFF" unless @@high_contrast
         i.fill "\#000099FF"     if @@high_contrast
         i.draw "text #{x_offset + col1_x },#{y_offset} \"#{SchedulePoster::parse_time(occ)}\""
-        i.draw "text #{x_offset + col2_x },#{y_offset} \"#{SchedulePoster::truncate(occ[:title],col2_trunc)}\"s"
+        i.draw "text #{x_offset + col2_x },#{y_offset} \"#{SchedulePoster::truncate(occ[:title],col2_trunc)}\""
       end
     end
   end
