@@ -19,7 +19,7 @@ module SchedulePoster
   	@@high_contrast = high_contrast
     @@schedule      = Scheduling::get_all_sorted_by_days(starttime, starttime >> 7)
     
-    @@image         = MiniMagick::Image.open("../shared/img/background-blu.jpg") unless @@high_contrast
+    @@image         = MiniMagick::Image.open("shared/img/background-blu.jpg") unless @@high_contrast
     @@image         = MiniMagick::Image.open("./white.png")                          if @@high_contrast
 
     @@image.rotate "90"
