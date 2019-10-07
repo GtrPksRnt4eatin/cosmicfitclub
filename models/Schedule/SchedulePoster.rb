@@ -50,7 +50,7 @@ module SchedulePoster
     @@image.combine_options do |i|
       i.fill "\#FFFFFFFF" unless @@high_contrast
       i.fill "\#000000FF"     if @@high_contrast
-      i.font "../shared/fonts/webfonts/329F99_3_0.ttf"
+      i.font "shared/fonts/webfonts/329F99_3_0.ttf"
       i.pointsize @@header_pointsize
       i.draw "text #{x_offset},#{y_offset} '#{SchedulePoster::parse_day(day[:day])}'"
     end
@@ -62,7 +62,7 @@ module SchedulePoster
 
     @@image.combine_options do |i|
       i.pointsize @@body_pointsize
-      i.font "../shared/fonts/webfonts/329F99_3_0.ttf"
+      i.font "shared/fonts/webfonts/329F99_3_0.ttf"
       case occ[:type]
       when 'classoccurrence'
         i.fill "\#FFFFFFFF" unless @@high_contrast
