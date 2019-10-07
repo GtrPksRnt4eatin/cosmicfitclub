@@ -92,7 +92,7 @@ module SchedulePoster
     x_offset = x_offset + 20
     y_offset = y_offset + (@@line_height * 1.1)
     SchedulePoster::render_header_line(day, x_offset, y_offset)
-    y_offset = y_offset + ( line_height * 0.1 )
+    y_offset = y_offset + ( @@line_height * 0.1 )
     day[:occurrences].each do |occ|
       y_offset = y_offset + @@line_height
       SchedulePoster::render_text_line(occ, x_offset, y_offset)
