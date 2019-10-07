@@ -65,23 +65,23 @@ module SchedulePoster
       i.font "shared/fonts/webfonts/329F99_3_0.ttf"
       case occ[:type]
       when 'classoccurrence'
-        teachers = occ['instructors'] ? occ['instructors'][0]['name'] : ""
+        teachers = occ[:instructors] ? occ[:instructors][0][:name] : ""
         i.fill "\#FFFFFFFF" unless @@high_contrast
         i.fill "\#000000FF"     if @@high_contrast
         i.draw "text #{x_offset + col1_x },#{y_offset} '#{SchedulePoster::parse_time(occ)}'"
-        i.draw "text #{x_offset + col2_x },#{y_offset} '#{SchedulePoster::truncate(occ['title'],col2_trunc)}'"
+        i.draw "text #{x_offset + col2_x },#{y_offset} '#{SchedulePoster::truncate(occ[:title],col2_trunc)}'"
         i.draw "text #{x_offset + col3_x },#{y_offset} 'w/ #{SchedulePoster::truncate(teachers,col3_trunc)}'"
       when 'eventsession'
         i.fill "\#FFFFAAFF" unless @@high_contrast
         i.fill "\#999900FF"     if @@high_contrast
         i.draw "text #{x_offset + col1_x },#{y_offset} '#{SchedulePoster::parse_time(occ)}'"
-        i.draw "text #{x_offset + col2_x },#{y_offset} '#{SchedulePoster::truncate(occ['event_title'],col2_trunc)}'"
-        i.draw "text #{x_offset + col3_x },#{y_offset} '#{SchedulePoster::truncate(occ['title'],col3_trunc)}'"
+        i.draw "text #{x_offset + col2_x },#{y_offset} '#{SchedulePoster::truncate(occ[:event_title],col2_trunc)}'"
+        i.draw "text #{x_offset + col3_x },#{y_offset} '#{SchedulePoster::truncate(occ[:title],col3_trunc)}'"
       when 'private' then
         i.fill "\#AAAAFFFF" unless @@high_contrast
         i.fill "\#000099FF"     if @@high_contrast
         i.draw "text #{x_offset + col1_x },#{y_offset} '#{SchedulePoster::parse_time(occ)}'"
-        i.draw "text #{x_offset + col2_x },#{y_offset} '#{SchedulePoster::truncate(occ['title'],col2_trunc)}'"
+        i.draw "text #{x_offset + col2_x },#{y_offset} '#{SchedulePoster::truncate(occ[:title],col2_trunc)}'"
       end
     end
   end
