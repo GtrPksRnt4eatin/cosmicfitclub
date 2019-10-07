@@ -51,7 +51,7 @@ module SchedulePoster
       i.fill "\#FFFFFFFF" unless @@high_contrast
       i.fill "\#000000FF"     if @@high_contrast
       i.font "../shared/fonts/webfonts/329F99_3_0.ttf"
-      i.pointsize @header_pointsize
+      i.pointsize @@header_pointsize
       i.draw "text #{x_offset},#{y_offset} '#{SchedulePoster::parse_day(day[:day])}'"
     end
   end
