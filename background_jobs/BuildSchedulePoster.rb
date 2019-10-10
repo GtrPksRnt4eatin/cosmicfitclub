@@ -7,7 +7,10 @@ class BuildSchedulePoster
   	p "starting background job"
     blob = SchedulePoster::generate(starttime)
     p blob
-    img  = StoredImage.create( :image => blob, :name => "WeeklyPoster.jpg" )
+    rd, wr = IO.pipe
+    blob.write(rd)
+    img  = StoredImage.create( :image => wr, :name => "WeeklyPoster.jpg" )
+
     puts img
     puts img.image[:original].url
   end
