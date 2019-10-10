@@ -58,7 +58,7 @@ module Sinatra
           :customer            => custy, 
           :event_id            => data['event_id'], 
           :included_sessions   => data['included_sessions'], 
-          :price               => data['total_price'] / data['multiplier'].to_i,
+          :price               => data['total_price'].to_i / data['multiplier'].to_i,
           :event_price_id      => data['selected_price'] ? data['selected_price']['id'] : nil,
           :customer_payment_id => payment.id
         )

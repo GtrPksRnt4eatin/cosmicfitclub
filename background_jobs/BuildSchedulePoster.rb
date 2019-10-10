@@ -5,7 +5,9 @@ class BuildSchedulePoster
 
   def perform(starttime)
     blob = SchedulePoster::generate(starttime)
-    StoredImage.create( :image => blob, :name => "WeeklyPoster.jpg" )
+    img  = StoredImage.create( :image => blob, :name => "WeeklyPoster.jpg" )
+    puts img
+    puts img.image[:original].url
   end
 
 end
