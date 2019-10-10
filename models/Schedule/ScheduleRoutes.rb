@@ -10,7 +10,7 @@ class ScheduleRoutes < Sinatra::Base
     content_type :jpeg
     starttime = params[:starttime] ? Date.parse(params[:starttime]) : Date.today
     attachment "cosmic_schedule.jpg"
-    SchedulePoster::generate(starttime)
+    StoredImage.where(:name=>"WeeklyPoster.jpg").first.image[:original].url
   end
 
   get '/ics' do

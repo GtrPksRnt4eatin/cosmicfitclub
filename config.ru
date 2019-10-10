@@ -15,10 +15,11 @@ Dir["extensions/*.rb"].each    { |file| require_relative file }
 
 require_relative 'auth/auth'
 
-Dir["integrations/*.rb"].each { |file| require_relative file }
-Dir["ruby/*.rb"].each          { |file| require_relative file }
-Dir["models/mixins/*.rb"].each { |file| require_relative file }
-Dir["models/**/*.rb"].each     { |file| require_relative file }
+Dir["integrations/*.rb"].each    { |file| require_relative file }
+Dir["ruby/*.rb"].each            { |file| require_relative file }
+Dir["models/mixins/*.rb"].each   { |file| require_relative file }
+Dir["models/**/*.rb"].each       { |file| require_relative file }
+Dir["background_jobs/*.rb"].each { |file| require_relative file }
 
 require_relative 'admin/admin'
 require_relative 'site/CFC'
