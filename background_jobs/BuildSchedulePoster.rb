@@ -5,12 +5,12 @@ class BuildSchedulePoster
 
   def perform(starttime)
   	p "starting background job"
-    img = SchedulePoster::generate(starttime)
-    img = StoredImage.find( :name => "WeeklyPoster.jpg" )
-    if img.nil? then
-      img = StoredImage.create( :name => "WeeklyPoster.jpg", :image=> File.open(img.path) )
+    img   = SchedulePoster::generate(starttime)
+    store = StoredImage.find( :name => "WeeklyPoster.jpg" )
+    if store.nil? then
+      store = StoredImage.create( :name => "WeeklyPoster.jpg", :image=> File.open(img.path) )
     else
-      img = img.update( :image=> File.open(img.path), :saved_on=>DateTime.now )
+      store = img.update( :image=> File.open(img.path), :saved_on=>DateTime.now )
     end
     p "finished background job"
   end
