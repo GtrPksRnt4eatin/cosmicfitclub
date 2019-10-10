@@ -1,4 +1,4 @@
-require 'suckerpunch'
+require 'sucker_punch'
 
 class BuildSchedulePoster
   include SuckerPunch::Job
