@@ -33,7 +33,7 @@ module SchedulePoster
     offset = SchedulePoster::build_day(5,50,offset + 25)
     offset = SchedulePoster::build_day(6,50,offset + 25)
 
-    @@image.to_blob
+    @@image
 
   end
 
