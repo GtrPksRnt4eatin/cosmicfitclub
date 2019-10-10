@@ -17,14 +17,15 @@ module SchedulePoster
   	SchedulePoster::set_class_vars
 
   	@@high_contrast = high_contrast
+    p "Getting Schedule #{Time.now}"
     @@schedule      = Scheduling::get_all_sorted_by_days(starttime, starttime >> 7)
-    
+    p "Getting Background #{Time.now}"    
     @@image         = MiniMagick::Image.open("shared/img/background-blu.jpg") unless @@high_contrast
     @@image         = MiniMagick::Image.open("./white.png")                          if @@high_contrast
-
+    p "Rotating Scaling #{Time.now}"  
     @@image.rotate "90"
     @@image.resize "2550x3300!"
-    
+    p "Building Days #{Time.now}"  
     offset = SchedulePoster::build_day(0,50,150)
     offset = SchedulePoster::build_day(1,50,offset + 25)
     offset = SchedulePoster::build_day(2,50,offset + 25)
@@ -40,6 +41,7 @@ module SchedulePoster
   ################################### RENDERING ######################################
 
   def SchedulePoster::draw_box(x_offset, y_offset, x, y, x_radius=25, y_radius=25 )
+    p "Drawing Box #{Time.now}"  
     @@image.combine_options do |i|
       i.fill "\#00000099"
       i.draw "roundRectangle #{x_offset},#{y_offset} #{x_offset + x},#{y_offset + y} #{x_radius},#{y_radius}"
@@ -47,6 +49,7 @@ module SchedulePoster
   end
 
   def SchedulePoster::render_header_line(day, x_offset, y_offset)
+    p "Rendering header line #{Time.now}"  
     @@image.combine_options do |i|
       i.fill "\#FFFFFFFF" unless @@high_contrast
       i.fill "\#000000FF"     if @@high_contrast
@@ -57,6 +60,7 @@ module SchedulePoster
   end
 
   def SchedulePoster::render_text_line(occ, x_offset, y_offset)
+    p "Rendering Text Line #{Time.now}"  
     col1_x, col2_x, col3_x = 75, 600, 1750
     col2_trunc, col3_trunc = 53, 28
 
@@ -87,6 +91,7 @@ module SchedulePoster
   end
 
   def SchedulePoster::build_day(idx, x_offset, y_offset)
+    p "Building Day #{idx} #{Time.now}"  
     day = @@schedule[idx]
     box_height = (@@line_height * 1.7) + ( @@line_height * day[:occurrences].count )
     SchedulePoster::draw_box(x_offset, y_offset, @@box_width, box_height ) unless @@high_contrast
