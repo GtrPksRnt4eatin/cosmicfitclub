@@ -7,10 +7,7 @@ class ScheduleRoutes < Sinatra::Base
   end
 
   get '/schedule.jpg' do
-    content_type :jpeg
-    starttime = params[:starttime] ? Date.parse(params[:starttime]) : Date.today
-    attachment "cosmic_schedule.jpg"
-    StoredImage.where(:name=>"WeeklyPoster.jpg").first.image.url
+    redirect StoredImage.where(:name=>"WeeklyPoster.jpg").first.image.url
   end
 
   post '/generate' do
