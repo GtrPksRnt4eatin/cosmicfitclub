@@ -74,7 +74,7 @@ module Sinatra
           :customer_id         => params[:customer_id],
           :event_id            => params[:event_id],
           :included_sessions   => params[:included_sessions],
-          :price               => params[:total_price] / params[:multiplier].to_i,
+          :price               => params[:total_price].to_i / params[:multiplier].to_i,
           :customer_payment_id => params[:payment_id], 
           :event_price_id      => params[:price_id]
         )
