@@ -1,6 +1,6 @@
 class StoredImage < Sequel::Model
 
-  include ImageUploader[:image]
+  include SimpleImageUploader[:image]
 
   def after_save
   	self.id

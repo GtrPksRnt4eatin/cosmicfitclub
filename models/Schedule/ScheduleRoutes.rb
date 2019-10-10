@@ -10,7 +10,13 @@ class ScheduleRoutes < Sinatra::Base
     content_type :jpeg
     starttime = params[:starttime] ? Date.parse(params[:starttime]) : Date.today
     attachment "cosmic_schedule.jpg"
-    StoredImage.where(:name=>"WeeklyPoster.jpg").first.image[:original].url
+    StoredImage.where(:name=>"WeeklyPoster.jpg").first.image.url
+  end
+
+  post '/generate' do
+    content_type :json
+    BuildSchedulePoster.perform_async(Date.today)
+    {}.to_json
   end
 
   get '/ics' do
