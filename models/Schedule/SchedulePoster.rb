@@ -22,10 +22,9 @@ module SchedulePoster
     p "Getting Background #{Time.now}"    
     @@image         = MiniMagick::Image.open("shared/img/background-blu.jpg") unless @@high_contrast
     @@image         = MiniMagick::Image.open("./white.png")                          if @@high_contrast
-    p "Rotating Scaling #{Time.now}"  
     @@image.rotate "90"
     @@image.resize "2550x3300!"
-    p "Building Days #{Time.now}"  
+    
     offset = SchedulePoster::build_day(0,50,150)
     offset = SchedulePoster::build_day(1,50,offset + 25)
     offset = SchedulePoster::build_day(2,50,offset + 25)
