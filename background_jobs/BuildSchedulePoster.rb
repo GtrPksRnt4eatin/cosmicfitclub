@@ -19,22 +19,22 @@ class BuildSchedulePoster
   def build_quad_poster(img)
   	image = img.composite(img) do |c|
       c.gravity "NorthWest"
-      c.geometry '1225x1650+0+0' 
+      c.geometry '1275x1650+0+0' 
   	end
 
   	image = image.composite(img) do |c|
       c.gravity "NorthEast"
-      c.geometry '1225x1650+0+0' 
+      c.geometry '1275x1650+0+0' 
   	end
 
   	image = image.composite(img) do |c|
       c.gravity "SouthWest"
-      c.geometry '1225x1650+0+0' 
+      c.geometry '1275x1650+0+0' 
   	end
 
   	image = image.composite(img) do |c|
       c.gravity "SouthEast"
-      c.geometry '1225x1650+0+0' 
+      c.geometry '1275x1650+0+0' 
   	end
 
   	store = StoredImage.find( :name => "WeeklyPosterQuad.jpg" )
