@@ -3,14 +3,14 @@ require 'sucker_punch'
 class BuildSchedulePoster
   include SuckerPunch::Job
 
-  def perform(starttime)
+  def perform(starttime=Date.today)
   	p "starting background job"
     img   = SchedulePoster::generate(starttime)
     store = StoredImage.find( :name => "WeeklyPoster.jpg" )
     if store.nil? then
       store = StoredImage.create( :name => "WeeklyPoster.jpg", :image=> File.open(img.path) )
     else
-      store = img.update( :image=> File.open(img.path), :saved_on=>DateTime.now )
+      store = store.update( :image=> File.open(img.path), :saved_on=>DateTime.now )
     end
     build_quad_poster(img.path)
     p "finished background job"
