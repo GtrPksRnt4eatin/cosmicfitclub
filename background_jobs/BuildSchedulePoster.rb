@@ -17,31 +17,31 @@ class BuildSchedulePoster
   end
 
   def build_quad_poster(img)
-  	img = img.composite(img) do |c|
+  	image = img.composite(img) do |c|
       c.gravity "NorthWest"
       c.geometry '1225x1650+0+0' 
   	end
 
-  	img = img.composite(img) do |c|
+  	image = image.composite(img) do |c|
       c.gravity "NorthEast"
       c.geometry '1225x1650+0+0' 
   	end
 
-  	img = img.composite(img) do |c|
+  	image = image.composite(img) do |c|
       c.gravity "SouthWest"
       c.geometry '1225x1650+0+0' 
   	end
 
-  	img = img.composite(img) do |c|
+  	image = image.composite(img) do |c|
       c.gravity "SouthEast"
       c.geometry '1225x1650+0+0' 
   	end
 
   	store = StoredImage.find( :name => "WeeklyPosterQuad.jpg" )
     if store.nil? then
-      store = StoredImage.create( :name => "WeeklyPosterQuad.jpg", :image=> File.open(img.path) )
+      store = StoredImage.create( :name => "WeeklyPosterQuad.jpg", :image=> File.open(image.path) )
     else
-      store = store.update( :image=> File.open(img.path), :saved_on=>DateTime.now )
+      store = store.update( :image=> File.open(image.path), :saved_on=>DateTime.now )
     end
 
   	#images = [path,path,path,path]
