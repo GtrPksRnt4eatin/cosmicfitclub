@@ -17,7 +17,7 @@ class BuildSchedulePoster
   end
 
   def build_quad_poster(img)
-  	img = img.composite(img.path) do |c|
+  	img = img.composite(img) do |c|
       c.gravity "NorthWest"
       c.geometry '400x400+20+56' 
   	end
