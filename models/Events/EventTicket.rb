@@ -56,7 +56,7 @@ class EventTicket < Sequel::Model
 
   def send_notification
     Slack.website_purchases(self.summary)
-    send_sms_to(self.summary, [ "845-519-4497" ] )
+    send_sms_to(self.summary, [ "845-519-4497" ] ) if ( self.event_id == 405 )
   end
 
   def generate_passes
