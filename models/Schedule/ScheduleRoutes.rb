@@ -10,6 +10,10 @@ class ScheduleRoutes < Sinatra::Base
     redirect StoredImage.where(:name=>"WeeklyPoster.jpg").first.image.url
   end
 
+  get '/schedule4.jpg' do
+    redirect StoredImage.where(:name=>"WeeklyPosterQuad.jpg").first.image.url
+  end
+
   post '/generate' do
     content_type :json
     BuildSchedulePoster.perform_async(Date.today)
