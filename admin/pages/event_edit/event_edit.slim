@@ -29,8 +29,8 @@ html
           textarea#name rv-value='event.name'
         .tuplet
           label Image:
-            img#picpreview rv-src='event.image_url' rv-on-click='ctrl.edit_photo'
-            img.filler#nopic rv-unless='event.image_url'
+          img#picpreview rv-src='event.image_url' rv-on-click='ctrl.edit_photo'
+          img.filler#nopic rv-unless='event.image_url'
         .tuplet
           label Description:
           textarea#description rv-value='event.description'
