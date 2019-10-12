@@ -44,15 +44,6 @@ class BuildSchedulePoster
       store = store.update( :image=> File.open(image.path), :saved_on=>DateTime.now )
     end
 
-  	#images = [path,path,path,path]
-    #processed_image = MiniMagick::Tool::Montage.new do |image|
-    #  #2550x3300
-    #  image.geometry "x1225+0+0"
-    #  image.tile "#{images.size}x1"
-    ##  images.each {|i| image << i}
-    #  image << "output.jpg"
-    #end
-
   end
 
 end

@@ -196,8 +196,9 @@ end
 def Staff::payroll(from, to)
   result = $DB[payroll_query, from, to].all
   result.each { |teacher_row|
-    teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 78  }  # Open Studio
-    teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 123 }  # Tuesday Open Studio 
+    teacher_row[:class_occurrences].reject!  { |x| ClassDef[x['classdef_id'].to_i].unpaid }
+    #teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 78  }  # Open Studio
+    #teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 123 }  # Tuesday Open Studio 
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime'])   } 
     teacher_row[:class_occurrences].each { |occurrence_row|
       occurrence_row[:pay] = 
@@ -236,6 +237,7 @@ def Staff::payroll(from, to)
     existing[:class_occurrences].concat(val[:class_occurrences]) unless existing.nil?
     result << val if existing.nil?
   }
+  result.sort_by! { |x| Staff[x[:staff_id]].unpaid }
   result.each { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + y[:pay] } }
   result.reject { |x| x[:class_occurrences].length == 0 }
 end
