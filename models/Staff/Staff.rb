@@ -201,7 +201,7 @@ def Staff::payroll(from, to)
     #teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 123 }  # Tuesday Open Studio 
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime'])   } 
     teacher_row[:class_occurrences].each { |occurrence_row|
-      occurrence_row[:pay] = 
+      ( occurrence_row[:pay] = 0; next ) if Staff[occurrence_row[:staff_id]].unpaid
       case occurrence_row['headcount'].to_i
       when 0..1
         20 
