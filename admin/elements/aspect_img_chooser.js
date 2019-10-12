@@ -199,4 +199,10 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
     padding: 0 0.25em;
   }
 
+  img.blank {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
+    width: 15em;
+    height: 15em;
+  }
+
 **/}).untab(2);

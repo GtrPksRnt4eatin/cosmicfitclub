@@ -27,6 +27,12 @@
   height: 15em;
 }
 
+img.filler {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
+  width: 15em;
+  height: 15em;
+}
+
 .staff_tile .staff_nfo {
   flex: 1 1 auto;
 }
@@ -122,8 +128,3 @@
 
 /* TUPLES */
 
-img.filler {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
-  width: 15em;
-  height: 15em;
-}

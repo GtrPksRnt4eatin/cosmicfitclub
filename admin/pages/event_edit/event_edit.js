@@ -1,5 +1,12 @@
 ctrl = {
 
+  edit_image: function(e,m) {
+    if(data.staff.image_data) {
+      img_chooser.edit_image(data.staff.image_data.original.metadata.filename, data.staff.image_url);
+    }
+    img_chooser.show_modal(); 
+  },
+
   save_changes(e,m) {
     var fd = new FormData();
     fd.append('id', m.event.id);
@@ -39,49 +46,10 @@ ctrl = {
 
 $(document).ready(function() { 
   
-  rivets.formatters.dayofwk    = function(val) { return moment(val).format('ddd') };
-  rivets.formatters.date       = function(val) { return moment(val).format('MMM Do') };
-  rivets.formatters.time       = function(val) { return moment(val).format('h:mm a') };
-  rivets.formatters.fulldate   = function(val) { return moment(val).format('ddd MMM Do hh:mm a') };
-  rivets.formatters.simpledate = function(val) { return moment(val).format('MM/DD/YYYY hh:mm A') }; 
-
-  rivets.formatters.session_names = function(arr) {
-    if(empty(arr)) return arr;
-    return arr.map(function(id) {
-      var sess = data.event.sessions.find( function(sess) { return sess.id == id } )
-      return ( sess && sess.title );
-    }).join(',');
-  }
-  
-  rivets.binders['datefield'] = {
-    bind: function(el) {
-      this.flatpickrInstance = $(el).flatpickr({
-        enableTime: true, 
-        altInput: true, 
-        altFormat: 'm/d/Y h:i K',
-        onChange: function(val) {
-          this.publish(val);
-          if(this.el.onchange) { this.el.onchange(); }
-        }.bind(this)
-      })
-    },
-    unbind: function(el) {
-      this.flatpickrInstance.destroy();
-    },
-    routine: function(el,value) {
-      if(value) { 
-        this.flatpickrInstance.setDate( value ); 
-        this.flatpickrInstance.jumpToDate(value);
-      }
-    },
-    getValue: function(el) {
-      return el.value;
-    }
-  }
-
-  rivets.bind($('#content'), { event: data['event'], ctrl: ctrl } );
+  setup_rivets();
 
   popupmenu   = new PopupMenu(id('popupmenu_container'));
+  img_chooser = new AspectImageChooser();
 
   sessionform = new SessionForm();
   sessionform.ev_sub('show', popupmenu.show );
@@ -102,6 +70,11 @@ $(document).ready(function() {
     popupmenu.hide();
   });
 
+  img_chooser.ev_sub('show', popupmenu.show );
+  img_chooser.ev_sub('image_cropped', function(val) {
+    popupmenu.hide();
+  }
+
   id("pic").onchange = function () {
     var reader = new FileReader();
     reader.onload = function (e) { id("picpreview").src = e.target.result; };
@@ -111,6 +84,20 @@ $(document).ready(function() {
   sortSessions();
 
 });
+
+function setup_rivets() {
+  include_rivets_dates();
+
+  rivets.formatters.session_names = function(arr) {
+    if(empty(arr)) return arr;
+    return arr.map(function(id) {
+      var sess = data.event.sessions.find( function(sess) { return sess.id == id } )
+      return ( sess && sess.title );
+    }).join(',');
+  }
+  
+  rivets.bind($('#content'), { event: data['event'], ctrl: ctrl } );
+}
 
 function sortSessions() {
   data['event']['sessions'].sort( function(a,b) {
