@@ -147,6 +147,19 @@ class Event < Sequel::Model
     }
   end
 
+  def admin_detail
+    { :id          => self.id, 
+      :name        => self.name, 
+      :description => self.description,
+      :details     => self.details,
+      :starttime   => self.starttime.try(:iso8601), 
+      :image_data  => self.image_data,
+      :image_url   => self.image_url,
+      :sessions    => self.sessions,
+      :prices      => self.prices
+    }
+  end
+
   def to_json(options = {})
     val = JSON.parse super
     val['image_url'] = image.nil? ? '' : image[:original].url

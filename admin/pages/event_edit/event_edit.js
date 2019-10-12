@@ -73,6 +73,13 @@ $(document).ready(function() {
   img_chooser.ev_sub('show', popupmenu.show );
   img_chooser.ev_sub('image_cropped', function(val) {
     popupmenu.hide();
+    fd = new FormData(); 
+    fd.append('image', val['blob'], val['filename'] ); 
+    request = new XMLHttpRequest();
+    request.open( "POST", "/models/events/" + data.event.id + "/image", true );
+    request.onload  = function(e) { get_staff_details(); }
+    request.onerror = function(e) { alert("Failed to Upload Image"); }
+    request.send(fd);
   });
 
   //id("pic").onchange = function () {

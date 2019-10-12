@@ -32,7 +32,15 @@ class EventRoutes < Sinatra::Base
     JSON.generate data
   end
 
+  get '/:id/admin_detail' do
+    content_type :json
+    event = Event[params[:id]] or halt(404,'event not found')
+    data = event.admin_detail
+    JSON.generate data
+  end
+
   post '/' do
+    content_type :json
     if Event[params[:id]].nil?
       event = Event.create(name: params[:name], description: params[:description], details: params[:details], :starttime => params[:starttime], image: params[:image] )
     else
@@ -47,7 +55,7 @@ class EventRoutes < Sinatra::Base
   delete '/:id' do
     halt 404 if Event[params[:id]].nil?
     Event[params[:id]].destroy
-    status 200
+    status 204; {}.to_json
   end
 
   ###################################### EVENTS #################################
@@ -57,6 +65,12 @@ class EventRoutes < Sinatra::Base
   get '/:id/image_url' do
     event = Event[params[:id]] or halt(404,'event not found')
     event.image_url
+  end
+
+  post '/:id/image' do
+    event = Event[params[:id]] or halt(404,'event not found')
+    event.update( :image => params[:image] )
+    status 204; {}.to_json
   end
 
   get '/:id/thumbnail' do
