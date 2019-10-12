@@ -60,6 +60,7 @@ AspectImageChooser.prototype = {
     this.state.value = value;
     this.state.callback = callback;
     this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
+    if(!this.state.url) { this.open_file(); }
   },
 
   load_url: function(url) {

@@ -1,8 +1,8 @@
 ctrl = {
 
   edit_image: function(e,m) {
-    if(data.staff.image_data) {
-      img_chooser.edit_image(data.staff.image_data.original.metadata.filename, data.staff.image_url);
+    if(data.event.image_data) {
+      img_chooser.edit_image(data.event.image_data.original.metadata.filename, data.event.image_url);
     }
     img_chooser.show_modal(); 
   },
