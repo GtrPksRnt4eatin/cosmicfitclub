@@ -73,7 +73,7 @@ $(document).ready(function() {
   img_chooser.ev_sub('show', popupmenu.show );
   img_chooser.ev_sub('image_cropped', function(val) {
     popupmenu.hide();
-  }
+  });
 
   id("pic").onchange = function () {
     var reader = new FileReader();
