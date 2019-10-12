@@ -75,11 +75,11 @@ $(document).ready(function() {
     popupmenu.hide();
   });
 
-  id("pic").onchange = function () {
-    var reader = new FileReader();
-    reader.onload = function (e) { id("picpreview").src = e.target.result; };
-    reader.readAsDataURL(this.files[0]);
-  };
+  //id("pic").onchange = function () {
+  //  var reader = new FileReader();
+  //  reader.onload = function (e) { id("picpreview").src = e.target.result; };
+  //  reader.readAsDataURL(this.files[0]);
+  //};
 
   sortSessions();
 
