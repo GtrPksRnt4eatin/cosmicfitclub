@@ -60,6 +60,7 @@ AspectImageChooser.prototype = {
     this.state.value = value;
     this.state.callback = callback;
     this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
+    if(!this.state.url) { this.open_file(); }
   },
 
   load_url: function(url) {
@@ -197,6 +198,12 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
 
   .AspectImageChooser .toolbar .filler {
     padding: 0 0.25em;
+  }
+
+  img.blank {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
+    width: 15em;
+    height: 15em;
   }
 
 **/}).untab(2);

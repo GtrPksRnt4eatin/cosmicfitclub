@@ -13,8 +13,9 @@ html
       data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
       data['event']['image_data'] = JSON.parse(data['event']['image_data']);
 
-    == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', '/admin/event_edit' ]
-    == js  [ 'jquery', 'rivets', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel']
+    == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'croppie', '/admin/event_edit' ]
+    == js  [ 'jquery', 'rivets', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
+    == js  [ 'croppie.min', '/admin/elements/aspect_img_chooser' ]
     == js  [ 'elements/session_form', 'elements/price_form', 'elements/popup_menu', '/admin/event_edit' ]
 
   body
@@ -28,10 +29,8 @@ html
           textarea#name rv-value='event.name'
         .tuplet
           label Image:
-          label.imgbox for='pic'
-            input#pic type='file' accept="image/*" name='image' rv-on-change='ctrl.choose_img'
-            img#picpreview rv-src='event.image_url'
-            #nopic rv-unless='event.image_url'
+          img#picpreview rv-src='event.image_url' rv-on-click='ctrl.edit_image'
+          img.filler#nopic rv-unless='event.image_url'
         .tuplet
           label Description:
           textarea#description rv-value='event.description'

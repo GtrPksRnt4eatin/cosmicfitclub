@@ -34,6 +34,12 @@ textarea#details {
   min-height: 11.5em;
 }
 
+img.filler {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
+  width: 15em;
+  height: 15em;
+}
+
 .session,
 .price {
   margin: 1em;
