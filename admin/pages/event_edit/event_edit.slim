@@ -29,9 +29,7 @@ html
           textarea#name rv-value='event.name'
         .tuplet
           label Image:
-          label.imgbox for='pic' rv-on-click='ctrl.edit_photo'
-            input#pic type='file' accept="image/*" name='image' rv-on-change='ctrl.choose_img'
-            img#picpreview rv-src='event.image_url'
+            img#picpreview rv-src='event.image_url' rv-on-click='ctrl.edit_photo'
             img.filler#nopic rv-unless='event.image_url'
         .tuplet
           label Description:
