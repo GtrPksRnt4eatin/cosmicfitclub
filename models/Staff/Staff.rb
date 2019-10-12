@@ -237,7 +237,7 @@ def Staff::payroll(from, to)
     existing[:class_occurrences].concat(val[:class_occurrences]) unless existing.nil?
     result << val if existing.nil?
   }
-  result.sort_by! { |x| Staff[x[:staff_id]].unpaid ? 0 : 1 }
+  result.sort_by! { |x| Staff[x[:staff_id]].unpaid == true ? 0 : 1 }
   result.each { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + y[:pay] } }
   result.reject { |x| x[:class_occurrences].length == 0 }
 end
