@@ -203,7 +203,7 @@ def Staff::payroll(from, to)
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime'])   } 
     teacher_row[:class_occurrences].each { |occurrence_row|
       ( occurrence_row[:pay] = 0; next ) if teacher_row['staff_unpaid']
-      case occurrence_row['headcount'].to_i
+      occurrence_row[:pay] = case occurrence_row['headcount'].to_i
       when 0..1
         20 
       when 2..5
