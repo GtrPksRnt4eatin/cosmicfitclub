@@ -179,7 +179,6 @@ def payroll_query
     FROM (
       SELECT 
         occurrences.*,
-        staff.id AS staff_id,
         staff.unpaid AS staff_unpaid,
         staff.name AS staff_name,
         class_defs.name AS class_name,
