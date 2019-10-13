@@ -175,11 +175,10 @@ def payroll_query
       ORDER BY starttime
     )
 
-    SELECT staff_id, staff_unpaid, staff_name, array_to_json(array_agg(row)) AS class_occurrences
+    SELECT staff_id, staff_name, staff.unpaid AS staff_unpaid, array_to_json(array_agg(row)) AS class_occurrences
     FROM (
       SELECT 
         occurrences.*,
-        staff.unpaid AS staff_unpaid,
         staff.name AS staff_name,
         class_defs.name AS class_name,
         (   SELECT COUNT(*) 
