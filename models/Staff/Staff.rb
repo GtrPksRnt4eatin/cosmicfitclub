@@ -197,7 +197,7 @@ end
 def Staff::payroll(from, to)
   result = $DB[payroll_query, from, to].all
   result.each { |teacher_row|
-    teacher_row[:class_occurrences].each.transform_keys!(&:to_sym)
+    teacher_row[:class_occurrences].each { |x| x.transform_keys!(&:to_sym) }
     teacher_row[:class_occurrences].reject!  { |x| ClassDef[x[:classdef_id].to_i].unpaid }
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x[:starttime]) } 
     teacher_row[:class_occurrences].each { |occurrence_row|
