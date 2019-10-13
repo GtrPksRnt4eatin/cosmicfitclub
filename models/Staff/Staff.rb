@@ -190,7 +190,7 @@ def payroll_query
       LEFT JOIN staff ON staff.id = staff_id
       LEFT JOIN class_defs ON class_defs.id = classdef_id
     ) AS row
-    GROUP BY staff_id, staff_name
+    GROUP BY staff_id, staff_name, staff_unpaid
   }
 end
 
