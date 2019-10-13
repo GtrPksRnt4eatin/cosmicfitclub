@@ -197,11 +197,12 @@ end
 def Staff::payroll(from, to)
   result = $DB[payroll_query, from, to].all
   result.each { |teacher_row|
-    teacher_row[:class_occurrences].reject!  { |x| ClassDef[x['classdef_id'].to_i].unpaid }
-    teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime']) } 
+    teacher_row[:class_occurrences].transform_keys!(&:to_sym)
+    teacher_row[:class_occurrences].reject!  { |x| ClassDef[x[:classdef_id].to_i].unpaid }
+    teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x[:starttime]) } 
     teacher_row[:class_occurrences].each { |occurrence_row|
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
-      occurrence_row[:pay] = case occurrence_row['headcount'].to_i
+      occurrence_row[:pay] = case occurrence_row[:headcount].to_i
       when 0..1
         20 
       when 2..5
@@ -226,6 +227,7 @@ def Staff::payroll(from, to)
       :class_occurrences => 
         punch_group.map { |punch| 
           { :timerange => "#{punch.rounded_start.strftime('%a %m/%d %l:%M %P')} - #{punch.rounded_end.strftime('%l:%M %P')}",
+            :starttime => punch.rounded_start,
             :task => "Front Desk",
             :hours => punch.duration,
             :pay => punch.duration.to_f*10.to_f
@@ -237,6 +239,7 @@ def Staff::payroll(from, to)
     result << val if existing.nil?
   }
   result.sort_by! { |x| Staff[x[:staff_id]].unpaid == true ? 0 : 1 }
+  result.each { |x| x["class_occurrences"].sort_by! { |y| y[:starttime] } }
   result.each { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + y[:pay] } }
   result.reject { |x| x[:class_occurrences].length == 0 }
 end
