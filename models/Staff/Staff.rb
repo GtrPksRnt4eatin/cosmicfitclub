@@ -175,10 +175,12 @@ def payroll_query
       ORDER BY starttime
     )
 
-    SELECT staff_id, staff_name, array_to_json(array_agg(row)) AS class_occurrences
+    SELECT staff_id, staff_unpaid, staff_name, array_to_json(array_agg(row)) AS class_occurrences
     FROM (
       SELECT 
         occurrences.*,
+        staff.id AS staff_id,
+        staff.unpaid AS staff_unpaid,
         staff.name AS staff_name,
         class_defs.name AS class_name,
         (   SELECT COUNT(*) 
@@ -201,7 +203,7 @@ def Staff::payroll(from, to)
     #teacher_row[:class_occurrences].reject!  { |x| x['classdef_id'].to_i == 123 }  # Tuesday Open Studio 
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x['starttime'])   } 
     teacher_row[:class_occurrences].each { |occurrence_row|
-      ( occurrence_row[:pay] = 0; next ) if Staff[occurrence_row[:staff_id]].unpaid
+      ( occurrence_row[:pay] = 0; next ) if teacher_row['staff_unpaid']
       case occurrence_row['headcount'].to_i
       when 0..1
         20 
