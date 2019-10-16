@@ -15,7 +15,8 @@ var data = {
   custom_member_price: '',
   event_data: {},
   customer_info: null,
-  customer_status: null
+  customer_status: null,
+  multiplier: 1
 }
 
 $(document).ready( function() {
@@ -50,6 +51,7 @@ function initialize_rivets() {
   rivets.formatters.empty     = function(val)      { return empty(val) || val=='';                 }
   rivets.formatters.equals    = function(val,val2) { return val== val2;                            }
   rivets.formatters.is_member = function(val)      { return empty(val) ? false : !empty(val.plan); } 
+  rivets.formatters.num_tix   = function(val)      { return ( val && val > 1 ) ? val + ' Tickets ' : ''; }
 
   rivets.bind( $('body'), { customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
@@ -101,7 +103,7 @@ function calculate_total() {
       break;
 
     case 'multi':
-      data.total_price = ( member() ? data.selected_price.member_price : data.selected_price.full_price );
+      data.total_price = ( member() ? data.selected_price.member_price : data.selected_price.full_price ) * data.multiplier; 
       break;
 
     case 'a_la_carte':
@@ -160,11 +162,11 @@ function clear_selected_price() {
 
 function free_event() { return data.event_data.prices[0].member_price==0 && data.event_data.prices[0].full_price==0 }
 
-//function signed_in()  { return !empty(CUSTOMER); }
-//function member()     { return signed_in() ? !empty(CUSTOMER.plan) : false; }
-
 function signed_in()  { return !empty(data.customer_info) }
-function member()     { return signed_in() ? data.customer_status.membership.id != 0 : false; }
+function member()     { 
+  if( empty(data.customer_status) ) { return false; }
+  return signed_in() ? data.customer_status.membership.id != 0 : false; 
+}
 
 ///////////////////////////////////////// DERIVATIONS ///////////////////////////////////////////////////
 
@@ -189,6 +191,10 @@ var ctrl = {
     toggle_included_session(m.sess);
     calculate_custom_prices();
     calculate_total();    
+  },
+  set_multiplier(e,m) {
+    data.multiplier = parseInt(e.target.value);
+    calculate_total()
   }
 }
 
@@ -205,7 +211,7 @@ function checkout() {
 
   STRIPE_HANDLER.open({
     name: 'Cosmic Fit Club',
-    description: data.event_data['title'],
+    description: data.event_data.name + ( data.multiplier > 1 ? ' (x' + data.multiplier + ')' : "" ),
     image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
     amount: data.total_price
   });
@@ -233,6 +239,7 @@ function on_token_received(token) {
     "event_id": data.event_data['id'], 
     "total_price": data.total_price,
     "included_sessions": data.included_sessions,
+    "multiplier": data.multiplier,
     "metadata": {
       "event_id": data.event_data['id'], 
       "included_sessions": data.included_sessions.join(','),

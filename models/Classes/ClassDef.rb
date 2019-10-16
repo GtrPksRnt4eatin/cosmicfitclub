@@ -110,6 +110,7 @@ class ClassDef < Sequel::Model
         results << next_week.shift
       end
       period_start = period_start + (60*60*24*7)
+      break if period_start > ( Time.now + (3600*24*7*8) )
     end
     results
   end

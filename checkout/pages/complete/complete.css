@@ -1,3 +1,7 @@
+body {
+  height: 100vh;
+}
+
 .tile {
 	padding: 2em;
 	vertical-align: middle;
@@ -17,4 +21,8 @@
 
 a, a:visited, a:hover, a:active {
   color: inherit;
+}
+
+.donut {
+  width: 10em;
 }

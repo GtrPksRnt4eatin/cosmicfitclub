@@ -1,5 +1,5 @@
 data['poster'] = {
-  image: 
+  image: {}
 }
 
 ctrl = {

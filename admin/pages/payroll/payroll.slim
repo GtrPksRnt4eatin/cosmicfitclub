@@ -40,7 +40,7 @@ html
               th.pay   PAY
               th.edit
             tr rv-each-occ='staff.class_occurrences'
-              td.date  [rv-if='occ.starttime']           { occ.starttime | eventstart }
+              td.date  [rv-unless='occ.timerange']       { occ.starttime | eventstart }
               td.date  [rv-if='occ.timerange']           { occ.timerange }
               td.name  [rv-if='occ.class_name']          { occ.class_name }
               td.name  [rv-if='occ.task']                { occ.task }

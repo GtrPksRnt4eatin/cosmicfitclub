@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    == css [ 'fonts', 'site', 'croppie', 'generate_poster' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'croppie.min', 'popupmenu' ]
+    == js  [ 'element', 'ev_channel', '/admin/elements/aspect_img_chooser']
+    == js  [ '/admin/generate_poster' ]
+
+  body
+    #stars
+
+    #content
+
+      .tile
+
+        canvas#poster
+
+        button rv-on-click='ctrl.upload_photo'
+
+    #poupmenu_container

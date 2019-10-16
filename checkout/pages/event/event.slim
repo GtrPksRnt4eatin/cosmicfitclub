@@ -131,11 +131,19 @@ html
                     | { data.custom_full_price | money }
                   td
                     | { data.custom_member_price | money } for members
+              br
+              div How Many Would You Like?
+              select.num_tix rv-on-change='ctrl.set_multiplier'
+                option value='1' 1 Ticket
+                option value='2' 2 Tickets
+                option value='3' 3 Tickets
+                option value='4' 4 Tickets
+                option value='5' 5 Tickets
 
             hr width='75%'
 
             div
-              button#checkout rv-on-click='ctrl.checkout' Buy For { data.total_price | money }
+              button#checkout rv-on-click='ctrl.checkout' Buy { data.multiplier | num_tix }For { data.total_price | money }
 
             .fineprint rv-if='data.customer_info | empty'
               a.signin href='/pricing' Sign Up

@@ -6,6 +6,20 @@ class ScheduleRoutes < Sinatra::Base
     cache_control :no_store
   end
 
+  get '/schedule.jpg' do
+    redirect StoredImage.where(:name=>"WeeklyPoster.jpg").first.image.url
+  end
+
+  get '/schedule4.jpg' do
+    redirect StoredImage.where(:name=>"WeeklyPosterQuad.jpg").first.image.url
+  end
+
+  post '/generate' do
+    content_type :json
+    BuildSchedulePoster.perform_async(Date.today)
+    {}.to_json
+  end
+
   get '/ics' do
     from = params[:from] || Date.today.beginning_of_month
     to   = params[:to]   || Date.today.end_of_month

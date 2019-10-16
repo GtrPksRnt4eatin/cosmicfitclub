@@ -31,3 +31,7 @@ class ImageUploader < Shrine
   end
 
 end
+
+class SimpleImageUploader < Shrine
+
+end
