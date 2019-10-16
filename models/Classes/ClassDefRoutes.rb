@@ -38,8 +38,8 @@ class ClassDefRoutes < Sinatra::Base
 
   delete '/:id' do
     id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
-    classdef = ClassDef[ id ]           or halt(404, 'Class Definition not found.')
-    classdef.deactivate
+    classdef = ClassDef[ id ]           or halt(404, "Class Definition not found.")
+    classdef.deactivate                 or halt(403, "Class Couldn't be deactivated")
     {}.to_json
   end
 

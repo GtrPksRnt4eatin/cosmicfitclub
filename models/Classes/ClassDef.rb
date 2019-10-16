@@ -31,6 +31,11 @@ class ClassDef < Sequel::Model
   	super
   end
 
+  def deactivate
+    return false unless self.schedules == []
+    super
+  end
+
   def thumbnail_image
     return ''             if self.image.nil?
     return self.image_url if self.image.is_a? ImageUploader::UploadedFile

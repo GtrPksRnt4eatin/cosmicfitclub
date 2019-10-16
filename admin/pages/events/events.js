@@ -73,7 +73,7 @@ $(document).ready(function() {
   id('new2').onclick = function(e) {
     $.post('/models/events', JSON.stringify( { id: 0 } ) )
       .done( function(resp) { 
-        window.location = `events/${JSON.parse(resp).id}` 
+        window.location = "events/" + resp.id 
       }) 
   };
 
