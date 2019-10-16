@@ -14,7 +14,6 @@ ctrl = {
     fd.append('description', m.event.description);
     fd.append('details', m.event.details);
     if( !empty(m.event.sessions[0])   ) { fd.append('starttime', m.event.sessions[0].start_time); }
-    if( !empty($('#pic')[0].files[0]) ) { fd.append('image', $('#pic')[0].files[0] ); }
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/events';  }
     request.open("POST", "/models/events");
@@ -81,12 +80,6 @@ $(document).ready(function() {
     request.onerror = function(e) { alert("Failed to Upload Image"); }
     request.send(fd);
   });
-
-  //id("pic").onchange = function () {
-  //  var reader = new FileReader();
-  //  reader.onload = function (e) { id("picpreview").src = e.target.result; };
-  //  reader.readAsDataURL(this.files[0]);
-  //};
 
   sortSessions();
 
