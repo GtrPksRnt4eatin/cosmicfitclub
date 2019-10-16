@@ -30,7 +30,7 @@ html
         .tuplet
           label Image:
           img#picpreview rv-src='event.image_url' rv-on-click='ctrl.edit_image'
-          img.filler#nopic rv-unless='event.image_url'
+          img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
         .tuplet
           label Description:
           textarea#description rv-value='event.description'

@@ -54,7 +54,7 @@ class EventRoutes < Sinatra::Base
 
   delete '/:id' do
     halt 404 if Event[params[:id]].nil?
-    Event[params[:id]].destroy
+    Event[params[:id]].delete
     status 204; {}.to_json
   end
 
