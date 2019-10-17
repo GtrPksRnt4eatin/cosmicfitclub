@@ -143,7 +143,8 @@ class Event < Sequel::Model
       :starttime   => self.starttime.try(:iso8601), 
       :image_url   => self.thumb_image_url,
       :sessions    => self.sessions,
-      :prices      => self.available_prices
+      :prices      => self.available_prices,
+      :a_la_carte  => self.a_la_carte
     }
   end
 
