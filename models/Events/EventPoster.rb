@@ -33,7 +33,7 @@ module EventPoster
       i.pointsize 16
       i.fill "\#FFFFFFFF"
       i.gravity "south"
-      i.draw "text \"#{@@lines.join("\r\n")}\""
+      i.draw "text 0,0 \"#{@@lines.join("\r\n")}\""
     end
   end
 
