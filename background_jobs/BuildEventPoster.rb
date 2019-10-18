@@ -1,6 +1,6 @@
 require 'sucker_punch'
 
-class BuildSchedulePoster
+class BuildEventPoster
   include SuckerPunch::Job
 
   def perform(event_id, lines)
