@@ -240,4 +240,8 @@ class Event < Sequel::Model
 
   ######################## REPORTS ########################
 
+  def generate_poster(line_1, line_2)
+    
+  end
+
 end
