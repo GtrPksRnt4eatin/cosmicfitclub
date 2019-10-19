@@ -16,7 +16,6 @@ class EventSession < Sequel::Model
       start = Time.parse(sess.start_time)
       next if start < from
       next if start >= to
-      require 'pry'; binding.pry
       sess
     end.compact
   end
