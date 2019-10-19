@@ -10,13 +10,13 @@ module SchedulePoster
     @@box_width        = 2450
   end
  
-  def SchedulePoster::generate(starttime, high_contrast=false)
+  def SchedulePoster::generate(starttime=Date.tomorrow, high_contrast=false)
 
   	SchedulePoster::set_class_vars
 
   	@@high_contrast = high_contrast
     p "Getting Schedule #{Time.now}"
-    @@schedule      = Scheduling::get_all_sorted_by_days(starttime, starttime >> 7)
+    @@schedule      = Scheduling::get_all_sorted_by_days(starttime.to_time, (starttime >> 7).to_time)
     @@image         = MiniMagick::Image.open("shared/img/background-blu.jpg") unless @@high_contrast
     @@image         = MiniMagick::Image.open("./white.png")                          if @@high_contrast
     @@image.rotate "90"

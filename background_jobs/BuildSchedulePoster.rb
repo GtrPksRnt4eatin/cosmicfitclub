@@ -3,7 +3,7 @@ require 'sucker_punch'
 class BuildSchedulePoster
   include SuckerPunch::Job
 
-  def perform(starttime=Date.today)
+  def perform(starttime=Date.tomorrow)
   	p "starting background job"
     img   = SchedulePoster::generate(starttime)
     store = StoredImage.find( :name => "WeeklyPoster.jpg" )
