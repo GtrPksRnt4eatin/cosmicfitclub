@@ -9,11 +9,14 @@ class EventSession < Sequel::Model
   ##################### CLASS METHODS #####################
 
   def EventSession.between(from,to)
+    from = Time.parse(from) if from.is_a? String
+    to   = Time.parse(to)   if   to.is_a? String
     self.order_by(:start_time).map do |sess|
       next if sess.start_time.nil?
       start = Time.parse(sess.start_time)
       next if start < from
       next if start >= to
+      require 'pry'; binding.pry
       sess
     end.compact
   end

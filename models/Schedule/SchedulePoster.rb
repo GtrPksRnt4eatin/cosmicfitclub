@@ -7,9 +7,7 @@ module SchedulePoster
     @@line_height      = 60
     @@header_pointsize = 55
     @@body_pointsize   = 42
-
     @@box_width        = 2450
-
   end
  
   def SchedulePoster::generate(starttime, high_contrast=false)
@@ -37,6 +35,23 @@ module SchedulePoster
   end
 
   ################################### RENDERING ######################################
+
+  def SchedulePoster::build_day(idx, x_offset, y_offset)
+    p "Building Day #{idx} #{Time.now}"  
+    day = @@schedule[idx]
+    box_height = (@@line_height * 1.7) + ( @@line_height * day[:occurrences].count )
+    SchedulePoster::draw_box(x_offset, y_offset, @@box_width, box_height ) unless @@high_contrast
+    x_offset = x_offset + 20
+    y_offset = y_offset + (@@line_height * 1.1)
+    SchedulePoster::render_header_line(day, x_offset, y_offset)
+    y_offset = y_offset + ( @@line_height * 0.1 )
+    day[:occurrences].each do |occ|
+      y_offset = y_offset + @@line_height
+      SchedulePoster::render_text_line(occ, x_offset, y_offset)
+    end
+    y_offset = y_offset + @@line_height*0.5
+    return y_offset
+  end
 
   def SchedulePoster::draw_box(x_offset, y_offset, x, y, x_radius=25, y_radius=25 )
     @@image.combine_options do |i|
@@ -83,23 +98,6 @@ module SchedulePoster
         i.draw "text #{x_offset + col2_x },#{y_offset} \"#{SchedulePoster::truncate(occ[:title],col2_trunc)}\""
       end
     end
-  end
-
-  def SchedulePoster::build_day(idx, x_offset, y_offset)
-    p "Building Day #{idx} #{Time.now}"  
-    day = @@schedule[idx]
-    box_height = (@@line_height * 1.7) + ( @@line_height * day[:occurrences].count )
-    SchedulePoster::draw_box(x_offset, y_offset, @@box_width, box_height ) unless @@high_contrast
-    x_offset = x_offset + 20
-    y_offset = y_offset + (@@line_height * 1.1)
-    SchedulePoster::render_header_line(day, x_offset, y_offset)
-    y_offset = y_offset + ( @@line_height * 0.1 )
-    day[:occurrences].each do |occ|
-      y_offset = y_offset + @@line_height
-      SchedulePoster::render_text_line(occ, x_offset, y_offset)
-    end
-    y_offset = y_offset + @@line_height*0.5
-    return y_offset
   end
 
   ################################### RENDERING ######################################
