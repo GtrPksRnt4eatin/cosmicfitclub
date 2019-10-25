@@ -10,7 +10,7 @@ module Sinatra
         cache_control :public, max_age: 604800
         p params
         params[:file].map do |f|
-          File.read("shared/#{f}.js")
+          File.read("shared/js/#{f}.js")
         end.join
       end
 
