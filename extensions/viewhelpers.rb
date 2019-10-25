@@ -8,7 +8,7 @@ module Sinatra
     def css(path) handleArray(path) { |x| "\n<link rel='stylesheet' type='text/css' href='#{x}.css'/>" } end
     def js(path)  handleArray(path) { |x| "\n<script defer src='#{x}.js'></script>" } end
     
-    def js_sync(path) handleArray(path) { |x| "\n<script src='#{x}.js'></script>" }
+    def js_sync(path) handleArray(path) { |x| "\n<script src='#{x}.js'></script>" } end
 
 
     def handleArray(arg)
