@@ -11,7 +11,7 @@ module Sinatra
     def js_sync(path) handleArray(path) { |x| "\n<script src='#{x}.js'></script>" } end
     
     def js_bundle(tag,arr) 
-      params = arr.map{ |x| "file=#{x}" }.join('&')
+      params = arr.map{ |x| "file[]=#{x}" }.join('&')
       "\n<script src='bundledjs/#{tag}?#{params}'></script>"
     end
 
