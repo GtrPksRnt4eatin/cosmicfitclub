@@ -88,19 +88,19 @@ module SchedulePoster4x6
         i.fill "\#FFFFFFFF" unless @@high_contrast
         i.fill "\#000000FF"     if @@high_contrast
         i.draw "text #{x_offset + col1_x },#{y_offset} \"#{SchedulePoster4x6::parse_time(occ)}\""
-        i.draw "text #{x_offset + col2_x },#{y_offset} \"#{SchedulePoster4x6::truncate(occ[:title],col2_trunc)}\""
-        i.draw "text #{x_offset + col3_x },#{y_offset} \"w/ #{SchedulePoster4x6::truncate(teachers,col3_trunc)}\""
+        i.draw "text #{x_offset + col2_x },#{y_offset} \"#{occ[:title].truncate(col2_trunc)}\""
+        i.draw "text #{x_offset + col3_x },#{y_offset} \"w/ #{teachers.truncate(col3_trunc)}\""
       when 'eventsession'
         i.fill "\#FFFFAAFF" unless @@high_contrast
         i.fill "\#999900FF"     if @@high_contrast
         i.draw "text #{x_offset + col1_x },#{y_offset} \"#{SchedulePoster4x6::parse_time(occ)}\""
-        i.draw "text #{x_offset + col2_x },#{y_offset} \"#{SchedulePoster4x6::truncate(occ[:event_title],col2_trunc)}\""
-        i.draw "text #{x_offset + col3_x },#{y_offset} \"#{SchedulePoster4x6::truncate(occ[:title],col3_trunc)}\""
+        i.draw "text #{x_offset + col2_x },#{y_offset} \"#{occ[:event_title].truncate(col2_trunc)}\""
+        i.draw "text #{x_offset + col3_x },#{y_offset} \"#{occ[:title].truncate(col3_trunc)}\""
       when 'private' then
         i.fill "\#AAAAFFFF" unless @@high_contrast
         i.fill "\#000099FF"     if @@high_contrast
         i.draw "text #{x_offset + col1_x },#{y_offset} \"#{SchedulePoster4x6::parse_time(occ)}\""
-        i.draw "text #{x_offset + col2_x },#{y_offset} \"#{SchedulePoster4x6::truncate(occ[:title],col2_trunc)}\""
+        i.draw "text #{x_offset + col2_x },#{y_offset} \"#{occ[:title].truncate(col2_trunc)}\""
       end
     end
   end
@@ -108,11 +108,6 @@ module SchedulePoster4x6
   ################################### RENDERING ######################################
 
   #################################### HELPERS #######################################
-
-  def SchedulePoster4x6::truncate(string,max)
-    return "" if string.nil?
-    string.length > max ? "#{string[0...max]}..." : string
-  end
 
   def SchedulePoster4x6::parse_day(str)
     dt = DateTime.parse(str)

@@ -69,14 +69,5 @@ module SchedulePoster4x6_front
     @@image
 
   end
-
-  #################################### HELPERS #######################################
-
-  def SchedulePoster4x6_front::truncate(string,max)
-    return "" if string.nil?
-    string.length > max ? "#{string[0...max]}..." : string
-  end
-
-  #################################### HELPERS #######################################
-
+  
 end
