@@ -9,7 +9,11 @@ module Sinatra
     def js(path)  handleArray(path) { |x| "\n<script defer src='#{x}.js'></script>" } end
     
     def js_sync(path) handleArray(path) { |x| "\n<script src='#{x}.js'></script>" } end
-
+    
+    def js_bundle(tag,arr) 
+      params = arr.map{ |x| "file=#{x}" }.join('&')
+      "\n<script src='bundledjs/#{tag}?#{params}'></script>"
+    end
 
     def handleArray(arg)
       if    arg.is_a? String then yield(arg)

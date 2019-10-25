@@ -6,6 +6,14 @@ module Sinatra
 
     def self.registered(app)
 
+      app.get '/bundledjs/:id' do
+        cache_control :public, max_age: 604800
+        p params
+        params[:file].map do |f|
+          File.read("shared/#{f}.js")
+        end.join
+      end
+
       app.get '/elements/:file.js' do
         cache_control :public, max_age: 604800
         send_file "shared/js/elements/#{params[:file]}.js"
