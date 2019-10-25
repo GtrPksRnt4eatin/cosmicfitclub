@@ -62,7 +62,7 @@ $(document).ready( function() {
 
     get_occurrence_details();
     get_reservations();
-    get_frequent_fliers();
+    //get_frequent_fliers();
 
     setup_bindings();
     
