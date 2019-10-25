@@ -60,6 +60,10 @@ ctrl = {
 
 $(document).ready( function() {
 
+    get_occurrence_details();
+    get_reservations();
+    get_frequent_fliers();
+
     setup_bindings();
     
     userview          = new UserView( id('userview_container') );
@@ -88,9 +92,8 @@ $(document).ready( function() {
 
     custy_selector.ev_sub('customer_selected', reservation_form.load_customer );
 
-    get_occurrence_details();
-    get_reservations();
-    get_frequent_fliers();
+    stripe = Stripe(STRIPE_PUBLIC_KEY);
+    elements = stripe.elements();
 
 });
 
