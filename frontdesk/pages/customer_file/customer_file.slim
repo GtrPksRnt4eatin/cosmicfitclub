@@ -12,12 +12,12 @@ html
 
     script src='https://js.stripe.com/v3/'
 
-    == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
-    == js  [ 'rivets', 'moment', 'selectize.min', 'flatpickr' ]
-    == js  [ 'lib', 'element', 'ev_channel', 'popupmenu' ]
-    == js  [ 'rv_money', 'rv_dates', 'rv_select' ]
-    == js  [ '/admin/elements/ticket_selector', '/checkout/elements/payment_form', '/auth/elements/userview' ]
-    == js  [ 'customer_file' ]
+    == js_sync [ 'jquery', 'jquery.priceformat', 'jquery.chosen' ]
+    == js_sync [ 'rivets', 'moment', 'selectize.min', 'flatpickr' ]
+    == js_sync [ 'lib', 'element', 'ev_channel', 'popupmenu' ]
+    == js_sync [ 'rv_money', 'rv_dates', 'rv_select' ]
+    == js_sync [ '/admin/elements/ticket_selector', '/checkout/elements/payment_form', '/auth/elements/userview' ]
+    == js_sync [ 'customer_file' ]
 
     javascript:
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
