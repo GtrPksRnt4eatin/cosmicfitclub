@@ -8,7 +8,7 @@ module Sinatra
 
       app.get '*/bundledjs/:id' do
         cache_control :public, max_age: 604800
-        content_type :javascript
+        content_type :js
         params[:file].map do |f|
           File.read("shared/js/#{f}.js")
         end.join('')
