@@ -11,7 +11,7 @@ module Sinatra
         p params
         params[:file].map do |f|
           File.read("shared/js/#{f}.js")
-        end.join
+        end.join('')
       end
 
       app.get '/elements/:file.js' do
