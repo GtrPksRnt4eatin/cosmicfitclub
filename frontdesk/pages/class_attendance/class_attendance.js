@@ -91,9 +91,6 @@ $(document).ready( function() {
 
     custy_selector.ev_sub('customer_selected', reservation_form.load_customer );
 
-    stripe = Stripe(STRIPE_PUBLIC_KEY);
-    elements = stripe.elements();
-
     get_frequent_fliers();
 
 });
