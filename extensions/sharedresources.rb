@@ -6,7 +6,7 @@ module Sinatra
 
     def self.registered(app)
 
-      app.get '/bundledjs/:id' do
+      app.get '*/bundledjs/:id' do
         cache_control :public, max_age: 604800
         p params
         params[:file].map do |f|
