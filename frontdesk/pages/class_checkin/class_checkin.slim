@@ -14,10 +14,8 @@ html
       data['staff']   = #{{ Staff.all.to_json }};
       data['customer'] = {};
 
-    == js_sync  [ 'jquery', 'jquery.priceformat', 'jquery.chosen.min', 'flatpickr' ]
-    == js_sync  [ 'lib', 'element', 'ev_channel', '/auth/elements/userview' ]
-    == js_sync  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'rv_select' ]
-    == js_sync  [ 'class_checkin' ]
+    == js_bundle('classcheckin1', ['jquery', 'jquery.priceformat', 'jquery.chosen.min', 'flatpickr', 'moment', 'rivets', 'rv_dates', 'rv_money', 'rv_select', 'lib', 'element', 'ev_channel'])
+    == js_sync  [ '/auth/elements/userview', 'class_checkin' ]
 
   body
 
