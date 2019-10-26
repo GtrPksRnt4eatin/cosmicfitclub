@@ -20,7 +20,7 @@ module Scheduling
     events  = Scheduling::get_eventsessions_between(day, day >> 1)
     rentals = Scheduling::get_rentals_between(day, day >> 1)
     items = events + classes + rentals
-    items.order_by { |x| x[:starttime] }
+    items.sort_by { |x| x[:starttime] }
   end
 
   def Scheduling::get_classitems_between(from,to)
