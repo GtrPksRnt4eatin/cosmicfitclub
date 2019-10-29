@@ -104,7 +104,8 @@ html
 
             #prices rv-unless='data.event_data.prices | multiple'
               h4 rv-if="data.mode | equals 'single'" 
-                | Pricing: { data.event_data.prices | first_price_title } 
+                | { data.event_data.prices | first_price_title } 
+              br
               div rv-each-price='data.event_data.prices'
                 div
                   .label Full Price: 

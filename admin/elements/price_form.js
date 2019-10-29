@@ -30,6 +30,14 @@ PriceForm.prototype = {
     $.post(`/models/events/${data['event'].id}/prices`, JSON.stringify(this.state.price), function(price) {
       this.ev_fire('after_post', JSON.parse(price) );
     }.bind(this));
+  },
+
+  clear_before(e) {
+    this.state.price.available_before = null;
+  },
+
+  clear_after(e) {
+    this.state.price.available_after = null;
   }
 }
 
@@ -50,11 +58,13 @@ PriceForm.prototype.HTML = `
     </div>
     <div class='tuplet'>
       <label>Available Before</label>
-      <input rv-datefield='state.price.available_before' />
+      <input class="15em" rv-datefield='state.price.available_before' />
+      <button class="5em" rv-on-click='this.clear_before'>Clear</button>
     </div>
     <div class='tuplet'>
       <label>Available After</label>
-      <input rv-datefield='state.price.available_after' />
+      <input class="15em" rv-datefield='state.price.available_after' />
+      <button class="5em" rv-on-click='this.clear_after'>Clear</button>
     </div>
     <div class='tuplet'>
       <label>Max Quantity</label>
@@ -80,6 +90,16 @@ PriceForm.prototype.CSS = `
     font-size: 1em !important;
     width: 20em;
   }
+
+  .PriceForm input.15em {
+    width: 15em;
+  }
+
+  .PriceForm button.5em {
+    width: 5em;
+  }
+
+
 
   .PriceForm select {
     width: 20em;
