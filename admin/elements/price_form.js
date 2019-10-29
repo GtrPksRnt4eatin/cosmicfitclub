@@ -5,7 +5,7 @@ function PriceForm() {
     "sessions": []
   }
 
-  this.bind_handlers(['save']);
+  this.bind_handlers(['save', 'clear_before', 'clear_after']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
@@ -58,13 +58,13 @@ PriceForm.prototype.HTML = `
     </div>
     <div class='tuplet'>
       <label>Available Before</label>
-      <input class="15em" rv-datefield='state.price.available_before' />
-      <button class="5em" rv-on-click='this.clear_before'>Clear</button>
+      <input class="date" rv-datefield='state.price.available_before' />
+      <button class="clear" rv-on-click='this.clear_before'>Clear</button>
     </div>
     <div class='tuplet'>
       <label>Available After</label>
-      <input class="15em" rv-datefield='state.price.available_after' />
-      <button class="5em" rv-on-click='this.clear_after'>Clear</button>
+      <input class="date" rv-datefield='state.price.available_after' />
+      <button class="clear" rv-on-click='this.clear_after'>Clear</button>
     </div>
     <div class='tuplet'>
       <label>Max Quantity</label>
@@ -91,11 +91,11 @@ PriceForm.prototype.CSS = `
     width: 20em;
   }
 
-  .PriceForm input.15em {
+  .PriceForm input.date {
     width: 15em;
   }
 
-  .PriceForm button.5em {
+  .PriceForm button.clear {
     width: 5em;
   }
 
