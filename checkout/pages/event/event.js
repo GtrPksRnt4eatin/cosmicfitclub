@@ -99,7 +99,7 @@ function calculate_total() {
 
     case 'memberfree':
     case 'single':
-      data.total_price = ( member() ? data.event_data.prices[0].member_price : data.event_data.prices[0].full_price ); 
+      data.total_price = ( member() ? data.event_data.prices[0].member_price : data.event_data.prices[0].full_price ) * data.multiplier; 
       break;
 
     case 'multi':
