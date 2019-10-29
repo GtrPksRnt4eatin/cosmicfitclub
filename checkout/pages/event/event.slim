@@ -104,7 +104,7 @@ html
 
             #prices rv-unless='data.event_data.prices | multiple'
               h4 rv-if="data.mode | equals 'single'" 
-                | Pricing: { data.event_data.prices[0].title } 
+                | Pricing: { data.event_data.prices | first_price_title } 
               div rv-each-price='data.event_data.prices'
                 div
                   .label Full Price: 
@@ -112,7 +112,8 @@ html
                 div
                   .label Member Price: 
                   | { price.member_price | money }
-              hr
+              hr width='75%'
+              br
               div How Many Would You Like?
               select.num_tix rv-on-change='ctrl.set_multiplier'
                 option value='1' 1 Ticket
