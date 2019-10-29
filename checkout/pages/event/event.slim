@@ -103,7 +103,8 @@ html
           #pricing rv-unless='data.total_price | equals 0'
 
             #prices rv-unless='data.event_data.prices | multiple'
-              h4 rv-if="data.mode | equals 'single'" Pricing
+              h4 rv-if="data.mode | equals 'single'" 
+                | Pricing: { price.title } 
               div rv-each-price='data.event_data.prices'
                 div
                   .label Full Price: 
@@ -111,6 +112,14 @@ html
                 div
                   .label Member Price: 
                   | { price.member_price | money }
+              br
+              div How Many Would You Like?
+              select.num_tix rv-on-change='ctrl.set_multiplier'
+                option value='1' 1 Ticket
+                option value='2' 2 Tickets
+                option value='3' 3 Tickets
+                option value='4' 4 Tickets
+                option value='5' 5 Tickets
            
             #prices rv-if='data.event_data.prices | multiple'
               h4 Choose a Ticket Option
