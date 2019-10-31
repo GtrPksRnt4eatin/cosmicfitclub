@@ -16,9 +16,9 @@ module Scheduling
   end
 
   def Scheduling::get_checkin_schedule(day)
-    classes = ClassOccurrence.all_between(day, day >> 1).map(&:schedule_details_hash)
-    events  = Scheduling::get_eventsessions_between(day, day >> 1)
-    rentals = Scheduling::get_rentals_between(day, day >> 1)
+    classes = ClassOccurrence.all_between(day, day + 1).map(&:schedule_details_hash)
+    events  = Scheduling::get_eventsessions_between(day, day + 1)
+    rentals = Scheduling::get_rentals_between(day, day + 1)
     items = events + classes + rentals
     items.sort_by { |x| x[:starttime] }
   end

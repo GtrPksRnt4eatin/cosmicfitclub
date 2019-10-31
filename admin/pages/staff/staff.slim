@@ -21,7 +21,7 @@ html
 
       .tile.staff rv-each-item='data.items'
         .headshot
-          img.pic rv-src='item.image_url'
+          img.pic crossorigin='anonymous' rv-src='item.image_url'
           .name 
             | { item.name }
         .bio
