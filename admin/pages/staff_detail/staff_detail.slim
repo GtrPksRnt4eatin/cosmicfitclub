@@ -23,7 +23,7 @@ html
     #content
 
       .tile.staff_tile
-        .headshot.editable rv-on-click='ctrl.edit_headshot'
+        .headshot.editable crossorigin='anonymous' rv-on-click='ctrl.edit_headshot'
           img rv-if='data.staff.image_url' rv-src='data.staff.image_url'
           img.filler rv-unless='data.staff.image_url' 
         .staff_nfo
