@@ -35,7 +35,7 @@ html
           label Image:
           label.imgbox for='pic'
             input#pic type='file' accept="image/*" name='image' rv-on-change='ctrl.choose_img'
-            img#picpreview rv-src='class.image_url'
+            img#picpreview crossorigin='anonymous' rv-src='class.image_url'
             #nopic rv-unless='class.image_url'
 
         .tuplet
