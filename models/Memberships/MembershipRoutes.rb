@@ -8,7 +8,7 @@ class MembershipRoutes < Sinatra::Base
   post '/' do
     custy = Customer.find_by_email(params[:email]) or halt 404, 'No account found to add subscription to'
     plan = Plan[ :stripe_id => params[:plan_id]] or halt 404, 'Plan id did not link to a valid plan'
-    Subscription.create({ :customer => custy, :plan => plan, :stripe_id => params[:stripe_id] }, :payment_id => params[:payment_id] ).to_json
+    Subscription.create({ :customer => custy, :plan => plan, :stripe_id => params[:stripe_id] }).to_json
   end
 
   post '/prepaid' do

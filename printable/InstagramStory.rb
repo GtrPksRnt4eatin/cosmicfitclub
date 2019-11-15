@@ -1,9 +1,9 @@
 require 'date'
 require 'mini_magick'
 
-module EventInstagram
+module InstagramStory
 
-  def EventInstagram::set_constants
+  def InstagramStory::set_constants
     @@lines_xmargin       = 0
     @@lines_bottom_margin = 200
     @@lines_pointsize1    = 125
@@ -12,9 +12,9 @@ module EventInstagram
     @@lineheight          = 142
   end
  
-  def EventInstagram::generate(event_id, lines)
+  def InstagramStory::generate(event_id, lines)
 
-    EventInstagram::set_constants
+    InstagramStory::set_constants
 
     p "Generating Event Poster"
 
@@ -29,7 +29,7 @@ module EventInstagram
     box_start = 2550 - box_height
     @@image.draw_box(@@lines_xmargin, box_start - @@lines_bottom_margin, @@image.width-@@lines_xmargin*2, @@image.width - box_start) unless @@lines.count == 0
 
-    EventInstagram::draw_lines
+    InstagramStory::draw_lines
 
     @@image.draw_footer(19)
 
@@ -41,7 +41,7 @@ module EventInstagram
 
   ################################### RENDERING ######################################
 
-  def EventInstagram::draw_lines
+  def InstagramStory::draw_lines
     @@image.combine_options do |i|
       i.fill "\#FFFFFFFF"
       i.gravity "south"
@@ -59,7 +59,7 @@ module EventInstagram
 
   ################################### ELEMENTS #######################################
 
-  def EventInstagram::draw_box(x_offset, y_offset, x, y, x_radius=25, y_radius=25 )
+  def InstagramStory::draw_box(x_offset, y_offset, x, y, x_radius=25, y_radius=25 )
     @@image.combine_options do |i|
       i.fill "\#00000099"
       i.draw "roundRectangle #{x_offset},#{y_offset} #{x_offset + x},#{y_offset + y} #{x_radius},#{y_radius}"
@@ -70,7 +70,7 @@ module EventInstagram
 
   #################################### HELPERS #######################################
 
-  def EventInstagram::truncate(string,max)
+  def InstagramStory::truncate(string,max)
     return "" if string.nil?
     string.length > max ? "#{string[0...max]}..." : string
   end

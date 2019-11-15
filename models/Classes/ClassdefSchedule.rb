@@ -86,12 +86,18 @@ class ClassdefSchedule < Sequel::Model
     exceptions
   end
 
-  def duration_sec;    end_time - start_time                            end
-  def rrule_english;   IceCube::Rule.from_ical(rrule).to_s              end
-  def start_time_12hr; Time.parse(start_time.to_s).strftime("%I:%M %P") rescue start_time end
-  def end_time_12hr;   Time.parse(end_time.to_s).strftime("%I:%M %P")   rescue end_time   end
+  def duration_sec;          end_time - start_time                            end
+  def rrule_english;         IceCube::Rule.from_ical(rrule).to_s              end
+  def start_time_12hr;       Time.parse(start_time.to_s).strftime("%I:%M %P") rescue start_time end
+  def start_time_12hr_short; Time.parse(start_time.to_s).strftime("%l:%M %P") rescue start_time end
+  def end_time_12hr;         Time.parse(end_time.to_s).strftime("%I:%M %P")   rescue end_time   end
 
   ###################################### VIEWS #######################################
+
+  def simple_meeting_time_description
+    match = /Weekly on (\S+?)(nes|rs|s)*+(ur)?days/.match(rrule_english) or return ""
+    match[1] + " @ " + start_time_12hr_short
+  end
 
   def description_line
     "#{classdef.name} w/ #{teachers.map(&:name).join(", ")} #{rrule_english} @ #{start_time_12hr}"

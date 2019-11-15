@@ -11,6 +11,10 @@ class Event < Sequel::Model
   one_to_many :prices,   :class => :EventPrice
   one_to_many :checkins, :class => :EventCheckin
 
+  many_to_one :tall_image,  :class => :StoredImage
+  many_to_one :wide_image,  :class => :StoredImage
+  many_to_one :xwide_image, :class => :StoredImage
+
   def create_session
     new_session = EventSession.create
     add_session(new_session)

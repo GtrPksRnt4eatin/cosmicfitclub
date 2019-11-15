@@ -4,7 +4,7 @@ require 'mini_magick'
 module SchedulePoster4x6_front
  
   def SchedulePoster4x6_front::generate(classdef_ids=[40,36,32,42])
-    @@img_geometrys = ["488x488+75+572","488x488+637+572","488x488+75+1135","488x488+637+1135"]
+    @@img_geometrys = ["488x488+75+522","488x488+637+522","488x488+75+1085","488x488+637+1085"]
     @@image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
     @@logo  = MiniMagick::Image.open("printable/assets/logo.png")
 
@@ -30,7 +30,8 @@ module SchedulePoster4x6_front
         i.pointsize 27
         i.font "shared/fonts/webfonts/329F99_3_0.ttf"
         i.gravity "South"
-        i.draw "text 0,40 \"#{cls.name}\""
+        i.draw "text 0,55 \"#{cls.name}\""
+        i.draw "text 0,15 \"#{cls.meeting_times.join(", ")}\""
       end
 
       img = @@mask.composite(img,'png') do |c|
@@ -49,6 +50,17 @@ module SchedulePoster4x6_front
         c.geometry @@img_geometrys[idx]
       end
 
+    end
+
+    @@image.combine_options do |i|
+      i.fill "\#FF0000FF"
+      i.font "shared/fonts/webfonts/329F99_3_0.ttf"
+      i.density 300
+      i.pointsize 17
+      i.gravity "South"
+      i.stroke "white"
+      i.strokewidth 3
+      i.draw "text 0,110 \"First Class Free! Come In Today!\""
     end
 
     @@image.combine_options do |i|

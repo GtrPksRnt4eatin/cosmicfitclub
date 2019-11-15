@@ -1,47 +1,35 @@
 require 'date'
 require 'mini_magick'
 
-module EventInstagram
-
-  def EventInstagram::set_constants
-    @@lines_xmargin = 0
-    @@lines_bottom_margin = 150
-    @@lines_pointsize1 = 125
-    @@lines_pointsize2 = 110
-    @@footer_pointsize = 19
-    @@lineheight       = 142
-  end
+module EventPoster
  
-  def EventInstagram::generate(event_id, lines)
-
-    EventInstagram::set_constants
+  def EventPoster::generate(event_id, lines)
 
     p "Generating Event Poster"
-
     @@lines = lines
     @@event = Event[event_id]
     @@image = MiniMagick::Image.open @@event.image[:original].url
     @@image.resize "2550x2550!"
 
-    @@image.draw_logo(775,100,1000,nil,true)
-
-    box_height = ( lines.count * @@lineheight ) + @@lineheight
-    box_start = 2550 - box_height
-    @@image.draw_box(@@lines_xmargin, box_start - @@lines_bottom_margin, @@image.width-@@lines_xmargin*2, @@image.width - box_start) unless @@lines.count == 0
-
-    EventInstagram::draw_lines
-
-    @@image.draw_footer(19)
+    box_start = 2550 - ( lines.count * 142 ) - 100  
+    EventPoster::draw_box(0,box_start,2550,2550,0,0) unless @@lines.count == 0
+    EventPoster::render_footer
 
     p "Finished Generating Event Poster"
-
     @@image
 
   end
 
   ################################### RENDERING ######################################
 
-  def EventInstagram::draw_lines
+  def EventPoster::draw_box(x_offset, y_offset, x, y, x_radius=25, y_radius=25 )
+    @@image.combine_options do |i|
+      i.fill "\#00000099"
+      i.draw "roundRectangle #{x_offset},#{y_offset} #{x_offset + x},#{y_offset + y} #{x_radius},#{y_radius}"
+    end
+  end
+
+  def EventPoster::render_footer
     @@image.combine_options do |i|
       i.fill "\#FFFFFFFF"
       i.gravity "south"
@@ -50,16 +38,17 @@ module EventInstagram
         i.pointsize 125                               if idx==0
         i.font "shared/fonts/webfonts/329F99_B_0.ttf" unless idx==0
         i.pointsize 110                               unless idx==0
-        i.draw "text 0,#{( @@lines_bottom_margin + @@lineheight * 0.5 + (@@lines.count - idx - 1) * 142 )} \"#{line}\""
+        i.draw "text 0,#{( 50 + (@@lines.count - idx - 1) * 142 )} \"#{line}\""
       end
     end
   end
+
 
   ################################### RENDERING ######################################
 
   #################################### HELPERS #######################################
 
-  def EventInstagram::truncate(string,max)
+  def EventPoster::truncate(string,max)
     return "" if string.nil?
     string.length > max ? "#{string[0...max]}..." : string
   end

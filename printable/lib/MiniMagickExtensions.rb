@@ -2,17 +2,20 @@ module MiniMagickExtensions
   module Image
   	module Elements
 
-      def draw_box(x_offset, y_offset, x, y, x_radius=0, y_radius=0)
+      def draw_box(x_offset, y_offset, x, y, x_radius=0, y_radius=0, gravity='None')
         self.combine_options do |i|
           i.fill Values::MaskColor
+          i.gravity "#{gravity}"
           i.draw "roundRectangle #{x_offset},#{y_offset} #{x_offset + x},#{y_offset + y} #{x_radius},#{y_radius}"
         end
       end
 
-      def draw_logo(x,y,width,height)
+      def draw_logo(x,y,width,height,invert=false)
       	width  ||= (height * 2.8).to_i
       	height ||= (width  / 2.8).to_i
-      	logo = MiniMagick::Image.open("printable/assets/logo.png")
+        p "invert is #{invert}"
+      	logo = MiniMagick::Image.open("printable/assets/logo.png") unless invert
+        logo = MiniMagick::Image.open("printable/assets/logo_blk.png") if invert
         result = self.composite(logo) do |c|
           c.compose "Over"
           c.geometry "#{width}x#{height}+#{x}+#{y}"
@@ -24,21 +27,6 @@ module MiniMagickExtensions
         line_height = pointsize * 300 / 72
         self.draw_box(0, height-(1.5*line_height), width, height)
         self.draw_text("21-36 44th Road L.I.C NY 11101  |  347-670-0019  |  cosmicfitclub.com", pointsize, 0, line_height*0.25, "south")
-
-        #self.combine_options do |i|
-        #  i.fill Values::MaskColor
-        #  i.draw "rectangle 0,#{self.height-(line_height * 1.5)} #{self.width},#{self.height}"
-        #end
-
-
-        #self.combine_options do |i|
-        #  i.fill Values::TextColor
-        #  i.density 300
-        #  i.pointsize "#{pointsize}"
-        #  i.font "shared/fonts/webfonts/329F99_B_0.ttf"
-        #  i.gravity "South"
-        #  i.draw "text 0,#{line_height * 0.25} \"21-36 44th Road L.I.C NY 11101  |  347-670-0019  |  cosmicfitclub.com\""
-        #end
       end
 
       def draw_text(text,pointsize=18,x=0,y=0,gravity='None')
@@ -63,18 +51,26 @@ module MiniMagickExtensions
         end
       end
 
-      def draw_iphone_bubble(img_path, text, x, y, size)
-        img  = MiniMagick::Image.open(img_path)
+      def draw_iphone_bubble(cls_id, x, y, size)
+        cls = ClassDef[cls_id] or return   
+        img  = MiniMagick::Image.open(cls.image[:original].url)
         mask = MiniMagick::Image.open("printable/assets/mask.png")
+        mask.resize "#{size}x#{size}!"
         img.resize "#{size}x#{size}!"
-        img.draw_box(0,size*0.8,size,size*0.2)
-        img.draw_text_header(text,27,0,40,"south")
+        ptsize = (size * 0.05) / 300 * 72
+        img.draw_box(0,size.to_i*0.78,size.to_i,size.to_i*0.22)
+        img.draw_text_header(cls.name,ptsize,0,size*0.12,"south")
+        img.draw_text(cls.meeting_times.join(", "),ptsize,0,size* 0.04,"south")
         img = mask.composite(img,'png') do |c|
           c.compose "src-in"
           c.geometry "+0+0"
         end
-      end
-
+        margin = size*0.005
+        self.draw_box(x-margin, y-margin, size+margin*2, size+margin*2, size/10, size/10)
+        self.composite(img) do |c|
+          c.compose "Over"
+          c.geometry "#{size}x#{size}+#{x}+#{y}"
+        end
       end
 
       def get_type_metrics(size, font, text)
@@ -92,6 +88,10 @@ module MiniMagickExtensions
       def clone_img(other)
         @path = other.path
         @info.clear        
+      end
+
+      def save(filename)
+        self.write("printable/results/#{filename}")
       end
 
     end
