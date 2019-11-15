@@ -33,7 +33,7 @@ ScheduleForm.prototype = {
 
   save(e) {
     $.post(`/models/classdefs/${data['class'].id}/schedules`, JSON.stringify(this.state.schedule), function(sched) {
-      this.ev_fire('after_post', JSON.parse(sched) );
+      this.ev_fire('after_post', sched );
     }.bind(this));  
   },
 
