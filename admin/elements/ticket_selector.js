@@ -95,7 +95,7 @@ TicketSelector.prototype = {
     this.state.event.sessions.forEach( function(el) { 
       if( this.state.a_la_carte.indexOf(m.sess) === -1 ) { m.sess.cls = 'selected';  }
       else                                               { m.sess.cls = ''; }
-    });
+    }.bind(this));
   },
 
   buy_a_la_carte: function(e,m) {
