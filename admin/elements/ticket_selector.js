@@ -93,8 +93,8 @@ TicketSelector.prototype = {
     if (index === -1) { this.state.a_la_carte.push(m.sess); }
     else              { this.state.a_la_carte.splice(index, 1); }
     this.state.event.sessions.forEach( function(el) { 
-      if( this.state.a_la_carte.indexOf(m.sess) === -1 ) { m.sess.cls = 'selected';  }
-      else                                               { m.sess.cls = ''; }
+      if( this.state.a_la_carte.indexOf(m.sess) != -1 ) { m.sess.cls = 'selected';  }
+      else                                              { m.sess.cls = ''; }
     }.bind(this));
   },
 
