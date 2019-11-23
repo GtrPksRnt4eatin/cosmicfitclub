@@ -135,9 +135,9 @@ TicketSelector.prototype.HTML = ES5Template(function(){/**
     <div class='alacarte' rv-if='state.event.a_la_carte'>
       <div>Build Your Own Ticket</div>
       <div rv-each-sess='state.event.sessions'>
-        <span rv-class='sess.cls'>
-          <span class='clickable' rv-on-click='this.on_sess_click'> { sess.title } </span>
-        </span>
+        <div rv-class='sess.cls'>
+          <div class='clickable' rv-on-click='this.on_sess_click'> { sess.title } </div>
+        </div>
       </div>
       <div>
         <button rv-on-click='this.buy_a_la_carte'>Check Out</button>
@@ -173,7 +173,7 @@ TicketSelector.prototype.CSS = ES5Template(function(){/**
     background: rgba(255,255,255,0.1)
   }
 
-  .ticket_selector .clickable::hover {
+  .ticket_selector .clickable:hover {
     background: rgba(255,255,255,0.2);
   }
 
