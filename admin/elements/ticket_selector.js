@@ -10,10 +10,11 @@ function TicketSelector(parent) {
     a_la_carte_price: 0
   }
 
-  this.bind_handlers([ 'select_price', 'load_customer', 'on_payment', 'on_sess_click', 'on_payment_a_la_carte' ]);
+  this.bind_handlers([ 'select_price', 'load_customer', 'on_payment', 'on_sess_click', 'buy_a_la_carte', 'on_payment_a_la_carte' ]);
   this.parent = parent;
   this.build_dom();
   this.mount(parent);
+  rivets.formatters.sess_selected = function(val) { return this.state.a_la_carte.indexOf(val) }
   this.bind_dom();
   this.load_styles();
 
@@ -127,7 +128,9 @@ TicketSelector.prototype.HTML = ES5Template(function(){/**
     <div class='alacarte' rv-if='state.event.a_la_carte'>
       <div>Build Your Own Ticket</div>
       <div rv-each-sess='state.event.sessions'>
-        <span class='clickable' rv-on-click='this.on_sess_click'> { sess.title } </span>
+        <span rv-class='sess | sess_selected'>
+          <span class='clickable' rv-on-click='this.on_sess_click'> { sess.title } </span>
+        </span>
       </div>
       <div>
         <button rv-on-click='this.buy_a_la_carte'>Check Out</button>
