@@ -14,7 +14,7 @@ function TicketSelector(parent) {
   this.parent = parent;
   this.build_dom();
   this.mount(parent);
-  rivets.formatters.sess_selected = function(val) { return this.state.a_la_carte.indexOf(val) }
+  rivets.formatters.sess_selected = function(val) { return(this.state.a_la_carte.indexOf(val) != -1); }
   this.bind_dom();
   this.load_styles();
 
