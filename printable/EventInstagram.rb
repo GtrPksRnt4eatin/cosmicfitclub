@@ -23,7 +23,7 @@ module EventInstagram
     @@image = MiniMagick::Image.open @@event.image[:original].url
     @@image.resize "2550x2550!"
 
-    @@image.draw_logo(775,100,1000,nil,true)
+    @@image.draw_logo(620,30,850,nil,false)
 
     box_height = ( lines.count * @@lineheight ) + @@lineheight
     box_start = 2550 - box_height

@@ -21,6 +21,7 @@ module MiniMagickExtensions
           c.geometry "#{width}x#{height}+#{x}+#{y}"
         end
         self.clone_img(result)
+        self
       end
 
       def draw_footer(pointsize)
@@ -51,6 +52,21 @@ module MiniMagickExtensions
         end
       end
 
+
+      def draw_highlight_text(text,pointsize,x,y,gravity)
+        self.combine_options do |i|
+          i.fill "\#FF0000FF"
+          i.font "shared/fonts/webfonts/329F99_3_0.ttf"
+          i.density 300
+          i.pointsize pointsize
+          i.gravity gravity
+          i.stroke "white"
+          i.strokewidth 3
+          i.draw "text #{x},#{y} \"#{text}\""
+        end
+      end
+
+
       def draw_iphone_bubble(cls_id, x, y, size)
         cls = ClassDef[cls_id] or return   
         img  = MiniMagick::Image.open(cls.image[:original].url)
@@ -71,9 +87,6 @@ module MiniMagickExtensions
           c.compose "Over"
           c.geometry "#{size}x#{size}+#{x}+#{y}"
         end
-      end
-
-      def get_type_metrics(size, font, text)
       end
 
     end

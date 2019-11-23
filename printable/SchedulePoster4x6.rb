@@ -10,22 +10,23 @@ module SchedulePoster4x6
     @@box_width        = 1100
   end
  
-  def SchedulePoster4x6::generate(starttime=Date.tomorrow, high_contrast=false)
+  def SchedulePoster4x6::generate(starttime=Date.tomorrow, num_days=7, high_contrast=false )
 
   	SchedulePoster4x6::set_class_vars
 
   	@@high_contrast = high_contrast
     p "Getting Schedule #{Time.now}"
-    @@schedule      = Scheduling::get_all_sorted_by_days(starttime.to_time, (starttime >> 7).to_time)
+    @@schedule      = Scheduling::get_all_sorted_by_days(starttime.to_time, (starttime >> num_days + 1).to_time)
     @@image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
     
-    offset = SchedulePoster4x6::build_day(0,50,150)
-    offset = SchedulePoster4x6::build_day(1,50,offset + 25)
-    offset = SchedulePoster4x6::build_day(2,50,offset + 25)
-    offset = SchedulePoster4x6::build_day(3,50,offset + 25)
-    offset = SchedulePoster4x6::build_day(4,50,offset + 25)
-    offset = SchedulePoster4x6::build_day(5,50,offset + 25)
-    offset = SchedulePoster4x6::build_day(6,50,offset + 25)
+    offset = SchedulePoster4x6::build_day(0,50,100)
+    offset = SchedulePoster4x6::build_day(1,50,offset + 25) if num_days > 1
+    offset = SchedulePoster4x6::build_day(2,50,offset + 25) if num_days > 2
+    offset = SchedulePoster4x6::build_day(3,50,offset + 25) if num_days > 3
+    offset = SchedulePoster4x6::build_day(4,50,offset + 25) if num_days > 4
+    offset = SchedulePoster4x6::build_day(5,50,offset + 25) if num_days > 5
+    offset = SchedulePoster4x6::build_day(6,50,offset + 25) if num_days > 6
+    offset = SchedulePoster4x6::build_day(7,50,offset + 25) if num_days > 7
 
     @@image.combine_options do |i|
       i.fill "\#FFFFFFFF"

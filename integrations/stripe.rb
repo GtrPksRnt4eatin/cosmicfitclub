@@ -3,9 +3,9 @@ require 'stripe'
 Stripe.api_key = ENV['STRIPE_SECRET']
 
 class StripeRoutes < Sinatra::Base
-	
+
   post '/webhook' do
-    
+
     event = JSON.parse request.body.read
 
     case event['type']
@@ -13,12 +13,16 @@ class StripeRoutes < Sinatra::Base
     when 'customer.subscription.created'
 
       customer = Customer.find( :stripe_id => event['data']['object']['customer'] )
-      #subscription = Subscription.find( :stripe_id => )
-      #customer.update( :plan => Plan.find( :stripe_id => event['data']['object']['plan']['id'] ) ) unless customer.nil?
+
+      Subscription.find_or_create( :stripe_id=>event['data']['object']['id'] ) { |sub| 
+        sub.plan_id = Plan.find( :stripe_id => event['data']['object']['plan']['id'] ).try(:id)
+        sub.customer_id = customer.id
+      }
+
       Slack.post("#{customer.to_list_string} Subscription Created!")
 
     when 'customer.subscription.deleted'
-      
+
       customer = Customer.find( :stripe_id => event['data']['object']['customer'] )
       subscription = Subscription.find( :stripe_id => event['data']['object']['id'] )
       subscription.cancel unless subscription.nil?

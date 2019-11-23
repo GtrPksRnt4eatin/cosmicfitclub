@@ -5,10 +5,12 @@ function TicketSelector(parent) {
     event: null,
     event_sessions: [],
     event_tickets: [],
-    customer: null
+    customer: null,
+    a_la_carte: [],
+    a_la_carte_price: 0
   }
 
-  this.bind_handlers(['select_price', 'load_customer', 'on_payment']);
+  this.bind_handlers([ 'select_price', 'load_customer', 'on_payment', 'on_sess_click', 'on_payment_a_la_carte' ]);
   this.parent = parent;
   this.build_dom();
   this.mount(parent);
@@ -59,6 +61,21 @@ TicketSelector.prototype = {
     var payload = {
       customer_id:       this.state.customer.id, 
       event_id:          this.state.event.id,
+      included_sessions: this.state.a_la_carte.map(function(el) { return el.id; } )
+      total_price:       this.price,
+      payment_id:        payment_id,
+      price_id:          null
+    }
+
+    $.post('/checkout/event/precharged', payload )
+     .success( function() { alert("Ticket Created"); this.ev_fire('ticket_created'); }.bind(this) )
+     .fail( function(e) { alert("Failed Creating Ticket"); } )
+  },
+
+  on_payment_a_la_carte: function(payment_id){
+    var payload = {
+      customer_id:       this.state.customer.id, 
+      event_id:          this.state.event.id,
       included_sessions: this.state.selected_price.included_sessions,
       total_price:       this.price,
       payment_id:        payment_id,
@@ -70,7 +87,22 @@ TicketSelector.prototype = {
      .fail( function(e) { alert("Failed Creating Ticket"); } )
   },
 
+  on_sess_click: function(e,m) {
+    var index = this.state.a_la_carte.indexOf(m.sess);
+    if (index === -1) { this.state.a_la_carte.push(value); }
+    else              { this.state.a_la_carte.splice(index, 1); }
+  },
+
+  buy_a_la_carte: function(e,m) {
+    if( empty(this.state.customer) ) { alert('Select A Customer First'); return; }
+    this.ev_fire('paynow', [ this.state.customer.id, this.price, this.state.event.name + ": Custom Ticket", null, this.on_payment_a_la_carte ] );
+  },
+
   get price() {
+    if( this.state.event.a_la_carte ) {
+      if( this.member ) { return this.state.a_la_carte.reduce( function(tot, record) { return tot + record.individual_price_member; }, 0); }
+      else              { return this.state.a_la_carte.reduce( function(tot, record) { return tot + record.individual_price_full;   }, 0); }
+    }
     return ( this.member ? this.state.selected_price.member_price : this.state.selected_price.full_price );
   },
 
@@ -95,7 +127,10 @@ TicketSelector.prototype.HTML = ES5Template(function(){/**
     <div class='alacarte' rv-if='state.event.a_la_carte'>
       <div>Build Your Own Ticket</div>
       <div rv-each-sess='state.event.sessions'>
-        <span> { sess.title } </span>
+        <span class='clickable' rv-on-click='this.on_sess_click'> { sess.title } </span>
+      </div>
+      <div>
+        <button rv-on-click='this.buy_a_la_carte'>Check Out</button>
       </div>
     </div>
 
@@ -119,4 +154,13 @@ TicketSelector.prototype.CSS = ES5Template(function(){/**
     display: inline-block;
     width: 13em;
   }
+
+  .ticket_selector .clickable {
+    cursor: pointer;
+  }
+
+  .ticket_selector .clickable::hover {
+    background: rgba(255,255,255,0.1);
+  }
+
 **/}).untab(2);

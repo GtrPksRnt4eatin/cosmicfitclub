@@ -42,11 +42,12 @@ module Sinatra
       data['metadata']['name'] = data['token']['card']['name']
     
       data['multiplier'] ||= 1
+      price = ( data['total_price'].nil? ? 0 : data['total_price'].to_i )/100
 
       if data['multiplier'] > 1 then
-        description = "[\##{custy.id}] #{custy.name} (#{custy.email}) bought #{data['multiplier']} $#{data['total_price']/data['multiplier'].to_i/100} tickets for #{eventname}."
+        description = "[\##{custy.id}] #{custy.name} (#{custy.email}) bought #{data['multiplier']} $#{price / data['multiplier'].to_i} tickets for #{eventname}."
       else
-        description = "[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{data['total_price']/100} ticket for #{eventname}."
+        description = "[\##{custy.id}] #{custy.name} (#{custy.email}) bought a $#{price} ticket for #{eventname}."
       end
 
       charge = StripeMethods::charge_card(data['token']['id'], data['total_price'], data['token']['email'], description, data['metadata']);
