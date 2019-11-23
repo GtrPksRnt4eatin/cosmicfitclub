@@ -79,8 +79,8 @@ module Sinatra
           :customer_payment_id => params[:payment_id], 
           :event_price_id      => params[:price_id]
         )
-        status 204
       end
+      status 204
     end
 
     def register_event

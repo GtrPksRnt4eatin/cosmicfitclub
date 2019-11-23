@@ -100,7 +100,10 @@ TicketSelector.prototype = {
 
   buy_a_la_carte: function(e,m) {
     if( empty(this.state.customer) ) { alert('Select A Customer First'); return; }
-    this.ev_fire('paynow', [ this.state.customer.id, this.price, this.state.event.name + ": Custom Ticket", null, this.on_payment_a_la_carte ] );
+    if(this.price==0) { this.on_payment_a_la_carte(null); }
+    else {
+      this.ev_fire('paynow', [ this.state.customer.id, this.price, this.state.event.name + ": Custom Ticket", null, this.on_payment_a_la_carte ] );
+    }
   },
 
   get price() {
