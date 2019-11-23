@@ -92,6 +92,10 @@ TicketSelector.prototype = {
     var index = this.state.a_la_carte.indexOf(m.sess);
     if (index === -1) { this.state.a_la_carte.push(m.sess); }
     else              { this.state.a_la_carte.splice(index, 1); }
+    this.state.event.sessions.forEach( function(el) { 
+      if( this.state.a_la_carte.indexOf(m.sess) === -1 ) { m.sess.cls = 'selected';  }
+      else                                               { m.sess.cls = ''; }
+    });
   },
 
   buy_a_la_carte: function(e,m) {
@@ -128,7 +132,7 @@ TicketSelector.prototype.HTML = ES5Template(function(){/**
     <div class='alacarte' rv-if='state.event.a_la_carte'>
       <div>Build Your Own Ticket</div>
       <div rv-each-sess='state.event.sessions'>
-        <span rv-class='sess | sess_selected'>
+        <span rv-class='sess.cls'>
           <span class='clickable' rv-on-click='this.on_sess_click'> { sess.title } </span>
         </span>
       </div>
@@ -162,8 +166,12 @@ TicketSelector.prototype.CSS = ES5Template(function(){/**
     cursor: pointer;
   }
 
+  .ticket_selector .selected .clickable {
+    background: rgba(255,255,255,0.1)
+  }
+
   .ticket_selector .clickable::hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.2);
   }
 
 **/}).untab(2);
