@@ -89,7 +89,7 @@ TicketSelector.prototype = {
 
   on_sess_click: function(e,m) {
     var index = this.state.a_la_carte.indexOf(m.sess);
-    if (index === -1) { this.state.a_la_carte.push(value); }
+    if (index === -1) { this.state.a_la_carte.push(m.sess); }
     else              { this.state.a_la_carte.splice(index, 1); }
   },
 
