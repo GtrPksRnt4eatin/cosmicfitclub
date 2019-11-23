@@ -61,10 +61,10 @@ TicketSelector.prototype = {
     var payload = {
       customer_id:       this.state.customer.id, 
       event_id:          this.state.event.id,
-      included_sessions: this.state.a_la_carte.map(function(el) { return el.id; } )
+      included_sessions: this.state.selected_price.included_sessions,
       total_price:       this.price,
       payment_id:        payment_id,
-      price_id:          null
+      price_id:          this.state.selected_price.id
     }
 
     $.post('/checkout/event/precharged', payload )
@@ -76,10 +76,10 @@ TicketSelector.prototype = {
     var payload = {
       customer_id:       this.state.customer.id, 
       event_id:          this.state.event.id,
-      included_sessions: this.state.selected_price.included_sessions,
+      included_sessions: this.state.a_la_carte.map(function(el) { return el.id; } ),
       total_price:       this.price,
       payment_id:        payment_id,
-      price_id:          this.state.selected_price.id
+      price_id:          null
     }
 
     $.post('/checkout/event/precharged', payload )
