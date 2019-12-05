@@ -61,6 +61,11 @@ class CFC < Sinatra::Base
 
   get( '/robots.txt') { "User-agent: * \r\nDisallow:" }
 
+  get( '/:tag' ) do
+    url = ShortUrl.where(:short_path => params[:tag])[0] or pass
+    redirect url.long_path
+  end
+
   error do
     Slack.err( 'Site Error', env['sinatra.error'] )
     'An Error Occurred.'

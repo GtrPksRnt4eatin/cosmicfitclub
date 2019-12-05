@@ -19,25 +19,30 @@ module SchedulePoster4x6_front
 
       img = MiniMagick::Image.open cls.image[:medium].url
       img.resize "500x500!"
+      
+      lines = [cls.name]
+      cls.meeting_times.each_slice(2) { |a,b| lines << ( b.nil? ? a : a +", " + b ) }
 
-      img.combine_options do |i|
-        i.fill "\#00000099"
-        i.draw "rectangle 0,400 500,500"
-      end
+      img.to_bubble(lines)
 
-      img.combine_options do |i|
-        i.fill "\#FFFFFFFF"
-        i.pointsize 27
-        i.font "shared/fonts/webfonts/329F99_3_0.ttf"
-        i.gravity "South"
-        i.draw "text 0,55 \"#{cls.name}\""
-        i.draw "text 0,15 \"#{cls.meeting_times.join(", ")}\""
-      end
+      #img.combine_options do |i|
+      #  i.fill "\#00000099"
+      #  i.draw "rectangle 0,400 500,500"
+      #end
 
-      img = @@mask.composite(img,'png') do |c|
-        c.compose "src-in"
-        c.geometry "+0+0"
-      end
+      #img.combine_options do |i|
+      #  i.fill "\#FFFFFFFF"
+      #  i.pointsize 27
+      #  i.font "shared/fonts/webfonts/329F99_3_0.ttf"
+      #  i.gravity "South"
+      #  i.draw "text 0,55 \"#{cls.name}\""
+      #  i.draw "text 0,15 \"#{cls.meeting_times.join(", ")}\""
+      #end
+
+      #img = @@mask.composite(img,'png') do |c|
+      #  c.compose "src-in"
+      #  c.geometry "+0+0"
+      #end
 
       geo = /(\d+)x(\d+)\+(\d+)\+(\d+)/.match(@@img_geometrys[idx])
       @@image.combine_options do |i|

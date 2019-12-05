@@ -8,6 +8,7 @@ module SchedulePoster4x6
     @@header_pointsize = 25
     @@body_pointsize   = 22
     @@box_width        = 1100
+    @@top_margin       = 10
   end
  
   def SchedulePoster4x6::generate(starttime=Date.tomorrow, num_days=7, high_contrast=false )
@@ -19,22 +20,22 @@ module SchedulePoster4x6
     @@schedule      = Scheduling::get_all_sorted_by_days(starttime.to_time, (starttime >> num_days + 1).to_time)
     @@image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
     
-    offset = SchedulePoster4x6::build_day(0,50,100)
-    offset = SchedulePoster4x6::build_day(1,50,offset + 25) if num_days > 1
-    offset = SchedulePoster4x6::build_day(2,50,offset + 25) if num_days > 2
-    offset = SchedulePoster4x6::build_day(3,50,offset + 25) if num_days > 3
-    offset = SchedulePoster4x6::build_day(4,50,offset + 25) if num_days > 4
-    offset = SchedulePoster4x6::build_day(5,50,offset + 25) if num_days > 5
-    offset = SchedulePoster4x6::build_day(6,50,offset + 25) if num_days > 6
-    offset = SchedulePoster4x6::build_day(7,50,offset + 25) if num_days > 7
+    offset = SchedulePoster4x6::build_day(0,50,@@top_margin)
+    offset = SchedulePoster4x6::build_day(1,50,offset + 20) if num_days > 1
+    offset = SchedulePoster4x6::build_day(2,50,offset + 20) if num_days > 2
+    offset = SchedulePoster4x6::build_day(3,50,offset + 20) if num_days > 3
+    offset = SchedulePoster4x6::build_day(4,50,offset + 20) if num_days > 4
+    offset = SchedulePoster4x6::build_day(5,50,offset + 20) if num_days > 5
+    offset = SchedulePoster4x6::build_day(6,50,offset + 20) if num_days > 6
+    offset = SchedulePoster4x6::build_day(7,50,offset + 20) if num_days > 7
 
-    @@image.combine_options do |i|
-      i.fill "\#FFFFFFFF"
-      i.pointsize 45
-      i.font "shared/fonts/webfonts/329F99_3_0.ttf"
-      i.gravity "North"
-      i.draw "text 0,40 \"Schedule For The Week Of #{starttime.strftime('%b %e')}\""
-    end
+    #@@image.combine_options do |i|
+    #  i.fill "\#FFFFFFFF"
+    #  i.pointsize 45
+    #  i.font "shared/fonts/webfonts/329F99_3_0.ttf"
+    #  i.gravity "North"
+    #  i.draw "text 0,20 \"Schedule For The Week Of #{starttime.strftime('%b %e')}\""
+    #end
 
     @@image
 

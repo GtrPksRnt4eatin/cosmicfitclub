@@ -1,0 +1,26 @@
+
+[1mFrom:[0m /home/bklein/cosmicfitclub/printable/lib/MiniMagickExtensions.rb @ line 85 MiniMagickExtensions::Image::Elements#draw_iphone_bubble:
+
+    [1;34m69[0m: [32mdef[0m [1;34mdraw_iphone_bubble[0m(cls_id, x, y, size)
+    [1;34m70[0m:   cls = [1;34;4mClassDef[0m[cls_id] [32mor[0m [32mreturn[0m   
+    [1;34m71[0m:   img  = [1;34;4mMiniMagick[0m::[1;34;4mImage[0m.open(cls.image[[33m:original[0m].url)
+    [1;34m72[0m:   mask = [1;34;4mMiniMagick[0m::[1;34;4mImage[0m.open([31m[1;31m"[0m[31mprintable/assets/mask.png[1;31m"[0m[31m[0m)
+    [1;34m73[0m:   mask.resize [31m[1;31m"[0m[31m#{size}[0m[31mx#{size}[0m[31m![1;31m"[0m[31m[0m
+    [1;34m74[0m:   img.resize [31m[1;31m"[0m[31m#{size}[0m[31mx#{size}[0m[31m![1;31m"[0m[31m[0m
+    [1;34m75[0m:   ptsize = (size * [1;35m0.05[0m) / [1;34m300[0m * [1;34m72[0m
+    [1;34m76[0m:   img.draw_box([1;34m0[0m,size.to_i*[1;35m0.78[0m,size.to_i,size.to_i*[1;35m0.22[0m)
+    [1;34m77[0m:   img.draw_text_header(cls.name,ptsize,[1;34m0[0m,size*[1;35m0.12[0m,[31m[1;31m"[0m[31msouth[1;31m"[0m[31m[0m)
+    [1;34m78[0m:   img.draw_text(cls.meeting_times.join([31m[1;31m"[0m[31m, [1;31m"[0m[31m[0m),ptsize,[1;34m0[0m,size* [1;35m0.04[0m,[31m[1;31m"[0m[31msouth[1;31m"[0m[31m[0m)
+    [1;34m79[0m:   img = mask.composite(img,[31m[1;31m'[0m[31mpng[1;31m'[0m[31m[0m) [32mdo[0m |c|
+    [1;34m80[0m:     c.compose [31m[1;31m"[0m[31msrc-in[1;31m"[0m[31m[0m
+    [1;34m81[0m:     c.geometry [31m[1;31m"[0m[31m+0+0[1;31m"[0m[31m[0m
+    [1;34m82[0m:   [32mend[0m
+    [1;34m83[0m:   margin = size*[1;35m0.005[0m
+    [1;34m84[0m:   [1;36mself[0m.draw_box(x-margin, y-margin, size+margin*[1;34m2[0m, size+margin*[1;34m2[0m, size/[1;34m10[0m, size/[1;34m10[0m)
+ => [1;34m85[0m:   require [31m[1;31m'[0m[31mpry[1;31m'[0m[31m[0m; binding.pry
+    [1;34m86[0m:   [1;36mself[0m.composite(img) [32mdo[0m |c|
+    [1;34m87[0m:     c.compose [31m[1;31m"[0m[31mOver[1;31m"[0m[31m[0m
+    [1;34m88[0m:     c.geometry [31m[1;31m"[0m[31m#{size}[0m[31mx#{size}[0m[31m+#{x}[0m[31m+#{y}[0m[31m[1;31m"[0m[31m[0m
+    [1;34m89[0m:   [32mend[0m
+    [1;34m90[0m: [32mend[0m
+

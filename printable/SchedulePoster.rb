@@ -22,7 +22,7 @@ module SchedulePoster
     @@image.rotate "90"
     @@image.resize "2550x3300!"
     
-    offset = SchedulePoster::build_day(0,50,150)
+    offset = SchedulePoster::build_day(0,50,25)
     offset = SchedulePoster::build_day(1,50,offset + 25)
     offset = SchedulePoster::build_day(2,50,offset + 25)
     offset = SchedulePoster::build_day(3,50,offset + 25)

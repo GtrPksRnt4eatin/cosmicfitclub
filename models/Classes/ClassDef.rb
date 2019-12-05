@@ -147,6 +147,10 @@ class ClassDef < Sequel::Model
     self.schedules.map(&:simple_meeting_time_description)
   end
 
+  def meeting_times_with_staff
+    self.schedules.map(&:simple_meeting_time_description_with_staff)
+  end
+
   ########################## VIEWS ##############################
 
 end

@@ -16,24 +16,28 @@ module InstagramStory
 
     InstagramStory::set_constants
 
-    p "Generating Event Poster"
-
     @@lines = lines
-    @@event = Event[event_id]
-    @@image = MiniMagick::Image.open @@event.image[:original].url
-    @@image.resize "2550x2550!"
+    @@image = MiniMagick::Image.open "printable/assets/1080x1920_bg.jpg"
 
-    @@image.draw_logo(1150,100,1300,nil)
+    @@event  = Event[event_id]
+    @@bubble = MiniMagick::Image.open @@event.image[:original].url
+    @@bubble.to_bubble(lines)
 
-    box_height = ( lines.count * @@lineheight ) + @@lineheight
-    box_start = 2550 - box_height
-    @@image.draw_box(@@lines_xmargin, box_start - @@lines_bottom_margin, @@image.width-@@lines_xmargin*2, @@image.width - box_start) unless @@lines.count == 0
+    @@image.draw_logo(50,250,980,nil)
 
-    InstagramStory::draw_lines
+    @@image.bubble_shadow(980,980,50,650,5)
+    @@image.overlay(@@bubble,980,980,50,650)
 
-    @@image.draw_footer(19)
+    @@image.draw_highlight_text("https://cosmicfitclub.com/unity",pointsize,x,y,gravity)
+    @@image.footer_lines(["https://cosmicfitclub.com/"])
 
-    p "Finished Generating Event Poster"
+    #box_height = ( lines.count * @@lineheight ) + @@lineheight
+    #box_start = 2550 - box_height
+    #@@image.draw_box(@@lines_xmargin, box_start - @@lines_bottom_margin, @@image.width-@@lines_xmargin*2, @@image.width - box_start) unless @@lines.count == 0
+    
+    #InstagramStory::draw_lines
+
+    @@image.draw_footer(8,200)
 
     @@image
 
