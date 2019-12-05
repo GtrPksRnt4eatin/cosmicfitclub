@@ -23,13 +23,12 @@ module InstagramStory
     @@bubble = MiniMagick::Image.open @@event.image[:original].url
     @@bubble.to_bubble(lines)
 
-    @@image.draw_logo(50,250,980,nil)
+    @@image.draw_logo(50,220,980,nil)
 
-    @@image.bubble_shadow(980,980,50,650,5)
-    @@image.overlay(@@bubble,980,980,50,650)
+    @@image.bubble_shadow(980,980,50,620,5)
+    @@image.overlay(@@bubble,980,980,50,620)
 
-    @@image.draw_highlight_text("https://cosmicfitclub.com/unity",pointsize,x,y,gravity)
-    @@image.footer_lines(["https://cosmicfitclub.com/"])
+    @@image.draw_highlight_text("https://cosmicfitclub.com/unity",10,0,280,"south")
 
     #box_height = ( lines.count * @@lineheight ) + @@lineheight
     #box_start = 2550 - box_height
