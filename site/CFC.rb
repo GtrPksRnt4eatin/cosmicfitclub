@@ -63,8 +63,8 @@ class CFC < Sinatra::Base
 
   get( '/:tag' ) do
     p params[:tag]
-    p ShortUrl.where(:short_path => params[:tag])
-    url = ShortUrl.where(:short_path => params[:tag])[0] or pass
+    p ShortUrl.where(:short_path => params[:tag]).first
+    url = ShortUrl.where(:short_path => params[:tag]).first or pass
     redirect url.long_path
   end
 
