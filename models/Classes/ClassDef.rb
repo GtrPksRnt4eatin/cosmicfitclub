@@ -153,4 +153,9 @@ class ClassDef < Sequel::Model
 
   ########################## VIEWS ##############################
 
+  def ordered_schedules
+    schedules.
+  end
+
 end
+

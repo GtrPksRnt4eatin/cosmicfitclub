@@ -53,15 +53,15 @@ module MiniMagickExtensions
       end
 
 
-      def draw_highlight_text(text,pointsize,x,y,gravity)
+      def draw_highlight_text(text,pointsize,x,y,gravity,fill=Values::RedText,stroke="\#FFFFFFDD",strokewidth=3)
         self.combine_options do |i|
-          i.fill "\#FF0000FF"
+          i.fill fill
           i.font "shared/fonts/webfonts/329F99_3_0.ttf"
           i.density 300
           i.pointsize pointsize
           i.gravity gravity
-          i.stroke "white"
-          i.strokewidth 3
+          i.stroke stroke
+          i.strokewidth strokewidth
           i.draw "text #{x},#{y} \"#{text}\""
         end
       end
@@ -127,7 +127,7 @@ module MiniMagickExtensions
 
       def to_bubble(lines, ptsize=nil)
         ptsize ||= (self.dimensions[0] * 0.05) / 300 * 72
-        self.footer_lines(lines,ptsize)
+        self.footer_lines(lines,ptsize,20)
         self.mask_edges
       end
 
@@ -173,6 +173,7 @@ module MiniMagickExtensions
       MaskColor2  = "\#000000AA"
       TextColor   = "\#FFFFFFFF"
       WhiteGlow   = "\#FFFFFF66"
+      RedText     = "\#FF0000FF"
     end
 
     module Loading

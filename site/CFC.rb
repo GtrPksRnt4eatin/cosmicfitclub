@@ -38,14 +38,7 @@ class CFC < Sinatra::Base
 
   ####################### TEST PAGES #########################
   
-
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
-  
-  get( '/charandnico' )             { redirect '/checkout/event/387' }
-  get( '/traincation2')             { redirect '/checkout/event/386' }
-  get( '/tumblingseries')           { redirect '/checkout/event/388' }
-  get( '/shira')                    { redirect '/checkout/event/390' }
-  get( '/waterfrontyoga')           { redirect '/auth/onboard?page=/class/62' }
 
   get( '/checkout')                 { render_page :checkout }
   get( '/checkout/plans/:id' )      { render_page :checkout_plan }
@@ -62,8 +55,6 @@ class CFC < Sinatra::Base
   get( '/robots.txt') { "User-agent: * \r\nDisallow:" }
 
   get( '/:tag' ) do
-    p params[:tag]
-    p ShortUrl.where(:short_path => params[:tag]).first
     url = ShortUrl.where(:short_path => params[:tag]).first or pass
     redirect url.long_path
   end

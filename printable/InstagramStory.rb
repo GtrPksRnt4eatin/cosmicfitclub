@@ -17,26 +17,20 @@ module InstagramStory
     InstagramStory::set_constants
 
     @@lines = lines
-    @@image = MiniMagick::Image.open "printable/assets/1080x1920_bg.jpg"
+    @@image ||= MiniMagick::Image.open "printable/assets/1080x1920_bg.jpg"
 
-    @@event  = Event[event_id]
-    @@bubble = MiniMagick::Image.open @@event.image[:original].url
+    @@bubble = MiniMagick::Image.open "printable/assets/#{event_id}"        if event_id.is_a? String
+    @@bubble = MiniMagick::Image.open Event[event_id].image[:original].url if event_id.is_a? Integer
     @@bubble.to_bubble(lines)
 
-    @@image.draw_logo(50,220,980,nil)
+    @@image.draw_logo(60,210,960,nil)
 
-    @@image.bubble_shadow(980,980,50,620,5)
-    @@image.overlay(@@bubble,980,980,50,620)
+    @@image.bubble_shadow(980,980,50,585,5)
+    @@image.overlay(@@bubble,980,980,50,585)
 
-    @@image.draw_highlight_text("https://cosmicfitclub.com/unity",10,0,280,"south")
+    @@image.draw_highlight_text("cosmicfitclub.com/unity",21,0,240,"south","\#CC0000FF")
 
-    #box_height = ( lines.count * @@lineheight ) + @@lineheight
-    #box_start = 2550 - box_height
-    #@@image.draw_box(@@lines_xmargin, box_start - @@lines_bottom_margin, @@image.width-@@lines_xmargin*2, @@image.width - box_start) unless @@lines.count == 0
-    
-    #InstagramStory::draw_lines
-
-    @@image.draw_footer(8,200)
+    @@image.draw_footer(8,170)
 
     @@image
 
