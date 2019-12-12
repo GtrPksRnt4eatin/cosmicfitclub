@@ -228,7 +228,7 @@ class Event < Sequel::Model
           end
         end
         
-        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + [ tic.eventprice.try(:title), tic.recipient.try(:id), tic.recipient.try(:name), tic.recipient.try(:email) ]
+        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + [ tic.eventprice.try(:title), tic.recipient.try(:id), tic.recipient.try(:name), tic.recipient.try(:email), (tic.checkins.count > 0 ? tic.checkins[0].timestamp : 'X')  ]
       
       end
 

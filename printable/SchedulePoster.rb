@@ -20,7 +20,8 @@ module SchedulePoster
     @@image         = MiniMagick::Image.open("shared/img/background-blu.jpg") unless @@high_contrast
     @@image         = MiniMagick::Image.open("./white.png")                          if @@high_contrast
     @@image.rotate "90"
-    @@image.resize "2550x3300!"
+    #@@image.resize "2550x3300!"    #8.5x11
+    @@image.resize "2481x3507!"     #A4
     
     offset = SchedulePoster::build_day(0,50,25)
     offset = SchedulePoster::build_day(1,50,offset + 25)

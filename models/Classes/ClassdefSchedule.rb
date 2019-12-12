@@ -103,7 +103,7 @@ class ClassdefSchedule < Sequel::Model
   # ie: Mon @  5:00 pm w/ Tim Leibowitz
   def simple_meeting_time_description_with_staff
     match = /Weekly on (\S+?)(nes|rs|s)*+(ur)?days/.match(rrule_english) or return ""
-    match[1] + " @ " + start_time_12hr_short + "     /w   " + self.teachers[0].name.ljust(20)
+    match[1] + " @ " + start_time_12hr_short + "     w/   " + self.teachers[0].name.ljust(20)
   end
 
   def description_line

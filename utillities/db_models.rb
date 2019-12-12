@@ -1,7 +1,9 @@
 require 'irb'
 require_relative '../ruby/environment'
+require_relative '../ruby/patches'
 require_relative '../integrations/database'
 require_relative '../integrations/aws'
+require_relative '../integrations/stripe_methods'
 require_relative '../ruby/shrine'
 
 Dir["../models/mixins/*.rb"].each  { |file| require_relative file unless /.*Routes.*/=~file }

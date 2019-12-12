@@ -13,8 +13,8 @@ class CFCOffers < Sinatra::Base
     cache_control :no_store
   end
 
-  get( '/waterfront_deal')  { render_page :waterfront_deal }
-  get( '/newstudent'  )     { render_page :new_student     }
+  get( '/holiday_sale')  { render_page :holiday_sale }
+  get( '/newstudent'  )  { render_page :new_student  }
 
   not_found do
     @err="Sorry, This Offer Is No Longer Available."
