@@ -10,18 +10,12 @@ module MiniMagickExtensions
         end
       end
 
-      def draw_logo(x,y,width,height,invert=false)
+      def draw_logo(x,y,width,height=nil,invert=false)
       	width  ||= (height * 2.8).to_i
       	height ||= (width  / 2.8).to_i
-        p "invert is #{invert}"
       	logo = MiniMagick::Image.open("printable/assets/logo.png") unless invert
         logo = MiniMagick::Image.open("printable/assets/logo_blk.png") if invert
-        result = self.composite(logo) do |c|
-          c.compose "Over"
-          c.geometry "#{width}x#{height}+#{x}+#{y}"
-        end
-        self.clone_img(result)
-        self
+        self.overlay(logo, width, height, x, y)
       end
 
       def draw_footer(pointsize, offset=0)
@@ -64,6 +58,17 @@ module MiniMagickExtensions
           i.strokewidth strokewidth
           i.draw "text #{x},#{y} \"#{text}\""
         end
+      end
+
+      def draw_event_bubble(event_id, x, y, size)
+        event = Event[event_id] or return
+        img = MiniMagick::Image.open(event.image[:original].url)
+        ptsize = (size * 0.025) / 300 * 72
+        img.footer_lines(event.poster_lines, ptsize)
+        img.mask_edges
+        self.bubble_shadow(size,size,x,y,size*0.008)
+        self.overlay(img, size, size, x, y)
+      rescue
       end
 
       def draw_iphone_bubble(cls_id, x, y, size)
@@ -170,7 +175,7 @@ module MiniMagickExtensions
 
     module Values
       MaskColor   = "\#00000099"
-      MaskColor2  = "\#000000AA"
+      MaskColor2  = "\#000000BB"
       TextColor   = "\#FFFFFFFF"
       WhiteGlow   = "\#FFFFFF66"
       RedText     = "\#FF0000FF"

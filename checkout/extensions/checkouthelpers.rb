@@ -3,6 +3,10 @@ $SWIPELISTENERS = []
 module Sinatra
   module CheckoutHelpers
 
+    def buy_gift_certificate
+      
+    end
+
     def buy_plan
       data = JSON.parse request.body.read
       custy = Customer.get_from_token( data['token'] )

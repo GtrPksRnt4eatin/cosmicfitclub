@@ -107,7 +107,7 @@ class Event < Sequel::Model
     return Date.today if self.sessions.nil?
     max  = self.sessions.max_by{ |x| x.start_time or '' }
     return Date.today if max.nil?
-    max.start_time.to_date
+    Date.parse(max.start_time)
   end
 
   def headcount
