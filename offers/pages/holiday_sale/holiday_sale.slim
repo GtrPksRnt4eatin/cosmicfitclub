@@ -45,10 +45,10 @@ html
             | Choose 8 classes for $120 or 12 classes for $180.
 
         .upcoming
-          #login
-            .heading rv-hide='data.logged_in'
+          #login rv-hide='data.logged_in'
+            .heading 
               | Enter Your Information
-            .section rv-hide='data.logged_in'
+            .section 
               .tuple
                 span.label
                   | E-Mail:
@@ -71,7 +71,8 @@ html
               .errors
                 .err rv-each-err='data.errors'
                   | {err}
-          #offer_form
+
+          #offer_form rv-show='data.logged_in'
             .heading 
               | Choose Your Offer:
             .section
