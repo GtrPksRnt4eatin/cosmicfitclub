@@ -30,6 +30,11 @@ ctrl = {
     if( data.id  )          { login(); }
   },
 
+  login: function(e,m) {
+    if( !data.id )          { if( !validate_noid()  ) { return; }; create_account(); }
+    if( data.id  )          { login(); }
+  },
+
   reset_password: function(e,m) {
     $.post( '/auth/reset', JSON.stringify( { "email" : data.email } ) )
      .fail(    function(req,msg,status) { ('#offer_form').shake(); data.errors=["Account Not Found!"] } )
@@ -93,7 +98,7 @@ function login() {
   .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors=["Login Failed"] } )
   .success( function() { 
     userview.get_user();
-    checkout(data.id);
+    //checkout(data.id);
   });
 }
 

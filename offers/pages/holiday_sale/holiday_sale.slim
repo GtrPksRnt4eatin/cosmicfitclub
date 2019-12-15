@@ -72,6 +72,8 @@ html
                 .err rv-each-err='data.errors'
                   | {err}
 
+              button#login_button rv-on-click='ctrl.login' Continue
+
           #offer_form rv-show='data.logged_in'
             .heading 
               | Choose Your Offer:

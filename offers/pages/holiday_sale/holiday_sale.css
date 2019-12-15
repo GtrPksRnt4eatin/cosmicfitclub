@@ -126,7 +126,8 @@ footer {
   border-bottom: none;
 }
 
-button#checkout_button {
+button#checkout_button,
+button#login_button {
   width: 100%;
   margin: 0.5em 0;
   padding: 0.5em;
@@ -139,7 +140,8 @@ button#checkout_button {
   cursor: pointer;
 }
 
-button#checkout_button:hover {
+button#checkout_button:hover,
+button#login_button:hover {
   background: rgba(255,255,255,0.3);
 }
 
