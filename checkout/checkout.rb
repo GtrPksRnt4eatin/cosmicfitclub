@@ -33,6 +33,7 @@ class Checkout < Sinatra::Base
   get('/complete')                               { render_page :complete       }
   get('/misc')                                   { render_page :misc           }
   get('/front_desk')                             { render_page :front_desk     }
+  get('/gift_cert/:code')                        { render_page :gift_cert      }
 
   get('/transactions')                           { render_page :transactions   }
 

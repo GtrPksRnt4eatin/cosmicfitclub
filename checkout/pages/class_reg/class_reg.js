@@ -12,7 +12,7 @@ $(document).ready( function() {
     reservation_form.stack();
     reservation_form.set_occurrence(data['occurrence']);
     reservation_form.ev_sub('reservation_made', function() { $(document.body).addClass('done') } );
-    reservation_form.ev_sub('paynow', function(args) { payment_form.checkout(args[0], args[1], null, args[3], args[4]) });
+    reservation_form.ev_sub('paynow', function(args) { payment_form.checkout(args[0], args[1], args[2], args[3], args[4]) });
 
     payment_form.customer_facing();
     payment_form.ev_sub('show', popupmenu.show );

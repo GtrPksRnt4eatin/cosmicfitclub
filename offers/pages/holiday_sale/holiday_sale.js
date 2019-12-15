@@ -8,7 +8,8 @@ data = {
   full_name: null,
   password: null,
   errors: [],
-  logged_in: false
+  logged_in: false,
+  offer: 0
 }
 
 ctrl = {
@@ -33,6 +34,11 @@ ctrl = {
     $.post( '/auth/reset', JSON.stringify( { "email" : data.email } ) )
      .fail(    function(req,msg,status) { ('#offer_form').shake(); data.errors=["Account Not Found!"] } )
      .success( function() { alert("Check Your Email"); } )
+  },
+
+  set_offer: function(e,m) {
+    if(e.target.id=="offer1") { data.offer = 1; }
+    if(e.target.id=="offer2") { data.offer = 1; }
   }
 
 }
@@ -58,7 +64,7 @@ $(document).ready(function(){
     var binding = rivets.bind( $('body'), { ctrl: ctrl, data: data } );
 
     var svg = Snap("#gift_cert");
-    
+
 
 })
 

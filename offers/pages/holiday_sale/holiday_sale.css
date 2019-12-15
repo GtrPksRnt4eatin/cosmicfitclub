@@ -33,7 +33,7 @@ footer {
 
 .section {
   display: table;
-  margin-bottom: 1em;
+  margin: 1em 0;
 }
 
 .section .tuple {
@@ -50,7 +50,8 @@ footer {
   padding-right: 1em;
 }
 
-.section .tuple .value input {
+.section .tuple .value input,
+.section .tuple .value textarea {
   font-family: 'Industry';
   padding: 0.3em;
   margin: 0.3em;
@@ -58,7 +59,6 @@ footer {
   letter-spacing: 0.03em;
   border-radius: 0.5em;
 }
-
 
 .tile .name_container .name {
   animation: glow 2s alternate infinite, shrink 2s ease-in 1 forwards;

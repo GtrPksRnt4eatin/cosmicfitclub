@@ -75,9 +75,8 @@ html
             | Choose Your Offer:
           .section
             div
-              input type="checkbox"  8 Classes for $120
-              br
-              input type="checkbox" 12 Classes for $180
+              input type="radio" value="1" rv-checked="data.offer" 8 Classes for $120
+              input type="radio" value="2" rv-checked="data.offer" 12 Classes for $180
 
           .heading
             | Personalize your Certificate:
@@ -97,11 +96,6 @@ html
                 | A Gift For:
               span.value
                 input
-            .tuple
-              span.label
-                | A Short Message:
-              span.value
-                textarea
 
           .heading
             | Delivery Method
