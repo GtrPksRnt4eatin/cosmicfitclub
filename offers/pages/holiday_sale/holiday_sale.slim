@@ -47,7 +47,7 @@ html
         .upcoming#offer_form
           .heading
             | Enter Your Information
-          .register
+          .section
             .tuple
               span.label
                 | E-Mail:
@@ -63,25 +63,25 @@ html
                 | Password:
               span.value
                 input#password type='password' rv-value='data.password'
-          .small rv-if='data.id | not_if_loggedin'
-            | Email Has Account.. Enter or 
-            span#reset rv-on-click='ctrl.reset_password'
-              | Reset Password
-          .errors
-            .err rv-each-err='data.errors'
-              | {err}
-
+            .small rv-if='data.id | not_if_loggedin'
+              | Email Has Account.. Enter or 
+              span#reset rv-on-click='ctrl.reset_password'
+                | Reset Password
+            .errors
+              .err rv-each-err='data.errors'
+                | {err}
+          
           .heading
             | Choose Your Offer:
-          div
-            input type="checkbox"  8 Classes for $120
-            br
-            input type="checkbox" 12 Classes for $180
-          .heading
-            | Delivery Method
+          .section
+            div
+              input type="checkbox"  8 Classes for $120
+              br
+              input type="checkbox" 12 Classes for $180
 
           .heading
             | Personalize your Certificate:
+          .section
             .tuple
               span.label
                 | A Gift From:
@@ -103,8 +103,9 @@ html
               span.value
                 textarea
 
-
-          div
+          .heading
+            | Delivery Method
+          .section
             input type="radio" Pick Up at Desk
             br
             input type="radio" Mail ( delivery time not guaranteed )
