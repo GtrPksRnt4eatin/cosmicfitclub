@@ -33,6 +33,7 @@ footer {
 
 .section {
   display: table;
+  margin-bottom: 1em;
 }
 
 .section .tuple {
