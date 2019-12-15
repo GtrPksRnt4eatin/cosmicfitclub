@@ -1,3 +1,5 @@
+require 'stripe'
+
 class StripeRoutes < Sinatra::Base
 
   post '/webhook' do
