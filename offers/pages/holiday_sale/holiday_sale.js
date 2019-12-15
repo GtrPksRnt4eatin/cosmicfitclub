@@ -57,6 +57,9 @@ $(document).ready(function(){
     rivets.formatters.not_if_loggedin = function(val) { if(userview.logged_in) return false; return val; }
     var binding = rivets.bind( $('body'), { ctrl: ctrl, data: data } );
 
+    var svg = Snap("#gift_cert");
+    
+
 })
 
 function on_user(user) {
@@ -98,7 +101,14 @@ function validate_noid() {
   return true;
 }
 
-function checkout(customer_id) {
+function checkout8(customer_id) {
+  payment_form.checkout( customer_id, 6000, "Five Class Pack (discounted)", null, function(payment_id) {
+      $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 5, payment_id: payment_id })
+       .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
+    });
+}
+
+function checkout12(customer_id) {
   payment_form.checkout( customer_id, 6000, "Five Class Pack (discounted)", null, function(payment_id) {
       $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 5, payment_id: payment_id })
        .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );

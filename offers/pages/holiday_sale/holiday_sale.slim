@@ -18,7 +18,7 @@ html
       var elements = stripe.elements();
 
     == css [ 'fonts', 'site', 'header', 'footer', 'holiday_sale' ]
-    == js  [ 'jquery' ]
+    == js  [ 'jquery', 'snap_svg' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
     == js  [ 'lib', 'element', 'ev_channel', '/checkout/elements/payment_form', '/auth/elements/userview', 'popupmenu']
     == js  [ 'holiday_sale' ]
@@ -48,7 +48,7 @@ html
 
         .upcoming#offer_form
           .heading
-            | Redeem Now! One Per Customer
+            | Enter Your Information
           .register
             .tuple
               span.label
@@ -66,16 +66,18 @@ html
               span.value
                 input#password type='password' rv-value='data.password'
           .small rv-if='data.id | not_if_loggedin'
-            | Email Has Account.. Login or 
+            | Email Has Account.. Enter or 
             span#reset rv-on-click='ctrl.reset_password'
               | Reset Password
           .errors
             .err rv-each-err='data.errors'
               | {err}
 
-
-        #custy_selector
-          
+          div
+            Choose Your Offer:
+          div
+            input type="checkbox"  8 Classes for $120
+            input type="checkbox" 12 Classes for $180
 
           button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
