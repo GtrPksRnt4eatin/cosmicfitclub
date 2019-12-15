@@ -63,9 +63,6 @@ $(document).ready(function(){
     rivets.formatters.not_if_loggedin = function(val) { if(userview.logged_in) return false; return val; }
     var binding = rivets.bind( $('body'), { ctrl: ctrl, data: data } );
 
-    var svg = Snap("#gift_cert");
-
-
 })
 
 function on_user(user) {

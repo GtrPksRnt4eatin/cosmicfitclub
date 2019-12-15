@@ -44,72 +44,72 @@ html
             br
             | Choose 8 classes for $120 or 12 classes for $180.
 
-        .upcoming#offer_form
-          .heading
-            | Enter Your Information
-          .section
-            .tuple
-              span.label
-                | E-Mail:
-              span.value
-                input#email rv-value='data.email' rv-on-input='ctrl.check_email'
-            .tuple rv-hide='data.id'
-              span.label
-                | Full Name:
-              span.value
-                input#fullname rv-value='data.full_name'
-            .tuple rv-if='data.id | not_if_loggedin' 
-              span.label 
-                | Password:
-              span.value
-                input#password type='password' rv-value='data.password'
-            .small rv-if='data.id | not_if_loggedin'
-              | Email Has Account.. Enter or 
-              span#reset rv-on-click='ctrl.reset_password'
-                | Reset Password
-            .errors
-              .err rv-each-err='data.errors'
-                | {err}
-          
-          .heading
-            | Choose Your Offer:
-          .section
-            div
-              input#offer1 type="radio" value="1" rv-checked="data.offer"
-              label for="offer1" 8 Classes for $120  
-              input#offer2 type="radio" value="2" rv-checked="data.offer"
-              label for="offer2" 12 Classes for $180
+        .upcoming
+          #login
+            .heading rv-hide='data.logged_in'
+              | Enter Your Information
+            .section rv-hide='data.logged_in'
+              .tuple
+                span.label
+                  | E-Mail:
+                span.value
+                  input#email rv-value='data.email' rv-on-input='ctrl.check_email'
+              .tuple rv-hide='data.id'
+                span.label
+                  | Full Name:
+                span.value
+                  input#fullname rv-value='data.full_name'
+              .tuple rv-if='data.id | not_if_loggedin' 
+                span.label 
+                  | Password:
+                span.value
+                  input#password type='password' rv-value='data.password'
+              .small rv-if='data.id | not_if_loggedin'
+                | Email Has Account.. Enter or 
+                span#reset rv-on-click='ctrl.reset_password'
+                  | Reset Password
+              .errors
+                .err rv-each-err='data.errors'
+                  | {err}
+          #offer_form
+            .heading 
+              | Choose Your Offer:
+            .section
+              div
+                input#offer1 type="radio" value="1" rv-checked="data.offer"
+                label for="offer1" 8 Classes for $120  
+                input#offer2 type="radio" value="2" rv-checked="data.offer"
+                label for="offer2" 12 Classes for $180
 
-          .heading
-            | Personalize your Certificate:
-          .section
-            .tuple
-              span.label
-                | A Gift From:
-              span.value
-                input
-            .tuple
-              span.label
-                | Occasion:
-              span.value
-                input
-            .tuple
-              span.label
-                | A Gift For:
-              span.value
-                input
+            .heading
+              | Personalize your Certificate:
+            .section
+              .tuple
+                span.label
+                  | A Gift From:
+                span.value
+                  input
+              .tuple
+                span.label
+                  | Occasion:
+                span.value
+                  input
+              .tuple
+                span.label
+                  | A Gift For:
+                span.value
+                  input
 
-          .heading
-            | Delivery Method
-          .section
-            input type="radio" Pick Up at Desk
-            br
-            input type="radio" Mail ( delivery time not guaranteed )
-            br
-            input type="radio" Email
+            .heading
+              | Delivery Method
+            .section
+              input type="checkbox" Send a copy to myself 
+              br
+              input type="checkbox" Send a copy to the following email
+              br
+              input
 
-
-          button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
+            button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
 
     == include_slim('slim/partials/footer')

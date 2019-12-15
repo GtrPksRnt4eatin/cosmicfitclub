@@ -78,8 +78,8 @@ footer {
 }
 
 .section input[type="radio"]:checked + label {
-  background-color:#bfb;
-  border-color: #4c4;
+  background-color: rgba(100,255,0,0.3);
+  border-color: rgba(100,255,0,0.5);
 }
 
 .tile .name_container .name {
