@@ -79,13 +79,38 @@ html
             input type="checkbox" 12 Classes for $180
           .heading
             | Delivery Method
+
+          .heading
+            | Personalize your Certificate:
+            .tuple
+              span.label
+                | A Gift From:
+              span.value
+                input
+            .tuple
+              span.label
+                | Occasion:
+              span.value
+                input
+            .tuple
+              span.label
+                | A Gift For:
+              span.value
+                input
+            .tuple
+              span.label
+                | A Short Message:
+              span.value
+                textarea
+
+
           div
-            input type="radio" Pick Up at the Front Desk
+            input type="radio" Pick Up at Desk
             br
-            input type="radio" Mail it to Me ( delivery time not guaranteed )
+            input type="radio" Mail ( delivery time not guaranteed )
             br
-            input type="radio" Email it to Recipient
-            
+            input type="radio" Email
+
 
           button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
