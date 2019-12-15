@@ -43,8 +43,6 @@ html
             | Two ways to give the gift of skill and fitness for the holidays:
             br
             | Choose 8 classes for $120 or 12 classes for $180.
-            br
-            | All must be purchased as gifts for someone else!
 
         .upcoming#offer_form
           .heading
@@ -73,11 +71,21 @@ html
             .err rv-each-err='data.errors'
               | {err}
 
-          div
-            Choose Your Offer:
+          .heading
+            | Choose Your Offer:
           div
             input type="checkbox"  8 Classes for $120
+            br
             input type="checkbox" 12 Classes for $180
+          .heading
+            | Delivery Method
+          div
+            input type="radio" Pick Up at the Front Desk
+            br
+            input type="radio" Mail it to Me ( delivery time not guaranteed )
+            br
+            input type="radio" Email it to Recipient
+            
 
           button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
