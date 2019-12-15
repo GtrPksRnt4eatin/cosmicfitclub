@@ -18,7 +18,7 @@
 .tile .name_container {
   font-size: 1.8em;
   padding: 0.5em;
-  font-family: Industry;
+  font-family: "Industry";
   background: rgba(255,255,255,0.2);
   overflow: hidden;
   display: flex;
@@ -68,12 +68,13 @@ footer {
 
 .section label {
   display: inline-block;
-  background-color: #ddd;
-  padding: 10px 20px;
-  font-family: sans-serif, Arial;
-  font-size: 16px;
-  border: 2px solid #444;
-  border-radius: 4px;
+  background-color: rgba(0,0,0,0.2);
+  padding: 0.5em;
+  font-family: 'Industry;
+  border: 2px solid rgba(0,0,0,1);
+  border-radius: 0.25em;
+  border-bottom: 2em solid rgba(0,0,0,0.2);
+  border-right: 1em solid transparent;
 }
 
 .section input[type="radio"]:checked + label {
