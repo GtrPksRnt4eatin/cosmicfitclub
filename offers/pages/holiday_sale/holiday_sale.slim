@@ -75,8 +75,10 @@ html
             | Choose Your Offer:
           .section
             div
-              input type="radio" value="1" rv-checked="data.offer" 8 Classes for $120
-              input type="radio" value="2" rv-checked="data.offer" 12 Classes for $180
+              label for="offer1" 8 Classes for $120
+              input#offer1 type="radio" value="1" rv-checked="data.offer" 
+              label for="offer2" 12 Classes for $180
+              input#offer2 type="radio" value="2" rv-checked="data.offer" 
 
           .heading
             | Personalize your Certificate:
