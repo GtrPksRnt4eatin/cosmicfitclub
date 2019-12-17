@@ -72,7 +72,7 @@ html
                 .err rv-each-err='data.errors'
                   | {err}
 
-              button#login_button rv-on-click='ctrl.login' Continue
+            button#login_button rv-on-click='ctrl.login' Continue
 
           #offer_form rv-show='data.logged_in'
             .heading 
@@ -112,7 +112,7 @@ html
               br
               input
 
-            button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
+          button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
 
     == include_slim('slim/partials/footer')
