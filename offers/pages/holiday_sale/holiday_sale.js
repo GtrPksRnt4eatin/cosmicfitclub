@@ -9,7 +9,7 @@ data = {
   password: null,
   errors: [],
   logged_in: false,
-  offer: 0
+  offer: 2
 }
 
 ctrl = {
