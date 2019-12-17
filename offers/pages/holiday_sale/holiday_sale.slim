@@ -64,13 +64,13 @@ html
                   | Password:
                 span.value
                   input#password type='password' rv-value='data.password'
-              .small rv-if='data.id | not_if_loggedin'
-                | Email Has Account.. Enter or 
-                span#reset rv-on-click='ctrl.reset_password'
-                  | Reset Password
-              .errors
-                .err rv-each-err='data.errors'
-                  | {err}
+            .small rv-if='data.id | not_if_loggedin'
+              | Email Has Account.. Enter or 
+              span#reset rv-on-click='ctrl.reset_password'
+                | Reset Password
+            .errors
+              .err rv-each-err='data.errors'
+                | {err}
 
             button#login_button rv-on-click='ctrl.login' Continue
 
@@ -112,7 +112,7 @@ html
               br
               input
 
-          button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
+            button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
 
     == include_slim('slim/partials/footer')
