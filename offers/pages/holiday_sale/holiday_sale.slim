@@ -106,11 +106,11 @@ html
             .heading
               | Delivery Method
             .section#delivery
-              input type="checkbox" Send a copy to myself 
-              br
-              input type="checkbox" Send a copy to the following email
-              br
-              input#recipient
+              label for="email_me"
+                input#email_me type="checkbox" Send a copy to myself 
+              label for="email_them "
+                input type="checkbox" Send to the following email
+                input#recipient
 
             button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
