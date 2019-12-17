@@ -81,17 +81,20 @@ footer {
   display: inline-block;
   background-color: rgba(0,0,0,0.2);
   padding: 0.5em;
-  font-family: 'Industry;
+  font-family: 'Industry';
+  cursor: pointer;
 }
 
 .section input[type="radio"]:checked + label[for=offer1] {
-  background-color: rgba(100,255,0,0.3);
-  border-color: rgba(100,255,0,0.5);
+  background-color: rgba(0,0,255,0.5);
+  border-color: rgba(0,0,255,1);
+  color: rgba(200,200,0,1);
 }
 
 .section input[type="radio"]:checked + label[for=offer2] {
-  background-color: rgba(255,100,0,0.3);
-  border-color: rgba(255,100,0,0.5);
+  background-color: rgba(255,50,50,0.5);
+  border-color: rgba(255,50,50,1);
+  color: rgba(0,255,0,1);
 }
 
 .tile .name_container .name {
