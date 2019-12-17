@@ -13,7 +13,10 @@ data = {
   gift_cert: {
     from: "",
     to: "",
-    occasion: ""
+    occasion: "",
+    email_me: true,
+    email_recipient: false,
+    recipient: ""
   }
 }
 
@@ -94,7 +97,7 @@ function create_account() {
    .fail( function(req,msg,status) { data.errors = ['failed to create account'];  $('#offer_form').shake(); } )
    .success( function(resp) {
       userview.get_user();
-      checkout(resp.id)
+      data.gift_cert.from = userview.user.name;
     });
 }
 
@@ -115,8 +118,8 @@ function validate_noid() {
 }
 
 function checkout8(customer_id) {
-  payment_form.checkout( customer_id, 6000, "Five Class Pack (discounted)", null, function(payment_id) {
-      $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 5, payment_id: payment_id })
+  payment_form.checkout( customer_id, 12000, "8 Class Gift Certificate", null, function(payment_id) {
+      $.post('/checkout/gift_cert', { customer_id: customer_id, pack_id: 5, payment_id: payment_id })
        .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
     });
 }

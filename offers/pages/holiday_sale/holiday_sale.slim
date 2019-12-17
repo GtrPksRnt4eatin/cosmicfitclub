@@ -107,11 +107,11 @@ html
               | Delivery Method
             .section#delivery
               label for="email_me"
-                input#email_me type="checkbox" Send a copy to myself 
-              label for="email_them "
-                input type="checkbox" Send to the following email
+                input#email_me type="checkbox" rv-value='data.gift_cert.email_me' Send a copy to myself 
+              label for="email_them"
+                input type="checkbox" rv-value='data.gift_cert.mail_recipient' Send to the following email
                 .align_right
-                  input#recipient
+                  input#recipient rv-value='data.gift_cert.recipient'
 
             button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
