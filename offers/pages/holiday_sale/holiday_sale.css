@@ -51,7 +51,8 @@ footer {
 }
 
 .section .tuple .value input,
-.section .tuple .value textarea {
+.section .tuple .value textarea,
+#recipient {
   font-family: 'Industry';
   padding: 0.3em;
   margin: 0.3em;
@@ -80,7 +81,7 @@ footer {
 .section label {
   display: inline-block;
   background-color: rgba(0,0,0,0.2);
-  padding: 0.5em;
+  padding: 0.5em 1em;
   font-family: 'Industry';
   cursor: pointer;
 }
@@ -97,7 +98,8 @@ footer {
   color: rgba(0,255,0,1);
 }
 
-#personalize input {
+#personalize input,
+#recipient {
   width: 17em;
 }
 
