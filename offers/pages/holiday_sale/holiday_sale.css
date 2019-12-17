@@ -35,6 +35,14 @@ footer {
   margin-bottom: 0.5em;
 }
 
+#delivery label {
+  display: block;
+}
+
+#delivery input {
+  vertical-align: middle;
+}
+
 .section {
   display: table;
   margin: 1em 0;
