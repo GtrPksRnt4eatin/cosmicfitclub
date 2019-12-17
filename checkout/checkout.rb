@@ -51,6 +51,7 @@ class Checkout < Sinatra::Base
   post('/event/charge')      { buy_event            }
   post('/event/register')    { register_event       }
   post('/misc/charge')       { buy_misc             }
+  post('/gift_cert')         { buy_gift_cert        }
 
   post('/charge_card')       { charge_card         }
   post('/charge_saved_card') { charge_saved_card   }

@@ -86,26 +86,26 @@ html
 
             .heading
               | Personalize your Certificate:
-            .section
+            .section#personalize
               .tuple
                 span.label
                   | A Gift From:
                 span.value
-                  input
+                  input rv-value='data.gift_cert.from'
               .tuple
                 span.label
                   | Occasion:
                 span.value
-                  input
+                  input rv-value='data.gift_cert.occasion'
               .tuple
                 span.label
                   | A Gift For:
                 span.value
-                  input
+                  input rv-value='data.gift_cert.to'
 
             .heading
               | Delivery Method
-            .section
+            .section#delivery
               input type="checkbox" Send a copy to myself 
               br
               input type="checkbox" Send a copy to the following email

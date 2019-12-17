@@ -3,8 +3,8 @@ $SWIPELISTENERS = []
 module Sinatra
   module CheckoutHelpers
 
-    def buy_gift_certificate
-      
+    def buy_gift_cert
+      GiftCertificate::buy(params)     
     end
 
     def buy_plan
