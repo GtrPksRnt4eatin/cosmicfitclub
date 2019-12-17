@@ -9,7 +9,12 @@ data = {
   password: null,
   errors: [],
   logged_in: false,
-  offer: 2
+  offer: 2,
+  gift_cert: {
+    from: "",
+    to: "",
+    occasion: ""
+  }
 }
 
 ctrl = {
@@ -98,7 +103,7 @@ function login() {
   .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors=["Login Failed"] } )
   .success( function() { 
     userview.get_user();
-    //checkout(data.id);
+    data.gift_cert.from = userview.user.name;
   });
 }
 

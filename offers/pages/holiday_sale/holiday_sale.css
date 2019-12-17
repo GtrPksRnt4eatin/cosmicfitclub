@@ -31,6 +31,10 @@ footer {
   position: relative;
 }
 
+#login .section {
+  margin-bottom: 0.5em;
+}
+
 .section {
   display: table;
   margin: 1em 0;
@@ -98,9 +102,13 @@ footer {
   color: rgba(0,255,0,1);
 }
 
-#personalize input,
+#personalize input {
+  width: 20em;
+}
+
 #recipient {
-  width: 17em;
+  width: 25em;
+  right: 0;
 }
 
 #delivery {
