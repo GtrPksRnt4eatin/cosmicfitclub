@@ -87,6 +87,7 @@ function on_user(user) {
   data.email = empty(user) ? '' : user.email;
   id('email').disabled = empty(user) ? false : true;
   id('fullname').disabled = empty(user) ? false : true;
+  data.gift_cert.from = user.name;
 }
 
 function create_account() {
@@ -97,7 +98,6 @@ function create_account() {
    .fail( function(req,msg,status) { data.errors = ['failed to create account'];  $('#offer_form').shake(); } )
    .success( function(resp) {
       userview.get_user();
-      data.gift_cert.from = userview.user.name;
     });
 }
 
@@ -106,7 +106,6 @@ function login() {
   .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors=["Login Failed"] } )
   .success( function() { 
     userview.get_user();
-    data.gift_cert.from = userview.user.name;
   });
 }
 
