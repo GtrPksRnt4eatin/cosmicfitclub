@@ -66,15 +66,22 @@ footer {
   width: 0;
 }
 
+.section label[for=offer1] {
+  border-radius: 1em 0 0 1em;
+  box-shadow: 0 0 1em white;
+}
+
+.section label[for=offer2] {
+  border-radius: 0 1em 1em 0;
+  margin-left: 5px;
+  box-shadow: 0 0 1em white;
+}
+
 .section label {
   display: inline-block;
   background-color: rgba(0,0,0,0.2);
   padding: 0.5em;
   font-family: 'Industry;
-  border: 2px solid rgba(0,0,0,1);
-  border-radius: 0.25em;
-  border-bottom: 2em solid rgba(0,0,0,0.2);
-  border-right: 1em solid transparent;
 }
 
 .section input[type="radio"]:checked + label {
