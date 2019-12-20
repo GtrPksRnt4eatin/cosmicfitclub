@@ -33,13 +33,13 @@ ctrl = {
   },
 
   checkout: function(e,m) {
-    if( userview.logged_in) { checkout( userview.id ); return; }
-    if( !data.id )          { if( !validate_noid()  ) { return; }; create_account(); }
-    if( data.id  )          { login(); }
+    if( !userview.logged_in ) { return; }
+    if( offer == 2 ) { checkout12(userview.id) }
+    if( offer == 1 ) { checkout8(userview.id)  }
   },
 
   login: function(e,m) {
-    if( !data.id )          { if( !validate_noid()  ) { return; }; create_account(); }
+    if( !data.id )          { if( !validate_noid() ) { return; }; create_account(); }
     if( data.id  )          { login(); }
   },
 
@@ -87,7 +87,7 @@ function on_user(user) {
   data.email = empty(user) ? '' : user.email;
   id('email').disabled = empty(user) ? false : true;
   id('fullname').disabled = empty(user) ? false : true;
-  data.gift_cert.from = user.name;
+  data.gift_cert.from = empty(user) ? "" : user.name;
 }
 
 function create_account() {
