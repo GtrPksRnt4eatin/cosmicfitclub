@@ -35,13 +35,17 @@ footer {
   margin-bottom: 0.5em;
 }
 
-#delivery label {
-  display: block;
+#delivery {
+  text-align: center;
+}
+
+#delivery div {
+  font-size: 0.6em;
+  line-height: 1.4em;
 }
 
 #delivery input {
   vertical-align: middle;
-  margin-right: 0.5em;
 }
 
 .section {
