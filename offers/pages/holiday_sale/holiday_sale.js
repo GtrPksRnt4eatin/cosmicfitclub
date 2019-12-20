@@ -116,7 +116,7 @@ function validate_noid() {
 
 function checkout8(customer_id) {
   payment_form.checkout( customer_id, 12000, "8 Class Holiday Gift Certificate", null, function(payment_id) {
-    $.post('/checkout/gift_cert', { 
+    $.post('/models/giftcerts', { 
         customer_id: customer_id, 
         payment_id: payment_id,
         num_passes: 8,
@@ -131,7 +131,7 @@ function checkout8(customer_id) {
 
 function checkout12(customer_id) {
   payment_form.checkout( customer_id, 18000, "12 Class Holiday Gift Certificate", null, function(payment_id) {
-    $.post('/checkout/gift_cert', { 
+    $.post('/models/giftcerts', { 
         customer_id: customer_id, 
         payment_id: payment_id,
         num_passes: 12,

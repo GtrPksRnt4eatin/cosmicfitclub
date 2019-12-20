@@ -6,7 +6,8 @@ class GiftCertRoutes < Sinatra::Base
   end
 
   post '/' do
-    GiftCertificate::buy(params) 
+    GiftCertificate::buy(params)
+    {}.to_json
   end
 
   post '/:code/redeem' do
