@@ -18,7 +18,7 @@ html
       var elements = stripe.elements();
 
     == css [ 'fonts', 'site', 'header', 'footer', 'holiday_sale' ]
-    == js  [ 'jquery', 'snap_svg' ]
+    == js  [ 'jquery' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
     == js  [ 'lib', 'element', 'ev_channel', '/checkout/elements/payment_form', '/auth/elements/userview', 'popupmenu']
     == js  [ 'holiday_sale' ]
@@ -106,11 +106,15 @@ html
             .heading
               | Delivery Method
             .section#delivery
-              label for="email_me"
-                input#email_me type="checkbox" rv-value='data.gift_cert.email_me' Send a copy to myself 
-              label for="email_them"
-                input type="checkbox" rv-value='data.gift_cert.email_recipient' Send to the following email
-                .align_right
+              div
+                div After purchase, a copy of the certificate will be emailed to you. 
+                div Nicely printed copies can be picked up anytime at the front desk.
+                div We can also send a copy directly if you fill in the recipients email below.
+                div Scan the code, follow the link, or present at the front desk to redeem.
+              .tuple
+                span.label 
+                  | Recipient Email (optional):
+                span.value
                   input#recipient rv-value='data.gift_cert.recipient'
 
             button#checkout_button rv-on-click='ctrl.checkout' Buy Now!

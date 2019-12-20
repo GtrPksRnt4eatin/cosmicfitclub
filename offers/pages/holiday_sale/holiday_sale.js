@@ -14,8 +14,6 @@ data = {
     from: "",
     to: "",
     occasion: "",
-    email_me: true,
-    email_recipient: false,
     recipient: ""
   }
 }
@@ -117,15 +115,36 @@ function validate_noid() {
 }
 
 function checkout8(customer_id) {
-  payment_form.checkout( customer_id, 12000, "8 Class Gift Certificate", null, function(payment_id) {
-      $.post('/checkout/gift_cert', { customer_id: customer_id, pack_id: 5, payment_id: payment_id })
-       .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
-    });
+  payment_form.checkout( customer_id, 12000, "8 Class Holiday Gift Certificate", null, function(payment_id) {
+    $.post('/checkout/gift_cert', { 
+        customer_id: customer_id, 
+        payment_id: payment_id,
+        num_passes: 8,
+        from: data.gift_cert.from,
+        to: data.gift_cert.to,
+        occasion: data.gift_cert.occasion,
+        mailto: data.gift_cert.recipient
+      }
+    ).success( after_purchase );
+  });
 }
 
 function checkout12(customer_id) {
-  payment_form.checkout( customer_id, 6000, "Five Class Pack (discounted)", null, function(payment_id) {
-      $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 5, payment_id: payment_id })
-       .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
-    });
+  payment_form.checkout( customer_id, 18000, "12 Class Holiday Gift Certificate", null, function(payment_id) {
+    $.post('/checkout/gift_cert', { 
+        customer_id: customer_id, 
+        payment_id: payment_id,
+        num_passes: 12,
+        from: data.gift_cert.from,
+        to: data.gift_cert.to,
+        occasion: data.gift_cert.occasion,
+        mailto: data.gift_cert.recipient
+      }
+    ).success( after_purchase );
+  });
+}
+
+function after_purchase() {
+  alert("Purchase Successful!");
+  window.location.href = '/user'; 
 }
