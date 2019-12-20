@@ -11,7 +11,7 @@ class GiftCertRoutes < Sinatra::Base
 
   post '/:code/redeem' do
     cert = GiftCertificate[params[:code]] or halt(404,"Code Not Found")
-    cert.redeem(params[:customer_id) or halt(409,"Certificate Not Redeemed")
+    cert.redeem(params[:customer_id]) or halt(409,"Certificate Not Redeemed")
     {}.to_json
   end
 
