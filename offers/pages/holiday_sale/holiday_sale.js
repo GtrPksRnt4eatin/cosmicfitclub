@@ -32,8 +32,8 @@ ctrl = {
 
   checkout: function(e,m) {
     if( !userview.logged_in ) { return; }
-    if( offer == 2 ) { checkout12(userview.id) }
-    if( offer == 1 ) { checkout8(userview.id)  }
+    if( parseInt(data.offer) == 2 ) { checkout12(userview.id) }
+    if( parseInt(data.offer) == 1 ) { checkout8(userview.id)  }
   },
 
   login: function(e,m) {
