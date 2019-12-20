@@ -2,10 +2,9 @@ module MiniMagickExtensions
   module Image
   	module Elements
 
-      def draw_box(x_offset, y_offset, x, y, x_radius=0, y_radius=0, gravity='None', color=Values::MaskColor)
+      def draw_box(x_offset, y_offset, x, y, x_radius=0, y_radius=0, color=Values::MaskColor)
         self.combine_options do |i|
           i.fill color
-          i.gravity "#{gravity}"
           i.draw "roundRectangle #{x_offset.to_i},#{y_offset.to_i} #{x_offset.to_i + x.to_i},#{y_offset.to_i + y.to_i} #{x_radius},#{y_radius}"
         end
       end
@@ -24,9 +23,22 @@ module MiniMagickExtensions
         self.draw_text("21-36 44th Road L.I.C NY 11101  |  347-670-0019  |  cosmicfitclub.com", pointsize, 0, line_height*0.25+offset, "south")
       end
 
-      def draw_text(text,pointsize=18,x=0,y=0,gravity='None')
+      def draw_paragraph(text,pointsize=18,x=0,y=0,gravity='None',color=Values::TextColor,spacing=0)
         self.combine_options do |i|
-          i.fill Values::TextColor
+          i.fill color
+          i.density 300
+          i.pointsize "#{pointsize}"
+          i.font "shared/fonts/webfonts/329F99_B_0.ttf"
+          i.gravity "#{gravity}"
+          i.interline_spacing spacing
+          i.annotate "+#{x}+#{y}", text
+          puts i.command
+        end
+      end
+
+      def draw_text(text,pointsize=18,x=0,y=0,gravity='None',color=Values::TextColor)
+        self.combine_options do |i|
+          i.fill color
           i.density 300
           i.pointsize "#{pointsize}"
           i.font "shared/fonts/webfonts/329F99_B_0.ttf"
@@ -35,9 +47,9 @@ module MiniMagickExtensions
         end
       end
 
-      def draw_text_header(text,pointsize=18,x=0,y=0,gravity='None')
+      def draw_text_header(text,pointsize=18,x=0,y=0,gravity='None',color=Values::TextColor)
         self.combine_options do |i|
-          i.fill Values::TextColor
+          i.fill color
           i.density 300
           i.pointsize "#{pointsize}"
           i.font "shared/fonts/webfonts/329F99_3_0.ttf"
@@ -112,7 +124,7 @@ module MiniMagickExtensions
         img.mask_edges
         
         margin = width*0.005          # Border Around Image
-        self.draw_box(x-margin, y-margin, width+margin*2, height+margin*2, width/10, height/10, 'None', Values::WhiteGlow)
+        self.draw_box(x-margin, y-margin, width+margin*2, height+margin*2, width/10, height/10, Values::WhiteGlow)
         
         result = self.composite(img) do |c|
           c.compose "Over"
@@ -130,16 +142,16 @@ module MiniMagickExtensions
         self.clone_img(result)
       end
 
-      def to_bubble(lines, ptsize=nil)
+      def to_bubble(lines=nil, ptsize=nil)
         ptsize ||= (self.dimensions[0] * 0.05) / 300 * 72
-        self.footer_lines(lines,ptsize,20)
+        self.footer_lines(lines,ptsize,20) unless lines.nil?
         self.mask_edges
       end
 
       def bubble_shadow(width,height,x,y,margin=nil,radius=nil,color=Values::WhiteGlow)
         margin ||= width*0.05
         radius ||= width/10
-        self.draw_box(x-margin, y-margin, width+margin*2, height+margin*2, radius, radius, 'None', Values::WhiteGlow)
+        self.draw_box(x-margin, y-margin, width+margin*2, height+margin*2, radius, radius, Values::WhiteGlow)
       end
 
       def footer_lines(lines, ptsize=15, offset=20)
@@ -148,7 +160,7 @@ module MiniMagickExtensions
         line_height2 = (ptsize/72*300)*0.8
         y_offset = (lines.count-1) * (line_height2*1.2) + (line_height*1.4) + offset
 
-        self.draw_box(0,self.dimensions[1]-y_offset,self.dimensions[0],self.dimensions[1], 0, 0, 'None', Values::MaskColor2 )
+        self.draw_box(0,self.dimensions[1]-y_offset,self.dimensions[0],self.dimensions[1], 0, 0, Values::MaskColor2 )
         y_offset = y_offset - 10 
         self.draw_text_header(lines[0],ptsize,0,y_offset-(line_height*1.2),"south")
         y_offset = y_offset - (line_height*1.4)
@@ -191,6 +203,14 @@ module MiniMagickExtensions
 
       def save(filename)
         self.write("printable/results/#{filename}")
+      end
+
+      def convert
+        MiniMagick::Tool::Convert.new do |builder|
+          yield builder if block_given?
+        end
+        @info.clear
+        self
       end
 
     end

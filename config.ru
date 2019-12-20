@@ -68,6 +68,10 @@ map "/stripe" do
   run StripeRoutes
 end
 
+map "/models/giftcerts" do
+  run GiftCertRoutes
+end
+
 map "/models/slides" do
   run SlideRoutes
 end

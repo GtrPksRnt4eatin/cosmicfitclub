@@ -9,7 +9,19 @@ class GiftCertificate < Sequel::Model
   end
 
   def redeem(customer_id)
+    self.redeemed? == false       or return false 
+    custy = Customer[customer_id] or return false
+    transaction = custy.add_passes(self.num_passes, "Redeemed Gift Certificate \##{self.code}", "A Gift From #{self.customer.to_list_string}")
+    self.update( :redeemed_on=>Time.now, :transaction => transaction )
+    return true
+  end
 
+  def redeemed?
+    !self.redeemed_on.nil?
+  end
+
+  def image_tall
+    GiftCert::generate_tall(self.id)
   end
 
   def GiftCertificate::buy(params)
@@ -24,8 +36,12 @@ class GiftCertificate < Sequel::Model
     })
   end
 
-  def GiftCertificate::generate_code
+  def generate_code
+    self.update( :code=> GiftCertificate::generate_code )
+  end
 
+  def GiftCertificate::generate_code
+    rand(36**8).to_s(36)
   end
 
 end

@@ -216,6 +216,15 @@ html
                           | Buy For { data.package_price | money }
               tr
                 th
+                  | Gift Certificates:
+                td
+                  table
+                    tr
+                      td
+                        input#gift_code
+                        button rv-on-click='ctrl.redeem_gift' Redeem Gift Cert
+              tr
+                th
                   | Comp Passes
                 td
                   table
