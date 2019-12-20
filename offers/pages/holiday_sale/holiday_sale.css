@@ -41,8 +41,9 @@ footer {
 
 #delivery div {
   margin: 0.5em 0;
-  width: 24em;
+  width: 30em;
   font-size: 0.8em;
+  line-height: 1.4em;
 }
 
 #delivery input {
