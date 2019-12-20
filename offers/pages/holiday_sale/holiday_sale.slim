@@ -111,11 +111,7 @@ html
                 div Nicely printed copies can be picked up anytime at the front desk.
                 div We can also send a copy directly if you fill in the recipients email below.
                 div Scan the code, follow the link, or present at the front desk to redeem.
-              .tuple
-                span.label 
-                  | Recipient Email (optional):
-                span.value
-                  input#recipient rv-value='data.gift_cert.recipient'
+              input#recipient placeholder="Recipient Email (optional)" rv-value='data.gift_cert.recipient'
 
             button#checkout_button rv-on-click='ctrl.checkout' Buy Now!
 
