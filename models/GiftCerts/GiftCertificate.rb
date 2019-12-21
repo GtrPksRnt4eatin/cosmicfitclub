@@ -22,7 +22,7 @@ class GiftCertificate < Sequel::Model
   end
 
   def generate_image
-    self.update( :tall_image => StoredImage.create( :image => GiftCert::generate_tall(self.id) ) )
+    self.update( :tall_image => StoredImage.create( :image => GiftCert::generate_tall(self.id).to_blob ) )
   end
 
   def GiftCertificate::buy(params)
