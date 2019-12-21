@@ -5,7 +5,7 @@ class GiftCertificate < Sequel::Model
   many_to_one :transaction, :class => :PasTransaction, :key => :transaction_id
 
   def send_to(email)
-    
+    Mail.gift_certificate(email,{:code=>self.code})
   end
 
   def redeem(customer_id)
