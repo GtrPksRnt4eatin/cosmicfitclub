@@ -3,9 +3,12 @@ class GiftCertificate < Sequel::Model
   many_to_one :customer
   many_to_one :payment, :class => :CustomerPayment, :key => :payment_id
   many_to_one :transaction, :class => :PasTransaction, :key => :transaction_id
+  one_to_one  :tall_image, :class => :StoredImage, :key => :tall_image_id
+
+  include ImageUploader[:image]
 
   def send_to(email)
-    Mail.gift_certificate(email,{:code=>self.code})
+    Mail.gift_certificate( email, { :code => self.code } )
   end
 
   def redeem(customer_id)
@@ -20,8 +23,8 @@ class GiftCertificate < Sequel::Model
     !self.redeemed_on.nil?
   end
 
-  def image_tall
-    GiftCert::generate_tall(self.id)
+  def generate_image
+    self.update( :tall_image => StoredImage.create( :image => GiftCert::generate_tall(self.id) ) )
   end
 
   def GiftCertificate::buy(params)
@@ -33,7 +36,7 @@ class GiftCertificate < Sequel::Model
       :from        => params[:from],
       :to          => params[:to],
       :occasion    => params[:occasion]
-    })
+    }).generate_image
   end
 
   def generate_code
