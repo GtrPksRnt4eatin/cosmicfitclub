@@ -3,9 +3,7 @@ class GiftCertificate < Sequel::Model
   many_to_one :customer
   many_to_one :payment, :class => :CustomerPayment, :key => :payment_id
   many_to_one :transaction, :class => :PasTransaction, :key => :transaction_id
-  one_to_one  :tall_image, :class => :StoredImage, :key => :tall_image_id
-
-  include ImageUploader[:image]
+  many_to_one :tall_image, :class => :StoredImage, :key => :tall_image_id
 
   def send_to(email)
     Mail.gift_certificate( email, { :code => self.code } )
