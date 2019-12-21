@@ -44,4 +44,8 @@ class GiftCertificate < Sequel::Model
     rand(36**8).to_s(36)
   end
 
+  def purchase_description
+    "[#{customer.id}] #{customer.name} (#{customer.email}) bought a $#{payment.amount.to_f/100} #{num_passes} class Gift Certificate for #{to} \"#{occasion}\""
+  end
+
 end

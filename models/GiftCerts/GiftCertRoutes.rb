@@ -6,7 +6,8 @@ class GiftCertRoutes < Sinatra::Base
   end
 
   post '/' do
-    GiftCertificate::buy(params)
+    cert = GiftCertificate::buy(params) or halt(500, "Gift Certificate Not Created")
+    Slack.website_purchases(cert.purchase_description) 
     {}.to_json
   end
 
@@ -17,7 +18,9 @@ class GiftCertRoutes < Sinatra::Base
   end
 
   get '/:code/tall_image.jpg' do
-    content_type :image/jpeg
+    content_type 'image/jpeg'
+    cert = GiftCertificate[params[:code]] or halt(404,"Code Not Found")
+    cert.image_tall.to_blob
   end
 
 end
