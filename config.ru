@@ -19,10 +19,10 @@ Dir["integrations/*.rb"].each               { |file| require_relative file }
 Dir["ruby/*.rb"].each                       { |file| require_relative file }
 Dir["models/mixins/*.rb"].each              { |file| require_relative file }
 Dir["models/**/*.rb"].each                  { |file| require_relative file }
-Dir["printables/*.rb"].each                 { |file| require_relative file }
-Dir["printables/*.rb"].each                 { |file| require_relative file }
-Dir["printables/lib/*.rb"].each             { |file| require_relative file }
-Dir["printables/background_jobs/*.rb"].each { |file| require_relative file }
+Dir["printable/*.rb"].each                 { |file| require_relative file }
+Dir["printable/*.rb"].each                 { |file| require_relative file }
+Dir["printable/lib/*.rb"].each             { |file| require_relative file }
+Dir["printable/background_jobs/*.rb"].each { |file| require_relative file }
 
 require_relative 'admin/admin'
 require_relative 'site/CFC'
