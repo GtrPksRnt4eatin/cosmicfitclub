@@ -13,7 +13,7 @@ module Mail
   def Mail.package_welcome(recipient, model)    Mail.send_template( 1202281,  recipient, model ) end
   def Mail.training_welcome(recipient, model)   Mail.send_template( 1206822,  recipient, model ) end
   def Mail.event_purchase(recipient, model)     Mail.send_template( 1393761,  recipient, model ) end
-  def Mail.gift_certificate(recipient, model)   Mail.send_template( 15420887, recipient, model ) end
+  def Mail.gift_certificate(recipient, model)   Mail.send_template( 15452155, recipient, model ) end
 
   def Mail.send_template(template_id, recipient, model)
     $postmark_client.deliver_with_template(
