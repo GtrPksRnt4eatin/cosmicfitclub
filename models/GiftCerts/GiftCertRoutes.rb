@@ -12,15 +12,20 @@ class GiftCertRoutes < Sinatra::Base
   end
 
   post '/:code/redeem' do
-    cert = GiftCertificate[params[:code]] or halt(404,"Code Not Found")
+    cert = GiftCertificate[:code => params[:code]] or halt(404,"Code Not Found")
     cert.redeem(params[:customer_id]) or halt(409,"Certificate Not Redeemed")
     {}.to_json
   end
 
   get '/:code/tall_image.jpg' do
     content_type 'image/jpeg'
-    cert = GiftCertificate[params[:code]] or halt(404,"Code Not Found")
+    cert = GiftCertificate[:code => params[:code]] or halt(404,"Code Not Found")
     cert.image_tall.to_blob
+  end
+
+  error do
+    Slack.err( 'GiftCert Route Error', env['sinatra.error'] )
+    'An Error Occurred.'
   end
 
 end
