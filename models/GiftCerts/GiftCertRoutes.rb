@@ -18,9 +18,9 @@ class GiftCertRoutes < Sinatra::Base
   end
 
   get '/:code/tall_image.jpg' do
-    content_type 'image/jpeg'
     cert = GiftCertificate[:code => params[:code]] or halt(404,"Code Not Found")
-    cert.tall_image.to_blob
+    content_type cert.tall_image.image.mime_type
+    send_file cert.tall_image.image.download.path
   end
 
   error do

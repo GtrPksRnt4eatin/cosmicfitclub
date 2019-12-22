@@ -22,7 +22,10 @@ class GiftCertificate < Sequel::Model
   end
 
   def generate_image
-    self.update( :tall_image => StoredImage.create( :image => GiftCert::generate_tall(self.id).path ) )
+    img = GiftCert::generate_tall(self.id)
+    img = File.open( img.path )
+    img = StoredImage.create( :name => "GiftCert[#{self.id}]_tallimg.jpg", :image => img )
+    self.update( :tall_image => img )
   end
 
   def GiftCertificate::buy(params)
