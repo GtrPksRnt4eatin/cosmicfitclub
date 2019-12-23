@@ -33,7 +33,7 @@ ctrl = {
   },
 
   redeem: function(e,m) {
-    $.post( '/models/giftcerts/' + getUrlParameter("code") + '/redeem', JSON.stringify({ "customer_id": userview.user.id }) )
+    $.post( '/models/giftcerts/' + getUrlParameter("code") + '/redeem', JSON.stringify({ "customer_id": userview.user.id }), 'json' )
      .fail( function(req,msg,status) { alert("Trouble Redeeming Certificate! " + req.responseText ) } )
      .success( function() { alert("Your Certificate Has Been Redeemed!"); window.location.href = '/user'; } )
   }
