@@ -48,7 +48,7 @@ class GiftCertificate < Sequel::Model
       :from            => params[:from],
       :to              => params[:to],
       :occasion        => params[:occasion],
-      :recipient_email => params[:recipient] == '' ? nil : params[:recipient]
+      :recipient_email => params[:recipient]
     }).generate_image
   end
 
