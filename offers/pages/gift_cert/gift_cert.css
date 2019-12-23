@@ -80,6 +80,10 @@
   background: rgba(255,255,255,0.3);
 }
 
+#login #login_button:focus {
+  outline: none;
+}
+
 #login .errors .err {
   font-size: 0.5em;
   color: red;
