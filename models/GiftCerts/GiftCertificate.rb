@@ -11,7 +11,7 @@ class GiftCertificate < Sequel::Model
     Slack.website_purchases( self.purchase_description ) 
   end
 
-  def send_to(email)s
+  def send_to(email)
     Mail.gift_certificate( email, { :code => self.code } )
   end
 
