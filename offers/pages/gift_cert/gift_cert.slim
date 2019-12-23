@@ -64,8 +64,6 @@ html
       
       .tile.cert rv-show='data.logged_in'
         #redeem_cert 
-          button#redeem rv-on-click='ctrl.redeem' 
-            | { data.full_name }, Click to Redeem #{cert.num_passes} passes to your account now
           img#cert rv-on-click='ctrl.redeem' src='#{cert.tall_image.url}'
           button#redeem rv-on-click='ctrl.redeem' 
             | { data.full_name }, Click to Redeem #{cert.num_passes} passes to your account now
