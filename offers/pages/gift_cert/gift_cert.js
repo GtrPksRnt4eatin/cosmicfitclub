@@ -28,7 +28,7 @@ ctrl = {
 
   reset_password: function(e,m) {
     $.post( '/auth/reset', JSON.stringify( { "email" : data.email } ) )
-     .fail(    function(req,msg,status) { ('#offer_form').shake(); data.errors=["Account Not Found!"] } )
+     .fail(    function(req,msg,status) { ('#login').shake(); data.errors=["Account Not Found!"] } )
      .success( function() { alert("Check Your Email"); } )
   },
 
@@ -61,19 +61,19 @@ function on_user(user) {
 
 function create_account() {
   $.post('/auth/register_and_login', JSON.stringify({ "name": data.full_name, "email": data.email }), 'json')
-   .fail( function(req,msg,status) { data.errors = ['failed to create account'];  $('#offer_form').shake(); } )
+   .fail( function(req,msg,status) { data.errors = ['failed to create account'];  $('#login').shake(); } )
    .success( function(resp) { userview.get_user(); });
 }
 
 function login() {
   $.post('/auth/login', JSON.stringify({ "email" : data.email, "password" : data.password } ))
-  .fail( function(req,msg,status) { data.errors=["Login Failed"]; $('#offer_form').shake(); } )
+  .fail( function(req,msg,status) { data.errors=["Login Failed"]; $('#login').shake(); } )
   .success( function() { userview.get_user(); });
 }
 
 function validate_noid() {
   data.errors = [];
-  if( !email_regex.test( id('email').value ) ) { data.errors.push("Invalid E-Mail Address!"); $('#offer_form').shake(); return false; }
-  if( id('fullname').value.length == 0 )       { data.errors.push("Name Cannot Be Empty");    $('#offer_form').shake(); return false; }
+  if( !email_regex.test( id('email').value ) ) { data.errors.push("Invalid E-Mail Address!"); $('#login').shake(); return false; }
+  if( id('fullname').value.length == 0 )       { data.errors.push("Name Cannot Be Empty");    $('#login').shake(); return false; }
   return true;
 }
