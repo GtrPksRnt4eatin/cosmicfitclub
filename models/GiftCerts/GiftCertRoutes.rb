@@ -1,7 +1,5 @@
 class GiftCertRoutes < Sinatra::Base
 
-  register Sinatra::Auth
-
   before do
     cache_control :no_store
     content_type  :json
@@ -14,8 +12,8 @@ class GiftCertRoutes < Sinatra::Base
 
   post '/:code/redeem' do
     cert = GiftCertificate[:code => params[:code]] or halt(404,"Code Not Found")
-    logged_in?                                     or halt(401,"Not Logged In")
-    cert.redeem(customer.id)                       or halt(409,"Certificate Not Redeemed")
+    custy = Customer[params[:customer_id]]         or halt(404,"Invalid Customer ID")
+    cert.redeem(params[:customer_id])              or halt(409,"Certificate Not Redeemed")
     {}.to_json
   end
 
