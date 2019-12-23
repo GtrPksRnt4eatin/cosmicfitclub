@@ -138,7 +138,7 @@ function checkout12(customer_id) {
         from: data.gift_cert.from,
         to: data.gift_cert.to,
         occasion: data.gift_cert.occasion,
-        mailto: data.gift_cert.recipient
+        recipient: data.gift_cert.recipient
       }
     ).success( after_purchase );
   });

@@ -7,7 +7,7 @@ class GiftCertificate < Sequel::Model
 
   def after_create
     self.send_to( self.customer.email )
-    self.send_to( self.recipient_email )
+    self.send_to( self.recipient_email ) unless self.recipient_email.nil?
     Slack.website_purchases( self.purchase_description ) 
   end
 
@@ -48,7 +48,7 @@ class GiftCertificate < Sequel::Model
       :from            => params[:from],
       :to              => params[:to],
       :occasion        => params[:occasion],
-      :recipient_email => params[:recipient]
+      :recipient_email => params[:recipient] == '' ? nil : params[:recipient]
     }).generate_image
   end
 
