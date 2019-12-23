@@ -28,7 +28,7 @@ class GiftCertificate < Sequel::Model
   end
 
   def redeemer
-    arr = self.transaction.try(:wallet}.try(:customers) || [nil]
+    arr = self.transaction.try(:wallet).try(:customers) || [nil]
     arr[0]
   end
 
