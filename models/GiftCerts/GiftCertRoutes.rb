@@ -7,13 +7,13 @@ class GiftCertRoutes < Sinatra::Base
 
   post '/' do
     cert = GiftCertificate::buy(params) or halt(500, "Gift Certificate Not Created")
-    Slack.website_purchases(cert.purchase_description) 
     {}.to_json
   end
 
   post '/:code/redeem' do
     cert = GiftCertificate[:code => params[:code]] or halt(404,"Code Not Found")
-    cert.redeem(params[:customer_id]) or halt(409,"Certificate Not Redeemed")
+    logged_in?                                     or halt(401,"Not Logged In")
+    cert.redeem(customer.id)                       or halt(409,"Certificate Not Redeemed")
     {}.to_json
   end
 
