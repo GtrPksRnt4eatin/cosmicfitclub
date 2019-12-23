@@ -112,6 +112,7 @@
 #redeem {
   margin: 0;
   outline: none;
+  animation: glow 2s alternate infinite;
 }
 
 @keyframes glow {

@@ -12,6 +12,9 @@ html
     title
       | Redeem Your Gift Certificate
 
+    javascript:
+      var CODE = #{{ cert.code }};
+
     == css [ 'fonts', 'site', 'header', 'footer', 'gift_cert' ]
     == js  [ 'jquery' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
