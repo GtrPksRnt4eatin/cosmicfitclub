@@ -1,5 +1,3 @@
-var checkout;
-
 var email_regex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
 
 data = {
@@ -23,12 +21,6 @@ ctrl = {
     } );
   },
 
-  checkout: function(e,m) {
-    if( !userview.logged_in ) { return; }
-    if( parseInt(data.offer) == 2 ) { checkout12(userview.id) }
-    if( parseInt(data.offer) == 1 ) { checkout8(userview.id)  }
-  },
-
   login: function(e,m) {
     if( !data.id )          { if( !validate_noid() ) { return; }; create_account(); }
     if( data.id  )          { login(); }
@@ -40,19 +32,17 @@ ctrl = {
      .success( function() { alert("Check Your Email"); } )
   },
 
-  set_offer: function(e,m) {
-    if(e.target.id=="offer1") { data.offer = 1; }
-    if(e.target.id=="offer2") { data.offer = 1; }
+  redeem: function(e,m) {
+    $.post( '/models/gift_certs/' + data.code + '/redeem' )
+     .fail()
+     .success()
   }
 
 }
 
 $(document).ready(function(){
 
-    include_rivets_money();
-
-    userview         = new UserView( id('userview_container') );
-
+    userview = new UserView( id('userview_container') );
     userview.ev_sub('on_user', on_user );
 
     rivets.formatters.not_if_loggedin = function(val) { if(userview.logged_in) return false; return val; }
@@ -61,34 +51,24 @@ $(document).ready(function(){
 })
 
 function on_user(user) {
-  if( empty(user) ) { payment_form.clear_customer();      }
-  else              { payment_form.get_customer(user.id); }
   data.logged_in = empty(user) ? false : true;
   data.id = empty(user) ? 0 : user.id;
   data.full_name = empty(user) ? '' : user.name;
   data.email = empty(user) ? '' : user.email;
   id('email').disabled = empty(user) ? false : true;
   id('fullname').disabled = empty(user) ? false : true;
-  data.gift_cert.from = empty(user) ? "" : user.name;
 }
 
 function create_account() {
-  $.post('/auth/register_and_login', JSON.stringify({
-      "name": data.full_name,
-      "email": data.email
-    }), 'json')
+  $.post('/auth/register_and_login', JSON.stringify({ "name": data.full_name, "email": data.email }), 'json')
    .fail( function(req,msg,status) { data.errors = ['failed to create account'];  $('#offer_form').shake(); } )
-   .success( function(resp) {
-      userview.get_user();
-    });
+   .success( function(resp) { userview.get_user(); });
 }
 
 function login() {
   $.post('/auth/login', JSON.stringify({ "email" : data.email, "password" : data.password } ))
-  .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors=["Login Failed"] } )
-  .success( function() { 
-    userview.get_user();
-  });
+  .fail( function(req,msg,status) { data.errors=["Login Failed"]; $('#offer_form').shake(); } )
+  .success( function() { userview.get_user(); });
 }
 
 function validate_noid() {
