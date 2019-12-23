@@ -2,7 +2,7 @@ class GiftCertificate < Sequel::Model
   
   many_to_one :customer
   many_to_one :payment, :class => :CustomerPayment, :key => :payment_id
-  many_to_one :transaction, :class => :PasTransaction, :key => :transaction_id
+  many_to_one :transaction, :class => :PassTransaction, :key => :transaction_id
   many_to_one :tall_image, :class => :StoredImage, :key => :tall_image_id
 
   def after_create
@@ -11,7 +11,7 @@ class GiftCertificate < Sequel::Model
     Slack.website_purchases( self.purchase_description ) 
   end
 
-  def send_to(email)
+  def send_to(email)s
     Mail.gift_certificate( email, { :code => self.code } )
   end
 
