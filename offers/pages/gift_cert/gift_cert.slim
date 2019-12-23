@@ -28,12 +28,12 @@ html
 
     .content
 
-      .tile
+      .tile rv-hide='data.logged_in'
         .name_container
           .name
             | Redeem Your Gift Certificate!
 
-        #login rv-hide='data.logged_in'
+        #login
           .heading 
             | Enter Your Information
           .section 
@@ -61,10 +61,12 @@ html
               | {err}
 
             button#login_button rv-on-click='ctrl.login' Continue
-
-        #redeem_cert rv-show='data.logged_in'
+      
+      .tile.cert rv-show='data.logged_in'
+        #redeem_cert 
           img#cert src='#{cert.tall_image.url}'
-          button rv-on-click='ctrl.redeem' Redeem #{cert.num_passes} to your account now
+          button rv-on-click='ctrl.redeem' 
+            | { data.full_name }, Click to Redeem #{cert.num_passes} passes to your account now
 
     == include_slim('slim/partials/footer')
 
