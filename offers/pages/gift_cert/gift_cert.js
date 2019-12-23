@@ -33,7 +33,7 @@ ctrl = {
   },
 
   redeem: function(e,m) {
-    $.post( '/models/gift_certs/' + CODE + '/redeem' )
+    $.post( '/models/giftcerts/' + CODE + '/redeem' )
      .fail( function(req,msg,status) { alert("Trouble Redeeming Certificate! " + msg) } )
      .success( function() { alert("Your Certificate Has Been Redeemed!"); window.location.href = '/user'; } )
   }
