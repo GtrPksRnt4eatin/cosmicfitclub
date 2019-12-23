@@ -106,6 +106,7 @@
 
 #cert {
   width: 100%;
+  cursor: pointer;
 }
 
 #redeem {
@@ -135,4 +136,20 @@
   animation: glow 2s alternate infinite, shrink 2s ease-in 1 forwards;
   white-space: nowrap;
   display: inline;
+}
+
+@media(max-width: 600px) {
+  .tile.cert {
+  	width: 90vw;
+  }
+
+  .tile {
+  	font-size: 4vw;
+  	line-height: 1.5em;
+  }
+
+  .tile .name_container {
+  	font-size: inherit;
+  }
+
 }
