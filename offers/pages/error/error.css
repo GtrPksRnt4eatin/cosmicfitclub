@@ -25,4 +25,5 @@ body:before {
   box-shadow: 0 0 5px white !important;
   background: rgba(30,30,30,0.8);
   color: rgba(255,255,255,0.8) !important;
+  width: 425px;
 }

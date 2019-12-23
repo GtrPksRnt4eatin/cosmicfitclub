@@ -1,5 +1,5 @@
 - cert = GiftCertificate[ :code=> params[:code] ] or ( @err = "This Gift Certificate Cannot be Found!"; return( render_page :error ) )
-- cert.redeemed_on.nil? or ( @err = "This Certificate was already redeemed<br>by #{cert.redeemer.to_list_string}<br>on #{cert.redeemed_on.strftime('%Y-%m-%d %I:%M:%S %P')}."; return(render_page :error) )
+- cert.redeemed_on.nil? or ( @err = "This Certificate was already redeemed by #{cert.redeemer.to_list_string} on #{cert.redeemed_on.strftime('%Y-%m-%d %I:%M:%S %P')}."; return(render_page :error) )
 
 <!DOCTYPE html>
 
