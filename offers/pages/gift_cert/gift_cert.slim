@@ -15,7 +15,7 @@ html
     == css [ 'fonts', 'site', 'header', 'footer', 'holiday_sale' ]
     == js  [ 'jquery' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
-    == js  [ 'lib', 'element', 'ev_channel', '/checkout/elements/payment_form', '/auth/elements/userview', 'popupmenu']
+    == js  [ 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'popupmenu' ]
     == js  [ 'holiday_sale' ]
 
   body
@@ -32,9 +32,6 @@ html
         .name_container
           .name
             | Redeem Your Gift Certificate!
-
-        .description
-          img src="#{ cert.tall_image.image.url }"
 
         .upcoming
           #login rv-hide='data.logged_in'

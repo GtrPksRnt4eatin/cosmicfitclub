@@ -5,6 +5,12 @@ class GiftCertificate < Sequel::Model
   many_to_one :transaction, :class => :PasTransaction, :key => :transaction_id
   many_to_one :tall_image, :class => :StoredImage, :key => :tall_image_id
 
+  def after_create
+    self.send_to( self.customer.email )
+    self.send_to( self.recipient_email )
+    Slack.website_purchases( self.purchase_description ) 
+  end
+
   def send_to(email)
     Mail.gift_certificate( email, { :code => self.code } )
   end
@@ -30,13 +36,14 @@ class GiftCertificate < Sequel::Model
 
   def GiftCertificate::buy(params)
     GiftCertificate.create({
-      :code        => GiftCertificate::generate_code,
-      :payment_id  => params[:payment_id],
-      :customer_id => params[:customer_id],
-      :num_passes  => params[:num_passes],
-      :from        => params[:from],
-      :to          => params[:to],
-      :occasion    => params[:occasion]
+      :code            => GiftCertificate::generate_code,
+      :payment_id      => params[:payment_id],
+      :customer_id     => params[:customer_id],
+      :num_passes      => params[:num_passes],
+      :from            => params[:from],
+      :to              => params[:to],
+      :occasion        => params[:occasion],
+      :recipient_email => params[:recipient]
     }).generate_image
   end
 
