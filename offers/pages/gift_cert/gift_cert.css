@@ -63,7 +63,7 @@
   background: rgba(255,255,255,0.1);
 }
 
-#login #login_button {
+#login #login_button, #redeem {
   width: 100%;
   margin: 0.5em 0;
   padding: 0.5em;
@@ -76,11 +76,11 @@
   cursor: pointer;
 }
 
-#login #login_button:hover {
+#login #login_button:hover, #redeem:hover {
   background: rgba(255,255,255,0.3);
 }
 
-#login #login_button:focus {
+#login #login_button:focus, #redeem:focus {
   outline: none;
 }
 
@@ -103,6 +103,10 @@
 .tile.cert {
   width: 400px;
   margin: auto;
+}
+
+#cert {
+  width: 100%;
 }
 
 @keyframes glow {
