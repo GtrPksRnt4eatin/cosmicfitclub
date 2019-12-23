@@ -2,7 +2,7 @@ class GiftCertificate < Sequel::Model
   
   many_to_one :customer
   many_to_one :payment, :class => :CustomerPayment, :key => :payment_id
-  many_to_one :transaction, :class => :PassTransaction, :key => :transaction_id
+  many_to_one :transaction, :class => :PassTransaction, :key => :pass_transaction_id
   many_to_one :tall_image, :class => :StoredImage, :key => :tall_image_id
 
   def after_create
