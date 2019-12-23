@@ -38,8 +38,8 @@
   border-radius: 0.5em;
 }
 
-#cert {
-  width: 100px;
+.small {
+  font-size: 0.5em;
 }
 
 #login {
@@ -54,6 +54,28 @@
 #login .heading {
   padding: 0.3em;
   background: rgba(255,255,255,0.1);
+}
+
+#login #login_button {
+  width: 100%;
+  margin: 0.5em 0;
+  padding: 0.5em;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  font-family: "Industry";
+  font-weight: bold;
+  font-size: 1em;
+  color: white;
+  cursor: pointer;
+}
+
+#login #login_button:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+#login .errors .err {
+  font-size: 0.5em;
+  color: red;
 }
 
 @keyframes glow {

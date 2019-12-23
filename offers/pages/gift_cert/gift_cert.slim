@@ -31,7 +31,7 @@ html
       .tile
         .name_container
           .name
-            | Redeem #{cert.num_passes } passes to your account!
+            | Redeem Your Gift Certificate!
 
         #login rv-hide='data.logged_in'
           .heading 
@@ -61,6 +61,10 @@ html
               | {err}
 
             button#login_button rv-on-click='ctrl.redeem' Redeem
+
+        #redeem_cert rv-show='data.logged_in'
+          img#cert src='#{cert.tall_image.url}'
+          button rv-on-click='ctrl.redeem' Redeem #{cert.num_passes} to your account now
 
     == include_slim('slim/partials/footer')
 
