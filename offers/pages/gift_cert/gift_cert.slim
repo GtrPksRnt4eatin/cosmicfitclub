@@ -65,7 +65,7 @@ html
       .tile.cert rv-show='data.logged_in'
         #redeem_cert 
           img#cert src='#{cert.tall_image.url}'
-          button rv-on-click='ctrl.redeem' 
+          button#redeem rv-on-click='ctrl.redeem' 
             | { data.full_name }, Click to Redeem #{cert.num_passes} passes to your account now
 
     == include_slim('slim/partials/footer')
