@@ -1,5 +1,7 @@
 class GiftCertRoutes < Sinatra::Base
 
+  register Sinatra::Auth
+
   before do
     cache_control :no_store
     content_type  :json
