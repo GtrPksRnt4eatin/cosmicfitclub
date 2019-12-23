@@ -31,40 +31,36 @@ html
       .tile
         .name_container
           .name
-            | Redeem Your Gift Certificate!
+            | Redeem #{cert.num_passes } passes to your account!
 
-        .description
-          | Redeem #{cert.num_passes} passes to your account.
+        #login rv-hide='data.logged_in'
+          .heading 
+            | Enter Your Information
+          .section 
+            .tuple
+              span.label
+                | E-Mail:
+              span.value
+                input#email rv-value='data.email' rv-on-input='ctrl.check_email'
+            .tuple rv-hide='data.id'
+              span.label
+                | Full Name:
+              span.value
+                input#fullname rv-value='data.full_name'
+            .tuple rv-if='data.id | not_if_loggedin' 
+              span.label 
+                | Password:
+              span.value
+                input#password type='password' rv-value='data.password'
+          .small rv-if='data.id | not_if_loggedin'
+            | Email Has Account.. Enter or 
+            span#reset rv-on-click='ctrl.reset_password'
+              | Reset Password
+          .errors
+            .err rv-each-err='data.errors'
+              | {err}
 
-        .upcoming
-          #login rv-hide='data.logged_in'
-            .heading 
-              | Enter Your Information
-            .section 
-              .tuple
-                span.label
-                  | E-Mail:
-                span.value
-                  input#email rv-value='data.email' rv-on-input='ctrl.check_email'
-              .tuple rv-hide='data.id'
-                span.label
-                  | Full Name:
-                span.value
-                  input#fullname rv-value='data.full_name'
-              .tuple rv-if='data.id | not_if_loggedin' 
-                span.label 
-                  | Password:
-                span.value
-                  input#password type='password' rv-value='data.password'
-            .small rv-if='data.id | not_if_loggedin'
-              | Email Has Account.. Enter or 
-              span#reset rv-on-click='ctrl.reset_password'
-                | Reset Password
-            .errors
-              .err rv-each-err='data.errors'
-                | {err}
-
-            button#login_button rv-on-click='ctrl.login' Continue
+            button#login_button rv-on-click='ctrl.redeem' Redeem
 
     == include_slim('slim/partials/footer')
 
