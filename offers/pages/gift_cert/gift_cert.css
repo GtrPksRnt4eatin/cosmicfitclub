@@ -48,10 +48,14 @@
 #login {
   display: inline-block;
   background: rgba(255,255,255,0.1);
-  margin-bottom: 2em;
+  margin: 2em 0;
   box-shadow: 0 0 0.1em white;
   position: relative;
   padding: 1em;
+}
+
+#login .section {
+  margin-bottom: 0.5em;
 }
 
 #login .heading {
@@ -79,6 +83,16 @@
 #login .errors .err {
   font-size: 0.5em;
   color: red;
+}
+
+#login #reset {
+  font-weight: bold;
+  color: rgba(150,150,255,0.8);
+  cursor: pointer;
+}
+
+#login #reset:hover {
+  text-shadow: 0 0 0.1em white;
 }
 
 @keyframes glow {
