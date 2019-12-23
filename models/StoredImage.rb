@@ -7,4 +7,8 @@ class StoredImage < Sequel::Model
   	super
   end
 
+  def url
+  	self.image.url
+  end
+
 end
