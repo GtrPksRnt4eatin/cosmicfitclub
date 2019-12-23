@@ -27,6 +27,11 @@ class GiftCertificate < Sequel::Model
     !self.redeemed_on.nil?
   end
 
+  def redeemer
+    arr = self.transaction.try(:wallet}.try(:customers) || [nil]
+    arr[0]
+  end
+
   def generate_image
     img = GiftCert::generate_tall(self.id)
     img = File.open( img.path )
