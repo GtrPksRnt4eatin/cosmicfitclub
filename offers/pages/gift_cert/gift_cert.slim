@@ -14,7 +14,7 @@ html
 
     == fb_image("https://cosmicfitclub.com/models/giftcerts/")
     == fb_title("Cosmic Gift Certificate")
-    == fb_description "Good For #{cert.num_passes} Classes.\r\nFrom: #{cert.from}\r\nTo: #{cert.to}\r\nOccassion: #{cert.occasion}"
+    == fb_description "Good For #{cert.num_passes} Classes. #{cert.occasion} From: #{cert.from} To: #{cert.to}"
 
     == css [ 'fonts', 'site', 'header', 'footer', 'gift_cert' ]
     == js  [ 'jquery' ]
