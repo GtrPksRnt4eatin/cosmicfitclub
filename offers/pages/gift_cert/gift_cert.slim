@@ -12,7 +12,7 @@ html
     title
       | Redeem Your Gift Certificate
 
-    == fb_image("https://cosmicfitclub.com/models/giftcerts/")
+    == fb_image("https://cosmicfitclub.com/models/giftcerts/#{cert.code}/tall_image.jpg")
     == fb_title("Cosmic Gift Certificate")
     == fb_description "Good For #{cert.num_passes} Classes. #{cert.occasion} From: #{cert.from} To: #{cert.to}"
 
