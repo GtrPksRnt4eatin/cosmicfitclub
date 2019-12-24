@@ -6,9 +6,17 @@ class GiftCertificate < Sequel::Model
   many_to_one :tall_image, :class => :StoredImage, :key => :tall_image_id
 
   def after_create
-    self.send_to( self.customer.email )
-    self.send_to( self.recipient_email ) unless self.recipient_email.nil?
+    self.send_to_customer
+    self.send_to_recipient
     Slack.website_purchases( self.purchase_description ) 
+  end
+
+  def send_to_customer
+    self.send_to( self.customer.email )
+  end
+
+  def send_to_recipient
+    self.send_to( self.recipient_email ) unless self.recipient_email.nil? 
   end
 
   def send_to(email)
