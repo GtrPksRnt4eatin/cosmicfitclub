@@ -12,13 +12,15 @@ html
     title
       | Redeem Your Gift Certificate
 
+    == fb_image(cert.tall_image.url)
+
     == css [ 'fonts', 'site', 'header', 'footer', 'gift_cert' ]
     == js  [ 'jquery' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
     == js  [ 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'popupmenu' ]
     == js  [ 'gift_cert' ]
 
-  body
+d  body
 
     #stars
 
