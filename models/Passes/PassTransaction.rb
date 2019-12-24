@@ -13,5 +13,10 @@ class PassTransaction < Sequel::Model
     self.wallet.update( :pass_balance => self.wallet.pass_balance - self.delta )
     self.delete
   end
+  
+  def customer
+    arr = wallet.try(:customers) or return nil
+    arr[0]
+  end
 
 end

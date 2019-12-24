@@ -28,6 +28,7 @@ class GiftCertificate < Sequel::Model
     custy = Customer[customer_id] or return false
     transaction = custy.add_passes(self.num_passes, "Redeemed Gift Certificate \##{self.code}", "A Gift From #{self.customer.to_list_string}")
     self.update( :redeemed_on=>Time.now, :transaction => transaction )
+    Slack.website_purchases( "Gift Certificate #{self.code} From: #{self.from} To: #{self.to} was redeemed by #{self.transaction.customer.try(:to_list_string)}" )
     return true
   end
 
