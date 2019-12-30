@@ -64,16 +64,19 @@ class TwilioRoutes < Sinatra::Base
   post '/selection' do
     content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
+    num = /\+(\d)(\d\d\d)(\d\d\d)(\d\d\d\d)/.match(params[:From])
+    num = num ? num[1..4].join('-') : params[:From]
     case params[:Digits]
     when '1'
       Slack.custom("Forwarding Call To Joy", "call_logs")
       response.say(message: 'Paging Joy Now. Please Wait.')
-      response.dial(caller_id: '+13476700019') { |dial| dial.number '646-704-2405' }
+      response.dial(caller_id: num) { |dial| dial.number '917-900-6498' }
+      #response.dial(caller_id: '+13476700019') { |dial| dial.number '646-704-2405' }
       response.hangup
     when '2'
       Slack.custom("Forwarding Call To Ben", "call_logs")
       response.say(message: 'Paging Ben Now. Please Wait.')
-      response.dial(caller_id: '+13476700019') { |dial| dial.number '201-280-6512' }
+      response.dial(caller_id: num) { |dial| dial.number '201-280-6512' }
       response.hangup
     when '3'
       Slack.custom("Forwarding Call To Donut", "call_logs")
