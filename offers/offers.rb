@@ -13,7 +13,6 @@ class CFCOffers < Sinatra::Base
     cache_control :no_store
   end
 
-  get( '/holiday_sale')  { render_page :holiday_sale }
   get( '/newstudent'  )  { render_page :new_student  }
   get( '/redeem_gift' )  { render_page :gift_cert    }
 
