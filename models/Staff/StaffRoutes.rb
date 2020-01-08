@@ -9,6 +9,10 @@ class StaffRoutes < Sinatra::Base
     JSON.generate Staff::ordered_list
   end
 
+  get '/public_list' do
+    JSON.generate Staff::public_list
+  end
+
   get '/:id/details' do
     id = params[:id].to_i
     staff = Staff[id] or halt(404,"Can't Find Staff Account") 

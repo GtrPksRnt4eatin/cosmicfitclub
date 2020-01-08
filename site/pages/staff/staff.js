@@ -15,5 +15,5 @@ $(document).ready(function() {
 });
 
 function get_saved_items() {
-  $.get( '/models/staff', function(items) { data.items = items; })
+  $.get( '/models/staff/public_list', function(items) { data.items = items; })
 } 
