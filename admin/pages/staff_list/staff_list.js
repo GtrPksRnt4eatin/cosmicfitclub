@@ -1,4 +1,4 @@
-var path = "/models/staff/detail_list"
+var path = "/models/staff"
 
 data = {}
 
@@ -44,7 +44,7 @@ $(document).ready(function() {
 });
 
 function get_saved_items() {
-  $.get( "/models/staff/detail_list", function(items) { data.items = items; });
+  $.get( path + "/detail_list", function(items) { data.items = items; });
 } 
 
 function post_new_item(e){
