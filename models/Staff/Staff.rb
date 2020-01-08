@@ -30,7 +30,7 @@ class Staff < Sequel::Model(:staff)
   end
 
   def Staff::public_list
-    Staff.exclude(:deactivated => true).exclude(:hidden => true).order(:position).all.map(&to_list_hash)
+    Staff.exclude(:deactivated => true).exclude(:hidden => true).order(:position).all.map(&:to_list_hash)
   end
 
   def Staff::ordered_list
