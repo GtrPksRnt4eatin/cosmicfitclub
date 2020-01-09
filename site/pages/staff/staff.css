@@ -2,6 +2,12 @@ body {
   letter-spacing: 0.04em;
 }
 
+.tile.staff {
+  max-width: 60em;
+  margin: 1em auto;
+  border-radius: 1em;
+}
+
 .headshot {
   vertical-align: middle;
   position: relative;
@@ -13,6 +19,8 @@ body {
 
 .headshot .pic {
   width: 100%;
+  border-radius: 1em;
+  box-shadow: 0 0 5px white;
 }
 
 .headshot .name {

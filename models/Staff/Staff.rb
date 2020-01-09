@@ -29,6 +29,10 @@ class Staff < Sequel::Model(:staff)
     Staff.all.map(&:to_token)
   end
 
+  def Staff::public_list
+    Staff.exclude(:deactivated => true).exclude(:hidden => true).order(:position).all.map(&:to_list_hash)
+  end
+
   def Staff::ordered_list
     Staff.exclude(:deactivated => true).order(:position).all.map(&:to_list_hash)
   end

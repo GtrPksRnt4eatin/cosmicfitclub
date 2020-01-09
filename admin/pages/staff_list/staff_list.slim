@@ -33,7 +33,7 @@ html
               th Subscription
               th Edit/Delete
           tbody
-            tr rv-each-item='data.items' rv-data-deactivated='item.deactivated'
+            tr rv-each-item='data.items' rv-data-deactivated='item.deactivated' rv-data-hidden='item.hidden'
               td.positionbtns
                 div rv-on-click='ctrl.moveup' ^
                 div rv-on-click='ctrl.movedn' v
