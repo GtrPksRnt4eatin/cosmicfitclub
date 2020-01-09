@@ -1,10 +1,10 @@
-require_relative './MiniMagickExtensions::Image::Bubbles'
-require_relative './MiniMagickExtensions::Image::Builder'
-require_relative './MiniMagickExtensions::Image::Crop'
-require_relative './MiniMagickExtensions::Image::Loading'
-require_relative './MiniMagickExtensions::Image::Text'
-require_relative './MiniMagickExtensions::Image::Values'
-require_relative './MiniMagickExtensions::Image::Elements'
+require_relative './MiniMagickExtensions::Image::Bubbles.rb'
+require_relative './MiniMagickExtensions::Image::Builder.rb'
+require_relative './MiniMagickExtensions::Image::Crop.rb'
+require_relative './MiniMagickExtensions::Image::Loading.rb'
+require_relative './MiniMagickExtensions::Image::Text.rb'
+require_relative './MiniMagickExtensions::Image::Values.rb'
+require_relative './MiniMagickExtensions::Image::Elements.rb'
 
 MiniMagick::Image.include MiniMagickExtensions::Image::Bubbles
 MiniMagick::Image.include MiniMagickExtensions::Image::Builder
