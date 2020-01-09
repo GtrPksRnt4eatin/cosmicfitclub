@@ -8,11 +8,16 @@ module MiniMagickExtensions
 
         elements.each do |el|
           case el[:type]
-          when "logo":           self.draw_logo(el[:x_offset],el[:y_offset],el[:width])
-          when "box":            self.draw_box(el[:x_offset], el[:y_offset], el[:width], el[:height], el[:radius], el[:radius])
-          when "text":           self.draw_text(el[:text],el[:ptsize],el[:x_offset],el[:y_offset],el[:gravity])
-          when "text_header":    self.draw_text_header(el[:text],el[:ptsize],el[:x_offset],el[:y_offset],el[:gravity])
-          when "highlight_text": self.draw_highlight_text(el[:text],el[:ptsize],el[:x_offset],el[:y_offset], { :gravity => el[:gravity] }.merge(el) )
+          when "logo"
+            self.draw_logo(el[:x_offset],el[:y_offset],el[:width])
+          when "box"            
+            self.draw_box(el[:x_offset], el[:y_offset], el[:width], el[:height], el[:radius], el[:radius])
+          when "text"           
+            self.draw_text(el[:text],el[:ptsize],el[:x_offset],el[:y_offset],el[:gravity])
+          when "text_header"
+            self.draw_text_header(el[:text],el[:ptsize],el[:x_offset],el[:y_offset],el[:gravity])
+          when "highlight_text"
+            self.draw_highlight_text(el[:text],el[:ptsize],el[:x_offset],el[:y_offset], { :gravity => el[:gravity] }.merge(el) )
           when "img_array"
             el[:height] ||= el[:width] 
             num_rows    = (el[:images].count / el[:rowsize]).ceil
