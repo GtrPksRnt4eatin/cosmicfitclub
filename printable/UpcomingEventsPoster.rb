@@ -28,5 +28,26 @@ module UpcomingEventsPoster
 
   end
 
+  def UpcomingEventsPoster::generate_4x6()
+
+    @@data = {
+      :background => 'printable/assets/4x6_bg.jpg',
+      :elements => [
+        { :type     => 'img_array',
+          :x_offset => 10,
+          :y_offset => 280,
+          :width    => 1060,
+          :margin   => 10,
+          :rowsize  => 4,
+          :images   => [ { :img => 'blank'} ] + Event::future.first(5).map { |x| { :img => x.image_url, :lines => x.poster_lines } }
+        }
+      ]
+    }
+  
+    @@image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
+    @@image.draw_elements(@@data[:elements])
+  
+  end
+
 end
 

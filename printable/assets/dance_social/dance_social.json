@@ -1,0 +1,73 @@
+{ "background": "4x5_bg.jpg",
+  "elements": [ 
+    { "type": "logo",
+      "x_offset": 340,
+      "y_offset": 10,
+      "width": 350
+    },
+    { "type": "text_header",
+      "text": "BACHATA & SALSA SOCIAL in Queens",
+      "x_offset": 0,
+      "y_offset": 150,
+      "gravity": "North",
+      "ptsize": 12
+    },
+    { "type": "text",
+      "text": "Brought to you by ARMONA",
+      "x_offset": 0,
+      "y_offset": 205,
+      "gravity": "North",
+      "ptsize": 9
+    }, 
+    { "type": "highlight_text",
+      "x_offset": 0,
+      "y_offset": 255,
+      "ptsize": 12,
+      "gravity": "North",
+      "text" : "Jan 31st, 2020 Friday 10pm - 2am"
+    },
+    { "type": "img_array",
+      "x_offset": 90,
+      "y_offset": 290,
+      "width": 900,
+      "margin": 40,
+      "rowsize": 2,
+      "images": [
+        { "img": "JJ&Daisy.jpg",
+          "lines": ["Complementary Class", "10pm Sensual Bachata", "w/ JJ & Daisy"]
+        },
+        { "img": "SedaOn1.jpg",
+          "lines": ["Performances By", "SedaOn2 Dancers, JJ & Daisy", "More TBA"]
+        },
+        { "img": "DJ.jpg",
+          "lines": ["Music by DJ WILLI","Sensual & Traditional", "Bachata, Salsa"]
+        },
+        { "img": "Joey.jpg",
+          "lines": ["Photo Shoot", "by Joey Corsica", "@DanceCaptured"]
+        }
+      ]
+    },
+    { "type" : "box",
+      "x_offset": 0,
+      "y_offset": 1175,
+      "width": 1080,
+      "height": 126,
+      "radius": 0
+    },
+    { "type": "highlight_text",
+      "text": "$10 COVER | All Ages Welcome",
+      "x_offset": 0,
+      "y_offset": 105,
+      "gravity": "South",
+      "ptsize": 12
+    },
+    { "type": "text",
+      "text": "Plenty of Street Parking, 1 Block from 7, E, M, G TRAIN",
+      "x_offset": 0,
+      "y_offset": 55,
+      "gravity": "South",
+      "ptsize": 9
+    }, 
+    { "type": "footer" }
+  ]
+}

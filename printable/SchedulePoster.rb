@@ -10,26 +10,23 @@ module SchedulePoster
     @@box_width        = 2450
   end
  
-  def SchedulePoster::generate(starttime=Date.tomorrow, high_contrast=false)
+  def SchedulePoster::generate(starttime=Date.tomorrow, high_contrast=false, num_days=7)
 
   	SchedulePoster::set_class_vars
 
   	@@high_contrast = high_contrast
     p "Getting Schedule #{Time.now}"
-    @@schedule      = Scheduling::get_all_sorted_by_days(starttime.to_time, (starttime >> 7).to_time)
-    @@image         = MiniMagick::Image.open("shared/img/background-blu.jpg") unless @@high_contrast
-    @@image         = MiniMagick::Image.open("./white.png")                          if @@high_contrast
-    @@image.rotate "90"
-    #@@image.resize "2550x3300!"    #8.5x11
-    @@image.resize "2481x3507!"     #A4
+    @@schedule      = Scheduling::get_all_sorted_by_days(starttime.to_time, (starttime >> num_days).to_time)
+    @@image         = MiniMagick::Image.open("printable/assets/a4_bg.jpg") unless @@high_contrast
+    @@image         = MiniMagick::Image.open("./white.png")              if @@high_contrast
     
-    offset = SchedulePoster::build_day(0,50,25)
+    offset = SchedulePoster::build_day(0,50,50)
     offset = SchedulePoster::build_day(1,50,offset + 25)
     offset = SchedulePoster::build_day(2,50,offset + 25)
     offset = SchedulePoster::build_day(3,50,offset + 25)
     offset = SchedulePoster::build_day(4,50,offset + 25)
-    offset = SchedulePoster::build_day(5,50,offset + 25)
-    offset = SchedulePoster::build_day(6,50,offset + 25)
+    offset = SchedulePoster::build_day(5,50,offset + 25) if num_days > 5
+    offset = SchedulePoster::build_day(6,50,offset + 25) if num_days > 6
 
     @@image
 

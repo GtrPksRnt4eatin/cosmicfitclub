@@ -146,6 +146,7 @@ class Event < Sequel::Model
       :details     => self.details,
       :starttime   => self.starttime.try(:iso8601), 
       :image_url   => self.thumb_image_url,
+      :full_image  => self.image_url,
       :sessions    => self.sessions,
       :prices      => self.available_prices,
       :a_la_carte  => self.a_la_carte
@@ -175,8 +176,12 @@ class Event < Sequel::Model
 
   ########################## LISTS ########################
 
+  def Event::future
+    Event.order(:starttime).exclude( starttime: nil ).exclude( hidden: true ).all.select{|x| x.last_day >= Date.today }
+  end
+
   def Event::list_future
-    Event.order(:starttime).exclude( starttime: nil ).exclude( hidden: true ).all.select{|x| x.last_day >= Date.today }.map(&:full_detail)
+    Event::future.map(&:full_detail)
   end
 
   def Event::list_past
