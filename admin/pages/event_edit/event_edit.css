@@ -77,6 +77,11 @@ th:nth-child(5){
   padding: .5em;
 }
 
+#delete {
+  background: rgba(255,0,0,0.5);
+  cursor: pointer;
+  margin: 0.5em;
+}
 
 @media(max-width: 800px) {
 

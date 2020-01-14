@@ -39,6 +39,12 @@ ctrl = {
 
   choose_img(e,m) {
     if(e.target.value) { m.event.image_url = e.target.value; }
+  },
+
+  delete_event(e,m) {
+    $.del(`/models/events/${m.event.id}`)
+     .success(function() { window.location.href='/admin/events'; })
+     .fail(function(xhr) { alert(xhr.responseText); });
   }
   
 }
