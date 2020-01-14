@@ -27,11 +27,11 @@
       "ptsize": 28
     },
     { "type": "text",
-      "text": "Brought to you by ARMONIA",
+      "text": "Brought to you by ARMONIA DANCE COMPANY",
       "x_offset": 0,
-      "y_offset": 455,
+      "y_offset": 465,
       "gravity": "North",
-      "ptsize": 15
+      "ptsize": 11.5
     }, 
     { "type": "highlight_text",
       "x_offset": 0,

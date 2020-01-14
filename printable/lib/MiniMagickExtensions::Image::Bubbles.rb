@@ -45,10 +45,10 @@ module MiniMagickExtensions
       def draw_event_bubble(event_id, x, y, size)
         event = Event[event_id] or return
         img = MiniMagick::Image.open(event.image[:original].url)
-        ptsize = (size * 0.025) / 300 * 72
+        ptsize = (size * 0.045) / 300 * 72
         img.footer_lines(event.poster_lines, ptsize)
         img.mask_edges
-        self.bubble_shadow(size,size,x,y,size*0.008)
+        self.bubble_shadow(size,size,x,y,size*0.006)
         self.overlay(img, size, size, x, y)
       rescue
       end
