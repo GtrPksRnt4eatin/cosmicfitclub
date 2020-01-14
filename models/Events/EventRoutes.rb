@@ -53,7 +53,8 @@ class EventRoutes < Sinatra::Base
   end
 
   delete '/:id' do
-    halt 404 if Event[params[:id]].nil?
+    event = Event[params[:id]] or halt(404,"Event Not Found")
+    event.can_delete?          or halt(409,"#{event.linked_objects.join(', ')}")
     Event[params[:id]].delete
     status 204; {}.to_json
   end
