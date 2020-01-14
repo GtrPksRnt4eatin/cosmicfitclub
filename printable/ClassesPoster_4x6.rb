@@ -21,7 +21,7 @@ module ClassesPoster_4x6
     ClassesPoster::first_class_free
   end
 
-  def ClassesPoster::first_class_free
+  def ClassesPoster_4x6::first_class_free
     @@image.combine_options do |i|
       i.fill "\#FF0000FF"
       i.font "shared/fonts/webfonts/329F99_3_0.ttf"
