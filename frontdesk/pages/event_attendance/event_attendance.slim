@@ -37,6 +37,8 @@ html
     #content
 
       .tile
+        -if user.has_role? "admin"
+          .edit rv-on-click='ctrl.edit_event'
 
         .title
           | { data.event.name }

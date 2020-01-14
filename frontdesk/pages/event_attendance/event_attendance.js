@@ -23,6 +23,10 @@ ctrl = {
 
   edit_customer: function(e,m) {
     document.location.href = '/frontdesk/customer_file?id=' + ( m.tic.purchased_for ? m.tic.purchased_for : m.tic.customer_id );
+  },
+
+  edit_event(e,m) {
+    document.location.href = '/admin/events/' + data.event.id;
   }
   
 }
