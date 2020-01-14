@@ -5,10 +5,7 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-}
-
-.title {
-
+  position: relative;
 }
 
 .time {
@@ -98,8 +95,8 @@
 
 .edit {
   background-image: url('/edit.svg');
-  margin: 0 .3em;
-  width: 10em;
+  width: 1.5em;
+  height: 1.5em;
   position: absolute;
-  top: 0; right: 0;
+  top: .5em; right: .5em;
 }
