@@ -35,7 +35,8 @@ module MiniMagickExtensions
             end
           when "image_bubble"
             self.draw_bubble( el[:img], el[:lines], el[:geometry])
-
+          when "event_bubble"
+            self.draw_event_bubble(el)
           when "footer"
             self.draw_footer
 

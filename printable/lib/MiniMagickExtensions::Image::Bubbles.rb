@@ -13,7 +13,7 @@ module MiniMagickExtensions
       def draw_bubble(path,lines,geometry)
         geo = /(?<width>\d+)x(?<height>\d+)\+(?<x>\d+)\+(?<y>\d+)/.match(geometry)
         @img = MiniMagick::Image.open(path)
-        @img.resize_with_crop(geo[:width].to_i,geo[:height].to_i,{ :geometry => :north })
+        @img.resize_with_crop(geo[:width].to_i,geo[:height].to_i,{ :geometry => :south })
         @img.to_bubble(lines,0.08)
         self.bubble_shadow(geo[:width].to_i,geo[:height].to_i,geo[:x].to_i,geo[:y].to_i)
         self.overlay(@img,geo[:width].to_i,geo[:height].to_i,geo[:x].to_i,geo[:y].to_i)
@@ -42,15 +42,18 @@ module MiniMagickExtensions
         end
       end
 
-      def draw_event_bubble(event_id, x, y, size)
-        event = Event[event_id] or return
+      def draw_event_bubble(opts={})
+        opts[:ptscale] ||= 0.03
+        opts[:margin]  ||= opts[:width] * 0.006
+        opts[:height]  ||= opts[:width]
+        event = Event[opts[:event_id]] or return
         img = MiniMagick::Image.open(event.image[:original].url)
-        ptsize = (size * 0.045) / 300 * 72
+        img.resize_with_crop(opts[:width].to_i,opts[:height].to_i,{ :geometry => :center })
+        ptsize = (opts[:width] * opts[:ptscale]) / 300 * 72
         img.footer_lines(event.poster_lines, ptsize)
         img.mask_edges
-        self.bubble_shadow(size,size,x,y,size*0.006)
-        self.overlay(img, size, size, x, y)
-      rescue
+        self.bubble_shadow(opts[:width],opts[:height],opts[:x_offset],opts[:y_offset],opts[:margin])
+        self.overlay(img, opts[:width], opts[:height], opts[:x_offset], opts[:y_offset])
       end
 
       def draw_iphone_bubble(cls_id, x, y, size)
