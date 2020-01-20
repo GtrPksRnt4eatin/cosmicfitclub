@@ -34,7 +34,7 @@ module MiniMagickExtensions
               self.draw_bubble( x[:img], x[:lines], geometry)
             end
           when "image_bubble"
-            self.draw_bubble( el[:img], el[:lines], el[:geometry])
+            self.draw_bubble( el[:img], el[:lines], el[:geometry], el)
           when "event_bubble"
             self.draw_event_bubble(el)
           when "footer"

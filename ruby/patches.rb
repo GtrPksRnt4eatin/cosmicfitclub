@@ -25,3 +25,9 @@ class Integer
     "$ #{ ( self.to_f / 100 ).round(2) }"
   end
 end
+
+class String
+  def truncate(max)
+    self.length > max ? "#{self[0...max]}..." : self
+  end
+end

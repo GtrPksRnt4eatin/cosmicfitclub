@@ -49,6 +49,14 @@ class Staff < Sequel::Model(:staff)
 
   ############################## VIEWS ###############################
 
+  def poster_lines
+    arr = []
+    arr << self.name
+    list = self.schedules.reject { |x| [133,78].include? x.classdef.id }
+    list.each { |x| arr << "#{x.classdef.name.truncate(35)} on #{x.simple_meeting_time_description}" }
+    arr
+  end
+
   def to_hash
     super.tap { |h| h[:image_data] = JSON.parse(h[:image_data]) unless h[:image_data].nil? }
   end
@@ -79,6 +87,7 @@ class Staff < Sequel::Model(:staff)
       :shifts       => self.hourly_shifts.map(&:details_hash)
     })
   end
+
   ############################## VIEWS ###############################
 
   ########################### ATTRIBUTES #############################

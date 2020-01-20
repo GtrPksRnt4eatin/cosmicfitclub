@@ -114,6 +114,12 @@ class ClassdefSchedule < Sequel::Model
     "#{classdef.name} w/ #{teachers.map(&:name).join(", ")} #{rrule_english} #{start_time_12hr} - #{end_time_12hr}"
   end
 
+  def poster_lines
+    arr = []
+    arr << classdef.name
+    arr << simple_meeting_time_description_with_staff
+  end
+
   def details_hash
     { :id => id,
       :classdef   => classdef.to_token,

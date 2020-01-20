@@ -10,12 +10,12 @@ module MiniMagickExtensions
         self.mask_edges
       end
 
-      def draw_bubble(path,lines,geometry)
+      def draw_bubble(path,lines,geometry,opts={})
         geo = /(?<width>\d+)x(?<height>\d+)\+(?<x>\d+)\+(?<y>\d+)/.match(geometry)
         @img = MiniMagick::Image.open(path)
         @img.resize_with_crop(geo[:width].to_i,geo[:height].to_i,{ :geometry => :south })
-        @img.to_bubble(lines,0.08)
-        self.bubble_shadow(geo[:width].to_i,geo[:height].to_i,geo[:x].to_i,geo[:y].to_i)
+        @img.to_bubble(lines, opts[:ptscale] || 0.08 )
+        self.bubble_shadow(geo[:width].to_i,geo[:height].to_i,geo[:x].to_i,geo[:y].to_i, opts[:margin])
         self.overlay(@img,geo[:width].to_i,geo[:height].to_i,geo[:x].to_i,geo[:y].to_i)
       end
 

@@ -59,10 +59,10 @@ module MiniMagickExtensions
         self.draw_text("21-36 44th Road L.I.C NY 11101  |  347-670-0019  |  cosmicfitclub.com", pointsize, 0, line_height*0.25+offset, "south")
       end
 
-      def footer_lines(lines, ptsize=15, offset=20)
+      def footer_lines(lines, ptsize=15, offset=20, uniform=false)
         ptsize = ptsize + 0.5
         line_height  = (ptsize/72*300)
-        line_height2 = (ptsize/72*300)
+        line_height2 = (ptsize/72*300) * 0.7
         y_offset = (lines.count-1) * (line_height2*1.2) + (line_height*1.4) + offset
 
         self.draw_box(0,self.dimensions[1]-y_offset,self.dimensions[0],self.dimensions[1], 0, 0, Values::MaskColor2 )
@@ -70,10 +70,11 @@ module MiniMagickExtensions
         self.draw_text_header(lines[0],ptsize,0,y_offset-(line_height*1.2),"south")
         y_offset = y_offset - (line_height*1.4)
 
-        ptsize = ptsize*0.9
+        ptsize = ptsize*0.6
 
         lines.drop(1).each_with_index do |line, i|
-          self.draw_text_header(line,ptsize,0,y_offset-line_height2,"south")
+          self.draw_text_header(line,ptsize,0,y_offset-line_height2,"south") if uniform
+          self.draw_text(line,ptsize,0,y_offset-line_height2,"south") unless uniform
           y_offset = y_offset - (line_height2 * 1.2)
         end
       end
