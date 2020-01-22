@@ -195,6 +195,11 @@ h4 {
   margin-top: 1em;
 }
 
+.flex h2,
+.flex h3 {
+  margin: 1em;
+}
+
 .flex {
   margin: 1em;
 }
@@ -215,7 +220,7 @@ h4 {
   }
 
   .flex {
-    max-width: 33.33%;
+    width: 33.33%;
   }
 
   .flex.flex1 {
