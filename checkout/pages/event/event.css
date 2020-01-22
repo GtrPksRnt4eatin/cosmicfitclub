@@ -194,3 +194,19 @@ h4 {
 #sessions table {
   margin-top: 1em;
 }
+
+@media(max-width: 800px) {
+
+  .flex.flex1 {
+
+  }
+
+  .flex.flex2 {
+
+  }
+
+  .flex.flex3 {
+    
+  }
+
+}

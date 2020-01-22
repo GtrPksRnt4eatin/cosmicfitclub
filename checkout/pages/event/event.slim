@@ -35,133 +35,138 @@ html
 
       .tile
 
-        h2
-          | { data.event_data.name }
-        h3
-          | { data.event_data.subheading }
+        .flex.flex1
 
-        img rv-src='data.event_data.full_image'
+          h2
+            | { data.event_data.name }
+          h3
+            | { data.event_data.subheading }
 
-        hr width='75%'
+          img rv-src='data.event_data.full_image'
 
-        #sessions rv-unless='data.event_data.sessions | multiple'
-          h4 Event Time
-          div.singletime rv-each-sess='data.event_data.sessions'
-            | { sess.start_time | dtrange sess.end_time }
+        .flex.flex2
 
-        #sessions rv-if='data.event_data.sessions | multiple' rv-data-selectable="data.mode | equals 'a_la_carte' "
-          h4 Sessions
-          .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
-              .fine 
-                | ( Build your own ticket by clicking on individual sessions or choose a package deal from below )
-          table#sessions_list
-            tr rv-each-sess='data.event_data.sessions' rv-data-selected='sess.selected' rv-on-click='ctrl.tog_session'
-              td 
-                | {sess.start_time | dayofwk } { sess.start_time | date } 
-              td 
-                | { sess.start_time | time } - { sess.end_time | time }
-              td rv-unless='sess.title | empty'
-                | { sess.title }
-              td rv-unless='sess.description | empty' 
-                | { sess.description }
+          .description
+            | { data.event_data.description }
 
-        hr width='75%'
+          .details rv-if='data.event_data.details'
+            | { data.event_data.details }
 
-        #noregister rv-if='data.event_data.registration_closed'
-          h4 Sorry, Registration is now closed.
+        .flex.flex3
 
-        #register rv-unless='data.event_data.registration_closed'
+          #sessions rv-unless='data.event_data.sessions | multiple'
+            h4 Event Time
+            div.singletime rv-each-sess='data.event_data.sessions'
+              | { sess.start_time | dtrange sess.end_time }
 
-          #free_event rv-if="data.mode | equals 'free' "
-            h4 This Is A Free Event
-
-          #free_member_event rv-if="data.mode | equals 'memberfree' "
-            h4 This Event Is Free For Members!
-
-          #registration rv-if='data.total_price | equals 0'
-
-            div rv-unless="data.mode | equals 'external' "
-
-              div#emailbox.tuplet rv-if='customer | empty'
-                h4 Enter your E-Mail to register.
-                input#email
-
-              div rv-if='customer | empty'
-                button#register rv-on-click='ctrl.checkout' Register
-
-              div rv-unless='customer | empty'
-                button#register rv-on-click='ctrl.checkout' { customer.name }, Click here to register.
-
-            div rv-if="data.mode | equals 'external' "
-              a rv-href='data.event_data.registration_url' 
-                button#reg_ext Click Here To Register With Our Partners
-          
-          #pricing rv-unless='data.total_price | equals 0'
-
-            #prices rv-unless='data.event_data.prices | multiple'
-              h4 rv-if="data.mode | equals 'single'" 
-                | { data.event_data.prices | first_price_title } 
-              br
-              div rv-each-price='data.event_data.prices'
-                div
-                  .label Full Price: 
-                  | { price.full_price | money }
-                div
-                  .label Member Price: 
-                  | { price.member_price | money }
-              hr width='75%'
-              br
-              div How Many Would You Like?
-              select.num_tix rv-on-change='ctrl.set_multiplier'
-                option value='1' 1 Ticket
-                option value='2' 2 Tickets
-                option value='3' 3 Tickets
-                option value='4' 4 Tickets
-                option value='5' 5 Tickets
-           
-            #prices rv-if='data.event_data.prices | multiple'
-              h4 Choose a Ticket Option
-              .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
+          #sessions rv-if='data.event_data.sessions | multiple' rv-data-selectable="data.mode | equals 'a_la_carte' "
+            h4 Sessions
+            .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
                 .fine 
-                  | ( Choose a package deal or build your own by clicking on the sessions shown above )
-              table
-                tr.price rv-each-price='data.event_data.prices' rv-on-click='ctrl.choose_price' rv-data-selected='price.selected'
-                  td
-                    | { price.title }
-                  td
-                    | { price.full_price | money }
-                  td 
-                    | { price.member_price | money } for members
-                tr.custom_row data-selected='true' rv-if="data.a_la_carte"
-                  td Custom
-                  td 
-                    | { data.custom_full_price | money }
-                  td
-                    | { data.custom_member_price | money } for members
-              br
-              div How Many Would You Like?
-              select.num_tix rv-on-change='ctrl.set_multiplier'
-                option value='1' 1 Ticket
-                option value='2' 2 Tickets
-                option value='3' 3 Tickets
-                option value='4' 4 Tickets
-                option value='5' 5 Tickets
+                  | ( Build your own ticket by clicking on individual sessions or choose a package deal from below )
+            table#sessions_list
+              tr rv-each-sess='data.event_data.sessions' rv-data-selected='sess.selected' rv-on-click='ctrl.tog_session'
+                td 
+                  | {sess.start_time | dayofwk } { sess.start_time | date } 
+                td 
+                  | { sess.start_time | time } - { sess.end_time | time }
+                td rv-unless='sess.title | empty'
+                  | { sess.title }
+                td rv-unless='sess.description | empty' 
+                  | { sess.description }
 
-            hr width='75%'
+          hr width='75%'
 
-            div
-              button#checkout rv-on-click='ctrl.checkout' Buy { data.multiplier | num_tix }For { data.total_price | money }
+          #noregister rv-if='data.event_data.registration_closed'
+            h4 Sorry, Registration is now closed.
 
-            .fineprint rv-if='data.customer_info | empty'
-              a.signin href='/pricing' Sign Up
-              | /
-              a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
-              | to receive member pricing
+          #register rv-unless='data.event_data.registration_closed'
+
+            #free_event rv-if="data.mode | equals 'free' "
+              h4 This Is A Free Event
+
+            #free_member_event rv-if="data.mode | equals 'memberfree' "
+              h4 This Event Is Free For Members!
+
+            #registration rv-if='data.total_price | equals 0'
+
+              div rv-unless="data.mode | equals 'external' "
+
+                div#emailbox.tuplet rv-if='customer | empty'
+                  h4 Enter your E-Mail to register.
+                  input#email
+
+                div rv-if='customer | empty'
+                  button#register rv-on-click='ctrl.checkout' Register
+
+                div rv-unless='customer | empty'
+                  button#register rv-on-click='ctrl.checkout' { customer.name }, Click here to register.
+
+              div rv-if="data.mode | equals 'external' "
+                a rv-href='data.event_data.registration_url' 
+                  button#reg_ext Click Here To Register With Our Partners
             
-        .description
-          | { data.event_data.description }
+            #pricing rv-unless='data.total_price | equals 0'
 
-        .details rv-if='data.event_data.details'
-          | { data.event_data.details }
+              #prices rv-unless='data.event_data.prices | multiple'
+                h4 rv-if="data.mode | equals 'single'" 
+                  | { data.event_data.prices | first_price_title } 
+                br
+                div rv-each-price='data.event_data.prices'
+                  div
+                    .label Full Price: 
+                    | { price.full_price | money }
+                  div
+                    .label Member Price: 
+                    | { price.member_price | money }
+                hr width='75%'
+                br
+                div How Many Would You Like?
+                select.num_tix rv-on-change='ctrl.set_multiplier'
+                  option value='1' 1 Ticket
+                  option value='2' 2 Tickets
+                  option value='3' 3 Tickets
+                  option value='4' 4 Tickets
+                  option value='5' 5 Tickets
+             
+              #prices rv-if='data.event_data.prices | multiple'
+                h4 Choose a Ticket Option
+                .a_la_carte rv-if="data.mode | equals 'a_la_carte' "
+                  .fine 
+                    | ( Choose a package deal or build your own by clicking on the sessions shown above )
+                table
+                  tr.price rv-each-price='data.event_data.prices' rv-on-click='ctrl.choose_price' rv-data-selected='price.selected'
+                    td
+                      | { price.title }
+                    td
+                      | { price.full_price | money }
+                    td 
+                      | { price.member_price | money } for members
+                  tr.custom_row data-selected='true' rv-if="data.a_la_carte"
+                    td Custom
+                    td 
+                      | { data.custom_full_price | money }
+                    td
+                      | { data.custom_member_price | money } for members
+                br
+                div How Many Would You Like?
+                select.num_tix rv-on-change='ctrl.set_multiplier'
+                  option value='1' 1 Ticket
+                  option value='2' 2 Tickets
+                  option value='3' 3 Tickets
+                  option value='4' 4 Tickets
+                  option value='5' 5 Tickets
+
+              hr width='75%'
+
+              div
+                button#checkout rv-on-click='ctrl.checkout' Buy { data.multiplier | num_tix }For { data.total_price | money }
+
+              .fineprint rv-if='data.customer_info | empty'
+                a.signin href='/pricing' Sign Up
+                | /
+                a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
+                | to receive member pricing
+
 
     == analytics
