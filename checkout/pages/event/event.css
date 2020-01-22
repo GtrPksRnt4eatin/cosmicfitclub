@@ -197,7 +197,7 @@ h4 {
 
 .flex h2,
 .flex h3 {
-  margin: 1em;
+  margin: 0.2em 1em;
 }
 
 .flex {
@@ -209,6 +209,17 @@ h4 {
     border-radius: 2em;
     box-shadow: 0 0 0.3em white;
     padding: 1em;
+}
+
+.img_heading {
+  background: rgba(0,0,0,0.3);
+  border-radius: 1em 0 0 1em;
+  box-shadow: 0 0 0.3em white;
+}
+
+.event_img {
+  border-radius: 0 1em 1em 0;
+  box-shadow: 0 0 0.3em white;
 }
 
 @media(min-width: 1300px) {

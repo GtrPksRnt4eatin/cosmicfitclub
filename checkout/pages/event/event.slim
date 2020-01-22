@@ -36,13 +36,14 @@ html
       .tile
 
         .flex.flex1
+           
+          .img_heading 
+            h2
+              | { data.event_data.name }
+            h3
+              | { data.event_data.subheading }
 
-          h2
-            | { data.event_data.name }
-          h3
-            | { data.event_data.subheading }
-
-          img rv-src='data.event_data.full_image'
+          img.event_img rv-src='data.event_data.full_image'
 
         .flex.flex2
 
