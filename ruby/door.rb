@@ -9,7 +9,7 @@ class Door < Sinatra::Base
   post('/up', :auth=> 'door') do
     RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/26', '{ "value": 1 }', :content_type => 'application/json', :timeout => 3 )
     sleep(0.5)
-    RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/26',  '{ "value": 0 }', :content_type => 'application/json' :timeout => 3 )
+    RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/26',  '{ "value": 0 }', :content_type => 'application/json', :timeout => 3 )
     Slack.website_access "#{Time.now.strftime("%m/%d/%Y %I:%M:%S %p")} Door Opened By #{customer.nil? ? "Unknown" : customer.name}"
   end
 
