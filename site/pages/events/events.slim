@@ -37,7 +37,10 @@ html
         img rv-src='event.image_url'     
           .nfo
             .eventname 
-              | { event.name }
+              .heading 
+                | { event.name }
+              .subheading
+                | { event.subheading }
             hr width='60%'
             .eventdescription
               | { event.description }

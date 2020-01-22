@@ -27,9 +27,9 @@ module EventPoster
         :x_offset => 40,
         :y_offset => 311,
         :width    => 1000,
-        :margin   => 5,
+        :margin   => 3,
         :ptscale  => 0.05,
-        :ptscale2 => 0.04
+        :ptscale2 => 0.043
       }
     ])
   end
@@ -48,7 +48,8 @@ module EventPoster
         :y_offset => 550,
         :width    => 1100,
         :ptscale  => 0.05,
-        :margin   => 5
+        :ptscale2 => 0.043,
+        :margin   => 3
       },
       { :type     => 'footer' }
     ])
@@ -62,8 +63,9 @@ module EventPoster
         :x_offset => 20,
         :y_offset => 20,
         :width    => 1040,
-        :margin   => 4,
-        :ptscale  => 0.05
+        :margin   => 3,
+        :ptscale  => 0.05,
+        :ptscale2 => 0.04
       }
     ])
   end
@@ -76,7 +78,9 @@ module EventPoster
         :x_offset => 50,
         :y_offset => 470,
         :width    => 980,
-        :ptscale  => 0.05
+        :ptscale  => 0.05,
+        :ptscale2 => 0.043
+
       }
     ])
   end
@@ -89,7 +93,8 @@ module EventPoster
         :x_offset => 50,
         :y_offset => 40,
         :width    => 1000,
-        :ptscale  => 0.05
+        :ptscale  => 0.05,
+        :ptscale2 => 0.043
       }
     ])
   end
@@ -108,7 +113,9 @@ module EventPoster
         :y_offset => 20,
         :width    => 960,
         :margin   => 5,
-        :height   => 484
+        :height   => 484,
+        :ptscale  => 0.05,
+        :ptscale2 => 0.043
       }
     ])
   end

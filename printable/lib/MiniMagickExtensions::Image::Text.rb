@@ -67,7 +67,7 @@ module MiniMagickExtensions
         opts[:ptsize2] ||= opts[:ptsize] * 0.6
 
         line_count   = opts[:lines].count-1
-        line_height  = (opts[:ptsize]  / 72 * 300) * 1.4
+        line_height  = (opts[:ptsize]  / 72 * 300) * 1.3
         line_height2 = (opts[:ptsize2] / 72 * 300) * 1.2
 
         y_offset = opts[:offset] + line_height +  line_height2 * line_count
