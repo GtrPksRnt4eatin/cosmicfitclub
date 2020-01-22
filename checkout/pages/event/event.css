@@ -195,14 +195,30 @@ h4 {
   margin-top: 1em;
 }
 
-@media(max-width: 800px) {
+.flex2 {
+    background: rgba(255,255,255,0.1);
+    border-radius: 2em;
+    box-shadow: 0 0 0.3em white;
+    padding: 0.5em;
+    margin: 0.5em;
+}
+
+.flex3 {
+  margin: 0.5em;
+}
+
+@media(min-width: 800px) {
+
+  .tile {
+    display: flex;
+  }
 
   .flex.flex1 {
-
+    
   }
 
   .flex.flex2 {
-
+    
   }
 
   .flex.flex3 {
