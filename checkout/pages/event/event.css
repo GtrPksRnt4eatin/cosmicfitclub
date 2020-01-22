@@ -211,6 +211,7 @@ h4 {
   .tile {
     position: relative;
     display: flex;
+    max-width: none;
   }
 
   .flex {
