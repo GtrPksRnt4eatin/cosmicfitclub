@@ -43,14 +43,16 @@ module MiniMagickExtensions
       end
 
       def draw_event_bubble(opts={})
-        opts[:ptscale] ||= 0.03
-        opts[:margin]  ||= opts[:width] * 0.006
-        opts[:height]  ||= opts[:width]
+        opts[:ptscale]  ||= 0.03
+        opts[:ptscale2] ||= 0.02
+        opts[:margin]   ||= opts[:width] * 0.006
+        opts[:height]   ||= opts[:width]
+        ptsize  = (opts[:width] * opts[:ptscale]) / 300 * 72
+        ptsize2 = (opts[:width] * opts[:ptscale2]) / 300 * 72 
         event = Event[opts[:event_id]] or return
         img = MiniMagick::Image.open(event.image[:original].url)
         img.resize_with_crop(opts[:width].to_i,opts[:height].to_i,{ :geometry => :center })
-        ptsize = (opts[:width] * opts[:ptscale]) / 300 * 72
-        img.footer_lines(event.poster_lines, ptsize)
+        img.footer_lines( { :lines => event.poster_lines, :ptsize => ptsize, :ptsize2 => ptsize2 } )
         img.mask_edges
         self.bubble_shadow(opts[:width],opts[:height],opts[:x_offset],opts[:y_offset],opts[:margin])
         self.overlay(img, opts[:width], opts[:height], opts[:x_offset], opts[:y_offset])

@@ -28,7 +28,8 @@ module EventPoster
         :y_offset => 311,
         :width    => 1000,
         :margin   => 5,
-        :ptscale  => 0.05
+        :ptscale  => 0.05,
+        :ptscale2 => 0.04
       }
     ])
   end

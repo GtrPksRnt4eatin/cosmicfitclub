@@ -211,7 +211,7 @@ h4 {
     padding: 1em;
 }
 
-@media(min-width: 800px) {
+@media(min-width: 1300px) {
 
   .tile {
     position: relative;
@@ -223,7 +223,7 @@ h4 {
     width: 33.33%;
   }
 
-  .flex.flex1 {
+  .flex.flex1 {+
     
   }
 
