@@ -141,7 +141,8 @@ class Event < Sequel::Model
 
   def full_detail
     { :id          => self.id, 
-      :name        => self.name, 
+      :name        => self.name,
+      :subheading  => self.subheading,
       :description => self.description,
       :details     => self.details,
       :starttime   => self.starttime.try(:iso8601), 
@@ -155,7 +156,7 @@ class Event < Sequel::Model
 
   def admin_detail
     { :id          => self.id, 
-      :name        => self.name, 
+      :name        => self.name + self.subheading, 
       :description => self.description,
       :details     => self.details,
       :starttime   => self.starttime.try(:iso8601), 

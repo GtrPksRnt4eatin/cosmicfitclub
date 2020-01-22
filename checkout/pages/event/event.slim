@@ -37,14 +37,10 @@ html
 
         h2
           | { data.event_data.name }
+        h3
+          | { data.event_data.subheading }
 
-        img rv-src='data.event_data.image_url'
-
-        .description
-          | { data.event_data.description }
-
-        .details rv-if='data.event_data.details'
-          | { data.event_data.details }
+        img rv-src='data.event_data.full_image'
 
         hr width='75%'
 
@@ -161,5 +157,11 @@ html
               | /
               a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
               | to receive member pricing
+            
+        .description
+          | { data.event_data.description }
+
+        .details rv-if='data.event_data.details'
+          | { data.event_data.details }
 
     == analytics
