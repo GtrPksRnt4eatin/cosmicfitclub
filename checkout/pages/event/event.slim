@@ -31,6 +31,8 @@ html
 
     #stars
 
+    == include_slim('slim/partials/header')
+
     .content
 
       .tile
@@ -169,5 +171,6 @@ html
                 a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
                 | to receive member pricing
 
+    == include_slim('slim/partials/footer')
 
     == analytics
