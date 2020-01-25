@@ -247,15 +247,15 @@ h4 {
   }
 
   .flex.flex1 {
-    
+    flex: 1;
   }
 
   .flex.flex2 {
-    
+    flex: 1;
   }
 
   .flex.flex3 {
-    
+    flex: 1;
   }
 
 }
