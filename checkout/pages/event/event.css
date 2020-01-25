@@ -221,6 +221,8 @@ h4 {
   background: rgba(0,0,0,0.3);
   border-radius: 2em 2em 0 0;
   padding: 0.5em;
+  font-size: 1em;
+  line-height: 1.8em;
 }
 
 .event_img {
@@ -234,7 +236,8 @@ h4 {
     position: relative;
     display: flex;
     max-width: none;
-    align-items: center;
+    align-items: stretch;
+    font-size: 1vw;
   }
 
   .flex {
