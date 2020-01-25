@@ -231,7 +231,7 @@ h4 {
     display: flex;
     max-width: none;
     align-items: stretch;
-    font-size: 1vw;
+    font-size: 0.8vw;
   }
 
   .flex {
