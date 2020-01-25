@@ -120,7 +120,62 @@ h4 {
   margin: 1em 0;
 }
 
-@media(max-width: 800px) {
+#emailbox {
+  margin-bottom: 1.5em;
+}
+
+#total {
+  font-size: 1.2em;
+}
+
+.a_la_carte .fine {
+  font-size: .7em;
+}
+
+.selectable {
+  cursor: pointer;
+}
+
+#prices h4,
+#sessions h4 {
+  margin-bottom: 0;
+}
+
+#prices table,
+#sessions table {
+  margin-top: 1em;
+  font-size: 0.65em;
+}
+
+.flex h2,
+.flex h3 {
+  margin: 0.2em 1em;
+}
+
+.flex {
+  margin: 1em;
+}
+
+.flex1 {
+  background: rgba(0,0,0,0.3);
+  border-radius: 2em;
+  box-shadow: 0 0 0.3em white;
+}
+
+.img_heading {
+  background: rgba(0,0,0,0.3);
+  border-radius: 2em 2em 0 0;
+  padding: 0.5em;
+  font-size: 1em;
+  line-height: 1.8em;
+}
+
+.event_img {
+  border-radius: 0 0 2em 2em;
+  width: 100%;
+}
+
+@media(max-width: 1300px) {
   .content:before { display: none; }
   .tile img       { max-width: 100%; }
 
@@ -167,60 +222,6 @@ h4 {
   #sessions_list td:nth-child(2) {
     width: 13vw;
   }
-}
-
-#emailbox {
-  margin-bottom: 1.5em;
-}
-
-#total {
-  font-size: 1.2em;
-}
-
-.a_la_carte .fine {
-  font-size: .7em;
-}
-
-.selectable {
-  cursor: pointer;
-}
-
-#prices h4,
-#sessions h4 {
-  margin-bottom: 0;
-}
-
-#prices table,
-#sessions table {
-  margin-top: 1em;
-}
-
-.flex h2,
-.flex h3 {
-  margin: 0.2em 1em;
-}
-
-.flex {
-  margin: 1em;
-}
-
-.flex1 {
-  background: rgba(0,0,0,0.3);
-  border-radius: 2em;
-  box-shadow: 0 0 0.3em white;
-}
-
-.img_heading {
-  background: rgba(0,0,0,0.3);
-  border-radius: 2em 2em 0 0;
-  padding: 0.5em;
-  font-size: 1em;
-  line-height: 1.8em;
-}
-
-.event_img {
-  border-radius: 0 0 2em 2em;
-  width: 100%;
 }
 
 @media(min-width: 1300px) {
