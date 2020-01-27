@@ -6,7 +6,7 @@ module MiniMagickExtensions
 
        def to_bubble(lines=nil, pt_scale=0.05)
         ptsize = (self.dimensions[0] * pt_scale) / 300 * 72
-        self.footer_lines(lines,ptsize,15) unless lines.nil?
+        self.footer_lines({ :lines=>lines, :ptsize=>ptsize, :offset=>15 }) unless lines.nil?
         self.mask_edges
       end
 

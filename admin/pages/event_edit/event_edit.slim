@@ -32,16 +32,8 @@ html
           img#picpreview crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
           img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
         .tuplet
-          label Image (1080x1920):
-          img#picpreview crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_tall_image'
-          img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
-        .tuplet
           label Image (1920x1080):
           img#picpreview crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_wide_image'
-          img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
-        .tuplet
-          label Image (2160x1080):
-          img#picpreview crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_xwide_image'
           img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
         .tuplet
           label Description:

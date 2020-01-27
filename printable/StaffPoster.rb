@@ -6,12 +6,12 @@ module StaffPoster
 
   def StaffPoster::generate_all(staff_id)
     FileUtils.mkdir_p "printable/results/class_schedules/class_sched_#{staff_id}"
-    StaffPoster::generate4x5(event_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_4x5.jpg"); p "4x5 complete"
-    StaffPoster::generate4x6(event_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_4x6.jpg"); p "4x6 complete"
-    StaffPoster::generate1080x1080(event_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_1080x1080.jpg"); p "1x1 complete"
-    StaffPoster::generate1920x1080(event_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_1920x1080.jpg"); p "HD complete"
-    StaffPoster::generate1080x1920(event_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_1080x1920.jpg"); p "Story complete"
-    StaffPoster::generateFBEvent(event_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_fbevent.jpg"); p "FB Event complete"
+    StaffPoster::generate4x5(staff_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_4x5.jpg"); p "4x5 complete"
+    StaffPoster::generate4x6(staff_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_4x6.jpg"); p "4x6 complete"
+    StaffPoster::generate1080x1080(staff_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_1080x1080.jpg"); p "1x1 complete"
+    StaffPoster::generate1920x1080(staff_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_1920x1080.jpg"); p "HD complete"
+    StaffPoster::generate1080x1920(staff_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_1080x1920.jpg"); p "Story complete"
+    StaffPoster::generateFBEvent(staff_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_fbevent.jpg"); p "FB Event complete"
   end
 
   def StaffPoster::generate4x5(event_id)
@@ -50,7 +50,7 @@ module StaffPoster
         :ptscale  => 0.06
       },
       { :type     => 'footer' }
-    ])
+    ]).save("staff/#{staff.name}_4x6.jpg")
   end
 
   def StaffPoster::generate1080x1080(event_id)

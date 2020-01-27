@@ -16,6 +16,7 @@ class Customer < Sequel::Model
   one_to_many  :payments, :class=>:CustomerPayment
   one_to_many  :staff
   one_to_many  :hourly_punches
+  one_to_many  :event_passes
 
   many_to_one :wallet
   many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
@@ -91,6 +92,7 @@ class Customer < Sequel::Model
     self.event_checkins.each { |chk| chk.customer = other; chk.save }
     self.comp_tickets.each   { |tik| tik.customer = other; tik.save }
     self.waivers.each        { |wav| wav.customer = other; wav.save }
+    self.event_passes.each   { |pas| pas.customer = other; pas.save }
 
     return if self.wallet.nil?
     other.update( :wallet => Wallet.create ) if other.wallet.nil?
@@ -115,6 +117,7 @@ class Customer < Sequel::Model
     objects << "Customer Has Comps"        if self.comp_tickets.count > 0
     objects << "Customer Has Payments"     if self.payments.count > 0
     objects << "Customer Has Checkins"     if self.event_checkins.count > 0
+    objects << "Customer Has Event Passes" if self.event_passes.count > 0
     objects << "Customer Has Waivers"      if self.waivers.count > 0
     objects
   end
