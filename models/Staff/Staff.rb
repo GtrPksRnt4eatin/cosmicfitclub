@@ -12,6 +12,8 @@ class Staff < Sequel::Model(:staff)
   one_to_many :class_occurrences
   many_to_one :customer
 
+  one_to_one :poster_bubble, :key=> :poster_bubble_id, :class => :StoredImage
+
   include ImageUploader[:image]
 
   def after_save
@@ -49,7 +51,7 @@ class Staff < Sequel::Model(:staff)
 
   ############################## VIEWS ###############################
 
-  def poster_lines
+  def footer_lines
     arr = []
     arr << self.name
     list = self.schedules.reject { |x| [133,78].include? x.classdef.id }

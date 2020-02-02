@@ -4,9 +4,10 @@ module MiniMagickExtensions
 
     module Bubbles
 
-       def to_bubble(lines=nil, pt_scale=0.05)
-        ptsize = (self.dimensions[0] * pt_scale) / 300 * 72
-        self.footer_lines({ :lines=>lines, :ptsize=>ptsize, :offset=>15 }) unless lines.nil?
+       def to_bubble(lines=nil, ptscale=0.05, ptscale2=0.74)
+        ptsize  = self.dimensions[0] / 300 * 72 * ptscale 
+        ptsize2 = ptsize * ptscale2
+        self.footer_lines({ :lines=>lines, :ptsize=>ptsize, :ptsize2 => ptsize2, :offset=>20 }) unless lines.nil?
         self.mask_edges
       end
 
@@ -14,15 +15,33 @@ module MiniMagickExtensions
         geo = /(?<width>\d+)x(?<height>\d+)\+(?<x>\d+)\+(?<y>\d+)/.match(geometry)
         @img = MiniMagick::Image.open(path)
         @img.resize_with_crop(geo[:width].to_i,geo[:height].to_i,{ :geometry => :south })
-        @img.to_bubble(lines, opts[:ptscale] || 0.08 )
-        self.bubble_shadow(geo[:width].to_i,geo[:height].to_i,geo[:x].to_i,geo[:y].to_i, opts[:margin])
+        @img.to_bubble(lines, opts[:ptscale] || 0.07, opts[:ptscale2] || 0.74 )
+        self.bubble_shadow({
+          :width    => geo[:width].to_i,
+          :height   => geo[:height].to_i,
+          :x_offset => geo[:x].to_i,
+          :y_offset => geo[:y].to_i,
+          :margin   => opts[:margin]
+        })
         self.overlay(@img,geo[:width].to_i,geo[:height].to_i,geo[:x].to_i,geo[:y].to_i)
       end
 
-      def bubble_shadow(width,height,x,y,margin=nil,radius=nil,color=Values::WhiteGlow)
-        margin ||= width*0.01
-        radius ||= width/10
-        self.draw_box(x-margin, y-margin, width+margin*2, height+margin*2, radius, radius, Values::WhiteGlow)
+      def bubble_shadow(opts)
+        opts[:width]    ||= 500
+        opts[:height]   ||= opts[:width]
+        opts[:x_offset] ||= 0
+        opts[:y_offset] ||= 0
+        opts[:color]    ||= Values::WhiteGlow
+        opts[:margin]   ||= opts[:width] * 0.01
+        opts[:radius]   ||= opts[:width] / 10
+        self.draw_box({
+          :x_offset => opts[:x_offset] - opts[:margin], 
+          :y_offset => opts[:y_offset] - opts[:margin], 
+          :width    => opts[:width]    + opts[:margin] * 2,
+          :height   => opts[:height]   + opts[:margin] * 2,
+          :radius   => opts[:radius], 
+          :color    => opts[:color]
+        })
       end
 
       def draw_array(el)

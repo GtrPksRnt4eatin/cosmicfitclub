@@ -4,10 +4,14 @@ module MiniMagickExtensions
 
     module Elements
 
-      def draw_box(x_offset, y_offset, x, y, x_radius=0, y_radius=0, color=Values::MaskColor)	
+      def draw_box(opts)
+        opts[:radius]   ||= 0
+        opts[:x_radius] ||= opts[:radius]
+        opts[:y_radius] ||= opts[:x_radius]
+        opts[:color]    ||= Values::MaskColor
         self.combine_options do |i|	
-          i.fill color	
-          i.draw "roundRectangle #{x_offset.to_i},#{y_offset.to_i} #{x_offset.to_i + x.to_i},#{y_offset.to_i + y.to_i} #{x_radius},#{y_radius}"	
+          i.fill opts[:color]
+          i.draw "roundRectangle #{opts[:x_offset].to_i},#{opts[:y_offset].to_i} #{opts[:x_offset].to_i + opts[:width].to_i},#{opts[:y_offset].to_i + opts[:height].to_i} #{opts[:x_radius]},#{opts[:y_radius]}"	
         end	
       end	
 

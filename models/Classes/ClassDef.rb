@@ -119,6 +119,12 @@ class ClassDef < Sequel::Model
 
   ########################### VIEWS ##############################
 
+  def footer_lines
+    lines = [self.name]
+    self.meeting_times.each_slice(2) { |a,b| lines << ( b.nil? ? a : a +", " + b ) }
+    lines
+  end
+
   def to_json(options = {})
     val = JSON.parse super
     val['image_url'] = image.nil? ? '' : image[:original].url

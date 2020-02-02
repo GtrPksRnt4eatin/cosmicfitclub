@@ -7,6 +7,7 @@ data = {
   	classdef_id: null,
   	original_starttime: null,
   	starttime: null,
+    endtime: null,
   	teacher_id: null,
   	hidden: false,
   	cancelled: false,

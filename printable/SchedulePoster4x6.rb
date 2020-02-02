@@ -37,7 +37,7 @@ module SchedulePoster4x6
     #  i.draw "text 0,20 \"Schedule For The Week Of #{starttime.strftime('%b %e')}\""
     #end
 
-    @@image
+    @@image.save('schedules/schedule_4x6.jpg')
 
   end
 

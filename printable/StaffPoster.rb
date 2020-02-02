@@ -44,13 +44,53 @@ module StaffPoster
       },
       { :type     => 'image_bubble',
         :img      => staff.image[:original].url,
-        :lines    => staff.poster_lines,
+        :lines    => staff.footer_lines,
         :geometry => "1100x1100+50+550",
         :margin   => 5,
         :ptscale  => 0.06
       },
       { :type     => 'footer' }
     ]).save("staff/#{staff.name}_4x6.jpg")
+  end
+
+  def StaffPoster::generate4x6quad(staff_ids)
+    @@image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
+    @@image.draw_elements([
+      { :type     => 'logo',
+        :x_offset => 50,
+        :y_offset => 50,
+        :width    => 1100
+      },
+      { :type     => 'image_bubble',
+        :img      => staff.image[:original].url,
+        :lines    => staff.footer_lines,
+        :geometry => "1100x1100+50+550",
+        :margin   => 5,
+        :ptscale  => 0.06
+      },
+      { :type     => 'image_bubble',
+        :img      => staff.image[:original].url,
+        :lines    => staff.footer_lines,
+        :geometry => "1100x1100+50+550",
+        :margin   => 5,
+        :ptscale  => 0.06
+      },
+      { :type     => 'image_bubble',
+        :img      => staff.image[:original].url,
+        :lines    => staff.footer_lines,
+        :geometry => "1100x1100+50+550",
+        :margin   => 5,
+        :ptscale  => 0.06
+      },
+      { :type     => 'image_bubble',
+        :img      => staff.image[:original].url,
+        :lines    => staff.footer_lines,
+        :geometry => "1100x1100+50+550",
+        :margin   => 5,
+        :ptscale  => 0.06
+      },
+      { :type     => 'footer' }
+    ])
   end
 
   def StaffPoster::generate1080x1080(event_id)
