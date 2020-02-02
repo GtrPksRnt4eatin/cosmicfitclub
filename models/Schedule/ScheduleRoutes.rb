@@ -53,7 +53,7 @@ class ScheduleRoutes < Sinatra::Base
   get '/:from/:to' do
     from = Time.parse(params[:from])
     to = Time.parse(params[:to])
-    items = get_all_between(from,to)
+    items = Scheduling::get_all_between(from,to)
     arr = []
     items.each { |k,v| arr << { :day => k, :occurrences => v.sort_by { |x| x[:starttime] } } }
     JSON.generate arr.sort_by { |x| x[:day] }
