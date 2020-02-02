@@ -93,6 +93,10 @@ class ClassdefSchedule < Sequel::Model
   def start_time_12hr_short; Time.parse(start_time.to_s).strftime("%l:%M %P") rescue start_time end
   def end_time_12hr;         Time.parse(end_time.to_s).strftime("%I:%M %P")   rescue end_time   end
 
+  def capacity
+    super || classdef.capacity
+  end
+
   ###################################### VIEWS #######################################
 
   # ie: Mon @ 12:30 pm 

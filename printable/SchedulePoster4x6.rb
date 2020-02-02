@@ -28,15 +28,7 @@ module SchedulePoster4x6
     offset = SchedulePoster4x6::build_day(5,50,offset + 20) if num_days > 5
     offset = SchedulePoster4x6::build_day(6,50,offset + 20) if num_days > 6
     offset = SchedulePoster4x6::build_day(7,50,offset + 20) if num_days > 7
-
-    #@@image.combine_options do |i|
-    #  i.fill "\#FFFFFFFF"
-    #  i.pointsize 45
-    #  i.font "shared/fonts/webfonts/329F99_3_0.ttf"
-    #  i.gravity "North"
-    #  i.draw "text 0,20 \"Schedule For The Week Of #{starttime.strftime('%b %e')}\""
-    #end
-
+    
     @@image.save('schedules/schedule_4x6.jpg')
 
   end
