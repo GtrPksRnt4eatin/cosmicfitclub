@@ -8,7 +8,7 @@ module SchedulePoster4x6
     @@header_pointsize = 25
     @@body_pointsize   = 22
     @@box_width        = 1100
-    @@top_margin       = 40
+    @@top_margin       = 55
   end
  
   def SchedulePoster4x6::generate(starttime=Date.tomorrow, num_days=7, high_contrast=false )
