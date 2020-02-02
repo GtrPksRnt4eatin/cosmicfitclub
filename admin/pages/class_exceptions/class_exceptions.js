@@ -4,11 +4,12 @@ data = {
   scheditems: [],
   selected_scheditem: null,
   exception: {
-  	classdef_id: null,
+  	classdef_id: 0,
+    classdef_schedule_id: 0,
   	original_starttime: null,
   	starttime: null,
     endtime: null,
-  	teacher_id: null,
+  	teacher_id: 0,
   	hidden: false,
   	cancelled: false,
     duration: null

@@ -121,7 +121,6 @@ class ClassOccurrence < Sequel::Model
       :teacher     => teacher.to_token,
       :next_id     => self.next_occurrence_id,
       :prev_id     => self.previous_occurrence_id
-
     }
   end
 
