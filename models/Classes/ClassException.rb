@@ -32,6 +32,7 @@ class ClassException < Sequel::Model
       :teacher_id => self.teacher_id,
       :teacher_name => self.teacher.try(:name),
       :starttime => self.starttime,
+      :endtime => self.endtime,
       :original_starttime => self.original_starttime,
       :cancelled => self.cancelled,
       :hidden => self.hidden,
@@ -48,6 +49,7 @@ class ClassException < Sequel::Model
       :changes     => {
         :sub         => self.teacher.try(:to_token),
         :starttime   => self.starttime,
+        :endtime     => self.endtime,
         :cancelled   => self.cancelled,
         :hidden      => self.hidden,
       }  
