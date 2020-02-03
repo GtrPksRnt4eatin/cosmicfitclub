@@ -74,7 +74,7 @@ $(document).ready(function() {
 
   id('new2').onclick = function(e) {
     var name = window.prompt("Enter Event Title","");
-    $.post('/models/events', JSON.stringify( { id: 0, name: name } ) )
+    $.post('/models/events', { id: 0, name: name } )
       .done( function(resp) { 
         window.location = "events/" + resp.id 
       }) 
