@@ -32,18 +32,18 @@ function Schedule(parent) {
   
   rivets.formatters.instructor_names = function(val) {
     if( val.type != 'classoccurrence' ) return false;
-    if( !val.exception || !val.exception.teacher_id ) { 
+    if( !val.exception || !val.exception.changes.sub ) { 
       return val.instructors.map( function(val){ 
         return val ? val.name : null; 
       }).join(', '); 
     }
-    return val.exception.teacher_name;
+    return val.exception.changes.sub.name;
   },
   
   rivets.formatters.sub = function(val) {
     if( val.type != 'classoccurrence' ) return false;
     if( !val.exception ) return false;
-    if( !val.exception.teacher_id ) return false
+    if( !val.exception.changes.sub ) return false;
     return true;
   },
 
