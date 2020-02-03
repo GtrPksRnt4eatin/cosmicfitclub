@@ -77,9 +77,9 @@ class ClassdefSchedule < Sequel::Model
     get_occurrences_with_exceptions(from,to).map do |occ|
       next occ if occ[:exception].nil?
       next nil if occ[:exception][:changes][:cancelled]
-      occ[:teachers]  = [occ[:exception][:changes][:sub]]     unless occ[:exception][:changes][:sub].nil?
-      occ[:starttime] = occ[:exception][:changes][:starttime] unless occ[:exception][:changes][:starttime].nil?
-      occ[:endtime]   = occ[:exception][:changes][:endtime]   unless occ[:exception][:changes][:endtime].nil?
+      occ[:instructors]  = [occ[:exception][:changes][:sub]]     unless occ[:exception][:changes][:sub].nil?
+      occ[:starttime]    = occ[:exception][:changes][:starttime] unless occ[:exception][:changes][:starttime].nil?
+      occ[:endtime]      = occ[:exception][:changes][:endtime]   unless occ[:exception][:changes][:endtime].nil?
       #occ.delete(:exception)
       next occ      
     end

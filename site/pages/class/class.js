@@ -29,6 +29,12 @@ $(document).ready(function() {
   	if( val.length == 3 ) return val[0][param] + ", " + val[1][param] + " & " + val[2][param];
   }
 
+  rivets.formatters.sub = function(val) {
+    if( !val.exception ) return false;
+    if( !val.exception.changes.sub ) return false;
+    return true;
+  }
+
   rivets.binders['bgimg'] = function(el, value){ el.style.setProperty("background", "url('" + value + "')" ); };
 
   rivets.bind( document.body, { data: data, ctrl: ctrl })
