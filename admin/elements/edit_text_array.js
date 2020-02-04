@@ -6,7 +6,7 @@ function EditTextArray() {
   	callback: null
   }
 
-  this.bind_handlers([]);
+  this.bind_handlers(['show','add_line','rem_line','save','cancel']);
   this.build_dom();
   this.bind_dom();
   this.load_styles();
