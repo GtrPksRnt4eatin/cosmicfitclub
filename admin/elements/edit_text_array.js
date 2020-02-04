@@ -61,7 +61,7 @@ EditTextArray.prototype.HTML = ES5Template(function(){/**
     <button rv-on-click='this.save'>Save</button>
   </div>
 
-**/}.untab(2)
+**/}).untab(2)
 
 EditTextArray.prototype.CSS = ES5Template(function(){/**
 
@@ -84,4 +84,4 @@ EditTextArray.prototype.CSS = ES5Template(function(){/**
     margin: 1em 0 0 0;
   }
 
-**/}.untab(2)
+**/}).untab(2)
