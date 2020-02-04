@@ -15,7 +15,8 @@ html
 
     == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'croppie', '/admin/event_edit' ]
     == js  [ 'jquery', 'rivets', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
-    == js  [ 'croppie.min', '/admin/elements/aspect_img_chooser' ]
+    == js  [ 'croppie.min', '/admin/elements/aspect_img_chooser', '/admin/elements/edit_text_array' ]
+    == js  [ '/admin/elements/edit_text_array' ]
     == js  [ 'elements/session_form', 'elements/price_form', 'elements/popup_menu', '/admin/event_edit' ]
 
   body
@@ -28,13 +29,17 @@ html
           label Event Name: 
           textarea#name rv-value='event.name'
         .tuplet
+          label Subheading:
+          input#subheading rv-value='event.subheading'
+        .tuplet
           label Image (500x500):
           img#picpreview crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
           img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
         .tuplet
-          label Image (1920x1080):
-          img#picpreview crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_wide_image'
-          img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
+          label Poster Lines:
+          div rv-on-click='ctrl.edit_poster_lines'
+            div rv-each-line='event.poster_lines | json_parse'
+              | { line }
         .tuplet
           label Description:
           textarea#description rv-value='event.description'
