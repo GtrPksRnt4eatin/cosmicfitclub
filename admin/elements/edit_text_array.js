@@ -18,8 +18,8 @@ EditTextArray.prototype = {
 	constructor: EditTextArray,
 
 	show: function(title, value, callback) {
-	  this.state.title = title;
-	  this.state.value = value;
+	  this.state.title = title || "";
+	  this.state.value = value || [];
 	  this.state.callback = callback;
       this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
 	},
