@@ -25,11 +25,11 @@ EditTextArray.prototype = {
 	},
 
 	add_line: function(e,m) {
-
+      this.state.value.push("");
 	},
 
 	rem_line: function(e,m) {
-
+       var x = 5;
 	},
 
 	save: function() {
@@ -53,8 +53,8 @@ EditTextArray.prototype.HTML = ES5Template(function(){/**
   
   <div class='edit_text_array form' >
     <h3>{state.title}</h3>
-    <div>
-      <input rv-each-line="state.value" rv-value='line'></input>
+    <div rv-each-line="state.value">
+      <input rv-value='line'></input>
       <button rv-on-click='this.rem_line'>Rem Line</button>
     </div>
     <button rv-on-click='this.add_line'>Add Line</button>
