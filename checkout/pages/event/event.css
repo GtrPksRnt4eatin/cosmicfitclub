@@ -175,7 +175,7 @@ h4 {
   width: 100%;
 }
 
-@media(max-width: 1300px) {
+@media(max-width: 800px) {
   .content:before { display: none; }
   .tile img       { max-width: 100%; }
 
@@ -224,6 +224,29 @@ h4 {
   }
 }
 
+@media(min-width: 800px and max-width: 1300px) {
+  
+  .tile {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .flex1 {
+    order: 1;
+  }
+
+  .flex2 {
+    order: 3;
+    flex: 2;
+  }
+
+  .flex3 {
+    order: 2;
+  }
+  
+}
+
 @media(min-width: 1300px) {
 
   .tile {
@@ -254,6 +277,11 @@ h4 {
 
   .flex.flex3 {
     flex: 1;
+  }
+
+  #prices table,
+  #sessions table {
+    font-size: 0.9em;
   }
 
 }
