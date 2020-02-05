@@ -32,18 +32,18 @@ function Schedule(parent) {
   
   rivets.formatters.instructor_names = function(val) {
     if( val.type != 'classoccurrence' ) return false;
-    if( !val.exception || !val.exception.teacher_id ) { 
+    if( !val.exception || !val.exception.changes.sub ) { 
       return val.instructors.map( function(val){ 
         return val ? val.name : null; 
       }).join(', '); 
     }
-    return val.exception.teacher_name;
+    return val.exception.changes.sub.name;
   },
   
   rivets.formatters.sub = function(val) {
     if( val.type != 'classoccurrence' ) return false;
     if( !val.exception ) return false;
-    if( !val.exception.teacher_id ) return false
+    if( !val.exception.changes.sub ) return false;
     return true;
   },
 
@@ -105,7 +105,7 @@ Schedule.prototype = {
   },
 
   register(e,m) {
-    $.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef_id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
+    $.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef.id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
      .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
      .success( function(data)           { window.location = `https://cosmicfitclub.com/checkout/class_reg/${data['id']}` } ); 
   },

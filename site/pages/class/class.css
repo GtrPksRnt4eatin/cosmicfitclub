@@ -55,6 +55,11 @@
   border-bottom: none;
 }
 
+.instructors[data-sub=true] {
+  color: rgb(255,230,150);
+  font-style: italic;
+}
+
 @keyframes glow {
   from { 
   	text-shadow: 0 0 0.2em rgba(255,255,255,0.3);

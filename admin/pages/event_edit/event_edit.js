@@ -53,8 +53,10 @@ $(document).ready(function() {
   
   setup_rivets();
 
-  popupmenu   = new PopupMenu(id('popupmenu_container'));
-  img_chooser = new AspectImageChooser();
+  popupmenu       = new PopupMenu(id('popupmenu_container'));
+  img_chooser     = new AspectImageChooser();
+  edit_text       = new EditText();
+  edit_text_array = new EditTextArray();
 
   sessionform = new SessionForm();
   sessionform.ev_sub('show', popupmenu.show );
@@ -86,6 +88,12 @@ $(document).ready(function() {
     request.onerror = function(e) { alert("Failed to Upload Image"); }
     request.send(fd);
   });
+
+  edit_text.ev_sub('show', popupmenu.show );
+  edit_text.ev_sub('done', function(val) { popupmenu.hide(); } );
+
+  edit_text_array.ev_sub('show', popupmenu.show );
+  edit_text_array.ev_sub('done', function(val) { popupmenu.hide(); } );
 
   sortSessions();
 

@@ -140,17 +140,18 @@ class Event < Sequel::Model
   end
 
   def full_detail
-    { :id          => self.id, 
-      :name        => self.name,
-      :subheading  => self.subheading,
-      :description => self.description,
-      :details     => self.details,
-      :starttime   => self.starttime.try(:iso8601), 
-      :image_url   => self.thumb_image_url,
-      :full_image  => self.image_url,
-      :sessions    => self.sessions,
-      :prices      => self.available_prices,
-      :a_la_carte  => self.a_la_carte
+    { :id           => self.id, 
+      :name         => self.name,
+      :subheading   => self.subheading,
+      :poster_lines => self.poster_lines,
+      :description  => self.description,
+      :details      => self.details,
+      :starttime    => self.starttime.try(:iso8601), 
+      :image_url    => self.thumb_image_url,
+      :full_image   => self.image_url,
+      :sessions     => self.sessions,
+      :prices       => self.available_prices,
+      :a_la_carte   => self.a_la_carte
     }
   end
 
