@@ -94,6 +94,7 @@ class User < Sequel::Model
     end
 
     def send_new_account_email
+      Slack.website_access("Sending New Account Email: #{self.customer.to_list_string}")
       ( Slack.website_access("Customer #{self.customer.to_list_string} has no email"); return ) if customer.email.nil?
       Mail.account_created(customer.email, { :name => customer.name, :url => "https://cosmicfitclub.com/auth/activate?token=#{reset_token}" } )
     end
