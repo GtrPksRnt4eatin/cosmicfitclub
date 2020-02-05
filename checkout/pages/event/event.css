@@ -224,7 +224,7 @@ h4 {
   }
 }
 
-@media(min-width: 800px and max-width: 1300px) {
+@media(min-width: 800px) and (max-width: 1300px) {
   
   .tile {
     position: relative;
