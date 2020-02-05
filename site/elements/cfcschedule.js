@@ -58,6 +58,7 @@ function Schedule(parent) {
   },
 
   rivets.formatters.allow_reg = function(val) {
+    if( val.type != 'classoccurrence' )          return false;
     if( moment(val.endtime).isBefore(moment()) ) return false;  
     return ( val.capacity - val.headcount > 0 )
   },
