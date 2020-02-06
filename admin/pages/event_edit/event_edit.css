@@ -54,7 +54,7 @@
 #picpreview {
   width: 15em;
   border-radius: 1.5em;
-  box-shadow: 0 0 1em white;
+  box-shadow: 0 0 0.5em white;
 }
 
 textarea#description,

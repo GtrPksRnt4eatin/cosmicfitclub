@@ -35,12 +35,12 @@ html
             | { event.subheading }
         .tuplet
           label Image (500x500):
-          img#picpreview crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
-          img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
+          img#picpreview.editable crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
+          img.filler#nopic.editable rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
         .tuplet
           label Poster Lines:
-          div.editable rv-on-click='ctrl.edit_poster_lines'
-            div.value rv-each-line='event.poster_lines | json_parse'
+          div.editable.value rv-on-click='ctrl.edit_poster_lines'
+            div rv-each-line='event.poster_lines | json_parse'
               | { line }
         .tuplet
           label Description:
