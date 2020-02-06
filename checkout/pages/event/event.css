@@ -234,6 +234,8 @@ h4 {
 
   .flex1 {
     order: 1;
+    min-width: 40%;
+    flex: 1;
   }
 
   .flex2 {
@@ -243,6 +245,8 @@ h4 {
 
   .flex3 {
     order: 2;
+    flex: 1;
+    min-width: 40%;
   }
   
 }
