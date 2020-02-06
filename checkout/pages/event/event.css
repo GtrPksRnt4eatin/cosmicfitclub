@@ -38,13 +38,6 @@ table {
   height: 100%;
 }
 
-.content:before {
-  display: inline-block;
-  content: '';
-  height: 100%;
-  vertical-align: middle;
-}
-
 .description,
 .details {
   padding: 1em;
