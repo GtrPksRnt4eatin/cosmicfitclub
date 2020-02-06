@@ -1,3 +1,7 @@
+#content {
+  font-size: 16px;
+}
+
 .tuplet {
     display: flex;
     padding: 0.25em;
@@ -5,7 +9,7 @@
 }
 
 .tuplet .attrib {
-  flex: 0 0 auto;
+  flex: 0 0 8em;
   padding: 0.25em;
 }
 
