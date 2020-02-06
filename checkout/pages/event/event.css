@@ -173,7 +173,7 @@ h4 {
   .tile img       { max-width: 100%; }
 
   .description { 
-    font-size: 4.2vw;
+    font-size: 3.5vw;
     line-height: 1.5em;
     padding: 1em 0;
   }
@@ -212,9 +212,6 @@ h4 {
     width: 90%;
   }
 
-  #sessions_list td:nth-child(2) {
-    width: 13vw;
-  }
 }
 
 @media(min-width: 800px) and (max-width: 1300px) {
