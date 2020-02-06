@@ -77,6 +77,10 @@ textarea#details {
   z-index: -1;
 }
 
+.poster_line {
+  text-align: center;
+}
+
 .sessions,
 .prices {
   vertical-align: middle;

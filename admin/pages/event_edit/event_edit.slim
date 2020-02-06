@@ -40,7 +40,7 @@ html
         .tuplet
           label Poster Lines:
           div.editable.value rv-on-click='ctrl.edit_poster_lines'
-            div rv-each-line='event.poster_lines | json_parse'
+            div.poster_line rv-each-line='event.poster_lines | json_parse'
               | { line }
         .tuplet
           label Description:
