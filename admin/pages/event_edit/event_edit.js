@@ -4,6 +4,10 @@ ctrl = {
     edit_text.show("Edit Event Title",  data.event.name, function(val) { data.event.name = val; } )
   },
 
+  edit_subheading: function(e,m) {
+    edit_text.show("Edit Event Subheading",  data.event.subheading, function(val) { data.event.subheading = val; } )
+  },
+
   edit_image: function(e,m) {
     if(data.event.image_data) {
       img_chooser.edit_image(data.event.image_data.original.metadata.filename, data.event.image_url);

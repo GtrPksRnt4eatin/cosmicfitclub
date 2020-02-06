@@ -27,11 +27,12 @@ html
       .tile
         .tuplet
           .attrib Event Name: 
-          #name.value.editable rv-on-click='ctrl.edit_heading'
+          .value.editable rv-on-click='ctrl.edit_heading'
             | { event.name }
         .tuplet
-          label Subheading:
-          input#subheading rv-value='event.subheading'
+          .attrib Subheading:
+          .value.editable rv-on-click='ctrl.edit_subheading'
+            | { event.subheading }
         .tuplet
           label Image (500x500):
           img#picpreview crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
