@@ -27,7 +27,7 @@ html
       .tile
         .tuplet
           label Event Name: 
-          textarea#name rv-value='event.name'
+          div#name.value rv-value='event.name' rv-on-click='ctrl.edit_heading'
         .tuplet
           label Subheading:
           input#subheading rv-value='event.subheading'
