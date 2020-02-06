@@ -2,6 +2,11 @@
   font-size: 16px;
 }
 
+.tuplet {
+  margin: .5em 0;
+}
+
+
 
 .tuplet {
     display: flex;
@@ -46,9 +51,10 @@
 }
 
 
-
-.tuplet {
-  margin: .5em 0;
+.picpreview {
+  width: 15em;
+  border-radius: 1.5em;
+  box-shadow: 0 0 1em white;
 }
 
 textarea#description,

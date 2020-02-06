@@ -39,8 +39,8 @@ html
           img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
         .tuplet
           label Poster Lines:
-          div rv-on-click='ctrl.edit_poster_lines'
-            div rv-each-line='event.poster_lines | json_parse'
+          div.editable rv-on-click='ctrl.edit_poster_lines'
+            div.value rv-each-line='event.poster_lines | json_parse'
               | { line }
         .tuplet
           label Description:
