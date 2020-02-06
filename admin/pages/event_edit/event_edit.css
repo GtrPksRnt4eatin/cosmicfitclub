@@ -1,3 +1,14 @@
+.tuplet {
+    display: flex;
+    padding: 0.25em;
+    text-align: left;
+}
+
+.tuplet .attrib {
+  flex: 0 0 auto;
+  padding: 0.25em;
+}
+
 .tuplet .value {
   background: rgba(255,255,255,0.5);
   color: black;

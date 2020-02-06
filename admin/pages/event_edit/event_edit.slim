@@ -26,8 +26,8 @@ html
 
       .tile
         .tuplet
-          label Event Name: 
-          div#name.value rv-on-click='ctrl.edit_heading'
+          .attrib Event Name: 
+          #name.value.editable rv-on-click='ctrl.edit_heading'
             | { event.name }
         .tuplet
           label Subheading:
