@@ -240,6 +240,8 @@ h4 {
   .flex2 {
     order: 3;
     flex: 2;
+    background: rgba(0,0,0,0.7);
+    box-shadow: 0 0 0.3em white;
   }
 
   .flex3 {
