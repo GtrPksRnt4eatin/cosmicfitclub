@@ -15,6 +15,10 @@ ctrl = {
     img_chooser.show_modal(); 
   },
 
+  edit_poster_lines: function(e,m) {
+    edit_text_array.show("Edit Poster Lines", data.event.poster_lines, function(val) { data.event.poster_lines = val; })
+  },
+
   save_changes(e,m) {
     var fd = new FormData();
     fd.append('id', m.event.id);
