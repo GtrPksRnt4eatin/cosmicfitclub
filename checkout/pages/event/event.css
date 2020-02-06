@@ -234,6 +234,7 @@ h4 {
     order: 1;
     min-width: 40%;
     flex: 1;
+    display: flex;
   }
 
   .flex2 {
@@ -245,8 +246,11 @@ h4 {
     order: 2;
     flex: 1;
     min-width: 40%;
-    max-height: 40vw;
+    max-height: 50vw;
     overflow: auto;
+    background: rgba(0,0,0,0.7);
+    border-radius: 2em;
+    box-shadow: 0 0 0.3em white;
   }
   
 }
