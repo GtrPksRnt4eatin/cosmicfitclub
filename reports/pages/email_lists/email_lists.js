@@ -19,7 +19,7 @@ ctrl = {
   export() {
     matches = /(\d{4}-\d\d-\d\d) to (\d{4}-\d\d-\d\d)/.exec(data.daterange);
     params = { from: matches[1], to: matches[2], classdef_ids: data.classdef_ids };
-    window.location = 'class_email_list.csv?from=' + matches[1] + '&to=' + matches[2] + '&classdef_ids[]=' + data.classdef_ids;
+    window.location = 'class_email_list.csv?from=' + matches[1] + '&to=' + matches[2] + '&classdef_ids[]=' + data.classdef_ids.join('&classdef_ids[]=');
   }
 }
 
