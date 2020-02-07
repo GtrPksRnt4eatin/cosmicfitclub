@@ -29,7 +29,7 @@ EditTextArray.prototype = {
 	},
 
 	rem_line: function(e,m) {
-       var x = 5;
+    this.state.value.splice(m.index,1);
 	},
 
 	save: function() {
