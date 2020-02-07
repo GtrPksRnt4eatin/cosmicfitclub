@@ -75,8 +75,9 @@ module Sinatra
         content_type 'application/csv'
         attachment "Email List.csv"
         p params[:classdef_ids]
+        p params[:classdef_ids].is_a? Array
         classdef_ids = [params[:classdef_ids].to_i] unless params[:classdef_ids].is_a? Array
-        clasdef_ids ||= params[:classdef_ids].map(&:to_i)
+        classdef_ids ||= params[:classdef_ids].map(&:to_i)
         p classdef_ids
         list = ClassOccurrence.get_email_list(params[:from],params[:to],classdef_ids)
         CSV.generate do |csv|
