@@ -34,6 +34,10 @@
   width: 80%;
 }
 
+.subheading {
+  font-size: 0.8em;
+}
+
 @media(max-width: 800px) {
 
   .event {
