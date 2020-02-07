@@ -19,7 +19,7 @@ EditTextArray.prototype = {
 
 	show: function(title, value, callback) {
 	  this.state.title = title || "";
-	  this.state.value = value || [];
+	  this.state.value = value ? value.slice() : [];
 	  this.state.callback = callback;
       this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
 	},
@@ -35,7 +35,7 @@ EditTextArray.prototype = {
 	save: function() {
 	  this.state.callback.call(null,this.state.value);
 	  this.state.callback = null;
-	  this.ev_fire('done', this.state.value);
+	  this.ev_fire('done', this.state.value.slice());
 	},
 
 	cancel: function() {
