@@ -22,6 +22,13 @@ class Subscription < Sequel::Model
     Mail.membership(self.customer.email, self.email_model)             if self.customer.login.activated?
   end
 
+  def expired
+    return false unless self.plan_id == 16
+    return false unless self.canceled_on < Date.today
+    self.cancel unless self.deactivated
+    return true    
+  end
+
   def after_create
     super
     send_email

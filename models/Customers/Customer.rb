@@ -170,7 +170,7 @@ class Customer < Sequel::Model
 ############################ Subscriptions #############################
 
   def subscription
-    self.subscriptions.find { |x| !x.deactivated }
+    self.subscriptions.find { |x| !x.deactivated && !x.expired }
   end
 
   def membership_plan
