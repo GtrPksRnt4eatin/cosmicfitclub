@@ -13,6 +13,10 @@ class Reports < Sinatra::Base
   helpers  Sinatra::ReportQueries
   register Sinatra::ReportQueries
 
+  before do
+    puts params
+  end
+
   get( '/', )                                     { render_page :index         }
   get( '/pass_balances', :auth => 'reports' )     { render_page :pass_balances }
   #get( '/subscriptions', :auth => 'reports' )     { render_page :subscriptions }
