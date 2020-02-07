@@ -26,6 +26,7 @@ class Subscription < Sequel::Model
     return false unless self.plan_id == 16
     return false unless self.canceled_on < Date.today
     self.cancel unless self.deactivated
+    Slack.website_purchases(self.summary + " has expired!")
     return true    
   end
 
@@ -64,6 +65,10 @@ class Subscription < Sequel::Model
   ################# CALCULATED PROPERTIES #################
 
   ########################## VIEWS ########################
+
+    def summary
+      "#{customer.to_list_string} on #{plan.name}"
+    end
 
     def details
     {  :id          => id, 
