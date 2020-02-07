@@ -6,7 +6,7 @@ function EditTextArray() {
   	callback: null
   }
 
-  this.bind_handlers(['show','add_line','rem_line','save','cancel']);
+  this.bind_handlers(['show','add_line','rem_line','save','cancel','change_line']);
   this.build_dom();
   this.bind_dom();
   this.load_styles();
@@ -25,7 +25,7 @@ EditTextArray.prototype = {
 	},
 
 	add_line: function(e,m) {
-      this.state.value.push("");
+    this.state.value.push("");
 	},
 
 	rem_line: function(e,m) {
@@ -42,7 +42,11 @@ EditTextArray.prototype = {
       this.state.title = null;
       this.state.value = null;
       this.state.callback = null;
-	}
+	},
+
+  change_line: function(e,m) {
+    this.state.value[m.index] = e.target.value;
+  }
 
 }
 
@@ -54,7 +58,7 @@ EditTextArray.prototype.HTML = ES5Template(function(){/**
   <div class='edit_text_array form' >
     <h3>{state.title}</h3>
     <div rv-each-line="state.value">
-      <input rv-value='line'></input>
+      <input rv-value='line' rv-on-change='this.change_line'></input>
       <button rv-on-click='this.rem_line'>Rem Line</button>
     </div>
     <button rv-on-click='this.add_line'>Add Line</button>

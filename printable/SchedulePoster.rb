@@ -4,7 +4,7 @@ require 'mini_magick'
 module SchedulePoster
  
   def SchedulePoster::set_class_vars
-    @@line_height      = 60
+    @@line_height      = 59
     @@header_pointsize = 55
     @@body_pointsize   = 42
     @@box_width        = 2450
@@ -20,7 +20,7 @@ module SchedulePoster
     @@image         = MiniMagick::Image.open("printable/assets/a4_bg.jpg") unless @@high_contrast
     @@image         = MiniMagick::Image.open("./white.png")              if @@high_contrast
     
-    offset = SchedulePoster::build_day(0,50,25)
+    offset = SchedulePoster::build_day(0,50,10)
     offset = SchedulePoster::build_day(1,50,offset + 25)
     offset = SchedulePoster::build_day(2,50,offset + 25)
     offset = SchedulePoster::build_day(3,50,offset + 25)
@@ -28,7 +28,7 @@ module SchedulePoster
     offset = SchedulePoster::build_day(5,50,offset + 25) if num_days > 5
     offset = SchedulePoster::build_day(6,50,offset + 25) if num_days > 6
 
-    @@image.save('schedule_poster.jpg')
+    @@image.save('schedules/schedule_a4.jpg')
     @@image
 
   end
