@@ -57,9 +57,9 @@ EditTextArray.prototype.HTML = ES5Template(function(){/**
   
   <div class='edit_text_array form' >
     <h3>{state.title}</h3>
-    <div rv-each-line="state.value">
+    <div class='text_line' rv-each-line="state.value">
       <input rv-value='line' rv-on-change='this.change_line'></input>
-      <button rv-on-click='this.rem_line'>Rem Line</button>
+      <div class='del' rv-on-click='this.rem_line'></div>
     </div>
     <button rv-on-click='this.add_line'>Add Line</button>
     <button rv-on-click='this.save'>Save</button>
@@ -73,8 +73,29 @@ EditTextArray.prototype.CSS = ES5Template(function(){/**
     margin: 0 0 1em 0;
   }
 
+  .edit_text_array .text_line {
+    position: relative;
+  }
+
+  .edit_text_array .text_line .del {
+    background-image: url('/close.svg');
+    cursor: pointer;
+    width: 1em;
+    height: 1em;
+    background-size: contain;
+    transition: all .2s ease-in-out;
+    display: inline-block;
+    position: absolute;
+    top: 0.25em;
+    right: 0.25em;
+  }
+
+  .edit_text_array .text_line .del:hover {
+    transform: scale(1.1);
+  }
+
   .edit_text_array input {
-	background: rgba(255,255,255,0.5);
+	  background: rgba(255,255,255,0.5);
     color: black;
     padding: 0.25em 1em;
     border-radius: 0.5em;
