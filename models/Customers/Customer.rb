@@ -22,7 +22,7 @@ class Customer < Sequel::Model
   many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
   many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
   
-  many_to_many :collaborating_events, :class=>:Event, :join_table=>:event_collaborators, :left_key=>:customer_id. :right_key=>:event_id
+  many_to_many :collaborating_events, :class=>:Event, :join_table=>:event_collaborators, :left_key=>:customer_id, :right_key=>:event_id
 
 ############################ Class Methods ###########################
 
