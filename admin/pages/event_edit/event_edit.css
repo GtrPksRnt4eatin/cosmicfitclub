@@ -66,6 +66,17 @@
   margin-left: 1em;
 }
 
+#nopic:before {
+  content: 'Add A Picture';
+  display: inline-block;
+  padding: .5em;
+}
+
+img.filler {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
+  height: 15em;
+}
+
 textarea#description,
 textarea#details {
   height: 12em;
@@ -139,11 +150,7 @@ th:nth-child(5){
 
 
 
-#nopic:before {
-  content: 'Add A Picture';
-  display: inline-block;
-  padding: .5em;
-}
+
 
 #delete {
   background: rgba(255,0,0,0.5);
