@@ -34,13 +34,13 @@ html
           .value.editable rv-on-click='ctrl.edit_subheading'
             | { event.subheading }
         .tuplet
-          label Image (500x500), (1920x1080):
-            .img_square
-              img#picpreview.editable crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
-              img.filler#nopic.editable rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
-            .img_wide
-              img.picpreview-wide.editable crossorigin='anonymous' rv-src='event.wide_image_url' rv-on-click='ctrl.edit_image_wide'
-              img.filler#nopic.editable rv-unless='event.wide_image_url' rv-on-click='ctrl.edit_image_wide'
+          .attrib Image (500x500), (1920x1080):
+          .img_square
+            img#picpreview.editable crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
+            img.filler#nopic.editable rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
+          .img_wide
+            img.picpreview-wide.editable crossorigin='anonymous' rv-src='event.wide_image_url' rv-on-click='ctrl.edit_image_wide'
+            img.filler#nopic.editable rv-unless='event.wide_image_url' rv-on-click='ctrl.edit_image_wide'
 
         .tuplet
           label Poster Lines:
