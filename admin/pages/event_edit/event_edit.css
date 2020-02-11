@@ -66,6 +66,8 @@
   margin-left: 1em;
 }
 
+.img_square
+
 #nopic:before {
   content: 'Add A Picture';
   display: inline-block;
@@ -115,7 +117,6 @@ textarea#details {
 
 img.filler {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
-  width: 15em;
   height: 15em;
 }
 
