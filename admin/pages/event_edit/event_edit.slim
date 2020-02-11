@@ -36,10 +36,10 @@ html
         .tuplet
           .attrib Image (500x500), (1920x1080):
           .img_square
-            img#picpreview.editable crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
+            img.picpreview.editable crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
             img.filler#nopic.editable rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
           .img_wide
-            img.picpreview-wide.editable crossorigin='anonymous' rv-src='event.wide_image_url' rv-on-click='ctrl.edit_image_wide'
+            img.picpreview_wide.editable crossorigin='anonymous' rv-src='event.wide_image_url' rv-on-click='ctrl.edit_image_wide'
             img.filler#nopic.editable rv-unless='event.wide_image_url' rv-on-click='ctrl.edit_image_wide'
 
         .tuplet

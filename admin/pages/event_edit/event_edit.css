@@ -51,11 +51,19 @@
 }
 
 
-#picpreview {
+.picpreview {
   width: 15em;
   height: 15em;
   border-radius: 1.5em;
   box-shadow: 0 0 0.5em white;
+}
+
+.picpreview_wide {
+  width: 26.66em;
+  height: 15em;
+  border-radius: 1.5em;
+  box-shadow: 0 0 0.5em white;
+  margin-left: 1em;
 }
 
 textarea#description,
