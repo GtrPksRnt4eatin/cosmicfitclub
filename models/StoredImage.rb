@@ -11,4 +11,10 @@ class StoredImage < Sequel::Model
   	self.image.url
   end
 
+  def details_hash
+    {  :url => self.url,
+       :image_data => self.image_data
+    }
+  end
+
 end

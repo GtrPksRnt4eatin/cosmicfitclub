@@ -110,4 +110,57 @@ module UpcomingEvents
     image.save('upcoming_events/upcoming_events_a4.jpg')
   end
 
+  def UpcomingEvents::generate_A4_landscape
+    data = {
+      :background => 'printable/assets/a4_bg.jpg',
+      :elements => [
+        { :type     => 'bubble_shadow',
+          :width    => 1045,
+          :height   => 1070,
+          :x_offset => 75,
+          :y_offset => 90,
+          :margin   => 1045*0.012
+        },
+        { :type      => 'box',
+          :x_offset  => 75,
+          :y_offset  => 90,
+          :width     => 1045,
+          :height    => 1070,
+          :radius    => 100,
+        },
+        { :type     => 'logo',
+          :x_offset => 120,
+          :y_offset => 290,
+          :width    => 950
+        },
+        { :type        => 'highlight_text',
+          :text        => 'Upcoming Events!',
+          :ptsize      => 27.5,
+          :x_offset    => 120,
+          :y_offset    => 840,
+          :fill        => "\#BBBBFFFF",
+          :stroke      => "\#DDDDFFDD",
+          :strokewidth => 1
+        },
+        { :type     => 'img_array',
+          :x_offset => 0,
+          :y_offset => 0,
+          :width    => 3437,
+          :height   => 2411,
+          :margin_x => 75,
+          :margin_y => 90,
+          :rowsize  => 3,
+          :ptscale  => 0.062,
+          :ptscale2 => 0.81,
+          :images   => [ { :img => 'blank'} ] + Event::future.first(5).map { |x| { :img => x.image_url, :lines => x.poster_lines } }
+        }
+      ]
+    }
+  
+    image = MiniMagick::Image.open(data[:background])
+    image.rotate(90)
+    image.draw_elements(data[:elements])
+    image.save('upcoming_events/upcoming_events_a4_landscape.jpg')
+  end
+
 end

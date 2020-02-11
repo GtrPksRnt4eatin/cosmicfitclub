@@ -73,7 +73,7 @@ module MiniMagickExtensions
         img.resize_with_crop(opts[:width].to_i,opts[:height].to_i,{ :geometry => :center })
         img.footer_lines( { :lines => event.poster_lines, :ptsize => ptsize, :ptsize2 => ptsize2 } )
         img.mask_edges
-        self.bubble_shadow(opts[:width],opts[:height],opts[:x_offset],opts[:y_offset],opts[:margin])
+        self.bubble_shadow(opts)
         self.overlay(img, opts[:width], opts[:height], opts[:x_offset], opts[:y_offset])
       end
 

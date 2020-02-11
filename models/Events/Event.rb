@@ -165,6 +165,7 @@ class Event < Sequel::Model
       :starttime   => self.starttime.try(:iso8601), 
       :image_data  => self.image_data,
       :image_url   => self.image_url,
+      :wide_image  => self.wide_image.details_hash,
       :sessions    => self.sessions,
       :prices      => self.prices
     }

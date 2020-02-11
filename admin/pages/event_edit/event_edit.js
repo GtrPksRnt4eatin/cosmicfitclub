@@ -15,6 +15,13 @@ ctrl = {
     img_chooser.show_modal(); 
   },
 
+  edit_image_wide: function(e,m) {
+    if(data.event.wide_image.image_data) {
+      img_chooser.edit_image(data.event.wide_image.image_data.metadata.filename, data.event.wide_image.url);
+    }
+    img_chooser.show_modal(); 
+  },
+
   edit_poster_lines: function(e,m) {
     edit_text_array.show("Edit Poster Lines", data.event.poster_lines, function(val) { data.event.poster_lines = val; })
   },
