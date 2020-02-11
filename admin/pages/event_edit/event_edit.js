@@ -9,6 +9,7 @@ ctrl = {
   },
 
   edit_image: function(e,m) {
+    img_chooser.resize(500,500); 
     if(data.event.image_data) {
       img_chooser.edit_image(data.event.image_data.original.metadata.filename, data.event.image_url);
     }
@@ -16,6 +17,7 @@ ctrl = {
   },
 
   edit_image_wide: function(e,m) {
+    img_chooser.resize(960,540); 
     if(data.event.wide_image) {
       img_chooser.edit_image(data.event.wide_image.image_data.metadata.filename, data.event.wide_image.url);
     }
