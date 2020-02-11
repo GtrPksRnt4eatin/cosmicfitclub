@@ -40,7 +40,7 @@ html
             img.filler#nopic.editable rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
           .img_wide
             img.picpreview_wide.editable crossorigin='anonymous' rv-src='event.wide_image_url' rv-on-click='ctrl.edit_image_wide'
-            img.filler#nopic.editable rv-unless='event.wide_image_url' rv-on-click='ctrl.edit_image_wide'
+            img.picpreview_wide.filler#nopic.editable rv-unless='event.wide_image' rv-on-click='ctrl.edit_image_wide'
 
         .tuplet
           label Poster Lines:
