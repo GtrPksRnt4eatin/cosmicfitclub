@@ -32,6 +32,10 @@ ctrl = {
     edit_text.show_long("Edit Event Description", data.event.description, function(val) { data.event.description = val; } )
   },
 
+  edit_details: function(e,m) {
+    edit_text.show_long("Edit Event Details", data.event.details, function(val) { data.event.details = val; } )
+  },
+
   save_changes(e,m) {
     var fd = new FormData();
     fd.append('id', m.event.id);

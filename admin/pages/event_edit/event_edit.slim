@@ -59,8 +59,9 @@ html
           #description.value.editable rv-on-click='ctrl.edit_description'
             | { event.description }
         .tuplet
-          label Details:
-          textarea#details rv-value='event.details'
+          .attrib Details:
+          #details.value.editable rv-on-click='ctrl.edit_details'
+            | { event.details }
 
         div.tuplet
           label Sessions:
