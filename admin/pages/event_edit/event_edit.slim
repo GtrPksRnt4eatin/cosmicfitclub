@@ -43,20 +43,21 @@ html
             img.picpreview_wide.filler#nopic rv-unless='event.wide_image' rv-on-click='ctrl.edit_image_wide'
 
         .tuplet
-          label Poster Lines:
+          .attrib Poster Lines:
           div.editable.value rv-on-click='ctrl.edit_poster_lines'
             div.poster_line rv-each-line='event.poster_lines | json_parse'
               | { line }
         .tuplet
-          label Short URL:
+          .attrib Short URL:
           div.editable.value rv-on-click='ctrl.edit_shorturl'
             | {event.short_url}
         .tuplet
-          label Collaborators:
+          .attrib Collaborators:
           div.editable.value rv-on-click='ctrl.edit_collaborator'
         .tuplet
-          label Description:
-          textarea#description rv-value='event.description'
+          .atrib Description:
+          #description.value.editable rv-on-click='ctrl.edit_description'
+            | { event.description }
         .tuplet
           label Details:
           textarea#details rv-value='event.details'
