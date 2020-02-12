@@ -27,9 +27,11 @@ AspectImageChooser.prototype = {
   	this.state.width  = width  | this.state.width;
   	this.state.height = height | this.state.height;
     el = $(this.dom).find('.croppie')[0];
+    width = window.innerWidth * 0.8
+    height = width * this.state.height / this.state.width
   	this.croppie = new Croppie( el, {
-      viewport: { width: this.state.width, height: this.state.height },
-      boundary: { width: this.state.width + 100, height: this.state.height + 100 },
+      viewport: { width: width, height: height },
+      boundary: { width: width * 1.1, height: height * 1.1 },
       showZoomer: false
     });
 
@@ -75,7 +77,10 @@ AspectImageChooser.prototype = {
   },
 
   save_crop: function() {
-    this.croppie.result('blob').then( function(val) {
+    this.croppie.result({
+      type: 'blob', 
+      size: { width: this.state.width, height: this.state.height }
+    }).then( function(val) {
       filename = this.state.filename.replace(/\..*/, '.png')
       this.ev_fire('image_cropped', { 'filename': filename, 'blob': val } )
       if(this.state.callback) { this.state.callback.call(null,{ 'filename': filename, 'blob': val }); }
