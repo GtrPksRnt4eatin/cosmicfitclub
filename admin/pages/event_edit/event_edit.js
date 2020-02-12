@@ -165,3 +165,7 @@ function post_image(path,filename,blob) {
   request.onerror = function(e) { alert("Failed to Upload Image"); }
   request.send(fd);
 }
+
+function fetch_event(id) {
+  $.get('/models/events/' + data.event_id, function(val) { data.event = val; } )
+}
