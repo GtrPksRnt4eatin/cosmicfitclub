@@ -11,8 +11,8 @@ html
     javascript:
       data = {};
       data['event_id'] = #{{params[:id]}};
-      data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
-      data['event']['image_data'] = JSON.parse(data['event']['image_data']);
+      //data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
+      //data['event']['image_data'] = JSON.parse(data['event']['image_data']);
 
     == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'croppie', '/admin/event_edit' ]
     == js  [ 'jquery', 'rivets', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
@@ -29,11 +29,11 @@ html
         .tuplet
           .attrib Event Name: 
           .value.editable rv-on-click='ctrl.edit_heading'
-            | { event.name }
+            | { data.event.name }
         .tuplet
           .attrib Subheading:
           .value.editable rv-on-click='ctrl.edit_subheading'
-            | { event.subheading }
+            | { data.event.subheading }
         .tuplet
           .attrib Image (500x500), (1920x1080):
           .img_square.editable
