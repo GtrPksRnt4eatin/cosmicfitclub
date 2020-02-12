@@ -147,7 +147,7 @@ function setup_rivets() {
     }).join(',');
   }
   
-  rivets.bind($('#content'), { event: data['event'], ctrl: ctrl } );
+  rivets.bind($('#content'), { data: data, ctrl: ctrl } );
 }
 
 function sortSessions() {

@@ -13,7 +13,7 @@ html
       data['event_id'] = #{{params[:id]}};
       data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
       data['event']['image_data'] = JSON.parse(data['event']['image_data']);
-      data['event']['wide_image']
+      data['event']['wide_image'] = 
 
     == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'croppie', '/admin/event_edit' ]
     == js  [ 'jquery', 'rivets', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
@@ -38,32 +38,32 @@ html
         .tuplet
           .attrib Image (500x500), (1920x1080):
           .img_square.editable
-            img.picpreview crossorigin='anonymous' rv-src='event.image_url' rv-on-click='ctrl.edit_image'
-            img.filler#nopic rv-unless='event.image_url' rv-on-click='ctrl.edit_image'
+            img.picpreview crossorigin='anonymous' rv-src='data.event.image_url' rv-on-click='ctrl.edit_image'
+            img.filler#nopic rv-unless='data.event.image_url' rv-on-click='ctrl.edit_image'
           .img_wide.editable
-            img.picpreview_wide crossorigin='anonymous' rv-if='event.wide_image' rv-src='event.wide_image.url' rv-on-click='ctrl.edit_image_wide'
-            img.picpreview_wide.filler#nopic rv-unless='event.wide_image' rv-on-click='ctrl.edit_image_wide'
+            img.picpreview_wide crossorigin='anonymous' rv-if='data.event.wide_image' rv-src='data.event.wide_image.url' rv-on-click='ctrl.edit_image_wide'
+            img.picpreview_wide.filler#nopic rv-unless='data.event.wide_image' rv-on-click='ctrl.edit_image_wide'
 
         .tuplet
           .attrib Poster Lines:
           div.editable.value rv-on-click='ctrl.edit_poster_lines'
-            div.poster_line rv-each-line='event.poster_lines | json_parse'
+            div.poster_line rv-each-line='data.event.poster_lines | json_parse'
               | { line }
         .tuplet
           .attrib Short URL:
           div.editable.value rv-on-click='ctrl.edit_shorturl'
-            | {event.short_url}
+            | {data.event.short_url}
         .tuplet
           .attrib Collaborators:
           div.editable.value rv-on-click='ctrl.edit_collaborator'
         .tuplet
           .attrib Description:
           #description.value.editable rv-on-click='ctrl.edit_description'
-            | { event.description }
+            | { data.event.description }
         .tuplet
           .attrib Details:
           #details.value.editable rv-on-click='ctrl.edit_details'
-            | { event.details }
+            | { data.event.details }
 
         div.tuplet
           label Sessions:
@@ -77,7 +77,7 @@ html
                 th
                   .add rv-on-click='ctrl.add_session'
                     .plus +
-              tr rv-each-sess='event.sessions'
+              tr rv-each-sess='data.event.sessions'
                 td
                   | { sess.start_time | simpledate }
                 td
@@ -102,7 +102,7 @@ html
                 th
                   .add rv-on-click='ctrl.add_price'
                     .plus +
-              tr rv-each-price='event.prices'
+              tr rv-each-price='data.event.prices'
                 td
                   | { price.title }
                 td rv-title='price.included_sessions | session_names'
