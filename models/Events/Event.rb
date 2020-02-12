@@ -13,9 +13,7 @@ class Event < Sequel::Model
 
   many_to_many :collaborators, :class=>:Customer, :join_table=>:event_collaborators, :left_key=>:event_id, :right_key=>:customer_id
 
-  many_to_one :tall_image,  :class => :StoredImage
   many_to_one :wide_image,  :class => :StoredImage
-  many_to_one :xwide_image, :class => :StoredImage
 
   def create_session
     new_session = EventSession.create
