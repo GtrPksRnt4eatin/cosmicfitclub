@@ -13,7 +13,6 @@ html
       data['event_id'] = #{{params[:id]}};
       data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
       data['event']['image_data'] = JSON.parse(data['event']['image_data']);
-      data['event']['wide_image'] = 
 
     == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'croppie', '/admin/event_edit' ]
     == js  [ 'jquery', 'rivets', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]

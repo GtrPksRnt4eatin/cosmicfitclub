@@ -148,6 +148,7 @@ function setup_rivets() {
   }
   
   rivets.bind($('#content'), { data: data, ctrl: ctrl } );
+  fetch_event();
 }
 
 function sortSessions() {
@@ -166,6 +167,6 @@ function post_image(path,filename,blob) {
   request.send(fd);
 }
 
-function fetch_event(id) {
+function fetch_event() {
   $.get('/models/events/' + data.event_id, function(val) { data.event = val; } )
 }
