@@ -6,7 +6,7 @@ data = {
 var ctrl = {
   edit_headshot: function(e,m) {
     if(data.staff.image_data) {
-      img_chooser.edit_image(data.staff.image_data.original.metadata.filename, data.staff.image_url);
+      img_chooser.load_image(data.staff.image_data.original.metadata.filename, data.staff.image_url);
     }
     img_chooser.show_modal(); 
   },

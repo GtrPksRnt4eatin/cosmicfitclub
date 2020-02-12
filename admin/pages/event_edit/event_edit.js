@@ -11,31 +11,23 @@ ctrl = {
   edit_image: function(e,m) {
     img_chooser.resize(500,500); 
     if(data.event.image_data) {
-      img_chooser.edit_image(
-        data.event.image_data.original.metadata.filename, 
-        data.event.image_url,
-        function(val) {
-          popupmenu.hide();
-          post_image('/models/events/' + data.event.id + '/image', val['filename'], val['blob']);
-        }
-      );
+      img_chooser.load_image(data.event.image_data.original.metadata.filename, data.event.image_url);
     }
-    img_chooser.show_modal(); 
+    img_chooser.show_modal(function(val) {
+      popupmenu.hide();
+      post_image('/models/events/' + data.event.id + '/image', val['filename'], val['blob']);
+    }); 
   },
 
   edit_image_wide: function(e,m) {
     img_chooser.resize(1920,1080); 
     if(data.event.wide_image) {
-      img_chooser.edit_image(
-        data.event.wide_image.image_data.metadata.filename,
-        data.event.wide_image.url,
-        function(val) {
-          popupmenu.hide();
-          post_image('/modles/events/' + data.event.id + '/image_wide', val['filename'], val['blob']);
-        }
-      );
+      img_chooser.load_image( data.event.wide_image.image_data.metadata.filename, data.event.wide_image.url );
     }
-    img_chooser.show_modal(); 
+    img_chooser.show_modal(function(val) {
+      popupmenu.hide();
+      post_image('/modles/events/' + data.event.id + '/image_wide', val['filename'], val['blob']);
+    }); 
   },
 
   edit_poster_lines: function(e,m) {

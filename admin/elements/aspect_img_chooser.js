@@ -7,7 +7,7 @@ function AspectImageChooser(parent) {
     'url'      : null
   }
 
-  this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url', 'open_file', 'edit_image', 'resize', 'rebuild_croppie', 'save_crop']);
+  this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url', 'open_file', 'load_image', 'resize', 'rebuild_croppie', 'save_crop']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
@@ -71,7 +71,7 @@ AspectImageChooser.prototype = {
     this.croppie.bind({ url: url });
   },
 
-  edit_image: function(filename,url) {
+  load_image: function(filename,url) {
     this.state.filename = filename;
     this.load_url(url);
   },
