@@ -13,7 +13,7 @@ ctrl = {
     if(data.event.image_data) {
       img_chooser.load_image(data.event.image_data.original.metadata.filename, data.event.image_url);
     }
-    img_chooser.show_modal(function(val) {
+    img_chooser.show_modal(null,null,function(val) {
       popupmenu.hide();
       post_image('/models/events/' + data.event.id + '/image', val['filename'], val['blob']);
     }); 
@@ -24,7 +24,7 @@ ctrl = {
     if(data.event.wide_image) {
       img_chooser.load_image( data.event.wide_image.image_data.metadata.filename, data.event.wide_image.url );
     }
-    img_chooser.show_modal(function(val) {
+    img_chooser.show_modal(null,null,function(val) {
       popupmenu.hide();
       post_image('/modles/events/' + data.event.id + '/image_wide', val['filename'], val['blob']);
     }); 
