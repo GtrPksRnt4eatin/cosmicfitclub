@@ -78,6 +78,8 @@ AspectImageChooser.prototype = {
     this.croppie.result('blob').then( function(val) {
       filename = this.state.filename.replace(/\..*/, '.png')
       this.ev_fire('image_cropped', { 'filename': filename, 'blob': val } )
+      if(this.state.callback) { this.state.callback.call(null,{ 'filename': filename, 'blob': val }); }
+      this.state.callback = null;
     }.bind(this))
   },
 

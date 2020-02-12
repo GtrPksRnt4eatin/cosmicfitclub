@@ -11,7 +11,14 @@ ctrl = {
   edit_image: function(e,m) {
     img_chooser.resize(500,500); 
     if(data.event.image_data) {
-      img_chooser.edit_image(data.event.image_data.original.metadata.filename, data.event.image_url);
+      img_chooser.edit_image(
+        data.event.image_data.original.metadata.filename, 
+        data.event.image_url,
+        function(val) {
+          popupmenu.hide();
+          post_image('/models/events/' + data.event.id + '/image', val['filename'], val['blob']);
+        }
+      );
     }
     img_chooser.show_modal(); 
   },
@@ -19,7 +26,14 @@ ctrl = {
   edit_image_wide: function(e,m) {
     img_chooser.resize(960,540); 
     if(data.event.wide_image) {
-      img_chooser.edit_image(data.event.wide_image.image_data.metadata.filename, data.event.wide_image.url);
+      img_chooser.edit_image(
+        data.event.wide_image.image_data.metadata.filename,
+        data.event.wide_image.url,
+        function(val) {
+          popupmenu.hide();
+          post_image('/modles/events/' + data.event.id + '/image_wide', val['filename'], val['blob']);
+        }
+      );
     }
     img_chooser.show_modal(); 
   },
@@ -109,16 +123,16 @@ $(document).ready(function() {
   });
 
   img_chooser.ev_sub('show', popupmenu.show );
-  img_chooser.ev_sub('image_cropped', function(val) {
-    popupmenu.hide();
-    fd = new FormData(); 
-    fd.append('image', val['blob'], val['filename'] ); 
-    request = new XMLHttpRequest();
-    request.open( "POST", "/models/events/" + data.event.id + "/image", true );
-    request.onload  = function(e) { get_staff_details(); }
-    request.onerror = function(e) { alert("Failed to Upload Image"); }
-    request.send(fd);
-  });
+//  img_chooser.ev_sub('image_cropped', function(val) {
+//    popupmenu.hide();
+//    fd = new FormData(); 
+//    fd.append('image', val['blob'], val['filename'] ); 
+//    request = new XMLHttpRequest();
+//    request.open( "POST", "/models/events/" + data.event.id + "/image", true );
+//   request.onload  = function(e) { get_staff_details(); }
+//    request.onerror = function(e) { alert("Failed to Upload Image"); }
+//    request.send(fd);
+//  });
 
   edit_text.ev_sub('show', popupmenu.show );
   edit_text.ev_sub('done', function(val) { popupmenu.hide(); } );
@@ -150,6 +164,12 @@ function sortSessions() {
   });
 }
 
-function after_save() {
-
+function post_image(path,filename,blob) {
+  fd = new FormData(); 
+  fd.append('image', blob, filename ); 
+  request = new XMLHttpRequest();
+  request.open( "POST", path, true ) //"/models/events/" + data.event.id + "/image", true );
+  request.onload  = function(e) { get_staff_details(); }
+  request.onerror = function(e) { alert("Failed to Upload Image"); }
+  request.send(fd);
 }

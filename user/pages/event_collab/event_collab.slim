@@ -1,3 +1,6 @@
+- halt(500,"No Event ID Provided") if params[:event_id].nil?
+- halt(404,"Event Not Found")      if Event[params[:event_id]].nil?
+
 <!DOCTYPE html>
 
 html
