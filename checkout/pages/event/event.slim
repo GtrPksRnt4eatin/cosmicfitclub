@@ -8,10 +8,10 @@ html
   head
     
     == fb_type  'website'
-    == fb_title 'Cosmic Fit Club'
-    == fb_url   "http://cosmicfitclub.com/checkout/event/#{id}"
-    == fb_image "http://cosmicfitclub.com/models/events/#{id}/thumbnail"
-    == fb_description "#{event.name} @ Cosmic Fit Club"
+    == fb_title "#{event.name}"
+    == fb_url   "https://cosmicfitclub.com/checkout/event/#{id}"
+    == fb_image "https://cosmicfitclub.com/models/events/#{id}/thumbnail"
+    == fb_description "#{event.description}"
 
     meta name="description" content="#{event.name} @ Cosmic Fit Club" 
 
