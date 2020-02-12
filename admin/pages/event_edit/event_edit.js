@@ -26,7 +26,7 @@ ctrl = {
     }
     img_chooser.show_modal(null,null,function(val) {
       popupmenu.hide();
-      post_image('/modles/events/' + data.event.id + '/image_wide', val['filename'], val['blob']);
+      post_image('/models/events/' + data.event.id + '/image_wide', val['filename'], val['blob']);
     }); 
   },
 
