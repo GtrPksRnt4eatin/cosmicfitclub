@@ -82,6 +82,13 @@ class EventRoutes < Sinatra::Base
     status 204; {}.to_json
   end
 
+  post '/:id/image_wide' do
+    event = Event[params[:id]] or halt(404,'event not found')
+    event.wide_image.update( :image => params[:image] ) if event.wide_image
+    event.update( :wide_image => StoredImage.create( :image => params[:image] ) ) unless event.wide_image
+    status 204; {}.to_json 
+  end
+
   get '/:id/thumbnail' do
     event = Event[params[:id]] or halt 404
     content_type event.image[:small].mime_type
