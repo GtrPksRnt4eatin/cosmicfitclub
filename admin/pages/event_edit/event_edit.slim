@@ -35,7 +35,7 @@ html
           .value.editable rv-on-click='ctrl.edit_subheading'
             | { data.event.subheading }
         .tuplet
-          .attrib Image (500x500), (1920x1080):
+          .attrib Images (500x500), (1920x1080):
           .img_square.editable
             img.picpreview crossorigin='anonymous' rv-src='data.event.image_url' rv-on-click='ctrl.edit_image'
             img.filler#nopic rv-unless='data.event.image_url' rv-on-click='ctrl.edit_image'
