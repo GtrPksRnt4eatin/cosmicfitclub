@@ -132,7 +132,7 @@ AspectImageChooser.prototype.CSS =  ES5Template(function(){/**
   .AspectImageChooser {
     display: inline-block;
     vertical-align: middle;
-    padding: 8vw;
+    padding: 5vw;
     background: rgb(20,20,20);
     border-radius: 50px;
     box-shadow: 0 0 10px black; 

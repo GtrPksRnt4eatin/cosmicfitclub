@@ -24,7 +24,7 @@ ctrl = {
   },
 
   edit_image_wide: function(e,m) {
-    img_chooser.resize(960,540); 
+    img_chooser.resize(1920,1080); 
     if(data.event.wide_image) {
       img_chooser.edit_image(
         data.event.wide_image.image_data.metadata.filename,
