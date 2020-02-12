@@ -2,11 +2,13 @@
   font-size: 16px;
 }
 
+.tile {
+  max-width: 52em;
+}
+
 .tuplet {
   margin: .5em 0;
 }
-
-
 
 .tuplet {
     display: flex;
