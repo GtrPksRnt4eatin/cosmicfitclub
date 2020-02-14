@@ -151,9 +151,8 @@ function post_image(path,filename,blob) {
   fd = new FormData(); 
   fd.append('image', blob, filename ); 
   request = new XMLHttpRequest();
-  request.onload = fetch_event;
   request.open( "POST", path )
-  request.onload  = function(e) { get_staff_details(); }
+  request.onload  = function(e) { fetch_event(); }
   request.onerror = function(e) { alert("Failed to Upload Image"); }
   request.send(fd);
 }
