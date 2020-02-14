@@ -27,8 +27,8 @@ var data = {
 var ctrl = {
 
   get: function() {
-    $.get('/models/events',      function(events) { data.events      = events; }, 'json');
-    $.get('/models/events/past', function(events) { data.past_events = events; }, 'json');
+    $.get('/models/events',        function(events) { data.events      = events; }, 'json');
+    $.get('/models/events/past',   function(events) { data.past_events = events; }, 'json');
   },
   
   add: function(e) {
@@ -75,9 +75,7 @@ $(document).ready(function() {
   id('new2').onclick = function(e) {
     var name = window.prompt("Enter Event Title","");
     $.post('/models/events', { id: 0, name: name } )
-      .done( function(resp) { 
-        window.location = "events/" + resp.id 
-      }) 
+     .done( function(resp) { window.location = "events/" + resp.id } ); 
   };
 
 });

@@ -99,6 +99,11 @@ class Event < Sequel::Model
 
   ################# CALCULATED PROPERTIES #################
 
+  def starttime
+    return DateTime.now if self.sessions.empty?
+    return DateTime.parse(self.sessions.first.start_time)
+  end
+
   def multisession?
     self.sessions.count > 1
   end
@@ -194,6 +199,10 @@ class Event < Sequel::Model
 
   def Event::short_list
     Event.reverse( :starttime ).all.map(&:list_item).to_json
+  end
+
+  def Event::orphans
+    Event.
   end
 
   ########################## LISTS ########################
