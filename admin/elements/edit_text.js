@@ -4,10 +4,12 @@ function EditText() {
   	title: "", 
     value: "",
     callback: null,
+    validation_callback: null,
+    validation_errs: [],
     long: false
   }
 
-  this.bind_handlers(['show','show_long','save','cancel']);
+  this.bind_handlers(['show','show_long','save','cancel','validate']);
   this.build_dom();
   this.bind_dom();
   this.load_styles();
@@ -18,19 +20,21 @@ EditText.prototype = {
 
 	constructor: EditText,
 
-	show: function(title, value, callback) {
+	show: function(title, value, callback, validation_callback) {
 	  this.state.title = title;
 	  this.state.value = value;
 	  this.state.callback = callback;
+    this.state.validation_callback = validation_callback;
     this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
 	},
 
-  show_long: function(title, value, callback) {
+  show_long: function(title, value, callback, validation_callback) {
     this.state.long = true;
-    this.show(title,value,callback);
+    this.show(title,value,callback, validation_callback);
   },
 
 	save: function() {
+    if(!this.validate()) { $(this.dom).shake(); return; }
 	  this.state.callback.call(null,this.state.value);
     this.state.long = false
 	  this.state.callback = null;
@@ -42,7 +46,13 @@ EditText.prototype = {
     this.state.title = null;
     this.state.value = null;
     this.state.callback = null;
-	}
+	},
+
+  validate: function() {
+    if(!this.state.validation_callback) { return true; }
+    this.state.validation_errs = this.state.validation_callback.call(null,this.state.value);
+    return this.state.validation_errs.count==0;
+  }
 }
 
 Object.assign( EditText.prototype, element);
@@ -52,8 +62,11 @@ EditText.prototype.HTML = ES5Template(function(){/**
   <div class='edit_text form' >
     <h3>{state.title}</h3>
     <div>
-      <input rv-unless='state.long' rv-value='state.value'></input>
-      <textarea rv-if='state.long'  rv-value='state.value'></textarea>
+      <input rv-unless='state.long' rv-value='state.value' rv-on-input='this.validate'></input>
+      <textarea rv-if='state.long'  rv-value='state.value' rv-on-input='this.validate'></textarea>
+    </div>
+    <div>
+      <div class='err' rv-each-err='state.validation_errs'> { err } </div>
     </div>
     <button rv-on-click='this.save'>Save</button>
   </div>
@@ -83,6 +96,11 @@ EditText.prototype.CSS = ES5Template(function(){/**
     border-radius: 0.5em;
     width: 15em;
     margin: 1em 0 0 0;
+  }
+
+  .edit_text .err {
+    font-size: 0.7em;
+    color: rgb(255,0,0);
   }
 
 **/}).untab(2);

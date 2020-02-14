@@ -34,6 +34,22 @@ ctrl = {
     edit_text_array.show("Edit Poster Lines", data.event.poster_lines, function(val) { data.event.poster_lines = val; })
   },
 
+  edit_short_url: function(e,m) {
+    edit_text.show(
+      "Edit Event Short URL", 
+      data.event.short_url, 
+      function(val) { 
+        data.event.short_url = val; 
+        $.post('/models/events/' + data.event.id + '/short_url', { short_url: val } )
+         .done( function() { fetch_event(); } )
+      },
+      function(val) { 
+        if (!val.match(/^[a-z0-9_]+$/i)) { return ["Only lowercase letters, numbers, underscores allowed."]; }
+        return [];
+      }
+    )
+  },
+
   edit_description: function(e,m) {
     edit_text.show_long("Edit Event Description", data.event.description, function(val) { data.event.description = val; } )
   },
