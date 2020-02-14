@@ -201,10 +201,6 @@ class Event < Sequel::Model
     Event.reverse( :starttime ).all.map(&:list_item).to_json
   end
 
-  def Event::orphans
-    Event.
-  end
-
   ########################## LISTS ########################
 
   ######################## REPORTS ########################
