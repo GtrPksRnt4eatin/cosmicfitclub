@@ -157,6 +157,7 @@ class Event < Sequel::Model
       :image_url    => self.thumb_image_url,
       :wide_image   => self.wide_image.try(:details_hash),
       :full_image   => self.image_url,
+      :short_url    => self.short_url,
       :sessions     => self.sessions,
       :prices       => self.available_prices,
       :a_la_carte   => self.a_la_carte
