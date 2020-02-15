@@ -37,9 +37,9 @@ ctrl = {
   edit_short_url: function(e,m) {
     edit_text.show(
       "Edit Event Short URL", 
-      data.event.short_url, 
+      data.event.short_url.short_path, 
       function(val) { 
-        data.event.short_url = val; 
+        data.event.short_url.short_path = val; 
         $.post('/models/events/' + data.event.id + '/short_url', { short_url: val } )
          .done( function() { fetch_event(); } )
       },
