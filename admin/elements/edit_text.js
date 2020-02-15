@@ -65,7 +65,7 @@ EditText.prototype.HTML = ES5Template(function(){/**
       <input rv-unless='state.long' rv-value='state.value' rv-on-input='this.validate'></input>
       <textarea rv-if='state.long'  rv-value='state.value' rv-on-input='this.validate'></textarea>
     </div>
-    <div>
+    <div class='errors'>
       <div class='err' rv-each-err='state.validation_errs'> { err } </div>
     </div>
     <button rv-on-click='this.save'>Save</button>
@@ -98,9 +98,15 @@ EditText.prototype.CSS = ES5Template(function(){/**
     margin: 1em 0 0 0;
   }
 
+  .edit_text .errors {
+    margin-top: 1em;
+  }
+
   .edit_text .err {
-    font-size: 0.7em;
+    font-size: 0.8em;
     color: rgb(255,0,0);
+    font-family: 'Industry-Bold';
+    text-shadow: 0 0 0.5em black;
   }
 
 **/}).untab(2);
