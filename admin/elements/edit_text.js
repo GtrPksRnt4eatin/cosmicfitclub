@@ -82,9 +82,10 @@ EditText.prototype.CSS = ES5Template(function(){/**
   .edit_text textarea {
 	background: rgba(255,255,255,0.5);
     color: black;
+    fonty-size: 1em;
     padding: 0.25em 1em;
     border-radius: 0.5em;
-    width: 15em;
+    width: 20em;
   }
 
   .edit_text textarea {
