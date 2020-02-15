@@ -15,7 +15,7 @@ class Event < Sequel::Model
 
   many_to_one :wide_image,  :class => :StoredImage
 
-  one_to_one :short_url, :class => :ShortUrl
+  one_to_many :short_url, :class => :ShortUrl
 
   def create_session
     new_session = EventSession.create
