@@ -11,9 +11,7 @@ html
     javascript:
       data = {};
       data['event_id'] = #{{params[:id]}};
-      //data['event'] = #{{ Event[params[:id]].to_json( :include => [ :sessions, :prices ]) }};
-      //data['event']['image_data'] = JSON.parse(data['event']['image_data']);
-
+      
     == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'croppie', '/admin/event_edit' ]
     == js  [ 'jquery', 'rivets', 'rv_dates', 'lib', 'moment', 'flatpickr', 'element', 'ev_channel' ]
     == js  [ 'croppie.min', '/admin/elements/aspect_img_chooser', '/admin/elements/edit_text' ]
@@ -118,5 +116,3 @@ html
         button#delete rv-on-click='ctrl.delete_event' Delete Event
 
     #popupmenu_container
-
-    == analytics

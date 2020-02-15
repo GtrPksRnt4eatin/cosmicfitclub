@@ -89,6 +89,10 @@ class EventRoutes < Sinatra::Base
     status 204; {}.to_json 
   end
 
+  post '/:id/short_url' do
+    
+  end
+
   get '/:id/thumbnail' do
     event = Event[params[:id]] or halt 404
     content_type event.image[:small].mime_type
