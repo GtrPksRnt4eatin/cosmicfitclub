@@ -98,11 +98,8 @@ EditText.prototype.CSS = ES5Template(function(){/**
     margin: 1em 0 0 0;
   }
 
-  .edit_text .errors {
-    margin-top: 1em;
-  }
-
   .edit_text .err {
+    margin-top: 0.5em;
     font-size: 0.8em;
     color: rgb(255,0,0);
     font-family: 'Industry-Bold';
