@@ -43,8 +43,8 @@ ctrl = {
         $.post('/models/events/' + data.event.id + '/short_url', { short_url: val } )
          .done( function() { fetch_event(); } )
       },
-      function(val) { 
-        if (!val.match(/^[a-z0-9_]+$/i)) { return ["Only lowercase letters, numbers, underscores allowed."]; }
+      function(val) {
+        if (!val.match(/^[a-z0-9_]*$/i)) { return ["Only lowercase letters, numbers, underscores allowed."]; }
         return [];
       }
     )
