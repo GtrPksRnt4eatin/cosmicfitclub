@@ -90,7 +90,10 @@ class EventRoutes < Sinatra::Base
   end
 
   post '/:id/short_url' do
-    
+    event = Event[params[:id]] or halt(404,'event not found')
+    event.short_url.update( :short_path => params[:short_url] ) if event.short_url
+    event.update( :short_url => ShortUrl.create( :short_path => params[:short_url], :long_path => "/checkout/event/" + params[:id] ) ) unless event.short_url
+    status 204; {}.to_json
   end
 
   get '/:id/thumbnail' do
