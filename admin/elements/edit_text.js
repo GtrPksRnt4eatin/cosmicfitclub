@@ -51,7 +51,7 @@ EditText.prototype = {
   validate: function() {
     if(!this.state.validation_callback) { return true; }
     this.state.validation_errs = this.state.validation_callback.call(null,this.state.value);
-    return this.state.validation_errs.count==0;
+    return this.state.validation_errs.length==0;
   }
 }
 
