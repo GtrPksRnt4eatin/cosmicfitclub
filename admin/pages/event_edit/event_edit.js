@@ -1,11 +1,19 @@
 ctrl = {
 
   edit_heading: function(e,m) {
-    edit_text.show("Edit Event Title",  data.event.name, function(val) { data.event.name = val; } )
+    edit_text.show(
+      "Edit Event Title",  
+      data.event.name, 
+      function(val) { data.event.name = val; ctrl.save_changes(); } 
+    )
   },
 
   edit_subheading: function(e,m) {
-    edit_text.show("Edit Event Subheading",  data.event.subheading, function(val) { data.event.subheading = val; } )
+    edit_text.show(
+      "Edit Event Subheading",  
+      data.event.subheading, 
+      function(val) { data.event.subheading = val; ctrl.save_changes(); } 
+    )
   },
 
   edit_image: function(e,m) {
@@ -31,7 +39,7 @@ ctrl = {
   },
 
   edit_poster_lines: function(e,m) {
-    edit_text_array.show("Edit Poster Lines", data.event.poster_lines, function(val) { data.event.poster_lines = val; })
+    edit_text_array.show("Edit Poster Lines", data.event.poster_lines, function(val) { data.event.poster_lines = val; ctrl.save_changes(); })
   },
 
   edit_short_url: function(e,m) {
@@ -51,7 +59,15 @@ ctrl = {
   },
 
   edit_description: function(e,m) {
-    edit_text.show_long("Edit Event Description", data.event.description, function(val) { data.event.description = val; } )
+    edit_text.show_long(
+      "Edit Event Description", 
+      data.event.description, 
+      function(val) { data.event.description = val; },
+      function(val) { 
+        if(val.length>300) { return ["300 Characters Max"]; }
+        return [];
+      }
+    )
   },
 
   edit_details: function(e,m) {
@@ -60,15 +76,14 @@ ctrl = {
 
   save_changes(e,m) {
     var fd = new FormData();
-    fd.append('id', m.event.id);
-    fd.append('name', m.event.name);
-    fd.append('subheading', m.event.subheading);
-    fd.append('poster_lines', JSON.stringify(m.event.poster_lines));
-    fd.append('description', m.event.description);
-    fd.append('details', m.event.details);
-    if( !empty(m.event.sessions[0])   ) { fd.append('starttime', m.event.sessions[0].start_time); }
+    fd.append('id', data.event_id);
+    fd.append('name', data.event.name);
+    fd.append('subheading', data.event.subheading);
+    fd.append('poster_lines', JSON.stringify(data.event.poster_lines));
+    fd.append('description', data.event.description);
+    fd.append('details', data.event.details);
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/events';  }
+    //request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/events';  }
     request.open("POST", "/models/events");
     request.send(fd);
   },
@@ -158,7 +173,7 @@ function setup_rivets() {
 }
 
 function sortSessions() {
-  data['event']['sessions'].sort( function(a,b) {
+  data.event.sessions.sort( function(a,b) {
     return moment(a.start_time) - moment(b.start_time); 
   });
 }
