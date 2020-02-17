@@ -43,6 +43,7 @@ ctrl = {
   },
 
   edit_short_url: function(e,m) {
+    if(!data.event.short_url) { data.event.short_url = { short_path: "" }; } 
     edit_text.show(
       "Edit Event Short URL", 
       data.event.short_url.short_path, 
