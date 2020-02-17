@@ -1,7 +1,7 @@
 require 'csv'
 
 class Event < Sequel::Model
-  
+
   include ImageUploader[:image]
 
   ###################### ASSOCIATIONS #####################
@@ -126,6 +126,10 @@ class Event < Sequel::Model
     finish = DateTime.parse(self.sessions.last.end_time)
     return "#{start.strftime("%a %b %-m %l:%M %p")}-#{finish.strftime("%l:%M %p")}" if start.to_date == finish.to_date
     return "#{start.strftime("%a %b %-m %l:%M %p")}-#{finish.strftime("%a %b %-m %l:%M %p")}" 
+  end
+
+  def short_path
+    self.short_url ? self.short_url.short_path : ""
   end
 
   ################# CALCULATED PROPERTIES #################

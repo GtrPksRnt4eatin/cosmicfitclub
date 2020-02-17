@@ -71,9 +71,13 @@ html
                   | ( Build your own ticket by clicking on individual sessions or choose a package deal from below )
             table#sessions_list
               tr rv-each-sess='data.event_data.sessions' rv-data-selected='sess.selected' rv-on-click='ctrl.tog_session'
-                td 
-                  | {sess.start_time | dayofwk } { sess.start_time | date } 
-                td 
+                
+                td
+                  span rv-unless='sess.start_time | diff_days sess.end_time'
+                    | {sess.start_time | dayofwk } { sess.start_time | date } - {sess.end_time | dayofwk } { sess.end_time | date }
+                  span rv-if='sess.start_time | diff_days sess.end_time''
+                    | {sess.start_time | dayofwk } { sess.start_time | date } 
+                td rv-unless='sess.start_time | diff_days sess.end_time'
                   | { sess.start_time | time } - { sess.end_time | time }
                 td rv-unless='sess.title | empty'
                   | { sess.title }

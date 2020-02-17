@@ -45,11 +45,18 @@ module EventPoster
       { :type     => 'event_bubble',
         :event_id => event_id,
         :x_offset => 50,
-        :y_offset => 550,
+        :y_offset => 520,
         :width    => 1100,
         :ptscale  => 0.05,
         :ptscale2 => 0.043,
         :margin   => 3
+      },
+      { :type     => 'highlight_text',
+        :text     => "cosmicfitclub.com/#{Event[event_id].short_path}",
+        :x_offset => 0,
+        :y_offset => 100,
+        :gravity  => 'south',
+        :ptsize   => 18
       },
       { :type     => 'footer' }
     ])

@@ -47,12 +47,13 @@ function initialize_rivets() {
 
   include_rivets_dates();
   include_rivets_money();
-  rivets.formatters.multiple  = function(val)      { return empty(val) ? false : val.length > 1;   }
-  rivets.formatters.empty     = function(val)      { return empty(val) || val=='';                 }
-  rivets.formatters.equals    = function(val,val2) { return val== val2;                            }
-  rivets.formatters.is_member = function(val)      { return empty(val) ? false : !empty(val.plan); } 
-  rivets.formatters.num_tix   = function(val)      { return ( val && val > 1 ) ? val + ' Tickets ' : ''; }
+  rivets.formatters.multiple  = function(val)         { return empty(val) ? false : val.length > 1;   }
+  rivets.formatters.empty     = function(val)         { return empty(val) || val=='';                 }
+  rivets.formatters.equals    = function(val,val2)    { return val== val2;                            }
+  rivets.formatters.is_member = function(val)         { return empty(val) ? false : !empty(val.plan); } 
+  rivets.formatters.num_tix   = function(val)         { return ( val && val > 1 ) ? val + ' Tickets ' : ''; }
   rivets.formatters.first_price_title = function(val) { return val[0].title; }
+  rivets.formatters.diff_days = function(val,val2)    { return !moment(val).isSame(moment(val2), 'date'); }
 
   rivets.bind( $('body'), { customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
