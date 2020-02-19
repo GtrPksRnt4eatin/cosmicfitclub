@@ -149,14 +149,15 @@ html
                       | { price.title }
                     td
                       | { price.full_price | money }
-                    td 
+                    td rv-unless='price.full_price | equals price.member_price'
                       | { price.member_price | money } for members
                   tr.custom_row data-selected='true' rv-if="data.a_la_carte"
                     td Custom
                     td 
                       | { data.custom_full_price | money }
-                    td
+                    td rv-unless='data.custom_member_price | equals data.custom_full_price'
                       | { data.custom_member_price | money } for members
+                br
                 br
                 div How Many Would You Like?
                 select.num_tix rv-on-change='ctrl.set_multiplier'
