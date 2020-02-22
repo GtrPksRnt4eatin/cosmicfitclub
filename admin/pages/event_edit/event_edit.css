@@ -148,6 +148,15 @@ th:nth-child(5){
 }
 
 
+table.reflections td,
+table.reflections th {
+
+  color: black;
+  background: rgba(255,255,255,0.5);
+  border-radius: 0.5em;
+
+}
+
 
 
 
