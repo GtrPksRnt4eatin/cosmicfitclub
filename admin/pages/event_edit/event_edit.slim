@@ -52,7 +52,12 @@ html
             | /{data.event.short_url.short_path}
         .tuplet
           .attrib Collaborators:
-          div.editable.value rv-on-click='ctrl.edit_collaborator'
+          div
+            table
+              tr
+                th 
+              tr rv-each-collab='data.event.collaborators'
+          .editable.value rv-on-click='ctrl.edit_collaborator'
         .tuplet
           .attrib Description:
           #description.value.editable rv-on-click='ctrl.edit_description'
@@ -70,7 +75,6 @@ html
                 th Start
                 th End
                 th Title
-                th Description
                 th
                   .add rv-on-click='ctrl.add_session'
                     .plus +
@@ -81,9 +85,7 @@ html
                   | { sess.end_time | simpledate }
                 td rv-title='sess.title'
                   | { sess.title } 
-                td rv-title='sess.description'
-                  | { sess.description }
-                td
+                td.nobg
                   .edit   rv-on-click='ctrl.edit_session'
                   .delete rv-on-click='ctrl.del_session'
 
@@ -108,7 +110,7 @@ html
                   | { price.member_price }
                 td
                   | { price.full_price }
-                td
+                td.nobg
                   .edit   rv-on-click='ctrl.edit_price'
                   .delete rv-on-click='ctrl.del_price'
 
