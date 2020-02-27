@@ -68,8 +68,8 @@ class ScheduleRoutes < Sinatra::Base
     JSON.generate arr.sort_by { |x| x[:day] }
   end
 
-  get '/conflicts' do
-    
+  get '/conflicts/:from/:to' do
+    Scheduling::get_potential_conflicts(from,to).to_json
   end
 
   def ScheduleRoutes::schedule_as_ical(from,to)

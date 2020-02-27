@@ -12,7 +12,7 @@ class Staff < Sequel::Model(:staff)
   one_to_many :class_occurrences
   many_to_one :customer
 
-  one_to_one :poster_bubble, :key=> :poster_bubble_id, :class => :StoredImage
+  many_to_one :poster_bubble, :class => :StoredImage
 
   include ImageUploader[:image]
 

@@ -59,6 +59,16 @@ html
           .value
             span rv-show='data.staff.subscription' 
               | { data.staff.subscription.began_on | datewyr } - { data.staff.subscription.cancelled_on | datewyr }
+        .tuple
+          .attrib Visibility:
+          .value
+            span
+              | Hidden: 
+              input type='checkbox' rv-checked='data.staff.hidden' rv-on-change='ctrl.submit_hidden'
+            span
+              | Deactivated:
+              input type='checkbox' rv-checked='data.staff.deactivated' rv-on-change='ctrl.submit_deactivated'
+
 
       .tile
         h3 Scheduling

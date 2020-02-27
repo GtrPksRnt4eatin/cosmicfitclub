@@ -11,7 +11,7 @@ class Event < Sequel::Model
   one_to_many :prices,   :class => :EventPrice
   one_to_many :checkins, :class => :EventCheckin
 
-  many_to_many :collaborators, :class=>:Customer, :join_table=>:event_collaborators, :left_key=>:event_id, :right_key=>:customer_id
+  one_to_many :collaborations, :class=>:EventCollaborations
 
   many_to_one :wide_image,  :class => :StoredImage
 
