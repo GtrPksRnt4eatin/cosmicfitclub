@@ -170,7 +170,7 @@ class Event < Sequel::Model
 
   def admin_detail
     val = self.full_detail
-    val[:prices] = self.prices
+    val[:prices] = self.prices.order_by { |x| x[:order] }
     val
     
     #{ :id          => self.id, 
