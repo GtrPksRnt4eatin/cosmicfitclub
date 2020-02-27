@@ -190,5 +190,5 @@ function post_image(path,filename,blob) {
 }
 
 function fetch_event() {
-  $.get('/models/events/' + data.event_id, function(val) { data.event = val; } )
+  $.get('/models/events/' + data.event_id + '/admin_detail', function(val) { data.event = val; } )
 }
