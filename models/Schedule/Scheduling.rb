@@ -37,6 +37,17 @@ module Scheduling
     Rental.between(from,to).map(&:schedule_details_hash).compact
   end
 
-
+  def Scheduling::get_potential_conflicts(from,to)
+    classes  = get_classitems_between(from,to)
+    events   = get_eventsessions_between(from,to)
+    rentals  = get_rentals_between(from,to)
+    list = events + classes + rentals
+    list = list.combination(2).map do |item1,item2|
+      if item1[:starttime] < item2[:starttime] && item1[:endtime] <= item2[:starttime] then next nil end
+      if item1[:starttime] >= item2[:endtime] && item1[:endtime] > item2[:endtime] then next nil end
+      next [item1,item2]
+    end
+    list.compact!
+  end
 
 end
