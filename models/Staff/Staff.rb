@@ -5,7 +5,7 @@ class Staff < Sequel::Model(:staff)
   include PositionAndDeactivate
 
   plugin :pg_array_associations
-  
+
   many_to_pg_array :schedules, :key => :instructors, :class => :ClassdefSchedule
 
   one_to_many :hourly_punches
