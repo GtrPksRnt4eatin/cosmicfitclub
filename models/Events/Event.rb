@@ -94,7 +94,7 @@ class Event < Sequel::Model
       next nil if DateTime.now < p.available_after        unless p.available_after.nil?
       next nil if p.event_tickets.count >= p.max_quantity unless p.max_quantity.nil?
       next p
-    end.compact
+    end.compact.sort_by { |x| x[:order] }
   end
 
   #################### ATTRIBUTE ACCESS ###################
@@ -169,17 +169,21 @@ class Event < Sequel::Model
   end
 
   def admin_detail
-    { :id          => self.id, 
-      :name        => self.name + self.subheading, 
-      :description => self.description,
-      :details     => self.details,
-      :starttime   => self.starttime.try(:iso8601), 
-      :image_data  => self.image_data,
-      :image_url   => self.image_url,
-      :wide_image  => self.wide_image.try(:details_hash),
-      :sessions    => self.sessions,
-      :prices      => self.prices
-    }
+    val = self.full_detail
+    val[:prices] = self.prices.sort_by { |x| x[:order] }
+    val
+    
+    #{ :id          => self.id, 
+    #  :name        => self.name + self.subheading,
+    #  :description => self.description,
+    #  :details     => self.details,
+    #  :starttime   => self.starttime.try(:iso8601), 
+    #  :image_data  => self.image_data,
+    #  :image_url   => self.image_url,
+    #  :wide_image  => self.wide_image.try(:details_hash),
+    #  :sessions    => self.sessions,
+    #  :prices      => self.prices
+    #}
   end
 
   def to_json(options = {})
