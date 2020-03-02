@@ -45,6 +45,7 @@ module Scheduling
     list = list.combination(2).map do |item1,item2|
       if item1[:starttime] < item2[:starttime] && item1[:endtime] <= item2[:starttime] then next nil end
       if item1[:starttime] >= item2[:endtime] && item1[:endtime] > item2[:endtime] then next nil end
+      if item1[:type]=='classoccurrence' && item2[:type]=='classoccurrence' then next nil end
       next [item1,item2]
     end
     list.compact!
