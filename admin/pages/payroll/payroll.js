@@ -12,7 +12,7 @@ ctrl = {
     data['from'] = match[1];
     data['to'] = match[2];
     $.get('/models/staff/payroll', { from: match[1], to: match[2] }, on_payroll_data, 'json');
-    history.replaceState({ "from": data['from'], "to": data['to'] }, "", `payroll?from=${data['from']}&to=${data['to']}`);
+    history.pushState({ "from": data['from'], "to": data['to'] }, "", `payroll?from=${data['from']}&to=${data['to']}`);
   },
   dl_csv: function(e,m) {
   	var match = /(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/.exec(data['range']);
@@ -27,7 +27,6 @@ $(document).ready(function() {
   data['to']   = getUrlParameter('to')   ? getUrlParameter('to')   : null;
   if( !empty(data['from']) && !empty(['to']) ) { 
     set_range(data['from'],data['to']);  
-    history.replaceState({ "from": data['from'], "to": data['to'] }, "", `payroll?from=${data['from']}&to=${data['to']}`);
   }
 
   $(window).bind('popstate', function(e) { 
