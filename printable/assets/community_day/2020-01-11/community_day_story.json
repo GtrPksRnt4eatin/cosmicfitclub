@@ -1,0 +1,75 @@
+{ "background": "1080x1920_bg.jpg",
+
+  "elements": [ 
+    { "type": "logo",
+      "x_offset": 20,
+      "y_offset": 190,
+      "width": 1040
+    },
+    { "type": "img_array",
+      "x_offset": 0,
+      "y_offset": 570,
+      "width": 1080,
+      "height": 1080,
+      "margin": 20,
+      "rowsize": 4,
+      "images": [
+        { "img": "1_Tim.jpg",
+          "lines": ["8:00 AM", "Cosmic Yoga", "w/ Tim Leibowitz"]
+        },
+        { "img": "2_Astrid.jpg",
+          "lines": ["9:00 AM", "Beginner Yoga", "w/ Astrid Locker"]
+        },
+        { "img": "3_Daria.jpg",
+          "lines": ["10:00 AM", "Tai Chi", "w/ Daria FM"]
+        },
+        { "img": "4_Aryn.jpg",
+          "lines": ["11:00 AM", "Flexability", "w/ Aryn Shelander"]
+        },
+        { "img": "5_Noel.jpg",
+          "lines": ["12:00 PM", "Core Fusion", "w/ Noel"]
+        },
+        { "img": "7_GeWang.jpg",
+          "lines": ["1:00 PM", "Strength Training", "w/ Ge Wang"]
+        },
+        { "img": "8_JJ & Daisy.jpg",
+          "lines": ["2:00 PM", "Acrodance", "w/ JJ & Daisy"]
+        },
+        { "img": "9b_acroyoga.jpg",
+          "lines": ["3:00 PM", "Acroyoga Basics", "w/ Juliana"]
+        },
+        { "img": "9_Juliana.jpg",
+          "lines": ["4:00 PM", "Acroyoga Flows", "w/ Juliana"]
+        },
+        { "img": "10_Handstands.jpg",
+          "lines": ["5:00 PM", "Handstands", "w/ Laura Lebron"]
+        },
+        { "img": "9b_Thai.jpg",
+          "lines": ["6:00 PM", "Thai Massage", "w/ Laura Lebron"]
+        },
+        { "img": "11_rick.jpg",
+          "lines": ["7:00 PM", "Calisthenics", "w/ Rick Seedman"]
+        },
+        { "img": "cat1.jpg",
+          "lines": ["Coffee"]
+        },
+        { "img": "12_Ben.jpg",
+          "lines": ["8:00 PM", "Group Acro", "w/ Ben Klein"]
+        },
+        { "img": "13_MindOpen.jpg",
+          "lines": ["9:00 PM", "Open Studio & Live Music", "w/ Mind Open"]
+        },
+        { "img": "cat2.jpg",
+          "lines": ["Donut"]
+        }
+      ]
+    },
+    { "type": "highlight_text",
+      "x_offset": 0,
+      "y_offset": 190,
+      "ptsize": 18,
+      "gravity": "South",
+      "text" : "Free Community Day Jan 11th!"
+    }
+  ]
+}

@@ -221,6 +221,9 @@ function checkout() {
 }
 
 function register() {
+  if( data.mode == 'a_la_carte' ) {
+    if(data.included_sessions==[]) { alert("Select the sessions which you will be attending!"); return; }
+  }
 
   body = JSON.stringify({
     "event_id": data.event_data['id'],
