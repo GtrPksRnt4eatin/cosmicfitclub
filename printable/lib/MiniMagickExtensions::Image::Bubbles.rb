@@ -4,8 +4,28 @@ module MiniMagickExtensions
 
     module Bubbles
 
-       def to_bubble(lines=nil, ptscale=0.05, ptscale2=0.74)
-        ptsize  = self.dimensions[0] / 300 * 72 * ptscale 
+      def build_mask(opts)
+        p opts[:radius]
+        opts[:radius] ||= [opts[:width],opts[:height]].min/10
+        MiniMagick::Tool::Convert.new do |i|
+          i.size "#{opts[:width]}x#{opts[:height]}"
+          i.gravity "center"
+          i.xc "transparent"
+          i << 'printable/assets/tmp/mask.png'
+        end
+        img = MiniMagick::Image.open("printable/assets/tmp/mask.png")
+        p img
+        p opts[:radius]
+        img.draw_box({
+          :width => opts[:width],
+          :height => opts[:height],
+          :color  => 'White',
+          :radius => opts[:radius]
+        })
+      end
+
+      def to_bubble(lines=nil, ptscale=0.05, ptscale2=0.74)
+        ptsize  = self.dimensions[0].to_f / 300 * 72 * ptscale 
         ptsize2 = ptsize * ptscale2
         self.footer_lines({ :lines=>lines, :ptsize=>ptsize, :ptsize2 => ptsize2, :offset=>20 }) unless lines.nil?
         self.mask_edges
@@ -34,6 +54,7 @@ module MiniMagickExtensions
         opts[:color]    ||= Values::WhiteGlow
         opts[:margin]   ||= opts[:width] * 0.01
         opts[:radius]   ||= opts[:width] / 10
+        p opts[:radius]
         self.draw_box({
           :x_offset => opts[:x_offset] - opts[:margin], 
           :y_offset => opts[:y_offset] - opts[:margin], 
@@ -66,13 +87,16 @@ module MiniMagickExtensions
         opts[:ptscale2] ||= 0.02
         opts[:margin]   ||= opts[:width] * 0.006
         opts[:height]   ||= opts[:width]
+        opts[:radius]   ||= [opts[:width],opts[:height]].min/10
         ptsize  = (opts[:width] * opts[:ptscale]) / 300 * 72
         ptsize2 = (opts[:width] * opts[:ptscale2]) / 300 * 72 
         event = Event[opts[:event_id]] or return
-        img = MiniMagick::Image.open(event.image[:original].url)
+        p opts[:wide]
+        img = MiniMagick::Image.open(event.image[:original].url) unless opts[:wide]
+        img = MiniMagick::Image.open(event.wide_image.url)       if     opts[:wide]
         img.resize_with_crop(opts[:width].to_i,opts[:height].to_i,{ :geometry => :center })
         img.footer_lines( { :lines => event.poster_lines, :ptsize => ptsize, :ptsize2 => ptsize2 } )
-        img.mask_edges
+        img.mask_edges(opts)
         self.bubble_shadow(opts)
         self.overlay(img, opts[:width], opts[:height], opts[:x_offset], opts[:y_offset])
       end

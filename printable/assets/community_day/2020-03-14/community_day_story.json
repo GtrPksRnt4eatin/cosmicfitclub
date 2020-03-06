@@ -1,29 +1,28 @@
-{ "background": "4x6_bg.jpg",
+{ "background": "1080x1920_bg.jpg",
 
   "elements": [ 
     { "type": "logo",
-      "x_offset": 300,
-      "y_offset": 20,
-      "width": 600
+      "x_offset": 180,
+      "y_offset": 180,
+      "width": 710
     },
     { "type": "highlight_text",
       "x_offset": 0,
-      "y_offset": 250,
-      "ptsize": 18,
+      "y_offset": 445,
+      "ptsize": 16,
       "gravity": "North",
-      "text" : "Free Community Day Mar 14th!",
-      "strokewidth": 3
+      "text" : "Free Community Day Mar 14th!"
     },
     { "type": "img_array",
-      "path": "printable/assets/community_day/2020-03-14/",
-      "x_offset": 20,
-      "y_offset": 325,
-      "width": 1160,
-      "height": 1460,
-      "margin_x": 35,
-      "margin_y": 20,
+      "x_offset": 10,
+      "y_offset": 510,
+      "width": 1060,
+      "height": 1240,
       "ptscale": 0.09,
       "ptscale2": 0.9,
+      "margin_y": 20,
+      "margin_x": 50,
+      "path": "printable/assets/community_day/2020-03-14/",
       "rowsize": 3,
       "images": [
         { "img": "01_Tim.jpg",
@@ -63,7 +62,6 @@
           "lines": ["8:30 PM", "Thai Massage", "w/ Mary"]
         }
       ]
-    },
-    { "type": "footer" }
+    }
   ]
 }

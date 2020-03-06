@@ -197,7 +197,8 @@ class Event < Sequel::Model
   ########################## LISTS ########################
 
   def Event::future
-    Event.order(:starttime).exclude( hidden: true ).all.select{|x| x.last_day >= Date.today }
+    list = Event.exclude( hidden: true ).all.select{|x| x.last_day >= Date.today }
+    list.sort_by { |x| x.starttime }
   end
 
   def Event::list_future
