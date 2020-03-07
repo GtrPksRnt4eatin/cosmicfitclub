@@ -52,7 +52,7 @@ html
         #custyselector_container
         #ticketselector_container
 
-      .tile rv-each-sess='data.event.sessions'
+      .tile rv-each-sess='data.list'
 
         .title
           | [# {sess.id} ] { sess.title }
@@ -64,17 +64,17 @@ html
           | { sess.description }
 
         .subtitle
-          | Headcount: { data.list | headcount sess }
+          | Headcount: { sess.passes | count }
 
         table#tickets
-          tr rv-each-tic='data.list' rv-show='tic | has_session sess' rv-title='tic.id'
+          tr rv-each-tic='sess.passes' rv-title='tic.id'
             td.edit_tic rv-on-click='ctrl.edit_tic'
               | { tic.id }
             td.edit_custy rv-on-click='ctrl.edit_customer'
-              | { tic | getname }
+              | { tic.customer.name }
             td
-              | { tic | getemail }
-            td.checkin rv-class='tic | checked_in_class sess' rv-on-click='ctrl.check_in'
-              | { tic | checked_in sess }
+              | { tic.customer.email }
+            td.checkin rv-data-checkedin='tic.checked_in' rv-on-click='ctrl.check_in'
+              | { tic.checked_in }
 
     #popupmenu_container

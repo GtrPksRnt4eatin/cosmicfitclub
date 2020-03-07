@@ -17,11 +17,11 @@ html
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
 
-    == css [ 'fonts', 'site', 'header', 'footer', 'summer_sale' ]
+    == css [ 'fonts', 'site', 'header', 'footer', 'survey' ]
     == js  [ 'jquery' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
     == js  [ 'lib', 'element', 'ev_channel', '/checkout/elements/payment_form', '/auth/elements/userview', 'popupmenu']
-    == js  [ 'summer_sale' ]
+    == js  [ 'survey' ]
 
   body
 
@@ -40,9 +40,9 @@ html
 
         .description
           span
-            | New Student Special! Three Classes for just $33
+            | Thanks For Completing Our Survey!
             br
-            | One per recipient, New Students Only.
+            | You can purchase your next ten pack here at $10 off!
             br
             | Good for All Classes Offered on the Regular Schedule.
 

@@ -13,9 +13,9 @@ class Event < Sequel::Model
 
   one_to_many :collaborations, :class=>:EventCollaborations
 
-  many_to_one :wide_image,  :class => :StoredImage
+  many_to_one :wide_image, :class=>:StoredImage
 
-  many_to_one :short_url, :class => :ShortUrl
+  many_to_one :short_url, :class=>:ShortUrl
 
   def create_session
     new_session = EventSession.create
@@ -100,6 +100,10 @@ class Event < Sequel::Model
   #################### ATTRIBUTE ACCESS ###################
 
   ################# CALCULATED PROPERTIES #################
+
+  def passes
+    self.tickets.map(&:passes).flatten
+  end
 
   def starttime
     return DateTime.now if self.sessions.empty?
@@ -211,10 +215,15 @@ class Event < Sequel::Model
         :checkins  => tic.checkins.map(&:to_hash),
         :customer  => tic.customer.try(:to_list_hash),
         :recipient => tic.recipient.try(:to_list_hash),
-        :event     => self.to_token
+        :event     => self.to_token,
+        :passes    => tic.passes.map(&:to_token)
       } )
     end
-  end  
+  end
+
+  def attendance2
+    self.sessions.map(&:attendance_hash)
+  end
 
   def attendance_csv 
 

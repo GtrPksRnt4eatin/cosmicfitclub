@@ -85,6 +85,10 @@ function initialize_rivets() {
     return 'checkedout';
   }
 
+  rivets.formatters.count = function(val) {
+    return val.count;
+  }
+
   rivets.formatters.headcount = function(val, session) {
     return val.filter( function(tic) { 
       return $.inArray(session.id, tic.included_sessions)>-1 
@@ -106,7 +110,7 @@ function initialize_rivets() {
 }
 
 function update_data() {
-	$.get(`/models/events/${data['event'].id}/attendance`, on_attendance);
+	$.get(`/models/events/${data['event'].id}/attendance2`, on_attendance);
 }
 
 function on_attendance(attendance) { 

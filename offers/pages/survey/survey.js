@@ -103,7 +103,7 @@ function validate_noid() {
 }
 
 function checkout(customer_id) {
-  payment_form.checkout( customer_id, 3300, "Three Pack (new student special)", null, function(payment_id) {
+  payment_form.checkout( customer_id, 17000, "Ten Pack ($10 off survey reward)", null, function(payment_id) {
       $.post('/checkout/pack/buy', { customer_id: customer_id, pack_id: 10, payment_id: payment_id })
        .success( function() { alert("Purchase Successful!"); window.location.href = '/user'; } );
     });
