@@ -79,10 +79,15 @@ function initialize_rivets() {
   }
 
   rivets.formatters.checked_in_class = function(val, session) {
-    if(empty(val.checkins)) { return 'checkedout' }
-    var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
-    if(checkins.length > 0 ) { return 'checkedin' }
-    return 'checkedout';
+    val
+    //if(empty(val.checkins)) { return 'checkedout' }
+    //var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
+    //if(checkins.length > 0 ) { return 'checkedin' }
+    //return 'checkedout';
+  }
+
+  rivets.formatters.bool = function(val) {
+    return(empty(val) ? false : true);
   }
 
   rivets.formatters.count = function(val) {
