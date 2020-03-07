@@ -123,7 +123,7 @@ class Customer < Sequel::Model
     objects << "Customer Has Checkins"     if self.event_checkins.count > 0
     objects << "Customer Has Event Passes" if self.event_passes.count > 0
     objects << "Customer Has Waivers"      if self.waivers.count > 0
-    opjects << "Customer Has Gift Certs"   if self.gift
+    opjects << "Customer Has Gift Certs"   if self.gift_certificates.count > 0
     objects
   end
 
