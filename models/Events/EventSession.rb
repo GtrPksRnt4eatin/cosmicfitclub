@@ -102,7 +102,7 @@ class EventSession < Sequel::Model
       :end_time    => self.end_time,
       :title       => self.title,
       :description => self.description,
-      :passes      => self.passes.map(&:attendance_hash)
+      :passes      => self.passes.sort_by(&:ticket_id).map(&:attendance_hash)
     }
   end
 
