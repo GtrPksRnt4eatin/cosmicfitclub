@@ -67,14 +67,14 @@ html
           | Headcount: { sess.passes | count }
 
         table#tickets
-          tr rv-each-tic='sess.passes' rv-title='tic.id'
+          tr rv-each-pass='sess.passes' rv-title='pass.id'
             td.edit_tic rv-on-click='ctrl.edit_tic'
-              | { tic.id }
+              | { pass.ticket_id }
             td.edit_custy rv-on-click='ctrl.edit_customer'
-              | { tic.customer.name }
+              | { pass.customer.name }
             td
-              | { tic.customer.email }
-            td.checkin rv-data-checkedin='tic.checked_in | bool' rv-on-click='ctrl.check_in'
-              | { tic.checked_in | checkin_time }
+              | { pass.customer.email }
+            td.checkin rv-data-checkedin='pass.checked_in | bool' rv-on-click='ctrl.check_in'
+              | { pass.checked_in | checkin_time }
 
     #popupmenu_container
