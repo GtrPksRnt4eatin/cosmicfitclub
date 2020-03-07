@@ -78,6 +78,11 @@ function initialize_rivets() {
     else return "Check In Now";
   }
 
+  rivets.formatters.checkin_time = function(val) {
+    if(empty(val)) { return "Check In Now"; }
+    return moment(val).format('h:mm:ss a');
+  }
+
   rivets.formatters.checked_in_class = function(val, session) {
     val
     //if(empty(val.checkins)) { return 'checkedout' }

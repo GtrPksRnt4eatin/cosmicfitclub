@@ -75,6 +75,6 @@ html
             td
               | { tic.customer.email }
             td.checkin rv-data-checkedin='tic.checked_in | bool' rv-on-click='ctrl.check_in'
-              | { tic.checked_in }
+              | { tic.checked_in | checkin_time }
 
     #popupmenu_container
