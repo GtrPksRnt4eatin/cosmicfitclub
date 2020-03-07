@@ -105,6 +105,7 @@ class Customer < Sequel::Model
   end
 
   def delete
+    self.waivers.each { |wav| wav.delete }
     return false      unless self.can_delete?
     self.login.delete unless self.login.nil?
     super
