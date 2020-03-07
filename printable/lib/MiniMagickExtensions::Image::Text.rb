@@ -39,9 +39,9 @@ module MiniMagickExtensions
         end
       end
 
-      def draw_paragraph(text,pointsize=18,x=0,y=0,gravity='None',color=Values::TextColor,spacing=0)
+      def draw_paragraph(opts)
         opts[:text]      ||= ""
-        opts[:pointsize] ||= 18
+        opts[:ptsize] ||= 18
         opts[:x_offset]  ||= 0
         opts[:y_offset]  ||= 0
         opts[:gravity]   ||= 'None'
@@ -51,12 +51,11 @@ module MiniMagickExtensions
         self.combine_options do |i|
           i.density           300
           i.fill              opts[:color]
-          i.pointsize         opts[:pointsize]
+          i.pointsize         opts[:ptsize]
           i.font              opts[:font]
           i.gravity           opts[:gravity]
           i.interline_spacing opts[:spacing]
           i.annotate "+#{opts[:x_offset]}+#{opts[:y_offset]}", opts[:text]
-          puts i.command
         end
       end
 
@@ -73,6 +72,7 @@ module MiniMagickExtensions
       end
 
       def footer_lines(opts)
+        return if opts[:lines]==[]
         opts[:lines]   ||= []
         opts[:ptsize]  ||= 15
         opts[:offset]  ||= 20

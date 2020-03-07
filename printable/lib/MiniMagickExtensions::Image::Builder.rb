@@ -23,9 +23,12 @@ module MiniMagickExtensions
             self.draw_paragraph(el)
           when "img_array"
             el[:images].map! { |x| x.transform_keys(&:to_sym) }
+            el[:x_offset] ||= 0
+            el[:y_offset] ||= 0
             el[:margin_x] ||= el[:margin]
             el[:margin_y] ||= el[:margin_x]
-            el[:height]   ||= el[:width] 
+            el[:height]   ||= el[:width]
+            el[:rowsize]  ||= 1
             num_rows    = (el[:images].count.to_f / el[:rowsize]).ceil
             tot_margins_x = ( el[:rowsize].to_i + 1 ) * el[:margin_x].to_i
             tot_margins_y = ( num_rows + 1 ) * el[:margin_y].to_i

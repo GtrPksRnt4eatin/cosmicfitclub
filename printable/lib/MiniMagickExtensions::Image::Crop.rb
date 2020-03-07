@@ -4,7 +4,7 @@ module MiniMagickExtensions
 
   	module Crop
 
-  	  def mask_edges(opts)
+  	  def mask_edges(opts={})
         opts[:width]  ||= self.dimensions[0]
         opts[:height] ||= self.dimensions[1]
         mask = self.build_mask(opts) #MiniMagick::Image.open("printable/assets/mask.png")

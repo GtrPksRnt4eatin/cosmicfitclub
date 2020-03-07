@@ -5,7 +5,6 @@ module MiniMagickExtensions
     module Bubbles
 
       def build_mask(opts)
-        p opts[:radius]
         opts[:radius] ||= [opts[:width],opts[:height]].min/10
         MiniMagick::Tool::Convert.new do |i|
           i.size "#{opts[:width]}x#{opts[:height]}"
@@ -14,8 +13,6 @@ module MiniMagickExtensions
           i << 'printable/assets/tmp/mask.png'
         end
         img = MiniMagick::Image.open("printable/assets/tmp/mask.png")
-        p img
-        p opts[:radius]
         img.draw_box({
           :width => opts[:width],
           :height => opts[:height],

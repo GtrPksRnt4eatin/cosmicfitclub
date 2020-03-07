@@ -17,17 +17,101 @@ module CampPoster
   def CampPoster::generate_a4
     @@image = MiniMagick::Image.open("printable/assets/a4_bg.jpg")
     @@image.draw_elements([
+      { :type     => 'box',
+        :width    => 1228,
+        :height   => 3350,
+        :x_offset => 40,
+        :y_offset => 40,
+        :radius   => 120
+      },
       { :type     => 'logo',
-        :x_offset => 20,
-        :y_offset => 20,
-        :width    => 650
+        :x_offset => 70,
+        :y_offset => 60,
+        :width    => 1150
       },
       { :type     => 'paragraph',
         :color    => '#FFFF00',
-        :x_offset => 20,
-        :y_offset => 400,
+        :x_offset => 70,
+        :y_offset => 750,
+        :ptsize   => 58,
+        :font     => "shared/fonts/webfonts/329F99_3_0.ttf",
         :text     => "CIRCUS\r\nARTS\r\nPROGRAM"
-      }
+      },
+      { :type     => 'paragraph',
+        :color    => '#FFFFFF',
+        :x_offset => 70,
+        :y_offset => 1375,
+        :spacing  => 12,
+        :text     => %{ 
+          This summer, children from ages
+          7-14 will discover the exciting 
+          world of circus arts: learn how to
+          fly high on aerial silks, walk the
+          tight wire, juggle, clown, 
+          unicycle, build human pyramids
+          and much more!
+        }.gsub(/ +/, ' ').gsub(/^ /,'')
+      },
+      { :type     => 'paragraph',
+        :color    => '#FFFFFF',
+        :x_offset => 70,
+        :y_offset => 2070,
+        :spacing  => 12,
+        :text     => %{ 
+          Offered 9am-3pm in three
+          2-week sessions culminating in a
+          student performance!
+        }.gsub(/ +/, ' ').gsub(/^ /,'')
+      },
+      { :type     => 'paragraph',
+        :color    => '#FFFFFF',
+        :x_offset => 70,
+        :y_offset => 2420,
+        :spacing  => 12,
+        :text     => %{ 
+          Early Bird Pricing until 4/30
+          Sibling & Multi-Session discounts
+          available online.
+        }.gsub(/ +/, ' ').gsub(/^ /,'')
+      },
+      { :type     => 'paragraph',
+        :color    => '#FFFF00',
+        :x_offset => -560,
+        :y_offset => 2700,
+        :ptsize   => 21,
+        :gravity  => 'North',
+        :spacing  => '20',
+        :font     => "shared/fonts/webfonts/329F99_3_0.ttf",
+        :text     => %{ 
+          JUNE 29 - JULY 10, 2020
+          JULY 13 - JULY 24, 2020
+          JULY 27 - AUGUST 7, 2020
+        }.gsub(/ +/, ' ').gsub(/^ /,'')
+      },
+      { :type     => 'paragraph',
+        :color    => '#FFFFFF',
+        :x_offset => -560,
+        :y_offset => 3100,
+        :ptsize   => 16,
+        :gravity  => 'North',
+        :spacing  => '20',
+        :text     => %{ 
+          For more information, visit
+          https://cosmicfitclub.com/kidscircus
+        }.gsub(/ +/, ' ').gsub(/^ /,'')
+      },
+      { :type     => 'img_array',
+        :width    => 1143,
+        :height   => 3350,
+        :x_offset => 1268,
+        :margin   => 40,
+        :images   => [
+          { :img   => 'printable/assets/summercamp/kidscamp1.jpg', :lines => [] },
+          { :img   => 'printable/assets/summercamp/kidscamp2.jpg', :lines => [] },
+          { :img   => 'printable/assets/summercamp/kidscamp3.png', :lines => [] }
+        ]
+      },
+      { :type => 'footer' }
     ]).save('summercamp/summercamp_poster_a4.jpg')
   end
 
