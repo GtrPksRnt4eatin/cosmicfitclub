@@ -18,10 +18,14 @@ UserView.prototype = {
   logout()   { $.post('/auth/logout', function() { window.location.reload(); } ); },
   userpage() { window.location = '/user'; },
 
-  get_user() {
+  get_user(callback) {
     $.get('/auth/current_user')
       .fail( function()     { this.state.user = null; this.ev_fire('on_user', null); }.bind(this))
-      .done( function(user) { this.state.user = user; this.ev_fire('on_user', user); }.bind(this));
+      .done( function(user) { 
+        this.state.user = user; 
+        this.ev_fire('on_user', user); 
+        if(callback) { callback.call(null,user); }
+      }.bind(this));
   },
 
   get id() {

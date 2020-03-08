@@ -82,8 +82,7 @@ function create_account() {
     }), 'json')
    .fail( function(req,msg,status) { data.errors = ['failed to create account'];  $('#offer_form').shake(); } )
    .success( function(resp) {
-      userview.get_user();
-      checkout(resp.id)
+      userview.get_user(function(user) { checkout(resp.id); });
     });
 }
 
@@ -91,8 +90,7 @@ function login() {
   $.post('/auth/login', JSON.stringify({ "email" : data.email, "password" : data.password } ))
   .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors=["Login Failed"] } )
   .success( function() { 
-    userview.get_user();
-    checkout(data.id);
+    userview.get_user(function(user) { checkout(resp.id); });
   });
 }
 
