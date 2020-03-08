@@ -13,6 +13,8 @@
   padding: 0;
   letter-spacing: 0.05em;
   position: relative;
+  display: inline-block;
+  min-width: 60%;
 }
 
 .tile .name_container {
