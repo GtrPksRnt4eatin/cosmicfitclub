@@ -88,7 +88,7 @@ function initialize_rivets() {
   }
 
   rivets.formatters.count = function(val) {
-    return val.count;
+    return val.filter(function(x) { return (empty(x.checked_in) ? false : true) }).length + " / " + val.length;
   }
 
   rivets.formatters.headcount = function(val, session) {
