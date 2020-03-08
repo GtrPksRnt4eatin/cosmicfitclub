@@ -67,9 +67,9 @@ html
           | Headcount: { sess.passes | count }
 
         table#tickets
-          tr rv-each-pass='sess.passes' rv-title='pass.id'
+          tr rv-each-pass='sess.passes' rv-title='pass.ticket.ticketclass.name'
             td.edit_tic rv-on-click='ctrl.edit_tic'
-              | { pass.ticket_id }
+              | { pass.ticket.id }
             td.edit_custy rv-on-click='ctrl.edit_customer'
               | { pass.customer.name }
             td

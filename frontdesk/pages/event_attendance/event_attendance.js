@@ -18,7 +18,7 @@ ctrl = {
 	},
 
   edit_tic: function(e,m) {
-    document.location.href = '/admin/edit_ticket?id=' + m.pass.ticket_id;
+    document.location.href = '/admin/edit_ticket?id=' + m.pass.ticket.id;
   },
 
   edit_customer: function(e,m) {
