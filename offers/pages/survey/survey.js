@@ -76,22 +76,15 @@ function on_user(user) {
 }
 
 function create_account() {
-  $.post('/auth/register_and_login', JSON.stringify({
-      "name": data.full_name,
-      "email": data.email
-    }), 'json')
-   .fail( function(req,msg,status) { data.errors = ['failed to create account'];  $('#offer_form').shake(); } )
-   .success( function(resp) {
-      userview.get_user(function(user) { checkout(resp.id); });
-    });
+  $.post('/auth/register_and_login', JSON.stringify( { "name": data.full_name, "email": data.email } ), 'json')
+   .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors = ['failed to create account']; } )
+   .success( function() { userview.get_user( function(user) { checkout(user.id); } ); } );
 }
 
 function login() {
   $.post('/auth/login', JSON.stringify({ "email" : data.email, "password" : data.password } ))
   .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors=["Login Failed"] } )
-  .success( function(resp) { 
-    userview.get_user(function(user) { checkout(resp.id); });
-  });
+  .success( function() { userview.get_user( function(user) { checkout(user.id); } ); } );
 }
 
 function validate_noid() {
