@@ -89,7 +89,7 @@ function create_account() {
 function login() {
   $.post('/auth/login', JSON.stringify({ "email" : data.email, "password" : data.password } ))
   .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors=["Login Failed"] } )
-  .success( function() { 
+  .success( function(resp) { 
     userview.get_user(function(user) { checkout(resp.id); });
   });
 }
