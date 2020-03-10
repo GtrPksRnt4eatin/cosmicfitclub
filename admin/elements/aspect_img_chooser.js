@@ -7,7 +7,7 @@ function AspectImageChooser(parent) {
     'url'      : null
   }
 
-  this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url', 'open_file', 'load_image', 'resize', 'rebuild_croppie', 'save_crop']);
+  this.bind_handlers(['build_croppie', 'input_change', 'on_reader_load', 'load_url', 'open_file', 'load_image', 'resize', 'rebuild_croppie', 'save_crop','viewport_size']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
@@ -23,15 +23,24 @@ function AspectImageChooser(parent) {
 AspectImageChooser.prototype = {
   constructor: AspectImageChooser,
 
+  viewport_size: function() {
+    max_width     = window.innerWidth  * 0.6;
+    max_height    = window.innerHeight * 0.6;
+    window_aspect = max_width / max_height;
+    crop_aspect   = this.state.width / this.state.height;
+    view_width    = (window_aspect > crop_aspect) ? max_height * crop_aspect : max_width;
+    view_height   = (window_aspect > crop_aspect) ? max_height : max_width / crop_aspect
+    return { width: view_width, height: view_height }
+  },
+
   build_croppie: function(width,height) {
   	this.state.width  = width  | this.state.width;
   	this.state.height = height | this.state.height;
     el = $(this.dom).find('.croppie')[0];
-    width = window.innerWidth * 0.6
-    height = width * this.state.height / this.state.width
+    size = this.viewport_size();
   	this.croppie = new Croppie( el, {
-      viewport: { width: width, height: height },
-      boundary: { width: width * 1.1, height: height * 1.1 },
+      viewport: size,
+      boundary: { width: size['width'] * 1.1, height: size['height'] * 1.1 },
       showZoomer: false
     });
 

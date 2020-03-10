@@ -172,18 +172,6 @@ class Event < Sequel::Model
     val = self.full_detail
     val[:prices] = self.prices.sort_by { |x| x[:order] }
     val
-    
-    #{ :id          => self.id, 
-    #  :name        => self.name + self.subheading,
-    #  :description => self.description,
-    #  :details     => self.details,
-    #  :starttime   => self.starttime.try(:iso8601), 
-    #  :image_data  => self.image_data,
-    #  :image_url   => self.image_url,
-    #  :wide_image  => self.wide_image.try(:details_hash),
-    #  :sessions    => self.sessions,
-    #  :prices      => self.prices
-    #}
   end
 
   def to_json(options = {})
