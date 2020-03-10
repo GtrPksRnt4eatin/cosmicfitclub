@@ -236,6 +236,12 @@ class EventRoutes < Sinatra::Base
     event.attendance.to_json
   end
 
+  get '/:id/attendance2' do
+    content_type :json
+    event = Event[params[:id]] or halt(404, "Event Not Found")
+    event.attendance2.to_json
+  end
+
   get '/:id/attendance.csv' do
     content_type 'application/csv'
     event = Event[params[:id]] or halt(404, "Event Not Found")
@@ -256,26 +262,6 @@ class EventRoutes < Sinatra::Base
     end
     JSON.pretty_generate tickets
   end
-
-#  get '/:id/total' do
-#    balance = 0
-#    tickets = Event[params[:id]].tickets
-#    tickets.each do |tic|
-#     charge =  Stripe::Charge.retrieve(tic.get_stripe_id)
-#      transaction = Stripe::BalanceTransaction.retrieve charge.balance_transaction
-#      balance = balance + transaction.net
-#      puts " + #{transaction.net}"
-#      puts " = #{balance}"
-
-#      charge.refunds.data.each do |refund|
-#        transaction = Stripe::BalanceTransaction.retrieve refund.balance_transaction
-#        balance = balance + transaction.net
-#        puts " + #{transaction.net}"
-#        puts " = #{balance}"
-#      end
-#    end
-#    ""
-#  end
 
   error do
     Slack.err( 'Event Route Error', env['sinatra.error'] )

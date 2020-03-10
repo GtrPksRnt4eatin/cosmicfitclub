@@ -3,6 +3,7 @@ class EventSession < Sequel::Model
   ###################### ASSOCIATIONS #####################
   
   many_to_one :event
+  one_to_many :passes, :class=>:EventPass,  :key => :session_id
 
   ###################### ASSOCIATIONS #####################
 
@@ -91,6 +92,17 @@ class EventSession < Sequel::Model
       :event_title        => event.name,
       :event_id           => event_id,
       :multisession_event => event.sessions.count > 1
+    }
+  end
+
+  def attendance_hash
+    { :id          => self.id,
+      :event_id    => self.event_id,
+      :start_time  => self.start_time,
+      :end_time    => self.end_time,
+      :title       => self.title,
+      :description => self.description,
+      :passes      => self.passes.sort_by(&:ticket_id).map(&:attendance_hash)
     }
   end
 

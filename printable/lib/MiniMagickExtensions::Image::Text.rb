@@ -39,16 +39,23 @@ module MiniMagickExtensions
         end
       end
 
-      def draw_paragraph(text,pointsize=18,x=0,y=0,gravity='None',color=Values::TextColor,spacing=0)
+      def draw_paragraph(opts)
+        opts[:text]      ||= ""
+        opts[:ptsize] ||= 18
+        opts[:x_offset]  ||= 0
+        opts[:y_offset]  ||= 0
+        opts[:gravity]   ||= 'None'
+        opts[:font]      ||= "shared/fonts/webfonts/329F99_B_0.ttf"
+        opts[:color]     ||= Values::TextColor
+        opts[:spacing]   ||= 0
         self.combine_options do |i|
-          i.fill color
-          i.density 300
-          i.pointsize "#{pointsize}"
-          i.font "shared/fonts/webfonts/329F99_B_0.ttf"
-          i.gravity "#{gravity}"
-          i.interline_spacing spacing
-          i.annotate "+#{x}+#{y}", text
-          puts i.command
+          i.density           300
+          i.fill              opts[:color]
+          i.pointsize         opts[:ptsize]
+          i.font              opts[:font]
+          i.gravity           opts[:gravity]
+          i.interline_spacing opts[:spacing]
+          i.annotate "+#{opts[:x_offset]}+#{opts[:y_offset]}", opts[:text]
         end
       end
 
@@ -65,6 +72,7 @@ module MiniMagickExtensions
       end
 
       def footer_lines(opts)
+        return if opts[:lines]==[]
         opts[:lines]   ||= []
         opts[:ptsize]  ||= 15
         opts[:offset]  ||= 20

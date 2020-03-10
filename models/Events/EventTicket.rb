@@ -114,6 +114,10 @@ class EventTicket < Sequel::Model
     }
   end
 
+  def to_token
+    { :id=>self.id, :ticketclass=>self.eventprice.try(:to_token) }
+  end
+
   def to_json(options = {})
     super( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
   end
@@ -145,7 +149,7 @@ class EventTicket < Sequel::Model
 
     }
   end
-
+  
   ########################## VIEWS ########################
 
 end

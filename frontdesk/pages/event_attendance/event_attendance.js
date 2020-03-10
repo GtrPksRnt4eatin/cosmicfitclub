@@ -18,11 +18,11 @@ ctrl = {
 	},
 
   edit_tic: function(e,m) {
-    document.location.href = '/admin/edit_ticket?id=' + m.tic.id;
+    document.location.href = '/admin/edit_ticket?id=' + m.pass.ticket.id;
   },
 
   edit_customer: function(e,m) {
-    document.location.href = '/frontdesk/customer_file?id=' + ( m.tic.purchased_for ? m.tic.purchased_for : m.tic.customer_id );
+    document.location.href = '/frontdesk/customer_file?id=' + m.pass.customer.id;
   },
 
   edit_event(e,m) {
@@ -78,11 +78,17 @@ function initialize_rivets() {
     else return "Check In Now";
   }
 
-  rivets.formatters.checked_in_class = function(val, session) {
-    if(empty(val.checkins)) { return 'checkedout' }
-    var checkins = val.checkins.filter(function(obj) { return obj.session_id == session.id } );
-    if(checkins.length > 0 ) { return 'checkedin' }
-    return 'checkedout';
+  rivets.formatters.checkin_time = function(val) {
+    if(empty(val)) { return "Check In Now"; }
+    return moment(val).format('h:mm:ss a');
+  }
+
+  rivets.formatters.bool = function(val) {
+    return(empty(val) ? false : true);
+  }
+
+  rivets.formatters.count = function(val) {
+    return val.filter(function(x) { return (empty(x.checked_in) ? false : true) }).length + " / " + val.length;
   }
 
   rivets.formatters.headcount = function(val, session) {
@@ -106,7 +112,7 @@ function initialize_rivets() {
 }
 
 function update_data() {
-	$.get(`/models/events/${data['event'].id}/attendance`, on_attendance);
+	$.get(`/models/events/${data['event'].id}/attendance2`, on_attendance);
 }
 
 function on_attendance(attendance) { 

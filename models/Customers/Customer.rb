@@ -17,6 +17,7 @@ class Customer < Sequel::Model
   one_to_many  :staff
   one_to_many  :hourly_punches
   one_to_many  :event_passes
+  one_to_many  :gift_certificates
 
   many_to_one :wallet
   many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
@@ -88,13 +89,14 @@ class Customer < Sequel::Model
 
     other = Customer[customer_id] or return false
 
-    self.reservations.each   { |res| res.customer = other; res.save }
-    self.payments.each       { |pay| pay.customer = other; pay.save }
-    self.tickets.each        { |tic| tic.customer = other; tic.save }
-    self.event_checkins.each { |chk| chk.customer = other; chk.save }
-    self.comp_tickets.each   { |tik| tik.customer = other; tik.save }
-    self.waivers.each        { |wav| wav.customer = other; wav.save }
-    self.event_passes.each   { |pas| pas.customer = other; pas.save }
+    self.reservations.each      { |res| res.customer = other; res.save }
+    self.payments.each          { |pay| pay.customer = other; pay.save }
+    self.tickets.each           { |tic| tic.customer = other; tic.save }
+    self.event_checkins.each    { |chk| chk.customer = other; chk.save }
+    self.comp_tickets.each      { |tik| tik.customer = other; tik.save }
+    self.waivers.each           { |wav| wav.customer = other; wav.save }
+    self.event_passes.each      { |pas| pas.customer = other; pas.save }
+    self.gift_certificates.each { |crt| crt.customer = other; crt.save }
 
     return if self.wallet.nil?
     other.update( :wallet => Wallet.create ) if other.wallet.nil?
@@ -103,6 +105,7 @@ class Customer < Sequel::Model
   end
 
   def delete
+    self.waivers.each { |wav| wav.delete }
     return false      unless self.can_delete?
     self.login.delete unless self.login.nil?
     super
@@ -121,6 +124,7 @@ class Customer < Sequel::Model
     objects << "Customer Has Checkins"     if self.event_checkins.count > 0
     objects << "Customer Has Event Passes" if self.event_passes.count > 0
     objects << "Customer Has Waivers"      if self.waivers.count > 0
+    opjects << "Customer Has Gift Certs"   if self.gift_certificates.count > 0
     objects
   end
 

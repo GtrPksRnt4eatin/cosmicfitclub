@@ -13,9 +13,9 @@ class Event < Sequel::Model
 
   one_to_many :collaborations, :class=>:EventCollaborations
 
-  many_to_one :wide_image,  :class => :StoredImage
+  many_to_one :wide_image, :class=>:StoredImage
 
-  many_to_one :short_url, :class => :ShortUrl
+  many_to_one :short_url, :class=>:ShortUrl
 
   def create_session
     new_session = EventSession.create
@@ -101,6 +101,10 @@ class Event < Sequel::Model
 
   ################# CALCULATED PROPERTIES #################
 
+  def passes
+    self.tickets.map(&:passes).flatten
+  end
+
   def starttime
     return DateTime.now if self.sessions.empty?
     return DateTime.parse(self.sessions.first.start_time)
@@ -185,7 +189,8 @@ class Event < Sequel::Model
   ########################## LISTS ########################
 
   def Event::future
-    Event.order(:starttime).exclude( hidden: true ).all.select{|x| x.last_day >= Date.today }
+    list = Event.exclude( hidden: true ).all.select{|x| x.last_day >= Date.today }
+    list.sort_by { |x| x.starttime }
   end
 
   def Event::list_future
@@ -210,18 +215,21 @@ class Event < Sequel::Model
         :checkins  => tic.checkins.map(&:to_hash),
         :customer  => tic.customer.try(:to_list_hash),
         :recipient => tic.recipient.try(:to_list_hash),
-        :event     => self.to_token
+        :event     => self.to_token,
+        :passes    => tic.passes.map(&:to_token)
       } )
     end
-  end  
+  end
 
-  def attendance_csv 
+  def attendance2
+    self.sessions.map(&:attendance_hash)
+  end
 
-    CSV.generate do |csv|
-
+  def accounting_arr
+          
       used_payment_ids = []
       totals = { :gross => 0, :fees => 0, :refunds => 0, :net => 0 }
-      
+
       rows = self.tickets.sort_by{ |x| x.created_on ? x.created_on.to_i : 0 }.map do |tic|
 
         custy        = tic.customer.to_list_hash
@@ -241,23 +249,36 @@ class Event < Sequel::Model
           end
         end
         
-        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + [ tic.eventprice.try(:title), tic.recipient.try(:id), tic.recipient.try(:name), tic.recipient.try(:email), (tic.checkins.count > 0 ? tic.checkins[0].timestamp : 'X')  ]
+        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + [ tic.eventprice.try(:title) ]
       
       end
+      
+      arr = [ [ "Ticket ID", "Purchase Date", "Customer ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net", "Ticket Type" ] ]
+      arr + rows << [] << [ "Totals:", "", "", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)
 
-      csv << [ "Ticket ID", "Purchase Date", "Customer ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net", "Ticket Type", "Recipient ID", "Name", "Email" ] + sessions.map(&:title)
-      rows.each { |r| csv << r }
-      csv << []
-      csv << [ "Totals:", "", "", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)
-      csv.read
-    
+  end
+
+  def attendance_arr
+    arr = []
+    val = self.attendance2
+    val.each do |x| 
+      arr << [ "[\##{x[:id]}] #{x[:title].upcase}" ]#{x[:starttime].strftime("%a %m/%d %I:%M %P")} - #{x[:endtime].strftime("%a %m/%d %I:%M %P")}" ]
+      arr << ['','','','','']
+      x[:passes].each { |y| arr << [ y[:id], "[\##{y[:ticket][:id]}] #{y[:ticket][:ticketclass][:title]}", "[\##{y[:customer][:id]}] #{y[:customer][:name]}", y[:customer][:email], !!y[:checked_in] ? "X" : " " ] }
+      arr << ['','','','','']
+      arr << ['','','','HEADCOUNT',"#{x[:passes].select{|x| !!x[:checked_in] }.length}/#{x[:passes].length}"]
+      arr << ['','','','','']
     end
+    arr
+  end
 
+  def attendance_csv 
+    CSV.generate { |csv| (csv << accounting_arr).read }
   end
 
   ######################## REPORTS ########################
 
-  def generate_poster(line_1, line_2)
+  def generate_sheets
     
   end
 

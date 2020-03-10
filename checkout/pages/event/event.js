@@ -74,7 +74,7 @@ function set_event_mode() {
   if( data.event_data.registration_url          ) { data.mode = 'external';   return; }
   if( data.event_data.a_la_carte                ) { data.mode = 'a_la_carte'; return; }
   if( data.event_data.prices.length>1           ) { data.mode = 'multi';      return; }
-  if( free_event()                    ) { data.mode = 'free';       return; }
+  if( free_event()                              ) { data.mode = 'free';       return; }
   if( data.event_data.prices[0].member_price==0 ) { data.mode = 'memberfree'; return; }
   if( data.event_data.prices.length == 1        ) { data.mode = 'single';     return; }
 
@@ -221,6 +221,9 @@ function checkout() {
 }
 
 function register() {
+  if( data.mode == 'a_la_carte' ) {
+    if(data.included_sessions==[]) { alert("Select the sessions which you will be attending!"); return; }
+  }
 
   body = JSON.stringify({
     "event_id": data.event_data['id'],

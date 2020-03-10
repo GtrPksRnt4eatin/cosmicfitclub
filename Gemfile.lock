@@ -571,6 +571,10 @@ GEM
       mime-types (~> 3.0)
       representable (~> 3.0)
       retriable (>= 2.0, < 4.0)
+    google_drive (3.0.4)
+      google-api-client (>= 0.11.0, < 0.37.0)
+      googleauth (>= 0.5.0, < 1.0.0)
+      nokogiri (>= 1.5.3, < 2.0.0)
     googleauth (0.6.2)
       faraday (~> 0.12)
       jwt (>= 1.4, < 3.0)
@@ -613,7 +617,7 @@ GEM
     multipart-post (2.0.0)
     mustermann (1.0.3)
     netrc (0.11.0)
-    nokogiri (1.10.4)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     oauth2 (1.4.0)
       faraday (>= 0.8, < 0.13)
@@ -639,11 +643,11 @@ GEM
       json
       rake
     public_suffix (3.0.2)
-    rack (2.0.6)
+    rack (2.2.2)
     rack-protection (2.0.4)
       rack
     rack-ssl-enforcer (0.2.9)
-    rake (12.3.0)
+    rake (13.0.1)
     representable (3.0.4)
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
@@ -705,6 +709,7 @@ DEPENDENCIES
   bcrypt
   eventbrite_sdk
   google-api-client
+  google_drive
   humanize
   icalendar
   ice_cube (>= 0.16.3)
@@ -712,13 +717,15 @@ DEPENDENCIES
   json
   koala
   mini_magick (>= 4.9.4)
+  nokogiri (>= 1.10.8)
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
   pg
   postmark
-  rack (>= 2.0.6)
+  rack (>= 2.0.8)
   rack-ssl-enforcer
+  rake (>= 12.3.3)
   rest-client
   rqrcode
   sequel
@@ -731,7 +738,7 @@ DEPENDENCIES
   twilio-ruby (~> 5.26.0)
 
 RUBY VERSION
-   ruby 2.5.1p57
+   ruby 2.5.0p0
 
 BUNDLED WITH
    1.17.3

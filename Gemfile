@@ -1,8 +1,10 @@
 source "https://rubygems.org"
 
-ruby "2.5.1"
+ruby "2.5.0"
 
-gem 'rack', '>= 2.0.6'
+gem "rake", ">= 12.3.3"
+gem "nokogiri", ">= 1.10.8"
+gem 'rack', '>= 2.0.8'
 gem 'sinatra', '>= 2.0.2'
 gem 'stripe'
 gem 'slim'
@@ -32,3 +34,4 @@ gem 'koala'
 gem 'sucker_punch'
 gem 'humanize'
 gem 'rqrcode'
+gem 'google_drive'

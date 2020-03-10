@@ -2,6 +2,8 @@ require 'google/apis/sheets_v4'
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
 require 'fileutils'
+require 'stringio'
+require 'google_drive'
 
 module Sheets
 
@@ -39,6 +41,34 @@ module Sheets
     sheets.client_options.application_name = APPLICATION_NAME
     sheets.authorization = Sheets.authorize
     sheets.authorization.nil? ? nil : sheets
+  end
+
+#################################################################################
+
+  def Sheets::get_service2
+    io = StringIO.new ENV['GOOGLE_SERVICE']
+    GoogleDrive::Session.from_service_account_key(io)
+  end
+
+  def Sheets::create_event_sheet(event_id)
+    evt = Event[event_id] or return false
+    title = evt.starttime.strftime("%Y-%m-%d [\##{evt.id}] #{evt.name}")
+    svc = Sheets::get_service2
+    folder = svc.folder_by_id("1gEYA96NDJcToN_bJQ0_OpluI-ISYHyVg")
+    sheet = folder.file_by_name(title)
+    sheet ||= folder.create_spreadsheet(title)
+
+    wksht = sheet.worksheets[0]
+    wksht.update_cells(1,1,evt.accounting_arr)
+    wksht.title = "Accounting"
+    wksht.save
+
+    wksht2 = sheet.add_worksheet("Attendance") if sheet.worksheets.count == 1 
+    wksht2 = sheet.worksheets[1]           unless sheet.worksheets.count == 1 
+    wksht2.update_cells(1,1,evt.attendance_arr)
+    wksht2.save
+
+    return sheet.human_url
   end
 
 end

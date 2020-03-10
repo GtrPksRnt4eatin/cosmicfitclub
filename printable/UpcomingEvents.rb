@@ -2,7 +2,8 @@ module UpcomingEvents
 
   def UpcomingEvents::generate_all
     UpcomingEvents::generate_4x6
-    UpcomingEvents::generate_A4
+    UpcomingEvents::generate_a4
+    UpcomingEvents::generate_a4_landscape
   end
 
   def UpcomingEvents::generate_4x6
@@ -57,7 +58,7 @@ module UpcomingEvents
     image.save('upcoming_events/upcoming_events_4x6.jpg')
   end
 
-  def UpcomingEvents::generate_A4
+  def UpcomingEvents::generate_a4
     data = {
       :background => 'printable/assets/a4_bg.jpg',
       :elements => [
@@ -97,7 +98,7 @@ module UpcomingEvents
           :margin_x => 106,
           :margin_y => 50,
           :rowsize  => 2,
-          :ptscale  => 0.063,
+          :ptscale  => 0.05,
           :ptscale2 => 0.8,
           :images   => [ { :img => 'blank'} ] + Event::future.first(5).map { |x| { :img => x.image_url, :lines => x.poster_lines } }
         },
@@ -110,7 +111,7 @@ module UpcomingEvents
     image.save('upcoming_events/upcoming_events_a4.jpg')
   end
 
-  def UpcomingEvents::generate_A4_landscape
+  def UpcomingEvents::generate_a4_landscape
     data = {
       :background => 'printable/assets/a4_bg.jpg',
       :elements => [

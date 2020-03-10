@@ -4,7 +4,7 @@ require 'mini_magick'
 module SchedulePoster
  
   def SchedulePoster::set_class_vars
-    @@margin_top       = 20
+    @@margin_top       = 60
     @@line_height      = 58
     @@header_pointsize = 55
     @@body_pointsize   = 42
