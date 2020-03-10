@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 ruby "2.5.0"
 
+gem "rake", ">= 12.3.3"
+gem "nokogiri", ">= 1.10.8"
 gem 'rack', '>= 2.0.8'
 gem 'sinatra', '>= 2.0.2'
 gem 'stripe'
