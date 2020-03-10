@@ -149,7 +149,7 @@ class EventTicket < Sequel::Model
 
     }
   end
-
+  
   ########################## VIEWS ########################
 
 end
