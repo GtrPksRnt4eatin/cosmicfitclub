@@ -1,0 +1,13 @@
+#banner {
+	display: none;
+}
+
+.tile {
+	padding: 2em;
+	background: rgba(0,0,50,0.8);
+	display: inline-block;
+}
+
+.tile div {
+	margin-bottom: 0.5em;
+}
