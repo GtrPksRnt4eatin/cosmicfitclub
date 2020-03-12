@@ -29,8 +29,7 @@ class CFC < Sinatra::Base
   get( '/media')             { render_page :media    }
   get( '/faq')               { render_page :faq      }
 
-  get( '/class/:id')         { render_page :class    }  
-
+  get( '/class/:id')         { render_page :class    } 
 
   ####################### TEST PAGES #########################
 
@@ -44,6 +43,8 @@ class CFC < Sinatra::Base
   get( '/checkout/plans/:id' )      { render_page :checkout_plan }
   get( '/checkout/packages/:id' )   { render_page :checkout_pack }
   get( '/checkout/complete')        { render_page :checkout_complete }
+
+  get( '/covid19' )                 { render_page :covid19           }
 
   get( '/login' ) { redirect('/auth/login') }
 
