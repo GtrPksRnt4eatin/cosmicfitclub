@@ -227,7 +227,7 @@ class Event < Sequel::Model
     { :id          => 0,
       :event_id    => self.id,
       :title       => "Orphan Tickets",
-      :passes      => tics.map { |x| { :ticket => tic.to_token, :customer => tic.customer.to_token } }
+      :passes      => tics.map { |tic| { :ticket => tic.to_token, :customer => tic.customer.to_token } }
     } 
   end
 
