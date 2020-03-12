@@ -221,8 +221,18 @@ class Event < Sequel::Model
     end
   end
 
+  def orphan_tickets
+    tics = self.tickets.select { |x| x.passes.length == 0 }
+    return nil if tics.length == 0
+    { :id          => 0,
+      :event_id    => self.id,
+      :title       => "Orphan Tickets",
+      :passes      => tics.map { |x| { :ticket => tic.to_token, :customer => tic.customer.to_token } }
+    } 
+  end
+
   def attendance2
-    self.sessions.map(&:attendance_hash)
+    self.sessions.map(&:attendance_hash) << orphan_tickets 
   end
 
   def accounting_arr

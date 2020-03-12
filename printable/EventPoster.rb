@@ -80,16 +80,31 @@ module EventPoster
   def EventPoster::generate1080x1920(event_id)
     @@image = MiniMagick::Image.open("printable/assets/1080x1920_bg.jpg")
     @@image.draw_elements([
+      { :type     => 'logo',
+        :x_offset => 240,
+        :y_offset => 240,
+        :width    => 600
+      },
+      { :type     => 'highlight_text',
+        :text     => "cosmicfitclub.com/#{Event[event_id].short_path}",
+        :x_offset => 0,
+        :y_offset => 470,
+        :gravity  => 'north',
+        :ptsize   => 18
+      },
       { :type     => 'event_bubble',
         :event_id => event_id,
         :x_offset => 50,
-        :y_offset => 470,
+        :y_offset => 570,
         :width    => 980,
         :ptscale  => 0.05,
         :ptscale2 => 0.043
-
+      },
+      { :type     => 'footer',
+        :offset   => 300,
+        :nobottom => true
       }
-    ])
+    ]).save("events/event_#{event_id}/event_#{event_id}_1080x1920.jpg");
   end
 
   def EventPoster::generate1920x1080(event_id)

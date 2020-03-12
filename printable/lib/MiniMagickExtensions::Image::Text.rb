@@ -59,16 +59,17 @@ module MiniMagickExtensions
         end
       end
 
-      def draw_footer(pointsize=nil, offset=0)
-        pointsize ||= self.dimensions[0] * 0.0073
-        line_height = pointsize * 300 / 72
+      def draw_footer(opts)
+        opts[:offset] ||= 0
+        opts[:ptsize] ||= self.dimensions[0] * 0.0073
+        line_height = opts[:ptsize] * 300 / 72
         self.draw_box({
           :x_offset => 0,
-          :y_offset => height-(1.5*line_height)-offset,
-          :width    => width, 
-          :height   => height
+          :y_offset => self.height-(1.5*line_height)-opts[:offset],
+          :width    => self.width, 
+          :height   => opts[:nobottom] ? 1.5*line_height : self.height
         })
-        self.draw_text("21-36 44th Road L.I.C NY 11101  |  347-670-0019  |  cosmicfitclub.com", pointsize, 0, line_height*0.25+offset, "south")
+        self.draw_text("21-36 44th Road L.I.C NY 11101  |  347-670-0019  |  cosmicfitclub.com", opts[:ptsize], 0, line_height*0.25+opts[:offset], "south")
       end
 
       def footer_lines(opts)

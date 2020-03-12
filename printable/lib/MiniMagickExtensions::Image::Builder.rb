@@ -49,7 +49,7 @@ module MiniMagickExtensions
           when "event_bubble"
             self.draw_event_bubble(el)
           when "footer"
-            self.draw_footer
+            self.draw_footer(el)
           when "bubble_shadow"
             self.bubble_shadow(el)
           end
