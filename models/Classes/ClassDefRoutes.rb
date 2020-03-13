@@ -141,7 +141,7 @@ class ClassDefRoutes < Sinatra::Base
   post '/generate' do
     day = params[:day].nil? ? Date.today : Date.parse(params[:day])
     ClassdefSchedule.get_all_occurrences_with_exceptions_merged(day.to_s,(day+1).to_s).each do |occ|
-      ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0].try(:id), Time.parse(occ[:starttime].to_s) )
+      ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0][:id], Time.parse(occ[:starttime].to_s) )
     end
     status 204
     {}.to_json
