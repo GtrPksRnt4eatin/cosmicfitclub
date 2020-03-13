@@ -5,7 +5,7 @@ module Sinatra
   module ViewHelpers
 
     def covid19
-      "\n<div style='background:rgba(255,0,0,0.4); padding:0.5em; text-align: center; font-size: 2em;'><a href='/covid19'>Community Health Advisory</a></div>"
+      "\n<div style='background:rgba(255,50,50,0.3); padding:0.5em; text-align: center; font-size: 2em;'><a href='/covid19'>Community Health Advisory</a></div>"
     end
 
     def no_scaling; "\n<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'/>" end
