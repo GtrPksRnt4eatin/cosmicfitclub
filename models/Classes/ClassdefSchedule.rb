@@ -26,6 +26,25 @@ class ClassdefSchedule < Sequel::Model
     items
   end
 
+  def ClassdefSchedule.get_all_occurrences_with_exceptions_merged(from,to)
+    items = []
+    ClassdefSchedule.all.each do |sched|
+      sched.get_occurrences_with_exceptions_merged(from, to).each do |starttime|
+        items << { 
+          :day => Date.strptime(starttime.to_time.iso8601).to_s,
+          :starttime => starttime,
+          :endtime =>  starttime + ( sched.end_time - sched.start_time ),
+          :title => sched.classdef.name,
+          :classdef_id => sched.classdef.id,
+          :sched_id => sched.id,
+          :instructors => sched.instructors,
+          :exception => exception.try(:full_details)
+        }
+      end
+    end
+    items
+  end
+
   def ClassdefSchedule.get_class_page_rankings
     items = []
     from = DateTime.now
@@ -42,7 +61,7 @@ class ClassdefSchedule < Sequel::Model
     items | ClassDef.list_active_and_current.map(&:id)
   end
 
-  def ClassdefSchedule.get_occurrences(from,to)
+  def get_occurrences(from,to)
     return [] if rrule.nil?
     return [] if start_time.nil?
     from = Time.parse(from) if from.is_a? String
@@ -52,7 +71,7 @@ class ClassdefSchedule < Sequel::Model
     end.occurrences_between(from,to)
   end
 
-  def ClassdefSchedule.get_occurrences_with_exceptions(from,to)
+  def get_occurrences_with_exceptions(from,to)
     get_occurrences(from,to).map do |starttime|
       exception  =  ClassException.find( :classdef_id => self.classdef.id, :original_starttime => starttime.to_time.iso8601 )
       occurrence = ClassOccurrence.find( :classdef_id => self.classdef_id, :starttime          => starttime.to_time.iso8601 )
@@ -73,7 +92,7 @@ class ClassdefSchedule < Sequel::Model
     end
   end
 
-  def ClassdefSchedule.get_occurrences_with_exceptions_merged(from,to)
+  def get_occurrences_with_exceptions_merged(from,to)
     get_occurrences_with_exceptions(from,to).map do |occ|
       next occ if occ[:exception].nil?
       next nil if occ[:exception][:changes][:cancelled]
