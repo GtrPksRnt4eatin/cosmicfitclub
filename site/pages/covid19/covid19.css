@@ -16,3 +16,11 @@
 	margin-bottom: 0.5em;
 	text-align: left;
 }
+
+@media(max-width: 800px) {
+
+  .tile {
+  	max-width: none;
+  }
+
+}
