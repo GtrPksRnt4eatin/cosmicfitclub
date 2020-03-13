@@ -52,7 +52,7 @@ class ClassdefSchedule < Sequel::Model
     end.occurrences_between(from,to)
   end
 
-  def get_occurrences_with_exceptions(from,to)
+  def ClassdefSchedule.get_occurrences_with_exceptions(from,to)
     get_occurrences(from,to).map do |starttime|
       exception  =  ClassException.find( :classdef_id => self.classdef.id, :original_starttime => starttime.to_time.iso8601 )
       occurrence = ClassOccurrence.find( :classdef_id => self.classdef_id, :starttime          => starttime.to_time.iso8601 )
@@ -73,7 +73,7 @@ class ClassdefSchedule < Sequel::Model
     end
   end
 
-  def get_occurrences_with_exceptions_merged(from,to)
+  def ClassdefSchedule.get_occurrences_with_exceptions_merged(from,to)
     get_occurrences_with_exceptions(from,to).map do |occ|
       next occ if occ[:exception].nil?
       next nil if occ[:exception][:changes][:cancelled]
