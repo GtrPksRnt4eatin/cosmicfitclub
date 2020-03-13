@@ -1,6 +1,6 @@
 
 #banner, #covid19 {
-	display: none;
+	display: none !important;
 }
 
 .tile {
