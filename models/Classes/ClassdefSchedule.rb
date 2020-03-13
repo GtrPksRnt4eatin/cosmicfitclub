@@ -101,7 +101,7 @@ class ClassdefSchedule < Sequel::Model
       occ[:endtime]      = occ[:exception][:changes][:endtime]   unless occ[:exception][:changes][:endtime].nil?
       #occ.delete(:exception)
       next occ      
-    end
+    end.compact
   end
 
   def get_exception_dates
