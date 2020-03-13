@@ -21,6 +21,7 @@
 
   .tile {
   	max-width: none;
+  	font-size: 1em;
   }
 
 }
