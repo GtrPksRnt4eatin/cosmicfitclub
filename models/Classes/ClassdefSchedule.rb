@@ -29,16 +29,16 @@ class ClassdefSchedule < Sequel::Model
   def ClassdefSchedule.get_all_occurrences_with_exceptions_merged(from,to)
     items = []
     ClassdefSchedule.all.each do |sched|
-      sched.get_occurrences_with_exceptions_merged(from, to).each do |starttime|
+      sched.get_occurrences_with_exceptions_merged(from, to).each do |occ|
         items << { 
-          :day => Date.strptime(starttime.to_time.iso8601).to_s,
-          :starttime => starttime,
-          :endtime =>  starttime + ( sched.end_time - sched.start_time ),
+          :day => Date.strptime(occ[:starttime].to_time.iso8601).to_s,
+          :starttime => occ[:starttime],
+          :endtime =>  occ[:starttime] + ( sched.end_time - sched.start_time ),
           :title => sched.classdef.name,
           :classdef_id => sched.classdef.id,
           :sched_id => sched.id,
-          :instructors => sched.instructors,
-          :exception => exception.try(:full_details)
+          :instructors => occ[:instructors],
+          :exception => occ[:exception].try(:full_details)
         }
       end
     end
