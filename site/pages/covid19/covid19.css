@@ -7,8 +7,11 @@
 	padding: 2em;
 	background: rgba(0,0,50,0.8);
 	display: inline-block;
+	font-size: 0.8em;
+	max-width: 60%;
 }
 
-.tile div {
+.tile p {
+	display: block;
 	margin-bottom: 0.5em;
 }
