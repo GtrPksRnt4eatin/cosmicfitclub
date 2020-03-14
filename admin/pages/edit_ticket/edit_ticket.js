@@ -67,7 +67,7 @@ function get_ticket() {
 }
 
 function get_sessions() {
-  $.get('/models/events' + data['ticket']['event']['id'] + '/sessions')
+  $.get('/models/events/' + data['ticket']['event']['id'] + '/sessions')
    .success( function(lst) { data['sessions'] = lst; } )
    .fail   ( function()    { alert("failed to get session list") } )
 }
