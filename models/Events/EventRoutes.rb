@@ -194,6 +194,8 @@ class EventRoutes < Sinatra::Base
     status 204
   end
 
+  post '/tickets/:tic_id/add_pass'
+
   ################################## EVENT TICKETS ##############################
 
   ################################## EVENT PASSES ###############################

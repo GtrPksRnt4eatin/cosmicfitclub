@@ -6,8 +6,11 @@ data = {
 ctrl = {
 
   add_pass: function(e,m) {
-    var payload = { customer_id: data.ticket.customer.id, event_id: data.ticket.event.id }
-    $.post('/models/events/passes')
+    if( confirm(`add ${m.sess.name} to ticket?`) ) {
+      var payload = { ticket_id: data.ticket.id, customer_id: data.ticket.customer.id, session_id: m.sess.id }
+      $.post('/models/events/passes')
+       .done( get_ticket )
+    }
   },
 
   remove_pass: function(e,m) {

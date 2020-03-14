@@ -54,6 +54,9 @@ html
         
         H2 Session Passes
 
+        select#add_pass 
+          option rv-each-sess='data.sessions' rv-value='sess.id' {sess.name}
+
         #pass_list
           .pass rv-each-pass='data.ticket.new.passes'
             .nfo
