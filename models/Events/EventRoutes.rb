@@ -107,6 +107,7 @@ class EventRoutes < Sinatra::Base
   ################################## EVENT SESSIONS #############################
 
   get '/:id/sessions' do
+    content_type :json
     event = Event[params[:id]] or halt(404,'event not found')
     event.sessions.to_json
   end
