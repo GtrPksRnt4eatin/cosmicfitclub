@@ -3,7 +3,7 @@ ctrl = {
     if(!!m.pass.checked_in) {
       if( confirm(`Remove ${m.pass.customer.name} (${m.pass.customer.email}) from ${m.sess.title}?`) ) {
         $.post('/models/events/passes/' + m.pass.id + '/checkout' )
-         .done(get_ticket);
+         .done(update_data);
       }
     }
     else {
