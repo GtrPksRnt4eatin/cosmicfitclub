@@ -1,18 +1,17 @@
 ctrl = {
 	check_in: function(e,m) {
-	  var checkins = m.tic.checkins.filter( function(obj) { return obj.session_id == m.sess.id } );
-	  if( checkins.length > 0 ) {
-	  	if( confirm(`Remove ${m.tic.customer.name} from ${m.sess.title}?`) ) {
-	  		var params = { id: checkins[0].id };
-            $.post(`/models/events/tickets/${m.tic.id}/checkout`, params, update_data);
-	  	}
-	  }
-	  else {
-	  	if( confirm(`Checkin ${m.tic.customer.name} to ${m.sess.title}?`) ) {
-	    	var params = { event_id: m.tic.event_id, session_id: m.sess.id, customer_id: m.tic.customer_id };
-	    	$.post(`/models/events/tickets/${m.tic.id}/checkin`, params, update_data );
-	    }
-	  }
+    if(!!m.pass.checked_in) {
+      if( confirm(`Remove ${m.pass.customer.name} (${m.pass.customer.email}) from ${m.sess.title}?`) ) {
+        $.post('/models/events/passes/' + m.pass.id + '/checkout' )
+         .done(get_ticket);
+      }
+    }
+    else {
+      if( confirm(`Checkin ${m.pass.customer.name} (${m.pass.customer.email}) to ${m.sess.title}?`) ) {
+        $.post('/models/events/passes/' + m.pass.id + '/checkin' )
+         .done(update_data)
+      }
+    }
     cancelEvent(e);
     return false;
 	},
