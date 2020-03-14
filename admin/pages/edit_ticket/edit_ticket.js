@@ -51,6 +51,7 @@ $(document).ready(function() {
   initialize_rivets();
 
   get_ticket();
+  get_sessions();
 
 })
 
