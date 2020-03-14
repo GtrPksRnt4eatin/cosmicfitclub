@@ -51,7 +51,6 @@ $(document).ready(function() {
   initialize_rivets();
 
   get_ticket();
-  get_sessions();
 
 })
 
@@ -63,7 +62,7 @@ function initialize_rivets() {
 function get_ticket() {
   var ticket_id = getUrlParameter('id') ? getUrlParameter('id') : 0;
   $.get('/models/events/tickets/' + ticket_id )
-   .success( function(tic) { data['ticket'] = tic; $('#json-viewer').jsonViewer(data['ticket']); } )
+   .success( function(tic) { data['ticket'] = tic; $('#json-viewer').jsonViewer(data['ticket']); get_sessions(); } )
    .fail   ( function()    { alert("failed to get ticket data"); } )
 }
 
