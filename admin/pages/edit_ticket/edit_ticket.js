@@ -1,5 +1,6 @@
 data = {
-  ticket: {}
+  ticket: {},
+  sessions: []
 }
 
 ctrl = {
@@ -60,4 +61,10 @@ function get_ticket() {
   $.get('/models/events/tickets/' + ticket_id )
    .success( function(tic) { data['ticket'] = tic; $('#json-viewer').jsonViewer(data['ticket']); } )
    .fail   ( function()    { alert("failed to get ticket data"); } )
+}
+
+function get_sessions() {
+  $.get('/models/events' + data['ticket']['event']['id'] + '/sessions')
+   .success( function(lst) { data['sessions'] = lst; } )
+   .fail   ( function()    { alert("failed to get session list") } )
 }
