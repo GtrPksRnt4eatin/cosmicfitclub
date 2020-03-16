@@ -1,12 +1,16 @@
 data = {
-  ticket: {}
+  ticket: {},
+  sessions: []
 }
 
 ctrl = {
 
   add_pass: function(e,m) {
-    var payload = { customer_id: data.ticket.customer.id, event_id: data.ticket.event.id }
-    $.post('/models/events/passes')
+    if( confirm(`add ${e.target.selectedOptions[0].innerText} to ticket?`) ) {
+      var payload = { ticket_id: data.ticket.id, customer_id: data.ticket.customer.id, session_id: e.target.value }
+      $.post('/models/events/passes', payload)
+       .done( get_ticket )
+    }
   },
 
   remove_pass: function(e,m) {
@@ -58,6 +62,12 @@ function initialize_rivets() {
 function get_ticket() {
   var ticket_id = getUrlParameter('id') ? getUrlParameter('id') : 0;
   $.get('/models/events/tickets/' + ticket_id )
-   .success( function(tic) { data['ticket'] = tic; $('#json-viewer').jsonViewer(data['ticket']); } )
+   .success( function(tic) { data['ticket'] = tic; $('#json-viewer').jsonViewer(data['ticket']); get_sessions(); } )
    .fail   ( function()    { alert("failed to get ticket data"); } )
+}
+
+function get_sessions() {
+  $.get('/models/events/' + data['ticket']['event']['id'] + '/sessions')
+   .success( function(lst) { data['sessions'] = lst; } )
+   .fail   ( function()    { alert("failed to get session list") } )
 }
