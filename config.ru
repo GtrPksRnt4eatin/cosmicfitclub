@@ -143,3 +143,7 @@ end
 map "/integrations/facebook" do
   run FacebookRoutes
 end
+
+map '/integrations/twilio/video' do
+  run TwilioVideo
+end

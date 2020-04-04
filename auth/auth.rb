@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'sinatra/cross_origin'
 require_relative './omniauth'
 require_relative './models/User'
 require_relative './models/Role'
@@ -12,6 +13,14 @@ class CFCAuth < Sinatra::Base
   helpers  Sinatra::ViewHelpers
 
   set :public_folder, File.dirname(__FILE__)
+
+  configure do
+    enable :cross_origin
+  end
+
+  before do
+    response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+  end
 
   get( '/login'    ) { render_page :login    }
   get( '/onboard'  ) { render_page :onboard  }
