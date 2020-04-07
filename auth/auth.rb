@@ -1,3 +1,5 @@
+require 'jwt'
+require 'json'
 require 'sinatra/base'
 require 'sinatra/cross_origin'
 require_relative './omniauth'
@@ -55,6 +57,39 @@ class CFCAuth < Sinatra::Base
     session[:customer] = session[:user].customer
     Slack.website_access( "Successful Login #{ session[:customer].to_list_string }" )
     status 204
+  end
+
+  post '/login_jwt' do
+    content_type :json
+    user = User.authenticate( params[:email], params[:password] )
+    if !user then
+      custy = Customer.find_by_email( data['email'] )
+      Slack.website_access( "Failed JWT Login: Account Not Found - [#{data['email']}]") if custy.nil?
+      Slack.website_access( "Failed JWT Login: #{custy.to_list_string}" )          unless custy.nil?
+      halt(401, "Login Failed: Incorrect Credentials" )
+    end
+    custy = user.customer
+    Slack.website_access( "Successful JWT Login #{ session[:customer].to_list_string }" )
+    return { token: create_jwt(user) }.to_json
+  end
+
+  def create_jwt(user)
+    customer = user.customer
+    JWT.encode({
+        exp: Time.now.to_i + 60 * 60,
+        iat: Time.now.to_i,
+        iss: ENV['JWT_ISSUER'],
+        scopes: user.roles.map(&:name),
+        user: {
+          user_id: user.id,
+          customer_id: customer.id,
+          customer_name: customer.name,
+          customer_email: customer.email
+        }
+      }, 
+      ENV['JWT_SECRET'], 
+      'HS256' 
+    )
   end
 
   post '/logout' do
