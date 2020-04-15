@@ -22,7 +22,7 @@ class CFC < Sinatra::Base
   get( '/' )                 { render_page :index    } 
   get( '/events')            { render_page :events   }
   get( '/classes')           { render_page :classes  }
-  get( '/schedule')          { render_page :covid19  }
+  get( '/schedule')          { render_page :schedule }
   get( '/training')          { render_page :training }
   get( '/pricing')           { render_page :pricing  }
   get( '/staff')             { render_page :staff    }
