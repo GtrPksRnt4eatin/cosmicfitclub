@@ -7,6 +7,14 @@ module Scheduling
     arr.sort_by { |x| x[:day] }
   end
 
+  def Scheduling::get_all_virtual(from,to) {
+    classes  = get_classitems_between(from,to)
+    events   = get_eventsessions_between(from,to)
+    rentals  = get_rentals_between(from,to)
+    items = events + classes + rentals
+    items.select { |x| x.virtual }.group_by { |x| x[:day] }
+  }
+
   def Scheduling::get_all_between(from,to)
     classes  = get_classitems_between(from,to)
     events   = get_eventsessions_between(from,to)

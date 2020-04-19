@@ -1,9 +1,18 @@
 require 'icalendar'
+require 'sinatra/cross_origin'
 
 class ScheduleRoutes < Sinatra::Base
 
   before do
     cache_control :no_store
+  end
+
+  configure do
+    enable :cross_origin
+  end
+
+  before do
+    response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
   end
 
   get '/schedule.jpg' do
