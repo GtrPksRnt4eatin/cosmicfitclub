@@ -1,0 +1,67 @@
+{ "background": "1080x1920_bg.jpg",
+
+  "elements": [ 
+    { "type": "logo",
+      "x_offset": 180,
+      "y_offset": 180,
+      "width": 710
+    },
+    { "type": "highlight_text",
+      "x_offset": 0,
+      "y_offset": 445,
+      "ptsize": 16,
+      "gravity": "North",
+      "text" : "Free Community Day Mar 14th!"
+    },
+    { "type": "img_array",
+      "x_offset": 10,
+      "y_offset": 510,
+      "width": 1060,
+      "height": 1240,
+      "ptscale": 0.09,
+      "ptscale2": 0.9,
+      "margin_y": 20,
+      "margin_x": 50,
+      "path": "printable/assets/community_day/2020-03-14/",
+      "rowsize": 3,
+      "images": [
+        { "img": "01_Tim.jpg",
+          "lines": ["8:00 AM", "Cosmic Yoga", "w/ Tim Leibowitz"]
+        },
+        { "img": "02_Astrid.png",
+          "lines": ["9:00 AM", "Beginner Yoga", "w/ Astrid Locker"]
+        },
+        { "img": "03_Daria.png",
+          "lines": ["10:00 AM", "Tai Chi", "w/ Daria FM"]
+        },
+        { "img": "04_parkour.jpg",
+          "lines": ["11:30 AM", "Parkour & Movement", "w/ Jesse"]
+        },
+        { "img": "05_GeWang.jpeg",
+          "lines": ["1:00 PM", "Strength Training", "w/ Ge Wang"]
+        },
+        { "img": "06_core.jpeg",
+          "lines": ["2:00 PM", "Core Fusion", "w/ Joy Chen"]
+        },
+        { "img": "07_Aryn.jpg",
+          "lines": ["3:00 PM", "Flexibility", "w/ Aryn Shelander"]
+        },
+        { "img": "08_basics.png",
+          "lines": ["4:00 PM", "Acroyoga Basics", "w/ Joy Chen"]
+        },
+        { "img": "09_machines.jpg",
+          "lines": ["5:00 PM", "Acroyoga Flows", "w/ Juliana"]
+        },
+        { "img": "10_Handstands.jpg",
+          "lines": ["6:00 PM", "Handstands", "w/ Laura"]
+        },
+        { "img": "11_group.jpg",
+          "lines": ["7:00 PM", "Group Acro", "w/ Ben Klein"]
+        },
+        { "img": "12_Thai.jpg",
+          "lines": ["8:30 PM", "Thai Massage", "w/ Mary"]
+        }
+      ]
+    }
+  ]
+}
