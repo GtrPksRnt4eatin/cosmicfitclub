@@ -70,7 +70,14 @@ class CFCAuth < Sinatra::Base
     end
     custy = user.customer
     Slack.website_access( "Successful JWT Login #{ session[:customer].to_list_string }" )
-    return { token: create_jwt(user) }.to_json
+    response.set_cookie('cosmicjwt', { value: create_jwt(user), secure: true, httponly: true })
+    status(204)
+    #return { token: create_jwt(user) }.to_json
+  end
+
+  get '/test_jwt' do
+    jwt = request.cookies.hash['cosmicjwt'] or halt(401)
+    JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
   def create_jwt(user)
