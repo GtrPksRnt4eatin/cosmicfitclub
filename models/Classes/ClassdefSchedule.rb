@@ -68,7 +68,7 @@ class ClassdefSchedule < Sequel::Model
     to = Time.parse(to) if to.is_a? String
     IceCube::Schedule.new(start_time) do |sched|
       sched.add_recurrence_rule IceCube::Rule.from_ical(rrule)
-    end.occurrences_between(from,to)
+    end.occurrences_between(from.to_time,to.to_time)
   end
 
   def get_occurrences_with_exceptions(from,to)
