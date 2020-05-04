@@ -15,7 +15,7 @@ class CFCuser < Sinatra::Base
   get( '/hourly',         :auth => 'frontdesk' ) { render_page :hourly                   }
   get( '/event_collab',   :auth => 'user'      ) { render_page :event_collab             
 
-  get( '/session' ) do
+  get '/session' do
     content_type :json 
     session.to_json
   end
