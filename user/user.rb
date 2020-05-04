@@ -13,7 +13,7 @@ class CFCuser < Sinatra::Base
   get( '/wallet_history', :auth => 'user'      ) { ref_cust; render_page :wallet_history }
   get( '/teacher',        :auth => 'teacher'   ) { ref_cust; render_page :teacher        }
   get( '/hourly',         :auth => 'frontdesk' ) { render_page :hourly                   }
-  get( '/event_collab',   :auth => 'user'      ) { render_page :event_collab             
+  get( '/event_collab',   :auth => 'user'      ) { render_page :event_collab             }
 
   get '/session' do
     content_type :json 
