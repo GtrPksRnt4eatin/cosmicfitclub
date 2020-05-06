@@ -2,12 +2,16 @@ require 'jwt'
 require 'json'
 require 'sinatra/base'
 require 'sinatra/cross_origin'
+require 'sinatra/cookies'
 require_relative './omniauth'
 require_relative './models/User'
 require_relative './models/Role'
 require_relative './models/Omniaccount'
 
 class CFCAuth < Sinatra::Base
+
+  use Rack::Cookies
+  helpers Sinatra::Cookies
 
   register Sinatra::Omni
   register Sinatra::PageFolders
