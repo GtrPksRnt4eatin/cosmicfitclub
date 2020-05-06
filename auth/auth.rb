@@ -69,9 +69,7 @@ class CFCAuth < Sinatra::Base
       Slack.website_access( "Failed JWT Login: #{custy.to_list_string}" )          unless custy.nil?
       halt(401, "Login Failed: Incorrect Credentials" )
     end
-    custy = user.customer
-    p user.customer.to_json
-    Slack.website_access( "Successful JWT Login #{ session[:customer].to_list_string }" )
+    Slack.website_access( "Successful JWT Login #{ user.customer.to_list_string }" )
     response.set_cookie('cosmicjwt', { value: create_jwt(user), secure: true, httponly: true })
     status(204)
     #return { token: create_jwt(user) }.to_json
