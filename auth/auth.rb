@@ -10,7 +10,6 @@ require_relative './models/Omniaccount'
 
 class CFCAuth < Sinatra::Base
 
-  use Rack::Cookies
   helpers Sinatra::Cookies
 
   register Sinatra::Omni
