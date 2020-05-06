@@ -60,7 +60,7 @@ class Wallet < Sequel::Model
   end
 
   def ledger
-    history.map{ |x| "#{x[:timestamp].strftime('%d/%m/%Y %I:%M:%S %P')} - #{x[:description].ljust(40)} - #{x[:delta]} - #{x[:running_total]}" }.join("\r\n")
+    history.map{ |x| "#{x[:timestamp].strftime('%d/%m/%Y %I:%M:%S %P')} - #{x[:description].ljust(200)} - #{x[:delta]} - #{x[:running_total]}" }.join("\r\n")
   end
 
 end
