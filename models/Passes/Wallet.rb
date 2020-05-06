@@ -59,4 +59,8 @@ class Wallet < Sequel::Model
     self.save
   end
 
+  def ledger
+    history.map{ |x| "#{x[:timestamp].strftime('%d/%m/%Y %I:%M:%S %P')} - #{x[:description} - #{x[:delta]} - #{x[:running_total]}" }.join("\r\n")
+  end
+
 end
