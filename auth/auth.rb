@@ -70,7 +70,7 @@ class CFCAuth < Sinatra::Base
       halt(401, "Login Failed: Incorrect Credentials" )
     end
     Slack.website_access( "Successful JWT Login #{ user.customer.to_list_string }" )
-    response.set_cookie('cosmicjwt', { value: create_jwt(user), secure: true, httponly: true })
+    response.set_cookie('cosmicjwt', { value: create_jwt(user), secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
     status(204)
     #return { token: create_jwt(user) }.to_json
   end
