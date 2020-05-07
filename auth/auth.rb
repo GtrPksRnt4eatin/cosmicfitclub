@@ -25,6 +25,7 @@ class CFCAuth < Sinatra::Base
 
   before do
     response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+    response.headers['Access-Control-Allow-Credentials'] = true
   end
 
   get( '/login'    ) { render_page :login    }
