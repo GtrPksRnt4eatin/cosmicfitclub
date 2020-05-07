@@ -66,17 +66,17 @@ class CFCAuth < Sinatra::Base
   post '/login_jwt' do
     content_type :json
     user = User.authenticate( params[:email], params[:password] )
-    p user.to_json
     if !user then
-      custy = Customer.find_by_email( data['email'] )
-      Slack.website_access( "Failed JWT Login: Account Not Found - [#{data['email']}]") if custy.nil?
-      Slack.website_access( "Failed JWT Login: #{custy.to_list_string}" )          unless custy.nil?
+      custy = Customer.find_by_email( params[:email] )
+      Slack.website_access( "Failed JWT Login: Account Not Found - [#{params[:email]}]") if custy.nil?
+      Slack.website_access( "Failed JWT Login: #{custy.to_list_string}" )            unless custy.nil?
       halt(401, "Login Failed: Incorrect Credentials" )
     end
     Slack.website_access( "Successful JWT Login #{ user.customer.to_list_string }" )
-    response.set_cookie('cosmicjwt', { value: create_jwt(user), secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
-    status(204)
-    #return { token: create_jwt(user) }.to_json
+    jwt = create_jwt(user)
+    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    status(200)
+    JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
   get '/test_jwt' do

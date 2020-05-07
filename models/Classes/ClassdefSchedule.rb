@@ -6,6 +6,8 @@ class ClassdefSchedule < Sequel::Model
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
   one_to_many :exceptions, :key => :class_schedule_id, :class => :ClassException
 
+  many_to_one :image, :class=>:StoredImage
+
   def ClassdefSchedule.get_all_occurrences(from,to)
     items = []
     ClassdefSchedule.all.each do |sched|
@@ -163,7 +165,8 @@ class ClassdefSchedule < Sequel::Model
       :classdef_id => self.classdef.id,
       :title       => self.classdef.name,
       :instructors => self.teachers.map(&:to_token),
-      :capacity    => self.capacity
+      :capacity    => self.capacity,
+      :image_url   => self.image.try(:image_url)
     }
   end
 
