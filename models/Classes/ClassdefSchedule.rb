@@ -45,6 +45,7 @@ class ClassdefSchedule < Sequel::Model
           :endtime =>  occ[:starttime] + ( sched.end_time - sched.start_time ),
           :title => sched.classdef.name,
           :classdef_id => sched.classdef.id,
+          :image_url => self.image_url,
           :sched_id => sched.id,
           :instructors => occ[:instructors],
           :exception => occ[:exception].try(:full_details)
@@ -151,7 +152,7 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def image_url
-    self.image.try(:image_url)
+    self.image.try(:image_url) || self.classdef.thumbnail_image
   end
 
   ###################################### VIEWS #######################################
