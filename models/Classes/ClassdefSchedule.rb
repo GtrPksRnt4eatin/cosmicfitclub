@@ -10,7 +10,7 @@ class ClassdefSchedule < Sequel::Model
 
   def ClassdefSchedule.find_matching_schedule(occurrence)
     ClassdefSchedule.where(classdef_id: occurrence.classdef_id).each do |sched|
-      return sched if sched.matches_occurrence? occurrence.starttime
+      return sched if sched.matches_occurrence? occurrence
     end
     return nil
   end
