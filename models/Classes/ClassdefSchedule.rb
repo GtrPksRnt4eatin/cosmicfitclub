@@ -150,6 +150,10 @@ class ClassdefSchedule < Sequel::Model
     super || classdef.capacity
   end
 
+  def image_url
+    self.image.try(:image_url)
+  end
+
   ###################################### VIEWS #######################################
 
   # ie: Mon @ 12:30 pm 

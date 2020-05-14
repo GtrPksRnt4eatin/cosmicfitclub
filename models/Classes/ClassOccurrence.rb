@@ -2,8 +2,10 @@ class ClassOccurrence < Sequel::Model
 
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
   many_to_one :teacher, :key => :staff_id, :class => :Staff
+  many_to_one :schedule, :key => :classdef_schedule_id, :class => :ClassdefSchedule
   one_to_many :reservations, :class => :ClassReservation
   many_to_many :customers, :join_table => :class_reservations
+
 
   ############################ Class Methods ################################
 
@@ -65,6 +67,16 @@ class ClassOccurrence < Sequel::Model
     occurrence.nil? ? nil : occurrence[:id]
   end
 
+  def schedule
+    val = super
+    (val = self.schedule = ClassdefSchedule.find_matching_schedule(self)) if val.nil?
+    return val
+  end
+
+  def thumb_url
+    self.try(:schedule).try(:image_url) || classdef.thumbnail_image
+  end
+
   ############################## Properties ################################
 
   ############################ Reservations ################################
@@ -120,7 +132,8 @@ class ClassOccurrence < Sequel::Model
       :classdef    => classdef.to_token,
       :teacher     => teacher.to_token,
       :next_id     => self.next_occurrence_id,
-      :prev_id     => self.previous_occurrence_id
+      :prev_id     => self.previous_occurrence_id,
+      :thumb_url   => self.thumb_url
     }
   end
 
