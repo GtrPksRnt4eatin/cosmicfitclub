@@ -76,6 +76,13 @@ class ClassdefSchedule < Sequel::Model
     end
   end
 
+  def icecube_past_schedule(start)
+    s = Time.parse(start.strftime("%Y-%m-%d ") + self.start_time.to_s)
+    IceCube::Schedule.new(s) do |sched|
+      sched.add_recurrence_rule IceCube::Rule.from_ical(self.rrule)
+    end
+  end
+
   def get_occurrences(from,to)
     return [] if rrule.nil?
     return [] if start_time.nil?
@@ -92,8 +99,8 @@ class ClassdefSchedule < Sequel::Model
     p occ.starttime
     p occ.starttime.class
     p self.id
-    p self.icecube_schedule.occurs_at? occ.starttime
-    self.icecube_schedule.occurs_at? occ.starttime
+    p self.icecube_past_schedule(occ.starttime).occurs_at? occ.starttime
+    self.icecube_past_schedule(occ.starttime).occurs_at? occ.starttime
   end
 
   def get_occurrences_with_exceptions(from,to)
