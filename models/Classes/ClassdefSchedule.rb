@@ -45,7 +45,7 @@ class ClassdefSchedule < Sequel::Model
           :endtime =>  occ[:starttime] + ( sched.end_time - sched.start_time ),
           :title => sched.classdef.name,
           :classdef_id => sched.classdef.id,
-          :image_url => self.image_url,
+          :thumb_url => self.thumb_url,
           :sched_id => sched.id,
           :instructors => occ[:instructors],
           :exception => occ[:exception].try(:full_details)
@@ -93,14 +93,7 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def matches_occurrence?(occ)
-    p self.start_time.to_s
-    p Sequel::SQLTime.parse(occ.starttime.to_s).to_s
-    p Sequel::SQLTime.parse(occ.starttime.to_s).to_s == self.start_time.to_s
     return false if Sequel::SQLTime.parse(occ.starttime.to_s).to_s != self.start_time.to_s
-    p occ.starttime
-    p occ.starttime.class
-    p self.id
-    p self.icecube_past_schedule(occ.starttime).occurs_at? occ.starttime
     self.icecube_past_schedule(occ.starttime).occurs_at? occ.starttime
   end
 
@@ -118,6 +111,7 @@ class ClassdefSchedule < Sequel::Model
         :instructors => self.teachers.map(&:to_token),
         :capacity    => capacity,
         :headcount   => 0,
+        :thumb_url   => self.thumb_url,
         :scheduled   => { :starttime => starttime.to_time.iso8601, :teachers => self.teachers.map(&:to_token) },
         :occurrence  => occurrence.try(:to_hash),
         :exception   => exception.try(:full_details),
@@ -153,6 +147,10 @@ class ClassdefSchedule < Sequel::Model
 
   def image_url
     self.image.try(:image_url) || self.classdef.thumbnail_image
+  end
+
+  def thumb_url
+    self.image_url
   end
 
   ###################################### VIEWS #######################################
