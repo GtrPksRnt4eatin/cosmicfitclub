@@ -4,6 +4,17 @@ data = {
 
 ctrl = {
 
+  edit_image: function(e,m) {
+    img_chooser.resize(500,500); 
+    if(data.sched.image_data) {
+      img_chooser.load_image(data.sched.image_data.original.metadata.filename, data.sched.image_url);
+    }
+    img_chooser.show_modal(null,null,function(val) {
+      popupmenu.hide();
+      post_image('/models/classdefs/schedules' + data.sched.id + '/image', val['filename'], val['blob']);
+    }); 
+  }
+
 }
 
 $(document).ready(function() {

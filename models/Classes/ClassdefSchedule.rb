@@ -85,7 +85,11 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def matches_occurrence?(occ)
-    #return false if Sequel::SQLTime.parse(occ.starttime.to_s) != self.start_time
+    p self.start_time.to_s
+    p Sequel::SQLTime.parse(occ.starttime.to_s).to_s
+    p Sequel::SQLTime.parse(occ.starttime.to_s).to_s == self.start_time.to_s
+    return false if Sequel::SQLTime.parse(occ.starttime.to_s).to_s != self.start_time.to_s
+    p occ.starttime
     self.icecube_schedule.occurs_at? occ.starttime
   end
 

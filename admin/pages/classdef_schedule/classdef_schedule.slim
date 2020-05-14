@@ -21,3 +21,8 @@ html
     #content
 
       .tile.schedule_tile
+        .tuplet
+          .attrib Image:
+          .img_square.editable
+            img.picpreview crossorigin='anonymous' rv-src='data.event.image_url' rv-on-click='ctrl.edit_image'
+            img.filler#nopic rv-unless='data.event.image_url' rv-on-click='ctrl.edit_image'
