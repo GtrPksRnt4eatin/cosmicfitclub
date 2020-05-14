@@ -8,6 +8,13 @@ class ClassdefSchedule < Sequel::Model
 
   many_to_one :image, :class=>:StoredImage
 
+  def ClassdefSchedule.find_matching_schedule(occurrence)
+    ClassdefSchedule.where(classdef_id: occurrence.classdef_id).each do |sched|
+      return sched if sched.matches_occurrence? occurrence.starttime
+    end
+    return nil
+  end
+
   def ClassdefSchedule.get_all_occurrences(from,to)
     items = []
     ClassdefSchedule.all.each do |sched|
@@ -63,14 +70,23 @@ class ClassdefSchedule < Sequel::Model
     items | ClassDef.list_active_and_current.map(&:id)
   end
 
+  def icecube_schedule
+    IceCube::Schedule.new(self.start_time) do |sched|
+      sched.add_recurrence_rule IceCube::Rule.from_ical(self.rrule)
+    end
+  end
+
   def get_occurrences(from,to)
     return [] if rrule.nil?
     return [] if start_time.nil?
     from = Time.parse(from) if from.is_a? String
     to = Time.parse(to) if to.is_a? String
-    IceCube::Schedule.new(start_time) do |sched|
-      sched.add_recurrence_rule IceCube::Rule.from_ical(rrule)
-    end.occurrences_between(from.to_time,to.to_time)
+    self.icecube_schedule.occurrences_between(from.to_time,to.to_time)
+  end
+
+  def matches_occurrence?(occ)
+    #return false if Sequel::SQLTime.parse(occ.starttime.to_s) != self.start_time
+    self.icecube_schedule.occurrs_at? occ.starttime
   end
 
   def get_occurrences_with_exceptions(from,to)

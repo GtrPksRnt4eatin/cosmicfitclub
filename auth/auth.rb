@@ -122,11 +122,22 @@ class CFCAuth < Sinatra::Base
     content_type :json
     data = JSON.parse(request.body.read)
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
-    custy= Customer.create( :name => data['name'], :email => data['email'] )
+    custy = Customer.create( :name => data['name'], :email => data['email'] )
     User.create( :customer => custy)
     session[:user] = custy.login
     session[:customer] = custy
     return JSON.generate({ :id => custy.id })
+  end
+
+  post '/register_and_login_jwt' do
+    content_type :json
+    halt 409, 'Email is Already in Use' unless Customer[:email => params[:email]].nil?
+    custy = Customer.create( :name => params[:name], :email => params[:email] )
+    user = User.create( :customer => custy )
+    user.set_password!(params[:password]) unless params[:password].nil?
+    jwt = create_jwt(user)
+    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
   post '/password' do
@@ -142,8 +153,9 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/reset' do
-    data = JSON.parse request.body.read
-    customer = Customer.find_by_email(data['email'])
+    data = params
+    data = JSON.parse(request.body.read).transform_keys(&:to_sym) unless params[:email]
+    customer = Customer.find_by_email(data[:email])
     halt 404 if customer.nil?
     customer.reset_password
     status 204
