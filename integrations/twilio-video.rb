@@ -1,6 +1,6 @@
 class TwilioVideo < Sinatra::Base
 
-  post '/' 
+  post '/' do
     Slack.webhook("Video Webhook", params[:StatusCallbackEvent]);
   	case params[:StatusCallbackEvent]
   	when 'room-created'
