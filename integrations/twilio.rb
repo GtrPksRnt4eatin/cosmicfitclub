@@ -1,7 +1,7 @@
 require 'twilio-ruby'
 
 def send_sms_to(msg,numbers)
-  client = Twilio::REST::Client.new 'AC3ea86c47d6a22914d5bddff93f335dda', '6cbc0ac3e73eebb57311578021f5ba24'
+  client = Twilio::REST::Client.new ENV['TWILIO_SID'], ENV['TWILIO_AUTH_TOKEN']
   numbers.each do |num|
     client.api.account.messages.create({
       :from => '+13476700019',
@@ -14,7 +14,7 @@ rescue Exception => e
 end
 
 def send_sms(msg)	
-  client = Twilio::REST::Client.new 'AC3ea86c47d6a22914d5bddff93f335dda', '6cbc0ac3e73eebb57311578021f5ba24'
+  client = Twilio::REST::Client.new ENV['TWILIO_SID'], ENV['TWILIO_AUTH_TOKEN']
   client.api.account.messages.create({
     :from => '+13476700019',
     :to => '201-280-6512',
