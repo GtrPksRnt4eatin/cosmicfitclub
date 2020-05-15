@@ -47,6 +47,7 @@ class CFCAdmin < Sinatra::Base
   get( '/payment_sources',       :auth=> 'frontdesk'  ) { render_page :payment_sources     }
   get( '/event_proposal/:id',    :auth=> 'admin'      ) { render_page :event_proposal      }
   get( '/social_integrations',   :auth=> 'admin'      ) { render_page :social_integrations }
+  get( '/schedule',              :auth=> 'admin'      ) { render_page :classdef_schedule   }
 
   get( '/payroll',               :auth=> 'payroll'    ) { render_page :payroll             }
   
