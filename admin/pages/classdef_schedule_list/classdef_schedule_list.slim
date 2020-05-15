@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    == css ['fonts', 'site', '/admin/classdef_schedule_list', 'selectize', 'croppie' ]
+    == js  ['jquery', 'moment', 'selectize.min', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', 'popupmenu' ]
+    == js  [ '/auth/elements/userview', '/admin/elements/edit_text' ]
+
+  body.p4
+
+    #stars
+
+    == include_slim('slim/partials/admin_header')
+
+    #content
+
+      .tile.schedule_tile
+        ul
+          li rv-each-sched='data.list' rv-on-click='ctrl.click'
+            | { sched.}
