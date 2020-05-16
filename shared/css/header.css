@@ -151,3 +151,25 @@ header {
   }
 
 }
+
+/* SLIM_HEADER */
+
+  #slim_header {
+    display: block;
+    background: rgba(30,30,30,0.8);
+    box-shadow: 0 0 5px white;
+    height: 3.3em;
+  }
+
+  #slim_header span {
+    display: inline-block;
+    margin: 1.1em 1em;
+  }
+
+  #slim_header #userview_container {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
+
+/* SLIM_HEADER */
