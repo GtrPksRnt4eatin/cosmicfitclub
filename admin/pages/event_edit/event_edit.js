@@ -23,7 +23,7 @@ ctrl = {
     }
     img_chooser.show_modal(null,null,function(val) {
       popupmenu.hide();
-      post_image('/models/events/' + data.event.id + '/image', val['filename'], val['blob']);
+      post_image('/models/events/' + data.event.id + '/image', val['filename'], val['blob'], fetch_event);
     }); 
   },
 

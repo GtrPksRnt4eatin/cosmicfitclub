@@ -8,13 +8,6 @@ html
 
     title Cosmicfit Admin
 
-    javascript:
-      data = {};
-      data['class_id'] = #{{params[:id]}};
-      data['class'] = #{{ ClassDef[params[:id]].to_json( :include => [ :schedules ]) }};
-      data['class']['image_data'] = JSON.parse(data['class']['image_data']);
-      data['instructors'] = #{{ Staff.all.to_json() }};
-
     == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'chosen', 'croppie', 'jquery.timepicker', '/admin/class_edit' ]
     == js  [ 'jquery', 'rivets', 'rv_rrule', 'lib', 'rv_select', 'moment', 'flatpickr', 'rv_dates']
     == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min', 'croppie.min','/auth/elements/userview',]
@@ -55,7 +48,7 @@ html
                 th
                   .add rv-on-click='ctrl.add_schedule'
                     .plus +
-              tr rv-each-sched='class.schedules'
+              tr rv-each-sched='data.schedules'
                 td
                   | { sched.instructors | instructors }
                 td

@@ -158,12 +158,12 @@ jQuery.fn.shake = function() {
   return this;
 }
 
-function post_image(path,filename,blob) {
+function post_image(path,filename,blob,callback) {
   fd = new FormData(); 
   fd.append('image', blob, filename ); 
   request = new XMLHttpRequest();
   request.open( "POST", path )
-  request.onload  = function(e) { fetch_event(); }
+  request.onload  = function(e) { callback && callback(); }
   request.onerror = function(e) { alert("Failed to Upload Image"); }
   request.send(fd);
 }

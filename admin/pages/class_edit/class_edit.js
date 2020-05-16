@@ -1,3 +1,9 @@
+data = {
+  instructors: [],
+  class: {},
+  schedules: []
+}
+
 ctrl = {
 
   save_changes(e,m) {
@@ -14,10 +20,6 @@ ctrl = {
     setTimeout(get_schedules,500);
   },
 
-  choose_img(e,m) {
-    if(e.target.value) { m.class.image_url = e.target.value; }
-  },
-
   edit_image(e,m) {
     img_chooser.resize(500,500); 
     if(data.class.image_data) {
@@ -25,7 +27,7 @@ ctrl = {
     }
     img_chooser.show_modal(null,null,function(val) {
       popupmenu.hide();
-      post_image('/models/classdefs/' + data.class.id + '/image', val['filename'], val['blob']);
+      post_image('/models/classdefs/' + data.class.id + '/image', val['filename'], val['blob'], get_classdef);
     }); 
   },
 
@@ -58,6 +60,8 @@ $(document).ready(function() {
     popupmenu.hide();
   });
 
+  get_staff();
+  get_classdef();
   get_schedules();
 
 });
@@ -85,7 +89,14 @@ function initialize_rivets() {
 
 }
 
-function get_schedules() {
-  $.get('/models/classdefs/' + data['class_id'] + '/schedules', function(resp) { data.class.schedules = resp; } );
+function get_classdef() {
+  $.get('/models/classdefs/' + getUrlParameter('id'), function(resp) { data.class = resp; } )
 }
 
+function get_schedules() {
+  $.get('/models/classdefs/' + getUrlParameter('id') + '/schedules', function(resp) { data.schedules = resp; } );
+}
+
+function get_staff() {
+  $.get('/models/staff', function(resp) { data.instructors = resp; } )
+}
