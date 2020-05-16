@@ -45,7 +45,7 @@ $(document).ready(function() {
   
   initialize_rivets();
 
-  rivets.bind($('#content'), { data: data, class: data['class'], ctrl: ctrl } );
+  rivets.bind($('#content'), { data: data, ctrl: ctrl } );
   
   popupmenu   = new PopupMenu( id('popupmenu_container') );
 
