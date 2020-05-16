@@ -88,3 +88,4 @@ function initialize_rivets() {
 function get_schedules() {
   $.get('/models/classdefs/' + data['class_id'] + '/schedules', function(resp) { data.class.schedules = resp; } );
 }
+

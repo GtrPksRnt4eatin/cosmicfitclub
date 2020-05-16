@@ -179,16 +179,6 @@ function sortSessions() {
   });
 }
 
-function post_image(path,filename,blob) {
-  fd = new FormData(); 
-  fd.append('image', blob, filename ); 
-  request = new XMLHttpRequest();
-  request.open( "POST", path )
-  request.onload  = function(e) { fetch_event(); }
-  request.onerror = function(e) { alert("Failed to Upload Image"); }
-  request.send(fd);
-}
-
 function fetch_event() {
   $.get('/models/events/' + data.event_id + '/admin_detail', function(val) { data.event = val; } )
 }

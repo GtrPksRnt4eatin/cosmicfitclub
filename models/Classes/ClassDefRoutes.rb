@@ -45,6 +45,16 @@ class ClassDefRoutes < Sinatra::Base
 
   ################################## CLASSDEF CRUD ##################################################
 
+  ################################# CLASSDEF PROPS ##################################################
+
+  post '/:id/image' do
+    cls = ClassDef[params[:id]] or halt(404,'classdef not found')
+    cls.update( :image => params[:image] )
+    status 204; {}.to_json
+  end
+
+  ################################# CLASSDEF PROPS ##################################################
+
   get '/:id/thumb' do
     classdef = ClassDef[params[:id]] or halt 404
     content_type classdef.image[:small].mime_type

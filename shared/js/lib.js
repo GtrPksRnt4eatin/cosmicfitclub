@@ -158,6 +158,16 @@ jQuery.fn.shake = function() {
   return this;
 }
 
+function post_image(path,filename,blob) {
+  fd = new FormData(); 
+  fd.append('image', blob, filename ); 
+  request = new XMLHttpRequest();
+  request.open( "POST", path )
+  request.onload  = function(e) { fetch_event(); }
+  request.onerror = function(e) { alert("Failed to Upload Image"); }
+  request.send(fd);
+}
+
 /////////////////////// Object.assign Polyfill for ES5 ///////////////////////////////
 
 if (typeof Object.assign != 'function') {
