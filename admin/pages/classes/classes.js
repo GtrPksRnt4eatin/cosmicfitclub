@@ -12,7 +12,7 @@ var ctrl = {
   },
 
   edit: function(e,m) {
-    location.href = `classes/${m.class.id}`;
+    location.href = `edit_class?id=${m.class.id}`;
   },
 
   moveup: function(e,m) {
