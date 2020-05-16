@@ -18,6 +18,17 @@ ctrl = {
     if(e.target.value) { m.class.image_url = e.target.value; }
   },
 
+  edit_image(e,m) {
+    img_chooser.resize(500,500); 
+    if(data.class.image_data) {
+      img_chooser.load_image(data.class.image_data.original.metadata.filename, data.class.image_url);
+    }
+    img_chooser.show_modal(null,null,function(val) {
+      popupmenu.hide();
+      post_image('/models/classes/' + data.class.id + '/image', val['filename'], val['blob']);
+    }); 
+  },
+
   add_schedule(e,m)  { scheduleform.show_new();         cancelEvent(e); },
   edit_schedule(e,m) { scheduleform.show_edit(m.sched); cancelEvent(e); },
   del_schedule(e,m)  {
@@ -34,7 +45,8 @@ $(document).ready(function() {
 
   rivets.bind($('#content'), { data: data, class: data['class'], ctrl: ctrl } );
   
-  popupmenu = new PopupMenu( id('popupmenu_container') );
+  popupmenu   = new PopupMenu( id('popupmenu_container') );
+  img_chooser = new AspectImageChooser();
 
   scheduleform = new ScheduleForm();
   scheduleform.instructors = data['instructors'];

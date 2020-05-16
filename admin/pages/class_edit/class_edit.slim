@@ -18,7 +18,7 @@ html
     == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'chosen', 'jquery.timepicker', '/admin/class_edit' ]
     == js  [ 'jquery', 'rivets', 'rv_rrule', 'lib', 'rv_select', 'moment', 'flatpickr', 'rv_dates']
     == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min' ]
-    == js  [ 'elements/schedule_form', 'elements/popup_menu', '/admin/class_edit' ]
+    == js  [ 'elements/schedule_form', 'elements/popup_menu', '/admin/elements/aspect_img_chooser', '/admin/class_edit' ]
 
   html
     #stars
@@ -33,10 +33,9 @@ html
 
         .tuplet
           label Image:
-          label.imgbox for='pic'
-            input#pic type='file' accept="image/*" name='image' rv-on-change='ctrl.choose_img'
-            img#picpreview crossorigin='anonymous' rv-src='class.image_url'
-            #nopic rv-unless='class.image_url'
+          .img.editable
+            img.picpreview crossorigin='anonymous' rv-src='data.event.image_url' rv-on-click='ctrl.edit_image'
+            img.filler#nopic rv-unless='data.event.image_url' rv-on-click='ctrl.edit_image'
 
         .tuplet
           label Details:
