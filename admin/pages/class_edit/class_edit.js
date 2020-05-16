@@ -46,7 +46,9 @@ $(document).ready(function() {
   rivets.bind($('#content'), { data: data, class: data['class'], ctrl: ctrl } );
   
   popupmenu   = new PopupMenu( id('popupmenu_container') );
+
   img_chooser = new AspectImageChooser();
+  img_chooser.ev_sub('show', popupmenu.show );
 
   scheduleform = new ScheduleForm();
   scheduleform.instructors = data['instructors'];
