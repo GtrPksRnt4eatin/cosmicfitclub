@@ -30,7 +30,7 @@ html
           label Image:
           .img.editable
             img.picpreview rv-if='data.class.image_url' crossorigin='anonymous' rv-src='data.class.image_url' rv-on-click='ctrl.edit_image'
-            img.filler#nopic rv-unless='data.class.image_url' rv-on-click='ctrl.edit_image'
+            img.picpreview.filler#nopic rv-unless='data.class.image_url' rv-on-click='ctrl.edit_image'
 
         .tuplet
           label Details:
