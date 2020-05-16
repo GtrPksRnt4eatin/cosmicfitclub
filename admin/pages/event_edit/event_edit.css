@@ -87,7 +87,7 @@ img.filler {
   max-width: 100%;
   max-height: 20em;
 }
-
+f
 #pic {
   width: 0.1px;
   height: 0.1px;
@@ -109,11 +109,6 @@ img.filler {
   width: 40em;
   position: relative;
   min-height: 11.5em;
-}
-
-img.filler {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
-  height: 15em;
 }
 
 .session,
