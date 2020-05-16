@@ -80,10 +80,10 @@ function initialize_rivets() {
   include_rivets_select();
 
   rivets.formatters.instructors = function(val) {
-    if(empty(val)) return "null";
+    if(empty(val)) return "";
     return val.map( function(o) { 
       obj = data['instructors'].find( function(val) { return val.id == o; })
-      return obj.name;
+      return(obj && obj.name);
     })
   }
 
