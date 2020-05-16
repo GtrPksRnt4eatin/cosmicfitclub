@@ -25,7 +25,7 @@ ctrl = {
     }
     img_chooser.show_modal(null,null,function(val) {
       popupmenu.hide();
-      post_image('/models/classes/' + data.class.id + '/image', val['filename'], val['blob']);
+      post_image('/models/classdefs/' + data.class.id + '/image', val['filename'], val['blob']);
     }); 
   },
 
