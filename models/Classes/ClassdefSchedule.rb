@@ -157,9 +157,9 @@ class ClassdefSchedule < Sequel::Model
     self.image_url
   end
 
-  def instructors
-    teachers.map(&:to_token)
-  end
+  #def instructors
+  #  teachers.map(&:to_token)
+  #end
 
   ###################################### VIEWS #######################################
 
