@@ -33,7 +33,7 @@ module Scheduling
           	:id          => occ.id,
           	:classdef    => occ.classdef.to_token,    # ClassDef
           	:teacher     => occ.teacher.to_token,     # Staff
-          	:instructors => 
+          	:instructors => occ.instructors,
           	:next_id     => occ.next_occurrence_id,
           	:prev_id     => occ.prev_occurrence_id
           }
