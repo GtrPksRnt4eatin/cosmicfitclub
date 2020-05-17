@@ -34,7 +34,8 @@ module MiniMagickExtensions
           i.pointsize pointsize
           i.gravity opts[:gravity] || 'None'
           i.stroke  opts[:stroke]  || "\#FFFFFFDD"
-          i.strokewidth opts[:strokewidth] || pointsize*0.2
+          i.strokewidth opts[:strokewidth] || pointsize*0.15
+          i.kerning 5
           i.draw "text #{x},#{y} \"#{text}\""
         end
       end

@@ -81,6 +81,10 @@ class ScheduleRoutes < Sinatra::Base
     Scheduling::get_potential_conflicts(from,to).to_json
   end
 
+  get '/sorted_schedule' do
+   Scheduling::get_sorted_virtual.to_json
+  end
+
   def ScheduleRoutes::schedule_as_ical(from,to)
     ical = Icalendar::Calendar.new
     EventSession.between(from,to).map(&:to_ical_event).each         { |evt| ical.add_event(evt) }

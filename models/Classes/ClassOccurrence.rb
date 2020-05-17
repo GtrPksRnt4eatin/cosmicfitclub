@@ -49,6 +49,14 @@ class ClassOccurrence < Sequel::Model
     reservations.count
   end
 
+  def starttime
+    super.to_time
+  end
+
+  def endtime
+    self.starttime.to_time + 3600
+  end
+
   def full?
     reservations.count >= capacity
   end
@@ -71,6 +79,10 @@ class ClassOccurrence < Sequel::Model
     val = super
     (val = self.schedule = ClassdefSchedule.find_matching_schedule(self)) if val.nil?
     return val
+  end
+
+  def instructors
+    self.schedule ? self.schedule.teachers.map(&:to_token) : [self.teacher.to_token]
   end
 
   def thumb_url

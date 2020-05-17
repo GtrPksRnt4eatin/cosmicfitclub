@@ -1,3 +1,5 @@
+require_relative './sorting/videoclass_sorting.rb'
+
 module Scheduling
 
   def Scheduling::get_all_sorted_by_days(from,to)

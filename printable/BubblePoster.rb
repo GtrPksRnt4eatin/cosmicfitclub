@@ -14,8 +14,11 @@ module BubblePoster
     when :staff
       stf = Staff[data[1]] or return
       { :img => stf.image[:original].url, :lines => stf.footer_lines }
+    when :sched
+      sch = ClassdefSchedule[data[1]] or return
+      { :img => sch.thumb_url, :lines => sch.poster_lines }
     end
-    p val
+    p val[:lines]
     val
   end
  

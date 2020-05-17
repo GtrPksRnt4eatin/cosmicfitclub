@@ -37,7 +37,7 @@ module MiniMagickExtensions
             el[:images].each_with_index do |x,i|
               next if x.nil?
               next if x[:img] == "blank"
-              x[:img] = (el[:path].nil? ? '' : el[:path]) + x[:img]
+              x[:img]  = (el[:path].nil? ? '' : el[:path]) + x[:img]
               x_offset = el[:margin_x].to_i + ( el[:margin_x].to_i + box_width ) * ( i % el[:rowsize] ) + el[:x_offset]
               y_offset = el[:margin_y].to_i + ( el[:margin_y].to_i + box_height ) * ( i / el[:rowsize] ) + el[:y_offset]
               geometry = "#{box_width}x#{box_height}+#{x_offset}+#{y_offset}"

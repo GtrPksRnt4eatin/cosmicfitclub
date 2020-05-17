@@ -52,6 +52,14 @@ class EventSession < Sequel::Model
     EventTicket.where(Sequel.lit("included_sessions @> ARRAY[?::bigint]", self.id)).all
   end
 
+  def capacity
+    super || 20
+  end
+
+  def headcount
+    self.passes.count
+  end
+
   #################### ATTRIBUTE ACCESS ###################
 
   ################# CALCULATED PROPERTIES #################

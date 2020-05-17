@@ -75,10 +75,12 @@ class Event < Sequel::Model
     self.image.nil? ? '' : self.image[:original].url
   end
 
+  def thumb_url; thumb_image_url end
   def thumb_image_url
     self.image.nil? ? '' : ( self.image.is_a?(ImageUploader::UploadedFile) ? self.image_url : self.image[:medium].url )
   end
 
+  def multisession?; sessions.count > 1 end
   def sessions
     super.sort
   end

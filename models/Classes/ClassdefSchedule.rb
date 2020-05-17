@@ -108,7 +108,7 @@ class ClassdefSchedule < Sequel::Model
         :endtime     => starttime + ( self.end_time - self.start_time ),
         :title       => self.classdef.name,
         :classdef    => self.classdef.to_token,
-        :instructors => self.teachers.map(&:to_token),
+        :instructors => self.instructors,
         :capacity    => capacity,
         :headcount   => 0,
         :thumb_url   => self.thumb_url,
@@ -145,12 +145,20 @@ class ClassdefSchedule < Sequel::Model
     super || classdef.capacity
   end
 
+  def duration
+    self.end_time - self.start_time
+  end
+
   def image_url
     self.image.try(:image_url) || self.classdef.thumbnail_image
   end
 
   def thumb_url
     self.image_url
+  end
+
+  def instructors
+    self.teachers.map(&:to_token)
   end
 
   ###################################### VIEWS #######################################
@@ -162,9 +170,11 @@ class ClassdefSchedule < Sequel::Model
   end
   
   # ie: Mon @  5:00 pm w/ Tim Leibowitz
-  def simple_meeting_time_description_with_staff
+  def simple_meeting_time_description_with_staff(spaced=true)
     match = /Weekly on (\S+?)(nes|rs|s)*+(ur)?days/.match(rrule_english) or return ""
-    match[1] + " @ " + start_time_12hr_short + "     w/   " + self.teachers[0].name.ljust(20)
+    divider = ( "   " if spaced ) + " w/ " + ( "  " if spaced)
+    teacher = spaced ? self.teachers[0].name.ljust(20) : self.teachers[0].name
+    match[1] + " @ " + start_time_12hr_short + divider + teacher
   end
 
   def description_line
@@ -175,10 +185,10 @@ class ClassdefSchedule < Sequel::Model
     "#{classdef.name} w/ #{teachers.map(&:name).join(", ")} #{rrule_english} #{start_time_12hr} - #{end_time_12hr}"
   end
 
-  def poster_lines
+  def poster_lines(spaced=false)
     arr = []
     arr << classdef.name
-    arr << simple_meeting_time_description_with_staff
+    arr << simple_meeting_time_description_with_staff(spaced)
   end
 
   def details_hash

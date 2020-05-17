@@ -119,6 +119,7 @@ class ClassDef < Sequel::Model
 
   ########################### VIEWS ##############################
 
+  def poster_lines; footer_lines end
   def footer_lines
     lines = [self.name]
     self.meeting_times.each_slice(2) { |a,b| lines << ( b.nil? ? a : a +", " + b ) }
