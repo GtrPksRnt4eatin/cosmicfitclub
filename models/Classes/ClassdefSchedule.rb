@@ -108,7 +108,7 @@ class ClassdefSchedule < Sequel::Model
         :endtime     => starttime + ( self.end_time - self.start_time ),
         :title       => self.classdef.name,
         :classdef    => self.classdef.to_token,
-        :instructors => self.instructors,
+        :instructors => self.teachers.map(&:to_token),
         :capacity    => capacity,
         :headcount   => 0,
         :thumb_url   => self.thumb_url,
@@ -158,7 +158,7 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def instructors
-    self.teachers.map(&:to_token)
+    teachers.map(&:to_token)
   end
 
   ###################################### VIEWS #######################################
