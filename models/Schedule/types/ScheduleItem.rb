@@ -3,7 +3,7 @@ module Scheduling
   module Types
 
   	SCHEDULE_ITEM_TYPE = {
-  	  :type      => String
+  	  :type      => String,
   	  :starttime => Time,
   	  :endtime   => Time,
   	  :thumb_url => String,
