@@ -8,7 +8,7 @@ module Scheduling
     rentals = get_rentals_between(from,to)
     items   = events + classes + rentals
     items   = items.sort_by { |x| x[:starttime] }
-    { :happening_now   => items.select { |x| (x[:starttime]..x[:endtime]).cover? Time.now },
+    { :happening_now   => items.find   { |x| (x[:starttime]..x[:endtime]).cover? Time.now },
       :on_deck         => items.find   { |x| x[:starttime] > Time.now },
       :later_today     => items.select { |x| (Time.now..(Date.today+1).to_time).cover? x[:starttime] },
       :later_this_week => items.select { |x| (Date.today+1).to_time < x[:starttime] }.group_by { |x| x[:day] },
