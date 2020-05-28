@@ -11,6 +11,7 @@ class CustomerRoutes < Sinatra::Base
     cache_control :no_store
     response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
     response.headers['Access-Control-Allow-Credentials'] = 'true'
+    read_jwt
   end
   
   get '/' do
