@@ -3,6 +3,9 @@ require 'sinatra/cross_origin'
 require_relative '../../extensions/JwtAuth.rb'
 
 class CustomerRoutes < Sinatra::Base
+  
+  ################################### CONFIG ####################################
+
   register Sinatra::Auth
   use JwtAuth
 
@@ -15,7 +18,11 @@ class CustomerRoutes < Sinatra::Base
     response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
     response.headers['Access-Control-Allow-Credentials'] = 'true'
   end
+
+  ################################### CONFIG ####################################
   
+  #################################### LISTS ####################################
+
   get '/' do
     content_type :json
     Customer.all.to_json
@@ -26,6 +33,10 @@ class CustomerRoutes < Sinatra::Base
     Customer.list.to_json
   end
 
+  #################################### LISTS ####################################
+
+  #################################### CRUD #####################################
+
   get '/:id' do
     content_type :json
     params[:id].to_i > 0 or pass
@@ -33,8 +44,8 @@ class CustomerRoutes < Sinatra::Base
     p session[:customer_id]
     p params[:id]
     halt 404 if custy.nil?
-    halt(403, JSON.generate "Not Authorized to View Another Customer") if session[:user_id].nil?
-    halt(403, JSON.generate "Not Authorized to View Another Customer") if session[:customer_id] != params[:id] unless User[session[:user_id]].has_role?( ['admin', 'frontdesk'] )
+    halt(403, JSON.generate("Not Authorized to View Another Customer")) if session[:user_id].nil?
+    halt(403, JSON.generate("Not Authorized to View Another Customer")) if session[:customer_id] != params[:id] unless User[session[:user_id]].has_role?( ['admin', 'frontdesk'] )
     return custy.to_json(:include=>:payment_sources)
   end
 
