@@ -4,9 +4,8 @@ class JwtAuth
   end
   def call env
     begin
-      options = { algorithm: 'HS256', iss: ENV['JWT_ISSUER'] }
-      bearer = env.fetch('HTTP_AUTHORIZATION', '').slice(7..-1)
-      payload, header = JWT.decode bearer, ENV['JWT_SECRET'], true, options
+      jwt = request.cookies['cosmicjwt'] or ( @app.call(env); return)
+      payload, header = JWT.decode jwt, ENV['JWT_SECRET'], true, { algorithm: 'HS256', iss: ENV['JWT_ISSUER'] }
       session[:user_id] = payload['user']['user_id']
       session[:customer_id] = payload['user']['customer_id']
       @app.call env

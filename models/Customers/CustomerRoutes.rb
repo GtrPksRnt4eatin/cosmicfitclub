@@ -1,7 +1,10 @@
 require 'sinatra/cross_origin'
 
+require_relative '../../extensions/JwtAuth.rb'
+
 class CustomerRoutes < Sinatra::Base
   register Sinatra::Auth
+  use JwtAuth
 
   configure do
     enable :cross_origin
@@ -11,7 +14,6 @@ class CustomerRoutes < Sinatra::Base
     cache_control :no_store
     response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
     response.headers['Access-Control-Allow-Credentials'] = 'true'
-    read_jwt
   end
   
   get '/' do
