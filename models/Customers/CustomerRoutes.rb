@@ -1,10 +1,18 @@
+require 'sinatra/cross_origin'
+
 class CustomerRoutes < Sinatra::Base
   register Sinatra::Auth
 
-  before do
-    cache_control :no_store
+  configure do
+    enable :cross_origin
   end
 
+  before do
+    cache_control :no_store
+    response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+  end
+  
   get '/' do
     content_type :json
     Customer.all.to_json
