@@ -6,6 +6,8 @@ class JwtAuth
     begin
       request = Rack::Request.new(env)
       jwt = request.cookies['cosmicjwt'] or ( @app.call(env); return)
+      p jwt
+      p ENV['JWT_SECRET']
       payload, header = JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
       session[:user_id] = payload['user']['user_id']
       session[:customer_id] = payload['user']['customer_id']
