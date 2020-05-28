@@ -5,7 +5,9 @@ class JwtAuth
   def call env
     begin
       request = Rack::Request.new(env)
+      p request.cookies['cosmicjwt']
       jwt = request.cookies['cosmicjwt'] or ( @app.call(env); return)
+      p jwt
       payload, header = JWT.decode jwt, ENV['JWT_SECRET'], true, { algorithm: 'HS256', iss: ENV['JWT_ISSUER'] }
       session[:user_id] = payload['user']['user_id']
       session[:customer_id] = payload['user']['customer_id']
