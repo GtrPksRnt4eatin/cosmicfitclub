@@ -97,7 +97,7 @@ class ClassDefRoutes < Sinatra::Base
     data.delete('id')
     schedule = ClassDef[params[:id]].create_schedule(data) if id == 0 
     schedule = ClassdefSchedule[id].update(data)       unless id == 0
-    Slack.website_scheduling("#{session[:customer].name} changed the class schedule: \r\n#{schedule.description_line}")
+    Slack.website_scheduling("#{Customer[session[:customer_id]].name} changed the class schedule: \r\n#{schedule.description_line}")
     schedule.to_json
   end 
 
@@ -111,7 +111,7 @@ class ClassDefRoutes < Sinatra::Base
   delete '/schedules/:id' do
     id = Integer(params[:id])         rescue halt(401, "ID Must Be Numeric" )
     sched = ClassdefSchedule[params[:id]] or halt(404, "Schedule Not Found" )
-    Slack.website_scheduling("#{session[:customer].name} changed the class schedule: \r\n removed #{sched.description_line} from the schedule")
+    Slack.website_scheduling("#{Customer[session[:customer_id]].name} changed the class schedule: \r\n removed #{sched.description_line} from the schedule")
     sched.destroy
     status 204
     {}.to_json

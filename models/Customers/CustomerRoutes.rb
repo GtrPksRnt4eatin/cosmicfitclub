@@ -28,8 +28,8 @@ class CustomerRoutes < Sinatra::Base
     params[:id].to_i > 0 or pass
     custy = Customer[params[:id].to_i]
     halt 404 if custy.nil?
-    halt(403, 'Not Authorized to View Another Customer') if session[:user].nil?
-    halt(403, 'Not Authorized to View Another Customer') if session[:customer] != custy unless session[:user].has_role?( ['admin', 'frontdesk'] )
+    halt(403, 'Not Authorized to View Another Customer') if session[:user_id].nil?
+    halt(403, 'Not Authorized to View Another Customer') if session[:customer_id] != params[:id] unless User[session[:user_id]].has_role?( ['admin', 'frontdesk'] )
     return custy.to_json(:include=>:payment_sources)
   end
 
@@ -246,13 +246,15 @@ class CustomerRoutes < Sinatra::Base
 
   get '/waiver' do
     content_type 'image/svg+xml'
-    halt(401, "Not Signed In")     if session[:customer].nil?
-    halt(404, "Waiver Not Signed") if session[:customer].waiver.nil?
-    return session[:customer].waiver.signature
+    custy = Customer[session[:customer_id]]
+    halt(401, "Not Signed In")     if custy.nil?
+    halt(404, "Waiver Not Signed") if custy.waiver.nil?
+    return custy.waiver.signature
   end
 
   post( '/waiver', :auth => 'user' ) do
-    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
+    custy = Customer[session[:customer_id]]
+    custy.add_waiver( Waiver.create(:signature => request.body.read ) )
     return 204
   end
 

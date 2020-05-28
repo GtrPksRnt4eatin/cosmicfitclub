@@ -51,15 +51,16 @@ class CFCAuth < Sinatra::Base
 
   post '/login' do
     data = JSON.parse(request.body.read)
-    session[:user] = User.authenticate( data['email'], data['password'] )
-    if !session[:user] then
+    user = User.authenticate( data['email'], data['password'] )
+    session[:user_id] = user.id unless user.nil?
+    if !session[:user_id] then
       custy = Customer.find_by_email( data['email'] )
       Slack.website_access( "Failed Login: Account Not Found - [#{data['email']}]") if custy.nil?
       Slack.website_access( "Failed Login: #{custy.to_list_string}" )          unless custy.nil?
       halt(401, "Login Failed: Incorrect Credentials" )
     end
-    session[:customer] = session[:user].customer
-    Slack.website_access( "Successful Login #{ session[:customer].to_list_string }" )
+    session[:customer_id] = user.customer.id unless user.customer.nil?
+    Slack.website_access( "Successful Login #{ user.customer.to_list_string }" )
     status 204
   end
 
@@ -104,8 +105,8 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/logout' do
-    session[:user] = nil
-    session[:customer] = nil
+    session[:user_id] = nil
+    session[:customer_id] = nil
     redirect '/login'
   end
 
@@ -124,8 +125,8 @@ class CFCAuth < Sinatra::Base
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
     custy = Customer.create( :name => data['name'], :email => data['email'] )
     User.create( :customer => custy)
-    session[:user] = custy.login
-    session[:customer] = custy
+    session[:user_id] = custy.login.id
+    session[:customer_id] = custy.id
     return JSON.generate({ :id => custy.id })
   end
 
@@ -146,9 +147,9 @@ class CFCAuth < Sinatra::Base
     halt(400, "Your Password Must Be at least Five Characters") if params[:password].length < 5
     halt(400, "Your Password Does Not Match The Confirmation")  if params[:password] != params[:confirmation]
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
-    session[:user] = user
-    session[:customer] = session[:user].customer
-    Slack.website_access( "Password Reset #{ session[:customer].to_list_string }" )
+    session[:user_id] = user.id
+    session[:customer_id] = user.customer.id
+    Slack.website_access( "Password Reset #{ Customer[session[:customer_id]].to_list_string }" )
     redirect '/user'
   end
 
@@ -163,8 +164,8 @@ class CFCAuth < Sinatra::Base
 
   get '/current_user' do
     content_type :json
-    user = session[:user]           or halt 404
-    custy = session[:user].customer or halt 404
+    user = User[session[:user_id]]         or halt 404
+    custy = Customer[session[:customer_id] or halt 404
     JSON.generate({ :id => custy.id, :email => custy.email, :name => custy.name }) 
   end
 
@@ -220,14 +221,20 @@ module Sinatra
   module Auth
   
     module Helpers
-
-      def logged_in?       ; !!session[:user]     end
-      def user             ; session[:user]       end
-      def customer         ; session[:customer]   end
-      def ref_cust         ; session[:user] = User[user[:id]]; session[:customer] = Customer[customer[:id]] end
+      def logged_in?       ; !!session[:user_id]             end
+      def user             ; User[session[:user_id]]         end
+      def customer         ; Customer[session[:customer_id]] end
       
       def has_role?(role)
-        session[:user].has_role? role
+        User[session[:user_id]].has_role? role
+      end
+
+      def read_jwt
+        jwt = request.cookies['cosmicjwt'] or return
+        jwt = JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
+        custy = Customer[jwt.user.customer_id] or return
+        session[:customer_id] = custy.id
+        session[:user_id] = custy.user.id
       end
 
     end
@@ -239,7 +246,7 @@ module Sinatra
       app.set(:auth) do |role|
         condition do
           redirect "/auth/login?page=#{request.path}" unless logged_in?
-          redirect '/' unless session[:user].has_role? role
+          redirect '/' unless User[session[:user_id]].has_role? role
           true
         end
       end
@@ -247,15 +254,15 @@ module Sinatra
       app.set(:onboard) do |role|
         condition do
           redirect "/auth/onboard?page=#{request.path}" unless logged_in?
-          redirect '/' unless session[:user].has_role? role
+          redirect '/' unless User[session[:user_id]].has_role? role
           true
         end
       end
 
       app.set(:self_or) do |role|
         condition do
-          return true if session[:user].has_role? role
-          halt(401, "Cannot Modify Someone Elses Account!") unless session[:customer].id == Integer(params[:customer_id])
+          return true if User[session[:user_id]].has_role? role
+          halt(401, "Cannot Modify Someone Elses Account!") unless session[:customer_id] == Integer(params[:customer_id])
           true
         end
       end

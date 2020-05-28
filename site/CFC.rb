@@ -49,7 +49,7 @@ class CFC < Sinatra::Base
   get( '/login' ) { redirect('/auth/login') }
 
   post( '/waiver', :auth => 'user' ) do
-    session[:customer].add_waiver( Waiver.create(:signature => request.body.read ) )
+    Customer[session[:customer_id]].add_waiver( Waiver.create(:signature => request.body.read ) )
     return 204
   end
 

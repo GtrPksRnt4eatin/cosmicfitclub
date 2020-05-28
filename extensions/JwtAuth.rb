@@ -7,8 +7,8 @@ class JwtAuth
       options = { algorithm: 'HS256', iss: ENV['JWT_ISSUER'] }
       bearer = env.fetch('HTTP_AUTHORIZATION', '').slice(7..-1)
       payload, header = JWT.decode bearer, ENV['JWT_SECRET'], true, options
-      session[:user] = User[payload['user']['user_id']]
-      session[:customer] = Customer[payload['user']['customer_id']]
+      session[:user_id] = payload['user']['user_id']
+      session[:customer_id] = payload['user']['customer_id']
       @app.call env
     rescue JWT::DecodeError
       [401, { 'Content-Type' => 'text/plain' }, ['A token must be passed.']]

@@ -31,7 +31,7 @@ html
     .content
 
       .tile
-        | Welcome #{ session[:user].customer.name } 
+        | Welcome #{ Customer[session[:customer_id]].name } 
         hr
         a href='/classes' Register For a Class
         br

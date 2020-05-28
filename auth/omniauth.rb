@@ -29,7 +29,7 @@ module Sinatra
           obj.photo_url = data[:photo_url]
         end
 
-        if session[:customer].nil? then 
+        if session[:customer_id].nil? then 
        
           cust = Customer.find_or_create( :email => data[:email] ) do |obj|
             obj.name = data[:name]
@@ -37,7 +37,7 @@ module Sinatra
 
         else
           
-          cust = session[:customer]
+          cust = Customer[session[:customer_id]]
 
         end
 
@@ -47,8 +47,8 @@ module Sinatra
 
         user.add_omniaccount(omni)
 
-        session[:customer] = cust
-        session[:user] = user
+        session[:customer_id] = cust.id
+        session[:user_id] = user.id
 
         redirect '/user'
       end

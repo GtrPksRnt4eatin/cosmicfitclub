@@ -17,7 +17,7 @@ html
     javascript: 
       data = {};
       data['hourly_tasks'] = #{{ HourlyTask.all.to_json }};
-      data['punches']      = #{{ HourlyPunch.where( :customer_id => session[:customer].id ).to_json }};
+      data['punches']      = #{{ HourlyPunch.where( :customer_id => session[:customer_id] ).to_json }};
   body
   
     #stars
