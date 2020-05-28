@@ -33,8 +33,8 @@ class CustomerRoutes < Sinatra::Base
     p session[:customer_id]
     p params[:id]
     halt 404 if custy.nil?
-    halt(403, 'Not Authorized to View Another Customer') if session[:user_id].nil?
-    halt(403, 'Not Authorized to View Another Customer') if session[:customer_id] != params[:id] unless User[session[:user_id]].has_role?( ['admin', 'frontdesk'] )
+    halt(403, JSON.generate "Not Authorized to View Another Customer") if session[:user_id].nil?
+    halt(403, JSON.generate "Not Authorized to View Another Customer") if session[:customer_id] != params[:id] unless User[session[:user_id]].has_role?( ['admin', 'frontdesk'] )
     return custy.to_json(:include=>:payment_sources)
   end
 
