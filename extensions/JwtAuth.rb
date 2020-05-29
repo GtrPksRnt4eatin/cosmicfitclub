@@ -6,12 +6,9 @@ class JwtAuth
     begin
       request = Rack::Request.new(env)
       jwt = request.cookies['cosmicjwt'] or return @app.call(env)
-      p jwt
-      p ENV['JWT_SECRET']
-      p JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
       payload, header = JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
-      session[:user_id] = payload['user']['user_id']
-      session[:customer_id] = payload['user']['customer_id']
+      request.session[:user_id] = payload['user']['user_id']
+      request.session[:customer_id] = payload['user']['customer_id']
       @app.call env
     rescue JWT::DecodeError
       [401, { 'Content-Type' => 'text/plain' }, ['A token must be passed.']]
