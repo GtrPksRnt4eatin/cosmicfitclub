@@ -15,8 +15,6 @@ function ScheduleForm() {
     }
   }.bind(this));
 
-  $.get('/models/staff', function(resp) { this.instructors = resp; }.bind(this) )
-
 }
 
 ScheduleForm.prototype = {
@@ -42,7 +40,6 @@ ScheduleForm.prototype = {
   set instructors(val) { this.state.instructors = val;   this.bind_dom(); }
 
 }
-
 
 Object.assign( ScheduleForm.prototype, element);
 Object.assign( ScheduleForm.prototype, ev_channel); 
