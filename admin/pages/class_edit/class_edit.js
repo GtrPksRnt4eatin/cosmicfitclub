@@ -69,7 +69,7 @@ $(document).ready(function() {
     popupmenu.hide();
   });
 
-  get_staff();
+  get_staff().then(function() { scheduleform.instructors = data['instructors']; } );
   get_classdef();
   get_schedules();
 
@@ -107,5 +107,5 @@ function get_schedules() {
 }
 
 function get_staff() {
-  $.get('/models/staff', function(resp) { data.instructors = resp; } )
+  return $.get('/models/staff', function(resp) { data.instructors = resp; } )
 }
