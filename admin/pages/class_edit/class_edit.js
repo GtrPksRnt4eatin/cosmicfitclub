@@ -7,19 +7,28 @@ data = {
 ctrl = {
 
   save_changes(e,m) {
+    let payload = {
+      id: m.data.class.id,
+      name: m.data.class.name,
+      description: m.data.class.description
+    }
+    $.post('/models/classdefs', payload).then( function() { get_schedules(); } );
+  },
+
+/*
+  save_changes(e,m) {
     var fdata = new FormData();
-    fdata.append('id', m.class.id);
-    fdata.append('name', m.class.name);
-    fdata.append('description', m.class.description);
-    fdata.append('instructors', m.class.instructors);
-    if( !empty($('#pic')[0].files[0]) ) { fdata.append('image', $('#pic')[0].files[0] ); }
+    fdata.append('id', m.data.class.id);
+    fdata.append('name', m.data.class.name);
+    fdata.append('description', m.data.class.description);
+    fdata.append('instructors', m.data.class.instructors);
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/classes';  }
     request.open("POST", "/models/classdefs");
     request.send(fdata); 
     setTimeout(get_schedules,500);
   },
-
+*/
   edit_image(e,m) {
     img_chooser.resize(500,500); 
     if(data.class.image_data) {
