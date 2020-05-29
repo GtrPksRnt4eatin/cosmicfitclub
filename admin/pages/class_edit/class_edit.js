@@ -45,7 +45,7 @@ ctrl = {
   del_schedule(e,m)  {
     if(!confirm('really delete this schedule?')) return;
     $.del(`/models/classdefs/schedules/${m.sched.id}`)
-     .done( function() { data['class']['schedules'].splice(m.index,1); } ); 
+     .done( function() { data['schedules'].splice(m.index,1); } ); 
   }
 
 }
@@ -64,7 +64,7 @@ $(document).ready(function() {
   scheduleform = new ScheduleForm();
   scheduleform.ev_sub('show', popupmenu.show );
   scheduleform.ev_sub('after_post', function(schedule) { 
-    data['class']['schedules'].replace_or_add_by_id(schedule); 
+    data['schedules'].replace_or_add_by_id(schedule); 
     popupmenu.hide();
   });
 
