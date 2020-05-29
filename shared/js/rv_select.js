@@ -78,6 +78,10 @@ function include_rivets_select() {
         this.publish(val);
         if(this.el.onchange) { this.el.onchange(); }
       }.bind(this));
+      this.observer = new MutationObserver(function(mutations) {
+        $(el).trigger("chosen:updated");
+      })
+      this.observer.observe(el,{childList: true});
     },
     unbind: function(el) {
       $(el).chosen("destroy");
@@ -92,3 +96,4 @@ function include_rivets_select() {
   }
 
 }
+ 
