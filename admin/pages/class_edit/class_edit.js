@@ -62,14 +62,13 @@ $(document).ready(function() {
   img_chooser.ev_sub('show', popupmenu.show );
 
   scheduleform = new ScheduleForm();
-  scheduleform.instructors = data['instructors'];
   scheduleform.ev_sub('show', popupmenu.show );
   scheduleform.ev_sub('after_post', function(schedule) { 
     data['class']['schedules'].replace_or_add_by_id(schedule); 
     popupmenu.hide();
   });
 
-  get_staff()//.then(function() { scheduleform.instructors = data['instructors']; } );
+  get_staff().then(function() { scheduleform.instructors = data['instructors']; } );
   get_classdef();
   get_schedules();
 
