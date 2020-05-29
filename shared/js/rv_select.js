@@ -87,7 +87,7 @@ function include_rivets_select() {
     },
     routine: function(el,value) {
       $(el).val(value);
-      $(this.chosen_instance).trigger("chosen:updated");
+      //$(this.chosen_instance).trigger("chosen:updated");
     },
     getValue: function(el) {
       return $(this.chosen_instance).val();
