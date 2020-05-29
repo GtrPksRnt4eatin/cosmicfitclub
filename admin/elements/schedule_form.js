@@ -15,6 +15,8 @@ function ScheduleForm() {
     }
   }.bind(this));
 
+  $.get('/models/staff', function(resp) { this.instructors = resp; }.bind(this) )
+
 }
 
 ScheduleForm.prototype = {
