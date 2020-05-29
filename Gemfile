@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "2.5.0"
+ruby "2.5.8"
 
 gem "rake", ">= 12.3.3"
 gem "nokogiri", ">= 1.10.8"
