@@ -37,7 +37,7 @@ ScheduleForm.prototype = {
     }.bind(this));  
   },
 
-  set instructors(val) { this.state.instructors = val;   this.bind_dom(); }
+  set instructors(val) { this.state.instructors = val; this.bind_dom(); }
 
 }
 
