@@ -18,7 +18,6 @@ module BubblePoster
       sch = ClassdefSchedule[data[1]] or return
       { :img => sch.thumb_url, :lines => sch.poster_lines }
     end
-    p val[:lines]
     val
   end
  
