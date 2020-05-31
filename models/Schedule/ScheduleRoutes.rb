@@ -3,17 +3,22 @@ require 'sinatra/cross_origin'
 
 class ScheduleRoutes < Sinatra::Base
 
-  before do
-    cache_control :no_store
-  end
+    ################################### CONFIG ####################################
 
-  configure do
-    enable :cross_origin
-  end
-
-  before do
-    response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
-  end
+    register Sinatra::Auth
+    use JwtAuth
+  
+    configure do
+      enable :cross_origin
+    end
+  
+    before do
+      cache_control :no_store
+      response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+      response.headers['Access-Control-Allow-Credentials'] = 'true'
+    end
+  
+    ################################### CONFIG ####################################
 
   get '/schedule.jpg' do
     redirect StoredImage.where(:name=>"WeeklyPoster.jpg").first.image.url
