@@ -42,6 +42,12 @@ class ClassDef < Sequel::Model
     return self.image[:small].url
   end
 
+  def image_url
+    return ''             if self.image.nil?
+    return self.image_url if self.image.is_a? ImageUploader::UploadedFile
+    return self.image[:small].url
+  end
+
   def create_schedule(data)
     new_sched = ClassdefSchedule.create(data)
     add_schedule(new_sched)

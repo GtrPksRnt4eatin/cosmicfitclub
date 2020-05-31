@@ -1,4 +1,5 @@
 require 'sequel'
+require 'bigdecimal'
 
 def get_heroku_pg_args
   uri = URI.parse(ENV['HEROKU_POSTGRESQL_COBALT_URL'])

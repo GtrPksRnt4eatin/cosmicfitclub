@@ -1,4 +1,5 @@
 require 'irb'
+require 'bigdecimal'
 require_relative '../ruby/environment'
 require_relative '../ruby/patches'
 require_relative '../integrations/database'

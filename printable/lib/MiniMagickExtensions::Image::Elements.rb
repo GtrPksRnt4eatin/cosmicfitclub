@@ -5,7 +5,8 @@ module MiniMagickExtensions
     module Elements
 
       def draw_box(opts)
-        opts[:radius]   ||= 0
+        p "drawing box: #{opts}"
+        opts[:radius]   ||= 0.1
         opts[:x_radius] ||= opts[:radius]
         opts[:y_radius] ||= opts[:x_radius]
         opts[:color]    ||= Values::MaskColor

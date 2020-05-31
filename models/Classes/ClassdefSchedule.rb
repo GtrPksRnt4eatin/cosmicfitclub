@@ -6,7 +6,7 @@ class ClassdefSchedule < Sequel::Model
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
   one_to_many :exceptions, :key => :class_schedule_id, :class => :ClassException
 
-  many_to_one :image, :class=>:StoredImage
+  many_to_one :image, :key => :image_id, :class=>:StoredImage
 
   def ClassdefSchedule.find_matching_schedule(occurrence)
     ClassdefSchedule.where(classdef_id: occurrence.classdef_id).each do |sched|
@@ -150,7 +150,7 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def image_url
-    self.image.try(:image_url) || self.classdef.thumbnail_image
+    self.image.try(:image_url) || self.classdef.image_url
   end
 
   def thumb_url
@@ -172,7 +172,7 @@ class ClassdefSchedule < Sequel::Model
   # ie: Mon @  5:00 pm w/ Tim Leibowitz
   def simple_meeting_time_description_with_staff(spaced=true)
     match = /Weekly on (\S+?)(nes|rs|s)*+(ur)?days/.match(rrule_english) or return ""
-    divider = ( "   " if spaced ) + " w/ " + ( "  " if spaced)
+    divider = (spaced ? "   " : "") + " w/ " + (spaced ? "  " : "")
     teacher = spaced ? self.teachers[0].name.ljust(20) : self.teachers[0].name
     match[1] + " @ " + start_time_12hr_short + divider + teacher
   end
@@ -183,6 +183,10 @@ class ClassdefSchedule < Sequel::Model
 
   def full_description
     "#{classdef.name} w/ #{teachers.map(&:name).join(", ")} #{rrule_english} #{start_time_12hr} - #{end_time_12hr}"
+  end
+
+  def teacher_names
+    teachers.map(&:name).join(", ")
   end
 
   def poster_lines(spaced=false)

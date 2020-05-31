@@ -30,17 +30,22 @@ module MiniMagickExtensions
 
       def draw_bubble(path,lines,geometry,opts={})
         geo = /(?<width>\d+)x(?<height>\d+)\+(?<x>\d+)\+(?<y>\d+)/.match(geometry)
+        opts[:width]    ||= geo[:width]
+        opts[:height]   ||= geo[:height]
+        opts[:x_offset] ||= geo[:x]
+        opts[:y_offset] ||= geo[:y]
+        opts[:margin]   ||= opts[:width] * 0.01
         @img = MiniMagick::Image.open(path)
-        @img.resize_with_crop(geo[:width].to_i,geo[:height].to_i,{ :geometry => :south })
+        @img.resize_with_crop(opts[:width].to_i,opts[:height].to_i,{ :geometry => :south })
         @img.to_bubble(lines, opts[:ptscale] || 0.07, opts[:ptscale2] || 0.74 )
         self.bubble_shadow({
-          :width    => geo[:width].to_i,
-          :height   => geo[:height].to_i,
-          :x_offset => geo[:x].to_i,
-          :y_offset => geo[:y].to_i,
+          :width    => opts[:width].to_i,
+          :height   => opts[:height].to_i,
+          :x_offset => opts[:x_offset].to_i,
+          :y_offset => opts[:y_offset].to_i,
           :margin   => opts[:margin]
         })
-        self.overlay(@img,geo[:width].to_i,geo[:height].to_i,geo[:x].to_i,geo[:y].to_i)
+        self.overlay(@img,opts[:width].to_i,opts[:height].to_i,opts[:x_offset].to_i,opts[:y_offset].to_i)
       end
 
       def bubble_shadow(opts)

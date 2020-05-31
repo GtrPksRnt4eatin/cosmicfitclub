@@ -35,7 +35,7 @@ module MiniMagickExtensions
           i.gravity opts[:gravity] || 'None'
           i.stroke  opts[:stroke]  || "\#FFFFFFDD"
           i.strokewidth opts[:strokewidth] || pointsize*0.15
-          i.kerning 5
+          i.kerning 3
           i.draw "text #{x},#{y} \"#{text}\""
         end
       end
@@ -91,8 +91,8 @@ module MiniMagickExtensions
           :x_offset => 0,
           :y_offset => self.dimensions[1]-y_offset,
           :width    => self.dimensions[0],
-          :height   => self.dimensions[1],
-          :radius   => 0,
+          :height   => y_offset,
+          :radius   => 0.1,
           :color    => Values::MaskColor2 
         })
         y_offset = y_offset - 10 
