@@ -4,7 +4,7 @@ module Scheduling
 
   def Scheduling::get_sorted_virtual
     from    = Date.today.to_time
-    to      = Time.now + (7*24*60*60)
+    to      = from + (7*24*60*60)
     classes = get_classitems_between(from,to)
     events  = get_eventsessions_between(from,to)
     rentals = get_rentals_between(from,to)
