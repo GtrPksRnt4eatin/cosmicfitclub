@@ -49,3 +49,9 @@ img.filler {
   position: absolute;
   z-index: -1;
 }
+
+.open {
+  content: 'O';
+  width: 1em;
+  height: 1em;
+}
