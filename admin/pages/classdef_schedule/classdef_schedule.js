@@ -47,7 +47,7 @@ $(document).ready(function() {
 
 function init_rivets() {
   include_rivets_dates();
-  rivets.formatters.teachernames = function(val) { return val.map(function(x) { return x.name }).join(', '); }
+  rivets.formatters.teachernames = function(val) { return val ? val.map(function(x) { return x.name }).join(', ') : ''; }
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 }
 
