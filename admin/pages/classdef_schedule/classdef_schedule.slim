@@ -22,6 +22,10 @@ html
 
       .tile.schedule_tile
         .tuplet
+          .attrib Classdef:
+          .value {data.sched.classdef.name}
+          .attrib Teachers:
+          .value {data.sched.teachers}
           .attrib Image:
           .img_square.editable
             img.picpreview crossorigin='anonymous' rv-src='data.sched.image_url' rv-on-click='ctrl.edit_image'

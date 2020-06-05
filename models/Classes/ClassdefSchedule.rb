@@ -201,7 +201,8 @@ class ClassdefSchedule < Sequel::Model
       :teachers   => teachers.map(&:to_token),
       :rrule      => rrule_english,
       :start_time => start_time_12hr,
-      :capacity   => capacity
+      :capacity   => capacity,
+      :image_url  => self.image.try(:image_url)
     }
   end
 
