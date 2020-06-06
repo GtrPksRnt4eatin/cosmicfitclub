@@ -83,6 +83,14 @@ class CFCAuth < Sinatra::Base
   get '/test_jwt' do
     jwt = request.cookies['cosmicjwt'] or halt(401)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
+  rescue JWT::DecodeError
+    [401, { 'Content-Type' => 'text/plain' }, ['A token must be passed.']]
+  rescue JWT::ExpiredSignature
+    [403, { 'Content-Type' => 'text/plain' }, ['The token has expired.']]
+  rescue JWT::InvalidIssuerError
+    [403, { 'Content-Type' => 'text/plain' }, ['The token does not have a valid issuer.']]
+  rescue JWT::InvalidIatError
+    [403, { 'Content-Type' => 'text/plain' }, ['The token does not have a valid "issued at" time.']]
   end
 
   def create_jwt(user)
