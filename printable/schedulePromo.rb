@@ -31,14 +31,6 @@ module SchedulePromo
         :img      => x[:img],
         :lines    => x[:lines]
       },
-      { :type     => 'box',
-        :radius   => 5,
-        :width    => 20,
-        :height   => 20,
-        :x_offset => 0,
-        :y_offset => 0,
-        :color    => "\#000000"      
-      },
       { :type     => "highlight_text",
         :x_offset => 0,
         :y_offset => 20,
@@ -49,3 +41,10 @@ module SchedulePromo
     ])
   end
 end
+
+
+
+
+
+
+[1,4,7,9,13]
