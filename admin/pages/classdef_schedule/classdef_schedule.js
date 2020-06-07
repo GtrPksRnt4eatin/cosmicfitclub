@@ -29,7 +29,7 @@ $(document).ready(function() {
     fd = new FormData(); 
     fd.append('image', val['blob'], val['filename'] ); 
     request = new XMLHttpRequest();
-    request.open( "POST", "/models/classdefs/schedules" + data.sched.id + "/image", true );
+    request.open( "POST", "/models/classdefs/schedules/" + data.sched.id + "/image", true );
     request.onload  = function(e) { get_sched_details(); }
     request.onerror = function(e) { alert("Failed to Upload Image"); }
     request.send(fd);
