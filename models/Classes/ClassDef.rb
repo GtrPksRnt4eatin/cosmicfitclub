@@ -135,7 +135,7 @@ class ClassDef < Sequel::Model
   def to_json(options = {})
     val = JSON.parse super
     val['image_url'] = image.nil? ? '' : image[:original].url
-    val['image_data'] = JSON.parse(val['image_data'])
+    val['image_data'] = JSON.parse(val['image_data']||"{}")
     JSON.generate val
   end
 
