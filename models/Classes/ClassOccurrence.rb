@@ -130,7 +130,7 @@ class ClassOccurrence < Sequel::Model
       :classdef => self.classdef.to_token,
       :teacher => self.teacher.to_token,
       :reservations => self.reservations.map(&to_hash)
-    })
+    }).to_json
   end
 
   def to_ical_event
