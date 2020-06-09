@@ -19,4 +19,12 @@ class PassTransaction < Sequel::Model
     arr[0]
   end
 
+  def to_token
+    { :id => self.id,
+      :delta => self.delta,
+      :timestamp => self.timestamp,
+      :description => self.description
+    }
+  end
+
 end

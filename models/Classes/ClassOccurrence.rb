@@ -117,8 +117,20 @@ class ClassOccurrence < Sequel::Model
 
   ############################# Views ################################
 
+  def to_token 
+    { :id => self.id,
+      :starttime => self.starttime,
+      :classdef => self.classdef.to_token,
+      :teacher => self.teacher.to_token
+    }
+  end
+
   def to_full_json
-    to_json( :include => { :reservations => {}, :classdef =>  { :only => [ :id, :name ] }, :teacher =>  { :only => [ :id, :name ] } } )
+    self.to_hash.merge({
+      :classdef => self.classdef.to_token,
+      :teacher => self.teacher.to_token,
+      :reservations => self.reservations.map(&to_hash)
+    })
   end
 
   def to_ical_event

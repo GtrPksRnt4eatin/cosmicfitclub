@@ -12,4 +12,11 @@ class MembershipUse < Sequel::Model
     self.subscription.plan.id == 10
   end
 
+  def to_token
+    { :id => self.id,
+      :timestamp => self.datetime,
+      :reason => self.reason
+    }
+  end
+
 end

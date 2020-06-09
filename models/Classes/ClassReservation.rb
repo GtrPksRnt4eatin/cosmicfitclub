@@ -46,4 +46,14 @@ class ClassReservation < Sequel::Model
     self.occurrence.starttime <=> other.occurrence.starttime
   end
 
+  def details_hash
+    { :id => self.id,
+      :occurrence => self.occurrence.to_token,
+      :customer => self.customer.to_token,
+      :payment => self.payment.to_token,
+      :transaction => self.transaction.to_token,
+      :membership_use => self.membership_use.to_token
+    }
+  end
+
 end
