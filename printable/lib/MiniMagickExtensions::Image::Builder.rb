@@ -42,7 +42,7 @@ module MiniMagickExtensions
               y_offset = el[:margin_y].to_i + ( el[:margin_y].to_i + box_height ) * ( i / el[:rowsize] ) + el[:y_offset]
               geometry = "#{box_width}x#{box_height}+#{x_offset}+#{y_offset}"
               p geometry
-              self.draw_bubble( x[:img], x[:lines], geometry, { :ptscale => el[:ptscale], :ptscale2 => el[:ptscale2] } )
+              self.draw_bubble( x[:img], x[:lines], geometry, { :ptscale => el[:ptscale], :ptscale2 => el[:ptscale2], :margin => nil } )
             end
           when "image_bubble"
             self.draw_bubble( el[:img], el[:lines], el[:geometry], el)

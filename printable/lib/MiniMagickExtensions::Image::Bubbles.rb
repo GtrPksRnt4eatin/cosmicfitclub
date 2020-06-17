@@ -29,11 +29,12 @@ module MiniMagickExtensions
       end
 
       def draw_bubble(path,lines,geometry,opts={})
+        return if path.nil?
         geo = /(?<width>\d+)x(?<height>\d+)\+(?<x>\d+)\+(?<y>\d+)/.match(geometry)
-        opts[:width]    ||= geo[:width]
-        opts[:height]   ||= geo[:height]
-        opts[:x_offset] ||= geo[:x]
-        opts[:y_offset] ||= geo[:y]
+        opts[:width]    ||= geo[:width].to_i
+        opts[:height]   ||= geo[:height].to_i
+        opts[:x_offset] ||= geo[:x].to_i
+        opts[:y_offset] ||= geo[:y].to_i
         opts[:margin]   ||= opts[:width] * 0.01
         @img = MiniMagick::Image.open(path)
         @img.resize_with_crop(opts[:width].to_i,opts[:height].to_i,{ :geometry => :south })
@@ -56,7 +57,6 @@ module MiniMagickExtensions
         opts[:color]    ||= Values::WhiteGlow
         opts[:margin]   ||= opts[:width] * 0.01
         opts[:radius]   ||= opts[:width] / 10
-        p opts[:radius]
         self.draw_box({
           :x_offset => opts[:x_offset] - opts[:margin], 
           :y_offset => opts[:y_offset] - opts[:margin], 

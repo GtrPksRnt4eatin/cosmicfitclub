@@ -13,6 +13,7 @@ module MiniMagickExtensions
         opts[:x_offset] ||= 0
         opts[:y_offset] ||= 0
         self.combine_options do |i|	
+          i.stroke opts[:stroke] if opts[:stroke]
           i.fill opts[:color]
           i.draw "roundRectangle #{opts[:x_offset].to_i},#{opts[:y_offset].to_i} #{opts[:x_offset].to_i + opts[:width].to_i},#{opts[:y_offset].to_i + opts[:height].to_i} #{opts[:x_radius]},#{opts[:y_radius]}"	
         end	

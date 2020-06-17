@@ -18,5 +18,13 @@ module Scheduling
       :by_day          => items.group_by{ |x| x[:day] }
     }
   end
+
+  def Scheduling::flat_list(from,to)
+    classes = get_classitems_between(from,to)
+    events  = get_eventsessions_between(from,to)
+    rentals = get_rentals_between(from,to)
+    items   = events + classes + rentals
+    items.sort_by { |x| x[:starttime] }
+  end
   
 end

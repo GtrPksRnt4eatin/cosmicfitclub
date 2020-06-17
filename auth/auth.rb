@@ -80,6 +80,12 @@ class CFCAuth < Sinatra::Base
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
+  post '/logout_jwt' do
+    session[:user_id] = nil
+    session[:customer_id] = nil
+    response.delete_cookie('cosmicjwt')
+  end
+
   get '/test_jwt' do
     jwt = request.cookies['cosmicjwt'] or halt(401)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})

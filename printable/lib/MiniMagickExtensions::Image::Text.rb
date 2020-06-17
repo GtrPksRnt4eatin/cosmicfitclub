@@ -11,6 +11,7 @@ module MiniMagickExtensions
           i.pointsize "#{pointsize}"
           i.font "shared/fonts/webfonts/329F99_3_0.ttf"
           i.gravity "#{gravity}"
+          #i.kerning opts[:kerning] || 0
           i.draw "text #{x},#{y} \"#{text}\""
         end
       end
@@ -35,7 +36,7 @@ module MiniMagickExtensions
           i.gravity opts[:gravity] || 'None'
           i.stroke  opts[:stroke]  || "\#FFFFFFDD"
           i.strokewidth opts[:strokewidth] || pointsize*0.15
-          i.kerning 3
+          i.kerning opts[:kerning] || 3
           i.draw "text #{x},#{y} \"#{text}\""
         end
       end
