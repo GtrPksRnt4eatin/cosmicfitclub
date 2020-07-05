@@ -10,6 +10,7 @@ class BraintreeRoutes < Sinatra::Base
   configure do
     enable :cross_origin
     @@BT_GATEWAY = Braintree::Gateway.new(
+      :environment => :production,
       :merchant_id => ENV["BRAINTREE_MERCH_ID"],
       :public_key => ENV["BRAINTREE_PUBLIC"],
       :private_key => ENV["BRAINTREE_PRIVATE"],
@@ -25,7 +26,7 @@ class BraintreeRoutes < Sinatra::Base
   ################################### CONFIG ####################################
 
   get '/client_token' do
-    return @@BT_GATEWAY.client_token.generate() unless session[:customer_id]
+    return @@BT_GATEWAY.client_token.generate unless session[:customer_id]
     @@BT_GATEWAY.client_token.generate(:customer_id => session[:customer_id])
   end
 
