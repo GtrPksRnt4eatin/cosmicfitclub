@@ -26,8 +26,20 @@ class BraintreeRoutes < Sinatra::Base
   ################################### CONFIG ####################################
 
   get '/client_token' do
-    return @@BT_GATEWAY.client_token.generate unless session[:customer_id]
-    @@BT_GATEWAY.client_token.generate(:customer_id => session[:customer_id])
+    return @@BT_GATEWAY.client_token.generate #unless session[:customer_id]
+    #@@BT_GATEWAY.client_token.generate(:customer_id => session[:customer_id])
+  end
+
+  post "/checkout" do
+    nonce = params[:payment_method_nonce]
+    result = gateway.transaction.sale(
+      :amount => "10.00",
+      :payment_method_nonce => nonce,
+      #:device_data => device_data_from_the_client,
+      :options => {
+        :submit_for_settlement => true
+      }
+    )
   end
 
 end
