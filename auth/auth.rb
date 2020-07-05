@@ -53,7 +53,7 @@ class CFCAuth < Sinatra::Base
     data = JSON.parse(request.body.read)
     user = User.authenticate( data['email'], data['password'] )
     session[:user_id] = user.id unless user.nil?
-    if !session[:user_id] then
+    if !user then
       custy = Customer.find_by_email( data['email'] )
       Slack.website_access( "Failed Login: Account Not Found - [#{data['email']}]") if custy.nil?
       Slack.website_access( "Failed Login: #{custy.to_list_string}" )          unless custy.nil?

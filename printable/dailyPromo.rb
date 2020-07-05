@@ -57,7 +57,7 @@ module DailyPromo
         :ptsize   => itemHeight/20,
         :spacing  => 12,
         :color    => "#E0E0E0",
-        :text     => "#{x[:starttime].strftime("%l:%M %p")}\r\n#{x[:title]}\r\nw/ #{x[:instructors].map do |x| x[:name] end.join(', ')}"
+        :text     => "#{x[:starttime].strftime("%l:%M %p")}\r\n#{x[:title]}\r\nw/ #{x[:instructors] && x[:instructors].map do |x| x[:name] end.join(', ')}"
       }
     ]}.flatten
   end
