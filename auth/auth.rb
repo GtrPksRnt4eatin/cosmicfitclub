@@ -52,7 +52,6 @@ class CFCAuth < Sinatra::Base
   post '/login' do
     data = JSON.parse(request.body.read)
     user = User.authenticate( data['email'], data['password'] )
-    response.delete_cookie('cosmicjwt')
     session[:user_id] = user.id unless user.nil?
     if !user then
       custy = Customer.find_by_email( data['email'] )
@@ -60,6 +59,8 @@ class CFCAuth < Sinatra::Base
       Slack.website_access( "Failed Login: #{custy.to_list_string}" )          unless custy.nil?
       halt(401, "Login Failed: Incorrect Credentials" )
     end
+    jwt = create_jwt(user)
+    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
     session[:customer_id] = user.customer.id unless user.customer.nil?
     Slack.website_access( "Successful Login #{ user.customer.to_list_string }" )
     status 204
@@ -84,7 +85,7 @@ class CFCAuth < Sinatra::Base
   post '/logout_jwt' do
     session[:user_id] = nil
     session[:customer_id] = nil
-    response.delete_cookie('cosmicjwt')
+    response.set_cookie('cosmicjwt', { value: '', secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
   end
 
   get '/test_jwt' do
@@ -122,7 +123,7 @@ class CFCAuth < Sinatra::Base
   post '/logout' do
     session[:user_id] = nil
     session[:customer_id] = nil
-    response.delete_cookie('cosmicjwt')
+    response.set_cookie('cosmicjwt', { value: '', secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
     redirect '/login'
   end
 
@@ -140,7 +141,9 @@ class CFCAuth < Sinatra::Base
     data = JSON.parse(request.body.read)
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
     custy = Customer.create( :name => data['name'], :email => data['email'] )
-    User.create( :customer => custy)
+    user = User.create( :customer => custy)
+    jwt = create_jwt(user)
+    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
     session[:user_id] = custy.login.id
     session[:customer_id] = custy.id
     return JSON.generate({ :id => custy.id })
