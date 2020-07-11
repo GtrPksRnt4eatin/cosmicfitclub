@@ -1,7 +1,7 @@
 require 'paypal-payouts-sdk'
 
 module PayPalSDK
-  @@environment = PayPal::LiveEnvironment(ENV['PAYPAL_ID'],ENV['PAYPAL_SECRET'])
+  @@environment = PayPal::LiveEnvironment.new(ENV['PAYPAL_ID'],ENV['PAYPAL_SECRET'])
   @@client = PayPal::PayPalHttpClient.new(@@environment) 
   define_singleton_method(:client) do
     @@client
