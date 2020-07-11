@@ -1,12 +1,12 @@
-require 'paypal-sdk-rest'
-include PayPal::SDK::REST
+#require 'paypal-sdk-rest'
+#include PayPal::SDK::REST
 
-PayPal::SDK::REST.set_config(
-  :mode => 'live',
-  :client_id => ENV['PAYPAL_ID'],
-  :client_secret => ENV['PAYPAL_SECRET'],
-  :ssl_options => {}
-)
+#PayPal::SDK::REST.set_config(
+#  :mode => 'live',
+#  :client_id => ENV['PAYPAL_ID'],
+#  :client_secret => ENV['PAYPAL_SECRET'],
+#  :ssl_options => {}
+#)
 
 class PayPalRoutes < Sinatra::Base
 
