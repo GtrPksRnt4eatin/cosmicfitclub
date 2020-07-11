@@ -52,6 +52,7 @@ class CFCAuth < Sinatra::Base
   post '/login' do
     data = JSON.parse(request.body.read)
     user = User.authenticate( data['email'], data['password'] )
+    response.delete_cookie('cosmicjwt')
     session[:user_id] = user.id unless user.nil?
     if !user then
       custy = Customer.find_by_email( data['email'] )
@@ -121,6 +122,7 @@ class CFCAuth < Sinatra::Base
   post '/logout' do
     session[:user_id] = nil
     session[:customer_id] = nil
+    response.delete_cookie('cosmicjwt')
     redirect '/login'
   end
 
