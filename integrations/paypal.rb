@@ -1,4 +1,12 @@
-#require 'paypal-sdk-rest'
+require 'paypal-payouts-sdk'
+
+module PayPalSDK
+  @@environment = PayPal::LiveEnvironment(ENV['PAYPAL_ID'],ENV['PAYPAL_SECRET'])
+  @@client = PayPal::PayPalHttpClient.new(@@environment) 
+  define_singleton_method(:client) do
+    @@client
+  end
+end
 #include PayPal::SDK::REST
 
 #PayPal::SDK::REST.set_config(
