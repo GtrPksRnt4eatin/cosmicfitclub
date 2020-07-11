@@ -86,6 +86,8 @@ html
             | { data.custy1.wallet.id }
           span
             | { data.custy1.wallet.pass_balance }
+          span
+            button rv-on-click='ctrl.del_wallet1' Force Delete
 
         hr
         .label Event Tickets:
@@ -163,6 +165,8 @@ html
             | { data.custy2.wallet.id }
           span
             | { data.custy2.wallet.pass_balance }
+          span
+            button rv-on-click='ctrl.del_wallet2' Force Delete
 
         hr
         .label Event Tickets:

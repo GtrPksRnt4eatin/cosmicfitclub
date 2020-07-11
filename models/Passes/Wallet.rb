@@ -5,6 +5,11 @@ class Wallet < Sequel::Model
 
   def empty?;  self.pass_balance == 0   end
   def shared?; self.customers.count > 1 end
+
+  def force_delete
+    self.transactions.each { |t| t.undo }
+    self.delete
+  end
   
   def delete
     return false unless can_delete?

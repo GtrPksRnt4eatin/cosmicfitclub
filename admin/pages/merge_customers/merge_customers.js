@@ -31,6 +31,18 @@ ctrl = {
     $.del('/models/customers/' + data.custy2_id)
      .success(  function() { alert("customer deleted"); data.custy2_id = 0; data.custy2 = {}; })
      .fail( function(resp) { alert("delete failed\r\n" + resp.responseText)});
+  },
+
+  del_wallet1(e,m) {
+    var x = confirm("Really Force Delete?");
+    if(!x) return;
+    $.del('/models/passes/wallet/' + data.custy1.wallet.id);
+  },
+
+  del_wallet2(e,m) {
+    var x = confirm("Really Force Delete?");
+    if(!x) return;
+    $.del('/models/passes/wallet/' + data.custy2.wallet.id);
   }
 }
 

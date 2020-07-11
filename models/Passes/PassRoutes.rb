@@ -17,4 +17,9 @@ class PassRoutes < Sinatra::Base
     status 203
   end
 
+  delete '/wallet/:id'
+    wallet = Wallet[params[:id]] or halt(404,"Couldn't find wallet")
+    wallet.force_delete
+  end
+
 end
