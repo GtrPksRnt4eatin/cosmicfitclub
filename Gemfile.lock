@@ -1014,6 +1014,9 @@ GEM
       oauth2 (~> 1.1)
       omniauth (~> 1.2)
     os (0.9.6)
+    paypal-sdk-rest (1.7.4)
+      multi_json (~> 1.0)
+      xml-simple
     pg (1.0.0)
     postmark (1.10.0)
       json
@@ -1087,6 +1090,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
+    xml-simple (1.1.5)
 
 PLATFORMS
   ruby
@@ -1113,6 +1117,7 @@ DEPENDENCIES
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
+  paypal-sdk-rest
   pg
   postmark
   rack (>= 2.0.8)
