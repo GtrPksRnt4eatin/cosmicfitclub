@@ -148,7 +148,7 @@ class Customer < Sequel::Model
   end
 
   def after_create
-    add_passes(1,"First Class Free", "")
+    #add_passes(1,"First Class Free", "")
     create_login
   end
 
