@@ -157,7 +157,6 @@ class CFCAuth < Sinatra::Base
     user.set_password!(params[:password]) unless params[:password].nil?
     jwt = create_jwt(user)
     response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
-    JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
   post '/password' do

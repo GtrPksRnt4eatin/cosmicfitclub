@@ -1,11 +1,28 @@
 class PassRoutes < Sinatra::Base
 
+  ################################### CONFIG ####################################
+
+  register Sinatra::Auth
+  use JwtAuth
+
+  configure do
+    enable :cross_origin
+  end
+
   before do
     cache_control :no_store
+    response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
   end
+
+  ################################### CONFIG ####################################
 
   get '/all' do
     Pass.list_all
+  end
+
+  get '/packages' do
+    Package.where(:available=>true).reverse_order(:num_passes).all.to_json
   end
 
   post '/compticket' do
