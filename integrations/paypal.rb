@@ -8,8 +8,7 @@ module PayPalSDK
   end
 
   def payout_batch_header 
-    { sender_batch_header:{
-      recipient_type: 'EMAIL',
+    { recipient_type: 'EMAIL',
       email_message: 'SDK Payouts Test',
       note: 'testing testing testing',
       sender_batch_id: rand(36**8).to_s(36),
