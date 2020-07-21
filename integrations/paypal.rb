@@ -38,6 +38,7 @@ module PayPalSDK
     request.request_body(body) 
     begin
       response = client.execute(request)
+      p response
       batch_id = response.result.batch_header.payout_batch_id
       return batch_id
     rescue PayPalHttp::HttpError => ioe
