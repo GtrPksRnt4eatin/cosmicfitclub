@@ -7,7 +7,7 @@ module PayPalSDK
     @@client
   end
 
-  def payout_batch_header 
+  def PayPalSDK::payout_batch_header 
     { recipient_type: 'EMAIL',
       email_message: 'SDK Payouts Test',
       note: 'testing testing testing',
@@ -16,7 +16,7 @@ module PayPalSDK
     }
   end
 
-  def payout_batch_item(arg)
+  def PayPalSDK::payout_batch_item(arg)
     { receiver: arg[:recipient],
       amount: {
         currency: 'USD',
