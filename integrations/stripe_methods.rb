@@ -4,7 +4,7 @@ Stripe.api_key = ENV['STRIPE_SECRET']
 
 module StripeMethods
 
-  def StripeMethods::get_payment_intent(amount,description,stripe_id)
+  def StripeMethods::get_payment_intent(amount,description)
     custy = Customer[session.customer_id]
     Stripe::PaymentIntent.create({
       amount: amount,
