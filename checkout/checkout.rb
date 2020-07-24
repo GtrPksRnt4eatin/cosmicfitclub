@@ -4,12 +4,13 @@ require_relative './extensions/paymentmethods'
 
 class Checkout < Sinatra::Base
 
-  helpers Sinatra::CheckoutHelpers
-  helpers Sinatra::PaymentMethods
-  
-  set :root, File.dirname(__FILE__)
+  ################################### CONFIG ####################################
+
+  register Sinatra::Auth
+  use JwtAuth
 
   configure do
+    enable :cross_origin
     set :start_time, Time.now
   end
 
@@ -17,13 +18,20 @@ class Checkout < Sinatra::Base
     last_modified settings.start_time
     etag settings.start_time.to_s
     cache_control :no_cache
+    response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
   end
+
+  ################################### CONFIG ####################################
+
+  helpers Sinatra::CheckoutHelpers
+  helpers Sinatra::PaymentMethods
   
+  set :root, File.dirname(__FILE__)
 
   register Sinatra::PageFolders
   register Sinatra::SharedResources
   helpers  Sinatra::ViewHelpers
-  register Sinatra::Auth
 
   get('/plan/:id')                               { render_page :plan           }
   get('/pack/:id')                               { render_page :pack           }
