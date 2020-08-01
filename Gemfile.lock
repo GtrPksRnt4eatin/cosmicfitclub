@@ -971,7 +971,7 @@ GEM
     ice_cube (0.16.3)
     image_processing (0.4.5)
     jmespath (1.4.0)
-    json (2.1.0)
+    json (2.3.0)
     jwt (1.5.6)
     koala (3.0.0)
       addressable
