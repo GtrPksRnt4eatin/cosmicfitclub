@@ -78,7 +78,7 @@ class Checkout < Sinatra::Base
 
   error do
     Slack.err( 'Checkout Error', env['sinatra.error'] )
-    'An Error Occurred.'p
+    'An Error Occurred.'
     render_page :error
   end
 
