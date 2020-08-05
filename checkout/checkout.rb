@@ -76,6 +76,14 @@ class Checkout < Sinatra::Base
   post('/update_intent')     { StripeMethods::update_intent }
   post('/confirm_intent')    { StripeMethods::confirm_intent }
 
+  options "*" do
+    response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+    response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    200
+  end
+
   error do
     Slack.err( 'Checkout Error', env['sinatra.error'] )
     'An Error Occurred.'
