@@ -101,6 +101,10 @@ class Staff < Sequel::Model(:staff)
     return self.image[size].url
   end
 
+  def thumb_url
+    self.get_image_url(:small)
+  end
+
   ########################### ATTRIBUTES #############################
 
   ############################# HELPERS ##############################
