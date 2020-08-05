@@ -1,3 +1,4 @@
+require 'rack/contrib'
 require 'sinatra/base'
 require_relative './extensions/checkouthelpers'
 require_relative './extensions/paymentmethods'
@@ -8,6 +9,7 @@ class Checkout < Sinatra::Base
 
   register Sinatra::Auth
   use JwtAuth
+  use Rack::PostBodyContentTypeParser
 
   configure do
     enable :cross_origin
