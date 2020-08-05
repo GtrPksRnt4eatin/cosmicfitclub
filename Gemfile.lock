@@ -1023,6 +1023,8 @@ GEM
       rake
     public_suffix (3.0.2)
     rack (2.2.2)
+    rack-contrib (2.2.0)
+      rack (~> 2.0)
     rack-protection (2.0.4)
       rack
     rack-ssl-enforcer (0.2.9)
@@ -1119,6 +1121,7 @@ DEPENDENCIES
   pg
   postmark
   rack (>= 2.0.8)
+  rack-contrib
   rack-ssl-enforcer
   rake (>= 12.3.3)
   rest-client
