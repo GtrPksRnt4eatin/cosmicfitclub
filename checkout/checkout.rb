@@ -75,7 +75,7 @@ class Checkout < Sinatra::Base
   post('/remove_card',      :self_or => 'frontdesk' ) { remove_card         }
 
   post('/create_intent')     { StripeMethods::get_payment_intent(params[:amount],params[:description],Customer[session["customer_id"]]) }
-  post('/update_intent')     { StripeMethods::update_intent }
+  post('/update_intent')     { StripeMethods::update_intent(params[:amount],params[:description],params[:intent_id]) }
   post('/confirm_intent')    { StripeMethods::confirm_intent }
 
   options "*" do
