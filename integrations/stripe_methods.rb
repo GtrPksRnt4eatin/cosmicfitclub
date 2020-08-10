@@ -23,6 +23,10 @@ module StripeMethods
     { id: intent.id, client_secret: intent.client_secret }.to_json 
   end
 
+  def StripeMethods::retreive_intent(intent_id)
+    Stripe::PaymentIntent.retrieve(intent_id)
+  end
+
   ############### Manage Payment Sources ###############
 
   def StripeMethods::create_stripe_customer(customer, card_token)
