@@ -33,7 +33,7 @@ module Sinatra
     def buy_pack_intent
       custy = customer or halt 403
       intent = StripeMethods.retreive_intent(params[:intent_id])
-      payment = CustomerPayment.create(:customer => custy, :stripe_id => intent.id, :amount => intent.amount, :reason => intent.description, :type => 'intent').to_json
+      payment = CustomerPayment.create(:customer => custy, :stripe_id => intent.id, :amount => intent.amount, :reason => intent.description, :type => 'intent')
       custy.buy_pack_precharged(params[:pack_id], payment.id)
       Slack.website_purchases("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a #{Package[params[:pack_id]].name} with a PaymentIntent.")
     end
