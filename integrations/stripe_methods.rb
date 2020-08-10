@@ -12,14 +12,15 @@ module StripeMethods
       payment_method_types: ['card'],
       customer: custy ? custy.stripe_id : nil
     })
-    p intent
     { client_secret: intent.client_secret }.to_json
   end
 
-  def StripeMethods::update_intent
-  end
-
-  def StripeMethods::confirm_intent
+  def StripeMethods::update_intent(amount,description,intent_id)
+    intent = Stripe::PaymentIntent.update(
+      intent_id,
+      { amount: amount, description: description }
+    )
+    { client_secret: intent.client_secret }.to_json 
   end
 
   ############### Manage Payment Sources ###############
