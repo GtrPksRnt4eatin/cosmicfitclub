@@ -28,5 +28,7 @@ class PostDailyPromo
       filetype: 'jpg',
       filename: "#{date.to_s}_promo.jpg"
     )
+  rescue => err
+    puts err.inspect
   end
 end
