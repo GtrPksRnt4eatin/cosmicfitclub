@@ -151,3 +151,7 @@ end
 map '/integrations/twilio/video' do
   run TwilioVideo
 end
+
+map '/integrations/slackbot' do
+  run SlackBot
+end
