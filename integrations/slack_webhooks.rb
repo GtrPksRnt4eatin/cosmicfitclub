@@ -22,7 +22,7 @@ class PostDailyPromo
     client = Slack::Web::Client.new
     client.files_upload(
       channels: '#promotional_materials',
-      as_user: false,
+      as_user: true,
       file: Faraday::UploadIO.new(promo.path, "image/jpeg"),
       title: "#{date.to_s} Promo",
       filetype: 'jpg',
