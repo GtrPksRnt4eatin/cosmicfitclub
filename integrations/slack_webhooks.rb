@@ -8,7 +8,7 @@ end
 class SlackBot < Sinatra::Base
 
   post '/dailyPromo' do
-    date = Date.parse(params["text"]) || Date.today
+    date = Date.parse(params["text"]) rescue Date.today
     PostDailyPromo.perform_async(date)
     "Generating Promo... Please Wait!"
   end
