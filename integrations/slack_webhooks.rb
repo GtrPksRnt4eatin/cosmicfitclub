@@ -19,7 +19,9 @@ class PostDailyPromo
   include SuckerPunch::Job
   def perform(date)
     promo = DailyPromo::generate_all(date)
+    p promo.path
     client = Slack::Web::Client.new
+    p client
     client.files_upload(
       channels: '#promotional_materials',
       as_user: false,
@@ -29,6 +31,6 @@ class PostDailyPromo
       filename: "#{date.to_s}_promo.jpg"
     )
   rescue => err
-    puts err.inspect
+    p err.inspect
   end
 end
