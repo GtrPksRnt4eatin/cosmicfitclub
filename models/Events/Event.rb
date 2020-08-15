@@ -208,7 +208,7 @@ class Event < Sequel::Model
   end
 
   def Event::next
-    Event.where( starttime > Date.now ).order_by(:starttime).first
+    Event::future.first
   end
 
   ########################## LISTS ########################
