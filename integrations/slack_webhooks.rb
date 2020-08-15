@@ -48,6 +48,7 @@ class PostEventPromo
   include SuckerPunch::Job
   def perform(event)
     promos = EventPoster.generate_for_bot(event)
+    client = Slack::Web::Client.new
     promos.each do |p|
       client.files_upload(
         channels: '#promotional_materials',
