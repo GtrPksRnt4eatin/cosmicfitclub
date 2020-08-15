@@ -112,7 +112,7 @@ module EventPoster
         :offset   => 300,
         :nobottom => true
       }
-    ]).save("events/event_#{event_id}/event_#{event_id}_1080x1920.jpg");
+    ])
   end
 
   def EventPoster::generate1920x1080(event_id)
@@ -130,7 +130,7 @@ module EventPoster
         :margin   => 1840*0.004,
         :wide     => true
       }
-    ]).save("events/event_#{event_id}/event_#{event_id}_1920x1080.jpg");
+    ])
   end
 
   def EventPoster::generateFBEvent(event_id)
