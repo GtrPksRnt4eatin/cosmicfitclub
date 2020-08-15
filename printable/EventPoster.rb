@@ -4,6 +4,14 @@ require 'mini_magick'
 
 module EventPoster
 
+  def EventPoster::generate_for_bot(event)
+    arr = []
+    arr.push { :img => EventPoster::generate4x5(event_id),       :title => "#{event.title.truncate(12)}_fbpost"  }
+    arr.push { :img => EventPoster::generate1080x1080(event_id), :title => "#{event.title.truncate(12)}_square"  }
+    arr.push { :img => EventPoster::generate1080x1920(event_id), :title => "#{event.title.truncate(12)}_story"   }
+    arr.push { :img => EventPoster::generateFBEvent(event_id),   :title => "#{event.title.truncate(12)}_fbevent" }
+  end
+
   def EventPoster::generate_all(event_id)
     FileUtils.mkdir_p "printable/results/events/event_#{event_id}"
     EventPoster::generate4x5(event_id).save("events/event_#{event_id}/event_#{event_id}_4x5.jpg");             p "4x5 complete"

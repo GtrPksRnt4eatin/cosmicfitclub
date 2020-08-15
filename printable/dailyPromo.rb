@@ -93,7 +93,7 @@ module DailyPromo
         :gravity  => "North",
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
-        :fill    => "#DD0000",
+        :fill    => "#FFFFFFDD",
         :text     => "video.cosmicfitclub.com"
       },
       { :type => 'box', 
@@ -110,7 +110,7 @@ module DailyPromo
         :ptsize   => 12,
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
-        :fill    => "#DD0000",
+        :fill    => "#FFFFFFDD",
         :gravity  => "South",
         :kerning  => 5,
         :text     => "Live Video Fitness Classes Everyday!"

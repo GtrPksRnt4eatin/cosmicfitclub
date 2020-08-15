@@ -13,6 +13,12 @@ class SlackBot < Sinatra::Base
     "Generating Promo... Please Wait!"
   end
 
+  post '/eventPromo' do
+    event = Event[params[:event_id]] rescue Event::next
+    PostEventPromo.perform_async(event)
+    "Generating Promos... Please Wait!"
+  end
+
 end
 
 class PostDailyPromo
@@ -22,13 +28,32 @@ class PostDailyPromo
     client = Slack::Web::Client.new
     client.files_upload(
       channels: '#promotional_materials',
-      as_user: false,
+      as_user: true,
       file: Faraday::UploadIO.new(promo.path, "image/jpeg"),
       title: "#{date.to_s} Promo",
       filetype: 'jpg',
       filename: "#{date.to_s}_promo.jpg"
     )
   rescue => err
-    p err.inspect
+    Slack.err("PostDailyPromo Error", err)
   end
 end 
+
+class PostEventPromo
+  include SuckerPunch::Job
+  def perform(event)
+    promos = EventPoster.generate_for_bot(event)
+    promos.each do |p|
+      client.files_upload(
+        channels: '#promotional_materials',
+        as_user: false,
+        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        title: "#{p[:title]}",
+        filetype: 'jpg',
+        filename: "#{p[:title]}.jpg"
+      )
+    end
+  rescue => err
+    Slack.err("PostEventPromo Error", err)
+  end
+end

@@ -207,6 +207,10 @@ class Event < Sequel::Model
     Event.reverse( :starttime ).all.map(&:list_item).to_json
   end
 
+  def Event::next
+    event.where( starttime > Date.now ).order_by(:starttime).first
+  end
+
   ########################## LISTS ########################
 
   ######################## REPORTS ########################
