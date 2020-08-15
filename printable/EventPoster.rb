@@ -98,7 +98,9 @@ module EventPoster
         :x_offset => 0,
         :y_offset => 470,
         :gravity  => 'north',
-        :ptsize   => 18
+        :stroke   => "#FFFFFFDD",
+        :fill     => "#FFFFFFDD",
+        :ptsize   => 16
       },
       { :type     => 'event_bubble',
         :event_id => event_id,
@@ -107,10 +109,6 @@ module EventPoster
         :width    => 980,
         :ptscale  => 0.05,
         :ptscale2 => 0.043
-      },
-      { :type     => 'footer',
-        :offset   => 300,
-        :nobottom => true
       }
     ])
   end
@@ -136,20 +134,16 @@ module EventPoster
   def EventPoster::generateFBEvent(event_id)
     @@image = MiniMagick::Image.open("printable/assets/fb_event_bg.jpg")
     @@image.draw_elements([
-      { :type     => 'logo',
-        :x_offset => 50,
-        :y_offset => 50,
-        :width    => 300
-      },
       { :type     => 'event_bubble', 
         :event_id => event_id,
         :x_offset => 20,
         :y_offset => 20,
-        :width    => 960,
-        :margin   => 5,
-        :height   => 484,
+        :width    => 1880,
+        :margin   => 0,
+        :height   => 1065,
         :ptscale  => 0.05,
-        :ptscale2 => 0.043
+        :ptscale2 => 0.043,
+        :wide     => true
       }
     ])
   end
