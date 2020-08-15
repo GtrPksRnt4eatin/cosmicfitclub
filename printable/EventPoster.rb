@@ -17,7 +17,7 @@ module EventPoster
     EventPoster::generate4x5(event_id).save("events/event_#{event_id}/event_#{event_id}_4x5.jpg");             p "4x5 complete"
     EventPoster::generate4x6(event_id).save("events/event_#{event_id}/event_#{event_id}_4x6.jpg");             p "4x6 complete"
     EventPoster::generate1080x1080(event_id).save("events/event_#{event_id}/event_#{event_id}_1080x1080.jpg"); p "1x1 complete"
-    EventPoster::generate1920x1080(event_id); p "HD complete"
+    EventPoster::generate1920x1080(event_id);                                                                  p "HD complete"
     EventPoster::generate1080x1920(event_id).save("events/event_#{event_id}/event_#{event_id}_1080x1920.jpg"); p "Story complete"
     EventPoster::generateFBEvent(event_id).save("events/event_#{event_id}/event_#{event_id}_fbevent.jpg");     p "FB Event complete"
   end

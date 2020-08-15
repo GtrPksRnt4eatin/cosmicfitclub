@@ -14,9 +14,14 @@ class SlackBot < Sinatra::Base
   end
 
   post '/eventPromo' do
-    event = Event[params[:event_id]] rescue Event::next
+    event = Event[params["text"]] rescue Event::next
     PostEventPromo.perform_async(event)
     "Generating Promos... Please Wait!"
+  end
+
+  error do
+    Slack.err( 'Slackbot Error', env['sinatra.error'] )
+    'An Error Occurred.'
   end
 
 end
