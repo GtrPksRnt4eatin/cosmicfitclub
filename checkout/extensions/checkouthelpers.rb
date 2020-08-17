@@ -43,8 +43,7 @@ module Sinatra
       custy = customer or halt 403
       intent = StripeMethods.retreive_intent(params[:intent_id])
       payment = CustomerPayment.create(:customer => custy, :stripe_id => intent.id, :amount => intent.amount, :reason => intent.description, :type => 'intent')
-      p params[:occ]
-      occurrence = ClassOccurrence.get(params[:occ]['classdef_id'], params[:occ]['staff_id'], params[:occ]['starttime']) or halt(404) 
+      occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime]) or halt(404) 
       reservation = occurrence.make_reservation( custy.id ) or halt 400
       payment.update( :class_reservation_id => reservation.id )
       Slack.website_purchases("[\##{custy.id}] #{custy.name} (#{custy.email}) donated with a PaymentIntent.")
