@@ -57,6 +57,7 @@ class Checkout < Sinatra::Base
   post('/pack/charge')       { buy_pack             }
   post('/pack/buy')          { buy_pack_precharged  }
   post('/pack/intent')       { buy_pack_intent      }
+  post('/donate/intent')     { donate_intent        }
   post('/training/charge')   { buy_training         }
   post('/event/precharged')  { buy_event_precharged }
   post('/event/charge')      { buy_event            }

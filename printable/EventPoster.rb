@@ -100,7 +100,7 @@ module EventPoster
         :gravity  => 'north',
         :stroke   => "#FFFFFFDD",
         :fill     => "#FFFFFFDD",
-        :ptsize   => 16
+        :ptsize   => 14
       },
       { :type     => 'event_bubble',
         :event_id => event_id,
@@ -141,7 +141,7 @@ module EventPoster
         :width    => 1880,
         :margin   => 0,
         :height   => 1065,
-        :ptscale  => 0.05,
+        :ptscale  => 0.04,
         :ptscale2 => 0.043,
         :wide     => true
       }
