@@ -105,9 +105,10 @@ Schedule.prototype = {
   },
 
   register(e,m) {
-    $.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef.id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
-     .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
-     .success( function(data)           { window.location = `https://cosmicfitclub.com/checkout/class_reg/${data['id']}` } ); 
+    window.location = "https://video.cosmicfitclub.com";
+    //$.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef.id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
+    // .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
+    // .success( function(data)           { window.location = `https://cosmicfitclub.com/checkout/class_reg/${data['id']}` } ); 
   },
 
   event_register(e,m) {

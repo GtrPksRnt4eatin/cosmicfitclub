@@ -33,8 +33,10 @@ html
       .tile
         | Welcome #{ Customer[session[:customer_id]].name } 
         hr
-        a href='/classes' Register For a Class
+        a href='https://video.cosmicfitclub.com' Take A Video Class
         br
+        a href='/classes' Register For a Class
+        br    window.location = "https://video.cosmicfitclub.com";
         a href='/events'  Register For an Event  
 
       - if user.has_role? "door"
