@@ -94,7 +94,7 @@ class User < Sequel::Model
 
     def send_password_email
       ( Slack.website_access("Customer #{self.customer.to_list_string} has no email"); return ) if customer.email.nil?
-      Mail.password_reset(customer.email, { :name => customer.name, :url => "https://cosmicfitclub.com/auth/activate?token=#{reset_token}" } )
+      Mail.password_reset(customer.email, { :name => customer.name, :url => "https://cosmicfitclub.com/auth/activate?token=#{reset_token}", :token => reset_token } )
     end
 
     def send_new_account_email
