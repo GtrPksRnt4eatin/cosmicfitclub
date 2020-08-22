@@ -179,7 +179,7 @@ class CFCAuth < Sinatra::Base
     customer = Customer.find_by_email(data[:email])
     halt 404 if customer.nil?
     customer.reset_password
-    { :status => 'completed' }.to_json
+    JSON.generate({ :id => custy.id, :email => custy.email, :name => custy.name })
   end
 
   get '/current_user' do
