@@ -180,6 +180,7 @@ class CFCAuth < Sinatra::Base
     halt 404 if customer.nil?
     customer.reset_password
     status 204
+    { :status => 'completed' }.to_json
   end
 
   get '/current_user' do
