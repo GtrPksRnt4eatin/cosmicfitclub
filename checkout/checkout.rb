@@ -20,7 +20,8 @@ class Checkout < Sinatra::Base
     last_modified settings.start_time
     etag settings.start_time.to_s
     cache_control :no_cache
-    response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+    origin_ok = ['https://video.cosmicfitclub.com', 'https://localhost:3000'].include? request.env["HTTP_ORIGIN"]
+    response.headers['Access-Control-Allow-Origin'] = request.env["HTTP_ORIGIN"] if origin_ok
     response.headers['Access-Control-Allow-Credentials'] = 'true'
   end
 
