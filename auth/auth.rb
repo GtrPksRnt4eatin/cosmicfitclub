@@ -168,10 +168,10 @@ class CFCAuth < Sinatra::Base
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user_id] = user.id
     session[:customer_id] = user.customer.id
-    response.set_cookie('cosmicjwt', { value: create_jwt(user), secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
-    Slack.website_access( "Password Reset #{ Customer[session[:customer_id]].to_list_string }" )
-    custy = user.customer
-    JSON.generate({ :id => custy.id, :email => custy.email, :name => custy.name })
+    Slack.website_access( "Password Reset #{ user.customer.to_list_string }" )
+    jwt = create_jwt(user)
+    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
   post '/reset' do
