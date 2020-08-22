@@ -14,7 +14,10 @@ class ScheduleRoutes < Sinatra::Base
   
     before do
       cache_control :no_store
-      response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+      origin = request.env["ORIGIN"]
+      p origin
+      origin_ok = ['https://video.cosmicfitclub.com', 'https://localhost:3000'].includes? origin
+      response.headers['Access-Control-Allow-Origin'] = origin if origin_ok
       response.headers['Access-Control-Allow-Credentials'] = 'true'
     end
   
