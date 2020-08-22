@@ -14,8 +14,7 @@ class ScheduleRoutes < Sinatra::Base
   
     before do
       cache_control :no_store
-      p request.env
-      origin = request.env["ORIGIN"]
+      origin = request.env["HTTP_ORIGIN"]
       p origin
       origin_ok = ['https://video.cosmicfitclub.com', 'https://localhost:3000'].include? origin
       response.headers['Access-Control-Allow-Origin'] = origin if origin_ok
