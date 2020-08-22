@@ -180,7 +180,9 @@ class CFCAuth < Sinatra::Base
     custy = Customer.find_by_email(data[:email])
     halt 404 if custy.nil?
     custy.reset_password
-    JSON.generate({ :id => custy.id, :email => custy.email, :name => custy.name })
+    jwt = create_jwt(custy.login)
+    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
   get '/current_user' do
