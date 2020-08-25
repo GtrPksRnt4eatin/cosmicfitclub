@@ -60,8 +60,7 @@ class CFCAuth < Sinatra::Base
       Slack.website_access( "Failed Login: #{custy.to_list_string}" )          unless custy.nil?
       halt(401, "Login Failed: Incorrect Credentials" )
     end
-    jwt = create_jwt(user)
-    response.set_cookie('cosmicjwt', { value: jwt, samesite: 'none', secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    jwt = set_jwt_header(user)
     session[:customer_id] = user.customer.id unless user.customer.nil?
     Slack.website_access( "Successful Login #{ user.customer.to_list_string }" )
     status 204
@@ -77,16 +76,14 @@ class CFCAuth < Sinatra::Base
       halt(401, "Login Failed: Incorrect Credentials" )
     end
     Slack.website_access( "Successful JWT Login #{ user.customer.to_list_string }" )
-    jwt = create_jwt(user)
-    set_jwt_header(jwt)
-    #response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    jwt = set_jwt_header(user)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
   post '/logout_jwt' do
     session[:user_id] = nil
     session[:customer_id] = nil
-    response.set_cookie('cosmicjwt', { value: '', secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    set_jwt_header(nil)
   end
 
   get '/test_jwt' do
@@ -121,15 +118,17 @@ class CFCAuth < Sinatra::Base
     )
   end
 
-  def set_jwt_header(jwt)
+  def set_jwt_header(user)
+    jwt = user ? create_jwt(user) : ''
     val = "cosmicjwt=#{jwt}; domain=.cosmicfitclub.com; path=/; SameSite=None; secure; HttpOnly"
     response.set_header('Set-Cookie', val)
+    jwt
   end
 
   post '/logout' do
     session[:user_id] = nil
     session[:customer_id] = nil
-    response.set_cookie('cosmicjwt', { value: '', secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    set_jwt_header(nil)
     redirect '/login'
   end
 
@@ -148,8 +147,7 @@ class CFCAuth < Sinatra::Base
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
     custy = Customer.create( :name => data['name'], :email => data['email'] )
     user = User.create( :customer => custy)
-    jwt = create_jwt(user)
-    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    jwt = set_jwt_header(user)
     session[:user_id] = custy.login.id
     session[:customer_id] = custy.id
     return JSON.generate({ :id => custy.id })
@@ -161,8 +159,8 @@ class CFCAuth < Sinatra::Base
     custy = Customer.create( :name => params[:name], :email => params[:email] )
     user = User.create( :customer => custy )
     user.set_password!(params[:password]) unless params[:password].nil?
-    jwt = create_jwt(user)
-    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    jwt = set_jwt_header(user)
+    JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
   post '/password' do
@@ -174,8 +172,7 @@ class CFCAuth < Sinatra::Base
     session[:user_id] = user.id
     session[:customer_id] = user.customer.id
     Slack.website_access( "Password Reset #{ user.customer.to_list_string }" )
-    jwt = create_jwt(user)
-    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    jwt = set_jwt_header(user)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
@@ -185,9 +182,6 @@ class CFCAuth < Sinatra::Base
     custy = Customer.find_by_email(data[:email])
     halt 404 if custy.nil?
     custy.reset_password
-    jwt = create_jwt(custy.login)
-    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
-    JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
   get '/current_user' do
