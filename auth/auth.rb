@@ -78,7 +78,8 @@ class CFCAuth < Sinatra::Base
     end
     Slack.website_access( "Successful JWT Login #{ user.customer.to_list_string }" )
     jwt = create_jwt(user)
-    response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
+    set_jwt_header(jwt)
+    #response.set_cookie('cosmicjwt', { value: jwt, secure: true, httponly: true, path: '/', domain: '.cosmicfitclub.com' })
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
@@ -118,6 +119,11 @@ class CFCAuth < Sinatra::Base
       ENV['JWT_SECRET'], 
       'HS256' 
     )
+  end
+
+  def set_jwt_header(jwt)
+    val = "cosmicjwt=#{jwt}; domain=.cosmicfitclub.com; path=/; SameSite=None; secure; HttpOnly"
+    response.set_header('Set-Cookie', val)
   end
 
   post '/logout' do
