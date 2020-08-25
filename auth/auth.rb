@@ -135,7 +135,7 @@ class CFCAuth < Sinatra::Base
   post '/register' do
     content_type :json
     data = JSON.parse(request.body.read)
-    halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
+    halt 409, 'Email is Already in Use' unless Customer[:email => data['email'].downcase ].nil?
     custy = Customer.create( :name => data['name'], :email => data['email'] )
     User.create( :customer => custy )
     return JSON.generate({ :id => custy.id })
@@ -144,7 +144,7 @@ class CFCAuth < Sinatra::Base
   post '/register_and_login' do
     content_type :json
     data = JSON.parse(request.body.read)
-    halt 409, 'Email is Already in Use' unless Customer[:email => data['email'] ].nil?
+    halt 409, 'Email is Already in Use' unless Customer[:email => data['email'].downcase ].nil?
     custy = Customer.create( :name => data['name'], :email => data['email'] )
     user = User.create( :customer => custy)
     jwt = set_jwt_header(user)
@@ -155,7 +155,7 @@ class CFCAuth < Sinatra::Base
 
   post '/register_and_login_jwt' do
     content_type :json
-    halt 409, 'Email is Already in Use' unless Customer[:email => params[:email]].nil?
+    halt 409, 'Email is Already in Use' unless Customer[:email => params[:email].downcase].nil?
     custy = Customer.create( :name => params[:name], :email => params[:email] )
     user = User.create( :customer => custy )
     user.set_password!(params[:password]) unless params[:password].nil?
@@ -182,6 +182,7 @@ class CFCAuth < Sinatra::Base
     custy = Customer.find_by_email(data[:email])
     halt 404 if custy.nil?
     custy.reset_password
+    JSON.generate({ :status => 'ok'})
   end
 
   get '/current_user' do
