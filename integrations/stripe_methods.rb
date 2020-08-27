@@ -11,7 +11,8 @@ module StripeMethods
       description: description,
       currency: 'usd',
       payment_method_types: ['card'],
-      customer: custy ? custy.stripe_id : nil
+      customer: custy ? custy.stripe_id : nil,
+      receipt_email: custy.email
     })
     { id: intent.id, client_secret: intent.client_secret }.to_json
   end
