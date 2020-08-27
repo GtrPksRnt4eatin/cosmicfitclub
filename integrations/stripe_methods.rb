@@ -5,7 +5,6 @@ Stripe.api_key = ENV['STRIPE_SECRET']
 module StripeMethods
 
   def StripeMethods::get_payment_intent(amount,description,custy)
-    p "Getting Payment Intent for #{custy.to_list_string} - #{custy.stripe_id}"
     intent = Stripe::PaymentIntent.create({
       amount: amount,
       description: description,
