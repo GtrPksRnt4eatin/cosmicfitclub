@@ -77,9 +77,9 @@ class Checkout < Sinatra::Base
   post('/set_default_card', :self_or => 'frontdesk' ) { set_default_card    }
   post('/remove_card',      :self_or => 'frontdesk' ) { remove_card         }
 
-  post('/create_intent',    :jwt_logged_in) { StripeMethods::get_payment_intent(params[:amount],params[:description],Customer[session["customer_id"]]) }
-  post('/update_intent',    :jwt_logged_in) { StripeMethods::update_intent(params[:amount],params[:description],params[:intent_id]) }
-  post('/confirm_intent',   :jwt_logged_in) { StripeMethods::confirm_intent }
+  post('/create_intent',    :jwt_logged_in=>true) { StripeMethods::get_payment_intent(params[:amount],params[:description],Customer[session["customer_id"]]) }
+  post('/update_intent',    :jwt_logged_in=>true) { StripeMethods::update_intent(params[:amount],params[:description],params[:intent_id]) }
+  post('/confirm_intent',   :jwt_logged_in=>true) { StripeMethods::confirm_intent }
 
   options "*" do
     response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"

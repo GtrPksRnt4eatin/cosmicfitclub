@@ -291,7 +291,7 @@ module Sinatra
         end
       end
 
-      app.set(:jwt_logged_in) do
+      app.set(:jwt_logged_in) do |bool|
         condition do
           read_jwt
           true
