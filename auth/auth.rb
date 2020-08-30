@@ -102,7 +102,7 @@ class CFCAuth < Sinatra::Base
   def create_jwt(user)
     customer = user.customer
     JWT.encode({
-        exp: Time.now.to_i + 60 * 60,
+        exp: Time.now.to_i + 120 * 60,
         iat: Time.now.to_i,
         iss: ENV['JWT_ISSUER'],
         scopes: user.roles.map(&:name),
@@ -258,6 +258,7 @@ module Sinatra
         custy = Customer[jwt.user.customer_id] or return
         session[:customer_id] = custy.id
         session[:user_id] = custy.user.id
+        jwt
       end
 
     end
@@ -289,6 +290,21 @@ module Sinatra
           true
         end
       end
+
+      app.set(:jwt_logged_in) do
+        condition do
+          read_jwt
+          true
+        rescue JWT::DecodeError
+          halt(401, 'A token must be passed.')
+        rescue JWT::ExpiredSignature
+          halt(403, 'The token has expired.')
+        rescue JWT::InvalidIssuerError
+          halt(403, 'The token does not have a valid issuer.')
+        rescue JWT::InvalidIatError
+          halt(403, 'The token does not have a valid "issued at" time.')
+        end
+      end 
 
     end
 
