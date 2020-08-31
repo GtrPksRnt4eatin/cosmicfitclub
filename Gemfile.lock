@@ -1019,6 +1019,9 @@ GEM
     os (0.9.6)
     paypal-payouts-sdk (1.0.0)
       paypalhttp (~> 1.0.0)
+    paypal-sdk-rest (1.7.4)
+      multi_json (~> 1.0)
+      xml-simple
     paypalhttp (1.0.0)
     pg (1.0.0)
     postmark (1.10.0)
@@ -1104,6 +1107,7 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    xml-simple (1.1.5)
 
 PLATFORMS
   ruby
@@ -1131,6 +1135,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-google-oauth2
   paypal-payouts-sdk
+  paypal-sdk-rest
   pg
   postmark
   rack (>= 2.0.8)
