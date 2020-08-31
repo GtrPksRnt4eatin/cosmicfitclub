@@ -1,10 +1,25 @@
 require 'paypal-payouts-sdk'
+require 'paypal-sdk-rest'
 
 module PayPalSDK
+  include PayPal::SDK::REST
+
   @@environment = PayPal::LiveEnvironment.new(ENV['PAYPAL_ID'],ENV['PAYPAL_SECRET'])
-  @@client = PayPal::PayPalHttpClient.new(@@environment) 
+  @@client = PayPal::PayPalHttpClient.new(@@environment)
+
+  PayPal::SDK.configure(
+    :mode => "live",
+    :client_id => ENV['PAYPAL_ID'],
+    :client_secret => ENV['PAYPAL_SECRET'],
+    :ssl_options => { } 
+  )
+
   define_singleton_method(:client) do
     @@client
+  end
+
+  def PayPalSDK::list_transactions
+    Payment.all(:count=>10)
   end
 
   def PayPalSDK::payout_batch_header 
