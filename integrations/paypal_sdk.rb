@@ -21,7 +21,7 @@ module PayPalSDK
   end
 
   def PayPalSDK::list_transactions(start,finish)
-    Payment.all(:start_date=>start, :end_date=>finish)
+    Payment.all(:count => 20)
   end
 
 

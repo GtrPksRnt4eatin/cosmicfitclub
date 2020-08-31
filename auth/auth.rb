@@ -255,7 +255,7 @@ module Sinatra
       def read_jwt
         jwt = request.cookies['cosmicjwt'] or return
         jwt = JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
-        custy = Customer[jwt.user.customer_id] or return
+        custy = Customer[jwt[0]["user"]["customer_id"]] or return
         session[:customer_id] = custy.id
         session[:user_id] = custy.user.id
         jwt
