@@ -20,8 +20,8 @@ module PayPalSDK
     @@client
   end
 
-  def PayPalSDK::list_transactions
-    Payment.all(:count=>10)
+  def PayPalSDK::list_transactions(start,end)
+    Payment.all(:start_date=>start,:end_date=>end)
   end
 
   def PayPalSDK::payout_batch_header 
