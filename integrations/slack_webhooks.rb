@@ -19,11 +19,29 @@ class SlackBot < Sinatra::Base
     "Generating Promos... Please Wait!"
   end
 
+  post '/paypal' do
+    p params
+    match = /(\d{4}-\d{2}-\d{2}) (\d{4}-\d{2}-\d{2})/.match(params["text"])
+    halt(404) if match.nil?
+    GeneratePayPalReport.perform_async(match[1],match[2])
+    "Generating Report... Please Wait!"
+  end
+
   error do
     Slack.err( 'Slackbot Error', env['sinatra.error'] )
     'An Error Occurred.'
   end
 
+end
+
+class GeneratePayPalReport
+  include SuckerPunch::Job
+  def perform(start,finish)
+    transactions = PayPalSDK::list_transactions(start,finish)
+
+  rescue => err
+    Slack.err("GenerateSlackReport Error", err)
+  end
 end
 
 class PostDailyPromo
