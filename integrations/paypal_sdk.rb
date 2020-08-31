@@ -1,17 +1,20 @@
 require 'paypal-payouts-sdk'
 require 'paypal-sdk-rest'
 
+PayPal::SDK.configure(
+  :mode => "live",
+  :client_id => ENV['PAYPAL_ID'],
+  :client_secret => ENV['PAYPAL_SECRET'],
+  :ssl_options => {
+    :ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'
+  }
+)
+
 module PayPalSDK
   include PayPal::SDK::REST
 
   @@environment = PayPal::LiveEnvironment.new(ENV['PAYPAL_ID'],ENV['PAYPAL_SECRET'])
   @@client = PayPal::PayPalHttpClient.new(@@environment)
-
-  PayPal::SDK.configure(
-    :mode => "live",
-    :client_id => ENV['PAYPAL_ID'],
-    :client_secret => ENV['PAYPAL_SECRET']
-  )
 
   define_singleton_method(:client) do
     @@client
