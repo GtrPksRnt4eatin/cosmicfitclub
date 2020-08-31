@@ -24,6 +24,11 @@ module PayPalSDK
     Payment.all(:start_date=>start, :end_date=>finish)
   end
 
+
+  def PayPalSDK::list_transactions2(start,finish)
+    Transaction.all(:start_date=>start, :end_date=>finish)
+  end
+
   def PayPalSDK::payout_batch_header 
     { recipient_type: 'EMAIL',
       email_message: 'SDK Payouts Test',
