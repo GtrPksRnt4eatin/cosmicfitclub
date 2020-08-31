@@ -10,8 +10,7 @@ module PayPalSDK
   PayPal::SDK.configure(
     :mode => "live",
     :client_id => ENV['PAYPAL_ID'],
-    :client_secret => ENV['PAYPAL_SECRET'],
-    :ssl_options => { } 
+    :client_secret => ENV['PAYPAL_SECRET']
   )
 
   define_singleton_method(:client) do
