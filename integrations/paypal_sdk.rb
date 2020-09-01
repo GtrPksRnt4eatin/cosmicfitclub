@@ -44,7 +44,8 @@ module PayPalSDK
         t['transaction_info']['transaction_status'],
         t['transaction_info']['ending_balance']['value']
       ]
-    end 
+    end
+    csv
   end
 
   def PayPalSDK::payout_batch_header 
