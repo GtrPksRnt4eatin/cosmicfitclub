@@ -82,5 +82,4 @@ module PayPalSDK
       puts ioe.status_code
     end
   end
-  puts
 end
