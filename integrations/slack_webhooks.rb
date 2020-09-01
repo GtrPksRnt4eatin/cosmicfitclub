@@ -37,10 +37,18 @@ end
 class GeneratePayPalReport
   include SuckerPunch::Job
   def perform(start,finish)
-    transactions = PayPalSDK::list_transactions(start,finish)
-
+    csv = PayPalSDK::list_transactions(start,finish)
+    client = Slack::Web::Client.new
+    client.files_upload(
+      channels: '#payroll',
+      as_user: true,
+      file: Faraday::UploadIO.new(csv.path, "text/csv"),
+      title: "Paypal Report #{start}-#{finish}",
+      filetype: 'csv',
+      filename: "Paypal Report #{start}-#{finish}.csv"
+    )
   rescue => err
-    Slack.err("GenerateSlackReport Error", err)
+    Slack.err("GeneratePaypalReport Error", err)
   end
 end
 
