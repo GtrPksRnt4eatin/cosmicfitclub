@@ -142,6 +142,10 @@ class Customer < Sequel::Model
 
 ########################### Attribute Access ###########################
 
+  def user
+    self.login
+  end
+
   def email
     val = super
     val.nil? ? '' : val.downcase

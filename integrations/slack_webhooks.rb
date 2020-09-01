@@ -41,12 +41,12 @@ class GeneratePayPalReport
     csv = PayPalSDK::list_transactions(start,finish)
     client = Slack::Web::Client.new
     client.files_upload(
-      channels: '#payroll',
+      channels: 'payroll',
       as_user: true,
       file: Faraday::UploadIO.new(csv.to_io, 'text/csv'),
-      title: "Paypal Report #{start}-#{finish}",
+      title: "Paypal Report",
       filetype: 'csv',
-      filename: "Paypal Report #{start}-#{finish}.csv"
+      filename: "Paypal Report.csv"
     )
   rescue => err
     Slack.err("GeneratePaypalReport Error", err)

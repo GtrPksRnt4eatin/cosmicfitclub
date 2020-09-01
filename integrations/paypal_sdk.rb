@@ -45,6 +45,7 @@ module PayPalSDK
         t['transaction_info']['ending_balance']['value']
       ]
     end
+    csv.rewind
     csv
   end
 
