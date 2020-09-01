@@ -21,8 +21,8 @@ module PayPalSDK
   end
 
   def PayPalSDK::list_transactions(start,finish)
-    start = start.is_a? String ? Time.parse(start).iso8601 : start.iso8601
-    finish = finish.is_a? String ? Time.parse(finish).iso8601 : finish.iso8601
+    start  = start.iso8601 rescue Time.parse(start).iso8601
+    finish = finish.iso8601 rescue Time.parse(finish).iso8601 : 
     data = api.get("v1/reporting/transactions", { :start_date=> start, :end_date=> finish, :fields=>'all', :page_size=>500 } )
     csv = CSV.new("")
     csv << ["Account #", data['account_number']]
