@@ -29,7 +29,7 @@ module PayPalSDK
       csv << []
       csv << [ "Transaction ID", "Transaction Date", "Payer ID", "Payer Name", "Payer Email", "Transaction Note", "Transaction Amount", "Fee Amount", "Transaction Status", "Remaining Balance" ]
       csv << []
-      data['transaction_details'].each |t|
+      data['transaction_details'].each do |t|
         csv << [
           t['transaction_info']['transaction_id'],
           t['transaction_info']['transaction_initiation_date'],
@@ -82,4 +82,5 @@ module PayPalSDK
       puts ioe.status_code
     end
   end
+
 end
