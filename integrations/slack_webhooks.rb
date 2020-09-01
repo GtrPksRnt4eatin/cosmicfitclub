@@ -20,10 +20,11 @@ class SlackBot < Sinatra::Base
   end
 
   post '/paypal' do
-    p params
+    now = DateTime.now
     match = /(\d{4}-\d{2}-\d{2}) (\d{4}-\d{2}-\d{2})/.match(params["text"])
-    halt(404) if match.nil?
-    GeneratePayPalReport.perform_async(match[1],match[2])
+    start = match.nil? ? DateTime.new(now.year,now.month-1,1,0,0,0,now.zone) : match[1]
+    finish = match.nil? ? DateTime.new(now.year,now.month,1,0,0,0,now.zone) : match[2]
+    GeneratePayPalReport.perform_async(start,finish)
     "Generating Report... Please Wait!"
   end
 

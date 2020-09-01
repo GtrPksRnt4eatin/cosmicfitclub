@@ -22,28 +22,27 @@ module PayPalSDK
 
   def PayPalSDK::list_transactions(start,finish)
     data = api.get("v1/reporting/transactions", { :start_date=> Time.parse(start).iso8601, :end_date=> Time.parse(finish).iso8601, :fields=>'all', :page_size=>500 } )
-    CSV.generate do |csv|
-      csv << ["Account #", data['account_number']]
-      csv << ["Start", Date.parse(data['start_date']).to_s]
-      csv << ["End", Date.parse(data['end_date']).to_s]
-      csv << []
-      csv << [ "Transaction ID", "Transaction Date", "Payer ID", "Payer Name", "Payer Email", "Transaction Note", "Transaction Amount", "Fee Amount", "Transaction Status", "Remaining Balance" ]
-      csv << []
-      data['transaction_details'].each do |t|
-        csv << [
-          t['transaction_info']['transaction_id'],
-          t['transaction_info']['transaction_initiation_date'],
-          t['payer_info']['payer_status'] ? t['payer_info']['account_id'] : '',
-          t['payer_info']['payer_status'] ? t['payer_info']['payer_name']['alternate_full_name'] : '',
-          t['payer_info']['payer_status'] ? t['payer_info']['email_address'] : '',
-          t['transaction_info']['transaction_note'],
-          t['transaction_info']['transaction_amount']['value'],
-          t['transaction_info']['fee_amount'] ? t['transaction_info']['fee_amount']['value'] : '',
-          t['transaction_info']['transaction_status'],
-          t['transaction_info']['ending_balance']['value']
-        ]
-      end
-    end
+    csv = CSV.new("")
+    csv << ["Account #", data['account_number']]
+    csv << ["Start", Date.parse(data['start_date']).to_s]
+    csv << ["End", Date.parse(data['end_date']).to_s]
+    csv << []
+    csv << [ "Transaction ID", "Transaction Date", "Payer ID", "Payer Name", "Payer Email", "Transaction Note", "Transaction Amount", "Fee Amount", "Transaction Status", "Remaining Balance" ]
+    csv << []
+    data['transaction_details'].each do |t|
+      csv << [
+        t['transaction_info']['transaction_id'],
+        t['transaction_info']['transaction_initiation_date'],
+        t['payer_info']['payer_status'] ? t['payer_info']['account_id'] : '',
+        t['payer_info']['payer_status'] ? t['payer_info']['payer_name']['alternate_full_name'] : '',
+        t['payer_info']['payer_status'] ? t['payer_info']['email_address'] : '',
+        t['transaction_info']['transaction_note'],
+        t['transaction_info']['transaction_amount']['value'],
+        t['transaction_info']['fee_amount'] ? t['transaction_info']['fee_amount']['value'] : '',
+        t['transaction_info']['transaction_status'],
+        t['transaction_info']['ending_balance']['value']
+      ]
+    end 
   end
 
   def PayPalSDK::payout_batch_header 
