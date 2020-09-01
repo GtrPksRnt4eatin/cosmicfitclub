@@ -43,7 +43,7 @@ class GeneratePayPalReport
     client.files_upload(
       channels: '#payroll',
       as_user: true,
-      file: csv.to_io,
+      file: Faraday::UploadIO.new(csv.to_io, 'text/csv'),
       title: "Paypal Report #{start}-#{finish}",
       filetype: 'csv',
       filename: "Paypal Report #{start}-#{finish}.csv"
