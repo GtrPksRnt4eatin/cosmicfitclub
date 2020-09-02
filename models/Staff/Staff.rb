@@ -281,26 +281,27 @@ def Staff::payroll_csv(from,to)
   proll = Staff::payroll(from,to)
   csv = CSV.new("")
   csv << [ 'Payroll' ]
-  csv << [ 'Start Date', from ]
-  csv << [ 'End Date', to ]
+  csv << [ 'Start Date', from.strftime('%Y-%m-%d') ]
+  csv << [ 'End Date', to.strftime('%Y-%m-%d') ]
   csv << []
-  grand_total = 0
+  grand_totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0 }
   proll.each do |teacher_row|
-    total = 0
-    csv << [ teacher_row[:staff_name].upcase, "#{from} to #{to}" ]
-    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'PASSES PAY' ]
+    totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0 }
+    csv << [ teacher_row[:staff_name].upcase, "#{from.strftime('%Y-%m-%d')} to #{to.strftime('%Y-%m-%d')}" ]
+    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS' ]
     csv << []
     teacher_row[:class_occurrences].each do |row|
-      csv << [ Time.parse(row[:starttime]).strftime("%a %m/%d %l:%M %P"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], row[:payment_total], row[:pay] ] unless row[:class_name].nil?
+      csv << [ Time.parse(row[:starttime]).strftime("%Y-%m-%d %a %l:%M %P"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], row[:payment_total] ] unless row[:class_name].nil?
       csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row[:class_name].nil?
-      total = total + row[:pay]
+      totals.merge!( { :headcount => row[:headcount], :passes => row[:passes_total], :memberships => row[:membership_total], :payments => row[:payment_total] } ) { |k,v1,v2| v1 + v2 }
     end
-    grand_total = grand_total + total
+    grand_totals.merge!( totals ) { |k,v1,v2| v1 + v2 }
     csv << [ ]
-    csv << [ '','', 'TOTAL', "$ %.2f" % total ]
+    csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % totals[:payments]'TOTAL' ]
     csv << []
   end
-  csv << [ '', '', 'GRAND TOTAL', "$ %.2f" % grand_total ]
+  csv << []
+  csv << [ '','GRAND TOTALS', grand_totals[:headcount], grand_totals[:passes], grand_totals[:memberships], "$ %.2f" % grand_totals[:payments]'TOTAL' ]
   csv.rewind
   csv
 end
