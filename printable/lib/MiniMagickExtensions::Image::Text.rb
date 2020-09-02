@@ -43,7 +43,7 @@ module MiniMagickExtensions
 
       def draw_paragraph(opts)
         opts[:text]      ||= ""
-        opts[:ptsize] ||= 18
+        opts[:ptsize]    ||= 18
         opts[:x_offset]  ||= 0
         opts[:y_offset]  ||= 0
         opts[:gravity]   ||= 'None'

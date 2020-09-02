@@ -101,6 +101,7 @@ function setup_bindings() {
   rivets.formatters.teachers        = function(val) { return empty(val) ? "" : val.map(    function(x) { return x.name         } ).join(', '); }
   rivets.formatters.head_count      = function(val) { return empty(val) ? "" : val.filter( function(x) { return !!x.checked_in } ).length;     }
   rivets.formatters.reg_count       = function(val) { return empty(val) ? "" : val.length; }
+  rivets.formatters.money           = function(val) { return empty(val) ? "" : "$ " + (val/100).toFixed(2) };
   rivets.formatters.occurrence_href = function(val) { return "/frontdesk/class_attendance/" + val; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
