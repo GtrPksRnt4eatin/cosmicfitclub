@@ -33,7 +33,7 @@ class SlackBot < Sinatra::Base
     match  = /(\d{4}-\d{2}-\d{2}) (\d{4}-\d{2}-\d{2})/.match(params["text"])
     start  = match.nil? ? last_period[:from] : match[1]
     finish = match.nil? ? last_period[:to]   : match[2] 
-    GeneratePayrollReport.perform_async(match[1],match[2])
+    GeneratePayrollReport.perform_async(start,finish)
     "Generating Report... Please Wait!"
   end
 
