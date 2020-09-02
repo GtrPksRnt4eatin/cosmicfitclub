@@ -281,8 +281,8 @@ def Staff::payroll_csv(from,to)
   proll = Staff::payroll(from,to)
   csv = CSV.new("")
   csv << [ 'Payroll' ]
-  csv << [ 'Start Date', params[:from] ]
-  csv << [ 'End Date', params[:to] ]
+  csv << [ 'Start Date', from ]
+  csv << [ 'End Date', to ]
   csv << []
   grand_total = 0
   proll.each do |teacher_row|
