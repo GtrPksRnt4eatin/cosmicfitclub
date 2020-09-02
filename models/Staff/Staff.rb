@@ -287,7 +287,7 @@ def Staff::payroll_csv(from,to)
   grand_total = 0
   proll.each do |teacher_row|
     total = 0
-    csv << [ teacher_row[:staff_name].upcase, "#{params[:from]} to #{params[:to]}" ]
+    csv << [ teacher_row[:staff_name].upcase, "#{from} to #{to}" ]
     csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'PASSES PAY' ]
     csv << []
     teacher_row[:class_occurrences].each do |row|
