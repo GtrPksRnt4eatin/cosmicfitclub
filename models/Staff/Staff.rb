@@ -190,7 +190,7 @@ def payroll_query
   %{ 
     with occurrences AS (
       SELECT * FROM class_occurrences 
-      WHERE starttime > date ? 
+      WHERE starttime > date ?
       AND starttime <= date ?
       ORDER BY starttime
     )
@@ -203,9 +203,21 @@ def payroll_query
         staff.unpaid AS staff_unpaid,
         class_defs.name AS class_name,
         (   SELECT COUNT(*) 
-            FROM class_reservations
-            WHERE class_reservations.class_occurrence_id = occurrences.id
-        ) AS headcount
+            FROM class_reservations_details
+            WHERE class_reservations_details.class_occurrence_id = occurrences.id
+        ) AS headcount,
+		(   SELECT SUM(payment_amount)
+		    FROM class_reservations_details
+		    WHERE class_reservations_details.class_occurrence_id = occurrences.id
+		) AS payment_total,
+	    (   SELECT COUNT(pass_transaction_id)
+		    FROM class_reservations_details
+		    WHERE class_reservations_details.class_occurrence_id = occurrences.id
+		) AS passes_total,
+	    (   SELECT COUNT(membership_use_id)
+		    FROM class_reservations_details
+		    WHERE class_reservations_details.class_occurrence_id = occurrences.id
+		) AS membership_total
       FROM occurrences
       LEFT JOIN staff ON staff.id = staff_id
       LEFT JOIN class_defs ON class_defs.id = classdef_id
@@ -217,12 +229,12 @@ end
 def Staff::payroll(from, to)
   result = $DB[payroll_query, from, to].all
   result.each { |teacher_row|
-    teacher_row[:class_occurrences].each { |x| x.transform_keys!(&:to_sym) }
+    teacher_row[:class_occurrences].each     { |x| x.transform_keys!(&:to_sym) }
     teacher_row[:class_occurrences].reject!  { |x| ClassDef[x[:classdef_id].to_i].unpaid }
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x[:starttime]) } 
-    teacher_row[:class_occurrences].each { |occurrence_row|
+    teacher_row[:class_occurrences].each     { |occurrence_row|
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
-      occurrence_row[:pay] = occurrence_row[:headcount].to_i * 7
+      occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 7
       #case occurrence_row[:headcount].to_i
       #when 0..1
       #  20 
@@ -260,7 +272,35 @@ def Staff::payroll(from, to)
     result << val if existing.nil?
   }
   result.sort_by! { |x| Staff[x[:staff_id]].unpaid == true ? 0 : 1 }
-  result.each { |x| x[:class_occurrences].sort_by! { |y| y[:starttime] } }
-  result.each { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + y[:pay] } }
-  result.reject { |x| x[:class_occurrences].length == 0 }
+  result.each     { |x| x[:class_occurrences].sort_by! { |y| y[:starttime] } }
+  result.each     { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + y[:pay] } }
+  result.reject   { |x| x[:class_occurrences].length == 0 }
+end
+
+def Staff::payroll_csv(from,to)
+  proll = Staff::payroll(from,to)
+  csv = CSV.new("")
+  csv << [ 'Payroll' ]
+  csv << [ 'Start Date', params[:from] ]
+  csv << [ 'End Date', params[:to] ]
+  csv << []
+  grand_total = 0
+  proll.each do |teacher_row|
+    total = 0
+    csv << [ teacher_row[:staff_name].upcase, "#{params[:from]} to #{params[:to]}" ]
+    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'PASSES PAY' ]
+    csv << []
+    teacher_row[:class_occurrences].each do |row|
+      csv << [ Time.parse(row[:starttime]).strftime("%a %m/%d %l:%M %P"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], row[:payment_total], row[:pay] ] unless row[:class_name].nil?
+      csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row[:class_name].nil?
+      total = total + row[:pay]
+    end
+    grand_total = grand_total + total
+    csv << [ ]
+    csv << [ '','', 'TOTAL', "$ %.2f" % total ]
+    csv << []
+  end
+  csv << [ '', '', 'GRAND TOTAL', "$ %.2f" % grand_total ]
+  csv.rewind
+  csv
 end

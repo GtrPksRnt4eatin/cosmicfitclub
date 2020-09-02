@@ -221,6 +221,8 @@ class ClassOccurrence < Sequel::Model
         END AS payment_type,   
         "pass_transactions"."id" AS transaction_id,
         "customer_payments"."id" AS payment_id,
+        "customer_payments"."amount" AS payment_amount,
+        "customer_payments"."type" AS payment_type,
         "membership_uses".id AS membership_use_id,
         "membership_uses"."subscription_id" AS subscription_id
       FROM "class_reservations"

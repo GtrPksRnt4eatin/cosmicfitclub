@@ -77,30 +77,8 @@ class StaffRoutes < Sinatra::Base
   get '/payroll.csv' do
     content_type 'application/csv'
     attachment "Payroll #{params[:from]}.csv"
-    proll = Staff::payroll(params[:from],params[:to])
-    csv_string = CSV.generate do |csv|
-      csv << [ 'Payroll' ]
-      csv << [ 'Start Date', params[:from] ]
-      csv << [ 'End Date', params[:to] ]
-      csv << []
-      grand_total = 0
-      proll.each do |teacher_row|
-        total = 0
-        csv << [ teacher_row[:staff_name].upcase, "#{params[:from]} to #{params[:to]}" ]
-        csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PAY' ]
-        csv << []
-        teacher_row[:class_occurrences].each do |row|
-          csv << [ Time.parse(row[:starttime]).strftime("%a %m/%d %l:%M %P"), row[:class_name], row[:headcount], row[:pay] ] unless row[:class_name].nil?
-          csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row[:class_name].nil?
-          total = total + row[:pay]
-        end
-        grand_total = grand_total + total
-        csv << [ ]
-        csv << [ '','', 'TOTAL', "$ %.2f" % total ]
-        csv << []
-      end
-      csv << [ '', '', 'GRAND TOTAL', "$ %.2f" % grand_total ]
-    end
+    proll = Staff::payroll_csv(params[:from],params[:to])
+    csv.string
   end
 
 end

@@ -15,4 +15,18 @@ class Payroll
     Payroll::Schedule.next_occurrences(num,Date.today)
   end
 
+  # 1st & 16th schedule
+  def Payroll::get_last_period
+    now = DateTime.now
+    period_start, period_end = nil, nil
+    if now.day < 16 then
+      period_start = now.month == 1 ? now.change(year: now.year-1, month: 12) : now.change(month: now.month-1)
+      period_start = period_start.change(day: 16, hour: 0)
+      period_end   = now.change(day: 1, hour: 0)
+    else
+      period_start, period_end = now.change(day: 1, hour: 0), now.change(day: 16, hour: 0)
+    end
+    { :from => period_start, :to => period_end }
+  end
+
 end

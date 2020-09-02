@@ -28,11 +28,37 @@ class SlackBot < Sinatra::Base
     "Generating Report... Please Wait!"
   end
 
+  post '/payroll' do
+    last_period = Payroll::get_last_period
+    match  = /(\d{4}-\d{2}-\d{2}) (\d{4}-\d{2}-\d{2})/.match(params["text"])
+    start  = match.nil? ? last_period[:from] : match[1]
+    finish = match.nil? ? last_period[:to]   : match[2] 
+    GeneratePayrollReport.perform_async(match[1],match[2])
+    "Generating Report... Please Wait!"
+  end
+
   error do
     Slack.err( 'Slackbot Error', env['sinatra.error'] )
     'An Error Occurred.'
   end
 
+end
+
+class GeneratePayrollReport
+  def perform(start,finish)
+    csv = Staff::payroll_csv(start,finish)
+    client = Slack::Web::Client.new
+    client.files_upload(
+      channels: 'payroll',
+      as_user: true,
+      file: Faraday::UploadIO.new(csv.to_io, 'text/csv', "Payroll Report #{start} #{finish}.csv"),
+      title: "Payroll Report",
+      filetype: 'csv',
+      filename: "Payroll Report #{start} #{finish}.csv"
+    )
+  rescue => err
+    Slack.err("GeneratePayrollReport Error", err)
+  end
 end
 
 class GeneratePayPalReport
@@ -43,10 +69,10 @@ class GeneratePayPalReport
     client.files_upload(
       channels: 'payroll',
       as_user: true,
-      file: Faraday::UploadIO.new(csv.to_io, 'text/csv'),
+      file: Faraday::UploadIO.new(csv.to_io, 'text/csv', "Paypal Report #{start} #{finish}.csv"),
       title: "Paypal Report",
       filetype: 'csv',
-      filename: "Paypal Report.csv"
+      filename: "Paypal Report #{start} #{finish}.csv"
     )
   rescue => err
     Slack.err("GeneratePaypalReport Error", err)
