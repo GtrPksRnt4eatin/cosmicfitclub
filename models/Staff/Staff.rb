@@ -293,9 +293,9 @@ def Staff::payroll_csv(from,to)
     teacher_row[:class_occurrences].each do |row|
       csv << [ Time.parse(row[:starttime]).strftime("%Y-%m-%d %a %l:%M %P"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], row[:payment_total] ] unless row[:class_name].nil?
       csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row[:class_name].nil?
-      totals.merge!( { :headcount => row[:headcount], :passes => row[:passes_total], :memberships => row[:membership_total], :payments => row[:payment_total] } ) { |k,v1,v2| v1 + !!v2 ? 0 : v2 }
+      totals.merge!( { :headcount => row[:headcount], :passes => row[:passes_total], :memberships => row[:membership_total], :payments => row[:payment_total] } ) { |k,v1,v2| v1 + (!!v2 ? 0 : v2) }
     end
-    grand_totals.merge!( totals ) { |k,v1,v2| v1 + !!v2 ? 0 : v2 }
+    grand_totals.merge!( totals ) { |k,v1,v2| v1 + (!!v2 ? 0 : v2) }
     csv << [ ]
     csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % totals[:payments] ]
     csv << []
