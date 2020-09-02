@@ -45,6 +45,7 @@ class SlackBot < Sinatra::Base
 end
 
 class GeneratePayrollReport
+  include SuckerPunch::Job
   def perform(start,finish)
     csv = Staff::payroll_csv(start,finish)
     client = Slack::Web::Client.new
