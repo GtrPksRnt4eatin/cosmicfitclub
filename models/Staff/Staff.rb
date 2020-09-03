@@ -292,13 +292,13 @@ def Staff::payroll_csv(from,to)
     csv << []
     teacher_row[:class_occurrences].each do |row|
       row[:payment_total] ||= 0
-      csv << [ Time.parse(row[:starttime]).strftime("%Y-%m-%d %a %l:%M %P"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], "$ %.2f" % row[:payment_total]/100, "https://cosmicfitclub.com/frontdesk/class_attendance/#{row[:id]}" ] unless row[:class_name].nil?
+      csv << [ Time.parse(row[:starttime]).strftime("%Y-%m-%d %a %l:%M %P"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], "$ %.2f" % (row[:payment_total]/100), "https://cosmicfitclub.com/frontdesk/class_attendance/#{row[:id]}" ] unless row[:class_name].nil?
       csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row[:class_name].nil?
       totals.merge!( { :headcount => row[:headcount], :passes => row[:passes_total], :memberships => row[:membership_total], :payments => row[:payment_total] } ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
     end
     grand_totals.merge!( totals ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
     csv << [ ]
-    csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % totals[:payments]/100 ]
+    csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % (totals[:payments]/100) ]
     csv << []
   end
   csv << []
