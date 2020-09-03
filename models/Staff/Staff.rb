@@ -302,7 +302,7 @@ def Staff::payroll_csv(from,to)
     csv << []
   end
   csv << []
-  csv << [ '','GRAND TOTALS', grand_totals[:headcount], grand_totals[:passes], grand_totals[:memberships], "$ %.2f" % grand_totals[:payments]/100 ]
+  csv << [ '','GRAND TOTALS', grand_totals[:headcount], grand_totals[:passes], grand_totals[:memberships], "$ %.2f" % (grand_totals[:payments]/100) ]
   csv.rewind
   csv
 end
