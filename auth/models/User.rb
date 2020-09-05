@@ -44,8 +44,7 @@ class User < Sequel::Model
     end
 
     def set_password!(pword)
-      self.set( :password => pword, :confirmation => pword, :reset_token => nil)
-      self.save
+      self.update( :password => pword, :confirmation => pword, :reset_token => nil)
     end
     
     def validate
