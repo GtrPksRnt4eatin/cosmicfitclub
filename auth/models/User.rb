@@ -34,6 +34,7 @@ class User < Sequel::Model
     end
 
     def after_save
+      p "saved #{self.password} #{self.confirmation}"
       clear_password
       super
     end
