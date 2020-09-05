@@ -28,13 +28,13 @@ class User < Sequel::Model
     end
     
     def before_save
-      p "encrypting password #{self.password} #{self.confirmation}"
+      #p "encrypting password #{self.password} #{self.confirmation}"
       encrypt_password unless password.nil?
       super 
     end
 
     def after_save
-      p "saved #{self.password} #{self.confirmation}"
+      #p "saved #{self.password} #{self.confirmation}"
       clear_password
       super
     end
