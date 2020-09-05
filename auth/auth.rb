@@ -164,14 +164,15 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/password' do
-    user = User.find( :reset_token  => params[:token] )         
+    user = User.find( :reset_token  => params[:token] )   
+    Slack.website_access( "Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )      
     halt(400, "This Reset Token is Invalid or Has Expired")     if user.nil?
     halt(400, "Your Password Must Be at least Five Characters") if params[:password].length < 5
     halt(400, "Your Password Does Not Match The Confirmation")  if params[:password] != params[:confirmation]
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user_id] = user.id
     session[:customer_id] = user.customer.id
-    Slack.website_access( "Password Reset #{ user.customer.to_list_string }" )
+    Slack.website_access( "Password Reset #{ user.customer.to_list_string } - #{ params[:token] }" ) 
     jwt = set_jwt_header(user)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
@@ -181,6 +182,7 @@ class CFCAuth < Sinatra::Base
     data = JSON.parse(request.body.read).transform_keys(&:to_sym) unless params[:email]
     custy = Customer.find_by_email(data[:email])
     halt 404 if custy.nil?
+    Slack.website_access( "Sending Token #{ custy.to_list_string }" )
     custy.reset_password
     JSON.generate({ :status => 'ok'})
   end
