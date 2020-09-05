@@ -146,7 +146,7 @@ class CFCAuth < Sinatra::Base
     data = JSON.parse(request.body.read)
     halt 409, 'Email is Already in Use' unless Customer[:email => data['email'].downcase ].nil?
     custy = Customer.create( :name => data['name'], :email => data['email'] )
-    user = User.create( :customer => custy)
+    user = User.create(:customer => custy)
     jwt = set_jwt_header(user)
     session[:user_id] = custy.login.id
     session[:customer_id] = custy.id
@@ -158,7 +158,7 @@ class CFCAuth < Sinatra::Base
     halt 409, 'Email is Already in Use' unless Customer[:email => params[:email].downcase].nil?
     custy = Customer.create( :name => params[:name], :email => params[:email] )
     user = User.create( :customer => custy )
-    user.set_password!(params[:password]) unless params[:password].nil?
+    user.set_password!(params[:password])
     jwt = set_jwt_header(user)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end

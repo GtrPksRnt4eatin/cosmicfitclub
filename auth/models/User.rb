@@ -28,6 +28,7 @@ class User < Sequel::Model
     end
     
     def before_save
+      p "encrypting password #{self.password} #{self.confirmation}"
       encrypt_password unless password.nil?
       super 
     end
@@ -44,7 +45,9 @@ class User < Sequel::Model
     end
 
     def set_password!(pword)
+      return if pword.nil?
       self.update( :password => pword, :confirmation => pword, :reset_token => nil)
+      self
     end
     
     def validate
