@@ -289,7 +289,9 @@ class Event < Sequel::Model
   end
 
   def attendance_csv 
-    CSV.generate { |csv| (csv << accounting_arr).read }
+    CSV.generate do |csv| 
+      accounting_arr.each { |x| csv << x }
+    end
   end
 
   ######################## REPORTS ########################
