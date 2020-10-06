@@ -32,9 +32,12 @@ module PayPalSDK
     csv << [ "Transaction ID", "Transaction Date", "Payer ID", "Payer Name", "Payer Email", "Transaction Note", "Transaction Amount", "Fee Amount", "Transaction Status", "Remaining Balance" ]
     csv << []
     data['transaction_details'].each do |t|
+      trans_t = Time.parse(t['transaction_info']['transaction_initiation_date']);
+      Time.parse("2020-09-21T22:35:07+0000").localtime
       csv << [
         t['transaction_info']['transaction_id'],
-        t['transaction_info']['transaction_initiation_date'],
+        trans_t.strftime("%m/%d/%Y"),
+        trans_t.strftime("%l:%M %P"),
         t['payer_info']['payer_status'] ? t['payer_info']['account_id'] : '',
         t['payer_info']['payer_status'] ? t['payer_info']['payer_name']['alternate_full_name'] : '',
         t['payer_info']['payer_status'] ? t['payer_info']['email_address'] : '',
