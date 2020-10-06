@@ -238,7 +238,7 @@ class Event < Sequel::Model
   end
 
   def attendance2
-    self.sessions.map(&:attendance_hash) << orphan_tickets 
+    (self.sessions.map(&:attendance_hash) << orphan_tickets).compact 
   end
 
   def accounting_arr
