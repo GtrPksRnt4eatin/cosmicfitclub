@@ -26,10 +26,10 @@ module PayPalSDK
     data = api.get("v1/reporting/transactions", { :start_date=> start, :end_date=> finish, :fields=>'all', :page_size=>500 } )
     csv = CSV.new("")
     csv << ["Account #", data['account_number']]
-    csv << ["Start", Date.parse(data['start_date']).to_s]
-    csv << ["End", Date.parse(data['end_date']).to_s]
+    csv << ["Start", Date.parse(data['start_date']).strftime("%m/%d/%Y")]
+    csv << ["End", Date.parse(data['end_date']).strftime("%m/%d/%Y")]
     csv << []
-    csv << [ "Transaction ID", "Transaction Date", "Payer ID", "Payer Name", "Payer Email", "Transaction Note", "Transaction Amount", "Fee Amount", "Transaction Status", "Remaining Balance" ]
+    csv << [ "Transaction ID", "Transaction Date", "Transaction Time","Payer ID", "Payer Name", "Payer Email", "Transaction Note", "Transaction Amount", "Fee Amount", "Transaction Status", "Remaining Balance" ]
     csv << []
     data['transaction_details'].each do |t|
       trans_t = Time.parse(t['transaction_info']['transaction_initiation_date']);
