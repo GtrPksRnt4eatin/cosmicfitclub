@@ -43,7 +43,7 @@ module PayPalSDK
         t['transaction_info']['transaction_amount']['value'],
         t['transaction_info']['fee_amount'] ? t['transaction_info']['fee_amount']['value'] : '',
         t['transaction_info']['transaction_status'],
-        t['transaction_info']['transaction_note'],
+        t['transaction_info']['transaction_note']
       ]
     end
     csv.rewind
