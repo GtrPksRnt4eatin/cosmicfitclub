@@ -274,7 +274,13 @@ class CustomerRoutes < Sinatra::Base
     return 204
   end
 
-  delete '/waiver/:waiver_id' do
+  get '/waivers/:waiver_id' do
+    content_type 'image/svg+xml'
+    waiver = Waiver[params[:waiver_id]] or halt(404, "Cant Find Waiver")
+    return waiver.signature
+  end
+
+  delete '/waivers/:waiver_id' do
     waiver = Waiver[params[:waiver_id]] or halt(404, "Cant Find Waiver")
     waiver.delete
     return 204

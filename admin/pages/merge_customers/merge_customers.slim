@@ -110,7 +110,7 @@ html
         .tuple rv-each-waiver='data.custy1.waivers'
           span
             | {waiver.signed_on}
-          img rv-src="waiver.signature"
+          img rv-src="waiver.id | waiver_img"
           button rv-on-click="ctrl.del_waiver" Delete
 
         hr
@@ -199,7 +199,7 @@ html
         .tuple rv-each-waiver='data.custy1.waivers'
           span
             | {waiver.signed_on}
-          img rv-src="waiver.signature"
+          img rv-src="waiver.id | waiver_img"
           button rv-on-click="ctrl.del_waiver" Delete
 
         hr

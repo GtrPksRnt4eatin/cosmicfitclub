@@ -47,7 +47,7 @@ ctrl = {
 
   del_waiver(e,m) {
     $.del('/models/customers/waivers/' + m.waiver.id)
-     .sucess( function() { ctrl.load_custy1(); ctrl.load_custy2(); } )
+     .success( function() { ctrl.load_custy1(); ctrl.load_custy2(); } )
      .fail( function(resp) { alert("delete failed\r\n" + resp.responseText)})
   }
 
@@ -69,6 +69,10 @@ $(document).ready(function() {
 
   rivets.formatters.occ_link = function(val) { 
     return('/frontdesk/class_attendance/' + val);
+  }
+
+  rivets.formatters.waiver_img = function(val) { 
+    return('/models/customers/waivers/' + val);
   }
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
