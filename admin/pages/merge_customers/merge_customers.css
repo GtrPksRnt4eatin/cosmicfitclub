@@ -59,3 +59,12 @@ span.pay_money {
 span.pay_reason {
   overflow: hidden;
 }
+
+img.waiver {
+  margin-right: 1em;
+  background: white;
+  border: 2px solid black;
+  border-radius: 0.25em;
+  vertical-align: middle;
+  height: 3em;
+}
