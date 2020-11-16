@@ -104,6 +104,12 @@ html
             | {res.id} -
           a rv-href='res.class_occurrence_id | occ_link'
             | Class Sheet
+        
+        hr
+        .label Waivers
+        .tuple rv-each-waiver='data.custy1.waivers'
+          span
+            | {waiver.id}
 
         hr
         .label Payments
@@ -185,6 +191,12 @@ html
             | {res.id}
           a rv-href='res.class_occurrence_id | occ_link'
             | Class Sheet
+        
+        hr
+        .label Waivers
+        .tuple rv-each-waiver='data.custy1.waivers'
+          span
+            | {waiver.id}
 
         hr
         .label Payments

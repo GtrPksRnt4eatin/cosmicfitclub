@@ -64,7 +64,8 @@ class CustomerRoutes < Sinatra::Base
       :reservations    => JSON.parse(custy.reservations.to_json( include: :occurrence )),
       :payments        => custy.payments,
       :training_passes => custy.training_passes,
-      :password        => custy.password_set?
+      :password        => custy.password_set?,
+      :waivers         => custy.waivers
     }.to_json
   end
  
