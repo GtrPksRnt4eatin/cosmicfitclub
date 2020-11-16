@@ -43,7 +43,14 @@ ctrl = {
     var x = confirm("Really Force Delete?");
     if(!x) return;
     $.del('/models/passes/wallet/' + data.custy2.wallet.id);
+  },
+
+  del_waiver(e,m) {
+    $.del('/models/customers/waivers/' + m.waiver.id)
+     .sucess( function() { ctrl.load_custy1(); ctrl.load_custy2(); } )
+     .fail( function(resp) { alert("delete failed\r\n" + resp.responseText)})
   }
+
 }
 
 $(document).ready(function() {

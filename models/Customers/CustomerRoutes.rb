@@ -274,6 +274,12 @@ class CustomerRoutes < Sinatra::Base
     return 204
   end
 
+  delete '/waiver/:waiver_id' do
+    waiver = Waiver[params[:waiver_id]] or halt(404, "Cant Find Waiver")
+    waiver.delete
+    return 204
+  end
+
   ###################################### WAIVER ########################################
 
   get '/:id/event_history' do
