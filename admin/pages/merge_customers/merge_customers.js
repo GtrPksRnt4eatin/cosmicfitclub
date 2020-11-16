@@ -60,6 +60,10 @@ $(document).ready(function() {
     return '???';
   }
 
+  rivets.formatters.occ_link = function(val) { 
+    return('/frontdesk/class_attendance/' + val);
+  }
+
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
 });

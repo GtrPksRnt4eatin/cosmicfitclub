@@ -101,7 +101,9 @@ html
         .label Reservations
         .tuple rv-each-res='data.custy1.reservations'
           span
-            | {res.id}
+            | {res.id} -
+          a rv-href='occ_link | res.class_occurrence_id'
+            | Class Sheet
 
         hr
         .label Payments
@@ -181,6 +183,8 @@ html
         .tuple rv-each-res='data.custy2.reservations'
           span
             | {res.id}
+          a rv-href='occ_link | res.class_occurrence_id'
+            | Class Sheet
 
         hr
         .label Payments
