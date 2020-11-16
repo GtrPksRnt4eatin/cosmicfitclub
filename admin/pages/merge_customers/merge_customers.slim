@@ -109,7 +109,7 @@ html
         .label Waivers
         .tuple rv-each-waiver='data.custy1.waivers'
           span
-            | {waiver.signed_on | simple_date}
+            | {waiver.signed_on | simpledate}
           img.waiver rv-src="waiver.id | waiver_img"
           button rv-on-click="ctrl.del_waiver" Delete
 
@@ -198,7 +198,7 @@ html
         .label Waivers
         .tuple rv-each-waiver='data.custy1.waivers'
           span
-            | {waiver.signed_on | simple_date}
+            | {waiver.signed_on | simpledate}
           img.waiver rv-src="waiver.id | waiver_img"
           button rv-on-click="ctrl.del_waiver" Delete
 
