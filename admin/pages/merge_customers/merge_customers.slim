@@ -102,7 +102,7 @@ html
         .tuple rv-each-res='data.custy1.reservations'
           span
             | {res.id} -
-          a rv-href='occ_link | res.class_occurrence_id'
+          a rv-href='res.class_occurrence_id | occ_link'
             | Class Sheet
 
         hr
@@ -183,7 +183,7 @@ html
         .tuple rv-each-res='data.custy2.reservations'
           span
             | {res.id}
-          a rv-href='occ_link | res.class_occurrence_id'
+          a rv-href='res.class_occurrence_id | occ_link'
             | Class Sheet
 
         hr
