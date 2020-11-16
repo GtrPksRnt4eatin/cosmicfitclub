@@ -40,9 +40,9 @@ html
       .tile.left
 
         .custy1.edit rv-on-click="ctrl.load_custy1"
-          span rv-if="data.custy1"
+          span rv-if="data.custy1_id"
             | {data.custy1.info.id} - {data.custy1.info.name} ({data.custy1.info.email})
-          span rv-unless="data.custy1"
+          span rv-unless="data.custy1_id"
             | Choose a Customer File
 
         .tuple.info
@@ -132,9 +132,9 @@ html
       .tile.right
 
         .custy2.edit rv-on-click="ctrl.load_custy2"
-          span rv-if="data.custy2"
+          span rv-if="data.custy2_id"
             | {data.custy2.info.id} - {data.custy2.info.name} ({data.custy2.info.email})
-          span rv-unless="data.custy2"
+          span rv-unless="data.custy2_id"
             | Choose a Customer File
 
         .tuple.info
@@ -218,4 +218,6 @@ html
             | { pay.reason }
 
         Button rv-on-click='ctrl.merge_left' Merge Left
-        Button rv-on-click='ctrl.del_custy2'  Delete
+        Button rv-on-click='ctrl.del_custy2'  
+
+    #popupmenu_container  
