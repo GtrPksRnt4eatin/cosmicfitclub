@@ -81,7 +81,7 @@ html
 
         hr
         .label Wallet:
-        .tuple
+        .tuple rv-if='data.custy1.wallet'
           span
             | { data.custy1.wallet.id }
           span
@@ -169,8 +169,8 @@ html
           span
             | ( { sub.began_on | datewyr } - { sub.canceled_on | datewyr } ) { sub.stripe_id }
         hr
-        .tuple
-          .label Wallet:
+        .label Wallet:
+        .tuple rv-if='data.custy2.wallet'
           span
             | { data.custy2.wallet.id }
           span
