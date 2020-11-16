@@ -10,6 +10,7 @@ html
 
     javascript:
       data = {
+        customers: [],
         custy1_id: 0,
         custy2_id: 0,
         custy1: {},
@@ -37,10 +38,12 @@ html
         H2 Customer Merging and Reconsiliation
 
       .tile.left
-        
-        select.custy1 rv-idselect='data.custy1_id' rv-on-change='ctrl.load_custy1'
-          - Customer.all.each do |custy|
-            option value='#{custy.id}' #{ custy.id } - #{custy.name} ( #{ custy.email } )
+
+        .custy1.edit rv-on-click="ctrl.load_custy1"
+          span rv-if="data.custy1"
+            | {data.custy1.info.id} - {data.custy1.info.name} ({data.custy1.info.email})
+          span rv-unless="data.custy1"
+            | Choose a Customer File
 
         .tuple.info
           span.label ID
@@ -128,9 +131,11 @@ html
 
       .tile.right
 
-        select.custy2 rv-idselect='data.custy2_id' rv-on-change='ctrl.load_custy2'
-          - Customer.all.each do |custy|
-            option value='#{custy.id}' #{ custy.id } - #{custy.name} ( #{ custy.email } )
+        .custy2.edit rv-on-click="ctrl.load_custy2"
+          span rv-if="data.custy2"
+            | {data.custy2.info.id} - {data.custy2.info.name} ({data.custy2.info.email})
+          span rv-unless="data.custy2"
+            | Choose a Customer File
 
         .tuple.info
           span.label ID

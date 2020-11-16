@@ -1,16 +1,20 @@
 ctrl = {
   load_custy1(e,m) {
-  	data.custy1_id = this.value || data.custy1_id;
-    $.get('/models/customers/' + data.custy1_id + '/fulldetails', function(custy) {
-      data.custy1 = custy;
-    }, 'json');
+    custy_selector.show_modal(0, function(custy_id) {
+      data.custy1_id = custy_id || data.custy1_id;
+      $.get('/models/customers/' + data.custy1_id + '/fulldetails', function(custy) {
+        data.custy1 = custy;
+      }, 'json');
+    });
   },
 
   load_custy2(e,m) {
-  	data.custy2_id = this.value || data.custy2_id;
-    $.get('/models/customers/' + data.custy2_id + '/fulldetails', function(custy) {
-      data.custy2 = custy;
-    }, 'json');
+    custy_selector.show_modal(0, function(custy_id) {
+      data.custy2_id = custy_id || data.custy2_id;
+      $.get('/models/customers/' + data.custy2_id + '/fulldetails', function(custy) {
+        data.custy2 = custy;
+      }, 'json');
+    });
   },
 
   merge_left(e,m) {
@@ -56,6 +60,11 @@ ctrl = {
 $(document).ready(function() {
 
   userview = new UserView(id('userview_container'));
+  popupmenu      = new PopupMenu(id('popupmenu_container'));
+  custy_selector = new CustySelector();
+
+  custy_selector.ev_sub('show'       , popupmenu.show );
+  custy_selector.ev_sub('close_modal', popupmenu.hide );
 
   include_rivets_select();
   include_rivets_dates();
