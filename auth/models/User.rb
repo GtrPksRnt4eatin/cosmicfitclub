@@ -34,7 +34,7 @@ class User < Sequel::Model
     end
 
     def after_save
-      p "saved #{self.password} #{self.confirmation} #{self.salt} #{self.encrypted_password} #{self.match_password(self.pasword)}"
+      p "saved #{self.password} #{self.confirmation} #{self.salt} #{self.encrypted_password} #{self.match_password(self.password)}"
       clear_password
       super
     end
