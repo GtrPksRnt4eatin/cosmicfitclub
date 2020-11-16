@@ -34,7 +34,7 @@ $(document).ready(function() {
   id('new2').onclick = function(e) {
     $.post('/models/classdefs', JSON.stringify( { id: 0 } ) )
       .done( function(resp) { 
-        window.location = `classes/${resp.id}` 
+        window.location = `edit_class?id=${resp.id}` 
       }) 
   };
   
