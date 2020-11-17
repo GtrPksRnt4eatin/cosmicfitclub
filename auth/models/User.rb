@@ -29,12 +29,14 @@ class User < Sequel::Model
     
     def before_save
       p "encrypting password #{self.password} #{self.confirmation}"
+      p self.to_json
       encrypt_password unless password.nil?
       super 
     end
 
     def after_save
       p "saved #{self.password} #{self.confirmation} #{self.salt} #{self.encrypted_password} #{self.match_password(self.password)}"
+      p self.to_json
       clear_password
       super
     end
@@ -49,6 +51,7 @@ class User < Sequel::Model
       return if pword.nil?
       self.set( :password => pword, :confirmation => pword, :reset_token => nil)
       self.save
+
     end
     
     def validate
