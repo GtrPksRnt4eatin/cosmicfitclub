@@ -157,8 +157,7 @@ class CFCAuth < Sinatra::Base
     content_type :json
     halt 409, 'Email is Already in Use' unless Customer[:email => params[:email].downcase].nil?
     custy = Customer.create( :name => params[:name], :email => params[:email] )
-    user = User.create( :customer => custy )
-    user.set_password!(params[:password])
+    custy.login.set_password!(params[:password])
     jwt = set_jwt_header(user)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
