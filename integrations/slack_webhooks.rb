@@ -44,8 +44,6 @@ class SlackBot < Sinatra::Base
       staff = Staff[data["actions"][0]["selected_option"]["value"]] or halt(404, "staff not found");
       PostStaffPromo.perform_async(staff)
     when "class_promo"
-    when "sched_promo"
-      SchedulePromo::generate4x5({ :img=> , :lines=> })
     end
   end
 
