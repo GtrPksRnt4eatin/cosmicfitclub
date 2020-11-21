@@ -45,6 +45,7 @@ class SlackBot < Sinatra::Base
       PostStaffPromo.perform_async(staff)
     when "class_promo"
     when "sched_promo"
+      SchedulePromo::generate4x5({ :img=> , :lines=> })
     end
   end
 
@@ -68,9 +69,10 @@ class SlackBot < Sinatra::Base
   end
 
   post '/schedulePromo' do
-    sched_list = ClassdefSchedule.all.map { |x| [x.id, "#{x.classdef.name} #{x.simple_meeting_time_description_with_staff(false)}"] }
-    client = Slack::Web::Client.new
-    client.chat_postMessage(slackbot_static_select("Select a Class Schedule", sched_list, "sched_promo"))
+    PostSchedPromos.perform_async()
+    #sched_list = ClassdefSchedule.all.map { |x| [x.id, "#{x.classdef.name} #{x.simple_meeting_time_description_with_staff(false)}"] }
+    #client = Slack::Web::Client.new
+    #client.chat_postMessage(slackbot_static_select("Select a Class Schedule", sched_list, "sched_promo"))
     status 204
   end
 
@@ -184,6 +186,26 @@ class PostStaffPromo
   include SuckerPunch::Job
   def perform(staff)
     promos = StaffPoster.generate_for_bot(staff)
+    client = Slack::Web::Client.new
+    promos.each do |p|
+      client.files_upload(
+        channels: '#promotional_materials',
+        as_user: false,
+        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        title: "#{p[:title]}",
+        filetype: 'jpg',
+        filename: "#{p[:title]}.jpg"
+      )
+    end
+  rescue => err
+    Slack.err("PostStaffPromo Error", err)
+  end
+end
+
+class PostSchedPromos
+  include SuckerPunch::Job
+  def perform()
+    promos = SchedulePromo.generate_all_for_bot
     client = Slack::Web::Client.new
     promos.each do |p|
       client.files_upload(

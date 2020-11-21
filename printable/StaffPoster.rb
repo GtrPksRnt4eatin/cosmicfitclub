@@ -25,18 +25,18 @@ module StaffPoster
     @@image = MiniMagick::Image.open("printable/assets/4x5_bg.jpg")
     @@image.draw_elements([
       { :type     => 'logo',
-        :x_offset => 215,
-        :y_offset => 30,
-        :width    => 650
+        :x_offset => 50,
+        :y_offset => 50,
+        :width    => 1100
       },
-      { :type     => 'event_bubble',
-        :event_id => event_id,
-        :x_offset => 40,
-        :y_offset => 311,
-        :width    => 1000,
+      { :type     => 'image_bubble',
+        :img      => staff.image[:original].url,
+        :lines    => staff.footer_lines,
+        :geometry => "1100x1100+50+550",
         :margin   => 5,
-        :ptscale  => 0.03
-      }
+        :ptscale  => 0.06
+      },
+      { :type     => 'footer' }
     ])
   end
  

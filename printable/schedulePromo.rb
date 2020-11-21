@@ -1,4 +1,13 @@
 module SchedulePromo
+
+  def SchedulePromo::generate_all_for_bot
+    arr = []
+    grouped = ClassdefSchedule.all.group_by { |x| { :class=> x.classdef.name, :teacher=>x.teachers.map(&:name).join(', ') } }
+    list = grouped.map { |k,v| { :teacher => k[:teacher], :img => v[0].image_url, :lines => [k[:class], "w/ " + k[:teacher], v.map(&:simple_meeting_time_description).join(", ")] } } 
+    list.each{ |x| arr.push( { :img => SchedulePromo::generate4x5(x), :title =>"#{x[:lines][0]} - #{x[:teacher]}.jpg" } ) }
+    arr
+  end
+
   def SchedulePromo::generate_all()
     grouped = ClassdefSchedule.all.group_by { |x| { :class=> x.classdef.name, :teacher=>x.teachers.map(&:name).join(', ') } }
     list = grouped.map { |k,v| { :teacher => k[:teacher], :img => v[0].image_url, :lines => [k[:class], "w/ " + k[:teacher], v.map(&:simple_meeting_time_description).join(", ")] } } 
