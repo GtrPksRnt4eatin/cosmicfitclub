@@ -7,6 +7,7 @@ end
 
 def slackbot_static_select(title, opts, action_id)
   {
+    :channel => "promotional_materials",
     :blocks => [
       {
         :type => "actions",
