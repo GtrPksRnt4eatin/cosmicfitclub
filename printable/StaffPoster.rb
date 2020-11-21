@@ -4,6 +4,13 @@ require 'mini_magick'
 
 module StaffPoster
 
+  def StaffPoster::generate_for_bot(staff)
+    arr = []
+    arr.push({ :img => StaffPoster::generate4x5(staff.id),       :title => "#{staff.name.truncate(12)}_fbpost"  })
+    arr.push({ :img => StaffPoster::generate1080x1080(staff.id), :title => "#{staff.name.truncate(12)}_square"  })
+    arr.push({ :img => StaffPoster::generate1080x1920(staff.id), :title => "#{staff.name.truncate(12)}_story"   })
+  end
+
   def StaffPoster::generate_all(staff_id)
     FileUtils.mkdir_p "printable/results/class_schedules/class_sched_#{staff_id}"
     StaffPoster::generate4x5(staff_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_4x5.jpg"); p "4x5 complete"

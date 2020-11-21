@@ -39,8 +39,13 @@ class SlackBot < Sinatra::Base
 
   post '/interactivity' do
     data = JSON.parse params[:payload]
-    puts JSON.pretty_generate data
-    puts "\n\r"
+    case data["actions"][0]["action_id"]
+    when "teacher_promo"
+      staff = Staff[data["actions"][0]["selected_option"]["value"]] or halt(404, "staff not found");
+      PostStaffPromo.perform_async(staff)
+    when "class_promo"
+    when "sched_promo"
+    end
   end
 
   post '/dailyPromo' do
@@ -64,7 +69,6 @@ class SlackBot < Sinatra::Base
 
   post '/schedulePromo' do
     sched_list = ClassdefSchedule.all.map { |x| [x.id, "#{x.classdef.name} #{x.simple_meeting_time_description_with_staff(false)}"] }
-    p sched_list
     client = Slack::Web::Client.new
     client.chat_postMessage(slackbot_static_select("Select a Class Schedule", sched_list, "sched_promo"))
     status 204
@@ -176,10 +180,10 @@ class PostEventPromo
   end
 end
 
-class PostClassPromo
+class PostStaffPromo
   include SuckerPunch::Job
-  def perform(event)
-    promos = EventPoster.generate_for_bot(event)
+  def perform(staff)
+    promos = StaffPoster.generate_for_bot(staff)
     client = Slack::Web::Client.new
     promos.each do |p|
       client.files_upload(
@@ -192,6 +196,6 @@ class PostClassPromo
       )
     end
   rescue => err
-    Slack.err("PostEventPromo Error", err)
+    Slack.err("PostStaffPromo Error", err)
   end
 end
