@@ -25,7 +25,7 @@ def slackbot_static_select(title, opts, action_id)
                 },
                 :value => opt[0].to_s
               }
-            }
+            },
             :action_id => action_id
           }
         ]
@@ -53,13 +53,15 @@ class SlackBot < Sinatra::Base
   end
 
   post '/classPromo' do
-    classdef = Classdef[params["text"]]
+    class_list = Classdef::list_active_and_current.map { |x| [x.id, x.name] }
+    client = Slack::Web::Client.new
+    client.chat_postMessage(slackbot_static_select("Select a Class", class_list, "class_promo"))
   end
 
   post '/schedulePromo' do
-    schedule = Classdef[params["text"]]
-    PostSchedulePromo.perform_async(classdef)
-    "Generating Promos... Please Wait!"
+    sched_list = ClassdefSchedule.all.map { |x| [x.id, x.description_line] }
+    client = Slack::Web::Client.new
+    client.chat_postMessage(slackbot_static_select("Select a Class Schedule", sched_list, "sched_promo"))
   end
 
   post '/teacherPromo' do
