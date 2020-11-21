@@ -39,7 +39,7 @@ class SlackBot < Sinatra::Base
 
   post '/interactivity' do
     data = JSON.parse params[:payload]
-    puts JSON.pretty_generate data
+    p JSON.pretty_generate data
   end
 
   post '/dailyPromo' do
