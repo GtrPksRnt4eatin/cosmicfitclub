@@ -48,6 +48,10 @@ class Staff < Sequel::Model(:staff)
     Staff.exclude(:deactivated => true).all.select{ |x| x.customer.try(:login).try(:has_role?, 'frontdesk') }.map(&:to_token)
   end
 
+  def Staff::active_teacher_list
+    Staff.all.select { |x| x.schedules.count > 0 }
+  end
+
   ############################## LISTS ###############################
 
   ############################## VIEWS ###############################

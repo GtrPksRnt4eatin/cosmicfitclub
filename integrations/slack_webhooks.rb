@@ -5,7 +5,40 @@ Slack.configure do |config|
   config.token = ENV['SLACK_TOKEN']
 end
 
+def slackbot_static_select(title, opts, action_id)
+  {
+    :blocks => [
+      {
+        :type => "actions",
+        :elements => [
+          {
+            :type => "static_select",
+            :placeholder => {
+              :type => "plain_text",
+              :text => title
+            },
+            :options => opts.map { |opt|
+              {
+                :text => {
+                  :type => "plain_text",
+                  :text => opt[1]
+                },
+                :value => opt[0].to_s
+              }
+            }
+            :action_id => action_id
+          }
+        ]
+      }
+    ]
+  }.to_json
+end
+
 class SlackBot < Sinatra::Base
+
+  post '/interactivity' do
+    p params
+  end
 
   post '/dailyPromo' do
     date = Date.parse(params["text"]) rescue Date.today
@@ -17,6 +50,22 @@ class SlackBot < Sinatra::Base
     event = Event[params["text"]] rescue Event::next
     PostEventPromo.perform_async(event)
     "Generating Promos... Please Wait!"
+  end
+
+  post '/classPromo' do
+    classdef = Classdef[params["text"]]
+  end
+
+  post '/schedulePromo' do
+    schedule = Classdef[params["text"]]
+    PostSchedulePromo.perform_async(classdef)
+    "Generating Promos... Please Wait!"
+  end
+
+  post '/teacherPromo' do
+    teacher_list = Staff::active_teacher_list.map { |x| [x.id, x.name] }
+    client = Slack::Web::Client.new
+    client.chat_postMessage(slackbot_static_select("Select a Teacher", teacher_list, "teacher_promo"))
   end
 
   post '/paypal' do
@@ -99,6 +148,26 @@ class PostDailyPromo
 end 
 
 class PostEventPromo
+  include SuckerPunch::Job
+  def perform(event)
+    promos = EventPoster.generate_for_bot(event)
+    client = Slack::Web::Client.new
+    promos.each do |p|
+      client.files_upload(
+        channels: '#promotional_materials',
+        as_user: false,
+        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        title: "#{p[:title]}",
+        filetype: 'jpg',
+        filename: "#{p[:title]}.jpg"
+      )
+    end
+  rescue => err
+    Slack.err("PostEventPromo Error", err)
+  end
+end
+
+class PostClassPromo
   include SuckerPunch::Job
   def perform(event)
     promos = EventPoster.generate_for_bot(event)
