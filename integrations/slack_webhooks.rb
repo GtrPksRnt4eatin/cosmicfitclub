@@ -31,7 +31,7 @@ def slackbot_static_select(title, opts, action_id)
         ]
       }
     ]
-  }.to_json
+  }
 end
 
 class SlackBot < Sinatra::Base
