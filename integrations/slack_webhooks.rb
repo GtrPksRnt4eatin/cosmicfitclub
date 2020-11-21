@@ -38,7 +38,8 @@ end
 class SlackBot < Sinatra::Base
 
   post '/interactivity' do
-    p JSON.pretty_print params
+    p params
+    puts params
   end
 
   post '/dailyPromo' do
@@ -61,7 +62,7 @@ class SlackBot < Sinatra::Base
   end
 
   post '/schedulePromo' do
-    sched_list = ClassdefSchedule.all.map { |x| [x.id, "#{x.classdef.name} #{description_line simple_meeting_time_description_with_staff(false)}"] }
+    sched_list = ClassdefSchedule.all.map { |x| [x.id, "#{x.classdef.name} #{x.simple_meeting_time_description_with_staff(false)}"] }
     p sched_list
     client = Slack::Web::Client.new
     client.chat_postMessage(slackbot_static_select("Select a Class Schedule", sched_list, "sched_promo"))
