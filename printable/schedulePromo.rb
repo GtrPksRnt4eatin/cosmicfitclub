@@ -112,7 +112,11 @@ module SchedulePromo
       { :type     => "highlight_text",
         :x_offset => 0,
         :y_offset => 20,
-        :ptsize   => 12.5,
+        :ptsize   => 12,
+        :strokewidth => 2,
+        :stroke   => "#FFFFFFDD",
+        :fill    => "#FFFFFFDD",
+        :kerning  => 5,
         :gravity  => "South",
         :text     => "Live Video Fitness Classes Everyday!"
       }

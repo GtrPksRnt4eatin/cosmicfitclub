@@ -68,10 +68,7 @@ class SlackBot < Sinatra::Base
 
   post '/schedulePromo' do
     PostSchedPromos.perform_async()
-    #sched_list = ClassdefSchedule.all.map { |x| [x.id, "#{x.classdef.name} #{x.simple_meeting_time_description_with_staff(false)}"] }
-    #client = Slack::Web::Client.new
-    #client.chat_postMessage(slackbot_static_select("Select a Class Schedule", sched_list, "sched_promo"))
-    status 204
+    "Generating Promos... Please Wait!"
   end
 
   post '/teacherPromo' do
