@@ -38,7 +38,7 @@ end
 class SlackBot < Sinatra::Base
 
   post '/interactivity' do
-    p params
+    puts params
   end
 
   post '/dailyPromo' do
@@ -57,18 +57,21 @@ class SlackBot < Sinatra::Base
     class_list = Classdef::list_active_and_current.map { |x| [x.id, x.name] }
     client = Slack::Web::Client.new
     client.chat_postMessage(slackbot_static_select("Select a Class", class_list, "class_promo"))
+    status 204
   end
 
   post '/schedulePromo' do
     sched_list = ClassdefSchedule.all.map { |x| [x.id, x.description_line] }
     client = Slack::Web::Client.new
     client.chat_postMessage(slackbot_static_select("Select a Class Schedule", sched_list, "sched_promo"))
+    status 204
   end
 
   post '/teacherPromo' do
     teacher_list = Staff::active_teacher_list.map { |x| [x.id, x.name] }
     client = Slack::Web::Client.new
     client.chat_postMessage(slackbot_static_select("Select a Teacher", teacher_list, "teacher_promo"))
+    status 204
   end
 
   post '/paypal' do
