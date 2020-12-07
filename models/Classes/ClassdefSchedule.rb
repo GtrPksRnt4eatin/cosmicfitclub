@@ -109,12 +109,13 @@ class ClassdefSchedule < Sequel::Model
         :title       => self.classdef.name,
         :classdef    => self.classdef.to_token,
         :instructors => self.teachers.map(&:to_token),
-        :capacity    => capacity,
+        :capacity    => self.capacity,
         :headcount   => 0,
         :thumb_url   => self.thumb_url,
         :scheduled   => { :starttime => starttime.to_time.iso8601, :teachers => self.teachers.map(&:to_token) },
-        :occurrence  => occurrence.try(:to_hash),
-        :exception   => exception.try(:full_details),
+        :occurrence  => self.occurrence.try(:to_hash),
+        :exception   => self.exception.try(:full_details),
+        :allow_free  => self.allow_free
       }
     end
   end
