@@ -218,7 +218,8 @@ class ClassdefSchedule < Sequel::Model
       :title       => self.classdef.name,
       :instructors => self.teachers.map(&:to_token),
       :capacity    => self.capacity,
-      :image_url   => self.image.try(:image_url)
+      :image_url   => self.image.try(:image_url),
+      :allow_free  => self.allow_free
     }
   end
 

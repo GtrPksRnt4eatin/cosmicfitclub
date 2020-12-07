@@ -157,7 +157,8 @@ class ClassOccurrence < Sequel::Model
       :teacher     => teacher.to_token,
       :next_id     => self.next_occurrence_id,
       :prev_id     => self.previous_occurrence_id,
-      :thumb_url   => self.thumb_url
+      :thumb_url   => self.thumb_url,
+      :allow_free  => self.schedule.allow_free
     }
   end
 
