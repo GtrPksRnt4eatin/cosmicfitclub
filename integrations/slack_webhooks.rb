@@ -47,7 +47,7 @@ class SlackBot < Sinatra::Base
       classdef = ClassDef[data["actions"][0]["selected_option"]["value"]] or halt(404, "class not found");
       PostClassPromo.perform_async(classdef)
     when "timeslot_promo"
-      timeslot = ClassDefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
+      timeslot = ClassdefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
       PostTimeslotPromo.perform_async(timeslot)
     end
   end
