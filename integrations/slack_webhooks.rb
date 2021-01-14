@@ -46,6 +46,9 @@ class SlackBot < Sinatra::Base
     when "class_promo"
       classdef = ClassDef[data["actions"][0]["selected_option"]["value"]] or halt(404, "class not found");
       PostClassPromo.perform_async(classdef)
+    when "timeslot_promo"
+      timeslot = ClassDefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
+      PostTimeslotPromo.perform_async(timeslot)
     end
   end
 
@@ -68,9 +71,11 @@ class SlackBot < Sinatra::Base
     status 204
   end
 
-  post '/schedulePromo' do
-    PostSchedPromos.perform_async()
-    "Generating Promos... Please Wait!"
+  post '/timeslotPromo' do
+    timeslot_list = ClassDefSchedule.all.map { |x| [ x.id, x.description_line ] }
+    client = Slack::Web::Client.new
+    client.chat_postMessage(slackbot_static_select("Select a Timeslot", timeslot_list, "timeslot_promo"))
+    status 204
   end
 
   post '/teacherPromo' do
@@ -78,6 +83,11 @@ class SlackBot < Sinatra::Base
     client = Slack::Web::Client.new
     client.chat_postMessage(slackbot_static_select("Select a Teacher", teacher_list, "teacher_promo"))
     status 204
+  end
+
+  post '/schedulePromo' do
+    PostSchedPromos.perform_async()
+    "Generating Promos... Please Wait!"
   end
 
   post '/paypal' do
@@ -216,6 +226,26 @@ class PostStaffPromo
     end
   rescue => err
     Slack.err("PostStaffPromo Error", err)
+  end
+end
+
+class PostTimeslotPromo
+  include SuckerPunch::Job
+  def perform(sched)
+    promos = SchedulePromo.generate_for_bot(sched)
+    client = Slack::Web::Client.new
+    promos.each do |p|
+      client.files_upload(
+        channels: '#promotional_materials',
+        as_user: false,
+        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        title: "#{p[:title]}",
+        filetype: 'jpg',
+        filename: "#{p[:title]}.jpg"
+      )
+    end
+  rescue => err
+    Slack.err("PostTimeslotPromo Error", err)
   end
 end
 

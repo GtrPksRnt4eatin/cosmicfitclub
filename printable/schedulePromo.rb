@@ -1,5 +1,10 @@
 module SchedulePromo
 
+  def SchedulePromo::generate_for_bot(sched)
+    promo_img = SchedulePromo::generate_4x5({ :img=> sched.image_url, :lines=> sched.poster_lines })
+    { :img => promo_img, :title => "#{sched.poster_lines[0]} - #{sched.teachers[0].name}.jpg" }
+  end
+
   def SchedulePromo::generate_all_for_bot
     arr = []
     grouped = ClassdefSchedule.all.group_by { |x| { :class=> x.classdef.name, :teacher=>x.teachers.map(&:name).join(', ') } }
