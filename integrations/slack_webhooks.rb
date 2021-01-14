@@ -85,7 +85,7 @@ class SlackBot < Sinatra::Base
     status 204
   end
 
-  post '/schedulePromo' do
+  post '/schedulePromos' do
     PostSchedPromos.perform_async()
     "Generating Promos... Please Wait!"
   end
