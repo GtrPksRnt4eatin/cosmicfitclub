@@ -44,6 +44,8 @@ class SlackBot < Sinatra::Base
       staff = Staff[data["actions"][0]["selected_option"]["value"]] or halt(404, "staff not found");
       PostStaffPromo.perform_async(staff)
     when "class_promo"
+      classdef = ClassDef[data["actions"][0]["selected_option"]["value"]] or halt(404, "class not found");
+      PostClassPromo.perform_async(classdef)
     end
   end
 
@@ -174,6 +176,26 @@ class PostEventPromo
     end
   rescue => err
     Slack.err("PostEventPromo Error", err)
+  end
+end
+
+class PostClassPromo
+  include SuckerPunch::Job
+  def perform(classdef)
+    promos = ClassPromo.generate_for_bot(classdef)
+    client = Slack::Web::Client.new
+    promos.each do |p|
+      client.files_upload(
+        channels: '#promotional_materials',
+        as_user: false,
+        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        title: "#{p[:title]}",
+        filetype: 'jpg',
+        filename: "#{p[:title]}.jpg"
+      )
+    end
+  rescue => err
+    Slack.err("PostClassPromo Error", err)
   end
 end
 
