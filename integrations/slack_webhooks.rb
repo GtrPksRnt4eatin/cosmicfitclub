@@ -72,7 +72,7 @@ class SlackBot < Sinatra::Base
   end
 
   post '/timeslotPromo' do
-    timeslot_list = ClassDefSchedule.all.map { |x| [ x.id, x.description_line ] }
+    timeslot_list = ClassdefSchedule.all.map { |x| [ x.id, x.description_line ] }
     client = Slack::Web::Client.new
     client.chat_postMessage(slackbot_static_select("Select a Timeslot", timeslot_list, "timeslot_promo"))
     status 204
