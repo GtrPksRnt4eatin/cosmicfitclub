@@ -1,7 +1,7 @@
 module SchedulePromo
 
   def SchedulePromo::generate_for_bot(sched)
-    promo_img = SchedulePromo::generate4x5({ :img=> sched.image_url, :lines=> sched.poster_lines })
+    promo_img = SchedulePromo::generate4x5({ :img=> sched.image_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ] })
     [{ :img => promo_img, :title => "#{sched.poster_lines[0]} - #{sched.teachers[0].name}.jpg" }]
   end
 
