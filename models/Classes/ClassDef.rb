@@ -132,6 +132,12 @@ class ClassDef < Sequel::Model
     lines
   end
 
+  def footer_lines_teachers
+    lines = [self.name]
+    self.meeting_times_with_staff.each { |a| lines << a }
+    lines
+  end
+
   def to_json(options = {})
     val = JSON.parse super
     val['image_url'] = image.nil? ? '' : image[:original].url
