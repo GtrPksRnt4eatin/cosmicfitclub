@@ -77,7 +77,7 @@ class StaffRoutes < Sinatra::Base
   get '/payroll.csv' do
     content_type 'application/csv'
     attachment "Payroll #{params[:from]}.csv"
-    proll = Staff::payroll_csv(params[:from],params[:to])
+    csv = Staff::payroll_csv(params[:from],params[:to])
     csv.string
   end
 
