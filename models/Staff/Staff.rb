@@ -252,7 +252,7 @@ def Staff::payroll(from, to)
         100
       else
         100
-      end
+        end
     }
   }
   punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
@@ -277,7 +277,7 @@ def Staff::payroll(from, to)
   }
   result.sort_by! { |x| Staff[x[:staff_id]].unpaid == true ? 0 : 1 }
   result.each     { |x| x[:class_occurrences].sort_by! { |y| y[:starttime] } }
-  result.each     { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + y[:pay] } }
+  result.each     { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:pay] ? y[:pay] : 0 ) } }
   result.reject   { |x| x[:class_occurrences].length == 0 }
 end
 
