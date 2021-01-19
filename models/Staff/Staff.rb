@@ -252,7 +252,7 @@ def Staff::payroll(from, to)
         100
       else
         100
-        end
+      end
     }
   }
   punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
