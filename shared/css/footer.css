@@ -6,6 +6,10 @@ footer {
   box-shadow: 0 0 5px white;
 }
 
+.hide {
+  display: none;
+}
+
 .footbox {
   display: inline-block;
   width: 30%;
