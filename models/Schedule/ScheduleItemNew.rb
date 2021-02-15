@@ -1,4 +1,4 @@
-class ScheuleItemNew < Sequel::Model
+class ScheduleItemNew < Sequel::Model
 
     def icecube_schedule
         IceCube::Schedule.from_yaml(self.icecube_yaml) 
