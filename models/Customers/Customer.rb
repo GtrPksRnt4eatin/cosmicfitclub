@@ -18,6 +18,10 @@ class Customer < Sequel::Model
   one_to_many  :hourly_punches
   one_to_many  :event_passes
   one_to_many  :gift_certificates
+  one_to_many  :covid_questionaires
+  one_to_many  :group_reservations
+  one_to_many  :group_reservation_slots
+
 
   many_to_one :wallet
   many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id

@@ -2,7 +2,9 @@ class CustomerPayment < Sequel::Model
   
   many_to_one :customer
   many_to_one :reservation, :class => :ClassReservation, :key => :class_reservation_id
+  
   one_to_many :tickets, :class => :EventTicket, :key => :customer_payment_id 
+  one_to_many :group_slots, :class :GroupReservationSlot, :key = payment_id
 
   def undo
     StripeMethods::refund(self.stripe_id) if self.stripe_id
