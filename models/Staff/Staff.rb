@@ -237,11 +237,17 @@ def Staff::payroll(from, to)
     teacher_row[:class_occurrences].reject!  { |x| ClassDef[x[:classdef_id].to_i].unpaid }
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x[:starttime]) } 
     teacher_row[:class_occurrences].each     { |occurrence_row|
+
+      occurrence_row[:cosmic] = (occurrence_row[:passes_total].to_i * 12) + occurrence_row[:payment_total]/100)
+
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
       occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 7
       occurrence_row[:payment_total] ||= 0
       occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.006)
       occurrence_row[:pay] = 50 if teacher_row[:staff_id] == 104
+
+      occurrence_row[:cosmic] = occurrence_row[:cosmic] - occurrence_row[:pay]
+
       #occurrence_row[:pay] = case occurrence_row[:headcount].to_i
       #when 0..1
       #  20 
@@ -293,25 +299,25 @@ def Staff::payroll_csv(from,to)
   csv << [ 'Start Date', from.strftime('%Y-%m-%d') ]
   csv << [ 'End Date', to.strftime('%Y-%m-%d') ]
   csv << []
-  grand_totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0 }
+  grand_totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0, :cosmic => 0 }
   proll.each do |teacher_row|
-    totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0 }
+    totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0, :cosmic => 0 }
     csv << [ teacher_row[:staff_name].upcase, "#{from.strftime('%Y-%m-%d')} to #{to.strftime('%Y-%m-%d')}" ]
-    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY' ]
+    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY', 'COSMIC' ]
     csv << []
     teacher_row[:class_occurrences].each do |row|
       row[:payment_total] ||= 0
-      csv << [ Time.parse(row[:starttime]).strftime("%m/%d/%Y"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], "$ %.2f" % (row[:payment_total]/100), "$ %.2f" % (row[:pay]), "https://cosmicfitclub.com/frontdesk/class_attendance/#{row[:id]}" ] unless row[:class_name].nil?
+      csv << [ Time.parse(row[:starttime]).strftime("%m/%d/%Y"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], "$ %.2f" % (row[:payment_total]/100), "$ %.2f" % (row[:pay]), "$ %.2f" % (row[:cosmic]), "https://cosmicfitclub.com/frontdesk/class_attendance/#{row[:id]}" ] unless row[:class_name].nil?
       csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row[:class_name].nil?
-      totals.merge!( { :headcount => row[:headcount], :passes => row[:passes_total], :memberships => row[:membership_total], :payments => row[:payment_total], :staff_pay => row[:pay] } ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
+      totals.merge!( { :headcount => row[:headcount], :passes => row[:passes_total], :memberships => row[:membership_total], :payments => row[:payment_total], :staff_pay => row[:pay], :cosmic => row[:cosmic] } ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
     end
     grand_totals.merge!( totals ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
     csv << [ ]
-    csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % (totals[:payments]/100), "$ %.2f" % totals[:staff_pay] ]
+    csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % (totals[:payments]/100), "$ %.2f" % totals[:staff_pay], "$ %.2f" % totals[:cosmic]]
     csv << []
   end
   csv << []
-  csv << [ '','GRAND TOTALS', grand_totals[:headcount], grand_totals[:passes], grand_totals[:memberships], "$ %.2f" % (grand_totals[:payments]/100), "$ %.2f" % (grand_totals[:staff_pay]) ]
+  csv << [ '','GRAND TOTALS', grand_totals[:headcount], grand_totals[:passes], grand_totals[:memberships], "$ %.2f" % (grand_totals[:payments]/100), "$ %.2f" % (grand_totals[:staff_pay]),  "$ %.2f" % (grand_totals[:cosmic])]
   csv.rewind
   csv
 end
