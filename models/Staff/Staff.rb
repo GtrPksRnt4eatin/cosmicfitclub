@@ -295,6 +295,9 @@ def Staff::payroll(from, to)
 end
 
 def Staff::payroll_csv(from,to)
+  from = ( from.is_a?(String) ? Date.parse(from) : from )
+  to = ( to.is_a?(String) ? Date.parse(to) : to )
+  
   proll = Staff::payroll(from,to)
   csv = CSV.new("")
   csv << [ 'Payroll' ]
