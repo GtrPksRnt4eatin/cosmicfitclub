@@ -238,7 +238,7 @@ def Staff::payroll(from, to)
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x[:starttime]) } 
     teacher_row[:class_occurrences].each     { |occurrence_row|
 
-      occurrence_row[:cosmic] = (occurrence_row[:passes_total].to_i * 12) + occurrence_row[:payment_total]/100)
+      occurrence_row[:cosmic] = (occurrence_row[:passes_total].to_i * 12) + (occurrence_row[:payment_total]/100)
 
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
       occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 7
