@@ -242,13 +242,13 @@ def Staff::payroll(from, to)
     teacher_row[:class_occurrences].each     { |occurrence_row|
 
       occurrence_row[:payment_total] ||= 0
-      occurrence_row[:cosmic] = (occurrence_row[:passes_total].to_i * 12) + (occurrence_row[:payment_total]/100)
+      occurrence_row[:cosmic] = (occurrence_row[:passes_total].to_i * 1200) + (occurrence_row[:payment_total])
 
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
-      occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 7
+      occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 700
 
-      occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.006)
-      occurrence_row[:pay] = 50 if teacher_row[:staff_id] == 104
+      occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.6)
+      occurrence_row[:pay] = 5000 if teacher_row[:staff_id] == 104
 
       occurrence_row[:cosmic] = occurrence_row[:cosmic] - occurrence_row[:pay]
 
@@ -297,7 +297,7 @@ end
 def Staff::payroll_csv(from,to)
   from = ( from.is_a?(String) ? Date.parse(from) : from )
   to = ( to.is_a?(String) ? Date.parse(to) : to )
-  
+
   proll = Staff::payroll(from,to)
   csv = CSV.new("")
   csv << [ 'Payroll' ]
