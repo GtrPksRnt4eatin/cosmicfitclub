@@ -239,6 +239,7 @@ def Staff::payroll(from, to)
     teacher_row[:class_occurrences].each     { |occurrence_row|
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
       occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 7
+      occurrence_row[:pay] = 50 if teacher_row[:staff_id] == 104
       #occurrence_row[:pay] = case occurrence_row[:headcount].to_i
       #when 0..1
       #  20 
