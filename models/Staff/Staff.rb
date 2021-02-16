@@ -231,7 +231,7 @@ def payroll_query
 end
 
 def Staff::payroll(from, to)
-  result = $DB[payroll_query, from, to].all
+  result = $DB[payroll_query, from, to.next_day].all
   result.each { |teacher_row|
     teacher_row[:class_occurrences].each     { |x| x.transform_keys!(&:to_sym) }
     teacher_row[:class_occurrences].reject!  { |x| ClassDef[x[:classdef_id].to_i].unpaid }
@@ -291,12 +291,12 @@ def Staff::payroll_csv(from,to)
   csv = CSV.new("")
   csv << [ 'Payroll' ]
   csv << [ 'Start Date', from.strftime('%Y-%m-%d') ]
-  csv << [ 'End Date', (to - (3600 * 24)).strftime('%Y-%m-%d') ]
+  csv << [ 'End Date', to.strftime('%Y-%m-%d') ]
   csv << []
   grand_totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0 }
   proll.each do |teacher_row|
     totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0 }
-    csv << [ teacher_row[:staff_name].upcase, "#{from.strftime('%Y-%m-%d')} to #{(to - (3600 * 24)).strftime('%Y-%m-%d')}" ]
+    csv << [ teacher_row[:staff_name].upcase, "#{from.strftime('%Y-%m-%d')} to #{to.strftime('%Y-%m-%d')}" ]
     csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY' ]
     csv << []
     teacher_row[:class_occurrences].each do |row|
