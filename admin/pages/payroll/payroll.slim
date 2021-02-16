@@ -51,7 +51,7 @@ html
               td.count [rv-if='occ.hours']               { occ.hours } hrs
               td.count [rv-if='occ.headcount | noempty'] { occ.headcount }
               td.count [rv-if='occ.passes_total']        { occ.passes_total }
-              td.count [rv-if='occ.payment_total']       { occ.payment_total | money }
+              td.count [rv-if='occ.clkass_name']         { occ.payment_total | money }
               td.pay[]                                   { occ.pay | dollars }
               td.edit                                  
                 a rv-href='occ.id | occlink'
