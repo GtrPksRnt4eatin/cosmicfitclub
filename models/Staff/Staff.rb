@@ -231,6 +231,9 @@ def payroll_query
 end
 
 def Staff::payroll(from, to)
+  from = ( from.is_a?(String) ? Date.parse(from) : from )
+  to = ( to.is_a?(String) ? Date.parse(to) : to )
+
   result = $DB[payroll_query, from, to.next_day].all
   result.each { |teacher_row|
     teacher_row[:class_occurrences].each     { |x| x.transform_keys!(&:to_sym) }
@@ -291,8 +294,6 @@ def Staff::payroll(from, to)
 end
 
 def Staff::payroll_csv(from,to)
-  from = ( from.is_a?(String) ? Date.parse(from) : from )
-  to = ( to.is_a?(String) ? Date.parse(to) : to )
   proll = Staff::payroll(from,to)
   csv = CSV.new("")
   csv << [ 'Payroll' ]
