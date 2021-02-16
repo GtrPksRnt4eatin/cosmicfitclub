@@ -31,15 +31,17 @@ html
               th.date[] { staff.staff_name | upcase }
               th.name[] { data.range }
               th.count
+              th.count
+              th.count
               th.pay
               th.edit
             tr
               th.date  DATE
               th.name  CLASSNAME
-              th.count HEADCOUNT
+              th.count HEADS
               th.count PASSES
-              th.count DONATIONS
-              th.pay   STAFF PAY
+              th.count CARDS
+              th.pay   PAY
               th.edit
             tr rv-each-occ='staff.class_occurrences'
               td.date  [rv-unless='occ.timerange']       { occ.starttime | eventstart }
@@ -57,6 +59,8 @@ html
             tr
               th.date
               th.name
+              th.count
+              th.count
               th.count TOTAL:
               th.pay[] { staff.total_pay | dollars }
               th.edit
