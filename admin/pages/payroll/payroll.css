@@ -1,7 +1,7 @@
 .tile {
   display: block;
   margin: 0.5em auto;
-  width: 70em;
+  width: 85em;
   font-weight: bold;
 }
 
@@ -14,7 +14,7 @@
   padding: 0.1em 2em;
 }
 
-.paystub .date  { width: 17em; text-align: left; }
+.paystub .date  { width: 20em; text-align: left; }
 .paystub .name  { width: 28em; text-align: left; }
 .paystub .count { width: 5em; text-align: right; }
 .paystub .pay   { width: 5em; text-align: right; }
