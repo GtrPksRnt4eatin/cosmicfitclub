@@ -239,6 +239,7 @@ def Staff::payroll(from, to)
     teacher_row[:class_occurrences].each     { |occurrence_row|
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
       occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 7
+      occurrence_row[:payment_total] ||= 0
       occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.006)
       occurrence_row[:pay] = 50 if teacher_row[:staff_id] == 104
       #occurrence_row[:pay] = case occurrence_row[:headcount].to_i
@@ -299,7 +300,6 @@ def Staff::payroll_csv(from,to)
     csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY' ]
     csv << []
     teacher_row[:class_occurrences].each do |row|
-      row[:payment_total] ||= 0
       csv << [ Time.parse(row[:starttime]).strftime("%m/%d/%Y"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], "$ %.2f" % (row[:payment_total]/100), "$ %.2f" % (row[:pay]), "https://cosmicfitclub.com/frontdesk/class_attendance/#{row[:id]}" ] unless row[:class_name].nil?
       csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row[:class_name].nil?
       totals.merge!( { :headcount => row[:headcount], :passes => row[:passes_total], :memberships => row[:membership_total], :payments => row[:payment_total], :staff_pay => row[:pay] } ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
