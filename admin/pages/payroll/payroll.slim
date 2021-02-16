@@ -34,6 +34,7 @@ html
               th.count
               th.count
               th.pay
+              th.pay
               th.edit
             tr
               th.date  DATE
@@ -60,8 +61,8 @@ html
                   | edit
             tr
               th.date
-              th.name
-              th.count
+              th.name  TOTALS:
+              th.count { staff.total_headcout }
               th.count
               th.count TOTAL:
               th.pay[] { staff.total_pay | dollars }
