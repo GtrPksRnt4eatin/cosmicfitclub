@@ -26,7 +26,7 @@ class Payroll
     else
       period_start, period_end = now.change(day: 1, hour: 0), now.change(day: 16, hour: 0)
     end
-    { :from => period_start, :to => period_end }
+    { :from => period_start, :to => period_end - 0.00001 }
   end
 
 end

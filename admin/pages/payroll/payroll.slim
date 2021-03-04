@@ -54,8 +54,8 @@ html
               td.count [rv-if='occ.headcount | noempty'] { occ.headcount }
               td.count [rv-if='occ.class_name']          { occ.passes_total }
               td.count [rv-if='occ.class_name']          { occ.payment_total | money }
-              td.pay[]                                   { occ.pay | dollars }
-              td.pay[]                                   { occ.cosmic | dollars }
+              td.pay[]                                   { occ.pay | money }
+              td.pay[]                                   { occ.cosmic | money }
               td.edit                                  
                 a rv-href='occ.id | occlink'
                   | edit
