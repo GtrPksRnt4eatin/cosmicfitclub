@@ -23,7 +23,6 @@ class CFCAdmin < Sinatra::Base
   get( '/carousel',              :auth=> 'admin'      ) { render_page :carousel            }
   get( '/classes',               :auth=> 'admin'      ) { render_page :classes             }
   get( '/events',                :auth=> 'admin'      ) { render_page :events              }
-  #get( '/staff',                 :auth=> 'admin'      ) { render_page :staff               }
   get( '/staff',                 :auth=> 'admin'      ) { render_page :staff_list          }
   get( '/staff_detail',          :auth=> 'admin'      ) { render_page :staff_detail        }
   get( '/events/:id',            :auth=> 'admin'      ) { render_page :event_edit          }
@@ -48,6 +47,7 @@ class CFCAdmin < Sinatra::Base
   get( '/event_proposal/:id',    :auth=> 'admin'      ) { render_page :event_proposal      }
   get( '/social_integrations',   :auth=> 'admin'      ) { render_page :social_integrations }
   get( '/classdef_schedule',     :auth=> 'admin'      ) { render_page :classdef_schedule   }
+  get( '/group_timeslots',       :auth=> 'admin'      ) { render_page :group_timeslots     }
 
   get( '/payroll',               :auth=> 'payroll'    ) { render_page :payroll             }
   
