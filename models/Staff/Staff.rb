@@ -318,7 +318,7 @@ def Staff::payroll_csv(from,to)
     end
     grand_totals.merge!( totals ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
     csv << [ ]
-    csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % (totals[:payments]/100), "$ %.2f" % (totals[:staff_pay]/100), "$ %.2f" % (totals[:cosmic]/100])
+    csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % (totals[:payments]/100), "$ %.2f" % (totals[:staff_pay]/100), "$ %.2f" % (totals[:cosmic]/100)]
     csv << []
   end
   csv << []
