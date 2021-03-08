@@ -21,7 +21,8 @@ module StaffPoster
     StaffPoster::generateFBEvent(staff_id).save("class_schedules/class_sched_#{staff_id}/event_#{event_id}_fbevent.jpg"); p "FB Event complete"
   end
 
-  def StaffPoster::generate4x5(event_id)
+  def StaffPoster::generate4x5(staff_id)
+    staff = Staff[staff_id] or return
     @@image = MiniMagick::Image.open("printable/assets/4x5_bg.jpg")
     @@image.draw_elements([
       { :type     => 'logo',
