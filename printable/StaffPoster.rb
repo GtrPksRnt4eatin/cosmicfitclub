@@ -7,8 +7,8 @@ module StaffPoster
   def StaffPoster::generate_for_bot(staff)
     arr = []
     arr.push({ :img => StaffPoster::generate4x5(staff.id),       :title => "#{staff.name.truncate(12)}_fbpost"  })
-    arr.push({ :img => StaffPoster::generate1080x1080(staff.id), :title => "#{staff.name.truncate(12)}_square"  })
-    arr.push({ :img => StaffPoster::generate1080x1920(staff.id), :title => "#{staff.name.truncate(12)}_story"   })
+    #arr.push({ :img => StaffPoster::generate1080x1080(staff.id), :title => "#{staff.name.truncate(12)}_square"  })
+    #arr.push({ :img => StaffPoster::generate1080x1920(staff.id), :title => "#{staff.name.truncate(12)}_story"   })
   end
 
   def StaffPoster::generate_all(staff_id)
@@ -26,18 +26,51 @@ module StaffPoster
     @@image = MiniMagick::Image.open("printable/assets/4x5_bg.jpg")
     @@image.draw_elements([
       { :type     => 'logo',
-        :x_offset => 50,
-        :y_offset => 50,
-        :width    => 1100
+        :x_offset => 320,
+        :y_offset => 20,
+        :width    => 400
+      },
+      { :type     => "highlight_text",
+        :x_offset => 0,
+        :y_offset => 175,
+        :ptsize   => 16,
+        :strokewidth => 1,
+        :kerning  => 5,
+        :gravity  => "North",
+        :fill     => "#E0E0E0",
+        :stroke   => "#B0B0B0",
+        :text     => "video.cosmicfitclub.com"
       },
       { :type     => 'image_bubble',
+        :x_offset => 50,
+        :y_offset => 260,
+        :width    => 975,
+        :height   => 975,
+        :margin   => 5,
+        :ptscale  => 0.05,
+        :ptscale2 => 0.9,
         :img      => staff.image[:original].url,
         :lines    => staff.footer_lines,
-        :geometry => "1100x1100+50+550",
-        :margin   => 5,
-        :ptscale  => 0.06
       },
-      { :type     => 'footer' }
+      { :type => 'box', 
+        :width => 1080,
+        :height => 100,
+        :gravity => 'south',
+        :y_offset => 1260,
+        :color => '#00000055',
+        :stroke => "#E0E0E0",
+      },
+      { :type     => "highlight_text",
+        :x_offset => 0,
+        :y_offset => 20,
+        :ptsize   => 12,
+        :strokewidth => 2,
+        :stroke   => "#FFFFFFDD",
+        :fill    => "#FFFFFFDD",
+        :kerning  => 5,
+        :gravity  => "South",
+        :text     => "Live Video Fitness Classes Everyday!"
+      }
     ])
   end
  
