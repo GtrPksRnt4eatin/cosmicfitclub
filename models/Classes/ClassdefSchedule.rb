@@ -84,6 +84,10 @@ class ClassdefSchedule < Sequel::Model
     end
   end
 
+  def next_occurrence(from=nil)
+    self.icecube_schedule.next_occurrence(from)
+  end
+
   def get_occurrences(from,to)
     return [] if rrule.nil?
     return [] if start_time.nil?

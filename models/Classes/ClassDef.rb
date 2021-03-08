@@ -168,13 +168,13 @@ class ClassDef < Sequel::Model
   end
 
   def meeting_times_with_staff
-    self.schedules.map(&:simple_meeting_time_description_with_staff)
+    self.sorted_schedules.map(&:simple_meeting_time_description_with_staff)
   end
 
   ########################## VIEWS ##############################
 
   def ordered_schedules
-
+    self.schedules.sort_by { |x| x.next_occurrence(Date.parse("Monday").to_time) }
   end
 
 end
