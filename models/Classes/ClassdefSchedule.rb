@@ -178,7 +178,7 @@ class ClassdefSchedule < Sequel::Model
   def simple_meeting_time_description_with_staff(spaced=true)
     match = /Weekly on (\S+?)(nes|rs|s)*+(ur)?days/.match(rrule_english) or return ""
     divider = (spaced ? "   " : "") + " w/ " + (spaced ? "  " : "")
-    teacher = spaced ? self.teachers[0].name.ljust(20) : self.teachers[0].name
+    teacher = spaced ? self.teachers[0].name.ljust(18).truncate(18) : self.teachers[0].name
     match[1] + " @ " + start_time_12hr_short + divider + teacher
   end
 
