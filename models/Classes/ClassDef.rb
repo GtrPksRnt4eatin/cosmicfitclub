@@ -168,7 +168,7 @@ class ClassDef < Sequel::Model
   end
 
   def meeting_times_with_staff
-    self.sorted_schedules.map(&:simple_meeting_time_description_with_staff)
+    self.ordered_schedules.map(&:simple_meeting_time_description_with_staff)
   end
 
   ########################## VIEWS ##############################
