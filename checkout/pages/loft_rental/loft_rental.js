@@ -1,6 +1,7 @@
 data = {
   rental: {
-    starttime: ''
+    starttime: '',
+    duration: 1
   }
 };
 

@@ -15,5 +15,20 @@ html
   	.content
 
   	  .tile          
+        
+        h2
+          | Cosmic Loft Rental Reservation Form
 
-        input rv-datefield='data.rental.starttime'
+        .tuplet
+          label Rental Start Time:
+          input rv-datefield='data.rental.starttime'
+        
+        .tuplet
+          label Duration (hrs):
+          select rv-value='data.rental.duration'
+            option value='1' 1
+            option value='2' 2
+            option value='3' 3
+            option value='4' 4
+            option value='5' 5
+
