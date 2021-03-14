@@ -1,0 +1,47 @@
+/* TUPLES */
+
+.tuple {
+    display: flex;
+    padding: 0.25em;
+    text-align: left;
+  }
+  
+  .tuple .attrib {
+    flex: 0 0 auto;
+    padding: 0.25em;
+  }
+  
+  .tuple .value {
+    flex: 1 0 0;
+  }
+  
+  .tuple .value {
+    background: rgba(255,255,255,0.5);
+    color: black;
+    padding: 0.25em 1em;
+    border-radius: 0.5em;
+  }
+  
+  .editable {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .editable::after {
+    content: '';
+    background-image: url('/edit.svg');
+    cursor: pointer;
+    width: 1em; height: 1em;
+    background-size: contain;
+    transition: all .2s ease-in-out;
+    display: inline-block;
+    position: absolute;
+    top: 0.25em; right: 0.25em;
+  }
+  
+  .editable:hover::after {
+    transform: scale(1.1);
+  }
+  
+  /* TUPLES */
+  

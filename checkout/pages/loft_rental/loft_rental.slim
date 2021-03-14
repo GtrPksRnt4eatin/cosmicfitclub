@@ -5,7 +5,7 @@ html
   head
     == no_scaling
 
-    == css ['fonts', 'site', 'flatpickr', 'loft_rental']
+    == css ['fonts', 'site', 'flatpickr', 'tuples', 'loft_rental']
     == js  ['jquery', 'lib', 'rivets', 'flatpickr', 'rv_dates', 'loft_rental']
 
   body
@@ -19,16 +19,18 @@ html
         h2
           | Cosmic Loft Rental Reservation Form
 
-        .tuplet
-          label Rental Start Time:
-          input rv-datefield='data.rental.starttime'
+        .tuple
+          .attrib Rental Start Time:
+          .value
+            input rv-datefield='data.rental.starttime'
         
-        .tuplet
-          label Duration (hrs):
-          select rv-value='data.rental.duration'
-            option value='1' 1
-            option value='2' 2
-            option value='3' 3
-            option value='4' 4
-            option value='5' 5
+        .tuple
+          .attrib Duration (hrs):
+          .value
+            select rv-value='data.rental.duration'
+              option value='1' 1
+              option value='2' 2
+              option value='3' 3
+              option value='4' 4
+              option value='5' 5
 
