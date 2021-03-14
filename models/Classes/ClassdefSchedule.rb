@@ -159,7 +159,7 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def image_url
-    self.image.try(:image_url) || self.classdef.image_url
+    self.image.try(:image_url) || self.teachers[0].try(:image_url) || self.classdef.image_url
   end
 
   def thumb_url
