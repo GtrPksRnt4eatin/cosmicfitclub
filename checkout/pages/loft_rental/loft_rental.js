@@ -1,7 +1,9 @@
 data = {
   rental: {
     starttime: '',
-    duration: 1
+    endtime: '',
+    activity: '',
+    note: ''
   }
 };
 
