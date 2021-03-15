@@ -1,0 +1,9 @@
+.tile {
+  padding: 1em;
+  width: 30em;
+  margin: 1em auto;
+}
+
+.tuple .attrib {
+  width: 8em;
+}
