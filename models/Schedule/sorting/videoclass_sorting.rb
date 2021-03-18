@@ -6,6 +6,7 @@ module Scheduling
     from    = Date.today.to_time
     to      = from + (7*24*60*60)
     classes = get_classitems_between(from,to)
+    classes.reject! { |x| x.teacher && x.teacher.id == 106 }
     events  = get_eventsessions_between(from,to)
     rentals = get_rentals_between(from,to)
     items   = events + classes + rentals
