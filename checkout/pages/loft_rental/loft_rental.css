@@ -7,3 +7,17 @@
 .tuple .attrib {
   width: 8em;
 }
+
+.tuple .value input.flatpickr-input,
+.tuple .value select,
+.tuple .value textarea {
+  background: none;
+  border: 0;
+  font-weight: bold;
+  font-family: 'Industry-Light';
+  font-size: 0.8em;
+}
+
+.tuple .value textarea {
+  width: 100%;
+}
