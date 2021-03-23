@@ -154,7 +154,7 @@ ReservationForm.prototype.HTML = ES5Template(function(){/**
         ( { state.class_passes | zero_if_null } Remaining )
       </button>
       <button rv-on-click='this.reserve_paynow' rv-enabled='state.reservation.customer_id'>
-        Pay $25 Now
+        Pay $12 Now
       </button>
     </div>
     <div class='errors'>
