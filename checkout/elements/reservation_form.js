@@ -104,7 +104,7 @@ ReservationForm.prototype = {
     classname = this.state.occurrence.classdef.name;
     teachername = this.state.occurrence.teacher.name;
     reason = `${classname} w/ ${teachername} - ${moment(this.state.occurrence.starttime).format('ddd MMM D @ h:mm a')}`;
-    this.ev_fire('paynow', [ this.state.reservation.customer_id, 2500, reason, null, this.after_paynow ]);
+    this.ev_fire('paynow', [ this.state.reservation.customer_id, 1200, reason, null, this.after_paynow ]);
 	},
 
   reserve_free(e,m) {
