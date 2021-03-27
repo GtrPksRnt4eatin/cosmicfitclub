@@ -36,6 +36,19 @@ class StripeRoutes < Sinatra::Base
       customer = Customer.find( :stripe_id => event['data']['object']['customer'] ) 
       Slack.post("#{customer.to_list_string} #{event['data']['object']['total']} Payment Due On #{Time.at(event['data']['object']['trial_end'].to_i).to_s}")
 
+    when 'invoice.payment_succeeded'
+
+      #event['data']['object']['id']
+      #event['data']['object']['customer_name']
+      #event['data']['object']['customer_email']
+
+      #event['data']['object']['amount_due']
+      #event['data']['object']['amount_paid']
+
+      #event['data']['object']['hosted_invoice_url']
+      
+      Slack.loft("Invoice Paid: \n#{event['data']['object']['customer_name']} [#{event['data']['object']['customer_email']}]\nPaid $#{event['data']['object']['amount_paid']} / $#{event['data']['object']['amount_due']}\n#{event['data']['object']['description']}")
+
     else
 
       Slack.post("Stripe Webhook: #{ event['type'] }")

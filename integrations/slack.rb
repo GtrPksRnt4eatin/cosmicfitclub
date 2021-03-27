@@ -20,6 +20,10 @@ module Slack
     Slack.custom(msg,'website_purchases')
   end
 
+  def Slack.loft(msg)
+    Slack.custom(msg,'cosmicloft')
+  end
+
   def Slack.custom(message, channel='website_notifications', attachment=nil)
     Slack.send({
       :channel     => channel,
