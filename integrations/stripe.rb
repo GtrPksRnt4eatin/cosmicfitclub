@@ -36,6 +36,7 @@ class StripeRoutes < Sinatra::Base
       customer = Customer.find( :stripe_id => event['data']['object']['customer'] ) 
       Slack.post("#{customer.to_list_string} #{event['data']['object']['total']} Payment Due On #{Time.at(event['data']['object']['trial_end'].to_i).to_s}")
 
+    when 'invoice.payment_succeeded'
     when 'invoice.paid'
 
       #event['data']['object']['id']
