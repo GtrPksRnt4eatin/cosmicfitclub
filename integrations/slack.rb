@@ -21,7 +21,7 @@ module Slack
   end
 
   def Slack.loft(msg)
-    Slack.custom(msg,'cosmicloft')
+    Slack.custom(msg,'loft')
   end
 
   def Slack.custom(message, channel='website_notifications', attachment=nil)
