@@ -5,8 +5,8 @@ html
   head
     == no_scaling
 
-    == css ['fonts', 'site', 'flatpickr', 'tuples', 'loft_rental']
-    == js  ['jquery', 'lib', 'rivets', 'flatpickr', 'rv_dates', 'loft_rental']
+    == css ['fonts', 'site', 'header', 'flatpickr', 'tuples', 'loft_rental']
+    == js  ['jquery', 'lib', 'rivets', 'flatpickr', 'rv_dates', '/admin/elements/custy_selector', 'loft_rental']
 
   body
 
@@ -50,4 +50,20 @@ html
           .attrib Description: 
           .value 
             textarea rv-value='data.rental.note'
+        
+        .tuple
+          .attrib # of Slots (max 4):
+          .value
+            select rv-value='data.rental.num_slots'
+              option value="1" 1
+              option value="2" 2
+              option value="3" 3
+              option value="4" 4
+        
+        div rv-if='data.rental.num_slots'
+          hr
+          .tuple
+            .attrib Slot #1
+            .value
+              
 
