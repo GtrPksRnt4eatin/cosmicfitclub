@@ -4,6 +4,7 @@ data = {
     endtime: '',
     activity: '',
     note: '',
+    slots: []
   },
   num_slots: 0
 };
@@ -12,6 +13,12 @@ ctrl = {
   set_num_slots: function(e,m) {
     data.num_slots = parseInt(e.target.value);
     data.num_slots = isNaN(data.num_slots) ? 0 : data.num_slots;
+    while(data.rental.slots.count<data.num_slots) {
+      data.rental.slots.push({ }); 
+    }
+    while(data.rental.slots.count>data.num.slots){
+      data.rental.slots.pop();
+    }
   },
 
   choose_custy: function(e,m) {

@@ -47,7 +47,7 @@ html
               option value="Lyra" Lyra
               option value="Other" Other
         
-        .tuple rv-if='data.rental.activity | equals Other'
+        .tuple rv-if="data.rental.activity | equals 'Other'"
           .attrib Description: 
           .value 
             textarea rv-value='data.rental.note'
@@ -64,7 +64,7 @@ html
         
         div rv-if='data.num_slots'
           hr
-          .tuple rv-each-slot='data.num_slots'
+          .tuple rv-each-slot='data.rental.slots'
             .attrib Slot #1
             .value
               input rv-on-click='ctrl.choose_custy'
