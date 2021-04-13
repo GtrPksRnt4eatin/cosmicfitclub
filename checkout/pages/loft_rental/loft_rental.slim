@@ -7,7 +7,7 @@ html
 
     == css ['fonts', 'site', 'header', 'flatpickr', 'tuples', 'loft_rental']
     == js  ['jquery', 'lib', 'element', 'ev_channel', 'rivets', 'flatpickr', 'rv_dates' ]
-    == js  ['/admin/elements/custy_selector', 'loft_rental']
+    == js  ['/auth/elements/userview', '/admin/elements/custy_selector', 'loft_rental']
 
   body
 
@@ -55,7 +55,7 @@ html
         .tuple
           .attrib # of Slots (max 4):
           .value
-            select rv-value='data.rental.num_slots'
+            select rv-on-change='ctrl.set_num_slots'
               option value="1" 1
               option value="2" 2
               option value="3" 3
@@ -63,8 +63,9 @@ html
         
         div rv-if='data.rental.num_slots'
           hr
-          .tuple
+          .tuple rv-each-slot='data.rental.num_slots'
             .attrib Slot #1
             .value
+              input rv-on-click='ctrl.choose_custy'
               
 

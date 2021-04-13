@@ -1,11 +1,11 @@
 .tile {
   padding: 1em;
-  width: 30em;
+  width: 25em;
   margin: 1em auto;
 }
 
 .tuple .attrib {
-  width: 8em;
+  width: 9em;
 }
 
 .tuple .value input.flatpickr-input,
@@ -18,10 +18,8 @@
   font-size: 0.8em;
 }
 
-.tuple .value input {
-  width: 100%;
-}
-
+.tuple .value input,
+.tuple .value select,
 .tuple .value textarea {
   width: 100%;
 }
