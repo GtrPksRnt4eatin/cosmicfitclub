@@ -23,7 +23,9 @@ ctrl = {
 $(document).ready( function() {
 
   include_rivets_dates();
+  rivets.formatters.equals = function(val, arg) { return val == arg; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+
 
   custy_selector = new CustySelector();
 

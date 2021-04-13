@@ -45,9 +45,9 @@ html
               option value="Spotting Belt" Spotting Belt
               option value="Straps" Straps
               option value="Lyra" Lyra
-              option value="Other Aerial Apparatus" Other Aerial Apparatus
+              option value="Other" Other
         
-        .tuple 
+        .tuple rv-if='data.rental.activity | equals Other'
           .attrib Description: 
           .value 
             textarea rv-value='data.rental.note'
