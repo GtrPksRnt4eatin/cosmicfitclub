@@ -18,6 +18,10 @@
   font-size: 0.8em;
 }
 
+.tuple .value input {
+  width: 100%;
+}
+
 .tuple .value textarea {
   width: 100%;
 }
