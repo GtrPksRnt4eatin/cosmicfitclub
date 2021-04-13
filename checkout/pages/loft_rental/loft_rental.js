@@ -4,8 +4,8 @@ data = {
     endtime: '',
     activity: '',
     note: '',
-    num_slots: 0
-  }
+  },
+  num_slots: 0
 };
 
 ctrl = {
