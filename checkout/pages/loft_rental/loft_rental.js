@@ -10,7 +10,8 @@ data = {
 
 ctrl = {
   set_num_slots: function(e,m) {
-    data.num_slots = itoa(e.target.value);
+    data.num_slots = parseInt(e.target.value);
+    data.num_slots = isNaN(data.num_slots) ? 0 : data.num_slots;
   },
 
   choose_custy: function(e,m) {
