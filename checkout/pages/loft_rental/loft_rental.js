@@ -16,7 +16,7 @@ ctrl = {
     while(data.rental.slots.count<data.num_slots) {
       data.rental.slots.push({ }); 
     }
-    while(data.rental.slots.count>data.num.slots){
+    while(data.rental.slots.count>data.num_slots){
       data.rental.slots.pop();
     }
   },
