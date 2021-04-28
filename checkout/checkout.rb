@@ -21,7 +21,6 @@ class Checkout < Sinatra::Base
     etag settings.start_time.to_s
     cache_control :no_cache
     origin_ok = ['https://video.cosmicfitclub.com', 'https://localhost:3000'].include? request.env["HTTP_ORIGIN"]
-    puts "#{request.env["HTTP_ORIGIN"]} origin_ok: #{origin_ok}"
     response.headers['Access-Control-Allow-Origin'] = request.env["HTTP_ORIGIN"] if origin_ok
     response.headers['Access-Control-Allow-Credentials'] = 'true'
   end
@@ -86,7 +85,8 @@ class Checkout < Sinatra::Base
   options "*" do
     response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
-    response.headers['Access-Control-Allow-Origin'] = 'https://video.cosmicfitclub.com'
+    origin_ok = ['https://video.cosmicfitclub.com', 'https://localhost:3000'].include? request.env["HTTP_ORIGIN"]
+    response.headers['Access-Control-Allow-Origin'] = request.env["HTTP_ORIGIN"] if origin_ok
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     200
   end
