@@ -99,7 +99,7 @@ SaveCardForm.prototype = {
   },
 
   save_entered: function(e,m) {
-    $.post('/checkout/save_card', { token: this.state.token, customer_id: this.state.customer.id } )
+    $.post('/checkout/save_card', { token: this.state.token.id, customer_id: this.state.customer.id } )
      .success( this.after_save )
      .fail(    this.on_fail    )
      .then(    this.hide       )
