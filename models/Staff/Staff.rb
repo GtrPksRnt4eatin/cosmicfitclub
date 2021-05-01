@@ -249,6 +249,7 @@ def Staff::payroll(from, to)
 
       occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.6)
       occurrence_row[:pay] = 5000 if teacher_row[:staff_id] == 104
+      occurrence_row[:pay] = occurrence_row[:cosmic] if teacher_row[:staff_id] == 106
 
       occurrence_row[:cosmic] = occurrence_row[:cosmic] - occurrence_row[:pay]
 
