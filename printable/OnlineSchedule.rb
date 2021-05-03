@@ -43,8 +43,8 @@ module OnlineSchedule
         :ptscale2 => 0.9,
         :rowsize  => 3,
         :images   => ClassDef.list_active_and_current.map { |s|
-          { :img   => s.image[:small].url,
-            :lines => s.footer_lines
+          { :img   => s.thumbnail_image,
+            :lines => s.footer_lines_teachers
           }
         }
       },

@@ -7,6 +7,7 @@ class ClassdefSchedule < Sequel::Model
   one_to_many :exceptions, :key => :class_schedule_id, :class => :ClassException
 
   many_to_one :image, :key => :image_id, :class=>:StoredImage
+  many_to_one :location
 
   def ClassdefSchedule.find_matching_schedule(occurrence)
     ClassdefSchedule.where(classdef_id: occurrence.classdef_id).each do |sched|

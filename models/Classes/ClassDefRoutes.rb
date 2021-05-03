@@ -341,6 +341,14 @@ class ClassDefRoutes < Sinatra::Base
 
   ######################### EXCEPTIONS ############################
 
+  ########################## LOCATIONS ############################
+
+  get '/locations' do
+    Location.all.to_json
+  end
+
+  ########################## LOCATIONS ############################
+
   error do
     Slack.err( 'Class Models Error', env['sinatra.error'] )
     'An Error Occurred.'

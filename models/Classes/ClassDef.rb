@@ -10,6 +10,8 @@ class ClassDef < Sequel::Model
   one_to_many :occurrences, :class => :ClassOccurrence,  :key => :classdef_id
   one_to_many :exceptions,  :class => :ClassException,   :key => :classdef_id
 
+  many_to_one :location
+
   ####################### LISTS ############################
 
   def ClassDef.list_active_and_current
@@ -36,10 +38,10 @@ class ClassDef < Sequel::Model
     super
   end
 
-  def thumbnail_image
+  def thumbnail_image(size=:small)
     return ''             if self.image.nil?
     return self.image_url if self.image.is_a? ImageUploader::UploadedFile
-    return self.image[:small].url
+    return self.image[size].url
   end
 
   def create_schedule(data)

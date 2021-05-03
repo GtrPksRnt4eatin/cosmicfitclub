@@ -1,7 +1,8 @@
 data = {
   instructors: [],
   class: {},
-  schedules: []
+  schedules: [],
+  locations: []
 }
 
 ctrl = {
@@ -72,6 +73,7 @@ $(document).ready(function() {
   get_staff().then(function() { scheduleform.instructors = data['instructors']; } );
   get_classdef();
   get_schedules();
+  get_locations();
 
 });
 
@@ -108,4 +110,8 @@ function get_schedules() {
 
 function get_staff() {
   return $.get('/models/staff', function(resp) { data.instructors = resp; } )
+}
+
+function get_locations() {
+  return $.get('/models/locations', function(resp) { data.locations = resp; } )
 }

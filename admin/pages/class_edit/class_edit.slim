@@ -33,6 +33,11 @@ html
             img.picpreview.filler#nopic rv-unless='data.class.image_url' rv-on-click='ctrl.edit_image'
 
         .tuplet
+          label Location:
+          select
+            option rv-each-loc={data.locations} value={loc.id} {loc.name}
+
+        .tuplet
           label Details:
           textarea#details rv-value='data.class.description'
 
