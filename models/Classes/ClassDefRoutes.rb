@@ -44,7 +44,7 @@ class ClassDefRoutes < Sinatra::Base
       classdef = ClassDef.create(name: params[:name], description: params[:description], image: params[:image], position: ClassDef.max(:position) + 1)
     else
       classdef = ClassDef[params[:id]]
-      classdef.update_fields(params, [ :name, :description ] )
+      classdef.update_fields(params, [ :name, :description, :location_id ] )
       classdef.update( :image => params[:image] ) unless params[:image].nil?
     end
     classdef.to_json
