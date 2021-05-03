@@ -74,7 +74,7 @@ module DailyPromo
     image = MiniMagick::Image.open("printable/assets/4x5_bg.jpg")
     image.draw_elements([
       { :type => 'box', 
-        :width => 1080,
+        :width => 1079,
         :height => 350,
         :gravity => 'south',
         :color => '#00000055',
@@ -97,7 +97,7 @@ module DailyPromo
         :text     => "video.cosmicfitclub.com"
       },
       { :type => 'box', 
-        :width => 1080,
+        :width => 1079,
         :height => 100,
         :gravity => 'south',
         :y_offset => 1260,

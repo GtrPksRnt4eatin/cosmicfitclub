@@ -30,6 +30,7 @@ module MiniMagickExtensions
             el[:height]   ||= el[:width]
             el[:rowsize]  ||= 1
             num_rows    = (el[:images].count.to_f / el[:rowsize]).ceil
+            next if num_rows == 0
             tot_margins_x = ( el[:rowsize].to_i + 1 ) * el[:margin_x].to_i
             tot_margins_y = ( num_rows + 1 ) * el[:margin_y].to_i
             box_width   = ( el[:width].to_i  - tot_margins_x ) / el[:rowsize].to_i

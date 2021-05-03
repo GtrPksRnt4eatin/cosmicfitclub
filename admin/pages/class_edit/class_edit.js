@@ -34,7 +34,12 @@ ctrl = {
   edit_image(e,m) {
     img_chooser.resize(500,500); 
     if(data.class.image_data && JSON.stringify(data.class.image_data) !== '{}') {
-      img_chooser.load_image(data.class.image_data.original.metadata.filename, data.class.image_url);
+      if( data.class.image_data.original) {
+        img_chooser.load_image(data.class.image_data.original.metadata.filename, data.class.image_url);
+      }
+      else {
+        img_chooser.load_image(data.class.image_data.metadata.filename, data.class.image_url);
+      }
     }
     img_chooser.show_modal(null,null,function(val) {
       popupmenu.hide();
