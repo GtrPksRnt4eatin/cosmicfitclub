@@ -11,7 +11,8 @@ ctrl = {
     let payload = {
       id: m.data.class.id,
       name: m.data.class.name,
-      description: m.data.class.description
+      description: m.data.class.description,
+      location_id: m.data.class.location_id
     }
     $.post('/models/classdefs', payload).then( function() { get_schedules(); } );
   },

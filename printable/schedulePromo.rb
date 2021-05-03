@@ -15,10 +15,10 @@ module SchedulePromo
 
   def SchedulePromo::generate_all()
     grouped = ClassdefSchedule.all.group_by { |x| { :class=> x.classdef.name, :teacher=>x.teachers.map(&:name).join(', ') } }
-    list = grouped.map { |k,v| { :teacher => k[:teacher], :img => v[0].image_url, :lines => [k[:class], "w/ " + k[:teacher], v.map(&:simple_meeting_time_description).join(", ")] } } 
+    list = grouped.map { |k,v| { :teacher => k[:teacher], :img => v[0].img_url, :lines => [k[:class], "w/ " + k[:teacher], v.map(&:simple_meeting_time_description).join(", ")] } } 
     list.each{ |x| SchedulePromo::generate4x5(x).save("vidpromos/schedules/#{x[:lines][0]} - #{x[:teacher]}.jpg") }
     list.each{ |x| SchedulePromo::generate_fbevent(x).save("vidpromos/fbevent/#{x[:lines][0]} - #{x[:teacher]}.jpg") }
-    SchedulePromo::generate_allinone(list)
+    SchedulePromo::generate_allinone()
   end
 
   def SchedulePromo::generateall_fbevent()
@@ -29,7 +29,7 @@ module SchedulePromo
 
   def SchedulePromo::generate_allinone()
     grouped = ClassdefSchedule.all.group_by { |x| { :class=> x.classdef.name, :teacher=>x.teachers.map(&:name).join(', ') } }
-    list = grouped.map { |k,v| { :teacher => k[:teacher], :img => v[0].image_url, :lines => [k[:class], "w/ " + k[:teacher], v.map(&:simple_meeting_time_description).join(", ")] } } 
+    list = grouped.map { |k,v| { :teacher => k[:teacher], :img => v[0].img_url, :lines => [k[:class], "w/ " + k[:teacher], v.map(&:simple_meeting_time_description).join(", ")] } } 
     image = MiniMagick::Image.open("printable/assets/4x5_bg.jpg")
     image.draw_elements([
       { :type => 'box', 
