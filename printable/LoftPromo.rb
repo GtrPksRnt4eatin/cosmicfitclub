@@ -36,7 +36,7 @@ module LoftPromo
         :ptscale  => 0.05,
         :ptscale2 => 0.9,
         :img      => ClassDef[173].image_url,
-        :lines    => ["Cosmic Greenpoint Loft", "Available for Small Groups", "Aerial Point, Spotting Belt, 18ft Ceilings", "$12/person/hr"]
+        :lines    => ["Cosmic Greenpoint Loft", "Available for Small Groups", "Aerial Point, Spotting Belt, 18ft Ceilings", "sam@cosmicfitclub.com for bookings", "$12/person/hr"]
       },
       { :type => 'box', 
         :width => 1079,
