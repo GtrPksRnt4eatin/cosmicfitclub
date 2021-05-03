@@ -34,7 +34,7 @@ html
 
         .tuplet
           label Location:
-          select
+          select rv-value='data.class.location_id'
             option rv-each-loc='data.locations' value='loc.id' 
               | {loc.name}
 

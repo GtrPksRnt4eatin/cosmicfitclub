@@ -113,5 +113,5 @@ function get_staff() {
 }
 
 function get_locations() {
-  return $.get('/models/locations', function(resp) { data.locations = resp; } )
+  return $.get('/models/classdefs/locations', function(resp) { data.locations = resp; } )
 }
