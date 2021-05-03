@@ -34,9 +34,10 @@ html
 
         .tuplet
           label Location:
-          select rv-value='data.class.location_id'
-            option rv-each-loc='data.locations' value='loc.id' 
-              | {loc.name}
+          .control
+            select rv-value='data.class.location_id'
+              option rv-each-loc='data.locations' rv-value='loc.id' 
+                | {loc.name}
 
         .tuplet
           label Details:
