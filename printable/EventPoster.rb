@@ -9,7 +9,7 @@ module EventPoster
     arr.push({ :img => EventPoster::generate4x5(event.id),       :title => "#{event.name.truncate(12)}_fbpost"  })
     #arr.push({ :img => EventPoster::generate1080x1080(event.id), :title => "#{event.name.truncate(12)}_square"  })
     #arr.push({ :img => EventPoster::generate1080x1920(event.id), :title => "#{event.name.truncate(12)}_story"   })
-    arr.push({ :img => EventPoster::generateFBEvent(event.id),   :title => "#{event.name.truncate(12)}_fbevent" })
+    #arr.push({ :img => EventPoster::generateFBEvent(event.id),   :title => "#{event.name.truncate(12)}_fbevent" })
   end
 
   def EventPoster::generate_all(event_id)
@@ -45,7 +45,7 @@ module EventPoster
         :gravity => 'south',
         :y_offset => 1260,
         :color => '#00000055',
-        :stroke => "#E0E0E0",
+        :stroke => "#E0E0E0"
       },
       { :type     => "highlight_text",
         :x_offset => 0,
