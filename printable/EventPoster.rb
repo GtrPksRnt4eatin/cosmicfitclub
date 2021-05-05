@@ -7,8 +7,8 @@ module EventPoster
   def EventPoster::generate_for_bot(event)
     arr = []
     arr.push({ :img => EventPoster::generate4x5(event.id),       :title => "#{event.name.truncate(12)}_fbpost"  })
-    arr.push({ :img => EventPoster::generate1080x1080(event.id), :title => "#{event.name.truncate(12)}_square"  })
-    arr.push({ :img => EventPoster::generate1080x1920(event.id), :title => "#{event.name.truncate(12)}_story"   })
+    #arr.push({ :img => EventPoster::generate1080x1080(event.id), :title => "#{event.name.truncate(12)}_square"  })
+    #arr.push({ :img => EventPoster::generate1080x1920(event.id), :title => "#{event.name.truncate(12)}_story"   })
     arr.push({ :img => EventPoster::generateFBEvent(event.id),   :title => "#{event.name.truncate(12)}_fbevent" })
   end
 
@@ -32,12 +32,31 @@ module EventPoster
       },
       { :type     => 'event_bubble',
         :event_id => event_id,
-        :x_offset => 40,
-        :y_offset => 311,
-        :width    => 1000,
-        :margin   => 3,
+        :x_offset => 50,
+        :y_offset => 260,
+        :width    => 975,
+        :margin   => 5,
         :ptscale  => 0.05,
         :ptscale2 => 0.043
+      },
+      { :type => 'box', 
+        :width => 1080,
+        :height => 100,
+        :gravity => 'south',
+        :y_offset => 1260,
+        :color => '#00000055',
+        :stroke => "#E0E0E0",
+      },
+      { :type     => "highlight_text",
+        :x_offset => 0,
+        :y_offset => 20,
+        :ptsize   => 12,
+        :strokewidth => 2,
+        :stroke   => "#FFFFFFDD",
+        :fill    => "#FFFFFFDD",
+        :kerning  => 5,
+        :gravity  => "South",
+        :text     => "cosmicfitclub.com/#{Event[event_id].short_path}"
       }
     ])
   end
