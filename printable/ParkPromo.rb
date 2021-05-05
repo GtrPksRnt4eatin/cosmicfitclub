@@ -36,7 +36,7 @@ module ParkPromo
           :ptscale  => 0.05,
           :ptscale2 => 0.9,
           :img      => ClassDef[174].image_url,
-          :lines    => ["Acroyoga for Beginners", "Hunters Point Park South", "Sundays @ 3:30pm", "joy@cosmicfitclub.com for registration", "$16/class"]
+          :lines    => ["Acroyoga for Beginners", "Hunters Point Park South Oval", "Sundays @ 3:30pm", "joy@cosmicfitclub.com for registration", "$15/class"]
         },
         { :type => 'box', 
           :width => 1079,
