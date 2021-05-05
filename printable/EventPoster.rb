@@ -26,9 +26,9 @@ module EventPoster
     @@image = MiniMagick::Image.open("printable/assets/4x5_bg.jpg")
     @@image.draw_elements([
       { :type     => 'logo',
-        :x_offset => 215,
-        :y_offset => 30,
-        :width    => 650
+        :x_offset => 320,
+        :y_offset => 20,
+        :width    => 400
       },
       { :type     => 'event_bubble',
         :event_id => event_id,
