@@ -94,7 +94,7 @@ module MiniMagickExtensions
         ptsize2 = (opts[:width] * opts[:ptscale2]) / 300 * 72 
         event = Event[opts[:event_id]] or return
         p opts[:wide]
-        img = MiniMagick::Image.open(event.image[:original].url) unless opts[:wide]
+        img = MiniMagick::Image.open(event.image_url) unless opts[:wide]
         img = MiniMagick::Image.open(event.wide_image.url)       if     opts[:wide]
         img.resize_with_crop(opts[:width].to_i,opts[:height].to_i,{ :geometry => :center })
         img.footer_lines( { :lines => event.poster_lines, :ptsize => ptsize, :ptsize2 => ptsize2 } )
