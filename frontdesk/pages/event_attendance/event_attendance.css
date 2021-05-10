@@ -104,7 +104,8 @@
 @media(max-width: 800px) {
 
   .tile {
-    width: 100%;
+    font-size: 2vw;
+    width: auto;
     margin: 1em;
   }
 
