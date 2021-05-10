@@ -186,7 +186,7 @@ class Event < Sequel::Model
 
   def to_json(options = {})
     val = JSON.parse super
-    val['image_url'] = image.nil? ? '' : image[:original].url
+    val['image_url'] = self.image_url
     JSON.generate val
   end
 
