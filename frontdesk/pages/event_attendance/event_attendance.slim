@@ -20,6 +20,8 @@ html
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
+    
+    == no_scaling
 
     == css [ 'fonts', 'chosen-ems', 'site', 'header', 'edit_page', 'selectize', 'event_attendance' ]
 
