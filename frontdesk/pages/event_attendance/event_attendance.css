@@ -100,3 +100,12 @@
   position: absolute;
   top: .5em; right: .5em;
 }
+
+@media(max-width: 800px) {
+
+  .tile {
+    width: 100%;
+    margin: 1em;
+  }
+
+}

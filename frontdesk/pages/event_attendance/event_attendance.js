@@ -111,7 +111,12 @@ function initialize_rivets() {
 }
 
 function update_data() {
-	$.get(`/models/events/${data['event'].id}/attendance2`, on_attendance);
+  $.get(`/models/events/${data['event'].id}`, on_event); 
+  $.get(`/models/events/${data['event'].id}/attendance2`, on_attendance);
+}
+
+function on_event(event) {
+  data['event'] = event;
 }
 
 function on_attendance(attendance) { 
