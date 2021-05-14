@@ -101,7 +101,7 @@
   top: .5em; right: .5em;
 }
 
-@media(max-width: 800px) {
+@media(max-width: 1050px) {
 
   .tile {
     font-size: 2vw;
