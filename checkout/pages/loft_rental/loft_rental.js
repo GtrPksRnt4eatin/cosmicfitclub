@@ -28,7 +28,13 @@ ctrl = {
 
 $(document).ready( function() {
   include_rivets_dates();
+  
   rivets.formatters.equals = function(val, arg) { return val == arg; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+
+  popupmenu      = new PopupMenu( id('popupmenu_container') );
   custy_selector = new CustySelector();
+
+  custy_selector.ev_sub('show'       , popupmenu.show );
+  custy_selector.ev_sub('close_modal', popupmenu.hide );
 });
