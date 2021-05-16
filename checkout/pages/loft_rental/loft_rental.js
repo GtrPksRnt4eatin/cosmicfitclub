@@ -22,7 +22,9 @@ ctrl = {
   },
 
   choose_custy: function(e,m) {
-    custy_selector.choose_custy();
+    custy_selector.show_modal(m.slot.customer.id, function(custy_id) {
+      alert(custy_id);
+    } );
   }
 }
 
