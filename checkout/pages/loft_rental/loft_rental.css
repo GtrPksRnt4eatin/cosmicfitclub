@@ -26,3 +26,11 @@
 .tuple .value textarea {
   width: 100%;
 }
+
+@media (orientation: portrait) {
+  
+  .tile {
+    width: auto;
+  }
+
+}
