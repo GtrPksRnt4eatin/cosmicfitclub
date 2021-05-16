@@ -67,7 +67,7 @@ html
           .tuple rv-each-slot='data.rental.slots'
             .attrib
               | Slot \#{index | fix_index}
-            .value rv-on-click='ctrl.choose_custy'
+            .value.edit rv-on-click='ctrl.choose_custy'
               | {slot.customer_string}
 
     #popupmenu_container
