@@ -28,10 +28,11 @@ ctrl = {
 
 $(document).ready( function() {
   include_rivets_dates();
-  
+
   rivets.formatters.equals = function(val, arg) { return val == arg; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 
+  userview       = new UserView(id('userview_container'));
   popupmenu      = new PopupMenu( id('popupmenu_container') );
   custy_selector = new CustySelector();
 
