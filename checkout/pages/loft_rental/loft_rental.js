@@ -31,7 +31,9 @@ ctrl = {
 $(document).ready( function() {
   include_rivets_dates();
 
-  rivets.formatters.equals = function(val, arg) { return val == arg; }
+  rivets.formatters.equals    = function(val, arg) { return val == arg; }
+  rivets.formatters.fix_index = function(val, arg) { return val + 1; }
+
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 
   userview       = new UserView(id('userview_container'));
