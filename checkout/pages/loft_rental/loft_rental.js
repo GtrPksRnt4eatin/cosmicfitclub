@@ -14,7 +14,7 @@ ctrl = {
     data.num_slots = parseInt(e.target.value);
     data.num_slots = isNaN(data.num_slots) ? 0 : data.num_slots;
     while(data.rental.slots.length<data.num_slots) {
-      data.rental.slots.push({ }); 
+      data.rental.slots.push({ customer: { id: 0, name: '' } }); 
     }
     while(data.rental.slots.length>data.num_slots){
       data.rental.slots.pop();
@@ -23,6 +23,7 @@ ctrl = {
 
   choose_custy: function(e,m) {
     custy_selector.show_modal(m.slot.customer.id, function(custy_id) {
+      m.slot.customer.id = custy_id;
       alert(custy_id);
     } );
   }
