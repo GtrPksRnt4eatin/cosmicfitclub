@@ -44,4 +44,5 @@ $(document).ready( function() {
 
   custy_selector.ev_sub('show'       , popupmenu.show );
   custy_selector.ev_sub('close_modal', popupmenu.hide );
+  
 });
