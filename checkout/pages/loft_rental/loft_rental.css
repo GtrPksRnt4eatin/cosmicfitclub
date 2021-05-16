@@ -8,6 +8,10 @@
   width: 9em;
 }
 
+.tuple .value {
+  font-size: 0.7em;
+}
+
 .tuple .value input.flatpickr-input,
 .tuple .value select,
 .tuple .value textarea {
@@ -15,7 +19,6 @@
   border: 0;
   font-weight: bold;
   font-family: 'Industry-Light';
-  font-size: 0.8em;
 }
 
 .tuple .value input,
