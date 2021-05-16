@@ -27,6 +27,11 @@
   width: 100%;
 }
 
+.custy_selector .add_custy, 
+.custy_selector .edit_custy {
+  height: 4.37em;
+}
+
 @media (orientation: portrait) {
   
   .tile {
