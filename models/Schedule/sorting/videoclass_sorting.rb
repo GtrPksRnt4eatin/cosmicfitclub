@@ -6,10 +6,12 @@ module Scheduling
     from    = Date.today.to_time
     to      = from + (7*24*60*60)
     classes = get_classitems_between(from,to)
-    classes.reject!  { |x| x[:staff_id] == 106 }
-    events  = get_eventsessions_between(from,to)
-    rentals = get_rentals_between(from,to)
-    items   = events + classes + rentals
+    classes.reject!  { |x| x[:staff_id] == 106 }  # id106 == Cosmic Loft
+    classes.reject!  { |x| x[:location_id] != 3 } # id3 == Video Site
+    #events  = get_eventsessions_between(from,to)
+    #rentals = get_rentals_between(from,to)
+    #items   = events + classes + rentals
+    items   = classes 
     items   = items.sort_by { |x| x[:starttime] }
     { :earlier_today   => items.select { |x| (Date.today.to_time..(Time.now+(5*60))).cover? x[:endtime] },
       :happening_now   => items.select { |x| ((x[:starttime]-(5*60))..(x[:endtime]-(5*60))).cover? Time.now },

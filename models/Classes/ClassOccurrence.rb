@@ -155,10 +155,11 @@ class ClassOccurrence < Sequel::Model
       :staff_id    => staff_id,
       :classdef    => classdef.to_token,
       :teacher     => teacher.to_token,
+      :location    => classdef.location.try(:to_token) || { :id=>4 :name=>"Cosmic Fit Club (original)" },
       :next_id     => self.next_occurrence_id,
       :prev_id     => self.previous_occurrence_id,
       :thumb_url   => self.thumb_url,
-      :allow_free  => self.schedule.try(:allow_free)
+      :allow_free  => self.schedule.try(:allow_free),
     }
   end
 
