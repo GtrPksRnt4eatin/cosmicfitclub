@@ -7,7 +7,7 @@ module Scheduling
     to      = from + (7*24*60*60)
     classes = get_classitems_between(from,to)
     classes.reject!  { |x| x[:staff_id] == 106 }  # id106 == Cosmic Loft
-    classes.reject!  { |x| x[:location_id] != 3 } # id3 == Video Site
+    classes.reject!  { |x| x[:location][:id] != 3 } # id3 == Video Site
     #events  = get_eventsessions_between(from,to)
     #rentals = get_rentals_between(from,to)
     #items   = events + classes + rentals
