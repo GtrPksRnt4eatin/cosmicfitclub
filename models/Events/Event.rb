@@ -75,6 +75,12 @@ class Event < Sequel::Model
     self.image.nil? ? '' : self.image[:original].nil? ? self.image.url : self.image[:original].url
   end
 
+  def get_image(size)
+    return nil if self.image.nil?
+    return self.image[size] unless self.image[size].nil?
+    return self.image
+  end
+
   def thumb_url; thumb_image_url end
   def thumb_image_url
     self.image.nil? ? '' : ( self.image.is_a?(ImageUploader::UploadedFile) ? self.image_url : self.image[:medium].url )
