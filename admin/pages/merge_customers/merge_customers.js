@@ -2,27 +2,35 @@ ctrl = {
   load_custy1(e,m) {
     custy_selector.show_modal(0, function(custy_id) {
       data.custy1_id = custy_id || data.custy1_id;
-      $.get('/models/customers/' + data.custy1_id + '/fulldetails', function(custy) {
-        data.custy1 = custy;
-      }, 'json');
+      ctrl.refresh_custy1();
     });
   },
 
   load_custy2(e,m) {
     custy_selector.show_modal(0, function(custy_id) {
       data.custy2_id = custy_id || data.custy2_id;
-      $.get('/models/customers/' + data.custy2_id + '/fulldetails', function(custy) {
-        data.custy2 = custy;
-      }, 'json');
+      ctrl.refresh_custy2();
     });
   },
 
+  refresh_custy1(e,m) {
+    $.get('/models/customers/' + data.custy1_id + '/fulldetails', function(custy) {
+      data.custy1 = custy;
+    }, 'json');
+  },
+
+  refresh_custy2(e,m) {
+    $.get('/models/customers/' + data.custy2_id + '/fulldetails', function(custy) {
+      data.custy2 = custy;
+    }, 'json');
+  },
+
   merge_left(e,m) {
-    $.post('/models/customers/' + data.custy2_id + '/merge_into/' + data.custy1_id, function() { ctrl.load_custy1(); ctrl.load_custy2(); });
+    $.post('/models/customers/' + data.custy2_id + '/merge_into/' + data.custy1_id, function() { ctrl.refresh_custy1(); ctrl.refresh_custy2(); });
   },
 
   merge_right(e,m) {
-    $.post('/models/customers/' + data.custy1_id + '/merge_into/' + data.custy2_id, function() { ctrl.load_custy1(); ctrl.load_custy2(); });
+    $.post('/models/customers/' + data.custy1_id + '/merge_into/' + data.custy2_id, function() { ctrl.refresh_custy1(); ctrl.refresh_custy2(); });
   },
 
   del_custy1(e,m) {
