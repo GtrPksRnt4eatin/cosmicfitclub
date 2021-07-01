@@ -269,7 +269,7 @@ class ClassDefRoutes < Sinatra::Base
     end
 
     status 201
-    {}.to_json
+    occurrence.reservation.to_json
   end
 
   post '/reservations' do
@@ -296,7 +296,7 @@ class ClassDefRoutes < Sinatra::Base
     end
 
     status 201
-    {}.to_json
+    occurrence.reservation.to_json
   end
 
   post '/reservations/exists' do
