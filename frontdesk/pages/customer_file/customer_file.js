@@ -86,7 +86,8 @@ ctrl = {
     var package_price = $('#packages option:selected').data("price");
     payment_form.checkout( data.customer.id, package_price, package_name, null, function(payment_id) {
       $.post('/checkout/pack/buy', { customer_id: data.customer.id, pack_id: package_id , payment_id: payment_id })
-       .success( function() { alert('Purchase Successful'); } );
+       .success( function() { alert('Purchase Successful'); refresh_pass_data(); } )
+       .fail( function(xhr, textStatus, errorThrown) { alert(xhr.responseText); } );
     });
   },
 
@@ -270,14 +271,18 @@ function refresh_customer_data() {
   if(data.customer.id === undefined) return;
   $.get(`/models/customers/${data.customer.id}`,                 function(resp) { data.customer_info              = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/payment_sources`, function(resp) { data.customer.payment_sources   = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/class_passes`,    function(resp) { data.customer.class_passes      = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/membership`,      function(resp) { data.customer.membership_status = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/wallet`,          function(resp) { data.customer.wallet            = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/family`,          function(resp) { data.customer.family            = resp; }, 'json');
   $.get(`/models/customers/${data.customer.id}/subscriptions`,   function(resp) { data.customer.subscriptions     = resp; }, 'json');
+  refresh_pass_data();
   get_customer_payments();
   refresh_reservations();
+}
+
+function refresh_pass_data() {
+  $.get(`/models/customers/${data.customer.id}/class_passes`,    function(resp) { data.customer.class_passes      = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/wallet`,          function(resp) { data.customer.wallet            = resp; }, 'json');
 }
 
 function get_customer_payments() {
