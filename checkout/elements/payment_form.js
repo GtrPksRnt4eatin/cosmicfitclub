@@ -229,6 +229,9 @@ PaymentForm.prototype.HTML = ES5Template(function(){/**
         </td>
       </tr>
     </table>
+    <div rv-if="state.busy">
+      <img src='loading.svg'/>
+    </div>
   </div>
 
 **/}).untab(2);
