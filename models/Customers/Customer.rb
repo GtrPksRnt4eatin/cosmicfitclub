@@ -250,7 +250,7 @@ class Customer < Sequel::Model
     charge = StripeMethods::charge_card( token['id'], pack.price, email, pack.name, { :pack_id => pack_id } )
     self.add_payment( :stripe_id => charge.id, :amount => charge.amount , :reason =>"Bought #{pack.name}" , :type => 'new card' )
     self.add_passes( pack.num_passes, "Bought #{pack.name}", "" )
-    self.send_pack_email(pack)
+    #self.send_pack_email(pack)
   end
 
   def buy_pack_precharged(pack_id, payment_id)
@@ -259,7 +259,7 @@ class Customer < Sequel::Model
     payment.customer_id == self.id        or raise "Payment doesn't match Customer"
     #payment.amount == pack.price          or raise "Payment doesn't match amount"
     self.add_passes( pack.num_passes, "Bought #{pack.name}", "" ) 
-    self.send_pack_email(pack)
+    #self.send_pack_email(pack)
   end
 
   def send_pack_email(pack)
