@@ -172,10 +172,11 @@ Object.assign( PaymentForm.prototype, ev_channel);
 
 PaymentForm.prototype.HTML = ES5Template(function(){/**
 
-  <div class='PaymentForm form' >
+  <div class='PaymentForm form' rv-data-busy='state.busy'>
     <h2 class='nocusty'>Charging { state.customer.name } { state.price | money }</h2>
     <h2 class='custy'>Pay { state.price | money } now.</h2>
     <h3 rv-if='state.reason'>{ state.reason }</h3>
+    <img rv-if="state.busy" src='loading.svg'/>
     <table>
       <tr rv-if='state.swipe' >
         <th>Swiped Card</th>
@@ -187,7 +188,7 @@ PaymentForm.prototype.HTML = ES5Template(function(){/**
           </div>
         </td>
         <td>
-          <button rv-on-click='this.charge_swiped'> Pay Now </button>
+          <button rv-on-click='this.charge_swiped' rv-disabled='state.busy'> Pay Now </button>
         </td>
       </tr>
       <tr rv-each-card='state.customer.payment_sources'>
@@ -200,7 +201,7 @@ PaymentForm.prototype.HTML = ES5Template(function(){/**
           </div>
         </td>
         <td>
-          <button rv-on-click='this.charge_saved'> Pay Now </button>
+          <button rv-on-click='this.charge_saved' rv-disabled='state.busy'> Pay Now </button>
         </td>
       </tr>
       <tr>
@@ -209,7 +210,7 @@ PaymentForm.prototype.HTML = ES5Template(function(){/**
           <div id='card-element'></div> 
         </td>
         <td>
-          <button rv-on-click='this.charge_new' > Pay Now </button>
+          <button rv-on-click='this.charge_new' rv-disabled='state.busy'> Pay Now </button>
         </td>
       </tr>
       <tr>
@@ -225,13 +226,10 @@ PaymentForm.prototype.HTML = ES5Template(function(){/**
           </div>
         </td>
         <td>
-          <button rv-on-click='this.pay_cash'> Pay Now </button>
+          <button rv-on-click='this.pay_cash' rv-disabled='state.busy'> Pay Now </button>
         </td>
       </tr>
     </table>
-    <div rv-if="state.busy">
-      <img src='loading.svg'/>
-    </div>
   </div>
 
 **/}).untab(2);
