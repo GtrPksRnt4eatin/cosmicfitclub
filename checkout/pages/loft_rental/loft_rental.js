@@ -9,6 +9,8 @@ data = {
   num_slots: 0
 };
 
+var daypilot;
+
 ctrl = {
   set_num_slots: function(e,m) {
     data.num_slots = parseInt(e.target.value);
@@ -45,4 +47,11 @@ $(document).ready( function() {
   custy_selector.ev_sub('show'       , popupmenu.show );
   custy_selector.ev_sub('close_modal', popupmenu.hide );
   
+  setup_daypilot();
 });
+
+function setup_daypilot() {
+  daypilot = new DayPilot.Calendar('daypilot');
+  daypilot.viewType = "Week";
+  daypilot.init();
+}

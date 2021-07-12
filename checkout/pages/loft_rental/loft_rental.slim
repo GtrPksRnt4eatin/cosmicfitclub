@@ -6,7 +6,7 @@ html
     == no_scaling
 
     == css ['fonts', 'site', 'header', 'flatpickr', 'selectize-ems', 'tuples', 'loft_rental']
-    == js  ['jquery', 'lib', 'element', 'ev_channel', 'rivets', 'flatpickr', 'selectize.min', 'rv_dates' ]
+    == js  ['jquery', 'lib', 'element', 'ev_channel', 'rivets', 'flatpickr', 'selectize.min', 'rv_dates', 'daypilot-all.min' ]
     == js  ['/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector', 'loft_rental']
 
   body
@@ -35,6 +35,8 @@ html
           .attrib End Time:
           .value
             input rv-datefield='data.rental.endtime'
+
+        #daypilot
 
         .tuple
           .attrib Activity:
