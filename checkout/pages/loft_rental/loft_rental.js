@@ -57,5 +57,8 @@ function setup_daypilot() {
   daypilot.startDate = "2021-08-09"
   daypilot.businessBeginsHour = 15;
   daypilot.businessEndsHour = 22;
+  daypilot.dayBeginsHour = 15;
+  daypilot.dayEndsHour = 22;
+  daypilot.heightSpec = "BusinessHoursNoScroll"
   daypilot.init();
 }
