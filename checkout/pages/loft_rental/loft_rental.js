@@ -51,14 +51,50 @@ $(document).ready( function() {
 });
 
 function setup_daypilot() {
-  daypilot = new DayPilot.Calendar('daypilot');
+  daypilot = new DayPilot.Calendar('daypilot', {
+    viewType: "Week",
+    cellDuration: 60,
+    cellHeight: 50,
+    businessBeginsHour: 15,
+    businessEndsHour: 22,
+    dayBeginsHour: 15,
+    dayEndsHour: 22,
+    timeRangeSelectedHandling: "Enabled",
+    onTimeRangeSelected: async (args) => {
+      const modal = await DayPilot.Modal.prompt("Create a new event:", "Event 1");
+      const dp = args.control;
+      dp.clearSelection();
+      if (modal.canceled) { return; }
+      dp.events.add({
+        start: args.start,
+        end: args.end,
+        id: DayPilot.guid(),
+        text: modal.result
+      });
+    },
+    eventDeleteHandling: "Disabled",
+    eventMoveHandling: "Update",
+    onEventMoved: (args) => {
+      args.control.message("Event moved: " + args.e.text());
+    },
+    eventResizeHandling: "Update",
+    onEventResized: (args) => {
+      args.control.message("Event resized: " + args.e.text());
+    },
+    eventClickHandling: "Disabled",
+    eventHoverHandling: "Disabled",
+  });
+
+  /*
   daypilot.viewType = "Days";
   daypilot.days = 5;
   daypilot.startDate = "2021-08-09"
   daypilot.businessBeginsHour = 15;
   daypilot.businessEndsHour = 22;
-  daypilot.dayBeginsHour = 15;
+  daypilot.dayBeginsHour = 11;
   daypilot.dayEndsHour = 22;
   daypilot.heightSpec = "BusinessHoursNoScroll"
+  */
   daypilot.init();
 }
+
