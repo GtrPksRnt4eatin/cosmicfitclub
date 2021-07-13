@@ -163,6 +163,7 @@ h4 {
   font-size: 1em;
   line-height: 1.8em;
   z-index: 1;
+  position: relative;
 }
 
 .event_img {
