@@ -169,6 +169,9 @@ function calculate_total() {
 
     case 'external':
       break;
+  
+    case 'privates':
+      break;
 
     default: 
       alert('mode not set!');
