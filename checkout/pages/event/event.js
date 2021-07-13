@@ -94,7 +94,7 @@ function setup_daypilot() {
     days: 5,
     cellDuration: 30,
     cellHeight: 50,
-    headerDateFormat = "ddd MMM d",
+    headerDateFormat: "ddd MMM d",
     businessBeginsHour: 15,
     businessEndsHour: 22,
     dayBeginsHour: 15,
