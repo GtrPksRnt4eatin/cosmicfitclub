@@ -92,8 +92,9 @@ function setup_daypilot() {
   daypilot = new DayPilot.Calendar('daypilot', {
     viewType: "Days",
     days: 5,
-    cellDuration: 60,
+    cellDuration: 30,
     cellHeight: 50,
+    headerDateFormat = "ddd MMM d",
     businessBeginsHour: 15,
     businessEndsHour: 22,
     dayBeginsHour: 15,
