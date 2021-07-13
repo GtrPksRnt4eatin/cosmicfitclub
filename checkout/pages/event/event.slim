@@ -57,11 +57,11 @@ html
           .details rv-if='data.event_data.details'
             | { data.event_data.details }
           
-        .flex.flex3 rv-if='data.mode | equals 'privates' "
+        .flex.flex3 rv-if="data.mode | equals 'privates' "
 
           #daypilot  
 
-        .flex.flex3 rv-unless='data.mode | equals 'privates' "
+        .flex.flex3 rv-unless="data.mode | equals 'privates' "
 
           #sessions rv-unless='data.event_data.sessions | multiple'
             h4 Event Time
