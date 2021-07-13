@@ -180,7 +180,8 @@ class Event < Sequel::Model
       :short_url    => self.short_url,
       :sessions     => self.sessions,
       :prices       => self.available_prices,
-      :a_la_carte   => self.a_la_carte
+      :a_la_carte   => self.a_la_carte,
+      :mode         => self.mode
     }
   end
 
