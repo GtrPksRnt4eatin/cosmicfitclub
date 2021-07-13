@@ -93,7 +93,7 @@ function setup_daypilot() {
     viewType: "Days",
     days: 5,
     cellDuration: 30,
-    cellHeight: 50,
+    cellHeight: 25,
     headerDateFormat: "ddd MMM d",
     businessBeginsHour: 15,
     businessEndsHour: 22,
