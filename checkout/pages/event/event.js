@@ -1,6 +1,7 @@
 /////////////////////////////////////// INITIALIZATION //////////////////////////////////////////////////
 
 var STRIPE_HANDLER;
+var daypilot;
 
 var data = {
   selected_price: {},
@@ -61,8 +62,16 @@ function initialize_rivets() {
 
 function get_event_data() {
   $.get('/models/events/' + EVENT_ID)
-   .success( function(val) { data.event_data = val; set_event_mode(); set_first_price(); } )
+   .success( on_event_data )
    .fail( function() { alert("Failed to get Event"); } )
+}
+
+function on_event_data(val) {
+  data.event_data = val; 
+  set_event_mode(); 
+  set_first_price();
+  if(data.mode == 'privates')
+    setup_daypilot();
 }
 
 /////////////////////////////////////// INITIALIZATION //////////////////////////////////////////////////
@@ -70,14 +79,52 @@ function get_event_data() {
 ///////////////////////////////////////// DERIVATIONS ///////////////////////////////////////////////////
 
 function set_event_mode() {
-  
+  if( data.event_data.mode                      ) { data.mode = data.event_data.mode; return; }                  
   if( data.event_data.registration_url          ) { data.mode = 'external';   return; }
   if( data.event_data.a_la_carte                ) { data.mode = 'a_la_carte'; return; }
   if( data.event_data.prices.length>1           ) { data.mode = 'multi';      return; }
   if( free_event()                              ) { data.mode = 'free';       return; }
   if( data.event_data.prices[0].member_price==0 ) { data.mode = 'memberfree'; return; }
   if( data.event_data.prices.length == 1        ) { data.mode = 'single';     return; }
+}
 
+function setup_daypilot() {
+  daypilot = new DayPilot.Calendar('daypilot', {
+    viewType: "Days",
+    days: 5,
+    cellDuration: 60,
+    cellHeight: 50,
+    businessBeginsHour: 15,
+    businessEndsHour: 22,
+    dayBeginsHour: 15,
+    dayEndsHour: 22,
+    timeRangeSelectedHandling: "Enabled",
+    onTimeRangeSelected: async (args) => {
+      const modal = await DayPilot.Modal.prompt("Create a new event:", "Event 1");
+      const dp = args.control;
+      dp.clearSelection();
+      if (modal.canceled) { return; }
+      dp.events.add({
+        start: args.start,
+        end: args.end,
+        id: DayPilot.guid(),
+        text: modal.result
+      });
+    },
+    eventDeleteHandling: "Disabled",
+    eventMoveHandling: "Update",
+    onEventMoved: (args) => {
+      args.control.message("Event moved: " + args.e.text());
+    },
+    eventResizeHandling: "Update",
+    onEventResized: (args) => {
+      args.control.message("Event resized: " + args.e.text());
+    },
+    eventClickHandling: "Disabled",
+    eventHoverHandling: "Disabled",
+  });
+
+  daypilot.init();
 }
 
 function set_first_price() {
