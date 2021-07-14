@@ -92,6 +92,12 @@ html
                   | Slot \#{index | fix_index}
                 .value.edit rv-on-click='ctrl.choose_custy'
                   | {slot.customer_string}
+                                
+            hr width='75%'
+
+            div
+              button#checkout rv-on-click='ctrl.checkout' Pay { data.total_price | money }
+
 
         .flex.flex3 rv-unless="data.mode | equals 'privates' "
 
