@@ -285,6 +285,9 @@ var ctrl = {
       m.slot.customer_string = custy_selector.selected_customer.list_string;
       alert(custy_id);
     } );
+  },
+  clear_timeslot: function(e,m) {
+    data.selected_timeslot.starttime = null;
   }
 }
 

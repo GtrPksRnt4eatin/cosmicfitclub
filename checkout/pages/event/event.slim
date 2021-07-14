@@ -66,9 +66,9 @@ html
 
           div rv-if="data.selected_timeslot.starttime"
 
-            div.selected_timeslot
+            div.selected_timeslot.cancel rv-on-click="ctrl.clear_timeslot"
               | { data.selected_timeslot.starttime | fulldate }
-              
+
             .tuple
               .attrib # of Slots (max 4):
               .value
