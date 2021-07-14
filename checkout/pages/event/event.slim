@@ -65,6 +65,9 @@ html
             #daypilot  
 
           div rv-if="data.selected_timeslot.starttime"
+
+            div.selected_timeslot
+              | { data.selected_timeslot.starttime | fulldate }
               
             .tuple
               .attrib # of Slots (max 4):
