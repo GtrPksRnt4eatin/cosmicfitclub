@@ -17,17 +17,35 @@ var data = {
   event_data: {},
   customer_info: null,
   customer_status: null,
-  multiplier: 1
+  multiplier: 1,
+  selected_timeslot: {
+    starttime: null,
+    duration_min: 60
+  },
+  rental: {
+    starttime: '',
+    endtime: '',
+    activity: '',
+    note: '',
+    slots: []
+  },
+  num_slots: 0
 }
 
 $(document).ready( function() {
   userview = new UserView();
+  popupmenu      = new PopupMenu( id('popupmenu_container') );
+  custy_selector = new CustySelector();
+
+  custy_selector.ev_sub('show'       , popupmenu.show );
+  custy_selector.ev_sub('close_modal', popupmenu.hide );
 
   userview.ev_sub('on_user', function(custy) {
     if(custy==null) { data.customer_info = null; data.customer_status = null; return; }
     data.customer_info = custy;
     $.get('/models/customers/' + custy.id + '/status', function(val) { data.customer_status = val; calculate_total(); } )
   });
+
 
   initialize_stripe();
   initialize_rivets();
@@ -101,7 +119,9 @@ function setup_daypilot() {
     dayBeginsHour: 15,
     dayEndsHour: 22,
     timeRangeSelectedHandling: "Enabled",
-    onTimeRangeSelected: async (args) => {
+    onTimeRangeSelected: on_timeslot_selected,
+    /*
+    async (args) => {
       const modal = await DayPilot.Modal.prompt("Create a new event:", "Event 1");
       const dp = args.control;
       dp.clearSelection();
@@ -113,20 +133,19 @@ function setup_daypilot() {
         text: modal.result
       });
     },
+    */
     eventDeleteHandling: "Disabled",
-    eventMoveHandling: "Update",
-    onEventMoved: (args) => {
-      args.control.message("Event moved: " + args.e.text());
-    },
-    eventResizeHandling: "Update",
-    onEventResized: (args) => {
-      args.control.message("Event resized: " + args.e.text());
-    },
+    eventMoveHandling: "Disabled",
+    eventResizeHandling: "Disabled",
     eventClickHandling: "Disabled",
     eventHoverHandling: "Disabled",
   });
 
   daypilot.init();
+}
+
+function on_timeslot_selected(args) {
+  data.selected_timeslot.starttime = args.start;
 }
 
 function set_first_price() {
@@ -249,6 +268,23 @@ var ctrl = {
   set_multiplier(e,m) {
     data.multiplier = parseInt(e.target.value);
     calculate_total()
+  },
+  set_num_slots: function(e,m) {
+    data.num_slots = parseInt(e.target.value);
+    data.num_slots = isNaN(data.num_slots) ? 0 : data.num_slots;
+    while(data.rental.slots.length<data.num_slots) {
+      data.rental.slots.push({ customer_id: 0, customer_string: '' }); 
+    }
+    while(data.rental.slots.length>data.num_slots){
+      data.rental.slots.pop();
+    }
+  },
+  choose_custy: function(e,m) {
+    custy_selector.show_modal(m.slot.customer_id, function(custy_id) {
+      m.slot.customer_id = custy_id;
+      m.slot.customer_string = custy_selector.selected_customer.list_string;
+      alert(custy_id);
+    } );
   }
 }
 
