@@ -29,7 +29,7 @@ var data = {
     note: '',
     slots: []
   },
-  num_slots: 0
+  num_slots: 1
 }
 
 $(document).ready( function() {
