@@ -20,7 +20,7 @@ html
     == css [ 'fonts', 'site', 'menu_colors', 'header','footer', 'selectize-ems', 'tuples', 'event' ]
     == js  [ 'https://checkout.stripe.com/checkout' ]
     == js  [ 'jquery', 'lib', 'moment', 'rivets', 'rv_dates', 'rv_money', 'selectize.min', 'element', 'ev_channel', 'daypilot-all.min' ]
-    == js  [ '/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector', 'event' ]
+    == js  [ '/checkout/elements/payment_form', '/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector', 'event' ]
 
     javascript:
       EVENT_ID          = #{{ id }}
@@ -78,7 +78,6 @@ html
               .attrib # People (max 6):
               .value
                 select rv-on-change='ctrl.set_num_slots'
-                  option value="1" 1
                   option value="2" 2
                   option value="3" 3
                   option value="4" 4
@@ -96,7 +95,7 @@ html
             hr width='75%'
 
             div
-              button#checkout rv-on-click='ctrl.checkout' Pay { data.total_price | money }
+              button#checkout rv-on-click='ctrl.checkout_new' Pay { data.total_price | money }
 
 
         .flex.flex3 rv-unless="data.mode | equals 'privates' "

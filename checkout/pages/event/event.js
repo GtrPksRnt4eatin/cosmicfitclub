@@ -36,9 +36,15 @@ $(document).ready( function() {
   userview       = new UserView( id('userview_container') );
   popupmenu      = new PopupMenu( id('popupmenu_container') );
   custy_selector = new CustySelector();
+  pay_form       = new PaymentForm();
 
   custy_selector.ev_sub('show'       , popupmenu.show );
   custy_selector.ev_sub('close_modal', popupmenu.hide );
+
+  pay_form.customer_facing();
+  pay_form.ev_sub('show', popupmenu.show );
+  pay_form.ev_sub('hide', popupmenu.hide );
+  popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
 
   userview.ev_sub('on_user', function(custy) {
     if(custy==null) { data.customer_info = null; data.customer_status = null; return; }
@@ -151,9 +157,10 @@ function on_timeslot_selected(args) {
     return;
   }
   data.selected_timeslot.starttime = new Date(args.start.value);
-  data.num_slots = 1;
+  data.num_slots = 2;
   data.rental.slots = [];
   data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
+  data.rental.slots.push( { customer_id: 0, customer_string: "Add Student" } );
   calculate_total();
 }
 
@@ -273,6 +280,9 @@ var ctrl = {
   checkout(e,m) {
     checkout();
   },
+  checkout_new(e,m) {
+    checkout_new();
+  },
   tog_session(e,m) {
     if( data.mode !== 'a_la_carte' ) return;
     data.a_la_carte = true;
@@ -289,7 +299,7 @@ var ctrl = {
     data.num_slots = parseInt(e.target.value);
     data.num_slots = isNaN(data.num_slots) ? 0 : data.num_slots;
     while(data.rental.slots.length<data.num_slots) {
-      data.rental.slots.push({ customer_id: 0, customer_string: '' }); 
+      data.rental.slots.push({ customer_id: 0, customer_string: 'Add Student' }); 
     }
     while(data.rental.slots.length>data.num_slots){
       data.rental.slots.pop();
@@ -312,6 +322,13 @@ var ctrl = {
 
 
 ///////////////////////////////////////// STRIPE EVENTS //////////////////////////////////////////////////
+
+function checkout_new() {
+  calculate_total();
+  pay_form.checkout(userview.id, data.total_price, data.event_data.name,null, function(payment_id) {
+    alert(payment_id);
+  });
+}
 
 function checkout() {
 
