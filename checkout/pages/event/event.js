@@ -111,8 +111,8 @@ function setup_daypilot() {
   daypilot = new DayPilot.Calendar('daypilot', {
     viewType: "Days",
     days: 5,
-    cellDuration: 30,
-    cellHeight: 25,
+    cellDuration: 60,
+    cellHeight: 50,
     startDate:  "2021-08-09",
     headerDateFormat: "ddd MMM d",
     businessBeginsHour: 15,
@@ -146,11 +146,15 @@ function setup_daypilot() {
 }
 
 function on_timeslot_selected(args) {
-  (!userview.logged_in) && userview.onboard();
+  if(!userview.logged_in) {
+    userview.onboard();
+    return;
+  }
   data.selected_timeslot.starttime = new Date(args.start.value);
   data.num_slots = 1;
   data.rental.slots = [];
   data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
+  calculate_total();
 }
 
 function set_first_price() {
@@ -290,6 +294,7 @@ var ctrl = {
     while(data.rental.slots.length>data.num_slots){
       data.rental.slots.pop();
     }
+    calculate_total();
   },
   choose_custy: function(e,m) {
     custy_selector.show_modal(m.slot.customer_id, function(custy_id) {
