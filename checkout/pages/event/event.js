@@ -33,7 +33,7 @@ var data = {
 }
 
 $(document).ready( function() {
-  userview = new UserView();
+  userview       = new UserView( id('userview_container') );
   popupmenu      = new PopupMenu( id('popupmenu_container') );
   custy_selector = new CustySelector();
 
@@ -146,6 +146,7 @@ function setup_daypilot() {
 }
 
 function on_timeslot_selected(args) {
+  (!userview.logged_in) && userview.login;
   data.selected_timeslot.starttime = new Date(args.start.value);
 }
 
