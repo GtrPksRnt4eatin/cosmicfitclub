@@ -44,7 +44,7 @@ $(document).ready( function() {
   pay_form.customer_facing();
   pay_form.ev_sub('show', popupmenu.show );
   pay_form.ev_sub('hide', popupmenu.hide );
-  popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
+  popupmenu.ev_sub('close', pay_form.stop_listen_cardswipe);
 
   userview.ev_sub('on_user', function(custy) {
     if(custy==null) { data.customer_info = null; data.customer_status = null; return; }
