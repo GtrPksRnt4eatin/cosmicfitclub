@@ -146,8 +146,10 @@ function setup_daypilot() {
 }
 
 function on_timeslot_selected(args) {
-  (!userview.logged_in) && userview.login;
+  (!userview.logged_in) && userview.onboard();
   data.selected_timeslot.starttime = new Date(args.start.value);
+  data.num_slots = 1;
+  data.rental.slots[0] = { customer_id: userview.id, customer_string: userview.custy_string };
 }
 
 function set_first_price() {

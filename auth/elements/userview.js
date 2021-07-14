@@ -15,6 +15,7 @@ UserView.prototype = {
 	constructor: UserView,
 
   login()    { document.cookie = "loc=" + window.location.pathname; window.location = '/auth/login'; },
+  onboard()  { document.cookie = "loc=" + window.location.pathname; window.location = '/auth/onboard'; },
   logout()   { $.post('/auth/logout', function() { window.location.reload(); } ); },
   userpage() { window.location = '/user'; },
 
@@ -30,6 +31,10 @@ UserView.prototype = {
 
   get id() {
     return ( this.state.user ? this.state.user.id : 0 );
+  },
+
+  get custy_string() {
+    return  ( this.state.user ? `${this.state.user.name} ( ${this.state.user.email} )` : "" );
   },
 
   get user() {
