@@ -16,6 +16,8 @@ html
     meta name="description" content="#{event.name} @ Cosmic Fit Club" 
 
     == no_scaling
+
+    script src='https://js.stripe.com/v3/'
     
     == css [ 'fonts', 'site', 'menu_colors', 'header','footer', 'selectize-ems', 'tuples', 'event' ]
     == js  [ 'https://checkout.stripe.com/checkout' ]
@@ -26,6 +28,8 @@ html
       EVENT_ID          = #{{ id }}
       CUSTOMER          = #{{ customer.to_json( :include => [ :subscription, :plan ] ) }};
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
 
   body
 
