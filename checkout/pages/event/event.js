@@ -73,6 +73,7 @@ function initialize_rivets() {
   rivets.formatters.num_tix   = function(val)         { return ( val && val > 1 ) ? val + ' Tickets ' : ''; }
   rivets.formatters.first_price_title = function(val) { return ( val && val[0] ) ? val[0].title : ""; }
   rivets.formatters.diff_days = function(val,val2)    { return !moment(val).isSame(moment(val2), 'date'); }
+  rivets.formatters.fix_index = function(val, arg) { return val + 1; }
 
   rivets.bind( $('body'), { customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
