@@ -145,7 +145,7 @@ function setup_daypilot() {
 }
 
 function on_timeslot_selected(args) {
-  data.selected_timeslot.starttime = args.start;
+  data.selected_timeslot.starttime = new Date(args.start.value);
 }
 
 function set_first_price() {

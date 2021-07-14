@@ -61,13 +61,16 @@ html
           div rv-unless="data.selected_timeslot.starttime"
             h2
               | Choose an Available Timeslot:
+            br
 
             #daypilot  
 
           div rv-if="data.selected_timeslot.starttime"
 
             div.selected_timeslot.cancel rv-on-click="ctrl.clear_timeslot"
-              | { data.selected_timeslot.starttime | fulldate }
+              h2
+                | { data.selected_timeslot.starttime | fulldate }
+              br
 
             .tuple
               .attrib # of Slots (max 4):
