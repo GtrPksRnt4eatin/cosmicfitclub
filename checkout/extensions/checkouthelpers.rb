@@ -108,6 +108,8 @@ module Sinatra
     end
 
     def buy_event_privates
+      p params
+
       tic = EventTicket.create(
         :customer_id         => params[:customer_id],
         :event_id            => params[:event_id],
