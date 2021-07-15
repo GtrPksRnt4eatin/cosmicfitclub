@@ -148,7 +148,7 @@ class CFCAuth < Sinatra::Base
     custy = Customer.create( :name => data['name'], :email => data['email'] )
     custy.login.set_password!(params[:password]) if params[:password]
     #user = User.create(:customer => custy)
-    jwt = set_jwt_header(user)
+    jwt = set_jwt_header(custy.login)
     session[:user_id] = custy.login.id
     session[:customer_id] = custy.id
     return JSON.generate({ :id => custy.id })
