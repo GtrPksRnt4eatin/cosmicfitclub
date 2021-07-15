@@ -326,7 +326,8 @@ var ctrl = {
 
 function checkout_new() {
   calculate_total();
-  pay_form.checkout(userview.id, data.total_price, data.event_data.name,null, function(payment_id) {
+  let desc = data.event_data.name + ' - ' + data.selected_timeslot.starttime.toDateString() + ' ' + data.selected_timeslot.starttime.toLocaleTimeString() + ' - ' + new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000).toLocaleTimeString();
+  pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
     body = JSON.stringify({
       "event_id": data.event_data['id'],

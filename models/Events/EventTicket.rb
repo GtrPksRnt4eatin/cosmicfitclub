@@ -20,7 +20,7 @@ class EventTicket < Sequel::Model
   def after_create
     super
     self.generate_code
-    self.send_email
+    #self.send_email
     self.generate_passes
     self.send_notification
   rescue
@@ -81,7 +81,7 @@ class EventTicket < Sequel::Model
     return "Customer Doesn't Exist" if Customer[recipient_id].nil?
     return "Sessions Not Included On Ticket" unless (session_ids - self.included_sessions).empty?
     EventTicket.create( 
-      :customer_id        => self.customer_id,
+      :customer_id       => self.customer_id,
       :event_id          => self.event_id,
       :included_sessions => session_ids,
       :code              => self.code + '_split',
