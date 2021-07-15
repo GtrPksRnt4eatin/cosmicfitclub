@@ -13,9 +13,8 @@ class GroupReservation < Sequel::Model
       to   = Time.parse(to)   if   to.is_a? String
       self.order(:start_time).map do |res|
         next if res.start_time.nil?
-        start = Time.parse(res.start_time)
-        next if start < from
-        next if start >= to
+        next if res.start_time < from
+        next if res.start_time >= to
         {
           :start => res.start_time,
           :end   => res.end_time,
@@ -24,5 +23,5 @@ class GroupReservation < Sequel::Model
         }
       end.compact
     end
-    
+
 end
