@@ -108,8 +108,9 @@ module Sinatra
     end
 
     def buy_event_privates
-      data = JSON.parse request.body.read
+      puts request.body.read
       puts params
+      data = JSON.parse request.body.read
       puts data
 
       tic = EventTicket.create(
