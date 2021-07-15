@@ -130,7 +130,7 @@ module Sinatra
       data['slots'].each do |slot|
         GroupReservationSlot.create(
           :group_reservation_id => res.id,
-          :customer_id          => slot['customer_id'],
+          :customer_id          => (slot['customer_id']==0 ? nil : slot['customer_id']),
           :start_time           => data['start_time'],
           :duration_mins        => data['duration_mins'],
         )
