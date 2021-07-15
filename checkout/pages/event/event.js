@@ -33,6 +33,10 @@ var data = {
 }
 
 $(document).ready( function() {
+
+  initialize_stripe();
+  initialize_rivets();
+
   userview       = new UserView( id('userview_container') );
   popupmenu      = new PopupMenu( id('popupmenu_container') );
   custy_selector = new CustySelector();
@@ -52,9 +56,6 @@ $(document).ready( function() {
     $.get('/models/customers/' + custy.id + '/status', function(val) { data.customer_status = val; calculate_total(); } )
   });
 
-
-  initialize_stripe();
-  initialize_rivets();
   get_event_data();
 });
 
