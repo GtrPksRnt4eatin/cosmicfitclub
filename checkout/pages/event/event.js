@@ -334,7 +334,7 @@ function checkout_new() {
       "total_price": data.total_price,
       "payment_id": payment_id,
       "start_time": data.selected_timeslot.starttime.toISOString(),
-      "end_time": (data.selected_timeslot.starttime + 60*60).toISOString(),
+      "end_time": new Date(data.selected_timeslot.starttime + 60*60).toISOString(),
       "duration_mins": data.selected_timeslot.duration_min,
       "slots": data.rental.slots
     });
