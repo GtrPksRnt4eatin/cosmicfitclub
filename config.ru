@@ -134,6 +134,10 @@ map "/models/schedule" do
   run ScheduleRoutes
 end
 
+map "/models/groups" do
+  run GroupReservationRoutes
+end
+
 map "/offers" do
   run CFCOffers
 end
