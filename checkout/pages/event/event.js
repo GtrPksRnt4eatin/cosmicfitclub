@@ -214,6 +214,10 @@ function calculate_total() {
         case 5: data.total_price = 2200; break;
         case 6: data.total_price = 2400; break;
       }
+      $.get("/models/groups/range/2021-08-09/2021-08-14")
+       .success( function(val) {
+         console.log(val);
+       })
       break;
 
     default: 
