@@ -99,8 +99,7 @@ html
             hr width='75%'
 
             div
-              button#checkout rv-on-click='ctrl.checkout_new' Pay { data.total_price | money }
-
+              button#checkout rv-on-click='ctrl.checkout_new' Pay { data.total_price | money } Now
 
         .flex.flex3 rv-unless="data.mode | equals 'privates' "
 

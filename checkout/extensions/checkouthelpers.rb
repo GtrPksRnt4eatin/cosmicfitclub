@@ -107,6 +107,32 @@ module Sinatra
       status 204
     end
 
+    def buy_event_privates
+      tic = EventTicket.create(
+        :customer_id         => params[:customer_id],
+        :event_id            => params[:event_id],
+        :price               => params[:total_price].to_i,
+        :customer_payment_id => params[:payment_id]
+      )
+      
+      res = GroupReservation.create(
+        :start_time          => params[:start_time],
+        :end_time            => params[:end_time],
+        :customer_id         => params[:customer_id],
+        :payment_id          => params[:payment_id],
+        :event_ticket_id     => tic.id,
+      )
+
+      params[:slots].each do |slot|
+        GroupReservationSlot.create(
+          :group_reservation_id => res.id,
+          :customer_id          => slot[:customer_id],
+          :start_time           => params[:start_time],
+          :duration_mins        => params[:duration_mins],
+        )
+      end
+    end
+
     def register_event
       data = JSON.parse request.body.read
       custy = logged_in? ? customer : Customer.get_from_email( data['email'], "");

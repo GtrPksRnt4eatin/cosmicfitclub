@@ -208,11 +208,11 @@ function calculate_total() {
   
     case 'privates':
       switch(data.num_slots) {
-        case 2: data.total_price = 12000; break;
-        case 3: data.total_price = 15000; break;
-        case 4: data.total_price = 20000; break;
-        case 5: data.total_price = 22000; break;
-        case 6: data.total_price = 24000; break;
+        case 2: data.total_price = 1200; break;
+        case 3: data.total_price = 1500; break;
+        case 4: data.total_price = 2000; break;
+        case 5: data.total_price = 2200; break;
+        case 6: data.total_price = 2400; break;
       }
       break;
 
@@ -327,7 +327,22 @@ var ctrl = {
 function checkout_new() {
   calculate_total();
   pay_form.checkout(userview.id, data.total_price, data.event_data.name,null, function(payment_id) {
-    alert(payment_id);
+
+    body = JSON.stringify({
+      "event_id": data.event_data['id'],
+      "customer_id": userview.id,
+      "total_price": data.total_price,
+      "payment_id": payment_id,
+      "start_time": data.selected_timeslot.starttime,
+      "end_time": data.selected_timeslot.starttime + 60*60,
+      "duration_mins": data.selected_timeslot.duration_min,
+      "slots": data.rental.slots
+    });
+
+    $.post('charge_priv', body)
+     .done( on_successful_charge )
+     .fail( on_failed_charge )
+
   });
 }
 
