@@ -108,29 +108,31 @@ module Sinatra
     end
 
     def buy_event_privates
-      p params
+      data = JSON.parse request.body.read
+      puts params
+      puts data
 
       tic = EventTicket.create(
-        :customer_id         => params[:customer_id],
-        :event_id            => params[:event_id],
-        :price               => params[:total_price].to_i,
-        :customer_payment_id => params[:payment_id]
+        :customer_id         => data['customer_id'],
+        :event_id            => data['event_id'],
+        :price               => data['total_price'].to_i,
+        :customer_payment_id => data['payment_id']
       )
       
       res = GroupReservation.create(
-        :start_time          => params[:start_time],
-        :end_time            => params[:end_time],
-        :customer_id         => params[:customer_id],
-        :payment_id          => params[:payment_id],
+        :start_time          => data['start_time'],
+        :end_time            => data['end_time'],
+        :customer_id         => data['customer_id'],
+        :payment_id          => data['payment_id'],
         :event_ticket_id     => tic.id,
       )
 
-      params[:slots].each do |slot|
+      data['slots'].each do |slot|
         GroupReservationSlot.create(
           :group_reservation_id => res.id,
-          :customer_id          => slot[:customer_id],
-          :start_time           => params[:start_time],
-          :duration_mins        => params[:duration_mins],
+          :customer_id          => slot['customer_id'],
+          :start_time           => data['start_time'],
+          :duration_mins        => data['duration_mins'],
         )
       end
     end
