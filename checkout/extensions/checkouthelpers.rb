@@ -109,11 +109,8 @@ module Sinatra
 
     def buy_event_privates
       x = request.body.read
-      p x
-      puts x
 
       data = JSON.parse x
-      p data
 
       tic = EventTicket.create(
         :customer_id         => data['customer_id'],
@@ -138,6 +135,8 @@ module Sinatra
           :duration_mins        => data['duration_mins'],
         )
       end
+
+      status 204
     end
 
     def register_event
