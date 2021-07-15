@@ -109,8 +109,7 @@ Onboarding.prototype.HTML = `
       </div>
 
       <div class='section'>
-        <label rv-hide='state.acct_found>Choose A Password:</label>
-        <label rv-show='state.acct_found>Password:</label>
+        <label>Password:</label>
         <input class='password' type='password' rv-value='state.password'></input>
       </div>
 
