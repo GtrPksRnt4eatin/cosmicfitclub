@@ -8,7 +8,7 @@ class GroupReservationRoutes < Sinatra::Base
 
   get '/range/:from/:to' do
     content_type :json
-    GroupReservation.all_between(params[:from], params[to]).to_json
+    GroupReservation.all_between(params[:from], params[:to]).to_json
   end
 
   #################################### GROUP RESERVATION LISTS ##############################
