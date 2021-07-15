@@ -55,7 +55,7 @@ Onboarding.prototype = {
 
   register() {
     if(!this.validate_registration()) return;
-    var payload = JSON.stringify( { "name": this.state.name, "email": this.state.email } )
+    var payload = JSON.stringify( { "name": this.state.name, "email": this.state.email, "password": this.state.password } )
     $.post('/auth/register_and_login', payload, 'json')
      .fail(    this.show_http_error )
      .success( this.after_login     )
@@ -108,8 +108,9 @@ Onboarding.prototype.HTML = `
         <input class='email' rv-value='state.email' rv-on-input='check_email'></input>
       </div>
 
-      <div class='section' rv-show='state.acct_found'>
-        <label>Password:</label>
+      <div class='section'>
+        <label rv-hide='state.acct_found>Choose A Password:</label>
+        <label rv-show='state.acct_found>Password:</label>
         <input class='password' type='password' rv-value='state.password'></input>
       </div>
 
