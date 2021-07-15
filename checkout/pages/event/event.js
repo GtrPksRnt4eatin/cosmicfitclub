@@ -149,6 +149,13 @@ function setup_daypilot() {
     eventHoverHandling: "Disabled",
   });
 
+  $.get("/models/groups/range/2021-08-09/2021-08-14")
+  .success( function(val) {
+    for(i=0; i<val.length; i++) {
+      daypilot.events.add(val[i]);
+    }
+  })
+
   daypilot.init();
 }
 
@@ -214,10 +221,6 @@ function calculate_total() {
         case 5: data.total_price = 2200; break;
         case 6: data.total_price = 2400; break;
       }
-      $.get("/models/groups/range/2021-08-09/2021-08-14")
-       .success( function(val) {
-         console.log(val);
-       })
       break;
 
     default: 
