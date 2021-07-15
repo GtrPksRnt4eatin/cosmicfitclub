@@ -108,10 +108,10 @@ module Sinatra
     end
 
     def buy_event_privates
-      puts request.body.read
-      puts params
+      p request.body.read
+      p params
       data = JSON.parse request.body.read
-      puts data
+      p data
 
       tic = EventTicket.create(
         :customer_id         => data['customer_id'],
