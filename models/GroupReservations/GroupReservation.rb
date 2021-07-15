@@ -16,8 +16,8 @@ class GroupReservation < Sequel::Model
         next if res.start_time < from
         next if res.start_time >= to
         {
-            :start => res.start_time.strftime("%Y/%m/%dT%H:%M"),
-            :end   => res.end_time.strftime("%Y/%m/%dT%H:%M"),
+            :start => res.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
+            :end   => res.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
             :text  => "Reserved",
             :id    => res.id
         }
