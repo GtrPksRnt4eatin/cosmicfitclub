@@ -333,7 +333,7 @@ var ctrl = {
 
 function checkout_new() {
   calculate_total();
-  let desc = data.event_data.name + ' - ' + data.selected_timeslot.starttime.toDateString() + ' ' + data.selected_timeslot.starttime.toLocaleTimeString() + ' - ' + new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000).toLocaleTimeString();
+  let desc = data.event_data.name + ' - ' + data.selected_timeslot.starttime.toDateString() + ' ' + data.selected_timeslot.starttime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' - ' + new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
     body = JSON.stringify({
