@@ -108,8 +108,8 @@ module Sinatra
     end
 
     def buy_event_privates
-      p request.body.read
-      p params
+      p request.body.read.class
+      p params.class
       data = JSON.parse request.body.read
       p data
 
