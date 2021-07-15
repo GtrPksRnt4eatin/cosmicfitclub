@@ -9,7 +9,7 @@ class Checkout < Sinatra::Base
 
   register Sinatra::Auth
   use JwtAuth
-  use Rack::PostBodyContentTypeParser
+  use Rack::JSONBodyParser
 
   configure do
     enable :cross_origin
