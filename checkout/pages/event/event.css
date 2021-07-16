@@ -187,7 +187,7 @@ h4 {
   top: 0;
 }
 
-hr.mobile {
+.mobile {
   display: none;
 }
 
@@ -240,7 +240,7 @@ hr.mobile {
     width: 90%;
   }
 
-  hr.mobile {
+  .mobile {
     display: block;
   }
 

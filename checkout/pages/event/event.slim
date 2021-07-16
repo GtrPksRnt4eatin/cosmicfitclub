@@ -62,6 +62,10 @@ html
             | { data.event_data.details }
           
         .flex.flex3 rv-if="data.mode | equals 'privates' "
+          
+          hr.mobile width="75%"
+          br.mobile
+
           div rv-unless="data.selected_timeslot.starttime"
             h2
               | Choose an Available Timeslot:
@@ -70,8 +74,6 @@ html
             #daypilot  
 
           div rv-if="data.selected_timeslot.starttime"
-
-            hr.mobile width="75%"
 
             div.selected_timeslot
               h2
