@@ -46,10 +46,6 @@ table {
   white-space: pre-wrap;
 }
 
-.details {
-  text-align: left;
-}
-
 .custy_selector {
   font-size: 0.7vw;
   width: 35vw !important;
@@ -203,6 +199,7 @@ h4 {
 
   .details {
     font-size: 3.5vw;
+    line-height: 1.5em;
   }
 
   h4 {
