@@ -114,7 +114,7 @@ CustySelector.prototype = {
   get modal_dom() {
     var el = document.createElement("div");
     el.className = 'modal_container';
-    el.setAttribute("style", "display: inline-block; left: 0; right: 0; margin: auto; vertical-align: middle; background: rgb(100,100,100); padding: 1em; box-shadow: 0 0 0.5em white;");
+    el.setAttribute("style", "display: inline-block; left: 0; right: 0; margin: auto; vertical-align: middle; boder-radius: 2em; background: rgb(50,50,50); padding: 1.5em; box-shadow: 0 0 1em grey inset;");
     el.appendChild(this.dom);
     return el;
   },
