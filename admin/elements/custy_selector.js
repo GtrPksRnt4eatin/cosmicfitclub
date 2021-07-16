@@ -8,7 +8,7 @@ function CustySelector(parent) {
     new_customer_email: ""
   }
 
-  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer','init_selectize']);
+  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer','init_selectize','show_add_form']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
@@ -107,7 +107,7 @@ CustySelector.prototype = {
     return this.state.customers.find( function(val) { return val.id == this.state.customer_id; }.bind(this) );
   },
 
-  show_add_form() {
+  show_add_form: function(e,m) {
     this.state.show_add_form = true;
   }
 }
