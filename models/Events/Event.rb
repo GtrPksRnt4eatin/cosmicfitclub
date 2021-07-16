@@ -212,7 +212,7 @@ class Event < Sequel::Model
 
   def Event::list_past
     list = Event.all.select{|x| x.last_day < Date.today }
-    list.sort_by { |x| x.starttime }.map(&:full_detail
+    list.sort_by { |x| x.starttime }.map(&:full_detail)
   end
 
   def Event::short_list
