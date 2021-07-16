@@ -163,14 +163,16 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
   }
 
   .custy_selector .add_form {
-    text-align: left;
   }
 
-  .custy_selector .add_form input {
+  .custy_selector .add_form input,
+  .custy_selector .add_form button {
     font-size: 1.5em;
     padding: 1.5em 2em;
     border-radius: 0.3em;
-
+    width: 100%;
+    display: block;
+    font-family: inherit;
   } 
 
   .custy_selector .add_custy,
