@@ -76,6 +76,18 @@ PopupMenu.prototype.CSS = `
     content: '';
   }
 
+  #PopupMenu.modal .modal_container {
+    
+  }
+
+  @media(max-width: 800px) {
+    #PopupMenu.modal .modal_container {
+      width: 95%;
+      box-sizing: border-box;
+    }
+  }
+
+
   #PopupMenu.modal .form {
     display: inline-block;
     left: 0; right: 0;

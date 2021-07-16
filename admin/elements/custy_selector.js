@@ -214,6 +214,7 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
   @media (orientation: portrait) {
     .modal_container .custy_selector {
       font-size: 2.8vw;
+      width: auto;
     }
   }
 
