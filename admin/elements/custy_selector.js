@@ -127,6 +127,7 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
     <div class='add_form' rv-if='this.state.show_add_form'>
       <h3>Register New Customer</h3>
       <input placeholder='New Customer Name' rv-value='this.state.new_customer_name'></input>
+      <br>
       <input placeholder='New Customer Email' rv-value='this.state.new_customer_email'></input>
     </div>
   </div>
@@ -144,6 +145,14 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
   .custy_selector .customers {
     flex: 1;
   }
+
+  .custy_selector .add_form {
+    text-align: left;
+  }
+
+  .custy_selector .add_form input {
+    font-size: 1em;
+  } 
 
   .custy_selector .add_custy,
   .custy_selector .edit_custy {
