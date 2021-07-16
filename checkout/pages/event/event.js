@@ -20,6 +20,7 @@ var data = {
   multiplier: 1,
   selected_timeslot: {
     starttime: null,
+    endtime: null,
     duration_min: 60
   },
   rental: {
@@ -81,7 +82,7 @@ function initialize_rivets() {
   rivets.formatters.num_tix   = function(val)         { return ( val && val > 1 ) ? val + ' Tickets ' : ''; }
   rivets.formatters.first_price_title = function(val) { return ( val && val[0] ) ? val[0].title : ""; }
   rivets.formatters.diff_days = function(val,val2)    { return !moment(val).isSame(moment(val2), 'date'); }
-  rivets.formatters.fix_index = function(val, arg) { return val + 1; }
+  rivets.formatters.fix_index = function(val, arg)    { return val + 1; }
 
   rivets.bind( $('body'), { customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
@@ -155,6 +156,7 @@ function on_timeslot_selected(args) {
     return;
   }
   data.selected_timeslot.starttime = new Date(args.start.value);
+  data.selected_timeslot.endtime = new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000)
   data.num_slots = 2;
   data.rental.slots = [];
   data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
@@ -322,7 +324,12 @@ var ctrl = {
 
 function checkout_new() {
   calculate_total();
-  let desc = data.event_data.name + ' - ' + data.selected_timeslot.starttime.toDateString() + ' ' + data.selected_timeslot.starttime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' - ' + new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  let desc = data.event_data.name + ' - ' + data.selected_timeslot.starttime.toDateString() + ' ';
+  desc += rivets.formatters.fulldate(data.selected_timeslot.starttime); 
+  desc += ' - ';
+  des  += rivets.formatters.fulldate(data.selected_timeslot.endtime); 
+
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
     body = JSON.stringify({

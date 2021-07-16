@@ -81,7 +81,7 @@ PopupMenu.prototype.CSS = `
     left: 0; right: 0;
     margin: auto;
     vertical-align: middle;
-    background: rgb(100,100,100);
+    background: rgb(48,48,48);
     padding: 1em;
     box-shadow: 0 0 0.5em white; 
   }
