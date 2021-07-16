@@ -117,14 +117,14 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
-    <div>
+    <div class='selector'>
       <select class='customers' placeholder='Search Existing Customers...' rv-on-change='this.custy_selected' rv-value='this.state.customer_id'></select>
       <img class='edit_custy' rv-unless="this.state.show_add_form" rv-on-click='this.edit_customer' src='/person.svg'>
       <div class='add_custy'  rv-unless="this.state.show_add_form" rv-on-click='this.new_customer'>
         <span>+</span>
       </div>
     </div>
-    <div rv-if='this.state.show_add_form'>
+    <div class='add_form' rv-if='this.state.show_add_form'>
       <h3>Register New Customer</h3>
       <input placeholder='New Customer Name' rv-value='this.state.new_customer_name'></input>
       <input placeholder='New Customer Email' rv-value='this.state.new_customer_email'></input>
@@ -133,7 +133,7 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
 **/}).untab(2);
 
 CustySelector.prototype.CSS = ES5Template(function(){/**
-  .custy_selector {
+  .custy_selector .selector {
     display: flex;
   }
 
