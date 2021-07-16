@@ -58,8 +58,13 @@ table {
 select.num_students {
   width: 100%;
   background: transparent;
+  cursor: pointer;
+  margin: 0.5em 0;
 }
 
+.edit {
+  cursor: pointer;
+}
 
 #reg_ext {
   font-size: 1.2em;
