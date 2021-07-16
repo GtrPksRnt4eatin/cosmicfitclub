@@ -120,7 +120,7 @@ function setup_daypilot() {
   daypilot = new DayPilot.Calendar('daypilot', {
     viewType: "Days",
     days: 5,
-    cellDuration: 60,
+    cellDuration: 30,
     cellHeight: 50,
     startDate:  "2021-08-09",
     headerDateFormat: "ddd MMM d",
