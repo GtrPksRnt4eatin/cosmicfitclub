@@ -187,6 +187,10 @@ h4 {
   top: 0;
 }
 
+hr.mobile {
+  display: none;
+}
+
 @media(max-width: 800px) {
   .content:before { display: none; }
   .tile img       { max-width: 100%; }
@@ -234,6 +238,10 @@ h4 {
 
   hr {
     width: 90%;
+  }
+
+  hr.mobile {
+    display: block;
   }
 
 }

@@ -8,7 +8,7 @@
   
   .tuple .attrib {
     flex: 0 0 auto;
-    padding: 0.25em;
+    padding: 0.25em 1em 0.25em 0.25em;
   }
   
   .tuple .value {
