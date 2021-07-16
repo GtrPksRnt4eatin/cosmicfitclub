@@ -328,7 +328,7 @@ function checkout_new() {
   let desc = data.event_data.name + ' - ' + data.selected_timeslot.starttime.toDateString() + ' ';
   desc += rivets.formatters.fulldate(data.selected_timeslot.starttime); 
   desc += ' - ';
-  des  += rivets.formatters.fulldate(data.selected_timeslot.endtime); 
+  desc  += rivets.formatters.fulldate(data.selected_timeslot.endtime); 
 
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
