@@ -22,6 +22,8 @@ function Onboarding(el,attr) {
     if(this.state.acct_found) { this.login(); } 
     else                      { this.register(); }
   }.bind(this));
+
+  this.check_email();
 }
 
 Onboarding.prototype = {
