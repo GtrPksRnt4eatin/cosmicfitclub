@@ -128,25 +128,14 @@ function setup_daypilot() {
     dayEndsHour: 22,
     timeRangeSelectedHandling: "Enabled",
     onTimeRangeSelected: on_timeslot_selected,
-    /*
-    async (args) => {
-      const modal = await DayPilot.Modal.prompt("Create a new event:", "Event 1");
-      const dp = args.control;
-      dp.clearSelection();
-      if (modal.canceled) { return; }
-      dp.events.add({
-        start: args.start,
-        end: args.end,
-        id: DayPilot.guid(),
-        text: modal.result
-      });
-    },
-    */
     eventDeleteHandling: "Disabled",
     eventMoveHandling: "Disabled",
     eventResizeHandling: "Disabled",
     eventClickHandling: "Disabled",
     eventHoverHandling: "Disabled",
+    onBeforeCellRender = function(args) {
+      var x = 5;
+    }
   });
 
   $.get("/models/groups/range/2021-08-09/2021-08-14")

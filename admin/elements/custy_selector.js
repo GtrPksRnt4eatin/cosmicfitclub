@@ -2,7 +2,10 @@ function CustySelector(parent) {
   
   this.state = { 
     customers: [],
-    customer_id: 0
+    customer_id: 0,
+    show_add_form: false,
+    new_customer_name: "",
+    new_customer_email: ""
   }
 
   this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer','init_selectize']);
@@ -102,6 +105,10 @@ CustySelector.prototype = {
 
   get selected_customer() {
     return this.state.customers.find( function(val) { return val.id == this.state.customer_id; }.bind(this) );
+  },
+
+  show_add_form() {
+    this.state.show_add_form = true;
   }
 }
 
@@ -110,11 +117,16 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
-    <select class='customers' placeholder='Select Customer...' rv-on-change='this.custy_selected' rv-value='this.state.customer_id'></select>
+    <select class='customers' placeholder='Search Existing Customers...' rv-on-change='this.custy_selected' rv-value='this.state.customer_id'></select>
     <img class='edit_custy' rv-on-click='this.edit_customer' src='/person.svg'>
     <div class='add_custy'  rv-on-click='this.new_customer'>
       <span>+</span>
     </div>
+    <div rv-if='this.state.show_add_form'>
+      <h3>Register New Customer</h3>
+      <input placeholder='New Customer Name' rv-value='this.state.new_customer_name'></input>
+      <input placeholder='New Customer Email' rv-value='this.state.new_customer_email'></input>
+      </div
   </div>
 **/}).untab(2);
 
