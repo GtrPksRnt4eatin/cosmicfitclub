@@ -54,6 +54,8 @@ CustySelector.prototype = {
 
   show_modal: function(customer_id, callback) {
     this.state.callback = null;
+    this.state.new_customer_name = null;
+    this.state.new_customer_email = null;
     this.select_customer(customer_id);
     this.state.callback = callback;
     this.ev_fire('show', { 'dom': this.modal_dom, 'position': 'modal'} );
