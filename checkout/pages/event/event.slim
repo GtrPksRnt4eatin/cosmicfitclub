@@ -74,8 +74,9 @@ html
             div.selected_timeslot
               h2
                 | { data.selected_timeslot.starttime | fulldate } - {data.selected_timeslot.endtime | time }
-              span rv-on-click="ctrl.clear_timeslot"
+              span style="cursor:pointer; color: blue;" rv-on-click="ctrl.clear_timeslot"
                 | change timeslot
+              br
               br
 
             .tuple
