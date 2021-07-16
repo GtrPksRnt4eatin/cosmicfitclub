@@ -238,7 +238,9 @@ PaymentForm.prototype.CSS = ES5Template(function(){/**
 
   .PaymentForm { 
     display: inline-block;
-    background: rgb(100,100,100);
+    background: rgb(50,50,50);
+    border-radius: 2em;
+    box-shadow: 0 0 1em grey inset;
   }
 
   .PaymentForm table td:nth-child(2) {
