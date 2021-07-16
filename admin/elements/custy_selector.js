@@ -142,7 +142,6 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
     <div class='add_form' rv-if='this.state.show_add_form'>
       <h3>Register New Customer</h3>
       <input placeholder='New Customer Name' rv-value='this.state.new_customer_name'></input>
-      <br>
       <input placeholder='New Customer Email' rv-value='this.state.new_customer_email'></input>
       <button rv-on-click='this.create_customer'>Register</button>
     </div>
@@ -155,7 +154,7 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
   }
 
   .modal_container .custy_selector {
-    width: 30em;
+    width: 35em;
   }
 
   .custy_selector .customers {
@@ -163,15 +162,20 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
   }
 
   .custy_selector .add_form {
+    display: flex;
+    flex-direction: column;
   }
 
   .custy_selector .add_form input,
   .custy_selector .add_form button {
+    text-align: center;
+    border: none;
     font-size: 1.5em;
-    padding: 1.5em 2em;
+    padding: 0.8em 2em;
     border-radius: 0.3em;
     width: 100%;
     display: block;
+    margin: 0 0 0.5em 0; 
     font-family: inherit;
   } 
 
