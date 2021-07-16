@@ -50,6 +50,16 @@ table {
   text-align: left;
 }
 
+.custy_selector {
+  font-size: 0.7vw;
+  width: 30vw;
+}
+
+.custy_selector .edit_custy,
+.custy_selector .new_custy {
+  display: none;
+}
+
 #reg_ext {
   font-size: 1.2em;
   font-family: 'Industry-Light';
