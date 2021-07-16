@@ -308,7 +308,6 @@ var ctrl = {
     custy_selector.show_modal(m.slot.customer_id, function(custy_id) {
       m.slot.customer_id = custy_id;
       m.slot.customer_string = custy_selector.selected_customer.list_string;
-      alert(custy_id);
     } );
   },
   clear_timeslot: function(e,m) {
