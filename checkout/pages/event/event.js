@@ -44,6 +44,7 @@ $(document).ready( function() {
 
   custy_selector.ev_sub('show'       , popupmenu.show );
   custy_selector.ev_sub('close_modal', popupmenu.hide );
+  custy_selector.show_add_form();
 
   pay_form.customer_facing();
   pay_form.ev_sub('show', popupmenu.show );
@@ -133,7 +134,7 @@ function setup_daypilot() {
     eventResizeHandling: "Disabled",
     eventClickHandling: "Disabled",
     eventHoverHandling: "Disabled",
-    onBeforeCellRender: function(args) {
+    onBeforeCellRender:   function(args) {
       var x = 5;
     }
   });
