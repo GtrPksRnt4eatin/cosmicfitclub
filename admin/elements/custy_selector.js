@@ -8,7 +8,7 @@ function CustySelector(parent) {
     new_customer_email: ""
   }
 
-  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer','init_selectize','show_add_form']);
+  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer','init_selectize','show_add_form','create_customer']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
@@ -44,6 +44,7 @@ CustySelector.prototype = {
       valueField: 'id',
       labelField: 'list_string',
       searchField: 'list_string',
+      openOnFocus: false
     })[0];
     $(el).next().on( 'click', function () {
       this.selectize_instance.selectize.clear(false);
@@ -79,6 +80,19 @@ CustySelector.prototype = {
      .success( function(data) {
         this.get_custy_list().then( function() { this.select_customer(data.id) }.bind(this));
       }.bind(this) );
+  },
+
+  create_customer: function(e,m) {
+    $.post('/auth/register', JSON.stringify({
+      "name": this.state.new_customer_name,
+      "email": this.state.new_customer_email,
+    }), 'json')
+   .fail( function(req,msg,status) { 
+      alert('failed to create customer' + msg);
+    })
+   .success( function(data) {
+      this.get_custy_list().then( function() { this.select_customer(data.id) }.bind(this));
+    }.bind(this) );
   },
 
   select_customer: function(custy_id) {
@@ -117,6 +131,7 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
+    <h3>Select an Existing Customer</h3>
     <div class='selector'>
       <select class='customers' placeholder='Search Existing Customers...' rv-on-change='this.custy_selected' rv-value='this.state.customer_id'></select>
       <img class='edit_custy' rv-unless="this.state.show_add_form" rv-on-click='this.edit_customer' src='/person.svg'>
@@ -129,6 +144,7 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
       <input placeholder='New Customer Name' rv-value='this.state.new_customer_name'></input>
       <br>
       <input placeholder='New Customer Email' rv-value='this.state.new_customer_email'></input>
+      <button rv-on-click='this.create_customer'>Register</button>
     </div>
   </div>
 **/}).untab(2);
@@ -151,7 +167,10 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
   }
 
   .custy_selector .add_form input {
-    font-size: 1em;
+    font-size: 1.5em;
+    padding: 1.5em 2em;
+    border-radius: 0.3em;
+
   } 
 
   .custy_selector .add_custy,

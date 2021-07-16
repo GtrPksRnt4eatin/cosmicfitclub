@@ -57,13 +57,9 @@ table {
 
 select.num_students {
   width: 100%;
-  background-color: 'transparent';
+  background: transparent;
 }
 
-.custy_selector .edit_custy,
-.custy_selector .add_custy {
-  display: none;
-}
 
 #reg_ext {
   font-size: 1.2em;
