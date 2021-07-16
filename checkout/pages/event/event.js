@@ -133,7 +133,7 @@ function setup_daypilot() {
     eventResizeHandling: "Disabled",
     eventClickHandling: "Disabled",
     eventHoverHandling: "Disabled",
-    onBeforeCellRender = function(args) {
+    onBeforeCellRender: function(args) {
       var x = 5;
     }
   });
