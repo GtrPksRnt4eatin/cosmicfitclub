@@ -325,10 +325,10 @@ var ctrl = {
 function checkout_new() {
   calculate_total();
 
-  let desc = data.event_data.name + ' - ' + data.selected_timeslot.starttime.toDateString() + ' ';
+  let desc = data.event_data.name + ': ';
   desc += rivets.formatters.fulldate(data.selected_timeslot.starttime); 
   desc += ' - ';
-  desc  += rivets.formatters.fulldate(data.selected_timeslot.endtime); 
+  desc  += rivets.formatters.time(data.selected_timeslot.endtime); 
 
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
