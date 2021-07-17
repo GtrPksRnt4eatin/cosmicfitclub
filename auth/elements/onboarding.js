@@ -36,7 +36,8 @@ Onboarding.prototype = {
 
   check_email: function(e,m) { 
     this.clear_errors();
-    $.get('/auth/email_search', { email: e.target.value }, 'json' )
+    let val = e ? e.target.value : this.state.email;
+    $.get('/auth/email_search', { email: val }, 'json' )
      .fail(    this.show_http_error )
      .success( this.email_match     )
   },
