@@ -23,7 +23,7 @@ function Onboarding(el,attr) {
     else                      { this.register(); }
   }.bind(this));
 
-  this.check_email();
+  setInterval(this.check_email,1000);
 }
 
 Onboarding.prototype = {
