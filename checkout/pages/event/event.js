@@ -207,11 +207,11 @@ function calculate_total() {
   
     case 'privates':
       switch(data.num_slots) {
-        case 2: data.total_price = 1200; break;
-        case 3: data.total_price = 1650; break;
-        case 4: data.total_price = 2000; break;
-        case 5: data.total_price = 2250; break;
-        case 6: data.total_price = 2400; break;
+        case 2: data.total_price = 12000; break;
+        case 3: data.total_price = 16500; break;
+        case 4: data.total_price = 20000; break;
+        case 5: data.total_price = 22500; break;
+        case 6: data.total_price = 24000; break;
       }
       break;
 
