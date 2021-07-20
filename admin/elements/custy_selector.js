@@ -168,6 +168,10 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
     flex-direction: column;
   }
 
+  .custy_selector .add_form button {
+    background: rgb(200,200,200);
+  }
+
   .custy_selector .add_form input,
   .custy_selector .add_form button {
     text-align: center;

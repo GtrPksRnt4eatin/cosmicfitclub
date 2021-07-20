@@ -269,6 +269,7 @@ PaymentForm.prototype.CSS = ES5Template(function(){/**
     padding: .5em;
     cursor: pointer;
     border-radius: 4px;
+    background: rgb(200,200,200);
   }
 
   .PaymentForm td,
