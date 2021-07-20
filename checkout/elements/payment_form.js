@@ -11,7 +11,8 @@ function PaymentForm() {
     poll_request: null,
     swipe: null,
     swipe_source: null,
-    busy: false
+    busy: false,
+    custy_facing: false
   }
 
   this.bind_handlers(['init_stripe', 'checkout', 'pay_cash', 'charge_saved', 'clear_customer', 'failed_charge', 'charge_token', 'charge_swiped', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
@@ -55,8 +56,8 @@ PaymentForm.prototype = {
     if(customer_id) { this.get_customer(customer_id).done(this.show).fail( function() { this.clear_customer(); this.show(); }.bind(this) ) }
     else            { this.clear_customer(); this.show(); }
     this.show_err(null);
-    this.stop_listen_cardswipe();
-    this.start_listen_cardswipe();
+    //this.stop_listen_cardswipe();
+    //this.start_listen_cardswipe(); 
   },
 
   //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
@@ -117,34 +118,30 @@ PaymentForm.prototype = {
   charge_saved: function(e,m) {
     if(this.state.busy) return;
     this.state.busy = true;
-    this.stop_listen_cardswipe();
+    //this.stop_listen_cardswipe();
     body = { customer: this.state.customer_id, card: m.card.id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_saved_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
   charge_new: function() {
-    if(this.state.busy) return;
-    this.state.busy = true;
     this.charge_token(this.state.token.id)
   },
 
   charge_swiped: function() {
-    if(this.state.busy) return;
-    this.state.busy = true;
     this.charge_token(this.state.swipe.id)
   },
 
   charge_token: function(token_id) {
     if(this.state.busy) return;
     this.state.busy = true;
-    this.stop_listen_cardswipe();
+    //this.stop_listen_cardswipe();
     if(!token_id) return;
     body = { customer: this.state.customer_id, token: token_id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
   pay_cash: function() {
-    this.stop_listen_cardswipe();
+    //this.stop_listen_cardswipe();
     body = { customer: this.state.customer_id, amount: this.state.price, description: this.state.reason }
     $.post('/checkout/pay_cash', body, this.after_charge, 'json').fail( this.failed_charge );
   },
@@ -164,6 +161,7 @@ PaymentForm.prototype = {
 
   customer_facing: function() {
     $(this.dom).addClass('custy_facing');
+    this.state.custy_facing = true;
   }
 }
 
