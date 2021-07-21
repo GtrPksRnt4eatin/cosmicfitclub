@@ -111,6 +111,7 @@ module Sinatra
       x = request.body.read
 
       data = JSON.parse x
+      p data
 
       tic = EventTicket.create(
         :customer_id         => data['customer_id'],
