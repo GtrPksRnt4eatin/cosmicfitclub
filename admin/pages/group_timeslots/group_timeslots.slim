@@ -8,17 +8,21 @@ html
 
     title Cosmicfit Admin
 
-    == css [ 'fonts', 'chosen-ems', 'site', 'header', 'flatpickr', '/admin/group_timeslots' ]
-    == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'flatpickr', 'rivets', 'rv_dates', 'rv_money', 'lib' ]
-    == js  [ 'element', 'ev_channel', '/admin/group_timeslots' ]
+    == css [ 'fonts', 'site', 'header', '/admin/group_timeslots' ]
+    == js  [ 'jquery', 'moment', 'rivets', 'rv_dates', 'lib', 'daypilot-all.min' ]
+    == js  [ '/admin/group_timeslots' ]
 
   body
     #stars
+
+    == include_slim('slim/partials/admin_header')
 
     #content
 
       .tile
         .title Group Timeslots
+
+        #daypilot
 
         
         
