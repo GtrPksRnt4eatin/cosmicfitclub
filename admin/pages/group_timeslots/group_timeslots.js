@@ -2,7 +2,7 @@
 var daypilot;
 
 $(document).ready( function() {
-
+  setup_daypilot();
 });
 
   function setup_daypilot() {
