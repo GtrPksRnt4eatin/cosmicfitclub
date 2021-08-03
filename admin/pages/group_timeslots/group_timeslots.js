@@ -8,7 +8,7 @@ $(document).ready( function() {
   function setup_daypilot() {
     daypilot = new DayPilot.Calendar('daypilot', {
       viewType: "Days",
-      days: 5,
+      days: 7,
       cellDuration: 30,
       cellHeight: 25,
       startDate:  "2021-08-09",
