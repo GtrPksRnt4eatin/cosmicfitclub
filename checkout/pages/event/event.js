@@ -140,7 +140,7 @@ function setup_daypilot() {
     }
   });
 
-  $.get("/models/groups/range/2021-08-09/2021-08-14")
+  $.get("/models/groups/range/2021-08-09/2021-08-16")
   .success( function(val) {
     for(i=0; i<val.length; i++) {
       daypilot.events.add(val[i]);
