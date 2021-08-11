@@ -1,3 +1,9 @@
 .calendar_default_event_inner {
-  font-size: 0.7vw !important;
+  font-size: 0.5vw !important;
+}
+
+@media(max-width: 800px) {
+  .calendar_default_event_inner {
+    font-size: 0.8vw !important;
+  }
 }
