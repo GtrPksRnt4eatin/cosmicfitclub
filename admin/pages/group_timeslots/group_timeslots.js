@@ -23,8 +23,8 @@ $(document).ready( function() {
       eventResizeHandling: "Disabled",
       eventClickHandling: "Disabled",
       eventHoverHandling: "Disabled",
-      onBeforeCellRender:   function(args) {
-        var x = 5;
+      onBeforeEventRender:   function(args) {
+        args.data.html = args.data.text.split(',').join(',<br/>');
       }
     });
   
