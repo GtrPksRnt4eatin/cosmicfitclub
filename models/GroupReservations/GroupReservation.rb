@@ -29,7 +29,7 @@ class GroupReservation < Sequel::Model
     end
 
     def to_admin_daypilot
-      text = slots.map { |s| s.customer.nil? ? "TBD" : s.customer.to_list_string }.join(',\r\n')
+      text = slots.map { |s| s.customer.nil? ? "TBD" : s.customer.to_list_string }.join(',<br/>')
       {
         :start => self.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
         :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
