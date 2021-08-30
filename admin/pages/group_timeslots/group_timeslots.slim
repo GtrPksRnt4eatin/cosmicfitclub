@@ -6,9 +6,9 @@ html
 
     title Cosmicfit Admin
 
-    == css [ 'fonts', 'site', 'header', '/admin/group_timeslots' ]
-    == js  [ 'jquery', 'moment', 'rivets', 'rv_dates', 'lib', 'daypilot-all.min' ]
-    == js  [ '/admin/group_timeslots' ]
+    == css [ 'fonts', 'site', 'header', 'selectize-ems', '/admin/group_timeslots' ]
+    == js  [ 'jquery', 'moment', 'selectize.min', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', 'daypilot-all.min' ]
+    == js  [ '/admin/elements/popup_menu', '/admin/elements/custy_selector', '/admin/group_timeslots' ]
 
   body
     #stars
@@ -21,4 +21,13 @@ html
         .title Group Timeslots
 
         #daypilot      
+
+      .tile
+        .title Add Timeslot
+
+        input rv-datefield='data.start_time'
+        input rv-datefield='data.end_time'
+
         
+        
+    #popupmenu_container

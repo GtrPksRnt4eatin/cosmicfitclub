@@ -55,11 +55,8 @@ module Sinatra
 
     def save_card
       custy = Customer[params[:customer_id]] or halt( 404, 'Customer Not Found')
-      if custy.stripe_id then
-        StripeMethods::add_card( params[:token], custy.stripe_id )
-      else
-        StripeMethods::create_stripe_customer( custy, params[:token] )
-      end
+      StripeMethods::create_stripe_customer( custy, params[:token] ) unless custy.stripe_id
+      StripeMethods::add_card( params[:token], custy.stripe_id )
     end
 
     def set_default_card
