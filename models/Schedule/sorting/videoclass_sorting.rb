@@ -29,5 +29,12 @@ module Scheduling
     items   = events + classes + rentals
     items.sort_by { |x| x[:starttime] }
   end
-  
+
+  def Scheduling::flat_virtual(from,to)
+    classes = get_classitems_between(from,to)
+    classes.reject!  { |x| x[:staff_id] == 106 }  # id106 == Cosmic Loft
+    classes.reject!  { |x| x[:location][:id] != 3 } # id3 == Video Site
+    classes.sort_by  { |x| x[:starttime] }
+  end
+
 end
