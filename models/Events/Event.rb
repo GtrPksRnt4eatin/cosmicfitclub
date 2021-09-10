@@ -126,6 +126,13 @@ class Event < Sequel::Model
     self.sessions.count > 1
   end
 
+  def first_day
+    return Date.today if self.sessions.nil?
+    min = self.sessions.min_by { |x| x.start_time or '' }
+    return Date.today if min.nil?
+    Date.parse(min.start_time)
+  end
+
   def last_day
     return Date.today if self.sessions.nil?
     max  = self.sessions.max_by{ |x| x.start_time or '' }
@@ -212,7 +219,7 @@ class Event < Sequel::Model
 
   def Event::list_past
     list = Event.all.select{|x| x.last_day < Date.today }
-    list.sort_by { |x| x.starttime }.map(&:full_detail)
+    list.sort_by { |x| x.starttime || x.first_day }.reverse.map(&:full_detail)
   end
 
   def Event::short_list
