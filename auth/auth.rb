@@ -12,6 +12,7 @@ class CFCAuth < Sinatra::Base
 
   helpers Sinatra::Cookies
 
+  register Sinatra::Auth
   register Sinatra::Omni
   register Sinatra::PageFolders
   register Sinatra::SharedResources
