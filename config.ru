@@ -13,6 +13,7 @@ require_relative 'ruby/patches'
 
 Dir["extensions/*.rb"].each    { |file| require_relative file }
 
+require_relative 'auth/auth_helpers'
 require_relative 'auth/auth'
 
 Dir["integrations/*.rb"].each               { |file| require_relative file }
