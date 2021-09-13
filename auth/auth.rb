@@ -13,7 +13,7 @@ class CFCAuth < Sinatra::Base
 
   helpers Sinatra::Cookies
 
-  register Sinatra::Auth
+  #register Sinatra::Auth
   register Sinatra::Omni
   register Sinatra::PageFolders
   register Sinatra::SharedResources
@@ -37,7 +37,7 @@ class CFCAuth < Sinatra::Base
   get( '/register' ) { render_page :register }
   get( '/reset'    ) { render_page :activate }
   get( '/activate' ) { 
-    @user = User.find( :reset_token => params[:token] )
+    @user = params[:token] && User.find( :reset_token => params[:token] )
     if @user then
       render_page :activate
     else
@@ -171,7 +171,8 @@ class CFCAuth < Sinatra::Base
       Slack.website_access( "Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )      
       halt(400, "This Reset Token is Invalid or Has Expired") if user.nil?
     else
-      halt(400, "Couldn't find user") if user.nil?
+      user = User[session[:user_id]]
+      halt(400, "Not Logged In") if user.nil?
     end
     halt(400, "Your Password Must Be at least Five Characters") if params[:password].length < 5
     halt(400, "Your Password Does Not Match The Confirmation")  if params[:password] != params[:confirmation]
