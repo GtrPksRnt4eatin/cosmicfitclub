@@ -20,7 +20,7 @@ html
       
       form#myform
     
-        input type='hidden' name='token' value='#{@user.reset_token}'
+        input type='hidden' name='token' value='#{params[:token]}'
 
         .section.instructions
           | #{@user.customer.name}, Choose a Password.
