@@ -164,9 +164,11 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/password' do
-    user = User.find( :reset_token  => params[:token] )   
-    Slack.website_access( "Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )      
-    halt(400, "This Reset Token is Invalid or Has Expired")     if user.nil?
+    if params[:token] then
+      user = User.find( :reset_token  => params[:token] )   
+      Slack.website_access( "Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )      
+      halt(400, "This Reset Token is Invalid or Has Expired")     if user.nil?
+    end
     halt(400, "Your Password Must Be at least Five Characters") if params[:password].length < 5
     halt(400, "Your Password Does Not Match The Confirmation")  if params[:password] != params[:confirmation]
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
