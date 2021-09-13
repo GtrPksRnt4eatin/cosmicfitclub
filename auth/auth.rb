@@ -36,13 +36,23 @@ class CFCAuth < Sinatra::Base
   get( '/reset'    ) { render_page :reset    }
   get( '/register' ) { render_page :register }
   get( '/reset'    ) { render_page :activate }
-  get( '/activate' ) { 
-    @user = params[:token] && User.find( :reset_token => params[:token] )
-    if @user then
-      render_page :activate
+  get( '/activate' ) {
+    if params[:token] then
+      @user = User.find( :reset_token => params[:token] )
+      if @user then
+        render_page :activate
+      else
+        @err="This Token Is No Longer Valid"
+        render_page :error
+      end
     else
-      @err="This Token Is No Longer Valid"
-      render_page :error
+      @user = !!session[:user_id] && User[session[:user_id]]
+      if @user then
+        render_page :activate
+      else
+        @err="User must be logged in"
+        render_page :error
+      end
     end
   }
 
