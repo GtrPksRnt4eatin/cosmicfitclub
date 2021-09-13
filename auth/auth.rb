@@ -166,7 +166,7 @@ class CFCAuth < Sinatra::Base
   end
 
   post '/password' do
-    if params[:token] then
+    if params[:token] && !params[:token].empty? then
       user = User.find( :reset_token  => params[:token] )   
       Slack.website_access( "Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )      
       halt(400, "This Reset Token is Invalid or Has Expired")     if user.nil?
