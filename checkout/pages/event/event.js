@@ -141,7 +141,7 @@ function setup_daypilot() {
   });
   
   data.event_data.sessions.for_each( function(x) {
-    daypilot.events.add({ start: moment(x.start_time).subtract('hours',5), end: moment(x.end_time).subtract('hours',5), text: x.title });  
+    daypilot.events.add({ start: moment(x.start_time).subtract(5,'hours').format(), end: moment(x.end_time).subtract(5,hours).format(), text: x.title });  
   });
 
   $.get("/models/groups/range/2021-08-09/2021-08-16")
