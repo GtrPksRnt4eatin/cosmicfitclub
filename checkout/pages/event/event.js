@@ -139,6 +139,10 @@ function setup_daypilot() {
       var x = 5;
     }
   });
+  
+  data.event_data.sessions.each( function(x) {
+    daypilot.events.add({ start: x.starttime, end: x.endtime, text: x.title });  
+  });
 
   $.get("/models/groups/range/2021-08-09/2021-08-16")
   .success( function(val) {
