@@ -118,8 +118,13 @@ class Event < Sequel::Model
   end
 
   def starttime
-    return DateTime.now if self.sessions.empty?
+    return self.starttime || DateTime.now if self.sessions.empty?
     return DateTime.parse(self.sessions.first.start_time)
+  end
+
+  def endtime
+    return self.endtime || DateTime.now if self.sessions.empty?
+    return DateTime.parse(self.sessions.last.end_time)
   end
 
   def multisession?
@@ -180,7 +185,8 @@ class Event < Sequel::Model
       :poster_lines => self.poster_lines,
       :description  => self.description,
       :details      => self.details,
-      :starttime    => self.starttime.try(:iso8601), 
+      :starttime    => self.starttime.try(:iso8601),
+      :endtime      => self.endtime.try(:iso8601),
       :image_url    => self.thumb_image_url,
       :wide_image   => self.wide_image.try(:details_hash),
       :full_image   => self.image_url,

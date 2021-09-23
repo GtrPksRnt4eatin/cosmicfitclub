@@ -122,7 +122,7 @@ function setup_daypilot() {
     days: 7,
     cellDuration: 30,
     cellHeight: 20,
-    startDate:  "2021-08-09",
+    startDate:  moment(data.event_data.starttime).format("YYYY-MM-DD"),
     headerDateFormat: "ddd MMM d",
     businessBeginsHour: 11,
     businessEndsHour: 22,
