@@ -90,8 +90,8 @@ function obj_to_formdata(obj) {
   return form_data;
 }  
   
-Array.prototype.for_each = function foreach(arr, func) {
-  for(var i=0; i<arr.length; i++) { func(arr[i]); }
+Array.prototype.for_each = function foreach(func) {
+  for(var i=0; i<this.length; i++) { func(this[i]); }
 }
 
 Array.prototype.replace_or_add_by_id = function replace_or_add_by_id(item) {
