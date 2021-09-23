@@ -140,7 +140,7 @@ function setup_daypilot() {
     }
   });
   
-  data.event_data.sessions.each( function(x) {
+  data.event_data.sessions.for_each( function(x) {
     daypilot.events.add({ start: x.starttime, end: x.endtime, text: x.title });  
   });
 
