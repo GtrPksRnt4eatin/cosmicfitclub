@@ -120,8 +120,8 @@ function setup_daypilot() {
   daypilot = new DayPilot.Calendar('daypilot', {
     viewType: "Days",
     days: moment(data.event_data.endtime).diff(moment(data.event_data.starttime),'days')+1,
-    cellDuration: 60,
-    cellHeight: 40,
+    cellDuration: 30,
+    cellHeight: 20,
     startDate:  moment(data.event_data.starttime).format("YYYY-MM-DD"),
     headerDateFormat: "ddd MMM d",
     businessBeginsHour: 12,
