@@ -133,7 +133,7 @@ function setup_daypilot() {
     eventDeleteHandling: "Disabled",
     eventMoveHandling: "Disabled",
     eventResizeHandling: "Disabled",
-    eventClickHandling: "Disabled",
+    onEventClick: on_session_selected,
     eventHoverHandling: "Disabled",
     onBeforeCellRender:   function(args) {
       var x = 5;
@@ -155,10 +155,7 @@ function setup_daypilot() {
 }
 
 function on_timeslot_selected(args) {
-  if(!userview.logged_in) {
-    userview.onboard();
-    return;
-  }
+  if(!userview.logged_in) { userview.onboard(); return;  }
   data.selected_timeslot.starttime = new Date(args.start.value);
   data.selected_timeslot.endtime = new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000)
   data.num_slots = 2;
@@ -166,6 +163,11 @@ function on_timeslot_selected(args) {
   data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
   data.rental.slots.push( { customer_id: 0, customer_string: "Add Student" } );
   calculate_total();
+}
+
+function on_session_selected(event) {
+  if(!userview.logged_in) { userview.onboard(); return;  }
+  console.log(event);
 }
 
 function set_first_price() {

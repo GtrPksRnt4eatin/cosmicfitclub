@@ -118,12 +118,12 @@ class Event < Sequel::Model
   end
 
   def starttime
-    return self.starttime || DateTime.now if self.sessions.empty?
+    return DateTime.now if self.sessions.empty?
     return DateTime.parse(self.sessions.first.start_time)
   end
 
   def endtime
-    return self.endtime || DateTime.now if self.sessions.empty?
+    return DateTime.now if self.sessions.empty?
     return DateTime.parse(self.sessions.last.end_time)
   end
 
