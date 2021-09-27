@@ -167,7 +167,7 @@ function on_timeslot_selected(args) {
 
 function on_session_selected(args) {
   if(!userview.logged_in) { userview.onboard(); return;  }
-  let price = data.event_data.prices.find( function(x) { x.included_sessions === [args.e.data.id] } );
+  let price = data.event_data.prices.find( function(x) { return x.included_sessions.length == 1 && x.included_sessions[0] == args.e.data.id } );
   console.log(price);
   if(!price) return;
   data.a_la_carte = false;
