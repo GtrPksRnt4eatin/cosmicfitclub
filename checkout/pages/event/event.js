@@ -144,7 +144,7 @@ function setup_daypilot() {
   });
   
   data.event_data.sessions.for_each( function(x) {
-    daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(5,'hours').format(), end: moment(x.end_time).subtract(5,'hours').format(), text: x.title + "\r\n" + x.individual_price_full });  
+    daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(5,'hours').format(), end: moment(x.end_time).subtract(5,'hours').format(), text: x.title + "\r\n" + rivets.formatters.money(x.individual_price_full) });  
   });
 
   $.get("/models/groups/range/2021-08-09/2021-08-16")
@@ -171,8 +171,8 @@ function on_timeslot_selected(args) {
 function on_session_selected(args) {
   if(!userview.logged_in) { userview.onboard(); return;  }
 
-  toggle_included_session(e.data);
-  
+  toggle_included_session(args.e.data);
+
   let price = data.event_data.prices.find( function(x) { return x.included_sessions.length == 1 && x.included_sessions[0] == args.e.data.id } );
   console.log(price);
   if(!price) return;
