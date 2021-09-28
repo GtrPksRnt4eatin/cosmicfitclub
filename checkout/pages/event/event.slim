@@ -68,7 +68,7 @@ html
 
           div rv-unless="data.selected_timeslot.starttime"
             h2
-              | Choose an Available Timeslot:
+              | Choose an Available Session:
             br
 
             #daypilot
@@ -102,8 +102,10 @@ html
                   | {slot.customer_string}               
             hr
 
-            div
-              button#checkout rv-on-click='ctrl.checkout_new' Pay { data.total_price | money } Now
+          div rv-each-session="data.included_sessions | populate_sess"
+
+          div
+            button#checkout rv-on-click='ctrl.checkout_new' Pay { data.total_price | money } Now
 
         .flex.flex3 rv-unless="data.mode | equals 'privates' "
 
