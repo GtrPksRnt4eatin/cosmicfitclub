@@ -128,7 +128,7 @@ function setup_daypilot() {
     businessEndsHour: 23,
     dayBeginsHour: 12,
     dayEndsHour: 23,
-    timeRangeSelectedHandling: "Enabled",
+    timeRangeSelectedHandling: "Disabled",
     onTimeRangeSelected: on_timeslot_selected,
     eventDeleteHandling: "Disabled",
     eventMoveHandling: "Disabled",
@@ -137,11 +137,14 @@ function setup_daypilot() {
     eventHoverHandling: "Disabled",
     onBeforeCellRender:   function(args) {
       var x = 5;
+    },
+    onBeforeEventRender: function(args) {
+      var x = 5;
     }
   });
   
   data.event_data.sessions.for_each( function(x) {
-    daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(5,'hours').format(), end: moment(x.end_time).subtract(5,'hours').format(), text: x.title });  
+    daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(5,'hours').format(), end: moment(x.end_time).subtract(5,'hours').format(), text: x.title + "\r\n" + x.individual_price_full });  
   });
 
   $.get("/models/groups/range/2021-08-09/2021-08-16")
@@ -167,6 +170,8 @@ function on_timeslot_selected(args) {
 
 function on_session_selected(args) {
   if(!userview.logged_in) { userview.onboard(); return;  }
+
+
   let price = data.event_data.prices.find( function(x) { return x.included_sessions.length == 1 && x.included_sessions[0] == args.e.data.id } );
   console.log(price);
   if(!price) return;
@@ -263,7 +268,6 @@ function toggle_included_session(session) {
   if(i==-1) { sessions.push(session.id); }
   else      { sessions.splice(i, 1); }
   set_included_sessions(sessions);
-
 }
 
 function clear_selected_price() {
