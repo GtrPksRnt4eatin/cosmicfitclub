@@ -172,17 +172,11 @@ function on_timeslot_selected(args) {
 function on_session_selected(args) {
   if(!userview.logged_in) { userview.onboard(); return;  }
 
-  toggle_included_session(args.e.data);
-
-  let price = data.event_data.prices.find( function(x) { return x.included_sessions.length == 1 && x.included_sessions[0] == args.e.data.id } );
-  console.log(price);
-  if(!price) return;
-  data.a_la_carte = false;
+  data.a_la_carte = true;
   clear_selected_price();
-  price.selected = true;
-  data.selected_price = price;
-  set_included_sessions(price.included_sessions);
-  calculate_total();
+  toggle_included_session(args.e.data);
+  calculate_custom_prices();
+  calculate_total(); 
 }
 
 function set_first_price() {
@@ -227,13 +221,14 @@ function calculate_total() {
       break;
   
     case 'privates':
-      switch(data.num_slots) {
-        case 2: data.total_price = 12000; break;
-        case 3: data.total_price = 16500; break;
-        case 4: data.total_price = 20000; break;
-        case 5: data.total_price = 22500; break;
-        case 6: data.total_price = 24000; break;
-      }
+
+    //  switch(data.num_slots) {
+    //    case 2: data.total_price = 12000; break;
+    //    case 3: data.total_price = 16500; break;
+    //    case 4: data.total_price = 20000; break;
+    //    case 5: data.total_price = 22500; break;
+    //    case 6: data.total_price = 24000; break;
+    //  }
       break;
 
     default: 
@@ -245,8 +240,8 @@ function calculate_total() {
 }
 
 function calculate_custom_prices() {
-  
-  if(data.mode!='a_la_carte') { return; }
+
+  if(data.mode!='a_la_carte' && data.mode!='privates') { return; }
   data.custom_full_price = 0;
   data.custom_member_price = 0;
   for(var i=0; i<data.included_sessions.length; i++) {

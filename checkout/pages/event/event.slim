@@ -72,6 +72,9 @@ html
             br
 
             #daypilot
+          
+          div rv-each-sess="data.included_sessions | populate_sess"
+          
 
           div rv-if="data.selected_timeslot.starttime"
 
