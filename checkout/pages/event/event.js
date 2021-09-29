@@ -224,16 +224,18 @@ function calculate_total() {
     case 'privates':
       data.total_price = data.custom_full_price;
       if(!daypilot) return;
-      daypilot.events.all().for_each( function(x) { 
-        if(data.included_sessions.includes(x.id) && x.backColor != "#CCCCFF") {
-          x.backColor = "#CCCCFF";
-          daypilot.events.update(x);
-        }
-        if(!data.included_sessions.includes(x.id) && x.backColor != "#FFFFFF") {
-          x.backColor = "#FFFFFF"; 
-          daypilot.events.update(x); 
-        }
-      });
+      setTimeout(function() {
+        daypilot.events.all().for_each( function(x) { 
+          if(data.included_sessions.includes(x.id) && x.backColor != "#CCCCFF") {
+            x.backColor = "#CCCCFF";
+            daypilot.events.update(x);
+          }
+          if(!data.included_sessions.includes(x.id) && x.backColor != "#FFFFFF") {
+            x.backColor = "#FFFFFF"; 
+            daypilot.events.update(x); 
+          }
+        });
+      }, 0);
 
     //  switch(data.num_slots) {
     //    case 2: data.total_price = 12000; break;
