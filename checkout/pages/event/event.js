@@ -221,7 +221,7 @@ function calculate_total() {
       break;
   
     case 'privates':
-      data.total_price = data.custom_full_price();
+      data.total_price = data.custom_full_price;
 
     //  switch(data.num_slots) {
     //    case 2: data.total_price = 12000; break;
