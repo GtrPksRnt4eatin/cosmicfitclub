@@ -134,6 +134,7 @@ function setup_daypilot() {
     eventDeleteHandling: "Disabled",
     eventMoveHandling: "Disabled",
     eventResizeHandling: "Disabled",
+    eventClickHandling: 'Select',
     onEventClick: on_session_selected,
     eventHoverHandling: "Disabled",
     onBeforeCellRender:   function(args) {
