@@ -148,12 +148,12 @@ function setup_daypilot() {
     daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(5,'hours').format(), end: moment(x.end_time).subtract(5,'hours').format(), text: x.title + "\r\n" + rivets.formatters.money(x.individual_price_full) });  
   });
 
-  $.get("/models/groups/range/2021-08-09/2021-08-16")
-  .success( function(val) {
-    for(i=0; i<val.length; i++) {
-      daypilot.events.add(val[i]);
-    }
-  })
+ // $.get("/models/groups/range/2021-08-09/2021-08-16")
+ // .success( function(val) {
+ //   for(i=0; i<val.length; i++) {
+ //     daypilot.events.add(val[i]);
+ //   }
+ // })
 
   daypilot.init();
 }
@@ -222,6 +222,7 @@ function calculate_total() {
   
     case 'privates':
       data.total_price = data.custom_full_price;
+      daypilot.events.list.for_each( function(x) { x.backColor = data.included_sessions.includes(x.id) ? "#AAAAFF" : "#FFFFFF"; daypilot.events.update(x); } );
 
     //  switch(data.num_slots) {
     //    case 2: data.total_price = 12000; break;
