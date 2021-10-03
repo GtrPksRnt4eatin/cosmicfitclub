@@ -225,8 +225,8 @@ function calculate_total() {
       data.total_price = data.custom_full_price;
       if(!daypilot) return;
       daypilot.events.all().for_each( function(x) { 
-        console.log( x.name + " : " + data.included_sessions.includes(x.id) );
-        x.client.backColor(data.included_sessions.includes(x.id) ? "#CCCCFF" : "#FFFFFF");
+        console.log( x.text() + " : " + data.included_sessions.includes(x.id()) );
+        x.client.backColor(data.included_sessions.includes(x.id()) ? "#CCCCFF" : "#FFFFFF");
         daypilot.events.update(x);
       });
 
