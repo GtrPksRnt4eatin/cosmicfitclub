@@ -76,7 +76,12 @@ html
 
             #daypilot
           
-          div rv-each-sess="data.included_sessions | populate_sess"
+            div rv-each-sess="data.included_sessions | populate_sess"
+              div 
+                span
+                  | {sess.title}
+                span
+                  | {sess.individual_price_full | money}
           
 
           div rv-if="data.selected_timeslot.starttime"
@@ -107,14 +112,6 @@ html
                 .value.edit rv-on-click='ctrl.choose_custy'
                   | {slot.customer_string}               
             hr
-
-          div rv-each-sess="data.included_sessions | populate_sess"
-            div 
-              span
-                | {sess.title}
-              span
-                | {sess.individual_price_full | money}
-
 
           div
             button#checkout rv-on-click='ctrl.checkout_new' Pay { data.total_price | money } Now
