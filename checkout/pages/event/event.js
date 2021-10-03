@@ -224,10 +224,11 @@ function calculate_total() {
     case 'privates':
       data.total_price = data.custom_full_price;
       if(!daypilot) return;
-        daypilot.events.all().for_each( function(x) { 
-          x.client.backColor(data.included_sessions.includes(x.id) ? "#CCCCFF" : "#FFFFFF");
-          daypilot.events.update(x);
-        });
+      daypilot.events.all().for_each( function(x) { 
+        console.log( x.name + " : " + data.included_sessions.includes(x.id) );
+        x.client.backColor(data.included_sessions.includes(x.id) ? "#CCCCFF" : "#FFFFFF");
+        daypilot.events.update(x);
+      });
 
     //  switch(data.num_slots) {
     //    case 2: data.total_price = 12000; break;
