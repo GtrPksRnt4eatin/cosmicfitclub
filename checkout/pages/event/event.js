@@ -362,7 +362,7 @@ function checkout_new() {
       "slots": data.rental.slots
     });
 
-    $.post('charge_priv', body)
+    $.post('charge', body)
      .done( on_successful_charge )
      .fail( on_failed_charge )
 
