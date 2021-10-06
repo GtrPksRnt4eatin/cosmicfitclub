@@ -229,7 +229,7 @@ class Event < Sequel::Model
   end
 
   def Event::short_list
-    Event.reverse( :starttime ).all.map(&:list_item).to_json
+    Event.all.sort_by { |x| x.starttime || x.first_day }.reverse.map(&:list_item).to_json
   end
 
   def Event::next
