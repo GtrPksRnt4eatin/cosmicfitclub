@@ -192,8 +192,7 @@ h4 {
 }
 
 .included_sess {
-  background-color: "#CCCCCC";
-  padding: 0.5em
+  margin-top: 1.5em;
 }
 
 @media(max-width: 800px) {

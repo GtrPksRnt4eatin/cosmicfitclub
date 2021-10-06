@@ -77,9 +77,12 @@ html
             #daypilot
           
             table.included_sess
+              tr
+                th colspan=3
+                  | Selected Sessions:
               tr rv-each-sess="data.included_sessions | populate_sess"
                 td
-                  | { sess.start_time | fulldate }
+                  | { sess.start_time | shortdt }
                 td
                   | {sess.title}
                 td

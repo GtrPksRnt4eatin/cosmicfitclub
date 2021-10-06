@@ -294,11 +294,22 @@ function calculate_custom_prices() {
 
 }
 
+function sort_included_sessions() {
+  data.included_sessions.sort( function(a,b) { 
+    let sess_a = data.event_data.sessions.find( function(x) { return x.id == a; } );
+    let sess_b = data.event_data.sessions.find( function(x) { return x.id == b; } );
+    if(!sess_a) { return sess_b ? 1 : 0; }
+    if(!sess_b) { return sess_a ? -1 : 0; }
+    return moment(sess_b.start_time) - moment(sess_a.start_time);
+  });
+}
+
 function set_included_sessions(sessions) {
   for(var i=0; i<data.event_data.sessions.length; i++) { 
     data.event_data.sessions[i].selected = sessions.indexOf(data.event_data.sessions[i].id)!=-1;
   }
   data.included_sessions = sessions.slice(0);
+  sort_included_sessions();
 }
 
 function toggle_included_session(session) {
