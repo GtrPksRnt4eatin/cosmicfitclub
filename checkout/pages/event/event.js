@@ -373,7 +373,7 @@ function checkout_new() {
         "included_sessions": data.included_sessions.join(','),
         "selected_price": empty(data.selected_price) ? 0 : data.selected_price.id
       },
-      "token": token,
+      "token": "",
       "selected_price": data.selected_price
     });
 
