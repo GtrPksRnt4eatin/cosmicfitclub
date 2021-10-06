@@ -76,9 +76,9 @@ html
 
             #daypilot
           
-            table.included_sess
+            table.included_sess rv-unless="data.included_sessions | empty"
               tr
-                th colspan=3
+                td colspan=3
                   | Selected Sessions:
               tr rv-each-sess="data.included_sessions | populate_sess"
                 td

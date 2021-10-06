@@ -300,7 +300,7 @@ function sort_included_sessions() {
     let sess_b = data.event_data.sessions.find( function(x) { return x.id == b; } );
     if(!sess_a) { return sess_b ? 1 : 0; }
     if(!sess_b) { return sess_a ? -1 : 0; }
-    return moment(sess_b.start_time) - moment(sess_a.start_time);
+    return moment(sess_a.start_time) - moment(sess_b.start_time);
   });
 }
 
