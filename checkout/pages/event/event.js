@@ -222,7 +222,7 @@ function calculate_total() {
       break;
   
     case 'privates':
-      data.total_price = data.custom_full_price;
+      data.total_price = data.custom_full_price/100;
       if(!daypilot) return;
       daypilot.events.all().for_each( function(x) { 
         x.client.backColor(data.included_sessions.includes(x.id()) ? "#CCCCFF" : "#FFFFFF");
