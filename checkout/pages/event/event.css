@@ -238,6 +238,7 @@ h4 {
     margin-right: 0;
     margin-bottom: 2em;
     max-width: 95vw;
+    position: relative;
   }
 
   .flex1 {

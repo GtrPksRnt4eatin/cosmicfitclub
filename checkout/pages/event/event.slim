@@ -76,15 +76,14 @@ html
 
             #daypilot
           
-            div rv-each-sess="data.included_sessions | populate_sess"
-              table.included_sess
-                tr
-                  td
-                    | { sess.start_time | date }
-                  td
-                    | {sess.title}
-                  td
-                    | {sess.individual_price_full | money}
+            table.included_sess
+              tr rv-each-sess="data.included_sessions | populate_sess"
+                td
+                  | { sess.start_time | fulldate }
+                td
+                  | {sess.title}
+                td
+                  | {sess.individual_price_full | money}
           
           div rv-if="data.selected_timeslot.starttime"
 
