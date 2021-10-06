@@ -6,7 +6,7 @@ module ClassPromo
 
   def ClassPromo::generate_for_bot(classdef)
     arr = []
-    arr.push({ :img => ClassPromo::generate4x5({ :img=> classdef.image_url, :lines=>classdef.footer_lines_teachers }), :title => "#{classdef.name.truncate(12)}_fbpost"  })
+    arr.push({ :img => ClassPromo::generate4x5({ :img=> classdef.thumbnail_image(size=:original), :lines=>classdef.footer_lines_teachers }), :title => "#{classdef.name.truncate(12)}_fbpost"  })
     ##arr.push({ :img => ClassPromo::generate1080x1080(staff.id), :title => "#{staff.name.truncate(12)}_square"  })
     #arr.push({ :img => ClassPromo::generate1080x1920(staff.id), :title => "#{staff.name.truncate(12)}_story"   })
   end
