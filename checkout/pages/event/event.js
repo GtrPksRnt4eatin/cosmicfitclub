@@ -362,17 +362,16 @@ function checkout_new() {
     //  "slots": data.rental.slots
     //});
 
-    body = JSON.stringify({ 
-      "customer_id":  userview.id, 
-      "event_id": data.event_data['id'], 
-      "total_price": data.total_price,
-      "included_sessions": data.included_sessions,
-      "customer_payment_id": payment_id,
-      "multiplier": data.multiplier,
-      "price_id": 0
-    });
+    var payload = {
+      customer_id:       userview.id, 
+      event_id:          data.event_data['id'],
+      included_sessions: data.included_sessions,
+      total_price:       data.total_price,
+      payment_id:        payment_id,
+      price_id:          0
+    }
      
-    $.post('precharged', body)
+    $.post('precharged', payload)
      .done( on_successful_charge )
      .fail( on_failed_charge )
 
