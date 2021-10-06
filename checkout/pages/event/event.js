@@ -351,15 +351,30 @@ function checkout_new() {
 
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
-    body = JSON.stringify({
-      "event_id": data.event_data['id'],
-      "customer_id": userview.id,
+    //body = JSON.stringify({
+    //  "event_id": data.event_data['id'],
+    //  "customer_id": userview.id,
+    //  "total_price": data.total_price,
+    //  "payment_id": payment_id,
+    // "start_time": data.selected_timeslot.starttime.toISOString(),
+    //  "end_time": new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000).toISOString(),
+    //  "duration_mins": data.selected_timeslot.duration_min,
+    //  "slots": data.rental.slots
+    //});
+
+    body = JSON.stringify({ 
+      "type":  "event", 
+      "event_id": data.event_data['id'], 
       "total_price": data.total_price,
-      "payment_id": payment_id,
-      "start_time": data.selected_timeslot.starttime.toISOString(),
-      "end_time": new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000).toISOString(),
-      "duration_mins": data.selected_timeslot.duration_min,
-      "slots": data.rental.slots
+      "included_sessions": data.included_sessions,
+      "multiplier": data.multiplier,
+      "metadata": {
+        "event_id": data.event_data['id'], 
+        "included_sessions": data.included_sessions.join(','),
+        "selected_price": empty(data.selected_price) ? 0 : data.selected_price.id
+      },
+      "token": token,
+      "selected_price": data.selected_price
     });
 
     $.post('charge', body)
