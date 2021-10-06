@@ -20,7 +20,7 @@ class EventTicket < Sequel::Model
   def after_create
     super
     self.generate_code
-    #self.send_email
+    self.send_email
     self.generate_passes
     self.send_notification
   rescue
