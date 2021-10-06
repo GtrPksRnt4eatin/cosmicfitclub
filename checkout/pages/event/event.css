@@ -250,6 +250,23 @@ h4 {
     flex: 0 0 4.5em;
   }
 
+  .calendar_default_event_inner {
+    font-size: 2vw;
+    line-height:1.5em;
+  }
+
+  .calendar_default_col_header {
+    font-size: 2.5vw
+  }
+
+  .calendar_default_rowheader_inner {
+    font-size: 3.5vw;
+  }
+  
+  .calendar_default_rowheader_minutes {
+    font-size: 2vw;
+  }
+
 }
 
 @media(min-width: 800px) and (max-width: 1300px) {
