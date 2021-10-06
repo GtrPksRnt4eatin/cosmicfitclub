@@ -179,6 +179,14 @@ function on_timeslot_selected(args) {
   calculate_total();
 }
 
+function session_available(id) {
+  let session = data.event_data.sessions.find( function(y) { return x.id() == y.id} );
+  let attendance = data.attendance.find( function(z) { return x.id() == z.id; } );
+  if( !attendance || !session ) return false;
+  if( attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 ) ) return false;
+  return true;
+}
+
 function update_daypilot_colors() {
   daypilot.events.all().for_each( function(x) {
     let session = data.event_data.sessions.find( function(y) { return x.id() == y.id} );
@@ -202,7 +210,8 @@ function update_daypilot_colors() {
 
 function on_session_selected(args) {
   if(!userview.logged_in) { userview.onboard(); return;  }
-
+  if( !session_available(args.e.data.id) ) { return; }
+  
   data.a_la_carte = true;
   clear_selected_price();
   toggle_included_session(args.e.data);
@@ -254,11 +263,7 @@ function calculate_total() {
   
     case 'privates':
       data.total_price = data.custom_full_price/100;
-      if(!daypilot) return;
-      daypilot.events.all().for_each( function(x) { 
-        x.client.backColor(data.included_sessions.includes(x.id()) ? "#CCCCFF" : "#FFFFFF");
-        daypilot.events.update(x);
-      });
+
 
     //  switch(data.num_slots) {
     //    case 2: data.total_price = 12000; break;
