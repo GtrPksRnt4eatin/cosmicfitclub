@@ -30,7 +30,8 @@ var data = {
     note: '',
     slots: []
   },
-  num_slots: 1
+  num_slots: 1,
+  attendance: []
 }
 
 $(document).ready( function() {
@@ -148,6 +149,30 @@ function setup_daypilot() {
   data.event_data.sessions.for_each( function(x) {
     daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(5,'hours').format(), end: moment(x.end_time).subtract(5,'hours').format(), text: x.title + "\r\n" + rivets.formatters.money(x.individual_price_full) });  
   });
+
+  $.get("/models/events/" + data.event_data.id + "/attendance2")
+   .success( function(val) { 
+    data.attendance = val;
+
+    daypilot.events.all().for_each( function(x) {
+      let session = data.event_data.sessions.find( function(y) { return x.id == y.id} );
+      let attendance = data.attendance.find( function(z) { return x.id == z.id; } );
+      if( !attendance || !session ) return;
+      if(session.name != "Private") {
+        x.title = session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.count + " / " + session.max_capacity;
+      }
+      if(attendance.passes.count >= session.max_capacity) {
+        x.client.backColor("#AAAAAA");
+      }
+      else if(data.included_sessions.includes(x.id()) {
+        x.client.backColor("#CCCCFF");
+      }
+      else {
+        x.client.backColor("#FFFFFF");
+      }
+      daypilot.events.update(x);
+    });
+  })
 
  // $.get("/models/groups/range/2021-08-09/2021-08-16")
  // .success( function(val) {
@@ -350,17 +375,6 @@ function checkout_new() {
   let desc = data.event_data.name;
 
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
-
-    //body = JSON.stringify({
-    //  "event_id": data.event_data['id'],
-    //  "customer_id": userview.id,
-    //  "total_price": data.total_price,
-    //  "payment_id": payment_id,
-    // "start_time": data.selected_timeslot.starttime.toISOString(),
-    //  "end_time": new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000).toISOString(),
-    //  "duration_mins": data.selected_timeslot.duration_min,
-    //  "slots": data.rental.slots
-    //});
 
     var payload = {
       customer_id:       userview.id, 
