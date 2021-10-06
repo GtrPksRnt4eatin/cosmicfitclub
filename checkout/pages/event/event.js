@@ -363,21 +363,17 @@ function checkout_new() {
     //});
 
     body = JSON.stringify({ 
-      "type":  "event", 
+      "customer_id":  userview.id, 
       "event_id": data.event_data['id'], 
       "total_price": data.total_price,
       "included_sessions": data.included_sessions,
+      "customer_payment_id": payment_id,
       "multiplier": data.multiplier,
-      "metadata": {
-        "event_id": data.event_data['id'], 
-        "included_sessions": data.included_sessions.join(','),
-        "selected_price": empty(data.selected_price) ? 0 : data.selected_price.id
-      },
-      "token": "",
-      "selected_price": data.selected_price
-    });
+      "event_price_id": 0
 
-    $.post('charge', body)
+    });
+     
+    $.post('precharged', body)
      .done( on_successful_charge )
      .fail( on_failed_charge )
 
