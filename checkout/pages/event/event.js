@@ -368,7 +368,7 @@ function checkout_new() {
       included_sessions: data.included_sessions,
       total_price:       data.total_price,
       payment_id:        payment_id,
-      price_id:          0
+      price_id:          null
     }
      
     $.post('precharged', payload)
