@@ -191,6 +191,11 @@ h4 {
   display: none;
 }
 
+.included_sess {
+  background-color: "#CCCCCC";
+  padding: 0.5em
+}
+
 @media(max-width: 800px) {
   .content:before { display: none; }
   .tile img       { max-width: 100%; }
