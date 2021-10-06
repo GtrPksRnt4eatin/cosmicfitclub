@@ -394,6 +394,7 @@ function checkout_new() {
   calculate_total();
 
   let desc = data.event_data.name;
+  desc += "\r\ntest"
 
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
