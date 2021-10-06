@@ -180,8 +180,8 @@ function on_timeslot_selected(args) {
 }
 
 function session_available(id) {
-  let session = data.event_data.sessions.find( function(y) { return x.id() == y.id} );
-  let attendance = data.attendance.find( function(z) { return x.id() == z.id; } );
+  let session = data.event_data.sessions.find( function(y) { return id == y.id} );
+  let attendance = data.attendance.find( function(z) { return id == z.id; } );
   if( !attendance || !session ) return false;
   if( attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 ) ) return false;
   return true;
@@ -211,7 +211,7 @@ function update_daypilot_colors() {
 function on_session_selected(args) {
   if(!userview.logged_in) { userview.onboard(); return;  }
   if( !session_available(args.e.data.id) ) { return; }
-  
+
   data.a_la_carte = true;
   clear_selected_price();
   toggle_included_session(args.e.data);
