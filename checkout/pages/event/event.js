@@ -164,7 +164,7 @@ function setup_daypilot() {
       if(attendance.passes.count >= session.max_capacity) {
         x.client.backColor("#AAAAAA");
       }
-      else if(data.included_sessions.includes(x.id()) {
+      else if( data.included_sessions.includes(x.id()) ) {
         x.client.backColor("#CCCCFF");
       }
       else {
