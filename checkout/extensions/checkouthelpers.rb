@@ -95,7 +95,7 @@ module Sinatra
       params[:multiplier] ||= 1
 
       params[:multiplier].to_i.times do 
-        EventTicket.create(
+        p EventTicket.create(
           :customer_id         => params[:customer_id],
           :event_id            => params[:event_id],
           :included_sessions   => params[:included_sessions],
