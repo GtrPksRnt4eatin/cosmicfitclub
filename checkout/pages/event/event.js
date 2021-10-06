@@ -153,9 +153,7 @@ function setup_daypilot() {
   $.get("/models/events/" + data.event_data.id + "/attendance2")
    .success( function(val) { 
     data.attendance = val;
-
     update_daypilot_colors();
-
   })
 
  // $.get("/models/groups/range/2021-08-09/2021-08-16")
@@ -209,6 +207,7 @@ function update_daypilot_colors() {
 }
 
 function on_session_selected(args) {
+  if(args.originalEvent.type=='touchend') { return; }
   if(!userview.logged_in) { userview.onboard(); return;  }
   if( !session_available(args.e.data.id) ) { return; }
 
