@@ -369,8 +369,7 @@ function checkout_new() {
       "included_sessions": data.included_sessions,
       "customer_payment_id": payment_id,
       "multiplier": data.multiplier,
-      "event_price_id": 0
-
+      "price_id": 0
     });
      
     $.post('precharged', body)
