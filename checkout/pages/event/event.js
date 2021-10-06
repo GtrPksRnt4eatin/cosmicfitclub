@@ -159,7 +159,7 @@ function setup_daypilot() {
       let attendance = data.attendance.find( function(z) { return x.id() == z.id; } );
       if( !attendance || !session ) return;
       if(session.title != "Private") {
-        x.title = session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.length + " / " + session.max_capacity;
+        x.title(session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.length + " / " + session.max_capacity);
       }
       if(attendance.passes.length >= session.max_capacity) {
         x.client.backColor("#AAAAAA");
