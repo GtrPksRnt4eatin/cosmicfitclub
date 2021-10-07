@@ -102,7 +102,7 @@ class EventTicket < Sequel::Model
 
   def sessions_string
     return DateTime.parse(sessions[0].start_time).strftime('%a %m/%d @ %I:%M %p') if event.sessions.length < 2 
-    sessions.map { |x| "#{x.title} - #{DateTime.parse(x.start_time).strftime('%a %m/%d @ %I:%M %p')}" }.join(", ")
+    sessions.map { |x| "#{x.title} - #{DateTime.parse(x.start_time).strftime('%a %m/%d @ %I:%M %p')}" }.join("\r\n")
   end
 
   def mailer_model
