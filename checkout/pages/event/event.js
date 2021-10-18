@@ -262,7 +262,7 @@ function calculate_total() {
       break;
   
     case 'privates':
-      data.total_price = data.custom_full_price/100;
+      data.total_price = data.custom_full_price;
 
 
     //  switch(data.num_slots) {
@@ -398,7 +398,6 @@ function checkout_new() {
   calculate_total();
 
   let desc = data.event_data.name;
-  desc += "\r\ntest"
 
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
