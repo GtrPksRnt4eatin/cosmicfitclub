@@ -16,6 +16,7 @@ html
     == include_slim('slim/partials/header')
       
     .content
+      
       .tile
         .heading Subscription Plans
         table
@@ -36,17 +37,9 @@ html
               td
                 a href="https://cosmicfitclub.com/checkout/pack/#{pack[:id]}"
                   button Buy Now
-      .tile
-        .heading Personal Training Sessions 
-        table
-          tr
-            th Training Session
-            td $80.00 Per Hour
-            td
-              a href="https://cosmicfitclub.com/checkout/training/1"
-                button Buy Now
-        br
-        br
+        
+      br
+      br
 
     == include_slim('slim/partials/footer')
 
