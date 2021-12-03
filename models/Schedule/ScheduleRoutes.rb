@@ -97,7 +97,7 @@ class ScheduleRoutes < Sinatra::Base
     ical = Icalendar::Calendar.new
 
     tz = TZInfo::Timezone.get "America/New_York"
-    ical.add_timezone tz.ical_timezone(Date.today)
+    ical.add_timezone tz.ical_timezone(Time.zone.now)
 
     EventSession.between(from,to).map(&:to_ical_event).each         { |evt| ical.add_event(evt) }
     ClassdefSchedule.all.map(&:to_ical_event).each                  { |evt| ical.add_event(evt) }
