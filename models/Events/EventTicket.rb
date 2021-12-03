@@ -6,12 +6,13 @@ class EventTicket < Sequel::Model
 
   many_to_one :event
   many_to_one :customer
-  many_to_one :recipient,     :class => :Customer,        :key => :purchased_for
-  many_to_one :eventprice,    :class => :EventPrice,      :key => :event_price_id
-  one_to_many :checkins,      :class => :EventCheckin,    :key => :ticket_id
-  one_to_many :passes,        :class => :EventPass,       :key => :ticket_id
-  many_to_one :payment,       :class => :CustomerPayment, :key => :customer_payment_id 
-  pg_array_to_many :sessions, :class => :EventSession,    :key => :included_sessions
+  many_to_one :recipient,        :class => :Customer,        :key => :purchased_for
+  many_to_one :eventprice,       :class => :EventPrice,      :key => :event_price_id
+  one_to_many :checkins,         :class => :EventCheckin,    :key => :ticket_id
+  one_to_many :passes,           :class => :EventPass,       :key => :ticket_id
+  many_to_one :payment,          :class => :CustomerPayment, :key => :customer_payment_id
+  one_to_many :pass_transaction, :class => :PassTransaction, :key => :event_ticket_id
+  pg_array_to_many :sessions,    :class => :EventSession,    :key => :included_sessions
 
   ###################### ASSOCIATIONS #####################
 

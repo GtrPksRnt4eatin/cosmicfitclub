@@ -1,4 +1,6 @@
 require 'icalendar'
+require 'icalendar/tzinfo'
+require 'tzinfo'
 require 'sinatra/cross_origin'
 
 class ScheduleRoutes < Sinatra::Base
@@ -93,9 +95,14 @@ class ScheduleRoutes < Sinatra::Base
 
   def ScheduleRoutes::schedule_as_ical(from,to)
     ical = Icalendar::Calendar.new
+
+    tzid = "America/New_York"
+    tz = TZInfo::Timezone.get tzid
+    cal.add_timezone tz.ical_timezone(Date.today)
+
     EventSession.between(from,to).map(&:to_ical_event).each         { |evt| ical.add_event(evt) }
     ClassdefSchedule.all.map(&:to_ical_event).each                  { |evt| ical.add_event(evt) }
-    ClassOccurrence.past_between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
+    #ClassOccurrence.past_between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
     ical.to_ical
   end
 
