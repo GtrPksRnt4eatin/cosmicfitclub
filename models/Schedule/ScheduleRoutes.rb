@@ -1,6 +1,6 @@
 require 'icalendar'
-require 'icalendar/tzinfo'
 require 'tzinfo'
+require 'icalendar/tzinfo'
 require 'sinatra/cross_origin'
 
 class ScheduleRoutes < Sinatra::Base
@@ -89,16 +89,13 @@ class ScheduleRoutes < Sinatra::Base
     Scheduling::get_potential_conflicts(from,to).to_json
   end
 
-  get '/sorted_schedule' do
+  get '/sorted_schedule' do 
    Scheduling::get_sorted_virtual.to_json
   end
 
   def ScheduleRoutes::schedule_as_ical(from,to)
     ical = Icalendar::Calendar.new
-
-    tz = TZInfo::Timezone.get "America/New_York"
-    ical.add_timezone tz.ical_timezone(Time.zone.now)
-
+    ical.add_timezone TZInfo::Timezone.get("America/New_York").ical_timezone(Time.now)
     EventSession.between(from,to).map(&:to_ical_event).each         { |evt| ical.add_event(evt) }
     ClassdefSchedule.all.map(&:to_ical_event).each                  { |evt| ical.add_event(evt) }
     #ClassOccurrence.past_between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
