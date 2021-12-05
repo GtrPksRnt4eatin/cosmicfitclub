@@ -137,7 +137,6 @@ class ClassdefSchedule < Sequel::Model
       end
       occ[:starttime]    = occ[:exception][:changes][:starttime]     unless occ[:exception][:changes][:starttime].nil?
       occ[:endtime]      = occ[:exception][:changes][:endtime]       unless occ[:exception][:changes][:endtime].nil?
-      #occ.delete(:exception)
       next occ      
     end.compact
   end
@@ -167,10 +166,6 @@ class ClassdefSchedule < Sequel::Model
   def thumb_url
     self.img_url
   end
-
-  #def instructors
-  #  teachers.map(&:to_token)
-  #end
 
   ###################################### VIEWS #######################################
 
@@ -231,8 +226,9 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def to_ical_event
-    ical = Icalendar::Event.new 
-    ical.dtstart = DateTime.parse(Date.today.to_s + "T" + start_time.to_s)
+    ical = Icalendar::Event.new
+    dtstart = next_occurrence.to_date
+    ical.dtstart = DateTime.parse(dtstart.to_s + "T" + start_time.to_s)
     ical.duration = "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
     ical.rrule = rrule
     ical.summary = "#{classdef.name} w/ #{teachers.map(&:name).join(', ')}"
