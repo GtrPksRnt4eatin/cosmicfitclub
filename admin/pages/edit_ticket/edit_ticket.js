@@ -6,7 +6,7 @@ data = {
 ctrl = {
 
   add_pass: function(e,m) {
-    if( confirm(`add ${e.target.selectedOptions[0].innerText} to ticket?`) ) {
+    if( confirm(`add ${m.sess.description} to ticket?`) ) {
       var payload = { ticket_id: data.ticket.id, customer_id: data.ticket.customer.id, session_id: e.target.value }
       $.post('/models/events/passes', payload)
        .done( get_ticket )
