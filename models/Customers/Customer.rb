@@ -237,8 +237,8 @@ class Customer < Sequel::Model
     return self.wallet.rem_passes( number, reason, notes )
   end
 
-  def use_class_pass(reason, &block)
-    self.wallet.use_pass(reason, &block)
+  def use_class_pass(reason, number=1, &block)
+    self.wallet.use_pass(reason, number, &block)
   end
 
   def upcoming_reservations

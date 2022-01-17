@@ -39,11 +39,11 @@ class Wallet < Sequel::Model
     return transaction
   end
 
-  def use_pass(reason)
+  def use_pass(reason,number=1)
     return false if self.empty?
-    transaction = PassTransaction.create( :delta=>-1, :description=>reason, :notes=>"" ) { |trans| trans.reservation = yield }
+    transaction = PassTransaction.create( :delta=>-(number), :description=>reason, :notes=>"" ) { |trans| trans.reservation = yield }
     add_transaction( transaction )
-    self.pass_balance = self.pass_balance - 1
+    self.pass_balance = self.pass_balance - number
     self.save
     return transaction
   end

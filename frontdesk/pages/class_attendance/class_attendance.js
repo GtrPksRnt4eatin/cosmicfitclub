@@ -54,6 +54,10 @@ ctrl = {
         custy_selector.get_custy_list();
         custy_selector.select_customer(data.id);
       });
+  },
+
+  tog_2x_price(e,m) {
+    reservation_form.set_price(2400,2);
   }
 
 }

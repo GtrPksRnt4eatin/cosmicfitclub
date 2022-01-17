@@ -11,6 +11,8 @@ function ReservationForm(parent) {
       	staff_id: 0,    
         starttime: null	
       },
+      price: 1200,
+      pass_price:1,
       errors: []
 	}
 
@@ -104,7 +106,7 @@ ReservationForm.prototype = {
     classname = this.state.occurrence.classdef.name;
     teachername = this.state.occurrence.teacher.name;
     reason = `${classname} w/ ${teachername} - ${moment(this.state.occurrence.starttime).format('ddd MMM D @ h:mm a')}`;
-    this.ev_fire('paynow', [ this.state.reservation.customer_id, 1200, reason, null, this.after_paynow ]);
+    this.ev_fire('paynow', [ this.state.reservation.customer_id, this.state.price, reason, null, this.after_paynow ]);
 	},
 
   reserve_free(e,m) {
@@ -119,6 +121,7 @@ ReservationForm.prototype = {
  
   post_reservation(type) {
     this.state.reservation.transaction_type = type;
+    this.state.reservation.passes = this.state.pass_price;
     $.post('/models/classdefs/reservation', this.state.reservation)
      .done( this.after_reservation )
      .fail( function(e) { 
@@ -129,6 +132,11 @@ ReservationForm.prototype = {
   after_reservation() {
     this.refresh_customer();
     this.ev_fire('reservation_made');
+  },
+
+  set_price(cents,passes) {
+    this.state.price = cents;
+    this.state.pass_price = passes;
   },
 
   stack()   { $(this.dom).addClass('stacked');    },
@@ -150,12 +158,13 @@ ReservationForm.prototype.HTML = ES5Template(function(){/**
         ( { state.membership_plan.name } ) 
       </button>
       <button rv-on-click='this.reserve_class_pass' rv-enabled='state.class_passes | zero_if_null'>
-        Use a Class Pass <br>
+        Use { state.pass_price } Passes <br>
         ( { state.class_passes | zero_if_null } Remaining )
       </button>
       <button rv-on-click='this.reserve_paynow' rv-enabled='state.reservation.customer_id'>
-        Pay $12 Now
+        Pay ${state.price/100} Now
       </button>
+      <input type='checkbox' rv-checked='state.double_price'></input>
     </div>
     <div class='errors'>
       <div rv-each-err='state.errors'>
