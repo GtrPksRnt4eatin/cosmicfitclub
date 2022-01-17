@@ -21,11 +21,12 @@ LoftCalendar.prototype = {
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
       viewType: "Week",
       cellDuration: 30,
-      cellHeight: 25,
-      businessBeginsHour: 12,
-      businessEndsHour: 23,
-      dayBeginsHour: 12,
-      dayEndsHour: 23,
+      cellHeight: 20,
+      headerDateFormat: "ddd MMM d",
+      businessBeginsHour: 9,
+      businessEndsHour: 24,
+      dayBeginsHour: 9,
+      dayEndsHour: 24,
       timeRangeSelectedHandling: "Enabled",
       onTimeRangeSelected: this.on_timeslot_selected,
       eventDeleteHandling: "Disabled",
@@ -38,7 +39,7 @@ LoftCalendar.prototype = {
   },
 
   on_timeslot_seleted: function(args) {
-
+    console.log(args);
   }
 
 }
