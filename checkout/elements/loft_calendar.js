@@ -38,6 +38,13 @@ LoftCalendar.prototype = {
     this.state.daypilot.init();
   },
 
+  get_reservations: function(from,to) {
+    $.get( '/models/groups/range', { from: from, to: to } )
+     .then( 
+       function(resp) { this.state.reservations = resp; }.bind(this) 
+     );
+  },
+
   on_timeslot_seleted: function(args) {
     console.log(args);
   }
