@@ -17,6 +17,7 @@ function ReservationForm(parent) {
 	}
 
   rivets.formatters.zero_if_null   = function(val) { return empty(val) ? 0 : val; }
+  rivets.formatters.passes         = function(val) { return val == 1 ? '1 Pass' : val + ' Passes'; }
 	rivets.formatters.has_membership = function(val) { return( empty(val) ? false : val.name != 'None' ); }
 
 	this.bind_handlers(['load_customer', 'clear_customer', 'clear_errors', 'refresh_customer', 'on_customer', 'reserve_membership', 'reserve_class_pass', 'reserve_free', 'reserve_paynow', 'after_reservation', 'after_paynow']);
@@ -158,11 +159,11 @@ ReservationForm.prototype.HTML = ES5Template(function(){/**
         ( { state.membership_plan.name } ) 
       </button>
       <button rv-on-click='this.reserve_class_pass' rv-enabled='state.class_passes | zero_if_null'>
-        Use { state.pass_price } Passes <br>
+        Use { state.pass_price | passes }<br>
         ( { state.class_passes | zero_if_null } Remaining )
       </button>
       <button rv-on-click='this.reserve_paynow' rv-enabled='state.reservation.customer_id'>
-        Pay ${state.price | money} Now
+        Pay {state.price | money} Now
       </button>
     </div>
     <div class='errors'>
