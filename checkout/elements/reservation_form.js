@@ -162,9 +162,8 @@ ReservationForm.prototype.HTML = ES5Template(function(){/**
         ( { state.class_passes | zero_if_null } Remaining )
       </button>
       <button rv-on-click='this.reserve_paynow' rv-enabled='state.reservation.customer_id'>
-        Pay ${state.price/100} Now
+        Pay ${state.price | money} Now
       </button>
-      <input type='checkbox' rv-checked='state.double_price'></input>
     </div>
     <div class='errors'>
       <div rv-each-err='state.errors'>
