@@ -56,7 +56,11 @@ ctrl = {
       });
   },
 
-  tog_2x_price(e,m) {
+  set_1x_price(e,m) {
+    reservation_form.set_price(1200,1);
+  },
+
+  set_2x_price(e,m) {
     reservation_form.set_price(2400,2);
   }
 
