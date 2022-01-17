@@ -34,10 +34,11 @@ LoftCalendar.prototype = {
       eventClickHandling: "Disabled",
       eventHoverHandling: "Disabled",
     });
+    this.state.daypilot.init();
   },
 
   on_timeslot_seleted: function(args) {
-      
+
   }
 
 }
@@ -46,7 +47,9 @@ Object.assign( LoftCalendar.prototype, element);
 Object.assign( LoftCalendar.prototype, ev_channel);
 
 LoftCalendar.prototype.HTML = `
-  <div class='loftcalendar'></div>
+  <div class='loftcalendar'>
+    <div id='daypilot'></div>
+  </div>
 `.untab(2);
 
 LoftCalendar.prototype.CSS = `
