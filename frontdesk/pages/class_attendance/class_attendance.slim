@@ -68,7 +68,7 @@ html
             td.reservation_name rv-on-click='ctrl.edit_reservation_customer'
               | { reservation.customer_name }
             td
-              | { reservation.payment_type } { reservation.payment_amount | money }
+              | { reservation.payment_type } { reservation.payment_amount | money } { reservation_pass_amount | passes }
             td.checkin rv-on-click='ctrl.checkin'
               span rv-unless='reservation.checked_in' Check In
               span.checked_in rv-if='reservation.checked_in' { reservation.checked_in | time }

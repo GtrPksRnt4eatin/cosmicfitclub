@@ -222,6 +222,7 @@ class ClassOccurrence < Sequel::Model
              ELSE 'free'
         END AS payment_type,   
         "pass_transactions"."id" AS transaction_id,
+        "pass_transactions"."delts" AS pass_amount,
         "customer_payments"."id" AS payment_id,
         "customer_payments"."amount" AS payment_amount,
         "customer_payments"."type" AS payment_type2,

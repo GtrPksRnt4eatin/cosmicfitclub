@@ -22,9 +22,9 @@ ctrl = {
 	cancel: function(e,m) {
     var msg = { 
       "membership": "Undo Membership Use?",
-      "class pass": "Refund One Class Pass?",
-      "card":       "Refund Credit Card?",
-      "cash":       "Refund $25 Cash?",
+      "class pass": m.reservation.pass_amount == 1 ? "Refund One Class Pass?" : `Refund ${m.reservation.pass_amount} Class Passes`,
+      "card":       `Refund Credit Card \$ ${ m.reservation.payment_amount / 100 }?`,
+      "cash":       `Refund \$ ${ m.reservation.payment_amount / 100 } Cash?`,
       "free":       "Cancel Registration?" 
     }[m.reservation.payment_type];
     if( !confirm(msg) ) return;
@@ -109,7 +109,8 @@ function setup_bindings() {
   rivets.formatters.teachers        = function(val) { return empty(val) ? "" : val.map(    function(x) { return x.name         } ).join(', '); }
   rivets.formatters.head_count      = function(val) { return empty(val) ? "" : val.filter( function(x) { return !!x.checked_in } ).length;     }
   rivets.formatters.reg_count       = function(val) { return empty(val) ? "" : val.length; }
-  rivets.formatters.money           = function(val) { return empty(val) ? "" : "$ " + (val/100).toFixed(2) };
+  rivets.formatters.money           = function(val) { return empty(val) ? "" : "$ " + (val/100).toFixed(2); }
+  rivets.formatters.passes          = function(val) { return empty(val) ? "" : `(${val})`; }
   rivets.formatters.occurrence_href = function(val) { return "/frontdesk/class_attendance/" + val; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
