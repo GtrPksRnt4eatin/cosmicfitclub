@@ -122,7 +122,7 @@ ReservationForm.prototype = {
  
   post_reservation(type) {
     this.state.reservation.transaction_type = type;
-    this.state.reservation.passes = this.state.pass_price;
+    this.state.reservation.pass_price = this.state.pass_price;
     $.post('/models/classdefs/reservation', this.state.reservation)
      .done( this.after_reservation )
      .fail( function(e) { 
