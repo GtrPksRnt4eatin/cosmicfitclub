@@ -25,18 +25,8 @@ html
         .tuple rv-if='data.rental.tag'
           .attrib Reservation Tag:
           .value { data.rental.tag }
-          
-        .tuple
-          .attrib Start Time:
-          .value
-            input rv-datefield='data.rental.starttime'
-        
-        .tuple
-          .attrib End Time:
-          .value
-            input rv-datefield='data.rental.endtime'
 
-        #daypilot
+        #loft_calendar_container
 
         .tuple
           .attrib Activity:
