@@ -180,13 +180,10 @@ $(document).ready( function() {
 
   $.get('/models/customers', on_custylist, 'json');
 
- // $('#customers').chosen({ search_contains: true });
   $('#classes').chosen({ search_contains: true });
   $('#staff').chosen({ search_contains: true });
-  $//('.customers').chosen({ search_contains: true });
   $('#children').chosen({ search_contains: true });
 
-  //$('#customers').on('change', on_customer_selected );
   $('#packages').on('change', on_package_selected );
 
   $('ul.tabs li').click(function(){
@@ -254,6 +251,7 @@ function on_customer_selected(e) {
 }
 
 function on_custy_selected(custy_id) {
+  if(custy==0) return;
   history.pushState({ "id": custy_id }, "", `customer_file?id=${custy_id}`); 
   choose_customer(custy_id); 
 }
@@ -266,8 +264,8 @@ function choose_customer(id) {
   resetCustomer();
   data.reservation.customer_id = id;
   data.customer.id = parseInt(id);
-  $('#customers').val(id);
-  $('#customers').trigger('chosen:updated');
+  //$('#customers').val(id);
+  //$('#customers').trigger('chosen:updated');
   tic_selector.load_customer(id);
   refresh_customer_data();
 }

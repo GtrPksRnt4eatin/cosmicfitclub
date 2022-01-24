@@ -44,15 +44,6 @@ html
             tr
               th Customer
               td
-                select#customers
-                  option value='0'
-                    | No Customer
-                  - Customer.all.each do |cust|
-                    option value='#{cust.id}'
-                      | #{ cust.name } ( #{ cust.email } )
-            tr
-              th Customer
-              td
                 #custy_select_container
      
         .tabs_container
