@@ -214,7 +214,7 @@ def payroll_query
 		    FROM class_reservations_details
 		    WHERE class_reservations_details.class_occurrence_id = occurrences.id
 		) AS payment_total,
-	    (   SELECT SUM(ABS(pass_transaction_delta))
+	    (   SELECT ABS(SUM(pass_transaction_delta))
 		    FROM class_reservations_details
 		    WHERE class_reservations_details.class_occurrence_id = occurrences.id
 		) AS passes_total,
