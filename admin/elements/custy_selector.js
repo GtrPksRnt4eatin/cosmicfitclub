@@ -216,7 +216,7 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
     display: inline-block;
     font-weight: bold;
     width: 100%;
-    text-align: middle;
+    text-align: center;
     line-height: 1.2em;
   }
 

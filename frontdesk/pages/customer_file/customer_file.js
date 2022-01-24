@@ -245,13 +245,8 @@ function on_custylist(list) {
   data.customers = list;
 }
 
-function on_customer_selected(e) {   
-  history.pushState({ "id": e.target.value }, "", `customer_file?id=${e.target.value}`); 
-  choose_customer(e.target.value); 
-}
-
 function on_custy_selected(custy_id) {
-  if(custy==0) return;
+  if(custy_id==0) return;
   history.pushState({ "id": custy_id }, "", `customer_file?id=${custy_id}`); 
   choose_customer(custy_id); 
 }
@@ -264,8 +259,6 @@ function choose_customer(id) {
   resetCustomer();
   data.reservation.customer_id = id;
   data.customer.id = parseInt(id);
-  //$('#customers').val(id);
-  //$('#customers').trigger('chosen:updated');
   tic_selector.load_customer(id);
   refresh_customer_data();
 }
