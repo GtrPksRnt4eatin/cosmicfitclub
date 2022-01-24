@@ -370,3 +370,7 @@ table.history .header {
   background: rgba(255,0,0,0.3);
   text-decoration: strikeout;
 }
+
+#custy_select_container {
+  width: 33em;
+}
