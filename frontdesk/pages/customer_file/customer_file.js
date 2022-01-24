@@ -177,13 +177,13 @@ $(document).ready( function() {
 
   $.get('/models/customers', on_custylist, 'json');
 
-  $('#customers').chosen({ search_contains: true });
+ // $('#customers').chosen({ search_contains: true });
   $('#classes').chosen({ search_contains: true });
   $('#staff').chosen({ search_contains: true });
-  $('.customers').chosen({ search_contains: true });
+  $//('.customers').chosen({ search_contains: true });
   $('#children').chosen({ search_contains: true });
 
-  $('#customers').on('change', on_customer_selected );
+  //$('#customers').on('change', on_customer_selected );
   $('#packages').on('change', on_package_selected );
 
   $('ul.tabs li').click(function(){
