@@ -166,6 +166,9 @@ $(document).ready( function() {
   popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
   custy_selector.ev_sub('customer_selected', on_custy_selected );
 
+  custy_selector.state.show_edit = false;
+  custy_selevtor.state.show_title = false;
+
   tic_selector = new TicketSelector( id('ticketselector_container') );
   tic_selector.ev_sub('paynow', function(args) {
     var custy = data.customer;
@@ -197,11 +200,12 @@ $(document).ready( function() {
   });
 
   var customer_id = getUrlParameter('id') ? getUrlParameter('id') : 0;
-  if( ! empty(customer_id) ) { choose_customer(customer_id); }  
+  if( ! empty(customer_id) ) { choose_customer(customer_id); custy_selector.select_customer(customer_id); }  
   history.replaceState({ "id": customer_id }, "", `customer_file?id=${customer_id}`);
 
   $(window).bind('popstate', function(e) { 
     choose_customer(history.state.id);
+    custy_selector.select_customer(history.state.id);
   });
 
   $('#comp_reason').on('focus', function(e) { if(e.target.value == "Reason for Comps") { e.target.value = ""; } } )
@@ -249,8 +253,9 @@ function on_customer_selected(e) {
   choose_customer(e.target.value); 
 }
 
-function on_custy_selected(custy) {
-  var x = 5;
+function on_custy_selected(custy_id) {
+  history.pushState({ "id": custy_id }, "", `customer_file?id=${custy_id}`); 
+  choose_customer(custy_id); 
 }
 
 function on_package_selected(e) {

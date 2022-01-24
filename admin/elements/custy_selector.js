@@ -3,9 +3,11 @@ function CustySelector(parent) {
   this.state = { 
     customers: [],
     customer_id: 0,
-    show_add_form: false,
     new_customer_name: "",
-    new_customer_email: ""
+    new_customer_email: "",
+    show_add_form: false,
+    show_title: true,
+    show_edit: true
   }
 
   this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer','init_selectize','show_add_form','create_customer']);
@@ -133,10 +135,10 @@ Object.assign( CustySelector.prototype, ev_channel);
 
 CustySelector.prototype.HTML =  ES5Template(function(){/**
   <div class='custy_selector'>
-    <h3>Select an Existing Customer</h3>
+    <h3 rv-if='this.state.show_title'>Select an Existing Customer</h3>
     <div class='selector'>
       <select class='customers' placeholder='Search Existing Customers...' rv-on-change='this.custy_selected' rv-value='this.state.customer_id'></select>
-      <img class='edit_custy' rv-unless="this.state.show_add_form" rv-on-click='this.edit_customer' src='/person.svg'>
+      <img rv-if='this.state.show_edit' class='edit_custy' rv-unless="this.state.show_add_form" rv-on-click='this.edit_customer' src='/person.svg'>
       <div class='add_custy'  rv-unless="this.state.show_add_form" rv-on-click='this.new_customer'>
         <span>+</span>
       </div>
