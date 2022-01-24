@@ -167,7 +167,7 @@ $(document).ready( function() {
   custy_selector.ev_sub('customer_selected', on_custy_selected );
 
   custy_selector.state.show_edit = false;
-  custy_selevtor.state.show_title = false;
+  custy_selector.state.show_title = false;
 
   tic_selector = new TicketSelector( id('ticketselector_container') );
   tic_selector.ev_sub('paynow', function(args) {
