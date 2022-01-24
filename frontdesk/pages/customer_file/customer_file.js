@@ -156,13 +156,15 @@ $(document).ready( function() {
 
   setupBindings();
 
-  userview     = new UserView(  id('userview_container')  );
-  popupmenu    = new PopupMenu( id('popupmenu_container') );
-  payment_form = new PaymentForm();
+  userview       = new UserView(  id('userview_container')  );
+  popupmenu      = new PopupMenu( id('popupmenu_container') );
+  custy_selector = new CustySelector( id('custy_select_container'));
+  payment_form   = new PaymentForm();
 
   payment_form.ev_sub('show', popupmenu.show );
   payment_form.ev_sub('hide', popupmenu.hide );
   popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
+  custy_selector.ev_sub('customer_selected', on_custy_selected );
 
   tic_selector = new TicketSelector( id('ticketselector_container') );
   tic_selector.ev_sub('paynow', function(args) {
@@ -245,6 +247,10 @@ function on_custylist(list) {
 function on_customer_selected(e) {   
   history.pushState({ "id": e.target.value }, "", `customer_file?id=${e.target.value}`); 
   choose_customer(e.target.value); 
+}
+
+function on_custy_selected(custy) {
+  var x = 5;
 }
 
 function on_package_selected(e) {

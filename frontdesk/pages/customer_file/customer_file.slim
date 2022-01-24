@@ -16,7 +16,7 @@ html
     == js_sync [ 'rivets', 'moment', 'selectize.min', 'flatpickr' ]
     == js_sync [ 'lib', 'element', 'ev_channel', 'popupmenu' ]
     == js_sync [ 'rv_money', 'rv_dates', 'rv_select' ]
-    == js_sync [ '/admin/elements/ticket_selector', '/checkout/elements/payment_form', '/auth/elements/userview' ]
+    == js_sync [ '/admin/elements/ticket_selector', '/checkout/elements/payment_form', '/auth/elements/userview', '/admin/elements/custy_selector' ]
     == js_sync [ 'customer_file' ]
 
     javascript:
@@ -50,6 +50,10 @@ html
                   - Customer.all.each do |cust|
                     option value='#{cust.id}'
                       | #{ cust.name } ( #{ cust.email } )
+            tr
+              th Customer
+              td
+                #custy_select_container
      
         .tabs_container
 
