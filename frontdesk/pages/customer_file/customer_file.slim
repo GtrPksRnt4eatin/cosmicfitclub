@@ -166,6 +166,9 @@ html
                             option value="#{i}" #{i}
                       td passes to
                       td
+                        div rv-on-click='ctrl.get_send_custy'
+                          | {data.transfer_to}
+
                         select.customers#custy1 rv-value='data.transfer_to'
                           option value='0' No Customer
                           - Customer.all.each do |cust|

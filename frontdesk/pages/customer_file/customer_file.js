@@ -95,11 +95,18 @@ ctrl = {
     $.post('/models/customers/' + data.customer.id + '/info', JSON.stringify(data.customer_info));
   },
 
+  get_send_custy: function(e,m) {
+    custy_modal.show_modal( data.transfer_to, function(val) { data.transfer_to = val; })
+  },
+
+  get_recv_custy: function(e,m) {
+    custy_modal.show_modal( data.transfer_from, function(val) { data.transfer_from = val; })
+  },
+
   send_passes: function(e,m) {
     $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.customer.id, to: data.transfer_to, amount: data.transfer_to_amount } )
      .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
      .fail( function(e) { alert('Transfer Failed') });
-
   },
 
   receive_passes: function(e,m) {
@@ -158,16 +165,16 @@ $(document).ready( function() {
 
   userview       = new UserView(  id('userview_container')  );
   popupmenu      = new PopupMenu( id('popupmenu_container') );
-  custy_selector = new CustySelector( id('custy_select_container'));
+  custy_selector = new CustySelector( id('custy_select_container'), false, false, false, true);
+  custy_modal    = new CustySelector( null, true, true, false, false ); 
   payment_form   = new PaymentForm();
 
+  custy_modal.ev_sub('show', popupmenu.show );
+  custy_modal.ev_sub('close_modal', popupmenu.hide );
   payment_form.ev_sub('show', popupmenu.show );
   payment_form.ev_sub('hide', popupmenu.hide );
   popupmenu.ev_sub('close', payment_form.stop_listen_cardswipe);
   custy_selector.ev_sub('customer_selected', on_custy_selected );
-
-  custy_selector.state.show_edit = false;
-  custy_selector.state.show_title = false;
 
   tic_selector = new TicketSelector( id('ticketselector_container') );
   tic_selector.ev_sub('paynow', function(args) {

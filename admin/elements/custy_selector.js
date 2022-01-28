@@ -1,23 +1,34 @@
-function CustySelector(parent) {
-  
+function CustySelector(parent, load, show_title, show_edit, show_new ) {
+
   this.state = { 
-    customers: [],
+    //customers: [],
     customer_id: 0,
     new_customer_name: "",
     new_customer_email: "",
     show_add_form: false,
-    show_title: true,
-    show_edit: true
+    show_title: (typeof show_title !== 'undefined') ? show_title : true,
+    show_edit:  (typeof show_edit !== 'undefined') ? show_edit : true,
+    show_new:   (typeof show_new !== 'undefined') ? show_new : true
   }
 
-  this.bind_handlers(['get_custy_list','on_data','on_data_failed','edit_customer','new_customer','custy_selected','select_customer','init_selectize','show_add_form','create_customer']);
+  load = (typeof load !== 'undefined') ? load : true;
+
+  this.bind_handlers(['get_custy_list','on_data','on_data_failed','refresh_selectize','edit_customer','new_customer','custy_selected','select_customer','init_selectize','show_add_form','create_customer']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
   this.bind_dom();
+  
+  CustySelector.state.instances.push(this);
 
   this.init_selectize();
-  this.get_custy_list();
+
+  if(load) { this.get_custy_list(); }
+}
+
+CustySelector.state = {
+  customers: [],
+  instances: []
 }
 
 CustySelector.prototype = {
@@ -30,12 +41,17 @@ CustySelector.prototype = {
   },
 
   on_data: function(list) {
-    this.state.customers = list.map(function(val){ val['list_string'] = ( val.name || val.email ) + " ( " + val.email + " )"; return val; });
+    CustySelector.state.customers = list.map(function(val){ val['list_string'] = ( val.name || val.email ) + " ( " + val.email + " )"; return val; });
+    //this.state.customers = list.map(function(val){ val['list_string'] = ( val.name || val.email ) + " ( " + val.email + " )"; return val; });
+    CustySelector.state.instances.forEach(function(el) { el.refresh_selectize(); });
+  },
+
+  refresh_selectize() {
     this.selectize_instance.selectize.clear();
     this.selectize_instance.selectize.clearOptions();
     this.selectize_instance.selectize.renderCache['option'] = {};
     this.selectize_instance.selectize.renderCache['item'] = {};
-    this.selectize_instance.selectize.addOption(this.state.customers);
+    this.selectize_instance.selectize.addOption(CustySelector.state.customers);
     if(this.state.customer_id) { this.select_customer(this.state.customer_id) }
   },
 
