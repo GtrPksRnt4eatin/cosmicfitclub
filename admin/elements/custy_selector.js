@@ -120,9 +120,9 @@ CustySelector.prototype = {
     }.bind(this) );
   },
 
-  select_customer: function(custy_id) {
+  select_customer: function(custy_id, silent) {
     this.state.customer_id = custy_id;
-    this.selectize_instance.selectize.setValue(custy_id);
+    this.selectize_instance.selectize.setValue(custy_id, silent);
   },
 
   custy_selected: function(e,m) {
@@ -160,9 +160,11 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
     <div class='selector'>
       <select class='customers' placeholder='Search Existing Customers...' rv-on-change='this.custy_selected' rv-value='this.state.customer_id'></select>
       <img class='edit_custy' rv-if="this.state.show_edit" rv-on-click='this.edit_customer' src='/person.svg'>
-      <div class='add_custy'  rv-unless="this.state.show_add_form" rv-on-click='this.new_customer'>
-        <span>+</span>
-      </div>
+      <span rv-if="this.state.show_new">
+        <div class='add_custy'  rv-unless="this.state.show_add_form" rv-on-click='this.new_customer'>
+          <span>+</span>
+        </div>
+      </span>
     </div>
     <div class='add_form' rv-if='this.state.show_add_form'>
       <h3>Register New Customer</h3>

@@ -204,7 +204,7 @@ $(document).ready( function() {
   });
 
   var customer_id = getUrlParameter('id') ? getUrlParameter('id') : 0;
-  if( ! empty(customer_id) ) { choose_customer(customer_id); custy_selector.select_customer(customer_id); }  
+  if( ! empty(customer_id) ) { choose_customer(customer_id); custy_selector.select_customer(customer_id, true); }  
   history.replaceState({ "id": customer_id }, "", `customer_file?id=${customer_id}`);
 
   $(window).bind('popstate', function(e) { 
