@@ -33,7 +33,7 @@ CustySelector.state = {
 
 CustySelector.get_list_string = function(id, not_found) {
   not_found = not_found ? not_found : ""; 
-  custy = CustySelector.customers.find(function(val) { return val.id == id });
+  custy = CustySelector.state.customers.find(function(val) { return val.id == id });
   return custy ? custy.list_string : not_found;
 }
 
