@@ -79,10 +79,17 @@ html
         #customer_form_container
 
         #reservation_form_container
+
         div
           button rv-on-click='ctrl.set_1x_price' 1X
           button rv-on-click='ctrl.set_2x_price' 2X
         
+        div
+          a rv-href='data.selected_custy | saved_card_href' Saved Cards
+
+        div
+          
+                  
         table.inline_block
           tr 
             td Frequent Flyers

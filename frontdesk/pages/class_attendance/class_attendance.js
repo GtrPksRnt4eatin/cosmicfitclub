@@ -2,7 +2,8 @@ data = {
   reservations: [],
   occurrence: {},
   frequent_flyers: [],
-  staff_list: []
+  staff_list: [],
+  selected_customer: 0
 }
 
 ctrl = {
@@ -98,6 +99,7 @@ $(document).ready( function() {
     teacher_selector.ev_sub('hide', popupmenu.hide );
 
     custy_selector.ev_sub('customer_selected', reservation_form.load_customer );
+    custy_selector.ev_sub('customer_selected', function(val) { data.selected_customer = val; });
 
     get_frequent_fliers();
 
@@ -106,12 +108,13 @@ $(document).ready( function() {
 function setup_bindings() {
   include_rivets_dates();
   include_rivets_select();
-  rivets.formatters.teachers        = function(val) { return empty(val) ? "" : val.map(    function(x) { return x.name         } ).join(', '); }
-  rivets.formatters.head_count      = function(val) { return empty(val) ? "" : val.filter( function(x) { return !!x.checked_in } ).length;     }
-  rivets.formatters.reg_count       = function(val) { return empty(val) ? "" : val.length; }
-  rivets.formatters.money           = function(val) { return empty(val) ? "" : "$ " + (val/100).toFixed(2); }
-  rivets.formatters.passes          = function(val) { return empty(val) ? "" : `(${val})`; }
-  rivets.formatters.occurrence_href = function(val) { return "/frontdesk/class_attendance/" + val; }
+  rivets.formatters.teachers         = function(val) { return empty(val) ? "" : val.map(    function(x) { return x.name         } ).join(', '); }
+  rivets.formatters.head_count       = function(val) { return empty(val) ? "" : val.filter( function(x) { return !!x.checked_in } ).length;     }
+  rivets.formatters.reg_count        = function(val) { return empty(val) ? "" : val.length; }
+  rivets.formatters.money            = function(val) { return empty(val) ? "" : "$ " + (val/100).toFixed(2); }
+  rivets.formatters.passes           = function(val) { return empty(val) ? "" : `(${val})`; }
+  rivets.formatters.occurrence_href  = function(val) { return "/frontdesk/class_attendance/" + val; }
+  rivets.formatters.saved_cards_href = function(val) { return "/admin/payment_sources?id=" + val; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
 
