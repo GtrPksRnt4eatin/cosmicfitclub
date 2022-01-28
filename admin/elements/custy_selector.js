@@ -31,6 +31,12 @@ CustySelector.state = {
   instances: []
 }
 
+CustySelector.get_list_string = function(id, not_found) {
+  not_found = not_found ? not_found : ""; 
+  custy = CustySelector.find(function(val) { return val.id == id });
+  return custy ? custy.list_string : not_found;
+}
+
 CustySelector.prototype = {
   constructor: CustySelector,
 
@@ -42,7 +48,6 @@ CustySelector.prototype = {
 
   on_data: function(list) {
     CustySelector.state.customers = list.map(function(val){ val['list_string'] = ( val.name || val.email ) + " ( " + val.email + " )"; return val; });
-    //this.state.customers = list.map(function(val){ val['list_string'] = ( val.name || val.email ) + " ( " + val.email + " )"; return val; });
     CustySelector.state.instances.forEach(function(el) { el.refresh_selectize(); });
   },
 
