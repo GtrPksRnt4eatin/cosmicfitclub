@@ -57,7 +57,7 @@ CustySelector.prototype = {
     this.selectize_instance.selectize.renderCache['option'] = {};
     this.selectize_instance.selectize.renderCache['item'] = {};
     this.selectize_instance.selectize.addOption(CustySelector.state.customers);
-    if(this.state.customer_id) { this.select_customer(this.state.customer_id) }
+    if(this.state.customer_id) { this.select_customer(this.state.customer_id, true) }
   },
 
   init_selectize: function() {
