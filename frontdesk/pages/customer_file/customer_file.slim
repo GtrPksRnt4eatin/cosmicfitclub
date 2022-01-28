@@ -166,14 +166,8 @@ html
                             option value="#{i}" #{i}
                       td passes to
                       td
-                        div.custybox rv-on-click='ctrl.get_send_custy'
+                        .custybox rv-on-click='ctrl.get_send_custy'
                           | { data.transfer_to | custy_list_string }
-
-                        select.customers#custy1 rv-value='data.transfer_to'
-                          option value='0' No Customer
-                          - Customer.all.each do |cust|
-                            option value='#{cust.id}'
-                              | #{ cust.name } ( #{ cust.email } )
                       td
                         button rv-on-click='ctrl.send_passes'
                           | Send
@@ -186,11 +180,8 @@ html
                             option value="#{i}" #{i}
                       td passes from
                       td
-                        select.customers#custy2 rv-value='data.transfer_from'
-                          option value='0' No Customer
-                          - Customer.all.each do |cust|
-                            option value='#{cust.id}'
-                              | #{ cust.name } ( #{ cust.email } )
+                        .custybox rv-on-click='ctrl.get_recv_custy'
+                          | { data.transfer_from | custy_list_string }
                       td
                         button rv-on-click='ctrl.receive_passes'
                           | Receive

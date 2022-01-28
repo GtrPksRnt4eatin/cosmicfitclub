@@ -72,8 +72,10 @@ select,
 
 .custybox {
   color: black;
-  background: rgba(255,255,255,0.8);
-  box-shadow: 0 0 0.1em black inset;
+  padding: 0.3em 0.5em;
+  background: rgba(255,255,255,0.9);
+  cursor: pointer;
+  box-shadow: 0 0 0.wem black inset;
 }
 
 #packages_chosen {
