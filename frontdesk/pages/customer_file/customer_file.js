@@ -209,7 +209,7 @@ $(document).ready( function() {
 
   $(window).bind('popstate', function(e) { 
     choose_customer(history.state.id);
-    custy_selector.select_customer(history.state.id);
+    custy_selector.select_customer(history.state.id, true);
   });
 
   $('#comp_reason').on('focus', function(e) { if(e.target.value == "Reason for Comps") { e.target.value = ""; } } )
