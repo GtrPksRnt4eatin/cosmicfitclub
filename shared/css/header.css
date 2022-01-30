@@ -168,6 +168,9 @@ header {
 
   #slim_header #userview_container {
     position: absolute;
+    display: inline-block;
+    border-top: none;
+    padding: 0;
     top: 1em;
     right: 1em;
   }
