@@ -8,7 +8,7 @@ html
 
     title Customer File
     
-    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'selectize', 'customer_file' ]
+    == css [ 'fonts', 'site', 'header', 'menu_colors', 'chosen-ems', 'flatpickr', 'selectize', 'customer_file' ]
 
     script src='https://js.stripe.com/v3/'
 
@@ -28,9 +28,7 @@ html
 
     #stars
 
-    #header
-      span Cosmic Fit Club Front Desk
-      #userview_container
+    == include_slim('slim/partials/slim_header')
 
     .content
 

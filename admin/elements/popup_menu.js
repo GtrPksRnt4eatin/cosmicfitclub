@@ -84,6 +84,7 @@ PopupMenu.prototype.CSS = `
     #PopupMenu.modal .modal_container {
       width: 95%;
       box-sizing: border-box;
+      border-radius: 2vw;
     }
   }
 
