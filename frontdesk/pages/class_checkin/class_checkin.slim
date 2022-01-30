@@ -66,37 +66,28 @@ html
       .tile
 
         #custom_sheet
-
-          table#custom_form
-            tr
-              td
-              td Custom Class Sheet
-            tr
-              th Class:
-              td
+          h3 Custom Class Sheet
+          .row
+            label Class:
+            .field
                 select#classes rv-selectize='data.newsheet.classdef_id'
                   option value='0' None
                   - ClassDef.exclude(:deactivated=>true).all.each do |classdef|
                     option value='#{classdef.id}'
                       | #{ classdef.name }
-            tr
-              th Instructor:
-              td
+          .row
+            label Instructor:
+            .field
                 select#staff rv-selectize='data.newsheet.staff_id'
                   option value='0' None
                   - Staff.exclude(:deactivated=>true).all.each do |staff|
                     option value='#{staff.id}'
                       | #{ staff.name }
-            tr
-              th Timeslot:
-              td
-                input#timeslot rv-time_popup='data.newsheet.starttime'
-            tr
-              td
-              td
-                button.create_sheet rv-on-click='ctrl.create_custom' Create
-      br
-      br
-      br
-      br
-      br
+          .row
+            label Timeslot:
+            .field
+              input#timeslot rv-time_popup='data.newsheet.starttime'
+          .row
+            button.create_sheet rv-on-click='ctrl.create_custom' Create
+      
+      .spacer
