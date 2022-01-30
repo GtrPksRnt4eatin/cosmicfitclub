@@ -382,3 +382,18 @@ table.history .header {
 #custy_select_container {
   width: 33em;
 }
+
+@media(max-width: 800px) {
+
+  .hide_mobile {
+    display: none;
+  }
+
+  .tile {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1em;
+    margin: 1em 0;
+  }
+
+}
