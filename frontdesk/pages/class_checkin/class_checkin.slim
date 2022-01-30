@@ -4,7 +4,7 @@ html
 
   head
     
-    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'flatpickr', 'class_checkin' ]
+    == css [ 'fonts', 'site', 'menu_colors', 'selectize', 'flatpickr', 'class_checkin' ]
 
     script src='https://js.stripe.com/v3/'
 
@@ -14,7 +14,7 @@ html
       data['staff']   = #{{ Staff.all.to_json }};
       data['customer'] = {};
 
-    == js_bundle('classcheckin1', ['jquery', 'jquery.priceformat', 'jquery.chosen.min', 'flatpickr', 'moment', 'rivets', 'rv_dates', 'rv_money', 'rv_select', 'lib', 'element', 'ev_channel'])
+    == js_bundle('classcheckin1', ['jquery', 'jquery.priceformat', 'selectize.min.js', 'flatpickr', 'moment', 'rivets', 'rv_dates', 'rv_money', 'rv_select', 'lib', 'element', 'ev_channel'])
     == js_sync  [ '/auth/elements/userview', 'class_checkin' ]
 
   body
