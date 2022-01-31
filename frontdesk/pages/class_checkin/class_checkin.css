@@ -215,6 +215,11 @@
 
 /* CUSTOM FORM */
 
+  #custom_sheet {
+    max-width: 30em;
+    margin: auto;
+  }
+
   #custom_sheet .row {
     display: flex;
     align-items: center;
@@ -244,7 +249,7 @@
     padding: 0.5em 0;
   }
 
-  table#custom_form .flatpickr-input, 
+  #custom_form .flatpickr-input, 
   select, 
   #custom_form input,
   #custom_form button {
