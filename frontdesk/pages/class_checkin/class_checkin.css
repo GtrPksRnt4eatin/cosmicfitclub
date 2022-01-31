@@ -249,10 +249,10 @@
     padding: 0.5em 0;
   }
 
-  #custom_form .flatpickr-input, 
+  #custom_sheet .flatpickr-input, 
   select, 
-  #custom_form input,
-  #custom_form button {
+  #custom_sheet input,
+  #custom_sheet button {
     width: 30em;
     box-sizing: border-box;
     font-family: "Industry-Light";
