@@ -208,4 +208,12 @@ td.checkin:hover {
     width: 100%;
   }
 
+  .ReservationForm {
+    margin: 0;
+  }
+
+  .ReservationForm button {
+    width: 100%;
+  }
+
 }
