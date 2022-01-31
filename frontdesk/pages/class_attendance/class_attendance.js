@@ -35,11 +35,12 @@ ctrl = {
         break;
       case "card":
         proceed = confirm( `Credit ${ m.reservation.payment_amount / 1200 } Passes? Cancel to Refund` );
-        if(proceed) { data.to_passes = true; }
+        if(proceed) { data.to_passes = true; break; }
         proceed = confirm( `Refund Credit Card \$ ${ m.reservation.payment_amount / 100 }?` )
+        break;
       case "cash":
         proceed = confirm( `Credit ${ m.reservation.payment_amount / 1200 } Passes? Cancel to Refund` );
-        if(proceed) { data.to_passes = true; }
+        if(proceed) { data.to_passes = true; break; }
         proceed = confirm( `Refund \$ ${ m.reservation.payment_amount / 100 } Cash?` )
         break;
     }

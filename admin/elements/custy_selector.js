@@ -211,7 +211,7 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
 
   .custy_selector .add_custy,
   .custy_selector .edit_custy {
-    height: 3em;
+    height: 1.79em;
     flex: 0;
     margin-left: 0.5em;
     background: rgba(168,181,191,0.9);
@@ -240,6 +240,12 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
   }
 
   @media(max-width: 800px) {
+  
+    .custy_selector .add_custy,
+    .custy_selector .edit_custy {
+      height: 3em;
+    }
+
     .modal_container .custy_selector {
       font-size: 2.8vw;
       width: 85vw !important;
