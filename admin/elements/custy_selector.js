@@ -211,8 +211,8 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
 
   .custy_selector .add_custy,
   .custy_selector .edit_custy {
-    height: 1.92em;
-    flex: 0 0 1.92em;
+    height: 3em;
+    flex: 0;
     margin-left: 0.5em;
     background: rgba(168,181,191,0.9);
     border-radius: 0.4em;
