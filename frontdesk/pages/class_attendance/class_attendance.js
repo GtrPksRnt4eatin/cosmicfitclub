@@ -93,7 +93,7 @@ $(document).ready( function() {
     
     userview          = new UserView( id('userview_container') );
     popupmenu         = new PopupMenu( id('popupmenu_container') );
-    custy_selector    = new CustySelector( id('customer_form_container'));
+    custy_selector    = new CustySelector( id('customer_form_container'), true, false);
     reservation_form  = new ReservationForm(id('reservation_form_container'));
 
     payment_form      = new PaymentForm();
