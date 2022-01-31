@@ -21,15 +21,30 @@ ctrl = {
   },
 
 	cancel: function(e,m) {
-    var msg = { 
-      "membership": "Undo Membership Use?",
-      "class pass": m.reservation.pass_amount == 1 ? "Refund One Class Pass?" : `Refund ${m.reservation.pass_amount} Class Passes`,
-      "card":       `Refund Credit Card \$ ${ m.reservation.payment_amount / 100 }?`,
-      "cash":       `Refund \$ ${ m.reservation.payment_amount / 100 } Cash?`,
-      "free":       "Cancel Registration?" 
-    }[m.reservation.payment_type];
-    if( !confirm(msg) ) return;
-    $.del('/models/classdefs/reservations/' + m.reservation.id)
+    var proceed;
+    var data = { to_passes: false };
+    switch(m.reservation.payment_type) {
+      case "membership": 
+        proceed = confirm("Undo Membership Use?");
+        break;
+      case "class pass":
+        proceed = confirm( m.reservation.pass_amount == 1 ? "Refund One Class Pass?" : `Refund ${m.reservation.pass_amount} Class Passes`);
+        break;
+      case "free":
+        proceed = confirm( "Cancel Registration?" );
+        break;
+      case "card":
+        proceed = confirm( `Credit ${ m.reservation.payment_amount / 1200 } Passes? Cancel to Refund` );
+        if(proceed) { data.to_passes = true; }
+        proceed = confirm( `Refund Credit Card \$ ${ m.reservation.payment_amount / 100 }?` )
+      case "cash":
+        proceed = confirm( `Credit ${ m.reservation.payment_amount / 1200 } Passes? Cancel to Refund` );
+        if(proceed) { data.to_passes = true; }
+        proceed = confirm( `Refund \$ ${ m.reservation.payment_amount / 100 } Cash?` )
+        break;
+    }
+    if(!proceed) return;
+    $.del('/models/classdefs/reservations/' + m.reservation.id, data)
      .success( function() { get_reservations(); reservation_form.refresh_customer(); } );
 	},
 
@@ -43,7 +58,9 @@ ctrl = {
 
   new_customer(e,m) {
     var name = prompt("Enter The New Customers Name:", "");
+    if(name==null) return;
     var email = prompt("Enter The New Customers E-Mail:", "");
+    if(email==null) return;
     $.post('/auth/register', JSON.stringify({
         "name": name,
         "email": email

@@ -16,10 +16,11 @@ class ClassReservation < Sequel::Model
     self.save
   end
 
-  def cancel
-    self.transaction.undo    if self.transaction
-    self.membership_use.undo if self.membership_use
-    self.payment.undo        if self.payment
+  def cancel(to_passes)
+    self.transaction.undo          if self.transaction
+    self.membership_use.undo       if self.membership_use
+    self.payment.undo              if self.payment && !to_passes
+    self.payment.convert_to_passes if self.payment && to_passes
     self.delete
   end
 

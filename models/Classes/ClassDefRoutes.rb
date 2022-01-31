@@ -311,7 +311,7 @@ class ClassDefRoutes < Sinatra::Base
 
   delete '/reservations/:id' do
     res = ClassReservation[params[:id]] or halt 404
-    res.cancel
+    res.cancel(params[:to_passes])
     status 204
     {}.to_json
   end
