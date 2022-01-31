@@ -1,7 +1,6 @@
 function CustySelector(parent, load, show_title, show_edit, show_new ) {
 
   this.state = { 
-    //customers: [],
     customer_id: 0,
     new_customer_name: "",
     new_customer_email: "",
@@ -148,6 +147,7 @@ CustySelector.prototype = {
 
   show_add_form: function(e,m) {
     this.state.show_add_form = true;
+    this.state.show_new = false;
   }
 }
 
@@ -160,9 +160,7 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
     <div class='selector'>
       <select class='customers' placeholder='Search Existing Customers...' rv-on-change='this.custy_selected' rv-value='this.state.customer_id'></select>
       <img class='edit_custy' rv-if="this.state.show_edit" rv-on-click='this.edit_customer' src='/person.svg'>
-      <span rv-if="this.state.show_new">
-        <img class="add_custy" rv-unless="this.state.show_add_form" rv-on-click='this.new_customer'/>
-      </span>
+      <img class="add_custy" rv-if="this.state.show_new" rv-on-click='this.new_customer' src='/add.svg'/>
     </div>
     <div class='add_form' rv-if='this.state.show_add_form'>
       <h3>Register New Customer</h3>

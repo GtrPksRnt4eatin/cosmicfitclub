@@ -209,7 +209,7 @@ td.checkin:hover {
   }
 
   .ReservationForm {
-    margin: 0;
+    margin: 1em 0 !important;
   }
 
   .ReservationForm button {
