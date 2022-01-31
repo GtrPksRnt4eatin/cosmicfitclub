@@ -213,7 +213,7 @@ td.checkin:hover {
   }
 
   .ReservationForm button {
-    width: 100%;
+    width: 100% !important;
   }
 
 }
