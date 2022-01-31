@@ -161,9 +161,7 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
       <select class='customers' placeholder='Search Existing Customers...' rv-on-change='this.custy_selected' rv-value='this.state.customer_id'></select>
       <img class='edit_custy' rv-if="this.state.show_edit" rv-on-click='this.edit_customer' src='/person.svg'>
       <span rv-if="this.state.show_new">
-        <div class='add_custy'  rv-unless="this.state.show_add_form" rv-on-click='this.new_customer'>
-          <span>+</span>
-        </div>
+        <img class="add_custy" rv-unless="this.state.show_add_form" rv-on-click='this.new_customer'/>
       </span>
     </div>
     <div class='add_form' rv-if='this.state.show_add_form'>
