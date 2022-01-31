@@ -14,7 +14,7 @@ class CustomerPayment < Sequel::Model
   def convert_to_passes
     self.update( :reservation => nil )
     num_passes = self.amount / 1200
-    self.customer.add_passes(num_passes, "Converted from Payment[#{self.id}] for $#{self.amount.to_f/100}"), "")
+    self.customer.add_passes(num_passes, "Converted from Payment[#{self.id}] for $#{self.amount.to_f/100}", "")
   end
 
   def send_notification
