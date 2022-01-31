@@ -101,7 +101,7 @@ html
                 th Add Child:
                 td
                   div
-                    select.customers#children
+                    select.customers#children rv-selectize='data.child_id'
                       option value='0' No Customer
                       - Customer.all.each do |cust|
                         option value='#{cust.id}'

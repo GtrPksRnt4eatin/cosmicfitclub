@@ -221,11 +221,17 @@
   }
 
   #custom_sheet .row label {
-    flex: 0 0 6em;
+    flex: 0 0 7em;
   }
 
   #custom_sheet .row .field {
     flex: 1;
+    padding: 0 1em;
+    margin: 0 0 0.3em 0;
+  }
+
+  #custom_sheet .selectize-input {
+    padding: 0.3em;
   }
 
   #custom_sheet button {
@@ -256,7 +262,7 @@
 
   .classdetails .field {
     padding: 0 0.5em;
-    font-size: 2vw;
+    font-size: 2.2vw;
     display: block;
     width: auto !important;
     text-align: left;

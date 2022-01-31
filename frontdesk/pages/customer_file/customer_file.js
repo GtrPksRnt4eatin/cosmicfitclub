@@ -35,7 +35,8 @@ data = {
   misc_charge: {
     amount: 0,
     reason: ""
-  }
+  },
+  child_id: 0
 }
 
 ctrl = {
