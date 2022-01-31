@@ -198,7 +198,7 @@
 
     table.reservations td {
       padding: 0.3em;
-      box-shadow: 0 0 .5em rgba(255,255,255,0.6);
+      box-shadow: 0 0 .3em rgba(255,255,255,0.65);
     }
 
     .reservations td.field:nth-child(1) { width: 30em; }
@@ -256,22 +256,29 @@
 
 /* CUSTOM FORM */
 
-
-
 @media(max-width: 1000px) {
+    
+  table.reservations td.field {
+    font-size: 2.5vw;
+  }
 
   .classdetails .field {
     padding: 0 0.5em;
-    font-size: 2.2vw;
+    font-size: 2.8vw;
     display: block;
     width: auto !important;
     text-align: left;
-    line-height: 1.2em;
+    line-height: 1.3em;
   }
 
   .classdetails {
     text-align: left;
     display: inline-block;
+  }
+
+  #custom_sheet button {
+    padding: 0.5em;
+    margin: 2vw;
   }
 
 }
