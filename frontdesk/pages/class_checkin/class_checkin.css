@@ -240,7 +240,8 @@
   }
 
   #custom_sheet .title {
-    font-size: 1.5em;
+    font-size: 1.2em;
+    padding: 0.5em 0;
   }
 
   table#custom_form .flatpickr-input, 
