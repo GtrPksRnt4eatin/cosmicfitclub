@@ -194,3 +194,15 @@ td.checkin:hover {
   right: 0;
   cursor: pointer;
 }
+
+@media(max-width: 1000px) {
+
+  .heading {
+    font-size: 3vw;
+  }
+  
+  .tile {
+    margin: 1em 0 0 0;
+  }
+
+}

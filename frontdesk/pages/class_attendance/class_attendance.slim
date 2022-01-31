@@ -6,7 +6,7 @@ html
 
     == no_scaling
     
-    == css [ 'fonts', 'site', 'menu_colors', 'chosen-ems', 'selectize', 'flatpickr', 'class_attendance' ]
+    == css [ 'fonts', 'site', 'header', 'menu_colors', 'chosen-ems', 'selectize', 'flatpickr', 'class_attendance' ]
 
     script src='https://js.stripe.com/v3/'
 
@@ -26,9 +26,7 @@ html
 
     #stars
 
-    #header
-      span Cosmic Fit Club Front Desk
-      #userview_container
+    == include_slim('slim/partials/slim_header')
 
     .content
 
