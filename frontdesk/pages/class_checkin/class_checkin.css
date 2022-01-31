@@ -239,6 +239,10 @@
     cursor: pointer;
   }
 
+  #custom_sheet .title {
+    font-size: 1.5em;
+  }
+
   table#custom_form .flatpickr-input, 
   select, 
   #custom_form input,
@@ -257,6 +261,11 @@
 /* CUSTOM FORM */
 
 @media(max-width: 1000px) {
+
+  .dropdown .arrow {
+    width: 10vw;
+    height: 10vw;
+  }
     
   table.reservations td.field {
     font-size: 2.5vw;
