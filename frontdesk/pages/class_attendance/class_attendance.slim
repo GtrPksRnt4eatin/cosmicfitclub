@@ -89,7 +89,7 @@ html
         div
           a rv-href='data.selected_customer | saved_cards_href' Saved Cards
 
-        div
+        br
 
 
         table.inline_block
@@ -97,7 +97,7 @@ html
             td Frequent Flyers
           tr
             td
-              select multiple="true"
+              select.frequent multiple="true"
                 option rv-each-flyer='data.frequent_flyers' rv-value='flyer.id' rv-on-click='ctrl.choose_flyer'
                   | {flyer.count} times - { flyer.name } ( {flyer.email} )
 
