@@ -3,7 +3,6 @@ source "https://rubygems.org"
 ruby "2.7.3"
 
 gem "rake", ">= 12.3.3"
-gem "nokogiri", ">= 1.10.8"
 gem 'rack', '>= 2.0.8'
 gem 'sinatra', '>= 2.0.2'
 gem 'stripe'
@@ -46,3 +45,6 @@ gem 'rack-contrib'
 gem 'slack-ruby-client'
 gem 'tzinfo'
 gem 'tzinfo-data'
+gem "addressable", ">= 2.8.0"
+gem "nokogiri", ">= 1.12.5"
+gem "rexml", ">= 3.2.5"
