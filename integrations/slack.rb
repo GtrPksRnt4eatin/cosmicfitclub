@@ -2,7 +2,7 @@ require 'net/http'
 
 module Slack
 
-  API_URI = URI("https://hooks.slack.com/services/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")
+  API_URI = URI("https://hooks.slack.com/services/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")
 
   def Slack.post(msg)
     Slack.send({ :text => msg })
