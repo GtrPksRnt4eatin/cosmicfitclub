@@ -118,7 +118,7 @@ ctrl = {
 
   undo_transaction: function(e,m) {
     if(confirm("Really Undo Transation?")) {
-      $.del('/models/passes/transations/' + m.trans.id)
+      $.del('/models/passes/transactions/' + m.trans.id)
        .fail( function() { alert("Failed to undo transaction") })
        .done( function() { refresh_customer_data(); })
     }
