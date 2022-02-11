@@ -76,7 +76,11 @@ PriceForm.prototype.HTML = `
     </div>
     <div class='tuplet'>
       <label>Full Price:</label>
-      <input rv-value='state.price.full_price'></textarea>
+      <input rv-value='state.price.full_price'/>
+    </div>
+    <div class='tuplet'>
+      <label>Num Passes</label>
+      <input type='number' rv-value='state.price.num_passes'/>
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
