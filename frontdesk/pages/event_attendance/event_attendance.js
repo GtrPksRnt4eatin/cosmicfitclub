@@ -54,11 +54,13 @@ $(document).ready(function() {
     var custy = custy_selector.selected_customer;
     if(!custy) { alert('No Customer Selected!'); return; } 
     if(tic_selector.state.selected_price.num_passes) {
-      $.post('/models/customers/' + custy.id + "/use_passes", { num_passes: tic_selector.state.selected_price.num_passes, reason: args[2] })
+      $.post('/models/customer/' + custy.id + "/use_passes", { num_passes: tic_selector.state.selected_price.num_passes, reason: args[2] })
        .fail( function() { alert("Failed to Use Passes"); } ) 
        .done( function(val) { tic_selector.on_payment(null,val); });
     }
-    payment_form.checkout(args[0], args[1], args[2], args[3], args[4]) 
+    else {
+      payment_form.checkout(args[0], args[1], args[2], args[3], args[4]) 
+    }
   });
 
   tic_selector.ev_sub('ticket_created', update_data);
