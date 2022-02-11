@@ -142,8 +142,8 @@ CustySelector.prototype = {
   },
 
   get selected_customer() {
-    if(!this.state.customers) { return null; }
-    return this.state.customers.find( function(val) { return val.id == this.state.customer_id; }.bind(this) );
+    if(!CustySelector.state.customers) { return false; }
+    return CustySelector.state.customers.find( function(val) { return val.id == this.state.customer_id; }.bind(this) );
   },
 
   show_add_form: function(e,m) {
