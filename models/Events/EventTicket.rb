@@ -52,7 +52,7 @@ class EventTicket < Sequel::Model
   #################### ACTION METHODS #####################
 
   def send_email
-    Mail.event_purchase(self.customer.email, self.mailer_model)
+    #Mail.event_purchase(self.customer.email, self.mailer_model)
   end
 
   def send_notification
@@ -75,7 +75,7 @@ class EventTicket < Sequel::Model
 
   def resend_email(address=nil)
     address ||= customer.email
-    Mail.event_purchase(address, self.mailer_model)
+    #Mail.event_purchase(address, self.mailer_model)
   end
 
   def split(recipient_id, session_ids)
