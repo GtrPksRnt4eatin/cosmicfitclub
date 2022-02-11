@@ -116,6 +116,14 @@ ctrl = {
      .fail( function(e) { alert('Transfer Failed') });
   },
 
+  undo_transaction: function(e,m) {
+    if(confirm("Really Undo Transation?")) {
+      $.del('/models/passes/transations/' + m.trans.id)
+       .fail( function() { alert("Failed to undo transaction") })
+       .done( function() { refresh_customer_data(); })
+    }
+  },
+
   event_selected: function(e,m) {
     tic_selector.load_event(e.target.value);
   },

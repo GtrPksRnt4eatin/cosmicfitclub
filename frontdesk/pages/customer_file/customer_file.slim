@@ -236,11 +236,14 @@ html
                   td
                     | { trans.timestamp | eventstart }
                   td 
-                    | { trans.description }
+                    span { trans.description } 
+                  td
+                    span rv-on-click='ctrl.undo_transaction'
                   td
                     | { trans.delta }
                   td
                     | { trans.running_total }
+                  
 
           #subscriptions.tab-content
 
