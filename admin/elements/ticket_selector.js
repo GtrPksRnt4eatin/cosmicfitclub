@@ -7,7 +7,8 @@ function TicketSelector(parent) {
     event_tickets: [],
     customer: null,
     a_la_carte: [],
-    a_la_carte_price: 0
+    a_la_carte_price: 0,
+    selected_price: null
   }
 
   this.bind_handlers([ 'select_price', 'load_customer', 'on_payment', 'on_sess_click', 'buy_a_la_carte', 'on_payment_a_la_carte' ]);
@@ -128,8 +129,11 @@ TicketSelector.prototype.HTML = ES5Template(function(){/**
 
     <div class='price' rv-each-price='state.event.prices' rv-on-click='this.select_price' rv-title='price.id'> 
       <span>{price.title}</span>
-      <span rv-if='state.subscription'>     Member Price: {price.member_price | money} </span>
-      <span rv-unless='state.subscription'> Full Price: {price.full_price | money}     </span>
+      <span rv-unless='price.num_passes'>
+        <span rv-if='state.subscription'>     Member Price: {price.member_price | money} </span>
+        <span rv-unless='state.subscription'> Full Price: {price.full_price | money}     </span>
+      </span>
+      <span rv-if='price.num_passes'> { price.num_passes } Passes </span>
     </div>
 
     <div class='alacarte' rv-if='state.event.a_la_carte'>
@@ -178,3 +182,4 @@ TicketSelector.prototype.CSS = ES5Template(function(){/**
   }
 
 **/}).untab(2);
+ 

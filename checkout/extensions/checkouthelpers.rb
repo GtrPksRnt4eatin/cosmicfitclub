@@ -95,12 +95,13 @@ module Sinatra
       params[:multiplier] ||= 1
 
       params[:multiplier].to_i.times do 
-        p EventTicket.create(
+        EventTicket.create(
           :customer_id         => params[:customer_id],
           :event_id            => params[:event_id],
           :included_sessions   => params[:included_sessions],
           :price               => params[:total_price].to_i / params[:multiplier].to_i,
-          :customer_payment_id => params[:payment_id], 
+          :customer_payment_id => params[:payment_id],
+          :pass_transaction_id => params[:pass_transaction_id],
           :event_price_id      => params[:price_id]
         )
       end
