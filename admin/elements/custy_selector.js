@@ -12,7 +12,7 @@ function CustySelector(parent, load, show_title, show_edit, show_new ) {
 
   load = (typeof load !== 'undefined') ? load : true;
 
-  this.bind_handlers(['get_custy_list','on_data','on_data_failed','refresh_selectize','edit_customer','new_customer','custy_selected','select_customer','init_selectize','show_add_form','create_customer']);
+  this.bind_handlers(['get_custy_list','on_data','on_data_failed','refresh_selectize','edit_customer','new_customer','custy_selected','select_customer','init_selectize','show_add_form','create_customer','selected_customer']);
   this.build_dom();
   this.mount(parent);
   this.load_styles();
