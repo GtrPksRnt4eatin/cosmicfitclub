@@ -59,14 +59,15 @@ TicketSelector.prototype = {
     this.ev_fire('paynow', [ this.state.customer.id, this.price, this.state.event.name + ": " + m.price.title, null, this.on_payment ] );
   },
 
-  on_payment: function(payment_id){
+  on_payment: function(payment_id, pass_transaction_id=null){
     var payload = {
-      customer_id:       this.state.customer.id, 
-      event_id:          this.state.event.id,
-      included_sessions: this.state.selected_price.included_sessions,
-      total_price:       this.price,
-      payment_id:        payment_id,
-      price_id:          this.state.selected_price.id
+      customer_id:         this.state.customer.id, 
+      event_id:            this.state.event.id,
+      included_sessions:   this.state.selected_price.included_sessions,
+      total_price:         this.price,
+      payment_id:          payment_id,
+      pass_transaction_id: pass_transaction_id,
+      price_id:            this.state.selected_price.id
     }
 
     $.post('/checkout/event/precharged', payload )
