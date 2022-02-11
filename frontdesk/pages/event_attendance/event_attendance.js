@@ -54,7 +54,7 @@ $(document).ready(function() {
     var custy = custy_selector.selected_customer;
     if(!custy) { alert('No Customer Selected!'); return; } 
     if(tic_selector.state.selected_price.num_passes) {
-      $.post('/models/customer/' + custy.id + "/use_passes", { num_passes: tic_selector.state.selected_price.num_passes, reason: args[2] })
+      $.post('/models/customers/' + custy.id + "/use_passes", { num_passes: tic_selector.state.selected_price.num_passes, reason: args[2] })
        .fail( function() { alert("Failed to Use Passes"); } ) 
        .done( function(val) { tic_selector.on_payment(null,val); });
     }

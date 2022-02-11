@@ -114,7 +114,7 @@ class CustomerRoutes < Sinatra::Base
     custy.add_passes( params[:value], params[:reason], "" );
   end
 
-  post ':id/use_passes' do
+  post '/:id/use_passes' do
     custy = Customer[params[:id]] or halt(404, "Cant Find Customer")
     transaction = custy.rem_passes( params[:num_passes], params[:reason], "");
     return transaction.id.to_json
