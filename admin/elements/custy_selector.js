@@ -142,6 +142,7 @@ CustySelector.prototype = {
   },
 
   get selected_customer() {
+    if(!this.state.customers) { return null; }
     return this.state.customers.find( function(val) { return val.id == this.state.customer_id; }.bind(this) );
   },
 
