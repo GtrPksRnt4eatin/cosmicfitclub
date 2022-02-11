@@ -40,7 +40,7 @@ class PassRoutes < Sinatra::Base
     wallet.force_delete
   end
 
-  delete '/transaction/:id' do
+  delete '/transactions/:id' do
     trans = PassTransaction[params[:id]] or halt(404,"Couldn't find transaction")
     trans.undo
   end
