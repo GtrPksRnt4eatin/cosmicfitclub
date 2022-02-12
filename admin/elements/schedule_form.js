@@ -8,6 +8,7 @@ function ScheduleForm() {
 
   this.bind_handlers(['save','get_locations','get_staff']);
   this.build_dom();
+  this.bind_dom();
   this.load_styles();
 
   $(this.dom).find('#starttime').on('change', function(e) {
