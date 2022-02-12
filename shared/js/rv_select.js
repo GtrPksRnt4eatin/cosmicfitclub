@@ -56,7 +56,7 @@ function include_rivets_select() {
             if(this.el.onchange) { this.el.onchange(); }
           }.bind(this)
         })[0];
-      }.bind(this), 100)
+      }.bind(this), 1000)
     },
     unbind:   function(el) {},
     routine:  function(el,value) { el.value = value; el.selectize && el.selectize.setValue(value); },
