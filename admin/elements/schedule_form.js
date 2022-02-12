@@ -8,7 +8,7 @@ function ScheduleForm() {
 
   this.bind_handlers(['save','get_locations','get_staff']);
   this.build_dom();
-  this.bind_dom();
+  //this.bind_dom();
   this.load_styles();
 
   $(this.dom).find('#starttime').on('change', function(e) {
@@ -17,8 +17,7 @@ function ScheduleForm() {
     }
   }.bind(this));
 
-  this.get_locations();
-  this.get_staff();
+  this.get_locations().then(this.get_staff).then(this.bind_dom);
 
 }
 
@@ -62,7 +61,7 @@ ScheduleForm.prototype.HTML = `
   <div class='scheduleform form'>
     <div class='tuplet'>
       <label>Instructors:</label>
-      <select multiple='multiple' rv-value='state.schedule.instructors' rv-multiselectize='state.instructors'>
+      <select multiple='multiple' rv-multiselectize='state.schedule.instructors'>
         <option rv-each-inst='state.instructors' rv-value='inst.id'> { inst.name } </option>
       </select>
     </div>
