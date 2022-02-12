@@ -46,6 +46,24 @@ function include_rivets_select() {
     }
   }
 
+  rivets.binders['multiselectize'] = {
+    bind: function(el) {
+      el.setAttribute('multiple', 'true');
+      setTimeout(function() {
+        this.selectize_instance = $(el).selectize({
+          onChange: function(val) {
+            this.publsh(val);
+            if(this.el.onchange) { this.el.onchange(); }
+          }.bind(this)
+        })[0];
+      }.bind(this), 100)
+    },
+    unbind:   function(el) {},
+    routine:  function(el,value) { el.selectize.setValue(value); },
+    getValue: function(el) { return $(this.selectize_instance).val(); }
+  }
+
+
   rivets.binders['select'] = {
     bind: function(el) {
       this.chosen_instance = $(el).chosen({ search_contains: true });
