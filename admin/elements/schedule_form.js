@@ -6,19 +6,21 @@ function ScheduleForm() {
     "locations": []
   }
 
-  this.bind_handlers(['save','get_locations','get_staff']);
-  this.build_dom();
-  //this.bind_dom();
   this.load_styles();
+  this.bind_handlers(['save','get_locations','get_staff']);
 
-  this.get_locations().then(this.get_staff).then(this.bind_dom.bind(this));
-
-  $(this.dom).find('#starttime').on('change', function(e) {
-    if( moment(this.state.schedule.start_time,['H:m:s','H:m']) > moment(this.state.schedule.end_time,['H:m:s','H:m'])) {
-      this.state.schedule.end_time = moment(this.state.schedule.start_time,['H:m:s','H:m']).format('H:m:s');
-    }
-  }.bind(this));
-
+  this.get_locations()
+    .then( this.get_staff )
+    .then( this.build_dom().bind(this) )
+    .then( this.bind_dom.bind(this) );
+    .then( function() {
+      $(this.dom).find('#starttime').on('change', function(e) {
+        if( moment(this.state.schedule.start_time,['H:m:s','H:m']) > moment(this.state.schedule.end_time,['H:m:s','H:m'])) {
+          this.state.schedule.end_time = moment(this.state.schedule.start_time,['H:m:s','H:m']).format('H:m:s');
+        }
+      }.bind(this));
+    }.bind(this));
+    
 }
 
 ScheduleForm.prototype = {
