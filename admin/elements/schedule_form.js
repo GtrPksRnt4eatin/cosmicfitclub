@@ -36,11 +36,11 @@ ScheduleForm.prototype = {
   },
 
   get_locations() {
-    $.get('/models/classdefs/locations', function(resp) { this.state.locations = resp; } );
+    $.get('/models/classdefs/locations', function(resp) { this.state.locations = resp; }.bind(this) );
   },
 
   get_staff() {
-    $.get('/models/staff', function(resp) { this.state.instructors = resp; } );
+    $.get('/models/staff', function(resp) { this.state.instructors = resp; }.bind(this) );
   },
 
   save(e) {
