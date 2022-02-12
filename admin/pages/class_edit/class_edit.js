@@ -76,10 +76,10 @@ $(document).ready(function() {
     popupmenu.hide();
   });
 
-  get_staff().then(function() { scheduleform.instructors = data['instructors']; } );
+  get_staff(); //.then(function() { scheduleform.instructors = data['instructors']; } );
   get_classdef();
   get_schedules();
-  get_locations();
+  
 
 });
 

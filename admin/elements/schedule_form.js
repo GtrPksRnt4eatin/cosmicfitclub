@@ -2,10 +2,11 @@ function ScheduleForm() {
 
   this.state = {
   	"schedule": {},
-    "instructors": []
+    "instructors": [],
+    "locations": []
   }
 
-  this.bind_handlers(['save']);
+  this.bind_handlers(['save','get_locations','get_staff']);
   this.build_dom();
   this.load_styles();
 
@@ -14,6 +15,9 @@ function ScheduleForm() {
       this.state.schedule.end_time = moment(this.state.schedule.start_time,['H:m:s','H:m']).format('H:m:s');
     }
   }.bind(this));
+
+  this.get_locations();
+  this.get_staff();
 
 }
 
@@ -29,6 +33,14 @@ ScheduleForm.prototype = {
   show_edit(sched) { 
   	this.state.schedule = sched;
   	this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
+  },
+
+  get_locations() {
+    $.get('/models/classdefs/locations', function(resp) { this.state.locations = resp; } )
+  },
+
+  get_staff() {
+    $.get('/models/staff', function(resp) { this.state.instructors = resp; } 
   },
 
   save(e) {
@@ -72,6 +84,13 @@ ScheduleForm.prototype.HTML = `
     <div class='tuplet'>
       <label>End Time:</label>
       <input id='endtime' class='time' rv-timefield='state.schedule.end_time' />
+    </div>
+    <div class='tuplet'>
+      <label>Location:</label>
+      <select rv-value='state.schedule.location_id'>
+        <option value='0'>None</option>
+        <option rv-each-loc='state.locations' rv-val='loc.id'>{loc.name}</option>
+      </select>
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
