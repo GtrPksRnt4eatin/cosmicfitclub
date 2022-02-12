@@ -62,7 +62,7 @@ ScheduleForm.prototype.HTML = `
   <div class='scheduleform form'>
     <div class='tuplet'>
       <label>Instructors:</label>
-      <select multiple='multiple' rv-selectize='state.schedule.instructors'>
+      <select multiple='multiple' rv-value='state.schedule.instructors'>
         <option rv-each-inst='state.instructors' rv-value='inst.id'> { inst.name } </option>
       </select>
     </div>
