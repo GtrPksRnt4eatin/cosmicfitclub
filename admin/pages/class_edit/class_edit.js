@@ -99,14 +99,14 @@ function initialize_rivets() {
   rivets.formatters.instructors = function(val) {
     if(empty(val)) return "";
     return val.map( function(o) { 
-      obj = data['instructors'].find( function(val) { return val.id == o; })
+      obj = data['instructors'].find( function(val) { return val.id == o; });
       return(obj && obj.name);
     })
   }
 
   rivets.formatters.location   = function(val) { 
     if(empty(val)) return "";
-    obj = data['locations'].find( function(x) { return x.id == val; })l
+    obj = data['locations'].find( function(x) { return x.id == val; });
     return(obj && obj.name);
   }
 
