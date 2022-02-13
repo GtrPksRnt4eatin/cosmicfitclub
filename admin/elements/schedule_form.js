@@ -12,7 +12,7 @@ function ScheduleForm() {
   this.get_locations()
     .then( this.get_staff )
     .then( this.build_dom().bind(this) )
-    .then( this.bind_dom.bind(this) );
+    .then( this.bind_dom.bind(this) )
     .then( function() {
       $(this.dom).find('#starttime').on('change', function(e) {
         if( moment(this.state.schedule.start_time,['H:m:s','H:m']) > moment(this.state.schedule.end_time,['H:m:s','H:m'])) {
@@ -20,7 +20,7 @@ function ScheduleForm() {
         }
       }.bind(this));
     }.bind(this));
-    
+
 }
 
 ScheduleForm.prototype = {
