@@ -92,7 +92,7 @@ ScheduleForm.prototype.HTML = `
       <label>Location:</label>
       <select rv-value='state.schedule.location_id'>
         <option value='0'>None</option>
-        <option rv-each-loc='state.locations' rv-val='loc.id'>{loc.name}</option>
+        <option rv-each-loc='state.locations' rv-value='loc.id'>{loc.name}</option>
       </select>
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
