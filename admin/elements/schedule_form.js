@@ -130,6 +130,10 @@ ScheduleForm.prototype.CSS = `
     vertical-align: middle;
   }
 
+  .scheduleform .selectize-dropdown {
+    z-index: 1000;
+  }
+
   .scheduleform .flatpickr-time input {
     width: 4em !important;
   }
