@@ -105,7 +105,7 @@ function initialize_rivets() {
   rivets.formatters.location   = function(val) { 
     if(empty(val)) return "";
     obj = scheduleform.state.locations.find( function(x) { return x.id == val; });
-    return obj ? obj.name : ;
+    return obj ? obj.name : "" ;
   }
 
 }
