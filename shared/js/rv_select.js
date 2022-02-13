@@ -56,10 +56,14 @@ function include_rivets_select() {
             if(this.el.onchange) { this.el.onchange(); }
           }.bind(this)
         })[0];
-      }.bind(this), 1000)
+      }.bind(this), 500)
     },
     unbind:   function(el) {},
-    routine:  function(el,value) { console.log("routine: " + value + "\n" + el + "\n" + this ); el.value = value; el.selectize.setValue(value); },
+    routine:  function(el,value) { 
+      console.log("routine: " + value + "\n" + el + "\n" + this );
+      el.value = value; 
+      el.selectize && el.selectize.setValue(value); 
+    },
     getValue: function(el) { return $(this.selectize_instance).val(); }
   }
 
