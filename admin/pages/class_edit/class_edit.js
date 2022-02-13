@@ -59,15 +59,8 @@ ctrl = {
 }
 
 $(document).ready(function() { 
-  
+
   initialize_rivets();
-
-  rivets.bind($('#content'), { data: data, ctrl: ctrl } );
-  
-  popupmenu   = new PopupMenu( id('popupmenu_container') );
-
-  img_chooser = new AspectImageChooser();
-  img_chooser.ev_sub('show', popupmenu.show );
 
   scheduleform = new ScheduleForm();
   scheduleform.ev_sub('show', popupmenu.show );
@@ -75,12 +68,17 @@ $(document).ready(function() {
     data['schedules'].replace_or_add_by_id(schedule); 
     popupmenu.hide();
   });
+  
+  popupmenu   = new PopupMenu( id('popupmenu_container') );
 
-  //get_staff(); //.then(function() { scheduleform.instructors = data['instructors']; } );
+  img_chooser = new AspectImageChooser();
+  img_chooser.ev_sub('show', popupmenu.show );
+
+  rivets.bind($('#content'), { data: data, ctrl: ctrl } );
+
   get_classdef();
   get_schedules();
   
-
 });
 
 function initialize_rivets() {
@@ -107,7 +105,7 @@ function initialize_rivets() {
   rivets.formatters.location   = function(val) { 
     if(empty(val)) return "";
     obj = scheduleform.state.locations.find( function(x) { return x.id == val; });
-    return obj ? obj.name : "";
+    return obj ? obj.name : ;
   }
 
 }
