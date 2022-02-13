@@ -59,7 +59,7 @@ function include_rivets_select() {
       }.bind(this), 1000)
     },
     unbind:   function(el) {},
-    routine:  function(el,value) { el.value = value; el.selectize.setValue(value); },
+    routine:  function(el,value) { console.log("routine: " + value + "\n" + el + "\n" + this ); el.value = value; el.selectize.setValue(value); },
     getValue: function(el) { return $(this.selectize_instance).val(); }
   }
 
