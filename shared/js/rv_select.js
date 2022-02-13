@@ -52,7 +52,7 @@ function include_rivets_select() {
       setTimeout(function() {
         this.selectize_instance = $(el).selectize({
           onChange: function(val) {
-            this.publsh(val);
+            this.publish(val);
             if(this.el.onchange) { this.el.onchange(); }
           }.bind(this)
         })[0];
