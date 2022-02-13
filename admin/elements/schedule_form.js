@@ -9,9 +9,10 @@ function ScheduleForm() {
   this.load_styles();
   this.bind_handlers(['save','get_locations','get_staff']);
 
+  this.build_dom();
+
   this.get_locations()
     .then( this.get_staff )
-    .then( this.build_dom.bind(this) )
     .then( this.bind_dom.bind(this) )
     .then( function() {
       $(this.dom).find('#starttime').on('change', function(e) {
