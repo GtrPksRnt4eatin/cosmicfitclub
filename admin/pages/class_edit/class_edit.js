@@ -76,7 +76,7 @@ $(document).ready(function() {
     popupmenu.hide();
   });
 
-  get_staff(); //.then(function() { scheduleform.instructors = data['instructors']; } );
+  //get_staff(); //.then(function() { scheduleform.instructors = data['instructors']; } );
   get_classdef();
   get_schedules();
   
@@ -99,9 +99,15 @@ function initialize_rivets() {
   rivets.formatters.instructors = function(val) {
     if(empty(val)) return "";
     return val.map( function(o) { 
-      obj = data['instructors'].find( function(val) { return val.id == o; })
+      obj = scheduleform.state.instructors.find( function(val) { return val.id == o; })
       return(obj && obj.name);
     })
+  }
+
+  rivets.formatters.location   = function(val) { 
+    if(empty(val)) return "";
+    obj = scheduleform.state.locations.find( function(x) { return x.id == val; });
+    return obj ? obj.name : "";
   }
 
 }

@@ -58,6 +58,8 @@ html
                 td 
                   | { sched.end_time | onlytime } 
                 td
+                  | { sched.location_id | location }
+                td
                   .edit   rv-on-click='ctrl.edit_schedule'
                   .delete rv-on-click='ctrl.del_schedule'
                   .open   rv-on-click='ctrl.open_schedule'

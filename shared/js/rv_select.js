@@ -60,7 +60,6 @@ function include_rivets_select() {
     },
     unbind:   function(el) {},
     routine:  function(el,value) { 
-      console.log("routine: " + value + "\n" + el + "\n" + this );
       el.value = value; 
       el.selectize && el.selectize.setValue(value, true); 
     },

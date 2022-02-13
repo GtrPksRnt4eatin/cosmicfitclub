@@ -112,10 +112,6 @@ ScheduleForm.prototype.CSS = `
     width: 20em;
   }
 
-  .scheduleform .done {
-    cursor: pointer;
-  }
-
   .sesionform textarea {
     width: 20em;
     background: white;
@@ -126,6 +122,12 @@ ScheduleForm.prototype.CSS = `
   	font-family: inherit;
   	width: 20em;
   	padding: .2em;
+  }
+
+  .scheduleform .selectize-control {
+    width: 20em;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .scheduleform .flatpickr-time input {
