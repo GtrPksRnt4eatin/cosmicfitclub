@@ -22,6 +22,10 @@ class ClassDef < Sequel::Model
     ClassDef.exclude(:deactivated=>true).order(:position).all
   end
 
+  def ClassDef.list_scheduled
+    ClassDef.all.select{ |x| x.schedules.count > 0 }
+  end
+
   def ClassDef.list_all
     all.map(&:to_token)
   end
@@ -148,7 +152,8 @@ class ClassDef < Sequel::Model
   def classpage_view
     { :id => self.id, 
       :name => self.name, 
-      :image_url => self.thumbnail_image
+      :image_url => self.thumbnail_image,
+      :locations => self.schedules.map(&:location).uniq
     }
   end
 
