@@ -62,17 +62,17 @@ $(document).ready(function() {
 
   initialize_rivets();
 
+  popupmenu    = new PopupMenu( id('popupmenu_container') );
+
+  img_chooser  = new AspectImageChooser();
+  img_chooser.ev_sub('show', popupmenu.show );
+
   scheduleform = new ScheduleForm();
   scheduleform.ev_sub('show', popupmenu.show );
   scheduleform.ev_sub('after_post', function(schedule) { 
     data['schedules'].replace_or_add_by_id(schedule); 
     popupmenu.hide();
   });
-  
-  popupmenu   = new PopupMenu( id('popupmenu_container') );
-
-  img_chooser = new AspectImageChooser();
-  img_chooser.ev_sub('show', popupmenu.show );
 
   rivets.bind($('#content'), { data: data, ctrl: ctrl } );
 
