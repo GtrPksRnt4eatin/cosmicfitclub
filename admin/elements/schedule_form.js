@@ -11,7 +11,7 @@ function ScheduleForm() {
 
   this.get_locations()
     .then( this.get_staff )
-    .then( this.build_dom().bind(this) )
+    .then( this.build_dom.bind(this) )
     .then( this.bind_dom.bind(this) )
     .then( function() {
       $(this.dom).find('#starttime').on('change', function(e) {
