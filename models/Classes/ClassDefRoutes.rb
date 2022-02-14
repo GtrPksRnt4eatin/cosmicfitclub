@@ -201,7 +201,7 @@ class ClassDefRoutes < Sinatra::Base
   end   
 
   post '/occurrences' do
-    occurrence = ClassOccurrence.get(params['classdef_id'], params['staff_id'], params['starttime'] )
+    occurrence = ClassOccurrence.get(params['classdef_id'], params['staff_id'], params['starttime'], params['location_id'], params['classdef_schedule_id'] )
     occurrence.to_full_json
   end
 

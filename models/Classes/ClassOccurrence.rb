@@ -23,8 +23,8 @@ class ClassOccurrence < Sequel::Model
     occ.reservations.count
   end
 
-  def ClassOccurrence.get( class_id, staff_id, starttime ) 
-    occ = find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime )
+  def ClassOccurrence.get( class_id, staff_id, starttime, location_id, classdef_schedule_id) 
+    occ = find_or_create( :classdef_id => class_id, :staff_id => staff_id, :starttime => starttime, :location_id => location_id, :classdef_schedule_id => classdef_schedule_id )
     occ.update( :free => true ) if ClassDef[class_id].free
     occ
   end

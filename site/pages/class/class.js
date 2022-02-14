@@ -6,7 +6,7 @@ data = {
 ctrl = {
  
   register: function(e,m) {
-    $.post(`/models/classdefs/occurrences`, { "classdef_id": data.class.id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
+    $.post(`/models/classdefs/occurrences`, { "classdef_id": data.class.id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime, "location_id": m.occ.location.id, "classdef_schedule_id": m.occ.sched_id }, 'json')
      .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
      .success( function(data)           { window.location = "/checkout/class_reg/" + data['id'] } ); 
   } 
