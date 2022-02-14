@@ -46,7 +46,7 @@ html
               span[] { occ.starttime | classtime } with 
               span.instructors rv-data-sub="occ | sub" { occ.instructors | list 'name' }
               span.location
-                | @ { occ.location.name }
+                | - { occ.location.name }
 
     == include_slim('slim/partials/footer')
 
