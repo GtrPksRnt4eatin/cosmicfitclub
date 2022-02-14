@@ -60,12 +60,43 @@
 
 .schedule {
   padding: .1em;
-  background: rgba(255,255,100,0.1 );
+  background: rgba(255,255,100,0.1);
   margin: .25em;
   box-shadow: 0 0 0.1em white;
 }
 
+.classdef .locations {
+  top: 0;
+  left: 0;
+  margin: -1em;  
+  position: absolute;
+}
 
+.classdef .locations .location {
+  background: #32557f;
+  padding: 0.5em;
+}
+
+.classdef .locations .location:after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0; width: 0; height: 0;
+  border-left: 25px solid #7eb4e2;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+}
+
+.classdef .locations .location:before {
+  content: '';
+  position: absolute;
+  right: -25px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 25px solid #32557f;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+}
 
 @media(max-width: 800px) {
 

@@ -29,6 +29,9 @@ html
         .classname 
           span
             | { class.name }
+        .locations
+          .location rv-each-loc='class.locations'
+            | { loc.name }
 
     == include_slim('slim/partials/footer')
 
