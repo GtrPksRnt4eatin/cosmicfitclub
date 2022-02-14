@@ -31,8 +31,7 @@ html
             | { class.name }
         .locations
           .location 
-            span rv-each-loc='class.locations'
-              | { loc.name }
+            | { class.locations | join_locations }
 
     == include_slim('slim/partials/footer')
 

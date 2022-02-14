@@ -17,7 +17,8 @@ $(document).ready(function() {
 
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
 
-  rivets.formatters.thumb = function (id) { return '/models/classdefs/' + id + '/thumb'}
+  rivets.formatters.thumb = function (id)  { return '/models/classdefs/' + id + '/thumb'}
+  rivets.formatters.join  = function (val) { return val.map( function(val) { return val.name; } ).join(' & '); }
 
 });
 
