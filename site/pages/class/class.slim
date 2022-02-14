@@ -43,11 +43,12 @@ html
             | Join Us For an Upcoming Session:
           .occurrences
             .occurence rv-each-occ='data.sessions' rv-on-click='ctrl.register'
+              span.location
+                | { occ.location.name } - 
+
               span[] { occ.starttime | classtime } with 
               span.instructors rv-data-sub="occ | sub" { occ.instructors | list 'name' }
-              span.location
-                | - { occ.location.name }
-
+              
     == include_slim('slim/partials/footer')
 
     == analytics
