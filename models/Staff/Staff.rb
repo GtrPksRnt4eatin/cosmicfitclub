@@ -245,11 +245,21 @@ def Staff::payroll(from, to)
       occurrence_row[:cosmic] = (occurrence_row[:passes_total].to_i * 1200) + (occurrence_row[:payment_total])
 
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
-      occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 700
 
+
+      occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 700
       occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.6)
-      occurrence_row[:pay] = 5000 if teacher_row[:staff_id] == 104
-      occurrence_row[:pay] = occurrence_row[:cosmic] if teacher_row[:staff_id] == 106
+
+      occurrence_row[:pay] = case(teacher_row[:staff_id])
+        when 104 # Sylvana gets $50 flat per class
+          5000
+        when 106 # Cosmic Loft gets 100% of loft rentals
+          occurrence_row[:cosmic]
+        when 101 # Ivory Fox gets $35 minimum per class
+          3500 > occurrence_row[:pay] ? 3500 : occurrence_row[:pay]
+        else
+          occurrence_row[:pay]
+      end
 
       occurrence_row[:cosmic] = occurrence_row[:cosmic] - occurrence_row[:pay]
 
