@@ -331,12 +331,12 @@ html
             table.payments
               tr 
                 th colspan='4' Payments
-              tr
+              tr 
                 th Timestamp
                 th Description
                 th Amount
                 th Stripe ID
-              tr rv-each-paymt='data.customer.payments'
+              tr rv-each-paymt='data.customer.payments' rv-title='paymt.id'
                 td[] { paymt.timestamp | eventstart }
                 td[] { paymt.reason }
                 td[] { paymt.amount }
