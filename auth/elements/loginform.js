@@ -51,7 +51,10 @@ LoginForm.prototype = {
           $(this.dom).shake(); 
           this.state.errors=[req.responseText];
         }.bind(this) )
-        .success( this.email_mode );
+        .success( 
+          function() { this.location.replace('/user'); }
+          //this.email_mode 
+        );
     }
   },
 
