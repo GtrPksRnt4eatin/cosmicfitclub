@@ -46,7 +46,7 @@ LoginForm.prototype = {
 
   register() {
     if(this.validate_registration()) {
-      $.post('register', JSON.stringify(this.state))
+      $.post('register_and_login', JSON.stringify(this.state))
         .fail( function(req,msg,status) { 
           $(this.dom).shake(); 
           this.state.errors=[req.responseText];
