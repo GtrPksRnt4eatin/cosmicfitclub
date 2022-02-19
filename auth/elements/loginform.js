@@ -52,8 +52,7 @@ LoginForm.prototype = {
           this.state.errors=[req.responseText];
         }.bind(this) )
         .success( 
-          function() { this.location.replace('/user'); }
-          //this.email_mode 
+          function() { window.location.replace('/user'); }
         );
     }
   },
