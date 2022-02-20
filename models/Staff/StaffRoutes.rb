@@ -77,14 +77,14 @@ class StaffRoutes < Sinatra::Base
 
   get '/paypal' do
     data = PayPalSDK::list_transactions(params[:from],params[:to])
-    p data
     data.map! do |x|
+      payment = CustomerPayment.where( :paypal_id => x[:id] ).first
       x.merge({
-        :customer => Customer.find_by_email(x[:email]).try(:to_token),
-        :payment  => CustomerPayment.where( :paypal_id => x[:id] )
+        :customer    => Customer.find_by_email(x[:email]).try(:to_token),
+        :payment     => payment,
+        :reservation => payment.try(:reservation) 
       })
     end
-    p data
     JSON.pretty_generate data
   end
 
