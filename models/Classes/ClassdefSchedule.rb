@@ -114,7 +114,7 @@ class ClassdefSchedule < Sequel::Model
         :endtime     => starttime + ( self.end_time - self.start_time ),
         :title       => self.classdef.name,
         :classdef    => self.classdef.to_token,
-        :location    => self.location ||  classdef.location.try(:to_token) || { :id=>4, :name=>"Cosmic Fit Club (original)" },
+        :location    => self.location.try(:to_token) ||  classdef.location.try(:to_token) || { :id=>4, :name=>"Cosmic Fit Club (original)" },
         :instructors => self.teachers.map(&:to_token),
         :capacity    => self.capacity,
         :headcount   => 0,
