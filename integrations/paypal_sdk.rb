@@ -27,7 +27,7 @@ module PayPalSDK
 
     data = api.get("v1/reporting/transactions", { :start_date=> start, :end_date=> finish, :fields=>'all', :page_size=>500 } )
 
-    data.map do |t|
+    data['transaction_details'].map do |t|
       trans_t = Time.parse(t['transaction_info']['transaction_initiation_date'])
       { :date   => trans_t.strftime("%m/%d/%Y"),
         :time   => trans_t.strftime("%l:%M %P"),
