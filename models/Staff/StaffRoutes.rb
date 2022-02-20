@@ -76,7 +76,13 @@ class StaffRoutes < Sinatra::Base
   end
 
   get '/paypal' do
-    JSON.pretty_generate PayPalSDK::list_transactions(params[:from],params[:to])
+    data = PayPalSDK::list_transactions(params[:from],params[:to])
+    data.map do |x|
+      x.merge {
+        :customer => Customer.find_by_email(x[:email]).try(:to_token),
+        :payment  => CustomerPayment.where( :paypal_id => x[:id] )
+      }
+    end
   end
 
   get '/payroll.csv' do
