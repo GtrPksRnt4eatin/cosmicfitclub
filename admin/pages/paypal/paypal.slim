@@ -20,4 +20,11 @@ html
     #content
 
       .tile
-        .title Payroll
+        .title PayPal
+
+        input rv-daterangefield='data.range' rv-on-change='ctrl.get_data'
+        button rv-on-click='ctrl.get_data' Get Transactions
+        button rv-on-click='ctrl.dl_csv'   Download Transactions
+
+      .tile
+        .title PayPal Transactions
