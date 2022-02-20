@@ -49,7 +49,8 @@ class ClassdefSchedule < Sequel::Model
           :thumb_url => occ[:thumb_url],
           :sched_id => sched.id,
           :instructors => occ[:instructors],
-          :exception => occ[:exception].try(:full_details)
+          :exception => occ[:exception].try(:full_details),
+          :location => occ[:location] || sched.location
         }
       end
     end
@@ -113,7 +114,7 @@ class ClassdefSchedule < Sequel::Model
         :endtime     => starttime + ( self.end_time - self.start_time ),
         :title       => self.classdef.name,
         :classdef    => self.classdef.to_token,
-        :location    => classdef.location.try(:to_token) || { :id=>4, :name=>"Cosmic Fit Club (original)" },
+        :location    => self.location ||  classdef.location.try(:to_token) || { :id=>4, :name=>"Cosmic Fit Club (original)" },
         :instructors => self.teachers.map(&:to_token),
         :capacity    => self.capacity,
         :headcount   => 0,
