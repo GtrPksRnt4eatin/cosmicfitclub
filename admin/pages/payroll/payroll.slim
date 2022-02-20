@@ -10,10 +10,12 @@ html
 
     == css [ 'fonts', 'chosen-ems', 'site', 'header', 'flatpickr', '/admin/payroll' ]
     == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'flatpickr', 'rivets', 'rv_dates', 'rv_money', 'lib' ]
-    == js  [ 'element', 'ev_channel', '/admin/payroll' ]
+    == js  [ 'element', 'ev_channel', '/auth/elements/userview', '/admin/payroll' ]
 
   body
     #stars
+
+    == include_slim('slim/partials/slim_header')
 
     #content
 

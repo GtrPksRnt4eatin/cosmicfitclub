@@ -23,6 +23,8 @@ ctrl = {
 
 $(document).ready(function() {
 
+  userview = new UserView(id('userview_container'));
+
   data['from'] = getUrlParameter('from') ? getUrlParameter('from') : null;
   data['to']   = getUrlParameter('to')   ? getUrlParameter('to')   : null;
   if( !empty(data['from']) && !empty(['to']) ) { 
