@@ -65,12 +65,19 @@ html
           div
             a href='/admin/group_timeslots' Group Timeslots 
         
-          - if user.has_role? "payroll"
-            div
-              a href='/admin/payroll' Payroll
           - if user.has_role? "cameras"
             div
               a href='/admin/cameras' Cameras
+
+      -if user.has_role? "finance"
+        .tile
+          .header Finance
+          hr
+          div
+            a href='/admin/payroll' Payroll
+          div
+            a href='/admin/paypal' Paypal
+
 
       -if user.has_role? "scheduling"
         .tile
