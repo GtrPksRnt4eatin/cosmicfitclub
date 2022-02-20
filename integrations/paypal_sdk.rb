@@ -20,7 +20,7 @@ module PayPalSDK
     @@client
   end
 
-  def PayPalSDK::list_transcations(start,finish) 
+  def PayPalSDK::list_transactions(start,finish) 
     start  = start.iso8601 rescue Time.parse(start).iso8601
     finish = ( finish.is_a? Time ) ? finish : Time.parse(finish)
     finish = ( finish > Time.now ) ? Time.now.iso8601 : finish.iso8601
