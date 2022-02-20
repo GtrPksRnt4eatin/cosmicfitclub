@@ -28,3 +28,26 @@ html
 
       .tile
         .title PayPal Transactions
+
+        table
+          tbody 
+            tr
+              th DATE
+              th TIME
+              th NAME
+              th EMAIL
+              th AMOUNT
+              th FEE
+              th STATUS
+              th NOTE
+              th TRANS_ID
+            tr rv-each-trans='data.transactions'
+              td { trans.date }
+              td { trans.time }
+              td { trans.name }
+              td { trans.email }
+              td { trans.amount }
+              td { trans.fee }
+              td { trans.status }
+              td { trans.note }
+              td { trans.id }

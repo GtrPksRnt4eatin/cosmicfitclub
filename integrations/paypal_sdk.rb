@@ -20,7 +20,30 @@ module PayPalSDK
     @@client
   end
 
-  def PayPalSDK::list_transactions(start,finish)
+  def PayPalSDK::list_transcations(start,finish) 
+    start  = start.iso8601 rescue Time.parse(start).iso8601
+    finish = ( finish.is_a? Time ) ? finish : Time.parse(finish)
+    finish = ( finish > Time.now ) ? Time.now.iso8601 : finish.iso8601
+
+    data = api.get("v1/reporting/transactions", { :start_date=> start, :end_date=> finish, :fields=>'all', :page_size=>500 } )
+
+    data.map do |t|
+      trans_t = Time.parse(t['transaction_info']['transaction_initiation_date'])
+      { :date   => trans_t.strftime("%m/%d/%Y"),
+        :time   => trans_t.strftime("%l:%M %P"),
+        :name   => t['payer_info']['payer_status'] ? t['payer_info']['payer_name']['alternate_full_name'] : '',
+        :email  => t['payer_info']['payer_status'] ? t['payer_info']['email_address'] : '',
+        :amount => t['transaction_info']['transaction_amount']['value'],
+        :fee    => t['transaction_info']['fee_amount'] ? t['transaction_info']['fee_amount']['value'] : '',
+        :status => t['transaction_info']['transaction_status'],
+        :note   => t['transaction_info']['transaction_note'],
+        :id     => t['transaction_info']['transaction_id']
+      }
+    end
+
+  end
+
+  def PayPalSDK::list_transactions_csv(start,finish)
     start  = start.iso8601 rescue Time.parse(start).iso8601
     finish = ( finish.is_a? Time ) ? finish : Time.parse(finish)
     finish = ( finish > Time.now ) ? Time.now.iso8601 : finish.iso8601
@@ -34,8 +57,7 @@ module PayPalSDK
     csv << [ "Transaction Date", "Transaction Time", "Payer Name", "Transaction Amount", "Fee Amount", "Payer Email", "Transaction Status", "Transaction Note", "Transaction ID" ]
     csv << []
     data['transaction_details'].each do |t|
-      trans_t = Time.parse(t['transaction_info']['transaction_initiation_date']);
-      Time.parse("2020-09-21T22:35:07+0000").localtime
+      trans_t = Time.parse(t['transaction_info']['transaction_initiation_date'])
       csv << [ 
         trans_t.strftime("%m/%d/%Y"),
         trans_t.strftime("%l:%M %P"),

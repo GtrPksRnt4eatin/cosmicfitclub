@@ -75,10 +75,21 @@ class StaffRoutes < Sinatra::Base
     JSON.pretty_generate Staff::payroll(params[:from],params[:to])
   end
 
+  get '/paypal/:from/:to' do
+    JSON.pretty_generate PaypalSDK::list_transactions_csv(params[:from],params[:to])
+  end
+
   get '/payroll.csv' do
     content_type 'application/csv'
     attachment "Payroll #{params[:from]}.csv"
     csv = Staff::payroll_csv(params[:from],params[:to])
+    csv.string
+  end
+
+  get '/paypal.csv/:from/:to' do
+    content_type 'application/csv'
+    attachment "PayPal #{params[:from]}-#{params[:to]}.csv"
+    csv = PaypalSDK::list_transactions_csv(params[:from],params[:to])
     csv.string
   end
 
