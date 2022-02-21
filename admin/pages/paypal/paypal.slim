@@ -41,6 +41,8 @@ html
               th STATUS
               th NOTE
               th TRANS_ID
+              th LINKED PAYMENT
+              th LINKED RESERVATION
             tr rv-each-trans='data.transactions'
               td[] { trans.date }
               td[] { trans.time }
@@ -51,3 +53,5 @@ html
               td[] { trans.status }
               td[] { trans.note }
               td[] { trans.id }
+              td[] { trans.payment.id }
+              td[] { trans.reservation.id }
