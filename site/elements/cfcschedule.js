@@ -50,7 +50,7 @@ function Schedule(parent) {
   rivets.formatters.slots_remaining = function(val) {
     if( val.type != 'classoccurrence' )          return false;
     if( moment(val.endtime).isBefore(moment()) ) return false;
-    if(val.location.id == 3) { return "Video Class"; }
+    //if(val.location.id == 3) { return "Video Class"; }
     var remaining = val.capacity - val.headcount
     if( remaining <= 0 )  return false;
     if( remaining >= 10 ) return "Register Now";
@@ -152,6 +152,9 @@ Schedule.prototype.HTML = `
             <span class='instructors' rv-data-sub='occ | sub'>
               <span class='instructor'> { occ | instructor_names } </span>
             </span>
+          </span>
+          <span class='location'>
+            @ { occ.location.name }
           </span>
           <span class='register'>
             <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> { occ | slots_remaining } </span>
