@@ -17,6 +17,7 @@ html
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
+      - ClassOccurrence[params[:id]].set_location
       data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher, :location ] ) }};
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr', 'element', 'ev_channel' ]

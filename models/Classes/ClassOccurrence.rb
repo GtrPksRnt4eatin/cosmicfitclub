@@ -174,6 +174,11 @@ class ClassOccurrence < Sequel::Model
     })
   end
 
+  def set_location
+    return if self.location
+    self.update( :location => self.schedule.try(:location) || classdef.try(:location) )
+  end
+
   def summary
     "#{classdef.name} w/ #{teacher.name}"
   end
