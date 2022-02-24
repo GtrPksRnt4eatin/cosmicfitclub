@@ -36,7 +36,7 @@ module Scheduling
   def Scheduling::get_classitems_between(from,to)
     occurrences = ClassOccurrence.all_between(from,to).map(&:schedule_details_hash)
     scheduled   = ClassdefSchedule.all.map { |s| s.get_occurrences_with_exceptions_merged(from,to).compact }.flatten
-    return ( scheduled + occurrences ).uniq { |x| { :classdef_id => x[:classdef_id] || x[:classdef][:id], :starttime => x[:starttime] } }
+    return ( scheduled + occurrences ).uniq { |x| { :classdef_id => x[:classdef_id] || x[:classdef][:id], :starttime => x[:starttime], :location_id => x[:location_id] } }
   end
 
   def Scheduling::get_eventsessions_between(from,to)
