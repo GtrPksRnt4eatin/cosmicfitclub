@@ -43,6 +43,8 @@ html
             .edit onclick="teacher_selector.show();"
               .img
           span
+            | @ { data.occurrence.location.name }
+          span
             .edit rv-on-click="ctrl.edit_occurrence"
 
           div
