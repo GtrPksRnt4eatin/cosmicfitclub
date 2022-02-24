@@ -300,6 +300,10 @@ Schedule.prototype.CSS = `
     display: inline-block
   }
 
+  #Schedule .location {
+    padding-right: 1em;
+  }
+
   #Schedule .register .blue {
     cursor: pointer;
   }
