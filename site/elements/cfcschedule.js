@@ -50,6 +50,7 @@ function Schedule(parent) {
   rivets.formatters.slots_remaining = function(val) {
     if( val.type != 'classoccurrence' )          return false;
     if( moment(val.endtime).isBefore(moment()) ) return false;
+    if(val.location.id == 3) { return "Video Class"; }
     var remaining = val.capacity - val.headcount
     if( remaining <= 0 )  return false;
     if( remaining >= 10 ) return "Register Now";
@@ -105,10 +106,12 @@ Schedule.prototype = {
   },
 
   register(e,m) {
-    window.location = "https://video.cosmicfitclub.com";
-    //$.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef.id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
-    // .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
-    // .success( function(data)           { window.location = `https://cosmicfitclub.com/checkout/class_reg/${data['id']}` } ); 
+    if(m.occ.location.id == 3) { window.location = "https://video.cosmicfitclub.com"; }
+    else {
+      $.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef.id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime }, 'json')
+       .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
+       .success( function(data)           { window.location = `https://cosmicfitclub.com/checkout/class_reg/${data['id']}` } ); 
+    }
   },
 
   event_register(e,m) {
