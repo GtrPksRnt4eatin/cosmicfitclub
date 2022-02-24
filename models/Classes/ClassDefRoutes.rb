@@ -194,7 +194,8 @@ class ClassDefRoutes < Sinatra::Base
         :starttime    => occ.starttime.to_time.iso8601,
         :classdef     => occ.classdef.to_token,
         :teacher      => occ.teacher.to_token,
-        :reservations => occ.reservation_list
+        :reservations => occ.reservation_list,
+        :location     => occ.location.try(:to_token)
       }
     end
     JSON.generate sheets
