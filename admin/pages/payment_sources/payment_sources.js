@@ -19,11 +19,12 @@ ctrl = {
     $.post('/checkout/set_default_card', { source_id: m.source.id, customer_id: data.customer_id } )
      .success( get_stripe_data )
      .fail( function() { alert( 'failed to set default card') } )
-  } 
+  }
+
 }
 
 $(document).ready(function() {
-  
+
   savecardform     = new SaveCardForm()
   popupmenu        = new PopupMenu( id('popupmenu_container') );
 
@@ -35,11 +36,11 @@ $(document).ready(function() {
   savecardform.ev_sub('card_saved', get_stripe_data);
   popupmenu.ev_sub('close', savecardform.stop_listen_cardswipe);
 
-  rivets.formatters.stripe_custy_link        = function(val) { return 'https://dashboard.stripe.com/customers/' + val;     }
-  rivets.formatters.stripe_payment_link      = function(val) { return 'https://dashboard.stripe.com/payments/' + val;      }
+  rivets.formatters.stripe_custy_link        = function(val) { return 'https://dashboard.stripe.com/customers/'     + val; }
+  rivets.formatters.stripe_payment_link      = function(val) { return 'https://dashboard.stripe.com/payments/'      + val; }
   rivets.formatters.stripe_subscription_link = function(val) { return 'https://dashboard.stripe.com/subscriptions/' + val; }
   rivets.formatters.default_source           = function(val) { return val === data.stripe_details.default_source;          }
-  rivets.formatters.created_date             = function(val) { return new Date(val*1000).toDateString(); }
+  rivets.formatters.created_date             = function(val) { return new Date(val*1000).toDateString();                   }
 
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
 

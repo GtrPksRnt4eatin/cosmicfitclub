@@ -7,7 +7,8 @@ data = {
     payment_sources: [],
     class_passes: [],
     membership_status: null,
-    waiver: null
+    waiver: null,
+    event_history: null
   },
   customer_info: {
     name: "",

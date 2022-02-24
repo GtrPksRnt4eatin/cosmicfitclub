@@ -305,7 +305,7 @@ class CustomerRoutes < Sinatra::Base
         LEFT JOIN events ON events.id = event_id
         WHERE customer_id = ?;
     }
-    tics = $DB[query, params[:id]].all
+    tics = $DB[query, [params[:id]]].all
     data = {
       :past => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] < Time.now },
       :upcoming => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] >= Time.now }
