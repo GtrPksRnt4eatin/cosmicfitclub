@@ -306,10 +306,8 @@ class CustomerRoutes < Sinatra::Base
         WHERE customer_id = ?;
     }
     tics = $DB[query, [params[:id]]].all
-    p params[:id]
-    p tics
     data = {
-      :past => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] < Time.now },
+      :past => tics.select { |x| x[:starttime].nil? ? true : x[:starttime] < Time.now },
       :upcoming => tics.select { |x| x[:starttime].nil? ? false : x[:starttime] >= Time.now }
     }
     data.to_json
