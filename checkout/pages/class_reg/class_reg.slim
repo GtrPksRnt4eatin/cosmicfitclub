@@ -36,6 +36,9 @@ html
         | with { data.occurrence.teacher.name }
       div
         | on { data.occurrence.starttime | classtime }
+      div
+        | @ { data.occurrence.location.name }
+        
       #reservation_form_container
 
     .tile.done
