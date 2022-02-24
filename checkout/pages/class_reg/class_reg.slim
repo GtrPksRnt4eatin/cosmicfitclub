@@ -17,7 +17,7 @@ html
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
-      data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher ] ) }};
+      data['occurrence'] = #{{ ClassOccurrence[params[:id]].to_json( :include => [ :classdef, :teacher, :location ] ) }};
 
     == js  [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'flatpickr', 'element', 'ev_channel' ]
     == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib' ]
@@ -38,7 +38,7 @@ html
         | on { data.occurrence.starttime | classtime }
       div
         | @ { data.occurrence.location.name }
-        
+
       #reservation_form_container
 
     .tile.done
