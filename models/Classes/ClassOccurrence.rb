@@ -1,6 +1,7 @@
 class ClassOccurrence < Sequel::Model
 
   many_to_one :classdef, :key => :classdef_id, :class => :ClassDef
+  many_to_one :location, :key => :location_id, :class => :Location
   many_to_one :teacher, :key => :staff_id, :class => :Staff
   many_to_one :schedule, :key => :classdef_schedule_id, :class => :ClassdefSchedule
   one_to_many :reservations, :class => :ClassReservation
