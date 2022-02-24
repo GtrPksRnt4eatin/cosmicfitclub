@@ -244,6 +244,7 @@ function setupBindings() {
   rivets.formatters.href_stripe_details = function(val) { return '/admin/payment_sources?id=' + val; }
   rivets.formatters.href_stripe_payment = function(val) { return 'https://dashboard.stripe.com/payments/' + val; }
   rivets.formatters.custy_list_string   = function(val) { return CustySelector.get_list_string(val, "Select a Customer");   }
+  rivets.formatters.ticket_url          = function(val) { return "/admin/edit_ticket?id=" + val; }
 
   rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }

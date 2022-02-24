@@ -288,7 +288,8 @@ html
                 td
                   | { tic.starttime | eventstart }
                 td 
-                  | { tic.name }
+                  a rv-href='tic.id | ticket_url' 
+                    { tic.name }
                 td
                   | { tic.price | money }
 
@@ -299,7 +300,8 @@ html
                 td
                   | { tic.starttime | eventstart }
                 td 
-                  | { tic.name }
+                  a rv-href='tic.id | ticket_url' 
+                    { tic.name }
                 td
                   | { tic.price | money }
 
