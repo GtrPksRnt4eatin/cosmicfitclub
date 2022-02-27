@@ -75,8 +75,13 @@ module Slack
   end
 
   def Slack.send(body)
-    res = Net::HTTP.start(Slack::API_URI.hostname, Slack::API_URI.port, :use_ssl => true) do |http|
-      req = Net::HTTP::Post.new(Slack::API_URI, 'Content-Type' => 'application/json')
+    uri = URI('https://slack.com/api/chat.postMessage')
+    res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) do |http|
+      headers = {
+        'Authorization' => 'Bearer ' + ENV["SLACK_TOKEN"],
+        'Content-Type'  => 'application/json'
+      }
+      req = Net::HTTP::Post.new(Slack::API_URI, headers)
       req.body = body.to_json
       http.request(req)
     rescue Exception => e
