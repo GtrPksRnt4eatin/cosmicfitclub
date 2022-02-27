@@ -81,7 +81,7 @@ module Slack
         'Authorization' => 'Bearer ' + ENV["SLACK_TOKEN"],
         'Content-Type'  => 'application/json'
       }
-      req = Net::HTTP::Post.new(Slack::API_URI, headers)
+      req = Net::HTTP::Post.new(uri, headers)
       req.body = body.to_json
       http.request(req)
     rescue Exception => e
