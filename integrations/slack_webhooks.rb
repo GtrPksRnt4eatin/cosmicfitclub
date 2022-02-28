@@ -160,7 +160,7 @@ class PostDailyPromo
     client = Slack::Web::Client.new
     client.files_upload(
       channels: '#promotional_materials',
-      as_user: true,
+      as_user: false,
       file: Faraday::UploadIO.new(promo.path, "image/jpeg"),
       title: "#{date.to_s} Promo",
       filetype: 'jpg',
@@ -168,6 +168,7 @@ class PostDailyPromo
     )
   rescue => err
     Slack.err("PostDailyPromo Error", err)
+    p err
   end
 end 
 
