@@ -142,7 +142,7 @@ module SchedulePromo
       },
       { :type     => "highlight_text",
         :x_offset => 0,
-        :y_offset => 180,
+        :y_offset => 182,
         :ptsize   => 12,
         :strokewidth => 1,
         :kerning  => 5,
