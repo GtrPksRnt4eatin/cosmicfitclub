@@ -149,7 +149,7 @@ module SchedulePromo
         :gravity  => "North",
         :fill     => "#E0E0E0",
         :stroke   => "#B0B0B0",
-        :text     => "cosmicfitclub.com/class/#{x[:classdef_id]}"
+        :text     => "Live at the Cosmic Loft"
       },
       { :type     => 'image_bubble',
         :x_offset => 50,
@@ -173,7 +173,7 @@ module SchedulePromo
       { :type     => "highlight_text",
         :x_offset => 0,
         :y_offset => 20,
-        :ptsize   => 12,
+        :ptsize   => 11,
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
         :fill    => "#FFFFFFDD",
