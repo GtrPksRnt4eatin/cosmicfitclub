@@ -4,7 +4,7 @@ module SchedulePromo
     if sched.location_id == 3
       promo_img = SchedulePromo::generate4x5_vid({ :img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ] })
     else
-      promo_img = SchedulePromo::generate4x5({ :img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ] })
+      promo_img = SchedulePromo::generate4x5({ :classdef_id=>sched.classdef_id, :img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ] })
     end
     [{ :img => promo_img, :title => "#{sched.poster_lines[0]} - #{sched.teachers[0].name}.jpg" }]
   end
@@ -149,7 +149,7 @@ module SchedulePromo
         :gravity  => "North",
         :fill     => "#E0E0E0",
         :stroke   => "#B0B0B0",
-        :text     => "cosmicfitclub.com"
+        :text     => "cosmicfitclub.com/class/" + x[:classdef_id]
       },
       { :type     => 'image_bubble',
         :x_offset => 50,
