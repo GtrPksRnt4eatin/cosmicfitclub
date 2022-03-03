@@ -1,7 +1,11 @@
 module SchedulePromo
 
   def SchedulePromo::generate_for_bot(sched)
-    promo_img = SchedulePromo::generate4x5({ :img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ] })
+    if sched.location_id == 3
+      promo_img = SchedulePromo::generate4x5_vid({ :img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ] })
+    else
+      promo_img = SchedulePromo::generate4x5({ :img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ] })
+    end
     [{ :img => promo_img, :title => "#{sched.poster_lines[0]} - #{sched.teachers[0].name}.jpg" }]
   end
 
@@ -76,7 +80,7 @@ module SchedulePromo
     ])
   end
 
-  def SchedulePromo::generate4x5(x)
+  def SchedulePromo::generate4x5_vid(x)
     image = MiniMagick::Image.open("printable/assets/4x5_bg.jpg")
     image.draw_elements([
       { :type     => 'logo',
@@ -124,6 +128,58 @@ module SchedulePromo
         :kerning  => 5,
         :gravity  => "South",
         :text     => "Live Video Fitness Classes Everyday!"
+      }
+    ])
+  end
+
+  def SchedulePromo::generate4x5(x)
+    image = MiniMagick::Image.open("printable/assets/4x5_bg.jpg")
+    image.draw_elements([
+      { :type     => 'logo',
+        :x_offset => 320,
+        :y_offset => 20,
+        :width    => 400
+      },
+      { :type     => "highlight_text",
+        :x_offset => 0,
+        :y_offset => 175,
+        :ptsize   => 16,
+        :strokewidth => 1,
+        :kerning  => 5,
+        :gravity  => "North",
+        :fill     => "#E0E0E0",
+        :stroke   => "#B0B0B0",
+        :text     => "cosmicfitclub.com"
+      },
+      { :type     => 'image_bubble',
+        :x_offset => 50,
+        :y_offset => 260,
+        :width    => 975,
+        :height   => 975,
+        :margin   => 5,
+        :ptscale  => 0.05,
+        :ptscale2 => 0.9,
+        :img      => x[:img],
+        :lines    => x[:lines]
+      },
+      { :type => 'box', 
+        :width => 1080,
+        :height => 100,
+        :gravity => 'south',
+        :y_offset => 1260,
+        :color => '#00000055',
+        :stroke => "#E0E0E0",
+      },
+      { :type     => "highlight_text",
+        :x_offset => 0,
+        :y_offset => 20,
+        :ptsize   => 12,
+        :strokewidth => 2,
+        :stroke   => "#FFFFFFDD",
+        :fill    => "#FFFFFFDD",
+        :kerning  => 5,
+        :gravity  => "South",
+        :text     => "#1F 669 Meeker Ave. Brooklyn, NY 11222"
       }
     ])
   end
