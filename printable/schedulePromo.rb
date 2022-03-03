@@ -143,13 +143,13 @@ module SchedulePromo
       { :type     => "highlight_text",
         :x_offset => 0,
         :y_offset => 175,
-        :ptsize   => 16,
+        :ptsize   => 14,
         :strokewidth => 1,
         :kerning  => 5,
         :gravity  => "North",
         :fill     => "#E0E0E0",
         :stroke   => "#B0B0B0",
-        :text     => "Live at the Cosmic Loft"
+        :text     => "In-Person at the Cosmic Loft"
       },
       { :type     => 'image_bubble',
         :x_offset => 50,
