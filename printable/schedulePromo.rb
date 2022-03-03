@@ -149,7 +149,7 @@ module SchedulePromo
         :gravity  => "North",
         :fill     => "#E0E0E0",
         :stroke   => "#B0B0B0",
-        :text     => "cosmicfitclub.com/class/" + x[:classdef_id]
+        :text     => "cosmicfitclub.com/class/#{x[:classdef_id]}"
       },
       { :type     => 'image_bubble',
         :x_offset => 50,
