@@ -173,13 +173,13 @@ module SchedulePromo
       { :type     => "highlight_text",
         :x_offset => 0,
         :y_offset => 20,
-        :ptsize   => 11,
+        :ptsize   => 10,
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => "#1F 669 Meeker Ave. Brooklyn, NY 11222"
+        :text     => "669 Meeker Ave. #1F Brooklyn, NY 11222"
       }
     ])
   end
