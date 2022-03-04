@@ -85,10 +85,19 @@ html
                   - Staff.exclude(:deactivated=>true).all.each do |staff|
                     option value='#{staff.id}'
                       | #{ staff.name }
+          .row 
+            label Location:
+            .field
+              select#location rv-selectize='data.newsheet.location_id'
+                option value='0' None
+                - Location.all.each do |loc|
+                  option value='#{loc.id}'
+                    | #{ loc.name }
           .row
             label Timeslot:
             .field
               input#timeslot rv-time_popup='data.newsheet.starttime'
+
           .row
             button.create_sheet rv-on-click='ctrl.create_custom' Create
 
