@@ -139,6 +139,10 @@ map "/models/groups" do
   run GroupReservationRoutes
 end
 
+map "/models/locations" do
+  run LocationRoutes
+end
+
 map "/offers" do
   run CFCOffers
 end

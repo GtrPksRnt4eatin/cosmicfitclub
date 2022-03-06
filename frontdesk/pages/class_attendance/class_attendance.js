@@ -100,6 +100,7 @@ $(document).ready( function() {
     payment_form      = new PaymentForm();
     new_customer_form = new NewCustomerForm();
     teacher_selector  = new TeacherSelector();
+    location_selector = new LocationSelector();
 
     reservation_form.set_occurrence(data['occurrence']);
     reservation_form.ev_sub('reservation_made', get_reservations);
@@ -115,6 +116,10 @@ $(document).ready( function() {
     teacher_selector.ev_sub('show', popupmenu.show_modal);
     teacher_selector.ev_sub('select', change_teacher);
     teacher_selector.ev_sub('hide', popupmenu.hide );
+
+    location_selector.ev_sub('show', popupmenu.show_modal);
+    location_selector.ev_sub('select', change_location);
+    location_selector.ev_sub('hide', popupmenu.hide );
 
     custy_selector.ev_sub('customer_selected', reservation_form.load_customer );
     custy_selector.ev_sub('customer_selected', function(val) { data.selected_customer = val; });
@@ -149,8 +154,13 @@ function get_occurrence_details() {
 }
 
 function change_teacher(staff_id) {
-  payload = { "staff_id": staff_id, "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id };
+  payload = { "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id, "location_id": data.occurrence.location_id, "staff_id": staff_id };
   $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; }, 'json' );
+}
+
+function change_location(loc_id) {
+  payload = { "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id, "location_id": loc_id, "staff_id": data.occurrence.staff_id };
+  $.post('/models/classdefs/occurrences/' + )
 }
 
 function change_capacity(new_capacity) {
