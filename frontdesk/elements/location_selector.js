@@ -35,7 +35,7 @@ LocationSelector.prototype = {
   },
 
   get_locations: function() {
-    $.get('/models/location', null, null, 'json')
+    $.get('/models/locations/all', null, null, 'json')
      .success( function(resp) { this.state['locations'] = resp; }.bind(this) );
   }
 }
