@@ -9,7 +9,7 @@ function LocationSelector(el, attr, build_dom) {
 
   this.load_styles();
   this.bind_handlers(['show','get_locations','select']);
-  this.get_staff();
+  this.get_locations();
   
   if(this.dom == null) {
     this.build_dom();
