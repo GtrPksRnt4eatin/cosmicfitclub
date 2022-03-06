@@ -34,7 +34,7 @@ LocationSelector.prototype = {
     this.ev_fire('select', e.target.value);
   },
 
-  get_staff: function() {
+  get_locations: function() {
     $.get('/models/location', null, null, 'json')
      .success( function(resp) { this.state['locations'] = resp; }.bind(this) );
   }
