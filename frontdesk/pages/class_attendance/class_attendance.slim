@@ -44,6 +44,8 @@ html
               .img
           span
             | @ { data.occurrence.location.name }
+            .edit onclick="location_selector.show();"
+              .img
           span
             .edit rv-on-click="ctrl.edit_occurrence"
 
