@@ -38,11 +38,11 @@ html
             | { data.occurrence.title } 
           span
             | w/ 
-          span.relative
+          span.relative.editfield
             | { data.occurrence.instructors | teachers }
             .edit onclick="teacher_selector.show();"
               .img
-          span
+          span.relative.editfield
             | @ { data.occurrence.location.name }
             .edit onclick="location_selector.show();"
               .img

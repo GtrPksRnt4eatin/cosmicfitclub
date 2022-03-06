@@ -155,8 +155,11 @@ td.checkin:hover {
   position: relative;
 }
 
+.editfield {
+  margin-right: 1em;
+}
+
 .edit {
-  
   position: absolute;
   top: 0.5em; right: -0.5em;
   cursor: pointer;
