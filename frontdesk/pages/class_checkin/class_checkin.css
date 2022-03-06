@@ -253,7 +253,7 @@
   select, 
   #custom_sheet input,
   #custom_sheet button {
-    width: 30em;
+    width: 100%;
     box-sizing: border-box;
     font-family: "Industry-Light";
     font-size: 1em;
