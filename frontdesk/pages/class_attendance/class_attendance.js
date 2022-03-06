@@ -154,7 +154,7 @@ function get_occurrence_details() {
 }
 
 function change_teacher(staff_id) {
-  payload = { "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id, "location_id": data.occurrence.location_id, "staff_id": staff_id };
+  payload = { "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id, "location_id": data.occurrence.location.id, "staff_id": staff_id };
   $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; }, 'json' );
 }
 

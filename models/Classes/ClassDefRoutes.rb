@@ -189,7 +189,7 @@ class ClassDefRoutes < Sinatra::Base
   get '/occurrences' do
     day = params[:day].nil? ? Date.today : Date.parse(params[:day])
     sheets = ClassOccurrence.where{ |o| (o.starttime >= day) & (o.starttime < day + 1)}.order(:starttime).all.map do |occ|
-      { 
+      {
         :id           => occ.id,
         :starttime    => occ.starttime.to_time.iso8601,
         :classdef     => occ.classdef.to_token,
@@ -209,7 +209,7 @@ class ClassDefRoutes < Sinatra::Base
   post '/occurrences/:id' do
     id = Integer(params[:id])        rescue halt(401, "ID Must Be Numeric")
     occurrence = ClassOccurrence[id]     or halt(404, "Occurrence Doesn't Exist")
-    occurrence.update( :staff_id=>params[:staff_id], :classdef_id=>params[:classdef_id], :starttime=>params[:starttime] )
+    occurrence.update( :staff_id=>params[:staff_id], :classdef_id=>params[:classdef_id], :starttime=>params[:starttime], :location_id=>params[:location_id] )
     occurrence.schedule_details_hash.to_json
   end
 
