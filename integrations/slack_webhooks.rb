@@ -138,7 +138,7 @@ end
 class GeneratePayPalReport
   include SuckerPunch::Job
   def perform(start,finish)
-    csv = PayPalSDK::list_transactions(start,finish)
+    csv = PayPalSDK::list_transactions_csv(start,finish)
     client = Slack::Web::Client.new
     client.files_upload(
       channels: 'payroll',
