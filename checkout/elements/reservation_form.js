@@ -67,10 +67,11 @@ ReservationForm.prototype = {
 
   set_occurrence(occurrence) {
     this.state.occurrence = occurrence;
-    this.state.reservation.classdef_id = occurrence.classdef_id;
-    this.state.reservation.staff_id    = occurrence.staff_id;
-    this.state.reservation.starttime   = occurrence.starttime;
-    this.state.reservation.location_id = occurrence.location_id;
+    this.state.reservation.occurrence_id = occurrence.id;
+    this.state.reservation.classdef_id   = occurrence.classdef_id;
+    this.state.reservation.staff_id      = occurrence.staff_id;
+    this.state.reservation.starttime     = occurrence.starttime;
+    this.state.reservation.location_id   = occurrence.location_id;
     if( !occurrence.location )        { return; }
     if( occurrence.location.id == 2 ) { this.set_price(2400,2); }
     else                              { this.set_price(1200,1); }
