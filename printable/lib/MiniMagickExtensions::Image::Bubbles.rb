@@ -21,6 +21,27 @@ module MiniMagickExtensions
         })
       end
 
+      def draw_video_mask(opts)
+        opts[:radius]   ||= [opts[:width],opts[:height]].min/10
+        opts[:x_offset] ||= 0
+        opts[:y_offset] ||= 0
+        mask = MiniMagick::Image.open("printable/assets/tmp/4x5_mask.png")
+        mask.draw_box({
+          :width => opts[:width],
+          :height => opts[:height],
+          :color  => 'White',
+          :radius => opts[:radius],
+          :x_offset=> opts[:x_offset],
+          :y_offset=> opts[:y_offset]
+        })
+        mask.save('mask.png')
+        result = mask.composite(self,'png') do |c|
+          c.compose "xor"
+          c.geometry "+0+0"
+        end
+        self.clone_img(result)
+      end
+
       def to_bubble(lines=nil, ptscale=0.05, ptscale2=0.74)
         ptsize  = self.dimensions[0].to_f / 300 * 72 * ptscale 
         ptsize2 = ptsize * ptscale2
@@ -96,12 +117,28 @@ module MiniMagickExtensions
         p opts[:wide]
         img = MiniMagick::Image.open(event.image_url) unless opts[:wide]
         img = MiniMagick::Image.open(event.wide_image_url) if opts[:wide]
+        img = MiniMagick::Image.open("printable/assets/tmp/mask.png") if opts[:video]
         img.resize_with_crop(opts[:width].to_i,opts[:height].to_i,{ :geometry => :center })
         img.footer_lines( { :lines => event.poster_lines, :ptsize => ptsize, :ptsize2 => ptsize2 } )
         img.mask_edges(opts)
         self.bubble_shadow(opts)
         self.overlay(img, opts[:width], opts[:height], opts[:x_offset], opts[:y_offset])
       end
+
+      def draw_video_bubble(opts={})
+        opts[:ptscale]  ||= 0.03
+        opts[:ptscale2] ||= 0.02
+        opts[:margin]   ||= opts[:width] * 0.006
+        opts[:height]   ||= opts[:width]
+        opts[:radius]   ||= [opts[:width],opts[:height]].min/10
+        ptsize  = (opts[:width] * opts[:ptscale]) / 300 * 72
+        ptsize2 = (opts[:width] * opts[:ptscale2]) / 300 * 72 
+        event = Event[opts[:event_id]] or return
+        img = MiniMagick::Image.open("printable/assets/tmp/mask.png")
+        img.footer_lines( { :lines => event.poster_lines, :ptsize => ptsize, :ptsize2 => ptsize2 } )
+        self.bubble_shadow(opts)
+        self.overlay(img, opts[:width], opts[:height], opts[:x_offset], opts[:y_offset])
+    end
 
       def draw_iphone_bubble(cls_id, x, y, size)
         
