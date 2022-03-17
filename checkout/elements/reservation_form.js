@@ -71,7 +71,7 @@ ReservationForm.prototype = {
     this.state.reservation.classdef_id   = occurrence.classdef_id;
     this.state.reservation.staff_id      = occurrence.staff_id;
     this.state.reservation.starttime     = occurrence.starttime;
-    this.state.reservation.location_id   = occurrence.location.id;
+    this.state.reservation.location_id   = occurrence.location && occurrence.location.id;
     if( !occurrence.location )        { return; }
     if( occurrence.location.id == 2 ) { this.set_price(2400,2); }
     else                              { this.set_price(1200,1); }
