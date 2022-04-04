@@ -40,6 +40,7 @@ module MiniMagickExtensions
           c.geometry "+0+0"
         end
         self.clone_img(result)
+        self.bubble_shadow(opts)
       end
 
       def to_bubble(lines=nil, ptscale=0.05, ptscale2=0.74)
@@ -114,13 +115,13 @@ module MiniMagickExtensions
         ptsize  = (opts[:width] * opts[:ptscale]) / 300 * 72
         ptsize2 = (opts[:width] * opts[:ptscale2]) / 300 * 72 
         event = Event[opts[:event_id]] or return
-        p opts[:wide]
         img = MiniMagick::Image.open(event.image_url) unless opts[:wide]
         img = MiniMagick::Image.open(event.wide_image_url) if opts[:wide]
         img = MiniMagick::Image.open("printable/assets/tmp/mask.png") if opts[:video]
         img.resize_with_crop(opts[:width].to_i,opts[:height].to_i,{ :geometry => :center })
         img.footer_lines( { :lines => event.poster_lines, :ptsize => ptsize, :ptsize2 => ptsize2 } )
         img.mask_edges(opts)
+        img.save('testmask.png')
         self.bubble_shadow(opts)
         self.overlay(img, opts[:width], opts[:height], opts[:x_offset], opts[:y_offset])
       end

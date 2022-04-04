@@ -1,0 +1,52 @@
+{ 
+    "background": "4x5_bg.jpg",
+
+    "elements": [ 
+      { "type": "logo",
+        "x_offset": 390,
+        "y_offset": 20,
+        "width": 300
+      },
+      { "type": "text",
+        "x_offset": 0,
+        "y_offset": 140,
+        "ptsize": 13,
+        "gravity": "North",
+        "text" : "The Cosmic Multiverse:"
+      },
+      { "type": "text",
+        "x_offset": 0,
+        "y_offset": 205,
+        "ptsize": 12,
+        "gravity": "North",
+        "text": "A Student Showcase"
+      },
+      { "type":     "image_bubble",
+        "x_offset": 50,
+        "y_offset": 270,
+        "width":    975,
+        "height":   975,
+        "margin":   5,
+        "ptscale":  0.05,
+        "ptscale2": 0.9,
+        "img":      "/home/bklein/repos/cosmicfit/printable/assets/slipper_room/mendel.jpg",
+        "lines":    ["Presented by Mendel Roman", "@ The Slipper Room", "Sun April 10th 2022", "Doors 5pm Show 5:30pm"]
+      },
+      { "type": "box", 
+        "width": 1079,
+        "height": 100,
+        "gravity": "south",
+        "y_offset": 1260,
+        "color": "#00000055",
+        "stroke": "#E0E0E0"
+      },      
+      { "type": "text",
+        "x_offset": 0,
+        "y_offset": 14,
+        "ptsize": 14,
+        "gravity": "South",
+        "text" : "http://slipperroom.com/shows"
+      }
+    ]
+
+}

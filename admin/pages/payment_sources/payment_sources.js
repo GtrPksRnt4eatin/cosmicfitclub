@@ -62,7 +62,10 @@ function customer_selected(id) {
 }
 
 function set_customer(id) {
-  custy_selector.select_customer(id);
+  custy_selector.select_customer(id, true);
+  savecardform.get_customer(id);
+  data.customer_id = id;
+  get_stripe_data();
 }
 
 function get_stripe_data() {

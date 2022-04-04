@@ -9,7 +9,7 @@ module VideoPromo2
           :width    => 520
         },
         { :type => 'box', 
-          :width => 1080,
+          :width => 1079,
           :height => 100,
           :gravity => 'south',
           :y_offset => 1260,
@@ -40,9 +40,10 @@ module VideoPromo2
         :width    => 975,
         :height   => 975
       })
-      #@@image.draw_video_bubble(
+      #@@image.draw_event_bubble(
       #{
       #  :event_id => event_id,
+      #  :video => true,
       #  :x_offset => 50,
       #  :y_offset => 260,
       #  :width    => 975,
