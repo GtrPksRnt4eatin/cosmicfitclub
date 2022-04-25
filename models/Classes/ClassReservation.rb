@@ -42,6 +42,8 @@ class ClassReservation < Sequel::Model
   def summary
     "#{self.customer.to_list_string} paid #{self.payment.amount}#{self.payment.type == "cash" ? " cash" : ""} for #{self.occurrence.summary} on #{self.occurrence.starttime}"
   end
+ 
+  alias :to_list_string :summary
 
   def <=> (other)
     self.occurrence.starttime <=> other.occurrence.starttime
@@ -49,7 +51,7 @@ class ClassReservation < Sequel::Model
 
   def details_hash
     { :id => self.id,
-      :occurrence => self.occurrence.try(:to_toke),
+      :occurrence => self.occurrence.try(:to_token),
       :customer => self.customer.try(:to_token),
       :payment => self.payment.try(:to_token),
       :transaction => self.transaction.try(:to_token),
