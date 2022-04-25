@@ -49,11 +49,11 @@ class ClassReservation < Sequel::Model
 
   def details_hash
     { :id => self.id,
-      :occurrence => self.occurrence.to_token,
-      :customer => self.customer.to_token,
-      :payment => self.payment.to_token,
-      :transaction => self.transaction.to_token,
-      :membership_use => self.membership_use.to_token
+      :occurrence => self.occurrence.try(:to_toke),
+      :customer => self.customer.try(:to_token),
+      :payment => self.payment.try(:to_token),
+      :transaction => self.transaction.try(:to_token),
+      :membership_use => self.membership_use.try(:to_token)
     }
   end
 
