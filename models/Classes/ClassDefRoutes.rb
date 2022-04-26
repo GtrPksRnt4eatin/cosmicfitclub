@@ -305,7 +305,7 @@ class ClassDefRoutes < Sinatra::Base
   post '/reservations/exists' do
     custy_id   = Integer(params[:customer_id])   rescue halt(400, "Customer ID Must Be Numeric")
     custy      = Customer[ custy_id ]                or halt(404, "Customer Doesn't Exist")
-    occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime]) 
+    occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime], params[:location_id]) 
     !occurrence.nil?                                 or halt(409, "Trouble Getting Class Occurrence")
     JSON.generate(occurrence.has_reservation_for? custy_id)
   end
