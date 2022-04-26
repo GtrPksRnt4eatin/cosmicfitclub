@@ -73,9 +73,9 @@ ReservationForm.prototype = {
     this.state.reservation.starttime     = occurrence.starttime;
     this.state.reservation.location_id   = occurrence.location && occurrence.location.id;
     if( !occurrence.location )        { return; }
-    if( occurrence.location.id == 2 ) { this.set_price(2400,2); }
-    if( occurrence.location.id == 1 ) { this.set_price(2400,2); }
-    else                              { this.set_price(1200,1); }
+    if( occurrence.location.id == 2 ) { this.set_price(2400,2); return; }
+    if( occurrence.location.id == 1 ) { this.set_price(2400,2); return; }
+    this.set_price(1200,1);
   },
 
 	validate_reservation() {
