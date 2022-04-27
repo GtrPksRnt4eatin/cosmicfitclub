@@ -1,11 +1,7 @@
 module SchedulePromo
 
   def SchedulePromo::generate_for_bot(sched)
-    if sched.location_id == 3
-      promo_img = SchedulePromo::generate4x5_vid({ :img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ] })
-    else
-      promo_img = SchedulePromo::generate4x5({ :classdef_id=>sched.classdef_id, :img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ] })
-    end
+    promo_img = SchedulePromo::generate4x5({:img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ], :location_id=>sched.location_id || 2 })
     [{ :img => promo_img, :title => "#{sched.poster_lines[0]} - #{sched.teachers[0].name}.jpg" }]
   end
 
@@ -149,7 +145,7 @@ module SchedulePromo
         :gravity  => "North",
         :fill     => "#E0E0E0",
         :stroke   => "#B0B0B0",
-        :text     => "Live classes at the Cosmic Loft!"
+        :text     => ["Live Class at Hunters Point South Park!", "Live classes at the Cosmic Loft!","video.cosmicfitclub.com"][x[:location_id].to_i - 1]
       },
       { :type     => 'image_bubble',
         :x_offset => 50,
@@ -179,7 +175,7 @@ module SchedulePromo
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => "669 Meeker Ave. #1F Brooklyn, NY 11222"
+        :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][x[:location_id].to_i -1]
       }
     ])
   end
