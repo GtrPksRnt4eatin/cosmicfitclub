@@ -145,7 +145,7 @@ module SchedulePromo
         :gravity  => "North",
         :fill     => "#E0E0E0",
         :stroke   => "#B0B0B0",
-        :text     => ["Live Class at Hunters Point South Park!", "Live classes at the Cosmic Loft!","video.cosmicfitclub.com"][x[:location_id].to_i - 1]
+        :text     => ["Live Class at Hunters Point South Park!", "Live classes at the Cosmic Loft!","video.cosmicfitclub.com"][(x[:location_id].to_i) - 1]
       },
       { :type     => 'image_bubble',
         :x_offset => 50,
@@ -175,7 +175,7 @@ module SchedulePromo
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][x[:location_id].to_i -1]
+        :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][(x[:location_id].to_i) -1]
       }
     ])
   end
