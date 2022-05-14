@@ -113,7 +113,13 @@ html
                 td.nobg
                   .edit   rv-on-click='ctrl.edit_price'
                   .delete rv-on-click='ctrl.del_price'
-
+ 
+        div.tuplet
+          label Hidden
+          .live
+            input type='radio' rv-checked='data.event.hidden' value="true"
+            input type='radio' rv-checked='data.event.hidden' value="false"
+            
         button#submit rv-on-click='ctrl.save_changes' Save Event
         button#delete rv-on-click='ctrl.delete_event' Delete Event
 

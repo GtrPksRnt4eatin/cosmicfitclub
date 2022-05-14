@@ -127,16 +127,16 @@ function setup_daypilot() {
     cellHeight: 20,
     startDate:  moment(data.event_data.starttime).format("YYYY-MM-DD"),
     headerDateFormat: "ddd MMM d",
-    businessBeginsHour: 12,
-    businessEndsHour: 23,
-    dayBeginsHour: 12,
-    dayEndsHour: 23,
+    businessBeginsHour: 10,
+    businessEndsHour: 20,
+    dayBeginsHour: 10,
+    dayEndsHour: 20,
     timeRangeSelectedHandling: "Disabled",
     onTimeRangeSelected: on_timeslot_selected,
     eventDeleteHandling: "Disabled",
     eventMoveHandling: "Disabled",
     eventResizeHandling: "Disabled",
-    //eventClickHandling: 'Select',
+    eventClickHandling: 'Select',
     onEventClick: on_session_selected,
     eventHoverHandling: "Disabled",
     onBeforeCellRender:   function(args) {
@@ -148,7 +148,7 @@ function setup_daypilot() {
   });
   
   data.event_data.sessions.for_each( function(x) {
-    daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(5,'hours').format(), end: moment(x.end_time).subtract(5,'hours').format(), text: x.title + "\r\n" + rivets.formatters.money(x.individual_price_full) });  
+    daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(4,'hours').format(), end: moment(x.end_time).subtract(4,'hours').format(), text: x.title + "\r\n" + rivets.formatters.money(x.individual_price_full) });  
   });
 
   $.get("/models/events/" + data.event_data.id + "/attendance2")
