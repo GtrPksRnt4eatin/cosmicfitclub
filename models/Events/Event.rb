@@ -194,7 +194,8 @@ class Event < Sequel::Model
       :prices           => self.available_prices,
       :a_la_carte       => self.a_la_carte,
       :registration_url => self.registration_url, 
-      :mode             => self.mode
+      :mode             => self.mode,
+      :hidden           => self.hidden
     }
   end
 
