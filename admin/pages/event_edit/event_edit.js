@@ -83,8 +83,8 @@ ctrl = {
     fd.append('poster_lines', JSON.stringify(data.event.poster_lines));
     fd.append('description', data.event.description);
     fd.append('details', data.event.details);
+    fd.append('hidden', data.event.hidden);
     var request = new XMLHttpRequest();
-    //request.onreadystatechange = function() { if(request.readyState == XMLHttpRequest.DONE && request.status == 200) window.location.href='/admin/events';  }
     request.open("POST", "/models/events");
     request.send(fd);
   },
