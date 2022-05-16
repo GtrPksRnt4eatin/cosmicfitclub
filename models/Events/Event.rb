@@ -138,9 +138,9 @@ class Event < Sequel::Model
   end
 
   def last_day
-    return Date.today if self.sessions.nil?
+    return Date.parse("2016-01-01") if self.sessions.nil?
     max  = self.sessions.max_by{ |x| x.start_time or '' }
-    return Date.today if max.nil?
+    return Date.parse("2016-01-01") if max.nil?
     Date.parse(max.start_time)
   end
 
