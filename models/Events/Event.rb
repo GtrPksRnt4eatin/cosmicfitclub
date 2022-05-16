@@ -220,7 +220,7 @@ class Event < Sequel::Model
   end
 
   def Event::future_all
-    list = Event.all.select{ |x| x.last_day <= Date.today }
+    list = Event.all.select{ |x| x.last_day >= Date.today }
     list.sort_by { |x| x.starttime }
   end
 
