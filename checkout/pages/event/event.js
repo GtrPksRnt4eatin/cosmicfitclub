@@ -136,7 +136,7 @@ function setup_daypilot() {
     eventDeleteHandling: "Disabled",
     eventMoveHandling: "Disabled",
     eventResizeHandling: "Disabled",
-    //eventClickHandling: 'Select',
+    eventClickHandling: 'Select',
     onEventClick: on_session_selected,
     eventHoverHandling: "Disabled",
     onBeforeCellRender:   function(args) {
@@ -148,7 +148,7 @@ function setup_daypilot() {
   });
   
   data.event_data.sessions.for_each( function(x) {
-    daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(5,'hours').format(), end: moment(x.end_time).subtract(5,'hours').format(), text: x.title + "\r\n" + rivets.formatters.money(x.individual_price_full) });  
+    daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(4,'hours').format(), end: moment(x.end_time).subtract(4,'hours').format(), text: x.title + "\r\n" + rivets.formatters.money(x.individual_price_full) });  
   });
 
   $.get("/models/events/" + data.event_data.id + "/attendance2")
