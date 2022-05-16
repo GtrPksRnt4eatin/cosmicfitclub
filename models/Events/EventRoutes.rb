@@ -11,6 +11,11 @@ class EventRoutes < Sinatra::Base
     JSON.generate Event::list_future
   end
 
+  get '/future_all' do
+    content_type :json
+    JSON.generate Event::list_future_all
+  end
+
   get '/past' do
     content_type :json
     JSON.generate Event::list_past

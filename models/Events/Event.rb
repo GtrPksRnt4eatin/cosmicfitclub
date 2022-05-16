@@ -6,16 +6,15 @@ class Event < Sequel::Model
 
   ###################### ASSOCIATIONS #####################
 
-  one_to_many :tickets,  :class => :EventTicket
-  one_to_many :sessions, :class => :EventSession
-  one_to_many :prices,   :class => :EventPrice
-  one_to_many :checkins, :class => :EventCheckin
+  one_to_many :tickets,        :class => :EventTicket
+  one_to_many :sessions,       :class => :EventSession
+  one_to_many :prices,         :class => :EventPrice
+  one_to_many :checkins,       :class => :EventCheckin
 
-  one_to_many :collaborations, :class=>:EventCollaborations
+  one_to_many :collaborations, :class => :EventCollaborations
 
-  many_to_one :wide_image, :class=>:StoredImage
-
-  many_to_one :short_url, :class=>:ShortUrl
+  many_to_one :wide_image,     :class => :StoredImage
+  many_to_one :short_url,      :class => :ShortUrl
 
   def create_session
     new_session = EventSession.create
@@ -220,8 +219,17 @@ class Event < Sequel::Model
     list.sort_by { |x| x.starttime }
   end
 
+  def Event::future_all
+    list = Event.all.select{ |x| x.last_day <= Date.today }
+    list.sort_by { |x| x.starttime }
+  end
+
   def Event::list_future
     Event::future.map(&:full_detail)
+  end
+
+  def Event::list_future_all
+    Event::future_all.map(&:full_detail)
   end
 
   def Event::list_past
@@ -303,8 +311,8 @@ class Event < Sequel::Model
   def attendance_arr
     arr = []
     val = self.attendance2
-    val.each do |x| 
-      arr << [ "[\##{x[:id]}] #{x[:title].upcase}" ]#{x[:starttime].strftime("%a %m/%d %I:%M %P")} - #{x[:endtime].strftime("%a %m/%d %I:%M %P")}" ]
+    val.each do |x|
+      arr << [ "[\##{x[:id]}] #{x[:title].upcase}" ] #{x[:starttime].strftime("%a %m/%d %I:%M %P")} - #{x[:endtime].strftime("%a %m/%d %I:%M %P")}" ]
       arr << ['','','','','']
       x[:passes].each { |y| arr << [ y[:id], "[\##{y[:ticket][:id]}] #{y[:ticket][:ticketclass][:title]}", "[\##{y[:customer][:id]}] #{y[:customer][:name]}", y[:customer][:email], !!y[:checked_in] ? "X" : " " ] }
       arr << ['','','','','']

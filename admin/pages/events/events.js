@@ -27,8 +27,8 @@ var data = {
 var ctrl = {
 
   get: function() {
-    $.get('/models/events',        function(events) { data.events      = events; }, 'json');
-    $.get('/models/events/past',   function(events) { data.past_events = events; }, 'json');
+    $.get('/models/events/future_all', function(events) { data.events      = events; }, 'json');
+    $.get('/models/events/past',       function(events) { data.past_events = events; }, 'json');
   },
   
   add: function(e) {
