@@ -221,7 +221,6 @@ function update_daypilot_colors() {
 }
 
 function set_first_price() {
-  
   clear_selected_price();
   if(empty(data.event_data.prices[0])) return;
   data.event_data.prices[0].selected = true;
