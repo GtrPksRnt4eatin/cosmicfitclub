@@ -55,6 +55,18 @@ SessionForm.prototype.HTML = `
       <label>Description:</label>
       <textarea rv-value='state.session.description'></textarea>
     </div>
+    <div class='tuplet'>
+      <label>Individual Price Full:</label>
+      <input rv-value='state.session.individual_price_full'/>
+    </div>
+    <div class='tuplet'>
+      <label>Individual Price Member:</label>
+      <input rv-value='state.session.individual_price_member'/>
+    </div>
+    <div class='tuplet'>
+      <label>Max Capacity:</label>
+      <input rv-value='state.session.max_capacity'/>
+    </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
   
