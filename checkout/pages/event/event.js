@@ -131,14 +131,14 @@ function setup_daypilot() {
     businessEndsHour: 20,
     dayBeginsHour: 10,
     dayEndsHour: 20,
-    timeRangeSelectedHandling: "Disabled",
+    timeRangeSelectedHandling: "Enabled",  
+    eventDeleteHandling:       "Disabled",
+    eventMoveHandling:         "Disabled",
+    eventResizeHandling:       "Disabled",
+    eventHoverHandling:        "Disabled",
+    eventClickHandling:        'Select',
     onTimeRangeSelected: on_timeslot_selected,
-    eventDeleteHandling: "Disabled",
-    eventMoveHandling: "Disabled",
-    eventResizeHandling: "Disabled",
-    eventClickHandling: 'Select',
-    onEventClick: on_session_selected,
-    eventHoverHandling: "Disabled",
+    onEventClick:        on_session_selected,
     onBeforeCellRender:   function(args) {
       var x = 5;
     },
@@ -178,6 +178,19 @@ function on_timeslot_selected(args) {
   calculate_total();
 }
 
+function on_session_selected(args) {
+  if(args.originalEvent.type=='touchend') { return; }
+  if(!userview.logged_in) { userview.onboard(); return;  }
+  if( !session_available(args.e.data.id) ) { return; }
+
+  data.a_la_carte = true;
+  clear_selected_price();
+  toggle_included_session(args.e.data);
+  calculate_custom_prices();
+  calculate_total();
+  update_daypilot_colors();
+}
+
 function session_available(id) {
   let session = data.event_data.sessions.find( function(y) { return id == y.id} );
   let attendance = data.attendance.find( function(z) { return id == z.id; } );
@@ -205,19 +218,6 @@ function update_daypilot_colors() {
     }
     daypilot.events.update(x);
   });
-}
-
-function on_session_selected(args) {
-  if(args.originalEvent.type=='touchend') { return; }
-  if(!userview.logged_in) { userview.onboard(); return;  }
-  if( !session_available(args.e.data.id) ) { return; }
-
-  data.a_la_carte = true;
-  clear_selected_price();
-  toggle_included_session(args.e.data);
-  calculate_custom_prices();
-  calculate_total();
-  update_daypilot_colors();
 }
 
 function set_first_price() {
@@ -263,6 +263,8 @@ function calculate_total() {
   
     case 'privates':
       data.total_price = data.custom_full_price;
+
+      if(!data.selected_timeslot.starttime) break; 
 
       switch(data.num_slots) {
         case 1: data.total_price = 9200;  break;
