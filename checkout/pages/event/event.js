@@ -264,14 +264,10 @@ function calculate_total() {
     case 'privates':
       data.total_price = data.custom_full_price;
 
-
-    //  switch(data.num_slots) {
-    //    case 2: data.total_price = 12000; break;
-    //    case 3: data.total_price = 16500; break;
-    //    case 4: data.total_price = 20000; break;
-    //    case 5: data.total_price = 22500; break;
-    //    case 6: data.total_price = 24000; break;
-    //  }
+      switch(data.num_slots) {
+        case 1: data.total_price = 9200;  break;
+        case 2: data.total_price = 12400; break;
+      }
       break;
 
     default: 
