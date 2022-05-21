@@ -20,6 +20,7 @@ module EventPoster
     EventPoster::generate1920x1080(event_id);                                                                  p "HD complete"
     EventPoster::generate1080x1920(event_id).save("events/event_#{event_id}/event_#{event_id}_1080x1920.jpg"); p "Story complete"
     EventPoster::generateFBEvent(event_id).save("events/event_#{event_id}/event_#{event_id}_fbevent.jpg");     p "FB Event complete"
+    EventPoster::generate_a4(event_id).save("events/event_#{event_id}/event_#{event_id}_a4.jpg");              p "A4 complete"
   end
 
   def EventPoster::generate4x5(event_id)
@@ -62,7 +63,7 @@ module EventPoster
   end
  
   def EventPoster::generate4x6(event_id)
-    @@image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
+    @@image = MiniMagickd::Image.open("printable/assets/4x6_bg.jpg")
     @@image.draw_elements([
       { :type     => 'logo',
         :x_offset => 50,
@@ -130,6 +131,61 @@ module EventPoster
         :ptscale2 => 0.043
       }
     ])
+  end
+
+  def EventPoster::generate_a4(event_id)
+    @@image = MiniMagick::Image.open("printable/assets/a4_bg.jpg")
+    @@image.draw_elements([
+        { :type     => 'bubble_shadow',
+          :width    => 1046,
+          :height   => 1046,
+          :x_offset => 106,
+          :y_offset => 50,
+          :margin   => 1046*0.012
+        },
+        { :type      => 'box',
+          :x_offset  => 106,
+          :y_offset  => 50,
+          :width     => 1046,
+          :height    => 1046,
+          :radius    => 100,
+        },
+        { :type     => 'logo',
+          :x_offset => 150,
+          :y_offset => 250,
+          :width    => 950
+        },
+        { :type        => 'highlight_text',
+          :text        => 'Upcoming Events!',
+          :ptsize      => 27.5,
+          :x_offset    => 150,
+          :y_offset    => 800,
+          :fill        => "\#BBBBFFFF",
+          :stroke      => "\#DDDDFFDD",
+          :strokewidth => 1
+        },
+        { :type     => 'event_bubble',
+          :event_id => event_id,
+          :x_offset => 50,
+          :y_offset => 570,
+          :width    => 980,
+          :ptscale  => 0.05,
+          :ptscale2 => 0.043
+        },
+        { :type     => 'img_array',
+          :x_offset => 0,
+          :y_offset => 0,
+          :width    => 2411,
+          :height   => 3340,
+          :margin_x => 106,
+          :margin_y => 50,
+          :rowsize  => 2,
+          :ptscale  => 0.05,
+          :ptscale2 => 0.8,
+          :images   => [ { :img => 'blank'} ] + Event::future.first(5).map { |x| { :img => x.image_url, :lines => x.poster_lines } }
+        },
+        { :type => 'footer' }
+      ])
   end
 
   def EventPoster::generate1920x1080(event_id)
