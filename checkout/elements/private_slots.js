@@ -23,8 +23,8 @@ PrivateSlots.prototype = {
     build_daypilot: function() {
         this.daypilot = new DayPilot.Calendar("daypilot", {
             headerDateFormat:          "ddd MMM d",
-            startDate:                 moment(state.starttime).format("YYYY-MM-DD"),       
-            days:                      moment(state.endtime).diff(moment(state.starttime),"days")+1,
+            startDate:                 moment(this.state.starttime).format("YYYY-MM-DD"),       
+            days:                      moment(this.state.endtime).diff(moment(this.state.starttime),"days")+1,
             cellDuration:              30,
             cellHeight:                20,
             businessBeginsHour:        10,
