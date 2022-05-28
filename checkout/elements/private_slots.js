@@ -15,6 +15,7 @@ function PrivateSlots(parent,attr) {
 
   setTimeout(function() {
     this.build_daypilot();
+    this.load_sessions();
     this.get_attendance();
   }.bind(this),0)
 }
@@ -23,37 +24,38 @@ PrivateSlots.prototype = {
 	constructor: PrivateSlots,
 
     build_daypilot: function() {
-        this.daypilot = new DayPilot.Calendar("daypilot", {
-            headerDateFormat:          "ddd MMM d",
-            startDate:                 moment(this.event.starttime).format("YYYY-MM-DD"),       
-            days:                      moment(this.event.endtime).diff(moment(this.event.starttime),"days")+1,
-            cellDuration:              30,
-            cellHeight:                20,
-            businessBeginsHour:        10,
-            businessEndsHour:          20,
-            dayBeginsHour:             10,
-            dayEndsHour:               20,
-            viewType:                  "Days",
-            timeRangeSelectedHandling: "Disabled",  
-            eventDeleteHandling:       "Disabled",
-            eventMoveHandling:         "Disabled",
-            eventResizeHandling:       "Disabled",
-            eventHoverHandling:        "Disabled",
-            eventClickHandling:        "Select",
-            onEventClick:              this.on_session_selected,
-        });
+      this.daypilot = new DayPilot.Calendar("daypilot", {
+        headerDateFormat:          "ddd MMM d",
+        startDate:                 moment(this.event.starttime).format("YYYY-MM-DD"),       
+        days:                      moment(this.event.endtime).diff(moment(this.event.starttime),"days")+1,
+        cellDuration:              30,
+        cellHeight:                20,
+        businessBeginsHour:        10,
+        businessEndsHour:          20,
+        dayBeginsHour:             10,
+        dayEndsHour:               20,
+        viewType:                  "Days",
+        timeRangeSelectedHandling: "Disabled",  
+        eventDeleteHandling:       "Disabled",
+        eventMoveHandling:         "Disabled",
+        eventResizeHandling:       "Disabled",
+        eventHoverHandling:        "Disabled",
+        eventClickHandling:        "Select",
+        onEventClick:              this.on_session_selected,
+      });
+      this.daypilot.init();
     },
 
     load_sessions: function(sessions) {
-        list = sessions || this.event.sessions;
-        list.for_each( function(sess) {
-            this.daypilot.events.add({
-                id:    x.id, 
-                start: moment(x.start_time).subtract(4,'hours').format(), 
-                end:   moment(x.end_time).subtract(4,'hours').format(), 
-                text:  x.title + "\r\n" + rivets.formatters.money(x.individual_price_full)
-            })
-        });
+      list = sessions || this.event.sessions;
+      list.for_each( function(sess) {
+        this.daypilot.events.add({
+          id:    sess.id, 
+          start: moment(sess.start_time).subtract(4,'hours').format(), 
+          end:   moment(sess.end_time).subtract(4,'hours').format(), 
+          text:  sess.title + "\r\n" + rivets.formatters.money(sess.individual_price_full)
+        })
+      });
     },
 
     get_attendance: function() {
