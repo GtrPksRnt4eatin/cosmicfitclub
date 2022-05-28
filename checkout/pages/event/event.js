@@ -193,6 +193,35 @@ function session_available(id) {
   return true;
 }
 
+function sort_included_sessions() {
+  data.included_sessions.sort( function(a,b) { 
+    let sess_a = data.event_data.sessions.find( function(x) { return x.id == a; } );
+    let sess_b = data.event_data.sessions.find( function(x) { return x.id == b; } );
+    if(!sess_a) { return sess_b ? 1 : 0; }
+    if(!sess_b) { return sess_a ? -1 : 0; }
+    return moment(sess_a.start_time) - moment(sess_b.start_time);
+  });
+}
+
+function set_included_sessions(sessions) {
+  for(var i=0; i<data.event_data.sessions.length; i++) { 
+    data.event_data.sessions[i].selected = sessions.indexOf(data.event_data.sessions[i].id)!=-1;
+  }
+  data.included_sessions = sessions.slice(0);
+  sort_included_sessions();
+}
+
+function toggle_included_session(session) {
+  sessions = data.included_sessions;
+  var i = sessions.indexOf(session.id);
+  if(i==-1) { sessions.push(session.id); }
+  else { 
+    if(sessions.length == 1) { sessions = []; }
+    else { sessions.splice(i, 1); }
+  }
+  set_included_sessions(sessions);
+}
+
 function update_daypilot_colors() {
   daypilot.events.all().for_each( function(x) {
     let session = data.event_data.sessions.find( function(y) { return x.id() == y.id} );
@@ -284,35 +313,6 @@ function calculate_custom_prices() {
     data.custom_member_price += sess.individual_price_member;
   } 
 
-}
-
-function sort_included_sessions() {
-  data.included_sessions.sort( function(a,b) { 
-    let sess_a = data.event_data.sessions.find( function(x) { return x.id == a; } );
-    let sess_b = data.event_data.sessions.find( function(x) { return x.id == b; } );
-    if(!sess_a) { return sess_b ? 1 : 0; }
-    if(!sess_b) { return sess_a ? -1 : 0; }
-    return moment(sess_a.start_time) - moment(sess_b.start_time);
-  });
-}
-
-function set_included_sessions(sessions) {
-  for(var i=0; i<data.event_data.sessions.length; i++) { 
-    data.event_data.sessions[i].selected = sessions.indexOf(data.event_data.sessions[i].id)!=-1;
-  }
-  data.included_sessions = sessions.slice(0);
-  sort_included_sessions();
-}
-
-function toggle_included_session(session) {
-  sessions = data.included_sessions;
-  var i = sessions.indexOf(session.id);
-  if(i==-1) { sessions.push(session.id); }
-  else { 
-    if(sessions.length == 1) { sessions = []; }
-    else { sessions.splice(i, 1); }
-  }
-  set_included_sessions(sessions);
 }
 
 function clear_selected_price() {

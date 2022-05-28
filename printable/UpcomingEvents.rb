@@ -1,5 +1,11 @@
 module UpcomingEvents
 
+  def UpcomingEvents::generate_for_bot()
+    arr = []
+    arr.push({ :img => UpcomingEvents::generate4x5, :title => "UpcomingEvents_4x5"  })
+    arr.push({ :img => UpcomingEvents::generate_a4, :title => "UpcomingEvents_a4"  })
+  end
+
   def UpcomingEvents::generate_all
     UpcomingEvents::generate_4x6
     UpcomingEvents::generate_a4

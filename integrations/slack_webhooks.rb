@@ -49,6 +49,8 @@ class SlackBot < Sinatra::Base
     when "timeslot_promo"
       timeslot = ClassdefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
       PostTimeslotPromo.perform_async(timeslot)
+    when "upcoming_events_promo"
+      PostUpcomingEventsPromo.perform_async()
     end
   end
 
@@ -189,6 +191,26 @@ class PostEventPromo
     end
   rescue => err
     Slack.err("PostEventPromo Error", err)
+  end
+end
+
+class PostUpcomingEventsPromo
+  include SuckerPunch::Job
+  def perform(classdef)
+    promos = UpcomingEvents.generate_for_bot
+    client = Slack::Web::Client.new
+    promos.each do |p|
+      client.files_upload(
+        channels: '#promotional_materials',
+        as_user: false,
+        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        title: "#{p[:title]}",
+        filetype: 'jpg',
+        filename: "#{p[:title]}.jpg"
+      )
+    end
+  rescue => err
+    Slack.err("PostUpcomingEventsPromo Error", err)
   end
 end
 
