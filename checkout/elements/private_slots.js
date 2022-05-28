@@ -76,16 +76,13 @@ PrivateSlots.prototype = {
         if(session.title != "Private") {
           x.text(session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.length + "/" + session.max_capacity);
         }
-        if(attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 ) ) {
-          x.client.backColor("#AAAAAA");
-        }
-        else if( data.included_sessions.includes(x.id()) ) {
-          x.client.backColor("#CCCCFF");
-        }
-        else {
-          x.client.backColor("#FFFFFF");
-        }
-        daypilot.events.update(x);
+
+        let full     = attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 );
+        let selected = data.included_sessions.includes(x.id());
+        
+        x.client.backColor( full ? "#AAAAAA" : selected ? "#CCCCFF" : "#FFFFFF" );
+
+        this.daypilot.events.update(x);
       }.bind(this));
     },
 
