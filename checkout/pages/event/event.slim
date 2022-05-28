@@ -121,7 +121,7 @@ html
           div
             button#checkout rv-on-click='ctrl.checkout_new' Pay { data.total_price | money } Now
 
-        .flex.flex3 rv-unless="data.mode | equals 'privates' "
+        .flex.flex3 rv-unless="data.mode | equals 'privates'" rv-hide="data.mode | equals 'privates2'"
 
           #sessions rv-unless='data.event_data.sessions | multiple'
             h4 Event Time
