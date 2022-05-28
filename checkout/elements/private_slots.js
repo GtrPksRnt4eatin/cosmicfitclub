@@ -89,7 +89,7 @@ PrivateSlots.prototype = {
       }.bind(this));
     },
 
-    on_session_selected: function() {
+    on_session_selected: function(args) {
         if(args.originalEvent.type=='touchend') { return; }
         if(!userview.logged_in) { userview.onboard(); return;  }
         if( !session_available(args.e.data.id) ) { return; }
