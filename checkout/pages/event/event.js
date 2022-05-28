@@ -121,30 +121,24 @@ function set_event_mode() {
 
 function setup_daypilot() {
   daypilot = new DayPilot.Calendar('daypilot', {
-    viewType: "Days",
-    days: moment(data.event_data.endtime).diff(moment(data.event_data.starttime),'days')+1,
-    cellDuration: 30,
-    cellHeight: 20,
-    startDate:  moment(data.event_data.starttime).format("YYYY-MM-DD"),
-    headerDateFormat: "ddd MMM d",
-    businessBeginsHour: 10,
-    businessEndsHour: 20,
-    dayBeginsHour: 10,
-    dayEndsHour: 20,
-    timeRangeSelectedHandling: "Enabled",  
+    viewType:                  "Days",
+    days:                      moment(data.event_data.endtime).diff(moment(data.event_data.starttime),'days')+1,
+    startDate:                 moment(data.event_data.starttime).format("YYYY-MM-DD"),
+    headerDateFormat:          "ddd MMM d",
+    cellDuration:              30,
+    cellHeight:                20,
+    businessBeginsHour:        10,
+    businessEndsHour:          20,
+    dayBeginsHour:             10,
+    dayEndsHour:               20,
+    timeRangeSelectedHandling: "Disabled",  
     eventDeleteHandling:       "Disabled",
     eventMoveHandling:         "Disabled",
     eventResizeHandling:       "Disabled",
     eventHoverHandling:        "Disabled",
     eventClickHandling:        'Select',
-    onTimeRangeSelected: on_timeslot_selected,
-    onEventClick:        on_session_selected,
-    onBeforeCellRender:   function(args) {
-      var x = 5;
-    },
-    onBeforeEventRender: function(args) {
-      var x = 5;
-    }
+    onTimeRangeSelected:       on_timeslot_selected,
+    onEventClick:              on_session_selected
   });
   
   data.event_data.sessions.for_each( function(x) {
@@ -157,12 +151,12 @@ function setup_daypilot() {
     update_daypilot_colors();
   })
 
- // $.get("/models/groups/range/2021-08-09/2021-08-16")
- // .success( function(val) {
- //   for(i=0; i<val.length; i++) {
- //     daypilot.events.add(val[i]);
- //   }
- // })
+  $.get("/models/groups/range/2021-07-22/2021-07-25")
+   .success( function(val) {
+    for(i=0; i<val.length; i++) {
+      daypilot.events.add(val[i]);
+    }
+  })
 
   daypilot.init();
 }
@@ -470,15 +464,11 @@ function on_token_received(token) {
 }
 
 function on_successful_charge(e) { 
-
   window.location.href = '/checkout/complete'; 
-
 }
 
 function on_failed_charge(e) {
-
   switch (e.status) {
-
     case 400: 
       alert('There was an error processing the payment. Your Card Has not been charged.'); 
       break;
@@ -496,7 +486,6 @@ function on_failed_charge(e) {
       alert('huh???'); 
       break;
   }
-
 } 
 
 ///////////////////////////////////////// STRIPE EVENTS //////////////////////////////////////////////////
