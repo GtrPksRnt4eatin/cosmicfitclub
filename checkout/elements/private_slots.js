@@ -59,33 +59,33 @@ PrivateSlots.prototype = {
     },
 
     get_attendance: function() {
-        $.get("/models/events/" + this.event.id + "/attendance2")
-         .success( function(val) { 
-           this.state.attendance = val;
-           this.update_daypilot_colors();
-         }.bind(this))
+      $.get("/models/events/" + this.event.id + "/attendance2")
+       .success( function(val) { 
+          this.state.attendance = val;
+          this.update_daypilot_colors();
+        }.bind(this))
     },
 
     update_daypilot_colors() {
-        this.daypilot.events.all().for_each( function(x) {
-            let session    = this.event.sessions.find( function(y) { return x.id() == y.id; } );
-            let attendance = this.attendance.find(     function(z) { return x.id() == z.id; } );
-            if( !attendance || !session ) return;
+      this.daypilot.events.all().for_each( function(x) {
+        let session    = this.event.sessions.find( function(y) { return x.id() == y.id; } );
+        let attendance = this.attendance.find(     function(z) { return x.id() == z.id; } );
+        if( !attendance || !session ) return;
             
-            if(session.title != "Private") {
-              x.text(session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.length + "/" + session.max_capacity);
-            }
-            if(attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 ) ) {
-              x.client.backColor("#AAAAAA");
-            }
-            else if( data.included_sessions.includes(x.id()) ) {
-              x.client.backColor("#CCCCFF");
-            }
-            else {
-              x.client.backColor("#FFFFFF");
-            }
-            daypilot.events.update(x);
-        });
+        if(session.title != "Private") {
+          x.text(session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.length + "/" + session.max_capacity);
+        }
+        if(attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 ) ) {
+          x.client.backColor("#AAAAAA");
+        }
+        else if( data.included_sessions.includes(x.id()) ) {
+          x.client.backColor("#CCCCFF");
+        }
+        else {
+          x.client.backColor("#FFFFFF");
+        }
+        daypilot.events.update(x);
+      }.bind(this));
     },
 
     on_session_selected: function() {
