@@ -9,10 +9,11 @@ function PrivateSlots(parent,attr) {
       page: 0
 	}
 
-	this.bind_handlers([]);
-	this.build_dom();
+	this.bind_handlers(['build_daypilot','load_sessions','get_attendance','update_daypilot_colors','on_session_selected']);
 	this.load_styles();
-	this.bind_dom();
+	//this.bind_dom();
+
+  this.get_attendance();
 
 }
 
@@ -56,9 +57,9 @@ PrivateSlots.prototype = {
     get_attendance: function() {
         $.get("/models/events/" + this.event.id + "/attendance2")
          .success( function(val) { 
-           data.attendance = val;
+           this.state.attendance = val;
            this.update_daypilot_colors();
-         })
+         }.bind(this))
     },
 
     update_daypilot_colors() {
