@@ -25,7 +25,7 @@ module MiniMagickExtensions
         opts[:radius]   ||= [opts[:width],opts[:height]].min/10
         opts[:x_offset] ||= 0
         opts[:y_offset] ||= 0
-        mask = MiniMagick::Image.open("printable/assets/tmp/4x5_mask.png")
+        mask = MiniMagick::Image.open(opts[:mask_file] || "printable/assets/tmp/4x5_mask.png")
         mask.draw_box({
           :width => opts[:width],
           :height => opts[:height],
