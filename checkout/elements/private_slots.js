@@ -54,8 +54,8 @@ PrivateSlots.prototype = {
           start: moment(sess.start_time).subtract(4,'hours').format(), 
           end:   moment(sess.end_time).subtract(4,'hours').format(), 
           text:  sess.title + "\r\n" + rivets.formatters.money(sess.individual_price_full)
-        }.bind(this))
-      });
+        })
+      }.bind(this));
     },
 
     get_attendance: function() {
