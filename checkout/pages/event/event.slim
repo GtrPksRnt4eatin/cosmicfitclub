@@ -65,7 +65,7 @@ html
           .details rv-if='data.event_data.details'
             | { data.event_data.details }
 
-        .flex.flex3 rv-if='data.mode | equals 'privates2' "
+        .flex.flex3 rv-if="data.mode | equals 'privates2' "
           private-slots event='data.event_data'
           
         .flex.flex3 rv-if="data.mode | equals 'privates' "
