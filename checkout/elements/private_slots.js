@@ -119,6 +119,6 @@ PrivateSlots.prototype.CSS = `
 `.untab(2);
 
 rivets.components['private-slots'] = { 
-  template:   function() { return PrivateSlots.prototype.HTML; },
-  initialize: function() { return new PrivateSlots(el,attr); }
+  template:   function()        { return PrivateSlots.prototype.HTML; },
+  initialize: function(el,attr) { return new PrivateSlots(el,attr);   }
 }
