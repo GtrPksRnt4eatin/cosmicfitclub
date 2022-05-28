@@ -4,6 +4,7 @@ function PrivateSlots(parent,attr) {
 
 	this.state = {
       sessions: [],
+      attendance: [],
       starttime: null,
       endtime: null,
       page: 0
@@ -68,8 +69,8 @@ PrivateSlots.prototype = {
 
     update_daypilot_colors() {
       this.daypilot.events.all().for_each( function(x) {
-        let session    = this.event.sessions.find( function(y) { return x.id() == y.id; } );
-        let attendance = this.attendance.find(     function(z) { return x.id() == z.id; } );
+        let session    = this.event.sessions.find(   function(y) { return x.id() == y.id; } );
+        let attendance = this.state.attendance.find( function(z) { return x.id() == z.id; } );
         if( !attendance || !session ) return;
             
         if(session.title != "Private") {
