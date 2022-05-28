@@ -13,8 +13,8 @@ function PrivateSlots(parent,attr) {
 	this.load_styles();
 	//this.bind_dom();
 
+  this.build_daypilot());
   this.get_attendance();
-
 }
 
 PrivateSlots.prototype = {
