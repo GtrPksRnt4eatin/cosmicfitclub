@@ -46,7 +46,7 @@ function SessionChooser(parent,attr) {
   
       load_sessions: function(sessions) {
         list = sessions || this.event.sessions;
-        list.for_each( function(sess) {
+        list && list.for_each( function(sess) {
           this.daypilot.events.add({
             id:    sess.id, 
             start: moment(sess.start_time).subtract(4,'hours').format(), 
