@@ -94,12 +94,16 @@ Array.prototype.for_each = function foreach(func) {
   for(var i=0; i<this.length; i++) { func(this[i]); }
 }
 
+Array.prototype.overwrite = function overwrite(new_array) {
+  this.length = 0;
+  this.push(...new_array);
+}
+
 Array.prototype.replace_or_add_by_id = function replace_or_add_by_id(item) {
   var i = this.findIndex( function(obj) { return obj['id'] == item['id']; });
   if(i != -1) { this[i] = item;  }
   else        { this.push(item); }
 }
-
 
 String.prototype.untab = function(spacing) {
   var lines = this.split("\n");
@@ -167,6 +171,8 @@ function post_image(path,filename,blob,callback) {
   request.onerror = function(e) { alert("Failed to Upload Image"); }
   request.send(fd);
 }
+
+
 
 /////////////////////// Object.assign Polyfill for ES5 ///////////////////////////////
 

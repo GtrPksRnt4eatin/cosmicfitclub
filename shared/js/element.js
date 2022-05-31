@@ -11,3 +11,8 @@ element = {
     	}         
     }
 }
+
+function get_element(view,element) {
+  let binding = view.bindings.find(function(x) { return x.type == element });
+  return binding ? binding.componentView.models : null;
+}
