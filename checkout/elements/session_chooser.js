@@ -142,7 +142,7 @@ function SessionChooser(parent,attr) {
   Object.assign( SessionChooser.prototype, ev_channel);
   
   SessionChooser.prototype.HTML = ES5Template(function(){/**
-    <div rv-hide='state.selected_session'>  
+    <div rv-hide='session'>  
       <hr class='mobile'><br class='mobile'>    
       <h2>Choose An Available Session:</h2><br/>
       <div id='daypilot'></div>
