@@ -40,7 +40,7 @@ PrivateSlots.prototype = {
     },
 
     choose_custy(e,m) {
-      this.choose_customer(m.slot.customer_id, function(val) { m.slot.customer = val; } );
+      this.choose_customer(m.slot.customer_id, function(val) { m.slot = val; } );
     },
 
     add_to_order() {
