@@ -135,7 +135,7 @@ PrivateSlots.prototype = {
     toggle_included_session(session) {
       sessions = this.state.included_sessions;
       var i = sessions.indexOf(session.id);
-      if(i==-1) { sessions.push(session.id); }
+      if(i==-1) { sessions.push(session.id); this.state.num_slots=1; }
       else { 
         if(sessions.length == 1) { sessions = []; }
         else { sessions.splice(i, 1); }
@@ -190,7 +190,7 @@ PrivateSlots.prototype.HTML = ES5Template(function(){/**
         </div>
       </div> 
 
-      <div rv-if='data.num_slots'>
+      <div rv-if='this.state.num_slots'>
         <hr/>
         <div class='tuple' rv-each-slot='this.state.rental.slots'>
           <div class='attrib'>
