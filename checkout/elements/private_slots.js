@@ -1,6 +1,7 @@
 function PrivateSlots(parent,attr) {
 
-  this.session = attr['session'];
+  this.session         = attr['session'];
+  this.choose_customer = attr['choose_customer'];
 
 	this.state = {
       num_slots: 1,
@@ -39,7 +40,7 @@ PrivateSlots.prototype = {
     },
 
     choose_custy(e,m) {
-
+      this.choose_customer(m.slot.customer_id, function(val) { m.slot.customer = val; } );
     },
 
     add_to_order() {
@@ -74,7 +75,7 @@ PrivateSlots.prototype.HTML = ES5Template(function(){/**
         <div class='tuple' rv-each-slot='state.rental.slots'>
           <div class='attrib'>
             Slot #{index | fix_index}
-          <div class='value edit' rv-on-click='ctrl.choose_custy'>
+          <div class='value edit' rv-on-click='choose_custy'>
             {slot.customer_string}           
           </div>
           <hr/>
