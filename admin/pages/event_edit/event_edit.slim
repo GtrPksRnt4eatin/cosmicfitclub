@@ -117,7 +117,7 @@ html
         div.tuplet
           label Hidden
           .live
-            input type='radio' rv-checked='data.event.hidden' value="true"
+            input type='radio' rv-checked='data.event.hidden' rv-on-change='ctrl.update_hidden' value="true"
             input type='radio' rv-checked='data.event.hidden' value="false"
             
         button#submit rv-on-click='ctrl.save_changes' Save Event
