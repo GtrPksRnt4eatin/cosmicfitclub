@@ -1,28 +1,22 @@
 function SessionChooser(parent,attr) {
 
-    this.event = attr['event'];
+  this.event = attr['event'];
   
-      this.state = {
-        sessions: [],
-        attendance: [],
-        selected_session: null,
-        included_sessions: [],
-        num_slots: 1,
-        rental: null,
-        starttime: null,
-        endtime: null,
-        page: 0
-      }
-  
-      this.bind_handlers(['build_daypilot','load_sessions','get_attendance','update_daypilot_colors','session_available','on_session_selected','sort_included_sessions','set_included_sessions','toggle_included_sessions','clear_session','set_num_slots']);
-      //this.load_styles();
-  
-    setTimeout(function() {
-      this.build_daypilot();
-      this.load_sessions();
-      this.get_attendance();
-    }.bind(this),0)
+  this.state = {
+    sessions: [],
+    attendance: [],
+    included_sessions: []
   }
+  
+  this.bind_handlers(['build_daypilot','load_sessions','get_attendance','update_daypilot_colors','session_available','on_session_selected','sort_included_sessions','set_included_sessions','toggle_included_sessions','clear_session']);
+
+  setTimeout(function() {
+    this.build_daypilot();
+    this.load_sessions();
+    this.get_attendance();
+  }.bind(this),0)
+
+}
   
   SessionChooser.prototype = {
       constructor: SessionChooser,
@@ -147,17 +141,11 @@ function SessionChooser(parent,attr) {
   Object.assign( SessionChooser.prototype, ev_channel);
   
   SessionChooser.prototype.HTML = ES5Template(function(){/**
-    <div id='private_slots'>
-      <div rv-hide='state.selected_session'>  
-        <hr class='mobile'>
-        <br class='mobile'>
-        
-        <h2>Choose An Available Session:</h2>
-        <br>
-  
-        <div id='daypilot'></div>
-      </div>  
-    </div>
+    <div rv-hide='state.selected_session'>  
+      <hr class='mobile'><br class='mobile'>    
+      <h2>Choose An Available Session:</h2><br/>
+      <div id='daypilot'></div>
+    </div>  
   **/}).untab(2);
   
   SessionChooser.prototype.CSS = `
