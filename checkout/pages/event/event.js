@@ -60,12 +60,15 @@ $(document).ready( function() {
     $.get('/models/customers/' + custy.id + '/status', function(val) { data.customer_status = val; calculate_total(); } )
   });
 
-  session_chooser = get_element(view,'session-chooser');
-  private_slots   = get_element(view,'private-slots');
-
-  session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { data.selected_session = session; } );
-
   get_event_data();
+
+  setTimeout(function() {
+    session_chooser = get_element(view,'session-chooser');
+    private_slots   = get_element(view,'private-slots');
+  
+    session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { data.selected_session = session; } );
+  },0)
+  
 });
 
 function initialize_stripe() {
