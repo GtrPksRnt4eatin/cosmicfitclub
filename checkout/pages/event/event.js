@@ -67,7 +67,7 @@ $(document).ready( function() {
     private_slots   = get_element(view,'private-slots');
   
     session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { data.selected_session = session; } );
-  },100)
+  },1000)
   
 });
 
