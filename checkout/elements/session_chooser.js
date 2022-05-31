@@ -160,7 +160,7 @@ function SessionChooser(parent,attr) {
         console.log(x);
         cb.call(x); 
       }
-      viewModel = new SessionChooser(el,attr);
+      return new SessionChooser(el,attr);
  
     }
   }
