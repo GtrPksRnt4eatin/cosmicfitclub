@@ -154,5 +154,8 @@ function SessionChooser(parent,attr) {
   
   rivets.components['session-chooser'] = { 
     template:   function()        { return SessionChooser.prototype.HTML; },
-    initialize: function(el,attr) { return new SessionChooser(el,attr);   }
+    initialize: function(el,attr) { 
+      var x = 5;
+      return new SessionChooser(el,attr);   
+    }
   }
