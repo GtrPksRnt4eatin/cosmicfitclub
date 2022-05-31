@@ -73,8 +73,7 @@ PrivateSlots.prototype.HTML = ES5Template(function(){/**
       <div rv-show='state.num_slots'>
         <hr/>
         <div class='tuple' rv-each-slot='state.rental.slots'>
-          <div class='attrib'>
-            Slot #{index | fix_index}
+          <div class='attrib'>Slot #{index | fix_index}</div>
           <div class='value edit' rv-on-click='choose_custy'>
             {slot.customer_string}           
           </div>
