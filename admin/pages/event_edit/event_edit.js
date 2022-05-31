@@ -172,7 +172,7 @@ function setup_rivets() {
     }).join(',');
   }
 
-  rivets.formatters.event_checkout_url(val) { return "/checkout/event/" + val; }
+  rivets.formatters.event_checkout_url = function(val) { return "/checkout/event/" + val; }
   
   rivets.bind($('#content'), { data: data, ctrl: ctrl } );
   fetch_event();
