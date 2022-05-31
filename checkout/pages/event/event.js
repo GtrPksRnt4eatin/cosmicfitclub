@@ -156,7 +156,7 @@ function setup_daypilot() {
   $.get("/models/events/" + data.event_data.id + "/attendance2")
    .success( function(val) { 
     data.attendance = val;
-    session_chooser && session_chooser.update_daypilot_colors();
+    session_chooser && session_chooser.load_sessions();
     update_daypilot_colors();
   })
 
