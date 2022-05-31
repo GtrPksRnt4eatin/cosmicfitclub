@@ -107,6 +107,7 @@ function get_event_data() {
 function on_event_data(val) {
   data.event_data = val;
   session_chooser && session_chooser.build_daypilot();
+  session_chooser && session_chooser.load_sessions();
   get_attendance();
   set_event_mode(); 
   set_first_price();
@@ -118,7 +119,7 @@ function get_attendance() {
   $.get("/models/events/" + data.event_data.id + "/attendance2")
    .success( function(val) { 
      data.attendance = val;
-     session_chooser && session_chooser.load_sessions();
+     session_chooser && session_chooser.update_daypilot_colors();
    });
 }
 

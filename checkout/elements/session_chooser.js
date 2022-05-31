@@ -55,7 +55,6 @@ function SessionChooser(parent,attr) {
             text:  sess.title + "\r\n" + rivets.formatters.money(sess.individual_price_full)
           })
         }.bind(this));
-        this.update_daypilot_colors();
       },
   
       get_attendance: function() {
