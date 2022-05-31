@@ -32,7 +32,7 @@ var data = {
   },
   num_slots: 1,
   attendance: [],
-  selected_session: {}
+  selected_session: null
 }
 
 $(document).ready( function() {

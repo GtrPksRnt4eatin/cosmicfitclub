@@ -67,7 +67,7 @@ html
 
         .flex.flex3 rv-if="data.mode | equals 'privates2' "
           session-chooser event='data.event_data'
-          private-slots
+          private-slots session='data.selected_session'
           
         .flex.flex3 rv-if="data.mode | equals 'privates' "
           
