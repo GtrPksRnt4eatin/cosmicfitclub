@@ -62,10 +62,10 @@ html
 
           hr width="75%"
 
-          .details rv-if='data.event_data.details'
+          .details rv-show='data.event_data.details'
             | { data.event_data.details }
 
-        .flex.flex3 rv-if="data.mode | equals 'privates2' "
+        .flex.flex3 rv-show="data.mode | equals 'privates2' "
           session-chooser event='data.event_data'
           private-slots session='data.selected_session'
           

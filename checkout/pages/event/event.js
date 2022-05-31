@@ -62,12 +62,10 @@ $(document).ready( function() {
 
   get_event_data();
 
-  setTimeout(function() {
-    session_chooser = get_element(view,'session-chooser');
-    private_slots   = get_element(view,'private-slots');
+  session_chooser = get_element(view,'session-chooser');
+  private_slots   = get_element(view,'private-slots');
   
-    session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { data.selected_session = session; } );
-  },1000)
+  session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { data.selected_session = session; } );
   
 });
 
