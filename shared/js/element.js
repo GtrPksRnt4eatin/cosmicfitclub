@@ -7,7 +7,7 @@ element = {
         if(empty(arr)) return;
     	for( var i=0; i < arr.length; i++ ) {
             if(this[arr[i]]) { this[arr[i]] = this[arr[i]].bind(this); }
-            else { console.log("No Handler Named [" + arr[i] + "] Exists!"; } 
+            else { console.log("No Handler Named [" + arr[i] + "] Exists!"); } 
     	}         
     }
 }
