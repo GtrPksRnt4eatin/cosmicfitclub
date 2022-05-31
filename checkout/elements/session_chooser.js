@@ -23,7 +23,7 @@ function SessionChooser(parent,attr) {
       constructor: SessionChooser,
   
       build_daypilot: function() {
-        this.daypilot && this.daypilot.dispose();
+        //this.daypilot && this.daypilot.dispose();
         this.daypilot = new DayPilot.Calendar("daypilot", {
           headerDateFormat:          "ddd MMM d",
           startDate:                 moment(this.event.starttime).format("YYYY-MM-DD"),       
@@ -55,6 +55,7 @@ function SessionChooser(parent,attr) {
             text:  sess.title + "\r\n" + rivets.formatters.money(sess.individual_price_full)
           })
         }.bind(this));
+        this.update_daypilot_colors();
       },
   
       get_attendance: function() {
