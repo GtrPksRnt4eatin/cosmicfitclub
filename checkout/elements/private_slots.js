@@ -34,19 +34,10 @@ Object.assign( PrivateSlots.prototype, element);
 Object.assign( PrivateSlots.prototype, ev_channel);
 
 PrivateSlots.prototype.HTML = ES5Template(function(){/**
-  <div id='private_slots' rv-show='this.session' >
-    <div rv-hide='state.selected_session'>  
-      <hr class='mobile'>
-      <br class='mobile'>
-      
-      <h2>Choose An Available Session:</h2>
-      <br>
+  <div id='private_slots' rv-show='session' >
 
-      <div id='daypilot'></div>
-    </div>
-
-    <div class='selected_timeslot' rv-show='state.selected_session'>
-      <h2>{ data.selected_timeslot.starttime | fulldate } - {data.selected_timeslot.endtime | time }</h2>
+    <div class='selected_timeslot'>
+      <h2>{ session.title } { session.starttime | fulldate } - {session.endtime | time }</h2>
       <span style="cursor:pointer; color: #9999FF;" rv-on-click="clear_session">change session</span>
       <br/><br/>
 
