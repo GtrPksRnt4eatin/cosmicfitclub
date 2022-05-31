@@ -13,6 +13,7 @@ element = {
 }
 
 function get_element(view,element) {
-  let binding = view.bindings.find(function(x) { return x.type == element });
+  let bindings = view.bindings.map( function(x) { return x.nested ? [x,...x.nested.bindings] : [x]; } ).flat()
+  let binding  = bindings.find(function(x) { return x.type == element });
   return binding ? binding.componentView.models : null;
 }
