@@ -404,9 +404,9 @@ var ctrl = {
         customer_id: custy_id,
         customer_string: custy_selector.selected_customer.list_string
       });
-    }
+    })
   }
-  
+
 }
 
 ////////////////////////////////////////// PAGE EVENTS ///////////////////////////////////////////////////
