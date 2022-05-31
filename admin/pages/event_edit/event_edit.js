@@ -75,6 +75,9 @@ ctrl = {
     edit_text.show_long("Edit Event Details", data.event.details, function(val) { data.event.details = val; } )
   },
 
+  update_hidden: function(e,m) {
+    
+  },
   save_changes(e,m) {
     var fd = new FormData();
     fd.append('id', data.event_id);
@@ -168,6 +171,8 @@ function setup_rivets() {
       return ( sess && sess.title );
     }).join(',');
   }
+
+  rivets.formatters.event_checkout_url(val) { return "/checkout/event/" + val; }
   
   rivets.bind($('#content'), { data: data, ctrl: ctrl } );
   fetch_event();
