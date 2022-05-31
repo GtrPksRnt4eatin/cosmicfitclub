@@ -107,7 +107,7 @@ function SessionChooser(parent,attr) {
           this.state.selected_session = this.event.sessions.find( function(x) { return args.e.data.id == x.id; });
           this.toggle_included_session(args.e.data);
           this.update_daypilot_colors();
-          ev_fire('on_session_selected', this.state.selected_session);
+          this.ev_fire('on_session_selected', this.state.selected_session);
       },
   
       sort_included_sessions() {
