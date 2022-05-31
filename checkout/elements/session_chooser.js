@@ -1,6 +1,7 @@
 function SessionChooser(parent,attr) {
 
-  this.event = attr['event'];
+  this.event      = attr['event'];
+  this.attendance = attr['attendance'];
   
   this.state = {
     sessions: [],
@@ -13,7 +14,7 @@ function SessionChooser(parent,attr) {
   setTimeout(function() {
     //this.build_daypilot();
     //this.load_sessions();
-    this.get_attendance();
+    //this.get_attendance();
   }.bind(this),0)
 
 }
@@ -22,6 +23,7 @@ function SessionChooser(parent,attr) {
       constructor: SessionChooser,
   
       build_daypilot: function() {
+        this.daypilot && this.daypilot.dispose();
         this.daypilot = new DayPilot.Calendar("daypilot", {
           headerDateFormat:          "ddd MMM d",
           startDate:                 moment(this.event.starttime).format("YYYY-MM-DD"),       
@@ -34,7 +36,6 @@ function SessionChooser(parent,attr) {
           dayEndsHour:               20,
           viewType:                  "Days",
           timeRangeSelectedHandling: "Disabled",  
-          eventDeleteHandling:       "Disabled",
           eventMoveHandling:         "Disabled",
           eventResizeHandling:       "Disabled",
           eventHoverHandling:        "Disabled",
@@ -67,7 +68,7 @@ function SessionChooser(parent,attr) {
       update_daypilot_colors() {
         this.daypilot.events.all().for_each( function(x) {
           let session    = this.event.sessions.find(   function(y) { return x.id() == y.id; } );
-          let attendance = this.state.attendance.find( function(z) { return x.id() == z.id; } );
+          let attendance = this.attendance.find(       function(z) { return x.id() == z.id; } );
           if( !attendance || !session ) return;
               
           if(session.title != "Private") {
@@ -86,7 +87,7 @@ function SessionChooser(parent,attr) {
   
       session_available(id) {
         let session    = this.event.sessions.find(   function(y) { return id == y.id; } );
-        let attendance = this.state.attendance.find( function(z) { return id == z.id; } );
+        let attendance = this.attendance.find(       function(z) { return id == z.id; } );
         if( !attendance || !session ) return false;
         if( attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 ) ) return false;
         return true;
@@ -154,13 +155,5 @@ function SessionChooser(parent,attr) {
   
   rivets.components['session-chooser'] = { 
     template:   function()        { return SessionChooser.prototype.HTML; },
-    initialize: function(el,attr) {
-      var cb = this.observers.event.callback;
-      this.observers.event.callback = function(x) {
-        console.log(x);
-        cb.call(x); 
-      }
-      return new SessionChooser(el,attr);
- 
-    }
+    initialize: function(el,attr) { return new SessionChooser(el,attr);   }
   }

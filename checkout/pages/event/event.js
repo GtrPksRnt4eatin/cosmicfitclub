@@ -105,11 +105,12 @@ function get_event_data() {
 }
 
 function on_event_data(val) {
-  data.event_data = val; 
+  data.event_data = val;
+  session_chooser && session_chooser.build_daypilot();
   set_event_mode(); 
   set_first_price();
-  if(data.mode == 'privates')
-    setup_daypilot();
+  //if(data.mode == 'privates')
+  //  setup_daypilot();
 }
 
 /////////////////////////////////////// INITIALIZATION //////////////////////////////////////////////////
@@ -155,6 +156,7 @@ function setup_daypilot() {
   $.get("/models/events/" + data.event_data.id + "/attendance2")
    .success( function(val) { 
     data.attendance = val;
+    session_chooser && session_chooser.update_daypilot_colors();
     update_daypilot_colors();
   })
 
