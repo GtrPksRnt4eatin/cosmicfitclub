@@ -107,10 +107,19 @@ function get_event_data() {
 function on_event_data(val) {
   data.event_data = val;
   session_chooser && session_chooser.build_daypilot();
+  get_attendance();
   set_event_mode(); 
   set_first_price();
-  //if(data.mode == 'privates')
-  //  setup_daypilot();
+  if(data.mode == 'privates')
+    setup_daypilot();
+}
+
+function get_attendance() {
+  $.get("/models/events/" + data.event_data.id + "/attendance2")
+   .success( function(val) { 
+     data.attendance = val;
+     session_chooser && session_chooser.load_sessions();
+   });
 }
 
 /////////////////////////////////////// INITIALIZATION //////////////////////////////////////////////////
