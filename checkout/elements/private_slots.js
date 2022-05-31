@@ -192,7 +192,7 @@ PrivateSlots.prototype.HTML = ES5Template(function(){/**
 
       <div rv-if='data.num_slots'>
         <hr/>
-        <div class='tuple' rv-each-slot='data.rental.slots'>
+        <div class='tuple' rv-each-slot='this.state.rental.slots'>
           <div class='attrib'>
             Slot #{index | fix_index}
           <div class='value edit' rv-on-click='ctrl.choose_custy'>
