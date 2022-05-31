@@ -4,12 +4,17 @@ function PrivateSlots(parent,attr) {
 
 	this.state = {
       num_slots: 1,
-      rental: null,
-      starttime: null,
-      endtime: null,
+
+      rental: {
+        starttime: '',
+        endtime: '',
+        activity: '',
+        note: '',
+        slots: []
+      },
 	}
 
-	this.bind_handlers(['load_session', 'set_num_slots']);
+	this.bind_handlers(['set_num_slots', 'clear_session', 'choose_custy']);
 	this.load_styles();
 	//this.bind_dom();
 
@@ -27,6 +32,14 @@ PrivateSlots.prototype = {
       while(this.state.rental.slots.length>this.state.num_slots){
         this.state.rental.slots.pop();
       }
+    },
+
+    clear_session() {
+      this.session = null;
+    },
+
+    choose_custy(e,m) {
+
     }
 }
 
@@ -37,7 +50,8 @@ PrivateSlots.prototype.HTML = ES5Template(function(){/**
   <div id='private_slots' rv-show='session' >
 
     <div class='selected_timeslot'>
-      <h2>{ session.title } { session.starttime | fulldate } - {session.endtime | time }</h2>
+      <h2>{ session.title }</h2>
+      <h3>{ session.start_time | fulldate } - {session.end_time | time }</h3>
       <span style="cursor:pointer; color: #9999FF;" rv-on-click="clear_session">change session</span>
       <br/><br/>
 
@@ -51,7 +65,7 @@ PrivateSlots.prototype.HTML = ES5Template(function(){/**
         </div>
       </div> 
 
-      <div rv-if='this.state.num_slots'>
+      <div rv-show='this.state.num_slots'>
         <hr/>
         <div class='tuple' rv-each-slot='this.state.rental.slots'>
           <div class='attrib'>
