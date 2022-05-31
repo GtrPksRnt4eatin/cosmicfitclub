@@ -105,8 +105,8 @@ function SessionChooser(parent,attr) {
           if( !this.session_available(args.e.data.id) ) { return; }
   
           this.state.selected_session = this.event.sessions.find( function(x) { return args.e.data.id == x.id; });
-          this.toggle_included_session(args.e.data);
-          this.update_daypilot_colors();
+          //this.toggle_included_session(args.e.data);
+          //this.update_daypilot_colors();
           this.ev_fire('on_session_selected', this.state.selected_session);
       },
   
