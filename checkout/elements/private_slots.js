@@ -14,7 +14,7 @@ function PrivateSlots(parent,attr) {
       },
 	}
 
-	this.bind_handlers(['set_num_slots', 'clear_session', 'choose_custy']);
+	this.bind_handlers(['set_num_slots', 'clear_session', 'choose_custy','add_to_order']);
 	this.load_styles();
 	//this.bind_dom();
 
@@ -39,6 +39,10 @@ PrivateSlots.prototype = {
     },
 
     choose_custy(e,m) {
+
+    },
+
+    add_to_order() {
 
     }
 }
@@ -74,12 +78,9 @@ PrivateSlots.prototype.HTML = ES5Template(function(){/**
             {slot.customer_string}           
           </div>
           <hr/>
-
-          <div>
-            <button id='checkout' rv-on-click='ctrl.checkout_new'>
-              Pay { data.total_price | money } Now
-            </button>
-          </div>
+        </div>
+        <div>
+          <button id='checkout' rv-on-click='add_to_order'>Add this session to your order</button>
         </div>
       </div>
     </div>

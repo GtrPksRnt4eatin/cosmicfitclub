@@ -396,7 +396,17 @@ var ctrl = {
   },
   clear_timeslot: function(e,m) {
     data.selected_timeslot.starttime = null;
+  },
+
+  choose_customer: function(id, callback) {
+    custy_selector.show_modal(id, function(custy_id) {
+      callback.call({
+        customer_id: custy_id,
+        customer_string: custy_selector.selected_customer.list_string
+      });
+    }
   }
+  
 }
 
 ////////////////////////////////////////// PAGE EVENTS ///////////////////////////////////////////////////
