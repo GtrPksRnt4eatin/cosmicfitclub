@@ -3,15 +3,10 @@ function PrivateSlots(parent,attr) {
   this.session = attr['session'];
 
 	this.state = {
-      sessions: [],
-      attendance: [],
-      selected_session: null,
-      included_sessions: [],
       num_slots: 1,
       rental: null,
       starttime: null,
       endtime: null,
-      page: 0
 	}
 
 	this.bind_handlers(['load_session', 'set_num_slots']);
