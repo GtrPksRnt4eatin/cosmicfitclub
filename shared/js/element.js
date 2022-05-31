@@ -6,7 +6,8 @@ element = {
     bind_handlers(arr) {
         if(empty(arr)) return;
     	for( var i=0; i < arr.length; i++ ) {
-    		this[arr[i]] = this[arr[i]].bind(this); 
+            if(this[arr[i]]) { this[arr[i]] = this[arr[i]].bind(this); }
+            else { console.log("No Handler Named [" + arr[i] + "] Exists!"; } 
     	}         
     }
 }
