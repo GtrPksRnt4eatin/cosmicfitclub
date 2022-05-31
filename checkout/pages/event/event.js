@@ -400,7 +400,7 @@ var ctrl = {
 
   choose_customer: function(id, callback) {
     custy_selector.show_modal(id, function(custy_id) {
-      callback.call({
+      callback({
         customer_id: custy_id,
         customer_string: custy_selector.selected_customer.list_string
       });
