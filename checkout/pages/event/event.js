@@ -68,7 +68,7 @@ $(document).ready( function() {
   
   session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { data.selected_session = session; } );
   session_slots && session_slots.ev_sub('add_to_order', function(slots) { 
-    data.included_session_passes[]   
+    var x = 5;
   });
   
 });
