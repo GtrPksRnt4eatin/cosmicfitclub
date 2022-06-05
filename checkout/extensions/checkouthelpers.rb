@@ -149,9 +149,9 @@ module Sinatra
         :customer_payment_id => data['payment_id']
       )
 
-      data['passes'].each do |pass| {
+      data['passes'].each do |pass|
         EventPass.create( :customer_id => pass['customer_id'), :ticket => tic, :session_id => pass['session_id'] )
-      }
+      end
     end
 
     def register_event
