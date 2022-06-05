@@ -1,10 +1,12 @@
-function PrivateSlots(parent,attr) {
+function SessionSlots(parent,attr) {
 
   this.session         = attr['session'];
   this.choose_customer = attr['choose_customer'];
+  this.session_passes  = attr['session_passes'];
 
 	this.state = {
       num_slots: 1,
+      passes: [],
 
       rental: {
         starttime: '',
@@ -17,21 +19,19 @@ function PrivateSlots(parent,attr) {
 
 	this.bind_handlers(['set_num_slots', 'clear_session', 'choose_custy','add_to_order']);
 	this.load_styles();
-	//this.bind_dom();
-
 }
 
-PrivateSlots.prototype = {
-	constructor: PrivateSlots,
+SessionSlots.prototype = {
+	constructor: SessionSlots,
 
     set_num_slots(e,m) {
       this.state.num_slots = parseInt(e.target.value);
       this.state.num_slots = isNaN(this.state.num_slots) ? 0 : this.state.num_slots;
-      while(this.state.rental.slots.length<this.state.num_slots) {
-       this.state.rental.slots.push({ customer_id: 0, customer_string: 'Add Student' }); 
+      while(this.state.passes.length<this.state.num_slots) {
+       this.state.passes.push({ session_id: this.session.id, customer_id: 0, customer_string: 'Add Student' }); 
       }
-      while(this.state.rental.slots.length>this.state.num_slots){
-        this.state.rental.slots.pop();
+      while(this.state.passes.length>this.state.num_slots){
+        this.state.passes.pop();
       }
     },
 
@@ -40,18 +40,19 @@ PrivateSlots.prototype = {
     },
 
     choose_custy(e,m) {
-      this.choose_customer(m.slot.customer_id, function(val) { m.slot = val; } );
+      this.choose_customer(m.slot.customer_id, function(val) { this.state.passes[index] = { session_id: this.session.id, ...val } } );
     },
 
     add_to_order() {
-
+      this.session = null;
+      this.ev_fire('add_to_order', this.state.slots);
     }
 }
 
-Object.assign( PrivateSlots.prototype, element);
-Object.assign( PrivateSlots.prototype, ev_channel);
+Object.assign( SessionSlots.prototype, element);
+Object.assign( SessionSlots.prototype, ev_channel);
 
-PrivateSlots.prototype.HTML = ES5Template(function(){/**
+SessionSlots.prototype.HTML = ES5Template(function(){/**
   <div id='private_slots' rv-show='session' >
 
     <div class='selected_timeslot'>
@@ -88,11 +89,11 @@ PrivateSlots.prototype.HTML = ES5Template(function(){/**
   </div>
 **/}).untab(2);
 
-PrivateSlots.prototype.CSS = `
+SessionSlots.prototype.CSS = `
 
 `.untab(2);
 
-rivets.components['private-slots'] = { 
-  template:   function()        { return PrivateSlots.prototype.HTML; },
-  initialize: function(el,attr) { return new PrivateSlots(el,attr);   }
+rivets.components['session-slots'] = { 
+  template:   function()        { return SessionSlots.prototype.HTML; },
+  initialize: function(el,attr) { return new SessionSlots(el,attr);   }
 }

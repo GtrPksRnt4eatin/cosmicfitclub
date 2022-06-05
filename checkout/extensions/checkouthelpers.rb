@@ -141,6 +141,19 @@ module Sinatra
       status 204
     end
 
+    def buy_event_privates2
+      tic = EventTicket.create(
+        :customer_id         => data['customer_id'],
+        :event_id            => data['event_id'],
+        :price               => data['total_price'].to_i,
+        :customer_payment_id => data['payment_id']
+      )
+
+      data['passes'].each do |pass| {
+        EventPass.create( :customer_id => pass['customer_id'), :ticket => tic, :session_id => pass['session_id'] )
+      }
+    end
+
     def register_event
       data = JSON.parse request.body.read
       custy = logged_in? ? customer : Customer.get_from_email( data['email'], "");
