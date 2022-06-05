@@ -32,7 +32,8 @@ var data = {
   },
   num_slots: 1,
   attendance: [],
-  selected_session: null
+  selected_session: null,
+  included_session_passes: []
 }
 
 $(document).ready( function() {
@@ -63,9 +64,12 @@ $(document).ready( function() {
   get_event_data();
 
   session_chooser = get_element(view,'session-chooser');
-  private_slots   = get_element(view,'private-slots');
+  session_slots   = get_element(view,'session-slots');
   
   session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { data.selected_session = session; } );
+  session_slots && session_slots.ev_sub('add_to_order', function(slots) { 
+    data.included_session_passes[]   
+  });
   
 });
 
@@ -137,6 +141,7 @@ function set_event_mode() {
   if( data.event_data.prices.length == 1        ) { data.mode = 'single';     return; }
 }
 
+/*
 function setup_daypilot() {
   daypilot = new DayPilot.Calendar('daypilot', {
     viewType:                  "Days",
@@ -233,6 +238,7 @@ function update_daypilot_colors() {
   });
 }
 
+*/
 function set_first_price() {
   clear_selected_price();
   if(empty(data.event_data.prices[0])) return;
