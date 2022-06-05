@@ -38,9 +38,10 @@ var data = {
 }
 
 $(document).ready( function() {
-
-  initialize_stripe();
   view = initialize_rivets();
+
+  get_event_data();
+  initialize_stripe();
 
   userview       = new UserView( id('userview_container') );
   popupmenu      = new PopupMenu( id('popupmenu_container') );
@@ -54,15 +55,12 @@ $(document).ready( function() {
   pay_form.customer_facing();
   pay_form.ev_sub('show', popupmenu.show );
   pay_form.ev_sub('hide', popupmenu.hide );
-  //popupmenu.ev_sub('close', pay_form.stop_listen_cardswipe);
 
   userview.ev_sub('on_user', function(custy) {
     if(custy==null) { data.customer_info = null; data.customer_status = null; return; }
     data.customer_info = custy;
     $.get('/models/customers/' + custy.id + '/status', function(val) { data.customer_status = val; calculate_total(); } )
   });
-
-  get_event_data();
 
   session_chooser = get_element(view,'session-chooser');
   session_slots   = get_element(view,'session-slots');
