@@ -33,7 +33,8 @@ var data = {
   num_slots: 1,
   attendance: [],
   selected_session: null,
-  included_session_passes: []
+  included_session_passes: [],
+  loaded: false
 }
 
 $(document).ready( function() {
@@ -115,6 +116,7 @@ function on_event_data(val) {
   get_attendance();
   set_event_mode(); 
   set_first_price();
+  data.loaded = true;
   if(data.mode == 'privates')
     setup_daypilot();
 }
