@@ -60,7 +60,7 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
       <div class='tuple'>
         <div class='attrib'># People</div>
         <div class='value'>
-          <select class='num_students' rv-on-change='set_num_slots'>
+          <select class='num_students' rv-value='state.num_slots' rv-on-change='set_num_slots'>
             <option value="1">1</option>
             <option value="2">2</option>
           </select>  
