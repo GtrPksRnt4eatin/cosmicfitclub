@@ -10,7 +10,7 @@ function SessionSlots(parent,attr) {
     passes: []
 	}
 
-	this.bind_handlers(['set_num_slots', 'clear_session', 'choose_custy','add_to_order']);
+	this.bind_handlers(['set_num_slots', 'set_first_slot','clear_session', 'choose_custy','add_to_order']);
 	this.load_styles();
 }
 
@@ -26,6 +26,11 @@ SessionSlots.prototype = {
     while(this.state.passes.length>this.state.num_slots){
       this.state.passes.pop();
     }
+  },
+
+  set_first_slot(customer) {
+    this.state.num_slots = 1;
+    this.state.passes = [ { session_id: this.session.id, customer_id: customer.id, customer_string: customer.list_string }]
   },
 
   clear_session() { this.session = null; },
