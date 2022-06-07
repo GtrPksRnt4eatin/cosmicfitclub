@@ -66,7 +66,7 @@ $(document).ready( function() {
   session_slots   = get_element(view,'session-slots');
   
   session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { 
-    session_slots.set_first_slot({ id: userview.id, custy_string: userview.custy_string });
+    session_slots.set_first_slot({ id: userview.id, list_string: userview.custy_string });
   });
   
   session_slots && session_slots.ev_sub('add_to_order', function(slots) { 
