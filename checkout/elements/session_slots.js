@@ -36,7 +36,7 @@ SessionSlots.prototype = {
   clear_session() { this.session = null; },
 
   choose_custy(e,m) {
-    this.choose_customer(m.slot.customer_id, function(val) { this.state.passes[index] = { session_id: this.session.id, ...val } }.bind(this) );
+    this.choose_customer(m.slot.customer_id, function(val) { this.state.passes[ m['%slot%'] ] = { session_id: this.session.id, ...val } }.bind(this) );
   },
 
   add_to_order() {
