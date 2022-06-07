@@ -1,20 +1,13 @@
 function SessionSlots(parent,attr) {
 
   this.session         = attr['session'];
+  this.customer        = attr['customer'];
   this.choose_customer = attr['choose_customer'];
   this.session_passes  = attr['session_passes'];
 
 	this.state = {
-      num_slots: 1,
-      passes: [],
-
-      rental: {
-        starttime: '',
-        endtime: '',
-        activity: '',
-        note: '',
-        slots: []
-      },
+    num_slots: 1,
+    passes: []
 	}
 
 	this.bind_handlers(['set_num_slots', 'clear_session', 'choose_custy','add_to_order']);
@@ -24,29 +17,27 @@ function SessionSlots(parent,attr) {
 SessionSlots.prototype = {
 	constructor: SessionSlots,
 
-    set_num_slots(e,m) {
-      this.state.num_slots = parseInt(e.target.value);
-      this.state.num_slots = isNaN(this.state.num_slots) ? 0 : this.state.num_slots;
-      while(this.state.passes.length<this.state.num_slots) {
-       this.state.passes.push({ session_id: this.session.id, customer_id: 0, customer_string: 'Add Student' }); 
-      }
-      while(this.state.passes.length>this.state.num_slots){
-        this.state.passes.pop();
-      }
-    },
-
-    clear_session() {
-      this.session = null;
-    },
-
-    choose_custy(e,m) {
-      this.choose_customer(m.slot.customer_id, function(val) { this.state.passes[index] = { session_id: this.session.id, ...val } } );
-    },
-
-    add_to_order() {
-      this.session = null;
-      this.ev_fire('add_to_order', this.state.slots);
+  set_num_slots(e,m) {
+    this.state.num_slots = parseInt(e.target.value);
+    this.state.num_slots = isNaN(this.state.num_slots) ? 1 : this.state.num_slots;
+    while(this.state.passes.length<this.state.num_slots) {
+      this.state.passes.push({ session_id: this.session.id, customer_id: 0, customer_string: 'Add Student' }); 
     }
+    while(this.state.passes.length>this.state.num_slots){
+      this.state.passes.pop();
+    }
+  },
+
+  clear_session() { this.session = null; },
+
+  choose_custy(e,m) {
+    this.choose_customer(m.slot.customer_id, function(val) { this.state.passes[index] = { session_id: this.session.id, ...val } } );
+  },
+
+  add_to_order() {
+    this.session = null;
+    this.ev_fire('add_to_order', this.state.slots);
+  }
 }
 
 Object.assign( SessionSlots.prototype, element);

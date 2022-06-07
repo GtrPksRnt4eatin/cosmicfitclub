@@ -49,7 +49,7 @@ module StaffPoster
         :margin   => 5,
         :ptscale  => 0.05,
         :ptscale2 => 0.9,
-        :img      => staff.image[:original].url,
+        :img      => staff.get_image_url(:original),
         :lines    => staff.footer_lines,
       },
       { :type => 'box', 

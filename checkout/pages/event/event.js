@@ -65,7 +65,10 @@ $(document).ready( function() {
   session_chooser = get_element(view,'session-chooser');
   session_slots   = get_element(view,'session-slots');
   
-  session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { data.selected_session = session; } );
+  session_chooser && session_chooser.ev_sub('on_session_selected', function(session) { 
+    session_slots.set_first_slot(userview.customer);
+  });
+  
   session_slots && session_slots.ev_sub('add_to_order', function(slots) { 
     var x = 5;
   });
@@ -92,10 +95,10 @@ function initialize_rivets() {
   rivets.formatters.equals     = function(val,val2)    { return val== val2;                            }
   rivets.formatters.is_member  = function(val)         { return empty(val) ? false : !empty(val.plan); } 
   rivets.formatters.num_tix    = function(val)         { return ( val && val > 1 ) ? val + ' Tickets ' : ''; }
-  rivets.formatters.first_price_title = function(val) { return ( val && val[0] ) ? val[0].title : ""; }
+  rivets.formatters.first_price_title = function(val)  { return ( val && val[0] ) ? val[0].title : ""; }
   rivets.formatters.diff_days  = function(val,val2)    { return !moment(val).isSame(moment(val2), 'date'); }
   rivets.formatters.fix_index  = function(val, arg)    { return val + 1; }
-  rivets.formatters.populate_sess = function(val)     { return val.map( function(x) { return data.event_data.sessions.find( function (y) { return y.id == x } ) } );};
+  rivets.formatters.populate_sess = function(val)      { return val.map( function(x) { return data.event_data.sessions.find( function (y) { return y.id == x } ) } );};
 
   return rivets.bind( $('body'), { customer: CUSTOMER, data: data, ctrl: ctrl } );  
 
