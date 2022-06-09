@@ -2,8 +2,13 @@ function SessionList(parent,attr) {
   this.passes = attr['passes'];
 
   rivets.formatters.session_passes = function(passes) {
-      passes.groupBy(function(p) { return p['session_id']; })
+    return passes.reduce(function(result,obj) {
+        result[obj['session_id']] = result[obj['session_id']] || [];
+        result[obj['session_id']].push(obj); 
+        return result;
+    },{});
   }
+  
 }
 
 SessionList.prototype = {
