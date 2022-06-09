@@ -1,4 +1,5 @@
 function SessionList(parent,attr) {
+  this.event  = attr['event'];
   this.passes = attr['passes'];
 
   rivets.formatters.session_passes = function(passes) {
@@ -7,7 +8,7 @@ function SessionList(parent,attr) {
         result[obj['session_id']].push(obj); 
         return result;
     },{});
-    return Object.values(result).map( function(v) { return { session_id: v[0]['session_id'], passes: v } } )
+    return Object.values(result).map( function(v) { return { session_id: v[0]['session_id'], session: this.event.sessions.find( function(s) { return s.id == v[0]['session_id'] } ), passes: v } }.bind(this) )
   }
 
 }
@@ -23,7 +24,7 @@ Object.assign( SessionList.prototype, ev_channel);
 SessionList.prototype.HTML = ES5Template(function(){/**
   <div class='session_list'>
     <div rv-each-sess='passes | session_passes'>
-      <span> { sess.session_id } </span>
+      <span> { sess.session.title } </span>
     </div>
   </div>
 **/}).untab(2);
