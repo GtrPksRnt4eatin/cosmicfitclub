@@ -8,7 +8,7 @@ function SessionList(parent,attr) {
         return result;
     },{});
   }
-  
+
 }
 
 SessionList.prototype = {
@@ -22,7 +22,7 @@ Object.assign( SessionList.prototype, ev_channel);
 SessionList.prototype.HTML = ES5Template(function(){/**
   <div class='session_list'>
     <div rv-each-sess='passes | session_passes'>
-      <span> { sess.customer_string } </span>
+      <span> hello </span>
     </div>
   </div>
 **/}).untab(2);
