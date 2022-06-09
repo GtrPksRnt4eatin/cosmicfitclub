@@ -7,7 +7,7 @@ function SessionList(parent,attr) {
         result[obj['session_id']].push(obj); 
         return result;
     },{});
-    return Object.values(result).map( function(v) { return { session_id: x[0]['session_id'], passes: v } } )
+    return Object.values(result).map( function(v) { return { session_id: v[0]['session_id'], passes: v } } )
   }
 
 }
