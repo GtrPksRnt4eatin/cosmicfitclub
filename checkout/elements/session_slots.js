@@ -49,7 +49,7 @@ SessionSlots.prototype = {
   add_to_order() {
     this.session = null;
     this.session_passes.push(...this.state.passes);
-    this.ev_fire('add_to_order', this.state.slots);
+    this.ev_fire('add_to_order', this.state.passes);
   }
 }
 
