@@ -13,8 +13,8 @@ function SessionList(parent,attr) {
       return { 
         session_id: v[0]['session_id'], 
         count: v.length, 
-        price: sess.custom.slot_pricing[v.length],
-        session: sess, 
+        price: sess.custom.slot_pricing[v.length - 1],
+        session: sess,
         passes: v 
       }
     }.bind(this) )
@@ -32,9 +32,13 @@ Object.assign( SessionList.prototype, ev_channel);
 
 SessionList.prototype.HTML = ES5Template(function(){/**
   <div class='session_list'>
-    <div rv-each-sess='passes | session_passes'>
-      <span> { sess.session.title } x{ sess.count } { sess.price | money }</span>
-    </div>
+    <table>
+      <tr rv-each-sess='passes | session_passes'>
+        <td> { sess.session.title } </td>
+        <td> x{ sess.count } </td>
+        <td> { sess.price | money } </td>
+      </tr>
+    </table>
   </div>
 **/}).untab(2);
 
