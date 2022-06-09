@@ -2,11 +2,12 @@ function SessionList(parent,attr) {
   this.passes = attr['passes'];
 
   rivets.formatters.session_passes = function(passes) {
-    return passes.reduce(function(result,obj) {
+    let result = passes.reduce(function(result,obj) {
         result[obj['session_id']] = result[obj['session_id']] || [];
         result[obj['session_id']].push(obj); 
         return result;
     },{});
+    return Object.values(result).map( function(v) { return { session_id: x[0]['session_id'], passes: v } } )
   }
 
 }
