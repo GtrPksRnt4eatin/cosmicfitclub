@@ -10,16 +10,15 @@ function SessionSlots(parent,attr) {
     passes: []
 	}
 
-	this.bind_handlers(['set_num_slots', 'set_first_slot','clear_session', 'choose_custy','add_to_order']);
+	this.bind_handlers(['set_num_slots', 'num_slots_selected', 'set_first_slot','clear_session', 'choose_custy','add_to_order']);
 	this.load_styles();
 }
 
 SessionSlots.prototype = {
 	constructor: SessionSlots,
 
-  set_num_slots(e,m) {
-    this.state.num_slots = parseInt(e.target.value);
-    this.state.num_slots = isNaN(this.state.num_slots) ? 1 : this.state.num_slots;
+  set_num_slots(n) {
+    this.state.num_slots = n;
     while(this.state.passes.length<this.state.num_slots) {
       this.state.passes.push({ session_id: this.session.id, customer_id: 0, customer_string: 'Add Student' }); 
     }
@@ -28,9 +27,13 @@ SessionSlots.prototype = {
     }
   },
 
+  num_slots_selected(e,m) {
+    let n = parseInt(e.target.value);
+    this.set_num_slots(isNaN(n) ? 1 : n);
+  },
+
   set_first_slot(customer) {
-    this.state.num_slots = 1;
-    while(this.state.passes.length>this.state.num_slots){ this.state.passes.pop(); }
+    this.set_num_slots(1)
     this.state.passes[0] = { session_id: this.session.id, customer_id: customer.id, customer_string: customer.list_string }
   },
 
