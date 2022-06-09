@@ -23,7 +23,7 @@ Object.assign( SessionList.prototype, ev_channel);
 SessionList.prototype.HTML = ES5Template(function(){/**
   <div class='session_list'>
     <div rv-each-sess='passes | session_passes'>
-      <span> hello </span>
+      <span> { sess.session_id } </span>
     </div>
   </div>
 **/}).untab(2);
