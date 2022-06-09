@@ -26,7 +26,7 @@ html
     == js  [ 'https://checkout.stripe.com/checkout' ]
     == js  [ 'jquery', 'lib', 'menu', 'moment', 'rivets', 'rv_dates', 'rv_money', 'selectize.min', 'element', 'ev_channel', 'daypilot-all.min' ]
     == js  [ '/checkout/elements/payment_form', '/auth/elements/userview', '/admin/elements/popup_menu', '/checkout/elements/session_slots' ]
-    == js  [ '/checkout/elements/session_chooser', '/admin/elements/custy_selector', 'event' ]
+    == js  [ '/checkout/elements/session_chooser', '/checkout/elements/session_list', '/admin/elements/custy_selector', 'event' ]
 
     javascript:
       EVENT_ID          = #{{ id }}
@@ -68,6 +68,7 @@ html
         .flex.flex3 rv-show="data.mode | equals 'privates2' "
           session-chooser event='data.event_data' attendance='data.attendance' session='data.selected_session'
           session-slots session='data.selected_session' choose_customer='ctrl.choose_customer' passes='data.included_session_passes' customer='data.customer_info'
+          session-list passes='data.included_session_passes'
           
         .flex.flex3 rv-if="data.mode | equals 'privates' "
           
