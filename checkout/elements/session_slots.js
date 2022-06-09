@@ -3,7 +3,7 @@ function SessionSlots(parent,attr) {
   this.session         = attr['session'];
   this.customer        = attr['customer'];
   this.choose_customer = attr['choose_customer'];
-  this.session_passes  = attr['session_passes'];
+  this.session_passes  = attr['passes'];
 
 	this.state = {
     num_slots: 1,
@@ -41,7 +41,9 @@ SessionSlots.prototype = {
   clear_session() { this.session = null; },
 
   choose_custy(e,m) {
-    this.choose_customer(m.slot.customer_id, function(val) { this.state.passes[ m['%slot%'] ] = { session_id: this.session.id, ...val } }.bind(this) );
+    this.choose_customer(m.slot.customer_id, function(val) { 
+      this.state.passes[ m['%slot%'] ] = { session_id: this.session.id, ...val } 
+    }.bind(this) );
   },
 
   add_to_order() {
