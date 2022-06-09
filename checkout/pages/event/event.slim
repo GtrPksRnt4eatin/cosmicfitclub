@@ -66,7 +66,7 @@ html
             | { data.event_data.details }
 
         .flex.flex3 rv-show="data.mode | equals 'privates2' "
-          session-chooser event='data.event_data' attendance='data.attendance' session='data.selected_session'
+          session-chooser event='data.event_data' session='data.selected_session' attendance='data.attendance' passes='data.included_session_passes'
           session-slots session='data.selected_session' choose_customer='ctrl.choose_customer' passes='data.included_session_passes' customer='data.customer_info'
           session-list event='data.event_data' passes='data.included_session_passes'
           

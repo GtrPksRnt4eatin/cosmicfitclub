@@ -1,8 +1,9 @@
 function SessionChooser(parent,attr) {
 
   this.event      = attr['event'];
-  this.attendance = attr['attendance'];
   this.session    = attr['session'];
+  this.attendance = attr['attendance'];
+  this.passes     = attr['passes']
   
   this.state = {
     sessions: [],
@@ -67,8 +68,9 @@ function SessionChooser(parent,attr) {
   
       update_daypilot_colors() {
         this.daypilot.events.all().for_each( function(x) {
-          let session    = this.event.sessions.find(   function(y) { return x.id() == y.id; } );
-          let attendance = this.attendance.find(       function(z) { return x.id() == z.id; } );
+          let session    = this.event.sessions.find(   function(y) { return x.id() == y.id;        } );
+          let attendance = this.attendance.find(       function(z) { return x.id() == z.id;        } );
+          let passes     = this.passes.find(           function(q) { return x.id() == q.session_id } );
           if( !attendance || !session ) return;
               
           if(session.title != "Private") {
@@ -76,7 +78,7 @@ function SessionChooser(parent,attr) {
           }
   
           let full     = attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 );
-          let selected = data.included_sessions.includes(x.id());
+          let selected = !!passes
   
           x.client.backColor( full ? "#AAAAAA" : selected ? "#CCCCFF" : "#FFFFFF" );
   
