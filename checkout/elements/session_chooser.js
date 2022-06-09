@@ -9,7 +9,7 @@ function SessionChooser(parent,attr) {
     included_sessions: []
   }
   
-  this.bind_handlers(['build_daypilot','load_sessions','get_attendance','update_daypilot_colors','session_available','on_session_selected','sort_included_sessions','set_included_sessions','toggle_included_sessions','clear_session']);
+  this.bind_handlers(['build_daypilot','load_sessions','get_attendance','update_daypilot_colors','session_available','on_session_selected','sort_included_sessions','set_included_sessions','clear_session']);
 
   //setTimeout(function() {
     //this.build_daypilot();

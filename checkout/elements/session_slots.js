@@ -42,7 +42,7 @@ SessionSlots.prototype = {
 
   choose_custy(e,m) {
     this.choose_customer(m.slot.customer_id, function(val) { 
-      this.state.passes[ m['%slot%'] ] = { session_id: this.session.id, ...val } 
+      Object.assign(this.state.passes[ m['%slot%'] ],{ session_id: this.session.id, ...val }); 
     }.bind(this) );
   },
 
