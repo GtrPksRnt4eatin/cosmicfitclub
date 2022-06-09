@@ -34,7 +34,8 @@ SessionSlots.prototype = {
 
   set_first_slot(customer) {
     this.set_num_slots(0);
-    this.state.passe.push({ session_id: this.session.id, customer_id: customer.id, customer_string: customer.list_string });
+    this.state.passes.push({ session_id: this.session.id, customer_id: customer.id, customer_string: customer.list_string });
+    this.state.num_slots = 1;
   },
 
   clear_session() { this.session = null; },
