@@ -34,10 +34,16 @@ SessionList.prototype.HTML = ES5Template(function(){/**
   <div class='session_list'>
     <table>
       <tr rv-each-sess='passes | session_passes'>
+        <td> { sess.session.start_time | eventstart } </td>
         <td> { sess.session.title } </td>
         <td> x{ sess.count } </td>
         <td> { sess.price | money } </td>
       </tr>
+      <tr>
+        <td></td>
+        <td> <b> TOTAL</b> </td>
+        <td></td>
+        <td> { passes | total_price } </td>
     </table>
   </div>
 **/}).untab(2);

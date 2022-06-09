@@ -71,7 +71,7 @@ $(document).ready( function() {
   });
   
   session_slots && session_slots.ev_sub('add_to_order', function(slots) { 
-    var x = 5;
+    session_chooser.update_daypilot_colors();
   });
   
 });
