@@ -8,7 +8,7 @@ function SessionList(parent,attr) {
         result[obj['session_id']].push(obj); 
         return result;
     },{});
-    return Object.values(result).map( function(v) { return { session_id: v[0]['session_id'], session: this.event.sessions.find( function(s) { return s.id == v[0]['session_id'] } ), passes: v } }.bind(this) )
+    return Object.values(result).map( function(v) { return { session_id: v[0]['session_id'], count: v.length, session: this.event.sessions.find( function(s) { return s.id == v[0]['session_id'] } ), passes: v } }.bind(this) )
   }
 
 }
@@ -24,7 +24,7 @@ Object.assign( SessionList.prototype, ev_channel);
 SessionList.prototype.HTML = ES5Template(function(){/**
   <div class='session_list'>
     <div rv-each-sess='passes | session_passes'>
-      <span> { sess.session.title } </span>
+      <span> { sess.session.title } x{ sess.count }</span>
     </div>
   </div>
 **/}).untab(2);
