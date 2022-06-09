@@ -33,7 +33,7 @@ SessionSlots.prototype = {
   },
 
   set_first_slot(customer) {
-    this.set_nuthis.event.sessions.find( function(s) { return s.id == v[0]['session_id'] } )m_slots(0);
+    this.set_num_slots(0);
     this.state.passes.push({ session_id: this.session.id, customer_id: customer.id, customer_string: customer.list_string });
     this.state.num_slots = 1;
   },
@@ -49,7 +49,7 @@ SessionSlots.prototype = {
   add_to_order() {
     this.session = null;
     this.session_passes.push(...this.state.passes);
-    this.ev_fire('add_to_order', this.state.passes);
+    this.ev_fire('add_to_order', this.state.slots);
   }
 }
 
