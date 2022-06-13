@@ -26,7 +26,7 @@ function SessionList(parent,attr) {
     result = passes.reduce(function(result,obj) {
       return result + obj['price'];
     },0);
-    return result;
+    return rivets.formatters.money(result);
   }.bind(this);
 
 }
@@ -34,7 +34,6 @@ function SessionList(parent,attr) {
 SessionList.prototype = {
 	constructor: SessionList,
 }
-
 
 Object.assign( SessionList.prototype, element);
 Object.assign( SessionList.prototype, ev_channel);

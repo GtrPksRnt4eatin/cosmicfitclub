@@ -32,6 +32,19 @@ SessionSlots.prototype = {
     this.set_num_slots(isNaN(n) ? 1 : n);
   },
 
+  check_for_existing() {
+    let matches = this.session_passes.filter(function(val) { return val['session_id'] == this.session.id; });
+    if(matches.length==0) { this.set_first_slot(this.customer); return; }
+    this.set_num_slots(0);
+    matches.forEach(function(val) {
+      let idx = this.session_passes.indexOf(val);
+      if(idx > -1) {
+        this.state.passes.push(val);
+        this.session_passes.splice(idx,1);
+      }
+    });
+  },
+
   set_first_slot(customer) {
     this.set_num_slots(0);
     this.state.passes.push({ session_id: this.session.id, customer_id: customer.id, customer_string: customer.list_string });

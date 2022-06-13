@@ -116,24 +116,24 @@ function SessionChooser(parent,attr) {
         });
       },
       
-      set_included_sessions(sessions) {
-        for(var i=0; i < this.event.sessions.length; i++) { 
-          this.event.sessions[i].selected = sessions.indexOf(this.event.sessions[i].id)!=-1;
-        }
-        this.state.included_sessions = sessions.slice(0);
-        sort_included_sessions();
-      },
+      //set_included_sessions(sessions) {
+      //  for(var i=0; i < this.event.sessions.length; i++) { 
+      //    this.event.sessions[i].selected = sessions.indexOf(this.event.sessions[i].id)!=-1;
+      //  }
+      //  this.state.included_sessions = sessions.slice(0);
+      //  sort_included_sessions();
+      //},
       
-      toggle_included_session(session) {
-        sessions = this.state.included_sessions;
-        var i = sessions.indexOf(session.id);
-        if(i==-1) { sessions.push(session.id); this.state.num_slots=1; }
-        else { 
-          if(sessions.length == 1) { sessions = []; }
-          else { sessions.splice(i, 1); }
-        }
-        set_included_sessions(sessions);
-      },
+      //toggle_included_session(session) {
+      //  sessions = this.state.included_sessions;
+      //  var i = sessions.indexOf(session.id);
+      //  if(i==-1) { sessions.push(session.id); this.state.num_slots=1; }
+      //  else { 
+      //    if(sessions.length == 1) { sessions = []; }
+      //    else { sessions.splice(i, 1); }
+      //  }
+      //  set_included_sessions(sessions);
+      //},
   
       clear_session() {
         this.state.selected_session = null;
