@@ -20,6 +20,14 @@ function SessionList(parent,attr) {
     }.bind(this) )
   }
 
+  rivets.formatters.total_price = function(passes) {
+    passes = rivets.formatters.session_passes(passes);
+    result = passes.reduce(function(result,obj) {
+      return result + obj['price'];
+    },0);
+    return result;
+  }
+
 }
 
 SessionList.prototype = {
