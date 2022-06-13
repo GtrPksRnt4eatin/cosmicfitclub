@@ -8,6 +8,7 @@ function SessionList(parent,attr) {
         result[obj['session_id']].push(obj); 
         return result;
     },{});
+    if(!this.event) return([]);
     return Object.values(result).map( function(v) { 
       let sess = this.event.sessions.find( function(s) { return s.id == v[0]['session_id'] } );
       return { 
@@ -18,7 +19,7 @@ function SessionList(parent,attr) {
         passes: v 
       }
     }.bind(this) )
-  }
+  }.bind(this);
 
   rivets.formatters.total_price = function(passes) {
     passes = rivets.formatters.session_passes(passes);
@@ -26,7 +27,7 @@ function SessionList(parent,attr) {
       return result + obj['price'];
     },0);
     return result;
-  }
+  }.bind(this);
 
 }
 
