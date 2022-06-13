@@ -34,7 +34,7 @@ SessionSlots.prototype = {
 
   check_for_existing() {
     let matches = this.session_passes.filter(function(val) { return val['session_id'] == this.session.id; });
-    if(matches.length==0) { this.set_first_slot({ customer_string: this.customer.name + ' ( ' + this.customer.email + ' )' , ...this.customer}); return; }
+    if(matches.length==0) { this.set_first_slot({ list_string: this.customer.name + ' ( ' + this.customer.email + ' )' , ...this.customer}); return; }
     this.set_num_slots(0);
     matches.forEach(function(val) {
       let idx = this.session_passes.indexOf(val);
