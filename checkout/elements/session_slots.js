@@ -33,7 +33,7 @@ SessionSlots.prototype = {
   },
 
   check_for_existing() {
-    let matches = this.session_passes.filter(function(val) { return val['session_id'] == this.session.id; });
+    let matches = this.session_passes.filter(function(val) { return val['session_id'] == this.session.id; }.bind(this));
     if(matches.length==0) { this.set_first_slot({ list_string: this.customer.name + ' ( ' + this.customer.email + ' )' , ...this.customer}); return; }
     this.set_num_slots(0);
     matches.forEach(function(val) {
@@ -43,6 +43,7 @@ SessionSlots.prototype = {
         this.session_passes.splice(idx,1);
       }
     });
+    this.state.num_slots = matches.length;
   },
 
   set_first_slot(customer) {
