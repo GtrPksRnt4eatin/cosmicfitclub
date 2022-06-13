@@ -42,7 +42,7 @@ SessionSlots.prototype = {
         this.state.passes.push(val);
         this.session_passes.splice(idx,1);
       }
-    });
+    }.bind(this));
     this.state.num_slots = matches.length;
   },
 
