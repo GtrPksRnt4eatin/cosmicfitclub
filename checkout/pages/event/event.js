@@ -65,9 +65,9 @@ $(document).ready( function() {
   session_chooser = get_element(view,'session-chooser');
   session_slots   = get_element(view,'session-slots');
   session_list    = get_element(view,'session-list');
-  
+
   session_chooser && session_chooser.ev_sub('on_session_selected', function(session) {
-    session_slots.check_for_existing()
+    session_slots.check_for_existing();
     //session_slots.set_first_slot({ id: userview.id, list_string: userview.custy_string });
   });
   
