@@ -52,7 +52,10 @@ SessionSlots.prototype = {
     this.state.num_slots = 1;
   },
 
-  clear_session() { this.session = null; },
+  clear_session() { 
+    this.session = null; 
+    this.ev_fire('passes_updated', this.state.slots);
+  },
 
   choose_custy(e,m) {
     this.choose_customer(m.slot.customer_id, function(val) { 
@@ -63,7 +66,7 @@ SessionSlots.prototype = {
   add_to_order() {
     this.session = null;
     this.session_passes.push(...this.state.passes);
-    this.ev_fire('add_to_order', this.state.slots);
+    this.ev_fire('passes_updated', this.state.slots);
   }
 }
 
@@ -83,8 +86,7 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
         <div class='attrib'># People</div>
         <div class='value'>
           <select class='num_students' rv-value='state.num_slots' rv-on-change='num_slots_selected'>
-            <option value="1">1</option>
-            <option value="2">2</option>
+            <option rv-each-val='state.max_slots | options_array' rv-value="val">{val}</option>
           </select>  
         </div>
       </div> 

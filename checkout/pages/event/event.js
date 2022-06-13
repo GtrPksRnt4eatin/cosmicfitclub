@@ -68,10 +68,9 @@ $(document).ready( function() {
 
   session_chooser && session_chooser.ev_sub('on_session_selected', function(session) {
     session_slots.check_for_existing();
-    //session_slots.set_first_slot({ id: userview.id, list_string: userview.custy_string });
   });
   
-  session_slots && session_slots.ev_sub('add_to_order', function(slots) { 
+  session_slots && session_slots.ev_sub('passes_updated', function(slots) { 
     session_chooser.update_daypilot_colors();
   });
   

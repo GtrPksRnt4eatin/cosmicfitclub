@@ -52,6 +52,8 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td> <b> TOTAL</b> </td>
         <td></td>
         <td> { passes | total_price } </td>
+        <td class='edit'></td>
+        <td class='cancel'></td>
     </table>
   </div>
 **/}).untab(2);
