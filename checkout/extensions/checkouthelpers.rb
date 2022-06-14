@@ -141,7 +141,7 @@ module Sinatra
       status 204
     end
 
-    def buy_event_privates2
+    def buy_event_passes
       tic = EventTicket.create(
         :customer_id         => data['customer_id'],
         :event_id            => data['event_id'],

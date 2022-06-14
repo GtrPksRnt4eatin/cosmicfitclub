@@ -29,17 +29,35 @@ function SessionList(parent,attr) {
     return rivets.formatters.money(result);
   }.bind(this);
 
+
+  this.bind_handlers(['checkout', 'price_cents']);
 }
 
 SessionList.prototype = {
 	constructor: SessionList,
+
+  checkout: function(e,m) {
+    let payload = { 
+      price: this.price_cents,
+      passes: this.passes 
+    }
+    this.ev_fire('checkout', payload);
+  },
+
+  price_cents: function() {
+    let passes = rivets.formatters.session_passes(this.passes);
+    return passes.reduce(function(result,obj) {
+      return result + obj['price'];
+    },0);
+  }
+
 }
 
 Object.assign( SessionList.prototype, element);
 Object.assign( SessionList.prototype, ev_channel);
 
 SessionList.prototype.HTML = ES5Template(function(){/**
-  <div class='session_list'>
+  <div class='session_list' rv-show='passes'>
     <table>
       <tr rv-each-sess='passes | session_passes'>
         <td> { sess.session.start_time | eventstart } </td>
@@ -48,18 +66,25 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td> { sess.price | money } </td>
       </tr>
       <tr>
-        <td></td>
-        <td> <b> TOTAL</b> </td>
+        <td colspan='2'> <b> TOTAL</b> </td>
         <td></td>
         <td> { passes | total_price } </td>
         <td class='edit'></td>
         <td class='cancel'></td>
     </table>
+    <button rv-on-click='checkout'>
+      Pay { passes | total_price } Now
+    </button>
   </div>
 **/}).untab(2);
 
 SessionList.prototype.CSS = `
-  
+  .session_list {
+    margin: 1em 0;
+    border: 1px solid white;
+  }  
+
+
 `.untab(2);
 
 rivets.components['session-list'] = { 

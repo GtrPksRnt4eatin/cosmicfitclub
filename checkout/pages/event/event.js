@@ -73,6 +73,10 @@ $(document).ready( function() {
   session_slots && session_slots.ev_sub('passes_updated', function(slots) { 
     session_chooser.update_daypilot_colors();
   });
+
+  session_list && session_list.ev_sub('checkout', function(payload) {
+    checkout_passes(payload['price'], payload['passes']);
+  });
   
 });
 
@@ -145,104 +149,6 @@ function set_event_mode() {
   if( data.event_data.prices.length == 1        ) { data.mode = 'single';     return; }
 }
 
-/*
-function setup_daypilot() {
-  daypilot = new DayPilot.Calendar('daypilot', {
-    viewType:                  "Days",
-    days:                      moment(data.event_data.endtime).diff(moment(data.event_data.starttime),'days')+1,
-    startDate:                 moment(data.event_data.starttime).format("YYYY-MM-DD"),
-    headerDateFormat:          "ddd MMM d",
-    cellDuration:              30,
-    cellHeight:                20,
-    businessBeginsHour:        10,
-    businessEndsHour:          20,
-    dayBeginsHour:             10,
-    dayEndsHour:               20,
-    timeRangeSelectedHandling: "Disabled",  
-    eventDeleteHandling:       "Disabled",
-    eventMoveHandling:         "Disabled",
-    eventResizeHandling:       "Disabled",
-    eventHoverHandling:        "Disabled",
-    eventClickHandling:        'Select',
-    onTimeRangeSelected:       on_timeslot_selected,
-    onEventClick:              on_session_selected
-  });
-  
-  data.event_data.sessions.for_each( function(x) {
-    daypilot.events.add({ id: x.id, start: moment(x.start_time).subtract(4,'hours').format(), end: moment(x.end_time).subtract(4,'hours').format(), text: x.title + "\r\n" + rivets.formatters.money(x.individual_price_full) });  
-  });
-
-  $.get("/models/events/" + data.event_data.id + "/attendance2")
-   .success( function(val) { 
-    data.attendance = val;
-    session_chooser && session_chooser.load_sessions();
-    update_daypilot_colors();
-  })
-
-  $.get("/models/groups/range/2021-07-22/2021-07-25")
-   .success( function(val) {
-    for(i=0; i<val.length; i++) {
-      daypilot.events.add(val[i]);
-    }
-  })
-
-  daypilot.init();
-}
-
-function on_timeslot_selected(args) {
-  if(!userview.logged_in) { userview.onboard(); return;  }
-  data.selected_timeslot.starttime = new Date(args.start.value);
-  data.selected_timeslot.endtime = new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000)
-  data.num_slots = 2;
-  data.rental.slots = [];
-  data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
-  data.rental.slots.push( { customer_id: 0, customer_string: "Add Student" } );
-  calculate_total();
-}
-
-function on_session_selected(args) {
-  if(args.originalEvent.type=='touchend') { return; }
-  if(!userview.logged_in) { userview.onboard(); return;  }
-  if( !session_available(args.e.data.id) ) { return; }
-
-  data.a_la_carte = true;
-  clear_selected_price();
-  toggle_included_session(args.e.data);
-  calculate_custom_prices();
-  calculate_total();
-  update_daypilot_colors();
-}
-
-function session_available(id) {
-  let session = data.event_data.sessions.find( function(y) { return id == y.id} );
-  let attendance = data.attendance.find( function(z) { return id == z.id; } );
-  if( !attendance || !session ) return false;
-  if( attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 ) ) return false;
-  return true;
-}
-
-function update_daypilot_colors() {
-  daypilot.events.all().for_each( function(x) {
-    let session = data.event_data.sessions.find( function(y) { return x.id() == y.id} );
-    let attendance = data.attendance.find( function(z) { return x.id() == z.id; } );
-    if( !attendance || !session ) return;
-    if(session.title != "Private") {
-      x.text(session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.length + "/" + session.max_capacity);
-    }
-    if(attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 ) ) {
-      x.client.backColor("#AAAAAA");
-    }
-    else if( data.included_sessions.includes(x.id()) ) {
-      x.client.backColor("#CCCCFF");
-    }
-    else {
-      x.client.backColor("#FFFFFF");
-    }
-    daypilot.events.update(x);
-  });
-}
-
-*/
 function set_first_price() {
   clear_selected_price();
   if(empty(data.event_data.prices[0])) return;
@@ -424,18 +330,40 @@ var ctrl = {
 
 ///////////////////////////////////////// STRIPE EVENTS //////////////////////////////////////////////////
 
-function checkout_new() {
-  calculate_total();
+function checkout_passes(price, passes) {
 
   let desc = data.event_data.name;
 
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
+    var payload = { 
+      customer_id: userview.id,
+      event_id:    data.event_data['id'],
+      passes:      passes,
+      total_price: price,
+      payment_id: payment_id
+    }
+
+    $.post('passes', payload)
+     .done( on_successful_charge )
+     .fail( on_failed_charge )    
+
+  });
+
+}
+
+function checkout_new() {
+  calculate_total();
+
+  let desc = data.event_data.name;
+
+  pay_form.checkout(userview.id, data.total_price/100, desc ,null, function(payment_id) {
+
     var payload = {
       customer_id:       userview.id, 
       event_id:          data.event_data['id'],
       included_sessions: data.included_sessions,
-      total_price:       data.total_price,
+      total_price:       data.total_price/100,
       payment_id:        payment_id,
       price_id:          null
     }
