@@ -39,7 +39,7 @@ SessionList.prototype = {
 
   checkout: function(e,m) {
     let payload = { 
-      price: this.price_cents,
+      price: this.price_cents(),
       passes: this.passes 
     }
     this.ev_fire('checkout', payload);
@@ -83,6 +83,7 @@ SessionList.prototype.HTML = ES5Template(function(){/**
 SessionList.prototype.CSS = `
   .session_list {
     margin: 1em 0;
+    padding: 1em;
     border: 1px solid white;
   }  
 
