@@ -334,7 +334,7 @@ function checkout_passes(price, passes) {
 
   let desc = data.event_data.name;
 
-  pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
+  pay_form.checkout(userview.id, price, desc ,null, function(payment_id) {
 
     var payload = { 
       customer_id: userview.id,
