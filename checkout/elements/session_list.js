@@ -31,6 +31,7 @@ function SessionList(parent,attr) {
 
 
   this.bind_handlers(['checkout', 'price_cents']);
+  this.load_css();
 }
 
 SessionList.prototype = {
@@ -72,6 +73,7 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td class='edit'></td>
         <td class='cancel'></td>
     </table>
+    <br/>
     <button rv-on-click='checkout'>
       Pay { passes | total_price } Now
     </button>
