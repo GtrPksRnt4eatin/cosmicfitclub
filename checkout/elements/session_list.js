@@ -31,7 +31,7 @@ function SessionList(parent,attr) {
 
 
   this.bind_handlers(['checkout', 'price_cents']);
-  this.load_css();
+  this.load_styles();
 }
 
 SessionList.prototype = {
