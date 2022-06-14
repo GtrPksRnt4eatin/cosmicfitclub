@@ -39,7 +39,7 @@ SessionList.prototype = {
 
   checkout: function(e,m) {
     let payload = { 
-      price: this.price_cents(),
+      price: this.price_cents()/100,
       passes: this.passes 
     }
     this.ev_fire('checkout', payload);
