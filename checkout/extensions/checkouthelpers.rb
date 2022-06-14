@@ -151,7 +151,7 @@ module Sinatra
         :customer_payment_id => params['payment_id'].to_i
       )
 
-      params[:passes].each do |pass|
+      params['passes'].each do |pass|
         EventPass.create( :customer_id => pass['customer_id'].to_i, :ticket => tic, :session_id => pass['session_id'].to_i )
       end
     end
