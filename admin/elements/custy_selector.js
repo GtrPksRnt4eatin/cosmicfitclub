@@ -81,6 +81,7 @@ CustySelector.prototype = {
     this.select_customer(customer_id);
     this.state.callback = callback;
     this.ev_fire('show', { 'dom': this.modal_dom, 'position': 'modal'} );
+    this.selectize_instance.selectize.focus();
   },
 
   on_data_failed: function() {

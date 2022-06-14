@@ -86,7 +86,7 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
     <div class='selected_timeslot'>
       <h2>{ session.title }</h2>
       <h3>{ session.start_time | fulldate } - {session.end_time | time }</h3>
-      <span style="cursor:pointer; color: #9999FF;" rv-on-click="clear_session">change session</span>
+      <span style="cursor:pointer; color: #9999FF;" rv-on-click="clear_session">cancel/remove session</span>
       <br/><br/>
 
       <div class='tuple'>
