@@ -143,14 +143,14 @@ module Sinatra
 
     def buy_event_passes
       tic = EventTicket.create(
-        :customer_id         => data['customer_id'],
-        :event_id            => data['event_id'],
-        :price               => data['total_price'].to_i,
-        :customer_payment_id => data['payment_id']
+        :customer_id         => params[:customer_id],
+        :event_id            => params[:event_id],
+        :price               => params[:total_price].to_i,
+        :customer_payment_id => params[:payment_id]
       )
 
-      data['passes'].each do |pass|
-        EventPass.create( :customer_id => pass['customer_id'], :ticket => tic, :session_id => pass['session_id'] )
+      params[:passes].each do |pass|
+        EventPass.create( :customer_id => pass[:customer_id], :ticket => tic, :session_id => pass[:session_id] )
       end
     end
 
