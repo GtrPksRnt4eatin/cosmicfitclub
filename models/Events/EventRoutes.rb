@@ -199,7 +199,13 @@ class EventRoutes < Sinatra::Base
   post '/tickets/:tic_id/split' do
     tic = EventTicket[params[:tic_id]]          or halt(404, "Couldn't Find Event Ticket")
     recipient = Customer[params[:recipient_id]] or halt(404, "Couldn't Find Recipient")
-    p tic.split( recipient.id, params[:session_ids].map { |x| x.to_i } )
+    tic.split( recipient.id, params[:session_ids].map { |x| x.to_i } )
+    status 204
+  end
+
+  delete '/tickets/:id' do
+    ticket = EventTicket[params[:id]] or halt(404, "Couldn't Find Ticket")
+    ticket.delete
     status 204
   end
 

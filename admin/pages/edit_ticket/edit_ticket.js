@@ -33,6 +33,12 @@ ctrl = {
       $.post('/models/events/passes/' + m.pass.id + '/transfer', { customer_id: custy_id } )
        .done(get_ticket)
     } );
+  },
+
+  delete_ticket: function(e,m) {
+    $.del('/models/events/tickets/' + data.ticket.id)
+     .fail(function() { alert("Failed to Delete!"); })
+     .done(history.back)
   }
 
 }
