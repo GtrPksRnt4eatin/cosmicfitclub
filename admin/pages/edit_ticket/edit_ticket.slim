@@ -72,7 +72,7 @@ html
                 | Check In
             .delete rv-on-click='ctrl.remove_pass'
         
-        button rv-hide='data.ticket.new.passes.length' rv-on-click='ctrl.delete_ticket' Delete Entire Ticket
+        button rv-show='data.ticket.new.passes | empty' rv-on-click='ctrl.delete_ticket' Delete Entire Ticket
 
       .tile
 
