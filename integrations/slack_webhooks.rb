@@ -199,7 +199,7 @@ end
 
 class PostUpcomingEventsPromo
   include SuckerPunch::Job
-  def perform(classdef)
+  def perform()
     promos = UpcomingEvents.generate_for_bot
     client = Slack::Web::Client.new
     promos.each do |p|
