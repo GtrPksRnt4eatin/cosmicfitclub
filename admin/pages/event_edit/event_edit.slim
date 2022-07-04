@@ -123,6 +123,7 @@ html
             input type='radio' name='show' rv-checked='data.event.hidden' value="false"
           
         a rv-href='data.event_id | event_checkout_url' View Checkout Page
+        br
             
         button#submit rv-on-click='ctrl.save_changes' Save Event
         button#delete rv-on-click='ctrl.delete_event' Delete Event
