@@ -76,7 +76,7 @@ ctrl = {
   },
 
   update_hidden: function(e,m) {
-    
+    ctrl.save_changes();
   },
   save_changes(e,m) {
     var fd = new FormData();

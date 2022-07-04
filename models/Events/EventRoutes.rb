@@ -54,7 +54,8 @@ class EventRoutes < Sinatra::Base
         details:      params[:details],
         poster_lines: params[:poster_lines],
         starttime:    params[:starttime], 
-        image:        params[:image] 
+        image:        params[:image],
+        hidden:       params[:hidden]
       )
     else
       event = Event[params[:id]]

@@ -115,12 +115,14 @@ html
                   .delete rv-on-click='ctrl.del_price'
  
         div.tuplet
-          label Hidden
+          label Visibility
           .live
-            input type='radio' rv-checked='data.event.hidden' rv-on-change='ctrl.update_hidden' value="true"
-            input type='radio' rv-checked='data.event.hidden' value="false"
-          a rv-href='data.event_id | event_checkout_url' Checkout Page
-
+            label for='hide' Hidden
+            input type='radio' name='hide' rv-checked='data.event.hidden' rv-on-change='ctrl.update_hidden' value="true"
+            label for='show' Shown
+            input type='radio' name='show' rv-checked='data.event.hidden' value="false"
+          
+        a rv-href='data.event_id | event_checkout_url' View Checkout Page
             
         button#submit rv-on-click='ctrl.save_changes' Save Event
         button#delete rv-on-click='ctrl.delete_event' Delete Event
