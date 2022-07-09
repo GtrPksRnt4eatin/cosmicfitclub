@@ -15,6 +15,8 @@ function include_rivets_dates() {
   rivets.formatters.unixtime    = function(val)     { return moment.parseZone(new Date(val*1000)).format('MM/DD/YYYY hh:mm A') };
   rivets.formatters.datewyr     = function(val)     { return moment.parseZone(val).format('YYYY MMM Do')             };
   rivets.formatters.fulldatewyr = function(val)     { return moment.parseZone(val).format('YYYY ddd MMM Do hh:mm a') };
+  rivets.formatters.year        = function(val)     { return moment.parseZone(val).format('YYYY');                   };
+  rivets.formatters.dateformat  = function(val,fmt) { return moment.parseZone(val).format(fmt);                      };
   
   rivets.formatters.dtrange    = function(start,end) { 
     start = moment.parseZone(start);

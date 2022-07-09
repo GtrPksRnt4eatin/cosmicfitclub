@@ -48,7 +48,7 @@ html
         table
           tr rv-each-event='data.past_events'
             td 
-              | { event.starttime | dayofwk } { event.starttime | date } { event.starttime | time }
+              | { event.starttime | dayofwk } { event.starttime | datewyr } { event.starttime | time }
             td
               img rv-src='event.image_url'
             td 
