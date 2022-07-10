@@ -54,9 +54,9 @@ EventSelector.prototype = {
     this.selectize_instance.selectize.setValue(event_id, silent);
   },
 
-  event_selected(val) {
-    console.log(val);
-    this.state.callback && this.state.callback(val);
+  event_selected(e) {
+    console.log(e.target.value);
+    this.state.callback && this.state.callback(e.target.value);
   }
 
 }
