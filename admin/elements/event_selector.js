@@ -1,10 +1,10 @@
-function EventSelector(el, attr) {
+function EventSelector(el) {
   this.dom = el;
 
   this.state = {
     events: [],
     event_id: null,
-    callback: attr && attr['callback']
+    callback: null
   }
 
   this.bind_handlers(['fetch_events', 'init_selectize', 'show', 'select_event', 'event_selected']);
@@ -21,21 +21,9 @@ EventSelector.prototype = {
     $.get('/models/events/list', function(val) { 
       this.state.events = val.map(function(x) { 
         let start = moment.parseZone(x.starttime).format('ddd MMM Do YYYY');
-        return { 
-          label: `${start} [${x.id}] ${x.title}`,
-          ...x
-        } 
+        return { label: `${start} [${x.id}] ${x.title}`, ...x } 
       }); 
       this.init_selectize();
-      //this.selectize = $('select', this.dom).selectize({
-      //  onChange: function(val) {
-      //    this.state.callback && this.state.callback(val);
-      //  }.bind(this)
-      //});
-      //this.selectize.on( 'click', function () {
-      //  this.selectize.selectize.clear(false);
-      //  this.selectize.selectize.focus();
-      //}.bind(this));
     }.bind(this) );
   },
 
@@ -44,8 +32,8 @@ EventSelector.prototype = {
     this.selectize_instance = el.selectize({
       options: this.state.events,
       valueField: 'id',
-      labelField: 'list_string',
-      searchField: 'list_string',
+      labelField: 'label',
+      searchField: 'label',
       openOnFocus: false
     })[0];
     $(el).next().on( 'click', function () {
@@ -57,6 +45,7 @@ EventSelector.prototype = {
   show: function(value, callback) {
 	  this.state.event_id = value;
 	  this.state.callback = callback;
+    this.select_event(value, true);
     this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
 	},
 
@@ -88,8 +77,3 @@ EventSelector.prototype.HTML = ES5Template(function(){/**
 EventSelector.prototype.CSS = ES5Template(function(){/**
   .EventSelector .selectize-input { width: 40em; }
 **/}).untab(2);
-  
-rivets.components['event-selector'] = { 
-  template:   function()        { return EventSelector.prototype.HTML; },
-  initialize: function(el,attr) { return new EventSelector(el, attr);  }
-}
