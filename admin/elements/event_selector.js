@@ -3,7 +3,8 @@ function EventSelector(el, attr) {
 
   this.state = {
     events: [],
-    event_id: null
+    event_id: null,
+    callback: attr['callback']
   }
 
   this.bind_handlers(['fetch_events']);
@@ -17,7 +18,15 @@ EventSelector.prototype = {
   fetch_events() {
     $.get('/models/events/list', function(val) { 
       this.state.events = val; 
-      $('select', this.dom).selectize();
+      this.selectize = $('select', this.dom).selectize({
+        onChange: function(val) {
+          this.state.callback && this.state.callback.call(val);
+        }.bind(this)
+      });
+      this.selectize.on( 'click', function () {
+        this.selectize.selectize.clear(false);
+        this.selectize.selectize.focus();
+      }.bind(this));
     }.bind(this) );
   }
 }
@@ -36,7 +45,7 @@ EventSelector.prototype.HTML = ES5Template(function(){/**
 **/}).untab(2);
   
 EventSelector.prototype.CSS = ES5Template(function(){/**
-  .EventSelector { }
+  .EventSelector .selectize-input { width: 40em; }
 **/}).untab(2);
   
 rivets.components['event-selector'] = { 

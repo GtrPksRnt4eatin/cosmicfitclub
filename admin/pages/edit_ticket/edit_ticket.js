@@ -39,6 +39,12 @@ ctrl = {
     $.del('/models/events/tickets/' + data.ticket.id)
      .fail(function() { alert("Failed to Delete!"); })
      .done(history.back)
+  },
+
+  change_event: function(val) {
+    console.log(val);
+    $.post('/models/events/tickets/' + data.ticket.id + '/move', { event_id: val } )
+     .done(get_ticket)
   }
 
 }

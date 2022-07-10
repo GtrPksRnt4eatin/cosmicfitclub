@@ -204,6 +204,13 @@ class EventRoutes < Sinatra::Base
     status 204
   end
 
+  post '/tickets/:tic_id/move' do
+    tic = EventTicket[params[:tic_id]]          or halt(404, "Couldn't Find Event Ticket")
+    event = Event[params[:event_id]]            or halt(404, "Couldn't Find Event")
+    tic.event = event
+    status 204
+  end
+
   delete '/tickets/:id' do
     ticket = EventTicket[params[:id]] or halt(404, "Couldn't Find Ticket")
     ticket.delete

@@ -35,11 +35,6 @@ html
           .value 
             | [# {data.ticket.customer.id}] {data.ticket.customer.name}
 
-        .tuplet rv-if='data.ticket.old.recipient'
-          .label Purchased For: 
-          .value 
-            | [# {data.ticket.old.recipient.id}] {data.ticket.old.recipient.name}
-
         .tuplet
           .label Price:
           .value
@@ -54,7 +49,7 @@ html
         
         H2 Session Passes
 
-        event-selector
+        event-selector callback='ctrl.change_event'
 
         select#add_pass
           option rv-each-sess='data.sessions' rv-on-click='ctrl.add_pass' rv-value='sess.id' {sess.title}
