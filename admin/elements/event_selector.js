@@ -1,6 +1,6 @@
-function EventSelector(el,attr) {
+function EventSelector(el,view, attr) {
   this.dom = el;
-  
+
   this.state = {
     events: attr['events'] || [],
     event_id: 0
@@ -17,7 +17,7 @@ EventSelector.prototype = {
   fetch_events() {
     $.get('/models/events/list', function(val) { 
       this.state.events = val; 
-
+      $('select', this.dom)[0].selectize.refreshItems();
     }.bind(this) );
   }
 }
@@ -42,6 +42,6 @@ EventSelector.prototype.CSS = ES5Template(function(){/**
 rivets.components['event-selector'] = { 
   template:   function()        { return EventSelector.prototype.HTML; },
   initialize: function(el,attr) { 
-    return new EventSelector(el,attr);   
+    return new EventSelector(el, this.view, attr);   
   }
 }
