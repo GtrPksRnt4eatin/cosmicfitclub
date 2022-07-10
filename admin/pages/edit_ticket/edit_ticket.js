@@ -42,6 +42,7 @@ ctrl = {
   },
 
   change_event: function(val) {
+    popupmenu.show()
     console.log(val);
     $.post('/models/events/tickets/' + data.ticket.id + '/move', { event_id: val } )
      .done(get_ticket)
@@ -53,9 +54,13 @@ $(document).ready(function() {
   
   popupmenu      = new PopupMenu(id('popupmenu_container'));
   custy_selector = new CustySelector();
+  event_selector = new EventSelector();
 
   custy_selector.ev_sub('show'       , popupmenu.show );
   custy_selector.ev_sub('close_modal', popupmenu.hide );
+
+  event_selector.ev_sub('show',        popupmenu.show );
+  event_selector.ev_sub('close_modal', popupmenu.hide );
 
   include_rivets_select();
   include_rivets_dates();
