@@ -23,6 +23,7 @@ EventSelector.prototype = {
         let start = moment.parseZone(x.starttime).format('ddd MMM Do YYYY');
         return { label: `${start} [${x.id}] ${x.name}`, ...x } 
       }); 
+      this.state.events = this.state.events.sort(function(a,b) { return a.starttime - b.starttime })
       this.init_selectize();
     }.bind(this) );
   },
@@ -33,8 +34,7 @@ EventSelector.prototype = {
       options: this.state.events,
       valueField: 'id',
       labelField: 'label',
-      searchField: 'label',
-      openOnFocus: false
+      searchField: 'label'
     })[0];
     $(el).next().on( 'click', function () {
       this.selectize_instance.selectize.clear(true);
@@ -55,8 +55,8 @@ EventSelector.prototype = {
   },
 
   event_selected(e) {
-    console.log(e.target.value);
     this.state.callback && this.state.callback(e.target.value);
+    this.ev_fire('close_modal');
   }
 
 }
