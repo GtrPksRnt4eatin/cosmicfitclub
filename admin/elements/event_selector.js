@@ -50,7 +50,5 @@ EventSelector.prototype.CSS = ES5Template(function(){/**
   
 rivets.components['event-selector'] = { 
   template:   function()        { return EventSelector.prototype.HTML; },
-  initialize: function(el,attr) { 
-    return new EventSelector(el, this.view, attr);   
-  }
+  initialize: function(el,attr) { return new EventSelector(el, attr);  }
 }
