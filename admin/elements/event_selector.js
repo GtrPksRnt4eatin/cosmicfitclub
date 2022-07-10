@@ -20,7 +20,7 @@ EventSelector.prototype = {
       this.state.events = val; 
       this.selectize = $('select', this.dom).selectize({
         onChange: function(val) {
-          this.state.callback && this.state.callback.call(val);
+          this.state.callback && this.state.callback(val);
         }.bind(this)
       });
       this.selectize.on( 'click', function () {
