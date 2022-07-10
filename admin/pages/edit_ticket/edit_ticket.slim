@@ -22,13 +22,8 @@ html
 
         .tuplet
           .label Event:
-          .value 
+          .value.editable rv-on-click='ctrl.change_event'
             | [# {data.ticket.event.id}] {data.ticket.event.name}
-
-        .tuplet
-          .label Included Sessions:
-          .value
-            | { data.ticket.old.included_sessions }
 
         .tuplet
           .label Purchased By: 
