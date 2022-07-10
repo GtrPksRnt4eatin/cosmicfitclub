@@ -38,7 +38,7 @@ function EventSelector(el,attr) {
   
 }
 
-rivets.components['event-seletor'] = { 
+rivets.components['event-selector'] = { 
   template:   function()        { return EventSelector.prototype.HTML; },
   initialize: function(el,attr) { return new EventSelector(el,attr);   }
 }
