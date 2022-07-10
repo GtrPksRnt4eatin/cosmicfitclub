@@ -29,11 +29,12 @@ Object.assign( EventSelector.prototype, ev_channel);
   
 EventSelector.prototype.HTML = ES5Template(function(){/**
   <div class='EventSelector form'>
-    <select>
+    <select rv-selectize='state.event_id'>
       <option value='0'>None</option>
       <option rv-each-event='state.events' rv-value='event.id'>
         { event.name }
       </option>
+    </select>
   </div>
 **/}).untab(2);
   
