@@ -1,12 +1,12 @@
 function EventSelector(el,attr) {
   this.state = {
-    events: attr['events'],
+    events: attr['events'] || [],
     event_id: 0
   }
   
   this.bind_handlers(['fetch_events']);
   this.load_styles();
-  this.state.events || this.fetch_events();
+  attr['events'] || this.fetch_events();
 }
   
 EventSelector.prototype = {

@@ -63,7 +63,7 @@ $(document).ready(function() {
 function initialize_rivets() {
   rivets.formatters.empty = function(val) { return val ? val.length == 0 : true; }
   rivets.formatters.stripe = function(val) { return 'https://manage.stripe.com/payments/' + val; }
-  rivets.bind( document.body, { data: data, ctrl: ctrl } );
+  view = rivets.bind( document.body, { data: data, ctrl: ctrl } );
 }
 
 function get_ticket() {
