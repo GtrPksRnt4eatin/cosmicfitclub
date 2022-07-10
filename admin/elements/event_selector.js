@@ -1,16 +1,14 @@
-function EventSelector(el,view, attr) {
+function EventSelector(el, attr) {
   this.dom = el;
 
   this.state = {
-    events: attr['events'] || [],
+    events: [],
     event_id: null
   }
 
   this.bind_handlers(['fetch_events']);
   this.load_styles();
-  setTimeout(function() {
-    attr['events'] || this.fetch_events();
-  }.bind(this),100);
+  this.fetch_events();
 }
   
 EventSelector.prototype = {
@@ -19,7 +17,7 @@ EventSelector.prototype = {
   fetch_events() {
     $.get('/models/events/list', function(val) { 
       this.state.events = val; 
-      $('select', this.dom)[0].selectize();
+      $('select', this.dom).selectize();
     }.bind(this) );
   }
 }
@@ -30,9 +28,8 @@ Object.assign( EventSelector.prototype, ev_channel);
 EventSelector.prototype.HTML = ES5Template(function(){/**
   <div class='EventSelector form'>
     <select>
-      <option value='0'>None</option>
       <option rv-each-event='state.events' rv-value='event.id'>
-        { event.name }
+        { event.starttime } { event.name }
       </option>
     </select>
   </div>
