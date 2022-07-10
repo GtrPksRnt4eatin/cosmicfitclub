@@ -19,7 +19,7 @@ EventSelector.prototype = {
   fetch_events() {
     $.get('/models/events/list', function(val) { 
       this.state.events = val; 
-      $('select', this.dom)[0].selectize.refreshItems();
+      $('select', this.dom)[0].selectize();
     }.bind(this) );
   }
 }
