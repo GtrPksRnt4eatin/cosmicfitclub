@@ -1,4 +1,6 @@
 function EventSelector(el,attr) {
+  this.dom = el;
+  
   this.state = {
     events: attr['events'] || [],
     event_id: 0
