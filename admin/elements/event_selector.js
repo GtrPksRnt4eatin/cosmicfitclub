@@ -30,7 +30,7 @@ EventSelector.prototype.HTML = ES5Template(function(){/**
     <select rv-selectize='state.event_id''>
       <option value='0'>None</option>
       <option rv-each-event='state.events' rv-value='state.event_id'>
-        { event.starttime | dateformat 'ddd MMM Do YYYY'} [{event.id}] { event.name }
+        { event.name }
       </option>
   </div>
 **/}).untab(2);
