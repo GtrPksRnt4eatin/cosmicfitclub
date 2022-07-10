@@ -29,7 +29,7 @@ EventSelector.prototype.HTML = ES5Template(function(){/**
   <div class='EventSelector form'>
     <select>
       <option rv-each-event='state.events' rv-value='event.id'>
-        { event.starttime } { event.name }
+        { event.starttime | dateformat 'ddd MMM Do YYYY' } [{event.id}] { event.name }
       </option>
     </select>
   </div>
