@@ -4,7 +4,7 @@ function EventSelector(el, attr) {
   this.state = {
     events: [],
     event_id: null,
-    callback: attr['callback']
+    callback: attr && attr['callback']
   }
 
   this.bind_handlers(['fetch_events', 'init_selectize', 'show', 'select_event', 'event_selected']);
