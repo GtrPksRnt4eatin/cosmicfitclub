@@ -207,7 +207,7 @@ class EventRoutes < Sinatra::Base
   post '/tickets/:tic_id/move' do
     tic = EventTicket[params[:tic_id]]          or halt(404, "Couldn't Find Event Ticket")
     event = Event[params[:event_id]]            or halt(404, "Couldn't Find Event")
-    tic.event = event
+    tic.update( :event => event )
     status 204
   end
 
