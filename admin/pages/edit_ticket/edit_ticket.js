@@ -43,7 +43,6 @@ ctrl = {
 
   change_event: function(val) {
     event_selector.show(data.ticket.event.id, function(val){
-      console.log(val);
       $.post('/models/events/tickets/' + data.ticket.id + '/move', { event_id: val } )
        .done(get_ticket)
     });
