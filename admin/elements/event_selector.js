@@ -3,7 +3,7 @@ function EventSelector(el,view, attr) {
 
   this.state = {
     events: attr['events'] || [],
-    event_id: 0
+    event_id: null
   }
 
   this.bind_handlers(['fetch_events']);
