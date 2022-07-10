@@ -29,9 +29,9 @@ Object.assign( EventSelector.prototype, ev_channel);
   
 EventSelector.prototype.HTML = ES5Template(function(){/**
   <div class='EventSelector form'>
-    <select rv-selectize='state.event_id''>
+    <select rv-selectize='state.event_id'>
       <option value='0'>None</option>
-      <option rv-each-event='state.events' rv-value='state.event_id'>
+      <option rv-each-event='state.events' rv-value='event.id'>
         { event.name }
       </option>
   </div>
