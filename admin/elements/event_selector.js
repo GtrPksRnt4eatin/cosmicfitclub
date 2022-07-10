@@ -8,7 +8,9 @@ function EventSelector(el,view, attr) {
 
   this.bind_handlers(['fetch_events']);
   this.load_styles();
-  attr['events'] || this.fetch_events();
+  setTimeout(function() {
+    attr['events'] || this.fetch_events();
+  }.bind(this),100);
 }
   
 EventSelector.prototype = {
