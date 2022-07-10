@@ -21,7 +21,7 @@ EventSelector.prototype = {
     $.get('/models/events/list', function(val) { 
       this.state.events = val.map(function(x) { 
         let start = moment.parseZone(x.starttime).format('ddd MMM Do YYYY');
-        return { label: `${start} [${x.id}] ${x.title}`, ...x } 
+        return { label: `${start} [${x.id}] ${x.name}`, ...x } 
       }); 
       this.init_selectize();
     }.bind(this) );
@@ -37,7 +37,7 @@ EventSelector.prototype = {
       openOnFocus: false
     })[0];
     $(el).next().on( 'click', function () {
-      this.selectize_instance.selectize.clear(false);
+      this.selectize_instance.selectize.clear(true);
       this.selectize_instance.selectize.focus();
     }.bind(this));
   },
