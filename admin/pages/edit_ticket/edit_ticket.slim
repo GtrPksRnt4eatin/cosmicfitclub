@@ -11,7 +11,7 @@ html
     == css [ 'fonts', 'site', 'chosen', 'jquery.json-viewer', '/admin/edit_ticket', 'selectize' ]
     == js  [ 'jquery', 'rivets', 'lib', 'rv_select', 'rv_money', 'moment', 'selectize.min', 'flatpickr', 'rv_dates']
     == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min', 'jquery.json-viewer' ]
-    == js  [ 'elements/popup_menu', 'elements/custy_selector', '/admin/edit_ticket' ]
+    == js  [ 'elements/popup_menu', 'elements/custy_selector', 'elements/event_selector', '/admin/edit_ticket' ]
 
   html
     #stars
@@ -53,6 +53,8 @@ html
       .tile
         
         H2 Session Passes
+
+        event-selector
 
         select#add_pass
           option rv-each-sess='data.sessions' rv-on-click='ctrl.add_pass' rv-value='sess.id' {sess.title}
