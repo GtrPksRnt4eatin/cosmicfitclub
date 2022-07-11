@@ -45,7 +45,7 @@ LoftCalendar.prototype = {
      );
   },
 
-  on_timeslot_seleted: function(args) {
+  on_timeslot_selected: function(args) {
     console.log(args);
   }
 

@@ -47,7 +47,6 @@ ctrl = {
        .done(get_ticket)
     });
   }
-
 }
 
 $(document).ready(function() {
