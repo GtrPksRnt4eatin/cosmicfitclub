@@ -199,11 +199,11 @@ def payroll_query
       ORDER BY starttime
     )
 
-    SELECT staff_id, staff_name, staff_unpaid, array_to_json(array_agg(row)) AS class_occurrences
+    SELECT staff_id, staff_name, paypal_email, staff_staff_unpaid, array_to_json(array_agg(row)) AS class_occurrences
     FROM (
       SELECT 
         occurrences.*,
-        staff.paypal_email,
+        staff.paypal_email AS paypal_email,
         staff.name AS staff_name,
         staff.unpaid AS staff_unpaid,
         class_defs.name AS class_name,
@@ -227,7 +227,7 @@ def payroll_query
       LEFT JOIN staff ON staff.id = staff_id
       LEFT JOIN class_defs ON class_defs.id = classdef_id
     ) AS row
-    GROUP BY staff_id, staff_name, staff_unpaid
+    GROUP BY staff_id, staff_name, staff_unpaid, paypal_email
   }
 end
 
@@ -256,9 +256,10 @@ def Staff::payroll(from, to)
           5000
         when 106 # Cosmic Loft gets 100% of loft rentals
           occurrence_row[:cosmic]
-        when 101 # Ivory Fox gets $35 minimum per class
+        when 108 # Michal gets $35 minimum per class
           3500 > occurrence_row[:pay] ? 3500 : occurrence_row[:pay]
-        
+        when 11 # Rick gets $20 minimum per class
+          2000 > occurrence_row[:pay] ? 3500 : occurrence_row[:pay]
         else
           occurrence_row[:pay]
       end
@@ -317,6 +318,7 @@ def Staff::payouts_csv(from,to)
   proll.each do |teacher_row|
     total = 0
     teacher_row[:class_occurrences].each { |row| total += row[:pay]/100 }
+    next if total == 0
     csv << [teacher_row[:paypal_email],total,'USD','',"#{from.strftime('%Y-%m-%d')} to #{to.strftime('%Y-%m-%d')}",'PayPal','PRIVATE','','http://cosmicfitclub.com/banner.png']  
   end
   csv.rewind
