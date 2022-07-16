@@ -18,6 +18,11 @@ ctrl = {
   	var match = /(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/.exec(data['range']);
   	if(!match) { return; }
   	window.location = '/models/staff/payroll.csv?from=' + match[1] + '&to=' + match[2];
+  },
+  dl_payouts: function(e,m) {
+    var match = /(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/.exec(data['range']);
+  	if(!match) { return; }
+    window.location = '/models/staff/payouts.csv?from=' + match[1] + '&to=' + match[2]; 
   }
 }
 

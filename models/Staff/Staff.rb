@@ -203,6 +203,7 @@ def payroll_query
     FROM (
       SELECT 
         occurrences.*,
+        staff.paypal_email,
         staff.name AS staff_name,
         staff.unpaid AS staff_unpaid,
         class_defs.name AS class_name,
@@ -257,6 +258,7 @@ def Staff::payroll(from, to)
           occurrence_row[:cosmic]
         when 101 # Ivory Fox gets $35 minimum per class
           3500 > occurrence_row[:pay] ? 3500 : occurrence_row[:pay]
+        
         else
           occurrence_row[:pay]
       end
@@ -303,6 +305,22 @@ def Staff::payroll(from, to)
   result.each     { |x| x[:class_occurrences].sort_by! { |y| y[:starttime] } }
   result.each     { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:pay] ? y[:pay] : 0 ) } }
   result.reject   { |x| x[:class_occurrences].length == 0 }
+end
+
+def Staff::payouts_csv(from,to)
+  from = ( from.is_a?(String) ? Date.parse(from) : from )
+  to = ( to.is_a?(String) ? Date.parse(to) : to )
+
+  proll = Staff::payroll(from,to)
+  csv = CSV.new("")
+  csv << ['Email/Phone','Amount','Currency code','Reference ID (optional)','Note to recipient','Recipient wallet','Social Feed Privacy (optional)','Holler URL (deprecated)','Logo URL (optional)']
+  proll.each do |teacher_row|
+    total = 0
+    teacher_row[:class_occurrences].each { |row| total += row[:pay]/100 }
+    csv << [teacher_row[:paypal_email],total,'USD','',"#{from.strftime('%Y-%m-%d')} to #{to.strftime('%Y-%m-%d')}",'PayPal','PRIVATE','','http://cosmicfitclub.com/banner.png']  
+  end
+  csv.rewind
+  csv
 end
 
 def Staff::payroll_csv(from,to)

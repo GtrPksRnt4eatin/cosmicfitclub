@@ -102,4 +102,11 @@ class StaffRoutes < Sinatra::Base
     csv.string
   end
 
+  get '/payouts.csv' do
+    content_type 'application/csv'
+    attachment "Payouts #{params[:from]}-#{params[:to]}.csv"
+    csv = Staff::payouts_csv(params[:from],params[:to])
+    csv.string
+  end
+
 end
