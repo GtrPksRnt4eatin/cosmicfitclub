@@ -259,7 +259,7 @@ def Staff::payroll(from, to)
         when 108 # Michal gets $35 minimum per class
           3500 > occurrence_row[:pay] ? 3500 : occurrence_row[:pay]
         when 11 # Rick gets $20 minimum per class
-          2000 > occurrence_row[:pay] ? 3500 : occurrence_row[:pay]
+          2000 > occurrence_row[:pay] ? 2500 : occurrence_row[:pay]
         else
           occurrence_row[:pay]
       end
