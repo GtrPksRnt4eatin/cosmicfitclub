@@ -17,7 +17,7 @@ html
       
     .content
       
-      .tile
+      .tile style='display:none;'
         .heading Subscription Plans
         table
           - for plan in Plan.where(:hidden => false).order(:month_price).all
