@@ -2,7 +2,7 @@ module UpcomingEvents
 
   def UpcomingEvents::generate_for_bot()
     arr = []
-    arr.push({ :img => UpcomingEvents::generate4x5, :title => "UpcomingEvents_4x5"  })
+    arr.push({ :img => UpcomingEvents::generate_4x5, :title => "UpcomingEvents_4x5"  })
     arr.push({ :img => UpcomingEvents::generate_a4, :title => "UpcomingEvents_a4"  })
   end
 
@@ -62,6 +62,7 @@ module UpcomingEvents
     image = MiniMagick::Image.open(data[:background])
     image.draw_elements(data[:elements])
     image.save('upcoming_events/upcoming_events_4x5.jpg')
+    image
   end
 
   def UpcomingEvents::generate_4x6
@@ -167,6 +168,7 @@ module UpcomingEvents
     image = MiniMagick::Image.open(data[:background])
     image.draw_elements(data[:elements])
     image.save('upcoming_events/upcoming_events_a4.jpg')
+    image
   end
 
   def UpcomingEvents::generate_a4_landscape

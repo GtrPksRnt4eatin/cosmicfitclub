@@ -15,7 +15,7 @@ function Onboarding(el,attr) {
 
   this.load_styles();
   this.set_formatters();
-  this.bind_handlers(['login','register','reset','validate_registration','check_email','email_match','clear_errors','show_http_error']);
+  this.bind_handlers(['login','register','reset','validate_registration','check_email','email_match','clear_errors','show_http_error','submit_code']);
 
   $(document).keypress(function(e) { 
     if(e.keyCode != 13) return;
@@ -35,8 +35,7 @@ Onboarding.prototype = {
   },
 
   check_email: function(e,m) { 
-    this.clear_errors();
-    let val = e ? e.target.value : $(this.dom).find(".email")[0].value;
+    let val = e && e.target ? e.target.value : $(this.dom).find(".email")[0].value;
     $.get('/auth/email_search', { email: val }, 'json' )
      .fail(    this.show_http_error )
      .success( this.email_match     )
@@ -67,7 +66,7 @@ Onboarding.prototype = {
   reset() {
     $.post('reset', JSON.stringify( { "email": this.state.email } ) )
      .fail(    this.show_http_error )
-     .success( this.email_mode      )
+     .success( function() { this.state.mode = 'email'; }.bind(this) )
   },
 
   validate_registration() {
@@ -91,6 +90,17 @@ Onboarding.prototype = {
   after_login() {
     var page = getUrlParameter('page'); 
     window.location.replace( empty(page) ? '/user' : page );
+  },
+
+  submit_code() {
+    payload = {
+      token: this.state.token,
+      password: this.state.password,
+      confirmation: this.state.password
+    }
+    $.post('/auth/password', payload)
+     .fail( this.show_http_error )
+     .success( this.after_login )
   }
 
 }
@@ -129,7 +139,7 @@ Onboarding.prototype.HTML = `
       <div class='fineprint' rv-if='state.acct_found'>
         <hr>
         Forgot Password?
-        <span rv-on-click='this.reset_mode'>Reset Password</span>
+        <span rv-on-click='reset'>Reset Password</span>
       </div>
 
       <div rv-unless='state.errors | empty'>
@@ -137,6 +147,23 @@ Onboarding.prototype.HTML = `
         <div class='error' rv-each-err='state.errors'> {err} </div>
       </div>
       
+    </div>
+
+    <div rv-if="state.mode | equals 'email'">
+      <span class='backbtn' rv-on-click="this.login_mode"></span>
+      <div class="section">Check Your Email</div>
+      <hr>
+      <div class="section">
+        <div>Check your E-Mail for a message from Donut!</div>
+        <img class='donut' src='donut_desk.png'/>
+        <div class='section'>
+          <label>Reset Token:</label><input id='token' rv-value='state.token'></input>
+        </div>
+        <div class='section'>
+          <label>New Password:</label><input type='password' rv-value='state.password'></input>
+        </div>
+        <button rv-on-click='submit_code'>Reset Password</button>
+      </div>
     </div>
 
   </div>

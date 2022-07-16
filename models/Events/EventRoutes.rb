@@ -54,11 +54,12 @@ class EventRoutes < Sinatra::Base
         details:      params[:details],
         poster_lines: params[:poster_lines],
         starttime:    params[:starttime], 
-        image:        params[:image] 
+        image:        params[:image],
+        hidden:       params[:hidden]
       )
     else
       event = Event[params[:id]]
-      event.update_fields(params, [ :name, :subheading, :description, :details, :starttime, :poster_lines ] )
+      event.update_fields(params, [ :name, :subheading, :description, :details, :poster_lines, :starttime, :hidden ] )
       event.update( :image => params[:image] ) unless params[:image].nil?
     end
     status 200
@@ -200,6 +201,13 @@ class EventRoutes < Sinatra::Base
     tic = EventTicket[params[:tic_id]]          or halt(404, "Couldn't Find Event Ticket")
     recipient = Customer[params[:recipient_id]] or halt(404, "Couldn't Find Recipient")
     tic.split( recipient.id, params[:session_ids].map { |x| x.to_i } )
+    status 204
+  end
+
+  post '/tickets/:tic_id/move' do
+    tic = EventTicket[params[:tic_id]]          or halt(404, "Couldn't Find Event Ticket")
+    event = Event[params[:event_id]]            or halt(404, "Couldn't Find Event")
+    tic.update( :event => event )
     status 204
   end
 

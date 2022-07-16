@@ -5,11 +5,11 @@ module Slack
   API_URI = URI(ENV["SLACK_WEBHOOK"])
 
   def Slack.post(msg)
-    Slack.send({ :text => msg })
+    Slack.send({ :text => msg, :channel => 'website_notifications' })
   end
 
   def Slack.website_access(msg)
-    Slack.custom(msg,'website_access')
+    Slack.send({ :text => msg, :channel => 'website_access' })
   end
 
   def Slack.website_scheduling(msg)

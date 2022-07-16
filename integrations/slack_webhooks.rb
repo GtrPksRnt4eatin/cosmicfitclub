@@ -49,8 +49,6 @@ class SlackBot < Sinatra::Base
     when "timeslot_promo"
       timeslot = ClassdefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
       PostTimeslotPromo.perform_async(timeslot)
-    when "upcoming_events_promo"
-      PostUpcomingEventsPromo.perform_async()
     end
   end
 
@@ -92,6 +90,11 @@ class SlackBot < Sinatra::Base
   post '/schedulePromos' do
     PostSchedPromos.perform_async()
     "Generating Promos... Please Wait!"
+  end
+
+  post '/upcomingEventsPromo' do
+    PostUpcomingEventsPromo.perform_async()
+    "Generating Promo... Please Wait!"
   end
 
   post '/paypal' do
@@ -196,7 +199,7 @@ end
 
 class PostUpcomingEventsPromo
   include SuckerPunch::Job
-  def perform(classdef)
+  def perform()
     promos = UpcomingEvents.generate_for_bot
     client = Slack::Web::Client.new
     promos.each do |p|

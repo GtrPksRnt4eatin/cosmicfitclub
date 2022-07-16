@@ -1,13 +1,17 @@
 data = {
   ticket: {},
-  sessions: []
+  sessions: [],
+  session_to_add: null
 }
 
 ctrl = {
 
   add_pass: function(e,m) {
-    if( confirm(`add ${m.sess.title} to ticket?`) ) {
-      var payload = { ticket_id: data.ticket.id, customer_id: data.ticket.customer.id, session_id: e.target.value }
+    let sess = data.sessions.find( function(x) { return x.id == data.session_to_add; } )
+    if(!sess) return;
+
+    if( confirm(`add ${sess.title} to ticket?`) ) {
+      var payload = { ticket_id: data.ticket.id, customer_id: data.ticket.customer.id, session_id: sess.id }
       $.post('/models/events/passes', payload)
        .done( get_ticket )
     }
@@ -39,17 +43,27 @@ ctrl = {
     $.del('/models/events/tickets/' + data.ticket.id)
      .fail(function() { alert("Failed to Delete!"); })
      .done(history.back)
-  }
+  },
 
+  change_event: function(val) {
+    event_selector.show(data.ticket.event.id, function(val){
+      $.post('/models/events/tickets/' + data.ticket.id + '/move', { event_id: val } )
+       .done(get_ticket)
+    });
+  }
 }
 
 $(document).ready(function() {
   
   popupmenu      = new PopupMenu(id('popupmenu_container'));
   custy_selector = new CustySelector();
+  event_selector = new EventSelector();
 
   custy_selector.ev_sub('show'       , popupmenu.show );
   custy_selector.ev_sub('close_modal', popupmenu.hide );
+
+  event_selector.ev_sub('show',        popupmenu.show );
+  event_selector.ev_sub('close_modal', popupmenu.hide );
 
   include_rivets_select();
   include_rivets_dates();
@@ -61,9 +75,9 @@ $(document).ready(function() {
 })
 
 function initialize_rivets() {
-  rivets.formatters.empty = functiom(val) { return val.length == 0; }
+  rivets.formatters.empty = function(val) { return val ? val.length == 0 : true; }
   rivets.formatters.stripe = function(val) { return 'https://manage.stripe.com/payments/' + val; }
-  rivets.bind( document.body, { data: data, ctrl: ctrl } );
+  view = rivets.bind( document.body, { data: data, ctrl: ctrl } );
 }
 
 function get_ticket() {
