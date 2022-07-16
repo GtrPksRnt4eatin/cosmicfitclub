@@ -199,7 +199,7 @@ def payroll_query
       ORDER BY starttime
     )
 
-    SELECT staff_id, staff_name, paypal_email, staff_staff_unpaid, array_to_json(array_agg(row)) AS class_occurrences
+    SELECT staff_id, staff_name, paypal_email, staff_unpaid, array_to_json(array_agg(row)) AS class_occurrences
     FROM (
       SELECT 
         occurrences.*,
