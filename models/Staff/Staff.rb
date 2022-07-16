@@ -320,6 +320,7 @@ def Staff::payouts_csv(from,to)
     teacher_row[:class_occurrences].each { |row| total += row[:pay]/100 }
     next if total == 0
     next if teacher_row[:staff_id] == 106 # Cosmic Loft
+    next if teacher_row[:staff_id] == 103 # Sam Sweet
     csv << [teacher_row[:paypal_email],total,'USD','',"#{from.strftime('%Y-%m-%d')} to #{to.strftime('%Y-%m-%d')}",'PayPal','PRIVATE','','http://cosmicfitclub.com/banner.png']  
   end
   csv.rewind
