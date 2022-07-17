@@ -67,7 +67,7 @@ Onboarding.prototype = {
   reset() {
     $.post('reset', JSON.stringify( { "email": this.state.email } ) )
      .fail(    this.show_http_error )
-     .success( this.email_mode      )
+     .success( function() { this.state.mode = 'email'; }.bind(this) )
   },
 
   validate_registration() {
@@ -129,7 +129,7 @@ Onboarding.prototype.HTML = `
       <div class='fineprint' rv-if='state.acct_found'>
         <hr>
         Forgot Password?
-        <span rv-on-click='this.reset'>Reset Password</span>
+        <span rv-on-click='reset'>Reset Password</span>
       </div>
 
       <div rv-unless='state.errors | empty'>
@@ -137,6 +137,16 @@ Onboarding.prototype.HTML = `
         <div class='error' rv-each-err='state.errors'> {err} </div>
       </div>
       
+    </div>
+
+    <div rv-if="state.mode | equals 'email'">
+      <span class='backbtn' rv-on-click="this.login_mode"></span>
+      <div class="section">Check Your Email</div>
+      <hr>
+      <div class="section">
+        <div>Check your E-Mail for a message from Donut!</div>
+        <img class='donut' src='donut_desk.png'/>
+      </div>
     </div>
 
   </div>
