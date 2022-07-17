@@ -146,9 +146,13 @@ Onboarding.prototype.HTML = `
       <div class="section">
         <div>Check your E-Mail for a message from Donut!</div>
         <img class='donut' src='donut_desk.png'/>
-        <span>Reset Token:</span><input id='token'></input>
-        <span>New Password:</span><input type='password'></input>
-        <button rv-on-click='submit_code'>Reset Password<button>
+        <div>
+          <span>Reset Token:</span><input id='token'></input>
+        </div>
+        <div>
+          <span>New Password:</span><input type='password'></input>
+        </div>
+        <button rv-on-click='submit_code'>Reset Password</button>
       </div>
     </div>
 
