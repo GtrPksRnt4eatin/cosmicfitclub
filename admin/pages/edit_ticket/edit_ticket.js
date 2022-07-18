@@ -1,13 +1,17 @@
 data = {
   ticket: {},
-  sessions: []
+  sessions: [],
+  session_to_add: null
 }
 
 ctrl = {
 
   add_pass: function(e,m) {
-    if( confirm(`add ${m.sess.title} to ticket?`) ) {
-      var payload = { ticket_id: data.ticket.id, customer_id: data.ticket.customer.id, session_id: e.target.value }
+    let sess = data.sessions.find( function(x) { return x.id == data.session_to_add; } )
+    if(!sess) return;
+
+    if( confirm(`add ${sess.title} to ticket?`) ) {
+      var payload = { ticket_id: data.ticket.id, customer_id: data.ticket.customer.id, session_id: sess.id }
       $.post('/models/events/passes', payload)
        .done( get_ticket )
     }
