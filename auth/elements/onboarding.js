@@ -15,7 +15,7 @@ function Onboarding(el,attr) {
 
   this.load_styles();
   this.set_formatters();
-  this.bind_handlers(['login','register','reset','validate_registration','check_email','email_match','clear_errors','show_http_error']);
+  this.bind_handlers(['login','register','reset','validate_registration','check_email','email_match','clear_errors','show_http_error','submit_code']);
 
   $(document).keypress(function(e) { 
     if(e.keyCode != 13) return;
@@ -91,6 +91,17 @@ Onboarding.prototype = {
   after_login() {
     var page = getUrlParameter('page'); 
     window.location.replace( empty(page) ? '/user' : page );
+  },
+
+  submit_code() {
+    payload = {
+      token: this.state.token,
+      password: this.state.password,
+      confirmation: this.state.password
+    }
+    $.post('/auth/password', payload)
+     .fail( this.show_http_error )
+     .success( this.after_login )
   }
 
 }
@@ -147,10 +158,10 @@ Onboarding.prototype.HTML = `
         <div>Check your E-Mail for a message from Donut!</div>
         <img class='donut' src='donut_desk.png'/>
         <div class='section'>
-          <label>Reset Token:</label><input id='token'></input>
+          <label>Reset Token:</label><input id='token' rv-value='state.token'></input>
         </div>
         <div class='section'>
-          <label>New Password:</label><input type='password'></input>
+          <label>New Password:</label><input type='password' rv-value='state.password'></input>
         </div>
         <button rv-on-click='submit_code'>Reset Password</button>
       </div>
