@@ -88,11 +88,9 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td>{ disc.amount | money }</td>
       </tr>
       <tr>
-        <td colspan='2'> <b> TOTAL</b> </td>
+        <td colspan='3'> <b> TOTAL</b> </td>
         <td></td>
         <td> { passes | total_price } </td>
-        <td class='edit'></td>
-        <td class='cancel'></td>
     </table>
     <br/>
     <button rv-on-click='checkout'>
