@@ -11,7 +11,7 @@ function SessionList(parent,attr) {
     if(!this.event) return([]);
     return Object.values(result).map( function(v) { 
       let sess = this.event.sessions.find( function(s) { return s.id == v[0]['session_id'] } );
-      let price = session.custom && session.custom.slot_pricing ? sess.custom.slot_pricing[v.length - 1] : session.individual_price_full * v.length;
+      let price = sess.custom && sess.custom.slot_pricing ? sess.custom.slot_pricing[v.length - 1] : sess.individual_price_full * v.length;
       return { 
         session_id: v[0]['session_id'], 
         count: v.length, 
