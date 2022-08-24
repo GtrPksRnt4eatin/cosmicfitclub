@@ -19,7 +19,7 @@ SessionSlots.prototype = {
 	constructor: SessionSlots,
 
   set_num_slots(n) {
-    this.state.num_slots = n ? n : this.state.slot_options[0];
+    this.state.num_slots = n;
     while(this.state.passes.length<this.state.num_slots) {
       this.state.passes.push({ session_id: this.session.id, customer_id: 0, customer_string: 'Add Student' }); 
     }
