@@ -34,7 +34,7 @@ SessionSlots.prototype = {
   },
 
   set_slot_options() {
-    if(this.session.custom.slot_pricing) {
+    if(this.session.custom && this.session.custom.slot_pricing) {
       this.state.slot_options = this.session.custom.slot_pricing.reduce( function(arr,el,idx) { 
         if(el) arr.push(idx+1); 
         return arr;
