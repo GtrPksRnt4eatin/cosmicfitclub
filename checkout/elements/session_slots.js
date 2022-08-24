@@ -116,7 +116,6 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
           <div class='value edit' rv-on-click='choose_custy'>
             {slot.customer_string}           
           </div>
-          <hr/>
         </div>
         <div>
           <button id='checkout' rv-on-click='add_to_order'>Add this session to your order</button>
