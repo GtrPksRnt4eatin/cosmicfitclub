@@ -35,7 +35,7 @@ SessionSlots.prototype = {
 
   set_slot_options() {
     this.state.slot_options = this.session.custom.slot_pricing.reduce( function(arr,el,idx) { 
-      if(el) arr.push(idx); 
+      if(el) arr.push(idx+1); 
       return arr;
     }, []); 
   },
