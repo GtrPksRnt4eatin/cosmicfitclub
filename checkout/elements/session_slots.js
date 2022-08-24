@@ -43,7 +43,7 @@ SessionSlots.prototype = {
 
   check_for_existing() {
     this.set_slot_options();
-    let matches = this.session_passes.filter(function(val) :{ return val['session_id'] == this.session.id; }.bind(this));
+    let matches = this.session_passes.filter(function(val) { return val['session_id'] == this.session.id; }.bind(this));
     if(matches.length==0) { this.set_first_slot({ list_string: this.customer.name + ' ( ' + this.customer.email + ' )' , ...this.customer}); return; }
     this.set_num_slots(0);
     matches.forEach(function(val) {
