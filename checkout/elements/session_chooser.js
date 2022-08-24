@@ -102,7 +102,7 @@ function SessionChooser(parent,attr) {
   
           this.session = this.event.sessions.find( function(x) { return args.e.data.id == x.id; });
           
-          let atten = this.attendance.find( function(z) { return this.session.id == z.id; } );
+          let atten = this.attendance.find( function(z) { return this.session.id == z.id; }.bind(this) );
           this.session.available_slots = atten ? this.session.max_capacity - atten.passes.length : this.session.max_capacity;
 
           this.ev_fire('on_session_selected', this.session);
