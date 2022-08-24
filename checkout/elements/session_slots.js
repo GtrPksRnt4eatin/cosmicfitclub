@@ -61,7 +61,7 @@ SessionSlots.prototype = {
 
   set_first_slot(customer) {
     this.state.passes.push({ session_id: this.session.id, customer_id: customer.id, customer_string: customer.list_string });
-    this.set_num_slote(this.state.slot_options[0]);
+    this.set_num_slots(this.state.slot_options[0]);
   },
 
   clear_session() { 
