@@ -84,7 +84,7 @@ SessionList.prototype.HTML = ES5Template(function(){/**
       <tr rv-each-disc='discounts'>
         <td> </td>
         <td>{ disc.name }</td>
-        <td>{ disc.count }</td>
+        <td> x{ disc.count }</td>
         <td>{ disc.amount | money }</td>
       </tr>
       <tr>
