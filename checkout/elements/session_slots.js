@@ -8,10 +8,10 @@ function SessionSlots(parent,attr) {
 	this.state = {
     num_slots: 1,
     passes: [],
-    max_slots: []
+    slot_options: []
 	}
 
-	this.bind_handlers(['set_num_slots', 'num_slots_selected', 'set_max_slots', 'check_for_existing', 'set_first_slot','clear_session', 'choose_custy','add_to_order']);
+	this.bind_handlers(['set_num_slots', 'num_slots_selected', 'set_slot_options', 'check_for_existing', 'set_first_slot','clear_session', 'choose_custy','add_to_order']);
 	this.load_styles();
 }
 
@@ -33,13 +33,15 @@ SessionSlots.prototype = {
     this.set_num_slots(isNaN(n) ? 1 : n);
   },
 
-  set_max_slots() {
-    this.state.max_slots = [ ...Array(this.session.custom.slot_pricing.length + 1).keys()]
-    this.state.max_slots.shift();
+  set_slot_options() {
+    this.state.slot_options = this.session.custom.slot_pricing.reduce( function(arr,el,idx) { 
+      if(el) arr.push(idx); 
+      return arr;
+    }, []); 
   },
 
   check_for_existing() {
-    this.set_max_slots();
+    this.set_slot_options();
     let matches = this.session_passes.filter(function(val) { return val['session_id'] == this.session.id; }.bind(this));
     if(matches.length==0) { this.set_first_slot({ list_string: this.customer.name + ' ( ' + this.customer.email + ' )' , ...this.customer}); return; }
     this.set_num_slots(0);
@@ -93,7 +95,7 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
         <div class='attrib'># People</div>
         <div class='value'>
           <select class='num_students' rv-value='state.num_slots' rv-on-change='num_slots_selected'>
-            <option rv-each-val='state.max_slots | options_array' rv-value="val">{val}</option>
+            <option rv-each-val='state.slot_options' rv-value="val">{val}</option>
           </select>  
         </div>
       </div> 
