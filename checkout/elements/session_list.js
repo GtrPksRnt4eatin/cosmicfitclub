@@ -1,6 +1,7 @@
 function SessionList(parent,attr) {
-  this.event  = attr['event'];
-  this.passes = attr['passes'];
+  this.event     = attr['event'];
+  this.passes    = attr['passes'];
+  this.discounts = []; 
 
   rivets.formatters.session_passes = function(passes) {
     let result = passes.reduce(function(result,obj) {
@@ -23,6 +24,7 @@ function SessionList(parent,attr) {
   }.bind(this);
 
   rivets.formatters.total_price = function(passes) {
+    this.apply_discounts();
     passes = rivets.formatters.session_passes(passes);
     result = passes.reduce(function(result,obj) {
       return result + obj['price'];
@@ -31,7 +33,7 @@ function SessionList(parent,attr) {
   }.bind(this);
 
 
-  this.bind_handlers(['checkout', 'price_cents']);
+  this.bind_handlers(['checkout', 'price_cents', 'apply_discounts']);
   this.load_styles();
 }
 
@@ -51,6 +53,10 @@ SessionList.prototype = {
     return passes.reduce(function(result,obj) {
       return result + obj['price'];
     },0);
+  },
+
+  apply_discounts: function() {
+    var x=5;
   }
 
 }
@@ -66,6 +72,12 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td> { sess.session.title } </td>
         <td> x{ sess.count } </td>
         <td> { sess.price | money } </td>
+      </tr>
+      <tr rv-each-disc='discounts'>
+        <td> </td>
+        <td>{ discount.name }</td>
+        <td>{ discount.count }</td>
+        <td>{ discount.amount | money }</td>
       </tr>
       <tr>
         <td colspan='2'> <b> TOTAL</b> </td>
