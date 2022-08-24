@@ -29,6 +29,7 @@ function SessionList(parent,attr) {
     result = passes.reduce(function(result,obj) {
       return result + obj['price'];
     },0);
+    this.discounts.forEach( function(d) { result = result + d.amount } );
     return rivets.formatters.money(result);
   }.bind(this);
 
@@ -50,12 +51,19 @@ SessionList.prototype = {
 
   price_cents: function() {
     let passes = rivets.formatters.session_passes(this.passes);
-    return passes.reduce(function(result,obj) {
+    let price = passes.reduce(function(result,obj) {
       return result + obj['price'];
     },0);
+    this.discounts.forEach( function(d) { price = price + d.amount } );
+    return price;
   },
 
   apply_discounts: function() {
+    let sess1 = this.passes.filter(function(x) { return x.session_id==857 } ).length;
+    let sess2 = this.passes.filter(function(x) { return x.session_id==861 } ).length;
+    let count = Math.min(sess1,sess2);
+    if(count==0) { this.discounts = []; return; }
+    this.discounts = [{ name: "$20 Per Person Workshop Disount", count: count, amount: count * -2000 }] 
     var x=5;
   }
 
