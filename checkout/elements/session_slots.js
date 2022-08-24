@@ -41,7 +41,7 @@ SessionSlots.prototype = {
       }, []);
     }
     else {
-      this.state.slot_options = [ ...Array(this.session.custom.slot_pricing.length + 1).keys()]
+      this.state.slot_options = [ ...Array(this.session.available_slots + 1).keys()]
       this.state.slot_options.shift();
     }
   },
