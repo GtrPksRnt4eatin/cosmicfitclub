@@ -92,7 +92,7 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td> { passes | total_price } </td>
     </table>
     <br/>
-    <button rv-on-click='checkout'>
+    <button class='checkout' rv-on-click='checkout'>
       Pay { passes | total_price } Now
     </button>
   </div>
@@ -109,9 +109,13 @@ SessionList.prototype.CSS = `
     width:5em;
   }
 
-
-
-
+  .session_list .checkout {
+    font-size: 1.2em;
+    width: 88%;
+    padding: 0.2em;
+    cursor: pointer;
+    margin: 0.2em;
+  }
 `.untab(2);
 
 rivets.components['session-list'] = { 
