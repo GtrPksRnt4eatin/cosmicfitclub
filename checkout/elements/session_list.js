@@ -82,8 +82,7 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td> { sess.price | money } </td>
       </tr>
       <tr rv-each-disc='discounts'>
-        <td> </td>
-        <td>{ disc.name }</td>
+        <td colspan='2'>{ disc.name }</td>
         <td> x{ disc.count }</td>
         <td>{ disc.amount | money }</td>
       </tr>
@@ -105,6 +104,12 @@ SessionList.prototype.CSS = `
     padding: 1em;
     border: 1px solid white;
   }  
+
+  .session_list td:last-child {
+    width:5em;
+  }
+
+
 
 
 `.untab(2);
