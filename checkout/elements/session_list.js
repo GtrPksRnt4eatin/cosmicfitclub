@@ -88,7 +88,7 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td>{ disc.amount | money }</td>
       </tr>
       <tr>
-        <td colspan='3'> <b> TOTAL</b> </td>
+        <td colspan='2'> <b> TOTAL</b> </td>
         <td></td>
         <td> { passes | total_price } </td>
     </table>
