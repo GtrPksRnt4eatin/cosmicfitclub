@@ -93,6 +93,7 @@ Object.assign( SessionSlots.prototype, ev_channel);
 
 SessionSlots.prototype.HTML = ES5Template(function(){/**
   <div id='private_slots' rv-show='session' >
+    <hr class='mobile'><br class='mobile'>   
 
     <div class='selected_timeslot'>
       <h2>{ session.title }</h2>
