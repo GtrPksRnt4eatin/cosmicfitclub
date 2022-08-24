@@ -105,16 +105,22 @@ SessionList.prototype.CSS = `
     border: 1px solid white;
   }  
 
+  .session_list table {
+    width: 100%;
+    box-sizing: border-box
+  }
+
   .session_list td:last-child {
     width:5em;
   }
 
   .session_list .checkout {
     font-size: 1.2em;
-    width: 88%;
+    width: 100%;
     padding: 0.2em;
     cursor: pointer;
-    margin: 0.2em;
+    margin-top: 0.2em;
+    box-sizing: border-box;
   }
 `.untab(2);
 
