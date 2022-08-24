@@ -101,8 +101,10 @@ function SessionChooser(parent,attr) {
           if( !this.session_available(args.e.data.id) ) { return; }
   
           this.session = this.event.sessions.find( function(x) { return args.e.data.id == x.id; });
-          //this.toggle_included_session(args.e.data);
-          //this.update_daypilot_colors();
+          
+          let atten = this.attendance.find( function(z) { return this.session.id == z.id; } );
+          this.session.available_slots = atten ? this.session.max_capacity - atten.passes.length : this.session.max_capacity;
+
           this.ev_fire('on_session_selected', this.session);
       },
   

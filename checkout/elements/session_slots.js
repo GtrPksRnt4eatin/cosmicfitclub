@@ -34,10 +34,16 @@ SessionSlots.prototype = {
   },
 
   set_slot_options() {
-    this.state.slot_options = this.session.custom.slot_pricing.reduce( function(arr,el,idx) { 
-      if(el) arr.push(idx+1); 
-      return arr;
-    }, []);
+    if(this.session.custom.slot_pricing) {
+      this.state.slot_options = this.session.custom.slot_pricing.reduce( function(arr,el,idx) { 
+        if(el) arr.push(idx+1); 
+        return arr;
+      }, []);
+    }
+    else {
+      this.state.slot_options = [ ...Array(this.session.custom.slot_pricing.length + 1).keys()]
+      this.state.slot_options.shift();
+    }
   },
 
   check_for_existing() {
