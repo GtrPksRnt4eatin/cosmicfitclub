@@ -1,5 +1,5 @@
 .content {
-  visibility: none;
+  display: none;
 }
 
 #checkout, #register {
