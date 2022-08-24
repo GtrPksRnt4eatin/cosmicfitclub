@@ -42,26 +42,26 @@ SessionSlots.prototype = {
 
   check_for_existing() {
     this.set_slot_options();
-    
+    this.set_num_slots(0);
     let matches = this.session_passes.filter(function(val) { return val['session_id'] == this.session.id; }.bind(this));
     if(matches.length==0) {
-      this.set_num_slots(0);
-      this.set_first_slot({ list_string: this.customer.name + ' ( ' + this.customer.email + ' )' , ...this.customer});
-      this.set_num_slots(this.state.slot_options[0]);
-      return; 
+      this.set_first_slot({ list_string: this.customer.name + ' ( ' + this.customer.email + ' )' , ...this.customer}); 
     }
-    matches.forEach(function(val) {
-      let idx = this.session_passes.indexOf(val);
-      if(idx > -1) {
-        this.state.passes.push(val);
-        this.session_passes.splice(idx,1);
-      }
-    }.bind(this));
-    this.state.num_slots = matches.length;
+    else {
+      matches.forEach(function(val) {
+        let idx = this.session_passes.indexOf(val);
+        if(idx > -1) {
+          this.state.passes.push(val);
+          this.session_passes.splice(idx,1);
+        }
+      }.bind(this));
+      this.state.num_slots = matches.length;
+    }  
   },
 
   set_first_slot(customer) {
     this.state.passes.push({ session_id: this.session.id, customer_id: customer.id, customer_string: customer.list_string });
+    this.set_num_slote(this.state.slot_options[0]);
   },
 
   clear_session() { 
