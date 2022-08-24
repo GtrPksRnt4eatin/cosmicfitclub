@@ -91,7 +91,6 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td></td>
         <td> { passes | total_price } </td>
     </table>
-    <br/>
     <button class='checkout' rv-on-click='checkout'>
       Pay { passes | total_price } Now
     </button>
