@@ -19,7 +19,7 @@ SessionSlots.prototype = {
 	constructor: SessionSlots,
 
   set_num_slots(n) {
-    this.state.num_slots = n;
+    this.state.num_slots = n ? n : this.state.slot_options[0];
     while(this.state.passes.length<this.state.num_slots) {
       this.state.passes.push({ session_id: this.session.id, customer_id: 0, customer_string: 'Add Student' }); 
     }
@@ -38,14 +38,13 @@ SessionSlots.prototype = {
       if(el) arr.push(idx+1); 
       return arr;
     }, []);
-    this.set_num_slots(this.state.slot_options[0]);
   },
 
   check_for_existing() {
     this.set_slot_options();
+    this.set_num_slots(this.state.slot-options[0]);
     let matches = this.session_passes.filter(function(val) { return val['session_id'] == this.session.id; }.bind(this));
     if(matches.length==0) { this.set_first_slot({ list_string: this.customer.name + ' ( ' + this.customer.email + ' )' , ...this.customer}); return; }
-    this.set_num_slots(0);
     matches.forEach(function(val) {
       let idx = this.session_passes.indexOf(val);
       if(idx > -1) {
