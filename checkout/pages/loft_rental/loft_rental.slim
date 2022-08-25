@@ -26,8 +26,18 @@ html
         .tuple rv-if='data.rental.tag'
           .attrib Reservation Tag:
           .value { data.rental.tag }
-
-        #loft_calendar_container
+        
+        div rv-hide='data.selected_timeslot'
+          loft-calendar timeslot='data.selected_timeslot'
+        
+        div rv-show='data.selected_timeslot
+          h3 Selected Timeslot
+          .tuple
+            .attrib Start:
+            .value {data.selected_timeslot.start | datetime}
+          .tuple
+            .attrib End:
+            .value {data.selected_timeslot.end | datetime}
 
         .tuple
           .attrib Activity:

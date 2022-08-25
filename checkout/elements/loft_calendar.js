@@ -1,4 +1,6 @@
-function LoftCalendar(parent) {
+function LoftCalendar(parent,attr) {
+
+  this.selected_timeslot = attr['timeslot']
 
 	this.state = {
       window_start: null,
@@ -8,9 +10,7 @@ function LoftCalendar(parent) {
 	}
 
 	this.bind_handlers(['build_daypilot']);
-	this.build_dom(parent);
-	this.load_styles();
-	this.bind_dom();
+  this.build_daypilot();
 
 }
 
@@ -46,7 +46,7 @@ LoftCalendar.prototype = {
   },
 
   on_timeslot_selected: function(args) {
-    console.log(args);
+    this.ev_fire('on_timeslot_selected', args);
   }
 
 }
@@ -67,3 +67,8 @@ LoftCalendar.prototype.CSS = `
   }
 
 `.untab(2);
+
+rivets.components['loft-calendar'] = { 
+  template:   function()        { return LoftCalendar.prototype.HTML; },
+  initialize: function(el,attr) { return new LoftCalendar(el,attr);   }
+}

@@ -11,13 +11,6 @@ function SessionChooser(parent,attr) {
   }
   
   this.bind_handlers(['build_daypilot','load_sessions','get_attendance','update_daypilot_colors','session_available','on_session_selected','sort_included_sessions','set_included_sessions','clear_session']);
-
-  //setTimeout(function() {
-    //this.build_daypilot();
-    //this.load_sessions();
-    //this.get_attendance();
-  //}.bind(this),0)
-
 }
   
   SessionChooser.prototype = {
@@ -117,25 +110,6 @@ function SessionChooser(parent,attr) {
           return moment(sess_a.start_time) - moment(sess_b.start_time);
         });
       },
-      
-      //set_included_sessions(sessions) {
-      //  for(var i=0; i < this.event.sessions.length; i++) { 
-      //    this.event.sessions[i].selected = sessions.indexOf(this.event.sessions[i].id)!=-1;
-      //  }
-      //  this.state.included_sessions = sessions.slice(0);
-      //  sort_included_sessions();
-      //},
-      
-      //toggle_included_session(session) {
-      //  sessions = this.state.included_sessions;
-      //  var i = sessions.indexOf(session.id);
-      //  if(i==-1) { sessions.push(session.id); this.state.num_slots=1; }
-      //  else { 
-      //    if(sessions.length == 1) { sessions = []; }
-      //    else { sessions.splice(i, 1); }
-      //  }
-      //  set_included_sessions(sessions);
-      //},
   
       clear_session() {
         this.state.selected_session = null;

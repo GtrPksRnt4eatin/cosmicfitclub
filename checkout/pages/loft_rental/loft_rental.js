@@ -6,6 +6,7 @@ data = {
     note: '',
     slots: []
   },
+  selected_timeslot: null,
   num_slots: 0
 };
 
@@ -42,13 +43,19 @@ $(document).ready( function() {
 
   userview       = new UserView(id('userview_container'));
   popupmenu      = new PopupMenu( id('popupmenu_container') );
-  loft_calendar  = new LoftCalendar(id('loft_calendar_container'));
+  //loft_calendar  = new LoftCalendar(id('loft_calendar_container'));
+  loft_calendar = get_element(view,'loft-calendar');
   custy_selector = new CustySelector();
 
   custy_selector.ev_sub('show'       , popupmenu.show );
   custy_selector.ev_sub('close_modal', popupmenu.hide );
+
+  loft_calendar.ev_sub('on_timeslot_selected', function(val) {
+    console.log(val);
+
+  });
   
-  loft_calendar.build_daypilot();
+  //loft_calendar.build_daypilot();
 });
 
 function on_timeslot_selected(args) {
