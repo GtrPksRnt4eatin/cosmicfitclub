@@ -145,6 +145,7 @@ h4 {
 #sessions table {
   margin-top: 1em;
   font-size: 0.65em;
+  width: 100%;
 }
 
 .flex h2,
