@@ -286,6 +286,7 @@ Schedule.prototype.CSS = `
   #Schedule .eventsession,
   #Schedule .rental {
     padding: 0.5em;
+    display: flex;
   }
 
   #Schedule .eventsession {
@@ -294,6 +295,12 @@ Schedule.prototype.CSS = `
 
   #Schedule .rental {
     background: rgba(0,0,255,0.2);
+  }
+  
+  #Schedule .classinfo {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2em;
   }
 
   #Schedule .eventtitle {
