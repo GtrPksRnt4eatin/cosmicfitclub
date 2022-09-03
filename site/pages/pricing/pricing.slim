@@ -33,7 +33,7 @@ html
           - for pack in Package.where(:available=>true).reverse_order(:num_passes).order_prepend(:category).order_append(:presale).all
             tr
               th #{ pack[:name] }
-              td $ #{ pack[:pass_price].to_i / 100 }.00 each
+              td $ #{ pack[:pass_price].to_i * pack[:num_passes] / 100 }.00 total
               td
                 a href="https://cosmicfitclub.com/checkout/pack/#{pack[:id]}"
                   button Buy Now
