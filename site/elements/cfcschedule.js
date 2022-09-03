@@ -305,14 +305,12 @@ Schedule.prototype.CSS = `
     text-overflow: ellipsis;
     display: inline-block;
     white-space: pre-line;
-    margin: 0 1em;
   }
 
   #Schedule .instructors {
     width: 9em;
     display: inline-block;
     text-overflow: ellipsis;
-    margin: 0 1em;
   }
 
   #Schedule .instructor {
