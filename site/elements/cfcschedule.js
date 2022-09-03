@@ -339,6 +339,8 @@ Schedule.prototype.CSS = `
     display: inline-block;
     font-size: 1em;
     line-height: 1.5em;
+    position: absolute;
+    right: 2em;
   }
 
   #Schedule .register span {
