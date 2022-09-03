@@ -148,11 +148,9 @@ Schedule.prototype.HTML = `
               <span class='start'> { occ.starttime | unmilitary } </span> - 
               <span class='end'>   { occ.endtime | unmilitary } </span>
             </span>
-            <span class='classdetail'>
-              <span class='classname'> { occ.title } </span>
-              <span class='instructors' rv-data-sub='occ | sub'>
-                <span class='instructor'>w/ { occ | instructor_names } </span>
-              </span>
+            <span class='classname'> { occ.title } </span>
+            <span class='instructors' rv-data-sub='occ | sub'>
+              <span class='instructor'>w/ { occ | instructor_names } </span>
             </span>
             <span class='location'>
               @ { occ.location.name }
@@ -259,8 +257,6 @@ Schedule.prototype.CSS = `
 
   #Schedule .classname {
     display: inline-block;
-    width: 15em;
-    padding: 0 1em;
   }
 
   #Schedule .occurrence {
@@ -301,6 +297,7 @@ Schedule.prototype.CSS = `
     display: flex;
     flex-direction: column;
     margin-left: 2em;
+    text-align: left;
   }
 
   #Schedule .eventtitle {
@@ -389,7 +386,6 @@ Schedule.prototype.CSS = `
       display: block;
     }
 
-    #Schedule .classdetail span,
     #Schedule .register span,
     #Schedule .eventsession .start,
     #Schedule .eventsession .end {
@@ -397,17 +393,17 @@ Schedule.prototype.CSS = `
     }
 
     #Schedule .eventtitle,
-    #Schedule .classdetail .classname,
-    #Schedule .classdetail .instructors {
+    #Schedule .classname,
+    #Schedule .instructors {
       width: auto;
     }
         
-    #Schedule .classdetail .classname,
-    #Schedule .classdetail .instructors {
+    #Schedule .classname,
+    #Schedule .instructors {
       padding: 0 0.25em;
     }
 
-    #Schedule .classdetail .instructors {
+    #Schedule .instructors {
       vertical-align: bottom;
       margin: 0;
     }
