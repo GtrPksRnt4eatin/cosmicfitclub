@@ -100,6 +100,7 @@ class EventSession < Sequel::Model
       :title              => title,
       :event_title        => event.name,
       :event_id           => event_id,
+      :thumb_url          => event.thumb_url,
       :multisession_event => event.sessions.count > 1
     }
   end
