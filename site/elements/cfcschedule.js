@@ -143,42 +143,47 @@ Schedule.prototype.HTML = `
 
         <div class='classitem' rv-if="occ | show_classitem" rv-data-cancelled='occ | class_cancelled' >
           <img rv-src='occ.thumb_url'/>
-          <span class='classtime'>
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-          </span>
-          <span class='classdetail'>
-            <span class='classname'> { occ.title } </span>
-            <span> w/ </span>
-            <span class='instructors' rv-data-sub='occ | sub'>
-              <span class='instructor'> { occ | instructor_names } </span>
+          <div class='classinfo'>
+            <span class='classtime'>
+              <span class='start'> { occ.starttime | unmilitary } </span> - 
+              <span class='end'>   { occ.endtime | unmilitary } </span>
             </span>
-          </span>
-          <span class='location'>
-            @ { occ.location.name }
-          </span>
-          <span class='register'>
-            <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> { occ | slots_remaining } </span>
-            <span class='red'  rv-if='occ | class_full'> Class Is Full </span>
-          </span>
+            <span class='classdetail'>
+              <span class='classname'> { occ.title } </span>
+              <span class='instructors' rv-data-sub='occ | sub'>
+                <span class='instructor'>w/ { occ | instructor_names } </span>
+              </span>
+            </span>
+            <span class='location'>
+              @ { occ.location.name }
+            </span>
+            <span class='register'>
+              <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> { occ | slots_remaining } </span>
+              <span class='red'  rv-if='occ | class_full'> Class Is Full </span>
+            </span>
+          </div>
         </div>
 
         <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
           <img rv-src='occ.thumb_url'/>
-          <span class='classtime'>
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-          </span>
-          <span class='eventtitle'> { occ | event_title } </span>
+          <div class='classinfo'>
+            <span class='classtime'>
+              <span class='start'> { occ.starttime | unmilitary } </span> - 
+              <span class='end'>   { occ.endtime | unmilitary } </span>
+            </span>
+            <span class='eventtitle'> { occ | event_title } </span>
+          </div>
         </div>
-
+        
         <div class='rental' rv-if="occ.type | equals 'private'">
           <img rv-src='occ.thumb_url'/>
-          <span class='classtime'>
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-          </span>
-          <span class='eventtitle'> Private Event: { occ.title } </span>
+          <div class='classinfo'>
+            <span class='classtime'>
+              <span class='start'> { occ.starttime | unmilitary } </span> - 
+              <span class='end'>   { occ.endtime | unmilitary } </span>
+            </span>
+            <span class='eventtitle'> Private Event: { occ.title } </span>
+          </div>
         </div>
  
       </div>
@@ -270,6 +275,7 @@ Schedule.prototype.CSS = `
     width: 5em;
     height: 5em;
     box-shadow: 0 0 0.5em rgb(180,180,180);
+    vertical-align: middle;
   }
 
   #Schedule .occurrence span {
