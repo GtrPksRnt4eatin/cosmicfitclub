@@ -142,6 +142,7 @@ Schedule.prototype.HTML = `
       <div class='occurrence' rv-each-occ='group.occurrences' >
 
         <div class='classitem' rv-if="occ | show_classitem" rv-data-cancelled='occ | class_cancelled' >
+          <img rv-src='occ.thumb_url'/>
           <span class='classtime'>
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
@@ -163,6 +164,7 @@ Schedule.prototype.HTML = `
         </div>
 
         <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
+          <img rv-src='occ.thumb_url'/>
           <span class='classtime'>
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
@@ -171,6 +173,7 @@ Schedule.prototype.HTML = `
         </div>
 
         <div class='rental' rv-if="occ.type | equals 'private'">
+          <img rv-src='occ.thumb_url'/>
           <span class='classtime'>
             <span class='start'> { occ.starttime | unmilitary } </span> - 
             <span class='end'>   { occ.endtime | unmilitary } </span>
@@ -260,6 +263,12 @@ Schedule.prototype.CSS = `
     margin: 0.25em;
     vertical-align: middle;
     line-height: 1.3em;
+  }
+  
+  #Schedule .occurrence img {
+    border-radius: 2em;
+    width: 15em;
+    height: 15em;
   }
 
   #Schedule .occurrence span {
