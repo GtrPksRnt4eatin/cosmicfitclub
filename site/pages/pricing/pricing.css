@@ -10,13 +10,14 @@ table {
 }
 
 th, td {
-  width: 11em;
-  padding: 0.2em 2em; 
+  width: 7em;
+  padding: 0.2em; 
   height: 1.8em;
 }
 
 th {
   text-align: left;
+  width: 20em;
 }
 
 button {
