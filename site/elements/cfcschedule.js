@@ -266,9 +266,10 @@ Schedule.prototype.CSS = `
   }
   
   #Schedule .occurrence img {
-    border-radius: 2em;
-    width: 15em;
-    height: 15em;
+    border-radius: 0.5em;
+    width: 5em;
+    height: 5em;
+    box-shadow: 0 0 0.5em rgb(180,180,180);
   }
 
   #Schedule .occurrence span {
