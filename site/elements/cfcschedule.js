@@ -272,6 +272,7 @@ Schedule.prototype.CSS = `
     height: 5em;
     box-shadow: 0 0 0.5em rgb(180,180,180);
     vertical-align: middle;
+    margin: 0.3em;
   }
 
   #Schedule .occurrence span {
