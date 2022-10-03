@@ -69,7 +69,7 @@ SessionForm.prototype.HTML = `
     </div>
     <div class='tuplet'>
       <label>Custom:</label>
-      <textinput rv-value='state.session.custom' />
+      <textarea rv-value='state.session.custom' />
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
