@@ -67,6 +67,10 @@ SessionForm.prototype.HTML = `
       <label>Max Capacity:</label>
       <input rv-value='state.session.max_capacity'/>
     </div>
+    <div class='tuplet'>
+      <label>Custom:</label>
+      <textinput rv-value='state.session.custom' />
+    </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
   

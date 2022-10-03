@@ -87,6 +87,7 @@ ctrl = {
     fd.append('description', data.event.description);
     fd.append('details', data.event.details);
     fd.append('hidden', data.event.hidden);
+    fd.append('mode', data.event.mode);
     var request = new XMLHttpRequest();
     request.open("POST", "/models/events");
     request.send(fd);
