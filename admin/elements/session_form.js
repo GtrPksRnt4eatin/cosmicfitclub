@@ -4,7 +4,7 @@ function SessionForm() {
     "session": { }
   }
 
-  rivets.formatters.to_s = function(val) { JSON.stringify(val); }
+  rivets.formatters.to_s = function(val) { return JSON.stringify(val); }
 
   this.bind_handlers(['save']);
   this.build_dom();
