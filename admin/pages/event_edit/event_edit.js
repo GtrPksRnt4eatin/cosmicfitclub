@@ -90,7 +90,9 @@ ctrl = {
     fd.append('mode', data.event.mode);
     var request = new XMLHttpRequest();
     request.open("POST", "/models/events");
+    console.log(fd.getAll("mode"));
     request.send(fd);
+    console.log(fd.getAll("mode"));
   },
 
   
