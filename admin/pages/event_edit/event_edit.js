@@ -158,7 +158,7 @@ $(document).ready(function() {
   edit_text_array.ev_sub('show', popupmenu.show );
   edit_text_array.ev_sub('done', function(val) { popupmenu.hide(); } );
 
-  sortSessions();
+  //sortSessions();
 
 });
 
@@ -186,5 +186,5 @@ function sortSessions() {
 }
 
 function fetch_event() {
-  $.get('/models/events/' + data.event_id + '/admin_detail', function(val) { data.event = val; } )
+  $.get('/models/events/' + data.event_id + '/admin_detail', function(val) { data.event = val; sortSessions(); } )
 }
