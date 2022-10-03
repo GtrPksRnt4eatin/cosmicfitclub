@@ -142,40 +142,46 @@ Schedule.prototype.HTML = `
       <div class='occurrence' rv-each-occ='group.occurrences' >
 
         <div class='classitem' rv-if="occ | show_classitem" rv-data-cancelled='occ | class_cancelled' >
-          <span class='classtime'>
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-          </span>
-          <span class='classdetail'>
-            <span class='classname'> { occ.title } </span>
-            <span> w/ </span>
-            <span class='instructors' rv-data-sub='occ | sub'>
-              <span class='instructor'> { occ | instructor_names } </span>
+          <img rv-src='occ.thumb_url'/>
+          <div class='classinfo'>
+            <span class='classtime'>
+              <span class='start'> { occ.starttime | unmilitary } </span> - 
+              <span class='end'>   { occ.endtime | unmilitary } </span>
             </span>
-          </span>
-          <span class='location'>
-            @ { occ.location.name }
-          </span>
-          <span class='register'>
-            <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> { occ | slots_remaining } </span>
-            <span class='red'  rv-if='occ | class_full'> Class Is Full </span>
-          </span>
+            <span class='classname'> { occ.title } </span>
+            <span class='instructors' rv-data-sub='occ | sub'>
+              <span class='instructor'>w/ { occ | instructor_names } </span>
+            </span>
+            <span class='location'>
+              @ { occ.location.name }
+            </span>
+            <span class='register'>
+              <span class='blue' rv-if='occ | allow_reg' rv-on-click='this.register'> { occ | slots_remaining } </span>
+              <span class='red'  rv-if='occ | class_full'> Class Is Full </span>
+            </span>
+          </div>
         </div>
 
         <div class='eventsession' rv-if="occ.type | equals 'eventsession'" rv-on-click='this.event_register'>
-          <span class='classtime'>
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-          </span>
-          <span class='eventtitle'> { occ | event_title } </span>
+          <img rv-src='occ.thumb_url'/>
+          <div class='classinfo'>
+            <span class='classtime'>
+              <span class='start'> { occ.starttime | unmilitary } </span> - 
+              <span class='end'>   { occ.endtime | unmilitary } </span>
+            </span>
+            <span class='eventtitle'> { occ | event_title } </span>
+          </div>
         </div>
-
+        
         <div class='rental' rv-if="occ.type | equals 'private'">
-          <span class='classtime'>
-            <span class='start'> { occ.starttime | unmilitary } </span> - 
-            <span class='end'>   { occ.endtime | unmilitary } </span>
-          </span>
-          <span class='eventtitle'> Private Event: { occ.title } </span>
+          <img rv-src='occ.thumb_url'/>
+          <div class='classinfo'>
+            <span class='classtime'>
+              <span class='start'> { occ.starttime | unmilitary } </span> - 
+              <span class='end'>   { occ.endtime | unmilitary } </span>
+            </span>
+            <span class='eventtitle'> Private Event: { occ.title } </span>
+          </div>
         </div>
  
       </div>
@@ -251,8 +257,6 @@ Schedule.prototype.CSS = `
 
   #Schedule .classname {
     display: inline-block;
-    width: 15em;
-    padding: 0 1em;
   }
 
   #Schedule .occurrence {
@@ -260,6 +264,15 @@ Schedule.prototype.CSS = `
     margin: 0.25em;
     vertical-align: middle;
     line-height: 1.3em;
+  }
+  
+  #Schedule .occurrence img {
+    border-radius: 0.5em;
+    width: 5em;
+    height: 5em;
+    box-shadow: 0 0 0.5em rgb(180,180,180);
+    vertical-align: middle;
+    margin: 0.3em;
   }
 
   #Schedule .occurrence span {
@@ -270,6 +283,7 @@ Schedule.prototype.CSS = `
   #Schedule .eventsession,
   #Schedule .rental {
     padding: 0.5em;
+    display: flex;
   }
 
   #Schedule .eventsession {
@@ -279,20 +293,25 @@ Schedule.prototype.CSS = `
   #Schedule .rental {
     background: rgba(0,0,255,0.2);
   }
+  
+  #Schedule .classinfo {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2em;
+    text-align: left;
+  }
 
   #Schedule .eventtitle {
     width: 34em;
     text-overflow: ellipsis;
     display: inline-block;
     white-space: pre-line;
-    margin: 0 1em;
   }
 
   #Schedule .instructors {
     width: 9em;
     display: inline-block;
     text-overflow: ellipsis;
-    margin: 0 1em;
   }
 
   #Schedule .instructor {
@@ -320,6 +339,8 @@ Schedule.prototype.CSS = `
     display: inline-block;
     font-size: 1em;
     line-height: 1.5em;
+    position: absolute;
+    right: 2em;
   }
 
   #Schedule .register span {
@@ -366,7 +387,6 @@ Schedule.prototype.CSS = `
       display: block;
     }
 
-    #Schedule .classdetail span,
     #Schedule .register span,
     #Schedule .eventsession .start,
     #Schedule .eventsession .end {
@@ -374,17 +394,17 @@ Schedule.prototype.CSS = `
     }
 
     #Schedule .eventtitle,
-    #Schedule .classdetail .classname,
-    #Schedule .classdetail .instructors {
+    #Schedule .classname,
+    #Schedule .instructors {
       width: auto;
     }
         
-    #Schedule .classdetail .classname,
-    #Schedule .classdetail .instructors {
+    #Schedule .classname,
+    #Schedule .instructors {
       padding: 0 0.25em;
     }
 
-    #Schedule .classdetail .instructors {
+    #Schedule .instructors {
       vertical-align: bottom;
       margin: 0;
     }
