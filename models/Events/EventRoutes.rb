@@ -60,7 +60,7 @@ class EventRoutes < Sinatra::Base
       )
     else
       event = Event[params[:id]]
-      event.update_fields(params, [ :name, :subheading, :description, :details, :poster_lines, :starttime, :hidden ] )
+      event.update_fields(params, [ :name, :subheading, :description, :details, :poster_lines, :starttime, :mode, :hidden ] )
       event.update( :image => params[:image] ) unless params[:image].nil?
     end
     status 200
