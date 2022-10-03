@@ -124,6 +124,7 @@ ctrl = {
 
 $(document).ready(function() { 
   
+  include_rivets_select();
   setup_rivets();
 
   popupmenu       = new PopupMenu(id('popupmenu_container'));
