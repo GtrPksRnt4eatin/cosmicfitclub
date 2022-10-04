@@ -4,7 +4,7 @@ function SessionForm() {
     "session": { }
   }
 
-  rivets.formatters.to_s = function(val) { typeof val == "string" ? val : JSON.stringify(val); }
+  rivets.formatters.to_s = function(val) { return(typeof val == "string" ? val : JSON.stringify(val)); }
 
   this.bind_handlers(['save']);
   this.build_dom();
