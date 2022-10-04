@@ -4,7 +4,7 @@ function SessionForm() {
     "session": { }
   }
 
-  rivets.formatters.to_s = function(val) { JSON.stringify(val); }
+  rivets.formatters.to_s = function(val) { typeof val == "string" ? val : JSON.stringify(val); }
 
   this.bind_handlers(['save']);
   this.build_dom();
@@ -71,7 +71,7 @@ SessionForm.prototype.HTML = `
     </div>
     <div class='tuplet'>
       <label>Custom:</label>
-      <textarea rv-value='state.session.custom | to_s' />
+      <textarea rv-value='state.session.custom | to_s'></textarea>
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
