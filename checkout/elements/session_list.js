@@ -13,14 +13,16 @@ function SessionList(parent,attr) {
     return Object.values(result).map( function(v) { 
       let sess = this.event.sessions.find( function(s) { return s.id == v[0]['session_id'] } );
       let price = sess.custom && sess.custom.slot_pricing ? sess.custom.slot_pricing[v.length - 1] : sess.individual_price_full * v.length;
-      let addons = sess.custom && sess.custom.addons ? sess.custom.addons.reduce(function(sum,x) { return(sum + (x.checked ? x.price : 0)); }, 0 ) : 0;
-      price = price + addons;
+      let addons = sess.custom && sess.custom.addons ? sess.custom.addons.filter(function(x) { return x.checked; }) : [];
+      let addons_price = addons.reduce(function(sum,x) { return(sum + x.price); }, 0 );
       return { 
         session_id: v[0]['session_id'], 
         count: v.length, 
         price: price,
         session: sess,
         passes: v,
+        addons: addons,
+        addons_price: addons_price
       }
     }.bind(this) )
   }.bind(this);
@@ -29,7 +31,7 @@ function SessionList(parent,attr) {
     this.apply_discounts();
     passes = rivets.formatters.session_passes(passes);
     result = passes.reduce(function(result,obj) {
-      return result + obj['price'] + obj['addons'];
+      return result + obj['price'] + obj['addons_price'];
     },0);
     this.discounts.forEach( function(d) { result = result + d.amount } );
     return rivets.formatters.money(result);
@@ -82,6 +84,10 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <td> { sess.session.title } </td>
         <td> x{ sess.count } </td>
         <td> { sess.price | money } </td>
+        <tr rv-each-addon='sess.addons'>
+          <td> { addon.name} </td>
+          <td> { addon.price | money }</td>
+        </tr>
       </tr>
       <tr rv-each-disc='discounts'>
         <td colspan='2'>{ disc.name }</td>
