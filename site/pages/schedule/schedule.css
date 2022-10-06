@@ -19,8 +19,5 @@ td {
 
 .tile {
   display: inline-block;
-}
-
-@media(max-width: 1000px) {
-	.tile { display: block; }
+  width: 93%;
 }
