@@ -13,12 +13,14 @@ function SessionList(parent,attr) {
     return Object.values(result).map( function(v) { 
       let sess = this.event.sessions.find( function(s) { return s.id == v[0]['session_id'] } );
       let price = sess.custom && sess.custom.slot_pricing ? sess.custom.slot_pricing[v.length - 1] : sess.individual_price_full * v.length;
+      let addons = sess.custom && sess.custom.addons ? sess.custom.addons.reduce(function(sum,x) { return(sum + (x.checked ? x.price : 0)); }, 0 ) : 0;
+      price = price + addons;
       return { 
         session_id: v[0]['session_id'], 
         count: v.length, 
         price: price,
         session: sess,
-        passes: v 
+        passes: v,
       }
     }.bind(this) )
   }.bind(this);
@@ -27,7 +29,7 @@ function SessionList(parent,attr) {
     this.apply_discounts();
     passes = rivets.formatters.session_passes(passes);
     result = passes.reduce(function(result,obj) {
-      return result + obj['price'];
+      return result + obj['price'] + obj['addons'];
     },0);
     this.discounts.forEach( function(d) { result = result + d.amount } );
     return rivets.formatters.money(result);
