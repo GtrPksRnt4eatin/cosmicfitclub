@@ -33,7 +33,7 @@ PopupMenu.prototype = {
   hide() { this.state.showing = false; this.state.content=null; $(this.dom).hide(); },
 
   set_close_listener() {
-    this.dom.onclick = function(e) { 
+    this.dom.onmousedown = this.dom.touchstart = function(e) { 
       if( e.target.id=='PopupMenu' ) this.hide(); 
     }.bind(this);
   }
