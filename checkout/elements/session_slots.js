@@ -120,7 +120,7 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
         </div>
       </div>
       
-      <div rv-show='session.custon.addons'>
+      <div rv-show='session.custom.addons'>
         <hr/>
         <div class='tuple'>
           <div class='attrib'>Add-Ons</div>
