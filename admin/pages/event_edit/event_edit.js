@@ -88,6 +88,7 @@ ctrl = {
     fd.append('details', data.event.details);
     fd.append('hidden', data.event.hidden);
     fd.append('mode', data.event.mode);
+    fd.append('registration_url', data.event.registration_url);
     var request = new XMLHttpRequest();
     request.open("POST", "/models/events");
     console.log(fd.getAll("mode"));

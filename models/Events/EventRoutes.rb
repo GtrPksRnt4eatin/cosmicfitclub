@@ -48,19 +48,20 @@ class EventRoutes < Sinatra::Base
     content_type :json
     if Event[params[:id]].nil?
       event = Event.create(
-        name:         params[:name],
-        subheading:   params[:subheading],
-        description:  params[:description], 
-        details:      params[:details],
-        poster_lines: params[:poster_lines],
-        starttime:    params[:starttime], 
-        image:        params[:image],
-        mode:         params[:mode],
-        hidden:       params[:hidden]
+        name:             params[:name],
+        subheading:       params[:subheading],
+        description:      params[:description], 
+        details:          params[:details],
+        poster_lines:     params[:poster_lines],
+        starttime:        params[:starttime], 
+        image:            params[:image],
+        mode:             params[:mode],
+        hidden:           params[:hidden],
+        registration_url: params[:registration_url]
       )
     else
       event = Event[params[:id]]
-      event.update_fields(params, [ :name, :subheading, :description, :details, :poster_lines, :starttime, :mode, :hidden ] )
+      event.update_fields(params, [ :name, :subheading, :description, :details, :poster_lines, :starttime, :mode, :hidden, :registration_url ] )
       event.update( :image => params[:image] ) unless params[:image].nil?
     end
     status 200
