@@ -56,7 +56,7 @@ SessionList.prototype = {
   price_cents: function() {
     let passes = rivets.formatters.session_passes(this.passes);
     let price = passes.reduce(function(result,obj) {
-      return result + obj['price'];
+      return result + obj['price'] + obj['addons_price'];
     },0);
     this.discounts.forEach( function(d) { price = price + d.amount } );
     return price;
