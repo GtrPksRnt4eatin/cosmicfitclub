@@ -124,9 +124,9 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
         <hr/>
         <div class='tuple'>
           <div class='attrib'>Add-Ons</div>
-          <div class='value'>
+          <div class='value addon'>
             <label rv-each-addon='session.custom.addons'>
-              <input type='checkbox' name='addon' rv-value='%addon%' rv-checked='addon.checked'/>+{addon.price | money} {addon.name}
+              <input type='checkbox' name='addon' rv-checked='addon.checked'/>+{addon.price | money} {addon.name}
             </label>
           </div>
 	      </div>
@@ -141,6 +141,17 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
 **/}).untab(2);
 
 SessionSlots.prototype.CSS = `
+
+  #private_slots {}
+
+  #private_slots .tuple .attrib {
+    flex: 0 0 5em;
+  }
+
+  #private_slots .addon label {
+    display: block;
+    cursor: pointer;
+  }
 
 `.untab(2);
 
