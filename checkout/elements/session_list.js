@@ -67,7 +67,7 @@ SessionList.prototype = {
     let sess2 = this.passes.filter(function(x) { return x.session_id==874 } ).length;
     let count = Math.min(sess1,sess2);
     if(count==0) { this.discounts = []; return; }
-    this.discounts = [{ name: "$10 Per Person Workshop Disount", count: count, amount: count * -1000 }] 
+    this.discounts = [{ name: "$10 Both Workshop Disount", count: count, amount: count * -1000 }] 
     var x=5;
   }
 

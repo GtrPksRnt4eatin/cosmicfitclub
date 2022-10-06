@@ -63,7 +63,7 @@ ctrl = {
     edit_text.show_long(
       "Edit Event Description", 
       data.event.description, 
-      function(val) { data.event.description = val; },
+      function(val) { data.event.description = val; ctrl.save_changes(); },
       function(val) { 
         if(val.length>300) { return ["300 Characters Max"]; }
         return [];
@@ -72,12 +72,13 @@ ctrl = {
   },
 
   edit_details: function(e,m) {
-    edit_text.show_long("Edit Event Details", data.event.details, function(val) { data.event.details = val; } )
+    edit_text.show_long("Edit Event Details", data.event.details, function(val) { data.event.details = val; ctrl.save_changes(); } )
   },
 
   update_hidden: function(e,m) {
     ctrl.save_changes();
   },
+
   save_changes(e,m) {
     var fd = new FormData();
     fd.append('id', data.event_id);
@@ -91,9 +92,7 @@ ctrl = {
     fd.append('registration_url', data.event.registration_url);
     var request = new XMLHttpRequest();
     request.open("POST", "/models/events");
-    console.log(fd.getAll("mode"));
     request.send(fd);
-    console.log(fd.getAll("mode"));
   },
 
   
