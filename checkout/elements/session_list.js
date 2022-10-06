@@ -79,16 +79,20 @@ Object.assign( SessionList.prototype, ev_channel);
 SessionList.prototype.HTML = ES5Template(function(){/**
   <div class='session_list' rv-show='passes'>
     <table>
-      <tr rv-each-sess='passes | session_passes'>
-        <td> { sess.session.start_time | eventstart } </td>
-        <td> { sess.session.title } </td>
-        <td> x{ sess.count } </td>
-        <td> { sess.price | money } </td>
+      <tbody rv-each-sess='passes | session_passes'>
+        <tr>
+          <td> { sess.session.start_time | eventstart } </td>
+          <td> { sess.session.title } </td>
+          <td> x{ sess.count } </td>
+          <td> { sess.price | money } </td>
+        </tr>
         <tr rv-each-addon='sess.addons'>
+          <td></td>
           <td> { addon.name} </td>
+          <td>+</td>
           <td> { addon.price | money }</td>
         </tr>
-      </tr>
+      </tbody>
       <tr rv-each-disc='discounts'>
         <td colspan='2'>{ disc.name }</td>
         <td> x{ disc.count }</td>
