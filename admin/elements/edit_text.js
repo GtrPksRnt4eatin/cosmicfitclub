@@ -89,7 +89,8 @@ EditText.prototype.CSS = ES5Template(function(){/**
   }
 
   .edit_text textarea {
-    height: 10em;
+    height: 15em;
+    width: 70vw;
   }
 
   .edit_text button {
