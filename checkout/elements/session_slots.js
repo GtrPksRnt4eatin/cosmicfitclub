@@ -118,17 +118,17 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
             {slot.customer_string}           
           </div>
         </div>
-
-	<div class='tuple' rv-each-addon='session.custom.addons'>
-          <label><input type='checkbox' name='addon' rv-value='%addon%' rv-checked='addon.checked'/>{addon.name} - {addon.price}</label>
-	</div>
-        
-	<div>
-          <button id='checkout' rv-on-click='add_to_order'>Add this session to your order</button>
-        </div>
       </div>
-    </div>
 
+      <div class='tuple' rv-each-addon='session.custom.addons'>
+        <label><input type='checkbox' name='addon' rv-value='%addon%' rv-checked='addon.checked'/>{addon.name} - {addon.price}</label>
+	    </div>
+
+      <div>
+        <button id='checkout' rv-on-click='add_to_order'>Add this session to your order</button>
+      </div>
+
+    </div>
   </div>
 **/}).untab(2);
 
