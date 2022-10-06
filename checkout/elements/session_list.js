@@ -59,11 +59,11 @@ SessionList.prototype = {
   },
 
   apply_discounts: function() {
-    let sess1 = this.passes.filter(function(x) { return x.session_id==857 } ).length;
-    let sess2 = this.passes.filter(function(x) { return x.session_id==861 } ).length;
+    let sess1 = this.passes.filter(function(x) { return x.session_id==873 } ).length;
+    let sess2 = this.passes.filter(function(x) { return x.session_id==874 } ).length;
     let count = Math.min(sess1,sess2);
     if(count==0) { this.discounts = []; return; }
-    this.discounts = [{ name: "$20 Per Person Workshop Disount", count: count, amount: count * -2000 }] 
+    this.discounts = [{ name: "$10 Per Person Workshop Disount", count: count, amount: count * -1000 }] 
     var x=5;
   }
 
