@@ -119,11 +119,16 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
           </div>
         </div>
       </div>
-
-      <div class='tuple' rv-each-addon='session.custom.addons'>
+      
+      <div rv-show='session.custon.addons'>
         <hr/>
-        <div class='attrib'>Add-Ons</div>
-        <label><input type='checkbox' name='addon' rv-value='%addon%' rv-checked='addon.checked'/>+ {addon.price | money} - {addon.name}</label>
+        <div class='tuple'>
+          <div class='attrib'>Add-Ons</div>
+          <div class='value'>
+            <label rv-each-addon='session.custom.addons'>
+              <input type='checkbox' name='addon' rv-value='%addon%' rv-checked='addon.checked'/>+{addon.price | money} {addon.name}
+            </label>
+          </div>
 	    </div>
 
       <div>
