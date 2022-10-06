@@ -89,7 +89,7 @@ SessionList.prototype.HTML = ES5Template(function(){/**
         <tr rv-each-addon='sess.addons'>
           <td></td>
           <td> { addon.name} </td>
-          <td>+</td>
+          <td></td>
           <td> { addon.price | money }</td>
         </tr>
       </tbody>
