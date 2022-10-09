@@ -9,7 +9,7 @@ function LoftCalendar(parent,attr) {
       reservations: null   
 	}
 
-	this.bind_handlers(['build_daypilot']);
+	this.bind_handlers(['build_daypilot', 'on_timeslot_selected']);
   this.build_daypilot();
 
 }
