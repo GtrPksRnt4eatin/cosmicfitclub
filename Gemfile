@@ -48,3 +48,5 @@ gem 'tzinfo-data'
 gem "addressable", ">= 2.8.0"
 gem "nokogiri", ">= 1.12.5"
 gem "rexml", ">= 3.2.5"
+gem 'google-apis-calendar_v3', '~> 0.1'
+gem 'googleauth'
