@@ -3,13 +3,16 @@ function LoftCalendar(parent,attr) {
   this.selected_timeslot = attr['timeslot']
 
 	this.state = {
-      window_start: null,
-      window_end: null,
-      daypilot: null,
-      reservations: null   
+    window_start: null,
+    window_end: null,
+    daypilot: null,
+    reservations: null,
+    gcal_events: null   
 	}
 
-	this.bind_handlers(['build_daypilot', 'on_timeslot_selected']);
+	this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events']);
+  this.get_gcal_events();
+  this.get_reservations();
   this.build_daypilot();
 
 }
@@ -40,9 +43,24 @@ LoftCalendar.prototype = {
 
   get_reservations: function(from,to) {
     $.get( '/models/groups/range', { from: from, to: to } )
-     .then( 
-       function(resp) { this.state.reservations = resp; }.bind(this) 
-     );
+     .then(function(resp) { 
+        this.state.reservations = resp; 
+      }.bind(this));
+  },
+
+  get_gcal_events: function() {
+    $.get( '/schedule/loft_events')
+     .then(function(resp) { 
+        this.state.gcal_events = resp;
+        this.state.gcal_events.for_each( function(event) {
+          this.daypilot.events.add({
+            id: 12345,
+            start: moment(event.start).format(),
+            end: moment(event.end).format(),
+            text: event.summary
+          })
+        }) 
+      }.bind(this));
   },
 
   on_timeslot_selected: function(args) {

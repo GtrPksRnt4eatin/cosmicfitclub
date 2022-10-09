@@ -15,6 +15,16 @@ module Calendar
       service.authorization = authorizer
       service
     end
-  
+
+    def Calendar::get_loft_events
+      service = self::get_service
+      events = service.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', time_min: Time.now.iso8601).items
+      events.map do |x| 
+        { :start => x.start.date || x.start.date_time,
+          :end => x.end.date || x.end.date_time,
+          :summary => x.summary
+        }
+      end
+    end
 
 end

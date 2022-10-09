@@ -93,6 +93,10 @@ class ScheduleRoutes < Sinatra::Base
    Scheduling::get_sorted_virtual.to_json
   end
 
+  get '/loft_events' do
+    Calendar::get_loft_events.to_json
+  end
+
   def ScheduleRoutes::schedule_as_ical(from,to)
     ical = Icalendar::Calendar.new
     ical.add_timezone TZInfo::Timezone.get("America/New_York").ical_timezone(Time.now)
