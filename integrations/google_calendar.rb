@@ -22,7 +22,8 @@ module Calendar
       events.map do |x| 
         { :start => x.start.date || x.start.date_time,
           :end => x.end.date || x.end.date_time,
-          :summary => x.summary
+          :summary => x.summary,
+          :allday => x.start.date_time ? false : true
         }
       end
     end

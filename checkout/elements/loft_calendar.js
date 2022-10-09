@@ -29,6 +29,7 @@ LoftCalendar.prototype = {
       businessEndsHour: 24,
       dayBeginsHour: 9,
       dayEndsHour: 24,
+      showAllDayEvents: true,
       timeRangeSelectedHandling: "Enabled",
       onTimeRangeSelected: this.on_timeslot_selected,
       eventDeleteHandling: "Disabled",
