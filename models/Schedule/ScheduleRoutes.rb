@@ -86,14 +86,17 @@ class ScheduleRoutes < Sinatra::Base
   end
 
   get '/conflicts/:from/:to' do
+    content_type :json
     Scheduling::get_potential_conflicts(from,to).to_json
   end
 
-  get '/sorted_schedule' do 
-   Scheduling::get_sorted_virtual.to_json
+  get '/sorted_schedule' do
+    content_type :json
+    Scheduling::get_sorted_virtual.to_json
   end
 
   get '/loft_events' do
+    content_type :json
     Calendar::get_loft_events.to_json
   end
 
