@@ -55,9 +55,9 @@ LoftCalendar.prototype = {
         this.state.gcal_events.for_each( function(event) {
           this.state.daypilot.events.add({
             id: 12345,
-            start: moment(event.start).format(),
-            end: moment(event.end).format(),
-            text: event.summary,
+            start: moment(event.start).subtract(5,'hours').format(),
+            end: moment(event.end).subtract(5,'hours').format(),
+            text: "Reserved",
             allday: event.allday
           })
         }.bind(this)) 
