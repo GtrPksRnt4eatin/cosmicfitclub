@@ -16,6 +16,6 @@ $(document).ready( function() {
 });
 
 function get_customer_data() {
-    var id = $('#customers').value();
+    var id = parseInt($('#customers')[0].value);
     $.get(`/models/customers/${id}/transaction_history`, function(resp) { data.transactions = resp; } , 'json')
 }
