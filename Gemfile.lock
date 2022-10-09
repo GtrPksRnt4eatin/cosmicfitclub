@@ -1091,6 +1091,8 @@ GEM
     google-api-client (0.53.0)
       google-apis-core (~> 0.1)
       google-apis-generator (~> 0.1)
+    google-apis-calendar_v3 (0.7.0)
+      google-apis-core (~> 0.1)
     google-apis-core (0.2.1)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (~> 0.14)
@@ -1289,7 +1291,9 @@ DEPENDENCIES
   braintree
   eventbrite_sdk
   google-api-client
+  google-apis-calendar_v3 (~> 0.1)
   google_drive
+  googleauth
   humanize
   icalendar
   ice_cube (>= 0.16.3)
