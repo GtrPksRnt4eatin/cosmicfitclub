@@ -58,7 +58,7 @@ LoftCalendar.prototype = {
             end: moment(event.end).format(),
             text: event.summary
           })
-        }) 
+        }.bind(this)) 
       }.bind(this));
   },
 
