@@ -49,7 +49,7 @@ LoftCalendar.prototype = {
   },
 
   get_gcal_events: function() {
-    $.get( '/schedule/loft_events')
+    $.get( '/models/schedule/loft_events')
      .then(function(resp) { 
         this.state.gcal_events = resp;
         this.state.gcal_events.for_each( function(event) {
