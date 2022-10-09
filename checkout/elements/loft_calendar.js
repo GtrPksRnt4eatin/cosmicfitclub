@@ -57,7 +57,8 @@ LoftCalendar.prototype = {
             id: 12345,
             start: moment(event.start).format(),
             end: moment(event.end).format(),
-            text: event.summary
+            text: event.summary,
+            allday: event.allday
           })
         }.bind(this)) 
       }.bind(this));
