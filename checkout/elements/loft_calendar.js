@@ -29,7 +29,7 @@ LoftCalendar.prototype = {
       businessEndsHour: 24,
       dayBeginsHour: 9,
       dayEndsHour: 24,
-      showAllDayEvents: true,
+      showAllDayEvents: false,
       timeRangeSelectedHandling: "Enabled",
       onTimeRangeSelected: this.on_timeslot_selected,
       eventDeleteHandling: "Disabled",
@@ -53,11 +53,12 @@ LoftCalendar.prototype = {
      .then(function(resp) { 
         this.state.gcal_events = resp;
         this.state.gcal_events.for_each( function(event) {
-          this.state.daypilot.events.add({
+          let location = event.location == "Loft-1F-Front (4)" ? "Point Rental" : event.location == "Loft-1F-Back (8)" ? "Back Room Rental" : null;
+          location && this.state.daypilot.events.add({
             id: 12345,
-            start: moment(event.start).subtract(5,'hours').format(),
-            end: moment(event.end).subtract(5,'hours').format(),
-            text: "Reserved",
+            start: moment(event.start).subtract(4,'hours').format(),
+            end: moment(event.end).subtract(4,'hours').format(),
+            text: location, 
             allday: event.allday
           })
         }.bind(this)) 
