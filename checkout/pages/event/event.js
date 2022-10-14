@@ -140,13 +140,13 @@ function get_attendance() {
 ///////////////////////////////////////// DERIVATIONS ///////////////////////////////////////////////////
 
 function set_event_mode() {
-  if( data.event_data.mode                      ) { data.mode = data.event_data.mode; return; }                  
-  if( data.event_data.registration_url          ) { data.mode = 'external';   return; }
-  if( data.event_data.a_la_carte                ) { data.mode = 'a_la_carte'; return; }
-  if( data.event_data.prices.length>1           ) { data.mode = 'multi';      return; }
-  if( free_event()                              ) { data.mode = 'free';       return; }
-  if( data.event_data.prices[0].member_price==0 ) { data.mode = 'memberfree'; return; }
-  if( data.event_data.prices.length == 1        ) { data.mode = 'single';     return; }
+  if( data.event_data.mode && data.event_data.mode != "null" ) { data.mode = data.event_data.mode; return; }                  
+  if( data.event_data.registration_url                       ) { data.mode = 'external';   return; }
+  if( data.event_data.a_la_carte                             ) { data.mode = 'a_la_carte'; return; }
+  if( data.event_data.prices.length>1                        ) { data.mode = 'multi';      return; }
+  if( free_event()                                           ) { data.mode = 'free';       return; }
+  if( data.event_data.prices[0].member_price==0              ) { data.mode = 'memberfree'; return; }
+  if( data.event_data.prices.length == 1                     ) { data.mode = 'single';     return; }
 }
 
 function set_first_price() {
