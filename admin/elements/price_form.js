@@ -24,7 +24,8 @@ PriceForm.prototype = {
   	this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
   },
 
-  show_edit(price) { 
+  show_edit(price) {
+    this.state.sliding = data.event.mode == "sliding";
     this.state.sessions = data.event.sessions;
   	this.state.price = price;
   	this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
