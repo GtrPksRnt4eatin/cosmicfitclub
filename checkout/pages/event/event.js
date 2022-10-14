@@ -187,6 +187,7 @@ function calculate_total() {
 
     case 'sliding':
       data.total_price = data.selected_price.full_price * data.multiplier;
+      $('#sliding_scale').value( data.selected_price.full_price )
       break;
 
     case 'external':
