@@ -89,7 +89,7 @@ PriceForm.prototype.HTML = `
     </div>
     <div rv-show='state.sliding'>
       <label>Sliding Scale</label>
-      <textarea rv-value='state.price.sliding | to_s'></textarea>
+      <textarea rv-value='state.price.sliding_scale | to_s'></textarea>
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
