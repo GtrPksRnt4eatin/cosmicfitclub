@@ -2,8 +2,11 @@ function PriceForm() {
 
   this.state = {
     "price": { },
-    "sessions": []
+    "sessions": [],
+    "sliding": false
   }
+
+  rivets.formatters.to_s = function(val) { return(typeof val == "string" ? val : JSON.stringify(val)); }
 
   this.bind_handlers(['save', 'clear_before', 'clear_after']);
   this.build_dom();
@@ -15,6 +18,7 @@ PriceForm.prototype = {
   constructor: PriceForm,
 
   show_new()  { 
+    this.state.sliding = data.event.mode == "sliding";
     this.state.sessions = data.event.sessions;
   	this.state.price = { "id": 0 };
   	this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
@@ -81,6 +85,10 @@ PriceForm.prototype.HTML = `
     <div class='tuplet'>
       <label>Num Passes</label>
       <input type='number' rv-value='state.price.num_passes'/>
+    </div>
+    <div rv-show='state.sliding'>
+      <label>Sliding Scale</label>
+      <textarea rv-value='state.session.custom | to_s'></textarea>
     </div>
     <div class='done' rv-on-click='this.save'>Save</div>
   </div>
