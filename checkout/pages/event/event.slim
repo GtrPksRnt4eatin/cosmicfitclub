@@ -167,7 +167,11 @@ html
             #free_member_event rv-if="data.mode | equals 'memberfree' "
               h4 This Event Is Free For Members!
 
-            #registration rv-if='data.total_price | equals 0'
+            #sliding_scale rv-show="data.mode | equals 'sliding' " 
+              h4 Sliding Scale { data.prices.0.sliding_scale.min | money } - { data.prices.0.sliding_scale.max | money }
+              input type="range" rv-min='data.prices.0.sliding_scale.min' rv-max='data.prices.0.sliding_scale.max' rv-value='data.total_price'
+
+            #registration rv-if='data.total_price | equals 0' rv-hide="data.mode | equals 'sliding' "
 
               div rv-unless="data.mode | equals 'external' "
 
