@@ -154,6 +154,8 @@ function set_first_price() {
   if(empty(data.event_data.prices[0])) return;
   data.event_data.prices[0].selected = true;
   data.selected_price = data.event_data.prices[0];
+  data.selected_price.full_price++;  // Hack to get range slider to update
+  data.selected_price.full_price--;  // Hack to get range slider to update
   set_included_sessions(data.event_data.prices[0].included_sessions);
   calculate_total();
 }
