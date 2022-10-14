@@ -169,7 +169,7 @@ html
 
             #sliding_scale rv-show="data.mode | equals 'sliding' " 
               h4 Sliding Scale { data.selected_price.sliding_scale.min | money } - { data.selected_price.sliding_scale.max | money }
-              input type="range" step='100' oninput='calculate_total()' rv-min='data.selected_price.sliding_scale.min' rv-max='data.selected_price.sliding_scale.max' rv-value='data.selected_price.full_price'
+              input type="range" step='100' oninput='calculate_total()' onchange='calculate_total()' rv-min='data.selected_price.sliding_scale.min' rv-max='data.selected_price.sliding_scale.max' rv-value='data.selected_price.full_price'
 
             #registration rv-if='data.total_price | equals 0' rv-hide="data.mode | equals 'sliding' "
 
@@ -198,7 +198,7 @@ html
                 div rv-show="data.mode | equals 'sliding'"
                   div
                     .label Price:
-                    | { price.full_price | money }
+                    | { data.selected_price.full_price | money }
 
                 div rv-each-price='data.event_data.prices' rv-hide="data.mode | equals 'sliding'"
                   div
