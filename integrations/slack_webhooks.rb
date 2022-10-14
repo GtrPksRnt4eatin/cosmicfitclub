@@ -49,6 +49,10 @@ class SlackBot < Sinatra::Base
     when "timeslot_promo"
       timeslot = ClassdefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
       PostTimeslotPromo.perform_async(timeslot)
+    when "event_promo"
+      event = Event[data["actions"][0]["selected_option"]["value"]] or halt(404, "event not found");
+      PostEventPromo.perform_async(event)
+      "Generating Promo... Please Wait!"
     end
   end
 
@@ -59,9 +63,13 @@ class SlackBot < Sinatra::Base
   end
 
   post '/eventPromo' do
-    event = Event[params["text"]] rescue Event::next
-    PostEventPromo.perform_async(event)
-    "Generating Promos... Please Wait!"
+    event_list = Event::future.map { |x| [x.id, x.name] }
+    client = Slack::Web::Client.new
+    client.chat_postMessage(slackbot_static_select("Select an Event", event_list, "event_promo"))
+    status 204
+    #event = Event[params["text"]] rescue Event::next
+    #PostEventPromo.perform_async(event)
+    #"Generating Promos... Please Wait!"
   end
 
   post '/classPromo' do
