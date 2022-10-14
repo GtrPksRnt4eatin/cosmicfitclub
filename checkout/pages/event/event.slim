@@ -199,7 +199,7 @@ html
                   div
                     .label Full Price: 
                     | { price.full_price | money }
-                  div
+                  div rv-hide='price.member_price | equals null'
                     .label Member Price: 
                     | { price.member_price | money }
                 hr width='75%'
