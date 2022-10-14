@@ -156,7 +156,6 @@ function set_first_price() {
   data.selected_price = data.event_data.prices[0];
   set_included_sessions(data.event_data.prices[0].included_sessions);
   calculate_total();
-
 }
 
 function calculate_total() {
@@ -184,6 +183,10 @@ function calculate_total() {
       else { 
         data.total_price = ( member() ? data.selected_price.member_price : data.selected_price.full_price );
       }
+      break;
+
+    case 'sliding':
+      data.total_price = data.selected_price.full_price * data.multiplier;
       break;
 
     case 'external':
