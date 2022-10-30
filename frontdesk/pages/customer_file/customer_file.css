@@ -327,7 +327,7 @@ table.payments {
 }
 
 select.num {
-  width: 3em;
+  width: 4em;
   cursor: pointer;
 }
 
@@ -398,11 +398,19 @@ table.history .header {
     display: none;
   }
 
+  .content {
+    font-size: 2.5vw;
+  }
+
   .tile {
     width: 100%;
     box-sizing: border-box;
     padding: 1em;
     margin: 1em 0;
+  }
+
+  #packages {
+    width: 20em;
   }
 
 }
