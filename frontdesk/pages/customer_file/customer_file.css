@@ -379,8 +379,17 @@ table.history .header {
   text-decoration: strikeout;
 }
 
-#custy_select_container {
-  width: 33em;
+.custy_container {
+  display: flex;
+}
+
+.custy_container .label {
+  flex: 5em 0 0;
+  text-align: left;
+}
+
+.custy_container .custy_select_container {
+  flex: auto;
 }
 
 @media(max-width: 800px) {
