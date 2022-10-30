@@ -43,7 +43,6 @@ $(document).ready( function() {
 
   userview       = new UserView(id('userview_container'));
   popupmenu      = new PopupMenu( id('popupmenu_container') );
-  //loft_calendar  = new LoftCalendar(id('loft_calendar_container'));
   loft_calendar = get_element(view,'loft-calendar');
   custy_selector = new CustySelector();
 
@@ -51,11 +50,12 @@ $(document).ready( function() {
   custy_selector.ev_sub('close_modal', popupmenu.hide );
 
   loft_calendar.ev_sub('on_timeslot_selected', function(val) {
+
     console.log(val);
+    data.selected_timeslot = val;
 
   });
-  
-  //loft_calendar.build_daypilot();
+
 });
 
 function on_timeslot_selected(args) {
