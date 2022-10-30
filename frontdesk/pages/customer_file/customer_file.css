@@ -388,7 +388,7 @@ table.history .header {
   text-align: left;
 }
 
-.custy_container .custy_select_container {
+.custy_container #custy_select_container {
   flex: auto;
 }
 
