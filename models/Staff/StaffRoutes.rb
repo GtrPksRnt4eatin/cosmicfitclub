@@ -41,6 +41,7 @@ class StaffRoutes < Sinatra::Base
   end
 
   post '/:id' do
+    pass if params[:id].to_i == 0
     staff = Staff[params[:id]] or halt(404,"Staff Not Found")
     p params[:values]
     staff.update(params[:values])
