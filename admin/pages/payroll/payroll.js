@@ -15,14 +15,17 @@ ctrl = {
     history.pushState({ "from": data['from'], "to": data['to'] }, "", `payroll?from=${data['from']}&to=${data['to']}`);
   },
   dl_csv: function(e,m) {
-  	var match = /(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/.exec(data['range']);
-  	if(!match) { return; }
-  	window.location = '/models/staff/payroll.csv?from=' + match[1] + '&to=' + match[2];
+    if(!(data['from'] && data['to'])) { return; }
+  	window.location = '/models/staff/payroll.csv?from=' + data['from'] + '&to=' + data['to'];
   },
   dl_payouts: function(e,m) {
-    var match = /(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/.exec(data['range']);
-  	if(!match) { return; }
-    window.location = '/models/staff/payouts.csv?from=' + match[1] + '&to=' + match[2]; 
+  	if(!(data['from'] && data['to'])) { return; }
+    window.location = '/models/staff/payouts.csv?from=' + data['from'] + '&to=' + data['to'];
+  },
+  generate_payroll: function(e,m) {
+    $.post('/models/staff/payroll', { from: data['from'], to: data['to'] }, function(result) {
+      console.log(result);
+    })
   }
 }
 

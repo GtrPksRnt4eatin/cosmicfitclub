@@ -1,5 +1,5 @@
 
-class Payroll 
+class Payroll < Sequel::Model(:payrolls)
 
   PAY_PERIODS_ICAL = "DTSTART;TZID=EST:20170105T000000\nRRULE:FREQ=WEEKLY;INTERVAL=2"
 
@@ -28,5 +28,7 @@ class Payroll
     end
     { :from => period_start, :to => period_end - 0.00001 }
   end
+
+  
 
 end
