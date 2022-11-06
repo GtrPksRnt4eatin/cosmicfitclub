@@ -80,7 +80,7 @@ class StaffRoutes < Sinatra::Base
     data = Staff::payroll(params[:from],params[:to])
     proll = Payroll.create({ start_date: params[:from], end_date: params[:to]})
     data.each do |row|
-      slip = PayrollSlip.create({ staff_id: row.staff_id, payroll_id: proll.id})
+      slip = PayrollSlip.create({ staff_id: row['staff_id'], payroll_id: proll.id})
       row['class_occurrences'].each do |line|
         PayrollLine.create({ 
           payroll_slip_id: slip.id,
