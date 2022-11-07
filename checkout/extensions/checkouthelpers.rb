@@ -151,7 +151,9 @@ module Sinatra
       )
 
       params['passes'].each do |index,pass|
-        EventPass.create( :customer_id => pass['customer_id'].to_i, :ticket => tic, :session_id => pass['session_id'].to_i )
+        custy = Customer[pass['customer_id'].to_i]
+        sess = EventSession[pass['session_id'].to_i]
+        EventPass.create( :customer => custy, :ticket => tic, :session => sess )
       end
       
     end
