@@ -214,6 +214,13 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
+  post '/:id/add_partner' do
+    custy = Customer[params[:id]] or halt 404
+    partner = Customer[params[:partner_id]] or halt 404
+    custy.add_partner(partner)
+    status 204
+  end
+
   get '/:id/family' do
     content_type :json
     custy = Customer[params[:id].to_i] or halt 404
