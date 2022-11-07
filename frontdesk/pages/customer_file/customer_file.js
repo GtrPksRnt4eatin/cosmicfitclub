@@ -105,7 +105,16 @@ ctrl = {
     custy_modal.show_modal( data.transfer_from, function(val) { data.transfer_from = val; })
   },
 
-  send_passes: function(e,m) {
+  get_share_custy: function(e,m) {
+    custy_modal.show_modal( data.customer.wallet.shared_with, function(val) {
+      if(!confirm("Link These Customers Wallets Permanently?")) { return; } 
+      $.post('/models/customers/' + data.customer.id + '/add_partner', { partner_id: val.id })
+       .success( function() { alert('Wallets Linked'); refresh_customer_data(); } )
+       .fail( function(xhr, textStatus, errorThrown) { alert(xhr.responseText); });
+    })
+  },
+
+  send_passes: function(e,m)
     $.post('/models/customers/' + data.customer.id + '/transfer', { from: data.customer.id, to: data.transfer_to, amount: data.transfer_to_amount } )
      .success( function(e) { alert('Transfer Complete'); refresh_customer_data(); } )
      .fail( function(e) { alert('Transfer Failed') });
