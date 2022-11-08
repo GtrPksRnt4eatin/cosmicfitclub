@@ -217,7 +217,7 @@ class CustomerRoutes < Sinatra::Base
   post '/:id/add_partner' do
     custy = Customer[params[:id]] or halt 404
     partner = Customer[params[:partner_id]] or halt 404
-    custy.add_partner(partner)
+    custy.share_wallet_with(partner)
     status 204
   end
 
