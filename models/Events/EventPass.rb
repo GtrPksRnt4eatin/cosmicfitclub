@@ -34,7 +34,7 @@ class EventPass < Sequel::Model
   end
 
   def attendance_hash
-    { :id => self.id, :session_id => self.session_id, :ticket => self.ticket.to_token, :customer => self.customer.to_token, :checked_in => self.checked_in }
+    { :id => self.id, :session_id => self.session_id, :ticket => self.ticket.try(:to_token), :customer => self.customer.try(:to_token), :checked_in => self.checked_in }
   end
 
 end
