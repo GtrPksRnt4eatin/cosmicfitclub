@@ -33,7 +33,8 @@ ctrl = {
   },
 
   edit_pass_recipient: function(e,m) {
-    custy_selector.show_modal(m.pass.customer.id, function(custy_id) {
+    let customer_id = m.pass.customer ? m.pass.customer.id : 0;
+    custy_selector.show_modal(customer_id, function(custy_id) {
       $.post('/models/events/passes/' + m.pass.id + '/transfer', { customer_id: custy_id } )
        .done(get_ticket)
     } );
