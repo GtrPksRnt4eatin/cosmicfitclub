@@ -21,7 +21,8 @@ LoftCalendar.prototype = {
 
   build_daypilot: function() {
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
-      viewType: "Week",
+      viewType: "Days",
+      days: 7,
       cellDuration: 30,
       cellHeight: 20,
       headerDateFormat: "ddd MMM d",
