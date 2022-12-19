@@ -57,8 +57,8 @@ LoftCalendar.prototype = {
           let location = event.location == "Loft-1F-Front (4)" ? "Point Rental" : event.location == "Loft-1F-Back (8)" ? "Back Room Rental" : null;
           location && this.state.daypilot.events.add({
             id: 12345,
-            start: moment(event.start).subtract(4,'hours').format(),
-            end: moment(event.end).subtract(4,'hours').format(),
+            start: moment(event.start).subtract(5,'hours').format(),
+            end: moment(event.end).subtract(5,'hours').format(),
             text: location, 
             allday: event.allday
           })
