@@ -21,7 +21,7 @@ function SessionChooser(parent,attr) {
         this.daypilot = new DayPilot.Calendar("daypilot", {
           headerDateFormat:          "ddd MMM d",
           startDate:                 moment(this.event.starttime).format("YYYY-MM-DD"),       
-          days:                      moment(this.event.endtime).diff(moment(this.event.starttime),"days")+1,
+          days:                      moment(this.event.endtime).endOf('day').diff(moment(this.event.starttime).startOf('day'),"days")+1,
           cellDuration:              30,
           cellHeight:                20,
           businessBeginsHour:        10,
