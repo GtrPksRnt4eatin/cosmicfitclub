@@ -1,5 +1,6 @@
 function SessionSlots(parent,attr) {
 
+  this.event           = attr['event'];
   this.session         = attr['session'];
   this.customer        = attr['customer'];
   this.choose_customer = attr['choose_customer'];
