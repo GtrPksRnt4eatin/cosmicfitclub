@@ -67,7 +67,7 @@ function SessionChooser(parent,attr) {
           if( !attendance || !session ) return;
               
           if(session.title != "Private") {
-            x.text(session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.length + "/" + session.max_capacity);
+            x.text(session.title + "\r\n" + attendance.passes.length + "/" + session.max_capacity);
           }
   
           let full     = attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 );
