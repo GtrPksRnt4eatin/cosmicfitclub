@@ -46,7 +46,7 @@ function SessionChooser(parent,attr) {
             id:    sess.id, 
             start: moment(sess.start_time).subtract(5,'hours').format(), 
             end:   moment(sess.end_time).subtract(5,'hours').format(), 
-            text:  sess.title + "\r\n" + rivets.formatters.money(sess.individual_price_full)
+            text:  sess.title == "Private" ? sess.title : sess.title + "\r\n" + rivets.formatters.money(sess.individual_price_full)
           })
         }.bind(this));
       },
@@ -67,7 +67,7 @@ function SessionChooser(parent,attr) {
           if( !attendance || !session ) return;
               
           if(session.title != "Private") {
-            x.text(session.title + "\r\n" + attendance.passes.length + "/" + session.max_capacity);
+            x.text(session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.length + "/" + session.max_capacity);
           }
   
           let full     = attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 );
