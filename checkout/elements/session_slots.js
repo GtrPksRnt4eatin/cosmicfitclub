@@ -170,7 +170,7 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
 	      <div class='tuple'>
 	        <div class='attrib'>Price</div>
 	        <div class='value'>
-	          { session_passes | total_price }
+	          { state.passes | total_price }
 	        </div>
 	      </div>
       </div>
