@@ -36,7 +36,6 @@ function SessionSlots(parent,attr) {
   }.bind(this);
 
   rivets.formatters.total_price = function(passes) {
-    this.apply_discounts();
     passes = rivets.formatters.session_passes(passes);
     result = passes.reduce(function(result,obj) {
       return result + obj['price'] + obj['addons_price'];
