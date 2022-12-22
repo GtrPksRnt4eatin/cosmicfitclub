@@ -40,7 +40,6 @@ function SessionSlots(parent,attr) {
     result = passes.reduce(function(result,obj) {
       return result + obj['price'] + obj['addons_price'];
     },0);
-    this.discounts.forEach( function(d) { result = result + d.amount } );
     return rivets.formatters.money(result);
   }.bind(this);
 
