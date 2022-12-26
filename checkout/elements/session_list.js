@@ -75,7 +75,13 @@ SessionList.prototype = {
     sess3 -= triple_count;
     
     let double_count = Math.max(Math.min(sess1,sess2),Math.min(sess2,sess3),Math.min(sess1,sess3));
-    double_count && this.discounts.push({ name: "$10 Double Workshop Discount", count: double_count, amount: double_count * -1000 }) 
+    double_count && this.discounts.push({ name: "$10 Double Workshop Discount", count: double_count, amount: double_count * -1000 })
+
+    ////////////// bannequine barnaby //////////////////
+    sess1 = this.passes.filter(function(x) { return x.session_id==907 } ).length;
+    sess2 = this.passes.filter(function(x) { return x.session_id==912 } ).length;
+    double_count = Math.min(sess1,sess2);
+    double_count && this.discounts.push({ name: "$20 Double Workshop Discount", count: double_count, amount: double_count * -2000 })
   }
 
 }
