@@ -44,8 +44,8 @@ function SessionChooser(parent,attr) {
         list && list.for_each( function(sess) {
           this.daypilot.events.add({
             id:    sess.id, 
-            start: moment(sess.start_time).tz('America/New_York').format(), 
-            end:   moment(sess.end_time).tz('America/New_York').format(), 
+            start: moment(sess.start_time).tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss'), 
+            end:   moment(sess.end_time).tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss'), 
             text:  (sess.title == "Private") ? sess.title : (sess.title + "\r\n" + rivets.formatters.money(sess.individual_price_full))
           })
         }.bind(this));
