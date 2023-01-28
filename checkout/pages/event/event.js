@@ -238,7 +238,8 @@ function sort_included_sessions() {
 }
 
 function set_included_sessions(sessions) {
-  for(var i=0; i<data.event_data.sessions.length; i++) { 
+  sessions = sessions || [];
+  for(var i=0; i<data.event_data.sessions.length; i++) {
     data.event_data.sessions[i].selected = sessions.indexOf(data.event_data.sessions[i].id)!=-1;
   }
   data.included_sessions = sessions.slice(0);
