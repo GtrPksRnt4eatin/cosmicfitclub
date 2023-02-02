@@ -104,6 +104,9 @@ class Customer < Sequel::Model
     self.waivers.each           { |wav| wav.customer = other; wav.save }
     self.event_passes.each      { |pas| pas.customer = other; pas.save }
     self.gift_certificates.each { |crt| crt.customer = other; crt.save }
+    self.subscriptions.each     { |sub| sub.customer = other; sub.save }
+    
+    other.update( :stripe_id => self.stripe_id ) unless other.stripe_id
 
     return if self.wallet.nil?
     other.update( :wallet => Wallet.create ) if other.wallet.nil?
