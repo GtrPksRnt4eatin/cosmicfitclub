@@ -54,12 +54,12 @@ LoftCalendar.prototype = {
      .then(function(resp) { 
         this.state.gcal_events = resp;
         this.state.gcal_events.for_each( function(event) {
-          let location = event.location == "Loft-1F-Front (4)" ? "Point Rental" : event.location == "Loft-1F-Back (8)" ? "Back Room Rental" : null;
+          if(event.location != "Loft-1F-Front (4)") return;
           location && this.state.daypilot.events.add({
             id: 12345,
             start: moment(event.start).subtract(5,'hours').format(),
             end: moment(event.end).subtract(5,'hours').format(),
-            text: location, 
+            text: "Reserved", 
             allday: event.allday
           })
         }.bind(this)) 
