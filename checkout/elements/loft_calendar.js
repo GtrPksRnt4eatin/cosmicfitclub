@@ -2,15 +2,15 @@ function LoftCalendar(parent,attr) {
 
   this.selected_timeslot = attr['timeslot']
 
-	this.state = {
-    window_start: null,
-    window_end: null,
-    daypilot: null,
-    reservations: null,
-    gcal_events: null   
-	}
+    this.state = {
+      window_start: null,
+      window_end: null,
+      daypilot: null,
+      reservations: null,
+      gcal_events: null   
+    }
 
-	this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events']);
+  this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events']);
   this.build_daypilot();
   this.get_gcal_events();
   this.get_reservations();
