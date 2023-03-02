@@ -232,7 +232,7 @@ def payroll_query
 end
 
 def Staff::payroll(from, to)
-  private_rows = []
+  privates = []
   from = ( from.is_a?(String) ? Date.parse(from) : from )
   to = ( to.is_a?(String) ? Date.parse(to) : to )
 
@@ -240,7 +240,7 @@ def Staff::payroll(from, to)
   result.each { |teacher_row|
     teacher_row[:class_occurrences].each     { |x| x.transform_keys!(&:to_sym) }
     teacher_row[:class_occurrences].reject!  { |x| ClassDef[x[:classdef_id].to_i].unpaid }
-    teacher_row[:class_occurrences].reject!  { |x| x[:classdef_id].to_i == 188 && privates << x }
+    teacher_row[:class_occurrences].reject!  { |x| x[:classdef_id].to_i == 188 && privates.push(x) }
     teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x[:starttime]) }
     teacher_row[:staff_id]==106 && teacher_row[:class_occurrences].push(*privates)
 	    
@@ -268,21 +268,6 @@ def Staff::payroll(from, to)
       end
 
       occurrence_row[:cosmic] = occurrence_row[:cosmic] - occurrence_row[:pay]
-
-      #occurrence_row[:pay] = case occurrence_row[:headcount].to_i
-      #when 0..1
-      #  20 
-      #when 2..5
-      #  40
-      #when 6..10
-      #  60
-      #when 11..15
-      #  80
-      #when 16..20
-      #  100
-      #else
-      #  100
-      #end
     }
   }
   punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
