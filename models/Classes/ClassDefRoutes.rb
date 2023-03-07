@@ -293,8 +293,7 @@ class ClassDefRoutes < Sinatra::Base
       custy.use_membership(message) { reservation = occurrence.make_reservation( params[:customer_id] ) } or halt(400, "Trouble Using Membership" )
     when "payment"
       reservation = occurrence.make_reservation( params[:customer_id] )                                   or halt(400, "Trouble Making Reservation" )
-      payment = CustomerPayment[params[:payment_id]].update( :class_reservation_id => reservation.id )
-      payment.send_notification
+      CustomerPayment[params[:payment_id]].update( :class_reservation_id => reservation.id )
     when "free"
       reservation = occurrence.make_reservation( params[:customer_id] )                                   or halt(400, "Trouble Making Reservation" )
     end
