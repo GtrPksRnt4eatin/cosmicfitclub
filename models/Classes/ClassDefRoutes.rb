@@ -270,6 +270,7 @@ class ClassDefRoutes < Sinatra::Base
       reservation = occurrence.make_reservation( params[:customer_id] ) or halt 400
     end
 
+    Slack.website_purchases(reservation.summary)
     status 201
     reservation.to_json
   end
@@ -298,6 +299,7 @@ class ClassDefRoutes < Sinatra::Base
       reservation = occurrence.make_reservation( params[:customer_id] )                                   or halt(400, "Trouble Making Reservation" )
     end
 
+    Slack.website_purchases(reservation.summary)
     status 201
     reservation.to_json
   end
