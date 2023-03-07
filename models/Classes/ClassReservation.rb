@@ -8,7 +8,7 @@ class ClassReservation < Sequel::Model
 
   def after_create
     super
-    Slack.website_purchases(self.summary) if self.payment
+    Slack.website_purchases(self.summary)
   end
 
   def check_in
@@ -40,7 +40,7 @@ class ClassReservation < Sequel::Model
   end
 
   def summary
-    "#{self.customer.to_list_string} paid #{self.payment.amount}#{self.payment.type == "cash" ? " cash" : ""} for #{self.occurrence.summary} on #{self.occurrence.starttime}"
+    "#{self.customer.to_list_string} paid #{self.payment.try(:amount) || '$0 '}#{self.payment_type} for #{self.occurrence.summary} on #{self.occurrence.starttime}"
   end
  
   alias :to_list_string :summary
