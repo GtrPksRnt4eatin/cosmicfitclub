@@ -181,9 +181,12 @@ class CFCAuth < Sinatra::Base
 
   post '/password' do
     if params[:token] && !params[:token].empty? then
-      user = User.find( :reset_token  => params[:token] )   
-      Slack.website_access( "Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )      
-      halt(400, "This Reset Token is Invalid or Has Expired") if user.nil?
+      user = User.find( :reset_token  => params[:token] )
+      if user.nil? then
+        Slack.website_access( "Invalid Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )
+        halt(400, "This Reset Token is Invalid or Has Expired")
+      end
+        Slack.website_access( "Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )
     else
       user = User[session[:user_id]]
       halt(400, "Not Logged In") if user.nil?
@@ -193,7 +196,7 @@ class CFCAuth < Sinatra::Base
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user_id] = user.id
     session[:customer_id] = user.customer.id
-    Slack.website_access( "Password Reset #{ user.customer.to_list_string } - #{ params[:token] }" ) 
+    Slack.website_access( "Password Set #{ user.customer.to_list_string } - #{ params[:token] }" ) 
     jwt = set_jwt_header(user)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
