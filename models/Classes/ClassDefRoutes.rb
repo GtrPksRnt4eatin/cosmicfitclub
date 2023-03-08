@@ -71,8 +71,8 @@ class ClassDefRoutes < Sinatra::Base
 
   get '/:id/thumb' do
     classdef = ClassDef[params[:id]] or halt 404
-    content_type classdef.image[:small].mime_type
-    send_file classdef.image[:small].download.path
+    content_type classdef.thumb(:small).try(:mime_type)
+    send_file classdef.thumb(:small).try(:download).try(:path)
   end
 
   post '/:id/moveup' do
