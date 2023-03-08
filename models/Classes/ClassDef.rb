@@ -41,13 +41,18 @@ class ClassDef < Sequel::Model
     return false unless self.schedules == []
     super
   end
-
-  def thumbnail_image(size=:small)
-    return ''             if self.image.nil?
-    return self.image_url if self.image.is_a? ImageUploader::UploadedFile
-    return self.image[size].url
+  
+  def thumb(size=:small)
+    return nil              if self.image.nil?
+    return self.image       if self.image.is_a? ImageUploader::UploadedFile
+    return self.image[size] if self.image.is_a? Hash
+    nil
   end
 
+  def thumbnail_image(size=:small)
+    return self.thumb(size).try(:url)
+  end
+  
   def create_schedule(data)
     new_sched = ClassdefSchedule.create(data)
     add_schedule(new_sched)
