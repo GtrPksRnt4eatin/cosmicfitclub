@@ -44,18 +44,17 @@ html
               | {data.selected_timeslot.end | classtime}
 
         .tuple
-          .attrib Activity:
+          .attrib Apparatus:
           .value 
             select rv-value='data.rental.activity'
-              option value="Personal Training" Personal Training
-              option value="Acroyoga" Acroyoga
-              option value="Spotting Belt" Spotting Belt
               option value="Straps" Straps
+              option value="Silks" Silks
               option value="Lyra" Lyra
-              option value="Other" Other
+              option value="Spotting Belt" Spotting Belt
+              option value="Other" Other/Bringing My Own
         
-        .tuple rv-if="data.rental.activity | equals 'Other'"
-          .attrib Description: 
+        .tuple
+          .attrib Rigging Notes: 
           .value 
             textarea rv-value='data.rental.note'
         
