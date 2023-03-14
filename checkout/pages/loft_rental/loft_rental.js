@@ -6,7 +6,7 @@ data = {
     note: '',
     slots: []
   },
-  selected_timeslot: { starttime: new Date(), endtime: new Date() },
+  selected_timeslot: null,
   num_slots: 0
 };
 
