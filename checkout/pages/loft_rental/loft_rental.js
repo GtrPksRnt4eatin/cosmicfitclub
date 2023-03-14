@@ -52,8 +52,7 @@ $(document).ready( function() {
   loft_calendar.ev_sub('on_timeslot_selected', function(val) {
     if(!userview.logged_in) { userview.onboard(); return;  }
     console.log(val);
-    data.selected_timeslot.starttime = new Date(val.start.value);
-    data.selected_timeslot.endtime = new Date(val.end.value);
+    data.selected_timeslot = val;
     data.num_slots = 2;
     data.rental.slots = [];
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
