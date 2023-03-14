@@ -32,6 +32,13 @@
   height: 4.37em;
 }
 
+button#request {
+  font-size: 0.7em;
+  padding: 0.25em 1em;
+  cursor: pointer;
+  width: 100%;
+}
+
 @media (orientation: portrait) {
   
   .tile {
