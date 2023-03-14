@@ -76,5 +76,8 @@ html
               | Slot \#{index | fix_index}
             .value.edit rv-on-click='ctrl.choose_custy'
               | {slot.customer_string}
+        
+        button rv-on-click='ctrl.request_slot'
+          Request this Timeslot
 
     #popupmenu_container
