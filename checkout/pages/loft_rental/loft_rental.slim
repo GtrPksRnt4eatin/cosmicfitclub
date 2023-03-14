@@ -33,11 +33,15 @@ html
         div rv-show='data.selected_timeslot'
           h3 Selected Timeslot
           .tuple
-            .attrib Start:
-            .value {data.selected_timeslot.start | classtime}
+            .attrib
+              | Start:
+            .value
+              | {data.selected_timeslot.start | classtime}
           .tuple
-            .attrib End:
-            .value {data.selected_timeslot.end | classtime}
+            .attrib
+              | End:
+            .value 
+              | {data.selected_timeslot.end | classtime}
 
         .tuple
           .attrib Activity:
