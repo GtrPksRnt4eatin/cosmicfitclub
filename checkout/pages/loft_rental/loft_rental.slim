@@ -62,7 +62,7 @@ html
         .tuple
           .attrib # of Slots (max 4):
           .value
-            select rv-on-change='ctrl.set_num_slots'
+            select rv-value='data.num_slots' rv-on-change='ctrl.set_num_slots'
               option value="0" 0
               option value="1" 1
               option value="2" 2
