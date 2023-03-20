@@ -123,8 +123,6 @@ function on_event_data(val) {
   set_event_mode(); 
   set_first_price();
   data.loaded = true;
-  if(data.mode == 'privates')
-    setup_daypilot();
 }
 
 function get_attendance() {
