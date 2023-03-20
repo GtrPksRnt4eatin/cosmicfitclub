@@ -18,16 +18,19 @@ function SessionChooser(parent,attr) {
   
       build_daypilot: function() {
         //this.daypilot && this.daypilot.dispose();
+        let start_of_day = Math.min(...this.event.sessions.map(function(x) { return new Date(x.starttime).getHours(); })) - 1;
+        let end_of_day = Math.max(...this.event.sessions.map(function(x) { return new Date(x.endtime).getHours(); })) + 1;
+        
         this.daypilot = new DayPilot.Calendar("daypilot", {
           headerDateFormat:          "ddd MMM d",
           startDate:                 moment(this.event.starttime).format("YYYY-MM-DD"),       
           days:                      moment(this.event.endtime).endOf('day').diff(moment(this.event.starttime).startOf('day'),"days")+1,
           cellDuration:              30,
           cellHeight:                20,
-          businessBeginsHour:        10,
-          businessEndsHour:          20,
-          dayBeginsHour:             10,
-          dayEndsHour:               20,
+          businessBeginsHour:        start_of_day,
+          businessEndsHour:          end_of_day,
+          dayBeginsHour:             start_of_day,
+          dayEndsHour:               end_of_day,
           viewType:                  "Days",
           timeRangeSelectedHandling: "Disabled",  
           eventMoveHandling:         "Disabled",
