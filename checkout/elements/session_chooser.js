@@ -18,8 +18,8 @@ function SessionChooser(parent,attr) {
   
       build_daypilot: function() {
         //this.daypilot && this.daypilot.dispose();
-        let start_of_day = Math.min(...this.event.sessions.map(function(x) { return new Date(x.starttime).getHours(); })) - 1;
-        let end_of_day = Math.max(...this.event.sessions.map(function(x) { return new Date(x.endtime).getHours(); })) + 1;
+        let start_of_day = Math.min(...this.event.sessions.map(function(x) { return new Date(x.start_time).getHours(); })) - 1;
+        let end_of_day = Math.max(...this.event.sessions.map(function(x) { return new Date(x.end_time).getHours(); })) + 1;
         
         this.daypilot = new DayPilot.Calendar("daypilot", {
           headerDateFormat:          "ddd MMM d",
