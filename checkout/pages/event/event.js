@@ -369,8 +369,9 @@ function checkout_new() {
       customer_id:       userview.id, 
       event_id:          data.event_data['id'],
       included_sessions: data.included_sessions,
-      total_price:       data.total_price/100,
+      total_price:       data.total_price,
       payment_id:        payment_id,
+      multiplier:        data.multiplier,
       price_id:          null
     }
      
