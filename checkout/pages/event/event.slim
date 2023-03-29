@@ -181,10 +181,10 @@ html
                   input#email
 
                 div rv-if='customer | empty'
-                  button#register rv-on-click='ctrl.checkout' Register
+                  button#register rv-on-click='ctrl.checkout_new' Register
 
                 div rv-unless='customer | empty'
-                  button#register rv-on-click='ctrl.checkout' { customer.name }, Click here to register.
+                  button#register rv-on-click='ctrl.checkout_new' { customer.name }, Click here to register.
 
               div rv-if="data.mode | equals 'external' "
                 a rv-href='data.event_data.registration_url' 
@@ -251,12 +251,6 @@ html
 
               div
                 button#checkout rv-on-click='ctrl.checkout_new' Buy { data.multiplier | num_tix }For { data.total_price | money }
-
-              .fineprint rv-if='data.customer_info | empty'
-                a.signin href='/pricing' Sign Up
-                | /
-                a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
-                | to receive member pricing
 
       #popupmenu_container
 
