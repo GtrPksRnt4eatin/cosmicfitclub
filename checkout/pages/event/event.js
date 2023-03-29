@@ -358,6 +358,7 @@ function checkout_passes(price, passes) {
 }
 
 function checkout_new() {
+  if(!userview.logged_in) { userview.onboard(); return;  }
   calculate_total();
 
   let desc = data.event_data.name;
