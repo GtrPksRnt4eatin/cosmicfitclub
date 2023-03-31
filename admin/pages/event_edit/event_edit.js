@@ -120,6 +120,12 @@ ctrl = {
     $.del(`/models/events/${m.event.id}`)
      .success(function() { window.location.href='/admin/events'; })
      .fail(function(xhr) { alert(xhr.responseText); });
+  },
+  
+  duplicate_event(e,m) {
+    $.post(`/models/events/${m.event.id}/duplicate`)
+     .success(function() { window.location.href='/admin/events'; }
+     .fail(function(xhr) { alert(xhr.responseText); });
   }
   
 }
