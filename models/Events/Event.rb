@@ -35,6 +35,18 @@ class Event < Sequel::Model
   def Event::customer_history(customer_id)
 
   end
+  
+  def Event::duplicate(event_id)
+    original = Event[event_id] or return false
+    clone = Event.create(original.to_hash.except(:id))
+    original.sessions.each do |sess|
+      clone.add_session(EventSession.create(sess.to_hash.except(:id)))
+    end
+    original.prices.each do |price|
+      clone.add_price(EventPrice.create(price.to_hash.except(:id)))
+    end
+    clone
+  end
 
   ##################### CLASS METHODS #####################
 
