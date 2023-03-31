@@ -39,7 +39,7 @@ class ScheduleRoutes < Sinatra::Base
 
   get '/ics' do
     from = params[:from] || Date.today.beginning_of_month
-    to   = params[:to]   || Date.today.end_of_month
+    to   = params[:to]   || (Date.today >> 2).end_of_month
     attachment(filename = 'CosmicCalendar.ics', disposition = :attachment)
     ScheduleRoutes::schedule_as_ical(from, to)
   end
