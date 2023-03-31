@@ -30,20 +30,6 @@ class EventRoutes < Sinatra::Base
 
   ###################################### EVENTS #################################
 
-  get '/:id' do
-    content_type :json
-    event = Event[params[:id]] or halt(404,'event not found')
-    data = event.full_detail
-    JSON.generate data
-  end
-
-  get '/:id/admin_detail' do
-    content_type :json
-    event = Event[params[:id]] or halt(404,'event not found')
-    data = event.admin_detail
-    JSON.generate data
-  end
-
   post '/' do
     content_type :json
     if Event[params[:id]].nil?
@@ -67,12 +53,30 @@ class EventRoutes < Sinatra::Base
     status 200
     event.to_json
   end
+  
+  get '/:id' do
+    content_type :json
+    event = Event[params[:id]] or halt(404,'event not found')
+    data = event.full_detail
+    JSON.generate data
+  end
+
+  get '/:id/admin_detail' do
+    content_type :json
+    event = Event[params[:id]] or halt(404,'event not found')
+    data = event.admin_detail
+    JSON.generate data
+  end
 
   delete '/:id' do
     event = Event[params[:id]] or halt(404,"Event Not Found")
     event.can_delete?          or halt(409,"#{event.linked_objects.join(', ')}")
     Event[params[:id]].delete
     status 204; {}.to_json
+  end
+  
+  post '/:id/duplicate' do
+    Event::duplicate(params[:id])
   end
 
   ###################################### EVENTS #################################
