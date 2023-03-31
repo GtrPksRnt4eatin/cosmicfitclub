@@ -123,7 +123,7 @@ ctrl = {
   },
   
   duplicate_event(e,m) {
-    $.post(`/models/events/${m.event.id}/duplicate`)
+    $.post(`/models/events/${data.event_id}/duplicate`)
      .success(function() { window.location.href='/admin/events'; })
      .fail(function(xhr) { alert(xhr.responseText); });
   }
