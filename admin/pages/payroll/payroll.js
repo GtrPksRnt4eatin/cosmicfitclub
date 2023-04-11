@@ -24,7 +24,7 @@ ctrl = {
   },
   send_to_drive: function(e,m) {
     if(!(data['from'] && data['to'])) { return; }
-    $.get('/models/staff/payroll2drive', { from: match[1], to: match[2] }, on_save_to_drive, 'json');
+    $.get('/models/staff/payroll2drive', { from: match[1], to: match[2] }, on_save_to_drive);
   },
   generate_payroll: function(e,m) {
     $.post('/models/staff/payroll', { from: data['from'], to: data['to'] }, function(result) {
