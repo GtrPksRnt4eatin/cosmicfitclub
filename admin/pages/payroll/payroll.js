@@ -69,5 +69,5 @@ function on_payroll_data(resp) {
 }
 
 function on_save_to_drive(resp) {
-  window.location = resp;
+  window.location = resp.url;
 }
