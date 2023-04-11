@@ -77,7 +77,7 @@ class StaffRoutes < Sinatra::Base
   end
   
   get '/payroll2drive' do 
-    Sheets::create_payroll_sheet(params[:from],params[:to])
+    { :url => Sheets::create_payroll_sheet(params[:from],params[:to]) }.to_json
   end
 
   post '/payroll' do
