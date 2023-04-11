@@ -70,5 +70,20 @@ module Sheets
 
     return sheet.human_url
   end
+  
+  def Sheets::create_payroll_sheet(from,to)
+    title = "#{from} to #{to}"
+    svc = Sheets::get_service2
+    folder = svc.folder_by_id("1xFj5h7TuijiksYvmvu2rqjgtOqaHnyeJ")
+    sheet = folder.file_by_name(title)
+    sheet ||= folder.create_spreadsheet(title)
+    
+    wksht = sheet.worksheets[0]
+    wksht.update_cells(1,1,Staff::payroll_csv(from,to).to_a)
+    wksht.title = "Payroll"
+    wksht.save
+    
+    return sheet.human_url
+  end
 
 end
