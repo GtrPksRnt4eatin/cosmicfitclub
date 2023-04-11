@@ -22,6 +22,10 @@ ctrl = {
   	if(!(data['from'] && data['to'])) { return; }
     window.location = '/models/staff/payouts.csv?from=' + data['from'] + '&to=' + data['to'];
   },
+  send_to_drive: function(e,m) {
+    if(!(data['from'] && data['to'])) { return; }
+    $.get('/models/staff/payroll2drive', { from: match[1], to: match[2] }, on_save_to_drive, 'json');
+  },
   generate_payroll: function(e,m) {
     $.post('/models/staff/payroll', { from: data['from'], to: data['to'] }, function(result) {
       console.log(result);
@@ -62,4 +66,8 @@ function set_range(from,to) {
 
 function on_payroll_data(resp) {
   data.payroll = resp;
+}
+
+function on_save_to_drive(resp) {
+  window.location = resp;
 }
