@@ -75,6 +75,10 @@ class StaffRoutes < Sinatra::Base
   get '/payroll' do
     JSON.pretty_generate Staff::payroll(params[:from],params[:to])
   end
+  
+  get '/payroll2drive' do 
+    Sheets::create_payroll_sheet(params[:from],params[:to])
+  end
 
   post '/payroll' do
     data = Staff::payroll(params[:from],params[:to])
