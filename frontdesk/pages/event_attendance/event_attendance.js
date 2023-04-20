@@ -26,6 +26,10 @@ ctrl = {
 
   edit_event(e,m) {
     document.location.href = '/admin/events/' + data.event.id;
+  },
+
+  send_to_drive(e,m) {
+    
   }
   
 }
