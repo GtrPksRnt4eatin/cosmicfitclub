@@ -29,7 +29,7 @@ ctrl = {
   },
 
   send_to_drive(e,m) {
-    $.get(`/models/event/${data['event'].id}/sheet2drive`, on_save_to_drive);
+    $.get(`/models/events/${data['event'].id}/sheet2drive`, on_save_to_drive);
   }
   
 }
