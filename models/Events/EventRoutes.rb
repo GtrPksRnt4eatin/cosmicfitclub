@@ -270,8 +270,9 @@ class EventRoutes < Sinatra::Base
     event = Event[params[:id]] or halt(404, "Event Not Found")
     event.attendance2.to_json
   end
-  
-  get '/:id/sheet2drive' do 
+
+  get '/:id/sheet2drive' do
+    content_type :json
     event = Event[params[:id]] or halt(404, "Event Not Found")
     { :url => Sheets::create_event_sheet(params[:id].to_i) }.to_json
   end
