@@ -329,7 +329,7 @@ def Staff::payroll_csv(from,to)
   proll.each do |teacher_row|
     totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0, :cosmic => 0 }
     csv << [ teacher_row[:staff_name].upcase, "#{from.strftime('%Y-%m-%d')} to #{to.strftime('%Y-%m-%d')}" ]
-    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY', 'COSMIC' ]
+    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY', 'COSMIC FIT CLUB', 'TRANSATION ID', 'SENT ON']
     csv << []
     teacher_row[:class_occurrences].each do |row|
       row[:payment_total] ||= 0
