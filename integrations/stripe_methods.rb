@@ -6,7 +6,7 @@ module StripeMethods
   
   def StripeMethods::PayoutVendor(amount, connected_acct_id, descriptor="Cosmic Fit Club")
     transfer = Stripe::Transfer.create({ amount: amount, currency:"usd", destination: connected_acct_id })
-    payout = Stripe::Payout.create({ amount: amount, currency: "usd", descriptor: descriptor }, {stripe_account: connected_acct_id })
+    payout = Stripe::Payout.create({ amount: amount, currency: "usd", statement_descriptor: descriptor }, {stripe_account: connected_acct_id })
     { transfer: transfer, payout: payout }
   end
 
