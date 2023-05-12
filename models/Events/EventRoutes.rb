@@ -103,8 +103,13 @@ class EventRoutes < Sinatra::Base
 
   post '/:id/short_url' do
     event = Event[params[:id]] or halt(404,'event not found')
-    event.short_url.update( :short_path => params[:short_url] ) if event.short_url
-    event.update( :short_url => ShortUrl.create( :short_path => params[:short_url], :long_path => "/checkout/event/" + params[:id] ) ) unless event.short_url
+    existing = ShortUrl.find( :short_path => params[:short_url] )
+    if existing then
+      event.update( :short_url => existing.update( :long_path=> "/checkout/event/" + params[:id] )
+    else
+      event.short_url.update( :short_path => params[:short_url] ) if event.short_url
+      event.update( :short_url => ShortUrl.create( :short_path => params[:short_url], :long_path => "/checkout/event/" + params[:id] ) ) unless event.short_url
+    end
     status 204; {}.to_json
   end
 
