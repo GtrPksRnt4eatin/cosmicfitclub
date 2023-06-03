@@ -254,9 +254,6 @@ def Staff::payroll(from, to)
 
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
 
-
-      ( occurrence_row[:loft] =  )
-
       occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 700
       occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.6)
 
