@@ -6,6 +6,7 @@ class GroupReservationRoutes < Sinatra::Base
 
   post '/' do
     data = JSON.parse(request.body.read)
+    puts data
 
     res = GroupReservation.create(
       :start_time          => data['start_time'],
@@ -22,7 +23,7 @@ class GroupReservationRoutes < Sinatra::Base
         :duration_mins        => data['duration_mins'],
       )
     end
-    
+
   end
 
   #################################### GROUP RESERVATION LISTS ##############################

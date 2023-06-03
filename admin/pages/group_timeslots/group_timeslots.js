@@ -3,7 +3,6 @@ var daypilot;
 
 $(document).ready( function() {
 
-
   popupmenu      = new PopupMenu( id('popupmenu_container') );
   custy_selector = new CustySelector();
 
@@ -12,6 +11,7 @@ $(document).ready( function() {
   custy_selector.show_add_form();
   
   setup_daypilot();
+  
 });
 
   function setup_daypilot() {

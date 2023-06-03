@@ -1,9 +1,11 @@
 data = {
   rental: {
-    starttime: '',
-    endtime: '',
+    start_time: '',
+    end_time: '',
     activity: '',
     note: '',
+    customer_id: 0,
+    is_lesson: false,
     slots: []
   },
   selected_timeslot: null,
@@ -53,7 +55,7 @@ $(document).ready( function() {
 
   userview       = new UserView(id('userview_container'));
   popupmenu      = new PopupMenu( id('popupmenu_container') );
-  loft_calendar = get_element(view,'loft-calendar');
+  loft_calendar  = get_element(view,'loft-calendar');
   custy_selector = new CustySelector();
 
   custy_selector.ev_sub('show'       , popupmenu.show );
@@ -61,25 +63,25 @@ $(document).ready( function() {
 
   loft_calendar.ev_sub('on_timeslot_selected', function(val) {
     if(!userview.logged_in) { userview.onboard(); return;  }
-    console.log(val);
     data.selected_timeslot = { start: new Date(val.start.value), end: new Date(val.end.value) };
-    data.num_slots = 2;
+    data.rental.start_time = new Date(val.start.value);
+    data.rental.end_time = new Date(val.end.value);
+    data.num_slots = 1;
     data.rental.slots = [];
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
-    data.rental.slots.push( { customer_id: 0, customer_string: "Add Student" } );
     calculate_total();
   });
 
 });
 
-function on_timeslot_selected(args) {
-  if(!userview.logged_in) { userview.onboard(); return;  }
-  data.selected_timeslot.starttime = new Date(args.start.value);
-  data.selected_timeslot.endtime = new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000)
-  data.num_slots = 2;
-  data.rental.slots = [];
-  data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
-  data.rental.slots.push( { customer_id: 0, customer_string: "Add Student" } );
-  calculate_total();
-}
+//function on_timeslot_selected(args) {
+//  if(!userview.logged_in) { userview.onboard(); return;  }
+//  data.selected_timeslot.starttime = new Date(args.start.value);
+//  data.selected_timeslot.endtime = new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000)
+//  data.num_slots = 2;
+//  data.rental.slots = [];
+//  data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
+//  data.rental.slots.push( { customer_id: 0, customer_string: "Add Student" } );
+//  calculate_total();
+//}
 
