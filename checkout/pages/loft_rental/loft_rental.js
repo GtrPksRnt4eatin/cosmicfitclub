@@ -35,7 +35,7 @@ ctrl = {
   },
   
   request_slot: function(e,m) {
-    $.post('/models/groups', JSON.stringify( data ) )
+    $.post('/models/groups', JSON.stringify( data.rental ) )
       .done(function() {
         window.location.href = '/checkout/complete';
       })
