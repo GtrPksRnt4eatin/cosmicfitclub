@@ -33,7 +33,13 @@ ctrl = {
   },
   
   request_slot: function(e,m) {
-    
+    $.post('/models/groups', JSON.stringify( data ) )
+      .done(function() {
+        window.location.href = '/checkout/complete';
+      })
+      .fail(function(e) {
+        alert(e.status);
+      });
   }
 }
 
