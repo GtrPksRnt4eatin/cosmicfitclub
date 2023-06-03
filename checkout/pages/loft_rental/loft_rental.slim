@@ -12,13 +12,13 @@ html
 
   body
 
-  	#stars
+    #stars
 
     == include_slim('slim/partials/header')
 
-  	.content
+    .content
 
-  	  .tile          
+      .tile          
         
         h2
           | Aerial Point Reservation
@@ -33,32 +33,35 @@ html
         div rv-show='data.selected_timeslot'
           h3 Selected Timeslot
           .tuple
-            .attrib Start:
-            .value {data.selected_timeslot.start | datetime}
+            .attrib
+              | Start:
+            .value
+              | {data.selected_timeslot.start | classtime}
           .tuple
-            .attrib End:
-            .value {data.selected_timeslot.end | datetime}
+            .attrib
+              | End:
+            .value 
+              | {data.selected_timeslot.end | classtime}
 
         .tuple
-          .attrib Activity:
+          .attrib Apparatus:
           .value 
             select rv-value='data.rental.activity'
-              option value="Personal Training" Personal Training
-              option value="Acroyoga" Acroyoga
-              option value="Spotting Belt" Spotting Belt
               option value="Straps" Straps
+              option value="Silks" Silks
               option value="Lyra" Lyra
-              option value="Other" Other
+              option value="Spotting Belt" Spotting Belt
+              option value="Other" Other/Bringing My Own
         
-        .tuple rv-if="data.rental.activity | equals 'Other'"
-          .attrib Description: 
+        .tuple
+          .attrib Rigging Notes: 
           .value 
             textarea rv-value='data.rental.note'
         
         .tuple
           .attrib # of Slots (max 4):
           .value
-            select rv-on-change='ctrl.set_num_slots'
+            select rv-value='data.num_slots' rv-on-change='ctrl.set_num_slots'
               option value="0" 0
               option value="1" 1
               option value="2" 2
@@ -72,5 +75,10 @@ html
               | Slot \#{index | fix_index}
             .value.edit rv-on-click='ctrl.choose_custy'
               | {slot.customer_string}
+        
+        hr
+        
+        button#request rv-on-click='ctrl.request_slot'
+          | Request this Timeslot
 
     #popupmenu_container

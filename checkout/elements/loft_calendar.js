@@ -2,15 +2,15 @@ function LoftCalendar(parent,attr) {
 
   this.selected_timeslot = attr['timeslot']
 
-	this.state = {
-    window_start: null,
-    window_end: null,
-    daypilot: null,
-    reservations: null,
-    gcal_events: null   
-	}
+    this.state = {
+      window_start: null,
+      window_end: null,
+      daypilot: null,
+      reservations: null,
+      gcal_events: null   
+    }
 
-	this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events']);
+  this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events']);
   this.build_daypilot();
   this.get_gcal_events();
   this.get_reservations();
@@ -21,7 +21,8 @@ LoftCalendar.prototype = {
 
   build_daypilot: function() {
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
-      viewType: "Week",
+      viewType: "Days",
+      days: 7,
       cellDuration: 30,
       cellHeight: 20,
       headerDateFormat: "ddd MMM d",
@@ -53,12 +54,12 @@ LoftCalendar.prototype = {
      .then(function(resp) { 
         this.state.gcal_events = resp;
         this.state.gcal_events.for_each( function(event) {
-          let location = event.location == "Loft-1F-Front (4)" ? "Point Rental" : event.location == "Loft-1F-Back (8)" ? "Back Room Rental" : null;
+          if(event.location != "Loft-1F-Front (4)") return;
           location && this.state.daypilot.events.add({
             id: 12345,
             start: moment(event.start).subtract(4,'hours').format(),
             end: moment(event.end).subtract(4,'hours').format(),
-            text: location, 
+            text: "Reserved", 
             allday: event.allday
           })
         }.bind(this)) 

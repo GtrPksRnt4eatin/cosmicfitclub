@@ -123,8 +123,6 @@ function on_event_data(val) {
   set_event_mode(); 
   set_first_price();
   data.loaded = true;
-  if(data.mode == 'privates')
-    setup_daypilot();
 }
 
 function get_attendance() {
@@ -238,7 +236,8 @@ function sort_included_sessions() {
 }
 
 function set_included_sessions(sessions) {
-  for(var i=0; i<data.event_data.sessions.length; i++) { 
+  sessions = sessions || [];
+  for(var i=0; i<data.event_data.sessions.length; i++) {
     data.event_data.sessions[i].selected = sessions.indexOf(data.event_data.sessions[i].id)!=-1;
   }
   data.included_sessions = sessions.slice(0);
@@ -359,18 +358,20 @@ function checkout_passes(price, passes) {
 }
 
 function checkout_new() {
+  if(!userview.logged_in) { userview.onboard(); return;  }
   calculate_total();
 
   let desc = data.event_data.name;
 
-  pay_form.checkout(userview.id, data.total_price/100, desc ,null, function(payment_id) {
+  pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
 
     var payload = {
       customer_id:       userview.id, 
       event_id:          data.event_data['id'],
       included_sessions: data.included_sessions,
-      total_price:       data.total_price/100,
+      total_price:       data.total_price,
       payment_id:        payment_id,
+      multiplier:        data.multiplier,
       price_id:          null
     }
      

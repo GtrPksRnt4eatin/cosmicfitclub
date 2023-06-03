@@ -71,8 +71,8 @@ class ClassDefRoutes < Sinatra::Base
 
   get '/:id/thumb' do
     classdef = ClassDef[params[:id]] or halt 404
-    content_type classdef.image[:small].mime_type
-    send_file classdef.image[:small].download.path
+    content_type classdef.thumb(:small).try(:mime_type)
+    send_file classdef.thumb(:small).try(:download).try(:path)
   end
 
   post '/:id/moveup' do
@@ -270,6 +270,7 @@ class ClassDefRoutes < Sinatra::Base
       reservation = occurrence.make_reservation( params[:customer_id] ) or halt 400
     end
 
+    Slack.website_purchases(reservation.summary)
     status 201
     reservation.to_json
   end
@@ -292,12 +293,13 @@ class ClassDefRoutes < Sinatra::Base
     when "membership"
       custy.use_membership(message) { reservation = occurrence.make_reservation( params[:customer_id] ) } or halt(400, "Trouble Using Membership" )
     when "payment"
-      reservation = occurrence.make_reservation( params[:customer_id] )                     or halt(400, "Trouble Making Reservation" )
+      reservation = occurrence.make_reservation( params[:customer_id] )                                   or halt(400, "Trouble Making Reservation" )
       CustomerPayment[params[:payment_id]].update( :class_reservation_id => reservation.id )
     when "free"
       reservation = occurrence.make_reservation( params[:customer_id] )                                   or halt(400, "Trouble Making Reservation" )
     end
 
+    Slack.website_purchases(reservation.summary)
     status 201
     reservation.to_json
   end

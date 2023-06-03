@@ -18,16 +18,19 @@ function SessionChooser(parent,attr) {
   
       build_daypilot: function() {
         //this.daypilot && this.daypilot.dispose();
+        let start_of_day = Math.min(...this.event.sessions.map(function(x) { return new Date(x.start_time).getHours(); })) - 1;
+        let end_of_day = Math.max(...this.event.sessions.map(function(x) { return new Date(x.end_time).getHours(); })) + 1;
+        
         this.daypilot = new DayPilot.Calendar("daypilot", {
           headerDateFormat:          "ddd MMM d",
           startDate:                 moment(this.event.starttime).format("YYYY-MM-DD"),       
-          days:                      moment(this.event.endtime).diff(moment(this.event.starttime),"days")+1,
+          days:                      moment(this.event.endtime).endOf('day').diff(moment(this.event.starttime).startOf('day'),"days")+1,
           cellDuration:              30,
           cellHeight:                20,
-          businessBeginsHour:        10,
-          businessEndsHour:          20,
-          dayBeginsHour:             10,
-          dayEndsHour:               20,
+          businessBeginsHour:        start_of_day,
+          businessEndsHour:          end_of_day,
+          dayBeginsHour:             start_of_day,
+          dayEndsHour:               end_of_day,
           viewType:                  "Days",
           timeRangeSelectedHandling: "Disabled",  
           eventMoveHandling:         "Disabled",
@@ -44,9 +47,9 @@ function SessionChooser(parent,attr) {
         list && list.for_each( function(sess) {
           this.daypilot.events.add({
             id:    sess.id, 
-            start: moment(sess.start_time).subtract(5,'hours').format(), 
-            end:   moment(sess.end_time).subtract(5,'hours').format(), 
-            text:  sess.title + "\r\n" + rivets.formatters.money(sess.individual_price_full)
+            start: moment(sess.start_time).tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss'), 
+            end:   moment(sess.end_time).tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss'), 
+            text:  (sess.title == "Private") ? sess.title : (sess.title + "\r\n" + rivets.formatters.money(sess.individual_price_full))
           })
         }.bind(this));
       },
@@ -66,9 +69,13 @@ function SessionChooser(parent,attr) {
           let passes     = this.passes.find(           function(q) { return x.id() == q.session_id } );
           if( !attendance || !session ) return;
               
-          if(session.title != "Private") {
+          if(session.title == "Private") {
+            x.text(session.title);
+          }
+          else {
             x.text(session.title + "\r\n" + rivets.formatters.money(session.individual_price_full) + "\r\n" + attendance.passes.length + "/" + session.max_capacity);
           }
+          
   
           let full     = attendance.passes.length >= session.max_capacity || ( session.title == "Private" && attendance.passes.length > 0 );
           let selected = !!passes

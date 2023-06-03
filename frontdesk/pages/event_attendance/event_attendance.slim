@@ -46,7 +46,7 @@ html
           | { data.event.name }
           br
           br
-          a href="/models/events/#{params[:id]}/attendance.csv" Download Accounting Sheet
+          span#drive rv-on-click='ctrl.send_to_drive' Generate Accounting Sheet
         br
         .title
           | Ticket Checkout

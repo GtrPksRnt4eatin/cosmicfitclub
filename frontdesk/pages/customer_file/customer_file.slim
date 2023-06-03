@@ -128,7 +128,7 @@ html
                   | Balance:
                 td
                   | { data.customer.wallet.pass_balance } passes remaining
-              tr rv-if='data.customer.wallet.shared'
+              tr
                 th 
                   | Sharing:
                 td rv-if='data.customer.wallet.shared'
@@ -142,12 +142,8 @@ html
                     tr
                       td Share With
                       td
-                        select.customers#custy_shared
-                          option value='0' No Customer
-                          - Customer.all.each do |cust|
-                            option value='#{cust.id}'
-                              | #{ cust.name } ( #{ cust.email } )
-
+                        .custybox rv-on-click='ctrl.get_share_custy'
+                          | { data.customer.wallet.shared_with | custy_list_string }
               tr
                 th.hide_mobile
                   | Transfers:

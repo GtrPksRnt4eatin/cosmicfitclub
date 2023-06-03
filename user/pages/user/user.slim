@@ -39,10 +39,14 @@ html
         br
         a href='/auth/activate' Change Your Password
 
-      - if user.has_role? "door" && false
+      - if user.has_role? "door"
         .tile
-          .header Door Access
+          .header Security
           hr
+          div
+            a href='http://72.231.24.250/axis-cgi/mjpg/video.cgi' Loft Camera
+          div
+            a href='http://72.231.24.250:85' Loft Cam 2
           div
             a href='/admin/door' Door Controls
 

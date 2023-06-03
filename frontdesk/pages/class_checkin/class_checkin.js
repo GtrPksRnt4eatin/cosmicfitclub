@@ -34,6 +34,7 @@ ctrl = {
   create_custom(e,m) {
     if(!data.newsheet.classdef_id) { $('#custom_sheet').shake(); return; }
     if(!data.newsheet.staff_id)    { $('#custom_sheet').shake(); return; }
+    if(!data.newsheet.location_id) { $('#custom_sheet').shake(); return; }
     if(!data.newsheet.starttime)   { $('#custom_sheet').shake(); return; }
     $.post('/models/classdefs/occurrences', newsheet_args(), get_occurrences );
   }
@@ -86,6 +87,7 @@ function newsheet_args() {
   return {
     classdef_id: data.newsheet.classdef_id,
     staff_id:    data.newsheet.staff_id,
+    location_id: data.newsheet.location_id,
     starttime:   date.format()
   }
 }

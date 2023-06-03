@@ -26,6 +26,10 @@ ctrl = {
 
   edit_event(e,m) {
     document.location.href = '/admin/events/' + data.event.id;
+  },
+
+  send_to_drive(e,m) {
+    $.get(`/models/events/${data['event'].id}/sheet2drive`, on_save_to_drive);
   }
   
 }
@@ -127,5 +131,9 @@ function on_event(event) {
 }
 
 function on_attendance(attendance) { 
-	data['list'] = attendance; 
+  data['list'] = attendance; 
+}
+
+function on_save_to_drive(resp) {
+  window.location = resp.url;
 }

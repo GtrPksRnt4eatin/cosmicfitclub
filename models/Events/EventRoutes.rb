@@ -30,20 +30,6 @@ class EventRoutes < Sinatra::Base
 
   ###################################### EVENTS #################################
 
-  get '/:id' do
-    content_type :json
-    event = Event[params[:id]] or halt(404,'event not found')
-    data = event.full_detail
-    JSON.generate data
-  end
-
-  get '/:id/admin_detail' do
-    content_type :json
-    event = Event[params[:id]] or halt(404,'event not found')
-    data = event.admin_detail
-    JSON.generate data
-  end
-
   post '/' do
     content_type :json
     if Event[params[:id]].nil?
@@ -67,12 +53,30 @@ class EventRoutes < Sinatra::Base
     status 200
     event.to_json
   end
+  
+  get '/:id' do
+    content_type :json
+    event = Event[params[:id]] or halt(404,'event not found')
+    data = event.full_detail
+    JSON.generate data
+  end
+
+  get '/:id/admin_detail' do
+    content_type :json
+    event = Event[params[:id]] or halt(404,'event not found')
+    data = event.admin_detail
+    JSON.generate data
+  end
 
   delete '/:id' do
     event = Event[params[:id]] or halt(404,"Event Not Found")
     event.can_delete?          or halt(409,"#{event.linked_objects.join(', ')}")
     Event[params[:id]].delete
     status 204; {}.to_json
+  end
+  
+  post '/:id/duplicate' do
+    Event::duplicate(params[:id])
   end
 
   ###################################### EVENTS #################################
@@ -99,8 +103,13 @@ class EventRoutes < Sinatra::Base
 
   post '/:id/short_url' do
     event = Event[params[:id]] or halt(404,'event not found')
-    event.short_url.update( :short_path => params[:short_url] ) if event.short_url
-    event.update( :short_url => ShortUrl.create( :short_path => params[:short_url], :long_path => "/checkout/event/" + params[:id] ) ) unless event.short_url
+    existing = ShortUrl.find( :short_path => params[:short_url] )
+    if existing then
+      existing.update( :event=>event, :long_path=> "/checkout/event/" + params[:id] )
+    else
+      event.short_url.update( :short_path => params[:short_url] ) if event.short_url
+      event.update( :short_url => ShortUrl.create( :short_path => params[:short_url], :long_path => "/checkout/event/" + params[:id] ) ) unless event.short_url
+    end
     status 204; {}.to_json
   end
 
@@ -265,6 +274,12 @@ class EventRoutes < Sinatra::Base
     content_type :json
     event = Event[params[:id]] or halt(404, "Event Not Found")
     event.attendance2.to_json
+  end
+
+  get '/:id/sheet2drive' do
+    content_type :json
+    event = Event[params[:id]] or halt(404, "Event Not Found")
+    { :url => Sheets::create_event_sheet(params[:id].to_i) }.to_json
   end
 
   get '/:id/attendance.csv' do

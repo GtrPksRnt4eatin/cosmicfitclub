@@ -6,11 +6,6 @@ class ClassReservation < Sequel::Model
   one_to_one  :membership_use, :class => :MembershipUse, :key => :reservation_id
   one_to_one  :payment, :class => :CustomerPayment, :key => :class_reservation_id
 
-  def after_create
-    super
-    Slack.website_purchases(self.summary) if self.payment
-  end
-
   def check_in
     self.checked_in = self.checked_in.nil? ? DateTime.now : nil
     self.save
@@ -35,12 +30,12 @@ class ClassReservation < Sequel::Model
       return "card" if self.payment.type == "saved card"
       return "card" if self.payment.type == "new card"
     end
-    return "free" if self.occurrence.free
+    return "free" if self.occurrence.try(:free)
     return ""
   end
 
   def summary
-    "#{self.customer.to_list_string} paid #{self.payment.amount}#{self.payment.type == "cash" ? " cash" : ""} for #{self.occurrence.summary} on #{self.occurrence.starttime}"
+    "#{self.customer.try(:to_list_string)} paid #{self.payment.try(:amount) || '$0 '}#{self.payment_type} for #{self.occurrence.try(:summary)} on #{self.occurrence.try(:starttime)}"
   end
  
   alias :to_list_string :summary

@@ -22,7 +22,6 @@ class Customer < Sequel::Model
   one_to_many  :group_reservations
   one_to_many  :group_reservation_slots
 
-
   many_to_one :wallet
   many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
   many_to_many :parents,  :class => :Customer, :join_table => :parents_children, :left_key => :child_id,  :right_key => :parent_id
@@ -82,10 +81,14 @@ class Customer < Sequel::Model
     StripeMethods.get_customer(stripe_id)['sources']['data']
   end
 
-  def add_child(child)
+  def share_wallet_with(partner)
     ( self.wallet = Wallet.create; self.save ) if self.wallet.nil?
-    self.wallet << child.wallet unless child.wallet.nil?
-    child.update( :wallet=>self.wallet )
+    self.wallet << partner.wallet unless partner.wallet.nil?
+    partner.update( :wallet=>self.wallet )
+  end
+
+  def add_child(child)
+    self.share_wallet_with(child)
     super
   end
 
@@ -101,6 +104,9 @@ class Customer < Sequel::Model
     self.waivers.each           { |wav| wav.customer = other; wav.save }
     self.event_passes.each      { |pas| pas.customer = other; pas.save }
     self.gift_certificates.each { |crt| crt.customer = other; crt.save }
+    self.subscriptions.each     { |sub| sub.customer = other; sub.save }
+    
+    other.update( :stripe_id => self.stripe_id ) unless other.stripe_id
 
     return if self.wallet.nil?
     other.update( :wallet => Wallet.create ) if other.wallet.nil?

@@ -147,16 +147,20 @@ class CFCAuth < Sinatra::Base
   post '/register' do
     content_type :json
     data = JSON.parse(request.body.read)
-    halt 409, 'Email is Already in Use' unless Customer[:email => data['email'].downcase ].nil?
-    custy = Customer.create( :name => data['name'], :email => data['email'] )
+    halt 422, "No Email Provided" if data['email'].nil?
+    email = data['email'].downcase.lstrip.rstrip
+    halt 409, 'Email is Already in Use' unless Customer[:email => email ].nil?
+    custy = Customer.create( :name => data['name'], :email => email )
     return JSON.generate({ :id => custy.id })
   end
 
   post '/register_and_login' do
     content_type :json
     data = JSON.parse(request.body.read)
-    halt 409, 'Email is Already in Use' unless Customer[:email => data['email'].downcase ].nil?
-    custy = Customer.create( :name => data['name'], :email => data['email'] )
+    halt 422, 'No Email Provided' if data['email'].nil?
+    email = data['email'].downcase.lstrip.rstrip
+    halt 409, 'Email is Already in Use' unless Customer[:email => email ].nil?
+    custy = Customer.create( :name => data['name'], :email => email )
     custy.login.set_password!(params[:password]) if params[:password]
     jwt = set_jwt_header(custy.login)
     session[:user_id] = custy.login.id
@@ -166,8 +170,10 @@ class CFCAuth < Sinatra::Base
 
   post '/register_and_login_jwt' do
     content_type :json
-    halt 409, 'Email is Already in Use' unless Customer[:email => params[:email].downcase].nil?
-    custy = Customer.create( :name => params[:name], :email => params[:email] )
+    halt 422, 'No Email Provided' if data['email'].nil?
+    email = data['email'].downcase.lstrip.rstrip
+    halt 409, 'Email is Already in Use' unless Customer[:email => email].nil?
+    custy = Customer.create( :name => params[:name], :email => email )
     custy.login.set_password!(params[:password])
     jwt = set_jwt_header(custy.login)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
@@ -175,9 +181,12 @@ class CFCAuth < Sinatra::Base
 
   post '/password' do
     if params[:token] && !params[:token].empty? then
-      user = User.find( :reset_token  => params[:token] )   
-      Slack.website_access( "Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )      
-      halt(400, "This Reset Token is Invalid or Has Expired") if user.nil?
+      user = User.find( :reset_token  => params[:token] )
+      if user.nil? then
+        Slack.website_access( "Invalid Token Posted #{ params[:token] }" )
+        halt(400, "This Reset Token is Invalid or Has Expired")
+      end
+        Slack.website_access( "Token Posted #{ user.customer.to_list_string } - #{ params[:token] }" )
     else
       user = User[session[:user_id]]
       halt(400, "Not Logged In") if user.nil?
@@ -187,7 +196,7 @@ class CFCAuth < Sinatra::Base
     user.set( :password => params[:password], :confirmation => params[:confirmation], :reset_token => nil ).save
     session[:user_id] = user.id
     session[:customer_id] = user.customer.id
-    Slack.website_access( "Password Reset #{ user.customer.to_list_string } - #{ params[:token] }" ) 
+    Slack.website_access( "Password Set #{ user.customer.to_list_string } - #{ params[:token] }" ) 
     jwt = set_jwt_header(user)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end

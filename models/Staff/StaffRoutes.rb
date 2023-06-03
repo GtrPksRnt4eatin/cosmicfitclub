@@ -41,6 +41,7 @@ class StaffRoutes < Sinatra::Base
   end
 
   post '/:id' do
+    pass if params[:id].to_i == 0
     staff = Staff[params[:id]] or halt(404,"Staff Not Found")
     p params[:values]
     staff.update(params[:values])
@@ -73,6 +74,30 @@ class StaffRoutes < Sinatra::Base
 
   get '/payroll' do
     JSON.pretty_generate Staff::payroll(params[:from],params[:to])
+  end
+  
+  get '/payroll2drive' do 
+    { :url => Sheets::create_payroll_sheet(params[:from],params[:to]) }.to_json
+  end
+
+  post '/payroll' do
+    data = Staff::payroll(params[:from],params[:to])
+    proll = Payroll.create({ start_date: params[:from], end_date: params[:to]})
+    data.each do |row|
+      slip = PayrollSlip.create({ staff_id: row[:staff_id], payroll_id: proll.id})
+      row[:class_occurrences].each do |line|
+        PayrollLine.create({ 
+          payroll_slip_id: slip.id,
+          class_occurrence_id: line[:id],
+          start_time: line[:starttime],
+          description: line[:class_name],
+          quantity: line[:headcount],
+          category: "class_pay",
+          value: line[:pay]
+        })
+      end
+    end
+    JSON.generate proll
   end
 
   get '/paypal' do

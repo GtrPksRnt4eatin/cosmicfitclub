@@ -23,9 +23,10 @@ html
         .title Payroll
 
         input rv-daterangefield='data.range' rv-on-change='ctrl.get_data'
-        button rv-on-click='ctrl.get_data'   Get Payroll
+        button rv-on-click='ctrl.generate_payroll'   Generate Payroll
         button rv-on-click='ctrl.dl_csv'     Download CSV
         button rv-on-click='ctrl.dl_payouts' Download Payouts
+        button rv-on-click='ctrl.send_to_drive' Send To Drive
 
       .tile rv-each-staff='data.payroll'
         table.paystub

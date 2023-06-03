@@ -232,6 +232,7 @@ def payroll_query
 end
 
 def Staff::payroll(from, to)
+  privates = []
   from = ( from.is_a?(String) ? Date.parse(from) : from )
   to = ( to.is_a?(String) ? Date.parse(to) : to )
 
@@ -239,14 +240,16 @@ def Staff::payroll(from, to)
   result.each { |teacher_row|
     teacher_row[:class_occurrences].each     { |x| x.transform_keys!(&:to_sym) }
     teacher_row[:class_occurrences].reject!  { |x| ClassDef[x[:classdef_id].to_i].unpaid }
-    teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x[:starttime]) } 
+    teacher_row[:class_occurrences].reject!  { |x| x[:classdef_id].to_i == 188 && privates.push(x) }
+    teacher_row[:class_occurrences].sort_by! { |x| Time.parse(x[:starttime]) }
+    teacher_row[:staff_id]==106 && teacher_row[:class_occurrences].push(*privates)
+	    
     teacher_row[:class_occurrences].each     { |occurrence_row|
 
       occurrence_row[:payment_total] ||= 0
       occurrence_row[:cosmic] = (occurrence_row[:passes_total].to_i * 1200) + (occurrence_row[:payment_total])
 
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
-
 
       occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 700
       occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.6)
@@ -265,21 +268,6 @@ def Staff::payroll(from, to)
       end
 
       occurrence_row[:cosmic] = occurrence_row[:cosmic] - occurrence_row[:pay]
-
-      #occurrence_row[:pay] = case occurrence_row[:headcount].to_i
-      #when 0..1
-      #  20 
-      #when 2..5
-      #  40
-      #when 6..10
-      #  60
-      #when 11..15
-      #  80
-      #when 16..20
-      #  100
-      #else
-      #  100
-      #end
     }
   }
   punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
@@ -341,7 +329,7 @@ def Staff::payroll_csv(from,to)
   proll.each do |teacher_row|
     totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0, :cosmic => 0 }
     csv << [ teacher_row[:staff_name].upcase, "#{from.strftime('%Y-%m-%d')} to #{to.strftime('%Y-%m-%d')}" ]
-    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY', 'COSMIC' ]
+    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY', 'COSMIC FIT CLUB', 'TRANSATION ID', 'SENT ON']
     csv << []
     teacher_row[:class_occurrences].each do |row|
       row[:payment_total] ||= 0

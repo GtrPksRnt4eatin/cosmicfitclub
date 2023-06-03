@@ -1,6 +1,6 @@
 .tile {
   padding: 1em;
-  width: 25em;
+  width: 27em;
   margin: 1em auto;
 }
 
@@ -30,6 +30,13 @@
 .custy_selector .add_custy, 
 .custy_selector .edit_custy {
   height: 4.37em;
+}
+
+button#request {
+  font-size: 0.7em;
+  padding: 0.25em 1em;
+  cursor: pointer;
+  width: 100%;
 }
 
 @media (orientation: portrait) {

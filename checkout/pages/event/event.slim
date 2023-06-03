@@ -24,7 +24,8 @@ html
     <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
 
     == js  [ 'https://checkout.stripe.com/checkout' ]
-    == js  [ 'jquery', 'lib', 'menu', 'moment', 'rivets', 'rv_dates', 'rv_money', 'selectize.min', 'element', 'ev_channel', 'daypilot-all.min' ]
+    == js  [ 'moment','moment-timezone-with-data-10-year-range.min' ]
+    == js  [ 'jquery', 'lib', 'menu', 'rivets', 'rv_dates', 'rv_money', 'selectize.min', 'element', 'ev_channel', 'daypilot-all.min' ]
     == js  [ '/checkout/elements/payment_form', '/auth/elements/userview', '/admin/elements/popup_menu', '/checkout/elements/session_slots' ]
     == js  [ '/checkout/elements/session_chooser', '/checkout/elements/session_list', '/admin/elements/custy_selector', 'event' ]
 
@@ -72,7 +73,7 @@ html
             session-chooser event='data.event_data' session='data.selected_session' attendance='data.attendance' passes='data.included_session_passes'
             session-list event='data.event_data' passes='data.included_session_passes'
           div rv-show='data.selected_session'
-            session-slots session='data.selected_session' choose_customer='ctrl.choose_customer' passes='data.included_session_passes' customer='data.customer_info'
+            session-slots event='data.event_data' session='data.selected_session' choose_customer='ctrl.choose_customer' passes='data.included_session_passes' customer='data.customer_info'
 
           
         .flex.flex3 rv-if="data.mode | equals 'privates' "
@@ -180,10 +181,10 @@ html
                   input#email
 
                 div rv-if='customer | empty'
-                  button#register rv-on-click='ctrl.checkout' Register
+                  button#register rv-on-click='ctrl.checkout_new' Register
 
                 div rv-unless='customer | empty'
-                  button#register rv-on-click='ctrl.checkout' { customer.name }, Click here to register.
+                  button#register rv-on-click='ctrl.checkout_new' { customer.name }, Click here to register.
 
               div rv-if="data.mode | equals 'external' "
                 a rv-href='data.event_data.registration_url' 
@@ -249,13 +250,7 @@ html
               hr width='75%'
 
               div
-                button#checkout rv-on-click='ctrl.checkout' Buy { data.multiplier | num_tix }For { data.total_price | money }
-
-              .fineprint rv-if='data.customer_info | empty'
-                a.signin href='/pricing' Sign Up
-                | /
-                a.signin href='#' onclick="window.location.replace( '/auth/login?page=#{request.path}' )" Sign In
-                | to receive member pricing
+                button#checkout rv-on-click='ctrl.checkout_new' Buy { data.multiplier | num_tix }For { data.total_price | money }
 
       #popupmenu_container
 

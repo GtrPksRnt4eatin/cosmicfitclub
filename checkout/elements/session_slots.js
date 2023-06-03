@@ -1,22 +1,56 @@
 function SessionSlots(parent,attr) {
 
+  this.event           = attr['event'];
   this.session         = attr['session'];
   this.customer        = attr['customer'];
   this.choose_customer = attr['choose_customer'];
   this.session_passes  = attr['passes'];
 
-	this.state = {
+  this.state = {
     num_slots: 1,
     passes: [],
     slot_options: []
-	}
+  }
+	
+  rivets.formatters.session_passes = function(passes) {
+    let result = passes.reduce(function(result,obj) {
+        result[obj['session_id']] = result[obj['session_id']] || [];
+        result[obj['session_id']].push(obj); 
+        return result;
+    },{});
+    if(!this.event) return([]);
+    return Object.values(result).map( function(v) { 
+      let sess = this.event.sessions.find( function(s) { return s.id == v[0]['session_id'] } );
+      let price = sess.custom && sess.custom.slot_pricing ? sess.custom.slot_pricing[v.length - 1] : sess.individual_price_full * v.length;
+      let addons = sess.custom && sess.custom.addons ? sess.custom.addons.filter(function(x) { return x.checked; }) : [];
+      let addons_price = addons.reduce(function(sum,x) { return(sum + x.price); }, 0 );
+      return { 
+        session_id: v[0]['session_id'], 
+        count: v.length, 
+        price: price,
+        session: sess,
+        passes: v,
+        addons: addons,
+        addons_price: addons_price
+      }
+    }.bind(this) )
+  }.bind(this);
 
-	this.bind_handlers(['set_num_slots', 'num_slots_selected', 'set_slot_options', 'check_for_existing', 'set_first_slot','clear_session', 'choose_custy','add_to_order']);
-	this.load_styles();
+  rivets.formatters.total_price = function(passes) {
+    passes = rivets.formatters.session_passes(passes);
+    result = passes.reduce(function(result,obj) {
+      return result + obj['price'] + obj['addons_price'];
+    },0);
+    return rivets.formatters.money(result);
+  }.bind(this);
+
+  this.bind_handlers(['set_num_slots', 'num_slots_selected', 'set_slot_options', 'check_for_existing', 'set_first_slot','clear_session', 'choose_custy','add_to_order']);
+  this.load_styles();
+
 }
 
 SessionSlots.prototype = {
-	constructor: SessionSlots,
+  constructor: SessionSlots,
 
   set_num_slots(n) {
     this.state.num_slots = n;
@@ -129,6 +163,16 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
               <input type='checkbox' name='addon' rv-checked='addon.checked'/>+{addon.price | money} {addon.name}
             </label>
           </div>
+	      </div>
+      </div>
+      
+      <div>
+        <hr/>
+	      <div class='tuple'>
+	        <div class='attrib'>Price</div>
+	        <div class='value'>
+	          { state.passes | total_price }
+	        </div>
 	      </div>
       </div>
 

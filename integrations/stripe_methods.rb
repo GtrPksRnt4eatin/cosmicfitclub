@@ -3,6 +3,12 @@ require 'stripe'
 Stripe.api_key = ENV['STRIPE_SECRET']
 
 module StripeMethods
+  
+  def StripeMethods::PayoutVendor(amount, connected_acct_id, descriptor="Cosmic Fit Club")
+    transfer = Stripe::Transfer.create({ amount: amount, currency:"usd", destination: connected_acct_id })
+    payout = Stripe::Payout.create({ amount: amount, currency: "usd", statement_descriptor: descriptor }, {stripe_account: connected_acct_id })
+    { transfer: transfer, payout: payout }
+  end
 
   def StripeMethods::get_payment_intent(amount,description,custy)
     intent = Stripe::PaymentIntent.create({
