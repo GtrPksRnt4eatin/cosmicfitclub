@@ -21,6 +21,8 @@ class GroupReservationRoutes < Sinatra::Base
         :start_time           => data['start_time'],
         :duration_mins        => data['duration_mins'],
       )
+    end
+    
   end
 
   #################################### GROUP RESERVATION LISTS ##############################
