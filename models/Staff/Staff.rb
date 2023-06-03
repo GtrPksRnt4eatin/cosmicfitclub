@@ -204,6 +204,7 @@ def payroll_query
       SELECT 
         occurrences.*,
         staff.paypal_email AS paypal_email,
+        staff.stripe_connect_id AS stripe_id,
         staff.name AS staff_name,
         staff.unpaid AS staff_unpaid,
         class_defs.name AS class_name,
@@ -248,27 +249,29 @@ def Staff::payroll(from, to)
     teacher_row[:class_occurrences].each     { |occurrence_row|
 
       occurrence_row[:payment_total] ||= 0
+      occurrence_row[:loft] ||= 0
       occurrence_row[:cosmic] = (occurrence_row[:passes_total].to_i * 1200) + (occurrence_row[:payment_total])
 
       ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
+
+
+      ( occurrence_row[:loft] =  )
 
       occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 700
       occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.6)
 
       occurrence_row[:pay] = case(teacher_row[:staff_id])
-        when 104 # Sylvana gets $50 flat per class
-          5000
+        when 103 # Sam Defers to Loft
+          occurrence_row[:loft] = occurrence_row[:cosmic]
+          0
         when 106 # Cosmic Loft gets 100% of loft rentals
-          occurrence_row[:cosmic]
-        when 108 # Michal gets $35 minimum per class
-          3500 > occurrence_row[:pay] ? 3500 : occurrence_row[:pay]
-        when 11 # Rick gets $20 minimum per class
-          2000 > occurrence_row[:pay] ? 2500 : occurrence_row[:pay]
+          occurrence_row[:loft] = occurrence_row[:cosmic]
+          0
         else
           occurrence_row[:pay]
       end
 
-      occurrence_row[:cosmic] = occurrence_row[:cosmic] - occurrence_row[:pay]
+      occurrence_row[:cosmic] = occurrence_row[:cosmic] - occurrence_row[:pay] - occurrence_row[:loft]
     }
   }
   punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
@@ -327,25 +330,25 @@ def Staff::payroll_csv(from,to)
   csv << [ 'Start Date', from.strftime('%Y-%m-%d') ]
   csv << [ 'End Date', to.strftime('%Y-%m-%d') ]
   csv << []
-  grand_totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0, :cosmic => 0 }
+  grand_totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0, :cosmic => 0, :loft => 0 }
   proll.each do |teacher_row|
-    totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0, :cosmic => 0 }
+    totals = { :headcount => 0, :passes => 0, :memberships => 0, :payments => 0, :staff_pay => 0, :cosmic => 0, :loft => 0}
     csv << [ teacher_row[:staff_name].upcase, "#{from.strftime('%Y-%m-%d')} to #{to.strftime('%Y-%m-%d')}" ]
-    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY', 'COSMIC FIT CLUB', 'TRANSATION ID', 'SENT ON']
+    csv << [ 'DATE', 'CLASSNAME', 'HEADCOUNT', 'PASSES', 'MEMBERSHIPS', 'PAYMENTS', 'STAFF PAY', 'COSMIC FIT CLUB', 'COSMIC LOFT', 'TRANSATION ID', 'SENT ON']
     csv << []
     teacher_row[:class_occurrences].each do |row|
       row[:payment_total] ||= 0
-      csv << [ Time.parse(row[:starttime]).strftime("%m/%d/%Y"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], "$ %.2f" % (row[:payment_total]/100), "$ %.2f" % (row[:pay]/100), "$ %.2f" % (row[:cosmic]/100), "https://cosmicfitclub.com/frontdesk/class_attendance/#{row[:id]}" ] unless row[:class_name].nil?
+      csv << [ Time.parse(row[:starttime]).strftime("%m/%d/%Y"), row[:class_name], row[:headcount], row[:passes_total], row[:membership_total], "$ %.2f" % (row[:payment_total]/100), "$ %.2f" % (row[:pay]/100), "$ %.2f" % (row[:cosmic]/100), "$ %.2f" % (row[:loft]/100), "https://cosmicfitclub.com/frontdesk/class_attendance/#{row[:id]}" ] unless row[:class_name].nil?
       csv << [ row[:timerange], row[:task], row[:hours], row[:pay] ] if row[:class_name].nil?
-      totals.merge!( { :headcount => row[:headcount], :passes => row[:passes_total], :memberships => row[:membership_total], :payments => row[:payment_total], :staff_pay => row[:pay], :cosmic => row[:cosmic] } ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
+      totals.merge!( { :headcount => row[:headcount], :passes => row[:passes_total], :memberships => row[:membership_total], :payments => row[:payment_total], :staff_pay => row[:pay], :cosmic => row[:cosmic], :loft => row[:loft] } ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
     end
     grand_totals.merge!( totals ) { |k,v1,v2| v1 + (!!v2 ? v2 : 0) }
     csv << [ ]
-    csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % (totals[:payments]/100), "$ %.2f" % (totals[:staff_pay]/100), "$ %.2f" % (totals[:cosmic]/100)]
+    csv << [ '','TOTALS', totals[:headcount], totals[:passes], totals[:memberships], "$ %.2f" % (totals[:payments]/100), "$ %.2f" % (totals[:staff_pay]/100), "$ %.2f" % (totals[:cosmic]/100), "$ %.2f" % (totals[:loft]/100) ]
     csv << []
   end
   csv << []
-  csv << [ '','GRAND TOTALS', grand_totals[:headcount], grand_totals[:passes], grand_totals[:memberships], "$ %.2f" % (grand_totals[:payments]/100), "$ %.2f" % (grand_totals[:staff_pay]/100),  "$ %.2f" % (grand_totals[:cosmic]/100)]
+  csv << [ '','GRAND TOTALS', grand_totals[:headcount], grand_totals[:passes], grand_totals[:memberships], "$ %.2f" % (grand_totals[:payments]/100), "$ %.2f" % (grand_totals[:staff_pay]/100),  "$ %.2f" % (grand_totals[:cosmic]/100), "$ %.2f" % (grand_totals[:loft]/100)]
   csv.rewind
   csv
 end
