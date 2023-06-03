@@ -30,6 +30,10 @@ ctrl = {
       m.slot.customer_string = custy_selector.selected_customer.list_string;
       alert(custy_id);
     } );
+  },
+  
+  request_slot: function(e,m) {
+    
   }
 }
 
