@@ -237,6 +237,7 @@ def Staff::payroll(from, to)
   to = ( to.is_a?(String) ? Date.parse(to) : to )
 
   result = $DB[payroll_query, from, to.next_day].all
+
   result.each { |teacher_row|
     teacher_row[:class_occurrences].each     { |x| x.transform_keys!(&:to_sym) }
     teacher_row[:class_occurrences].reject!  { |x| ClassDef[x[:classdef_id].to_i].unpaid }
@@ -291,6 +292,7 @@ def Staff::payroll(from, to)
     result << val if existing.nil?
   }
   result.sort_by! { |x| Staff[x[:staff_id]].unpaid == true ? 0 : 1 }
+  result.sort_by! { |x| x[:staff_id] == 106 ? 1 : 0 }
   result.each     { |x| x[:class_occurrences].sort_by! { |y| y[:starttime] } }
   result.each     { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:pay] ? y[:pay] : 0 ) } }
   result.reject   { |x| x[:class_occurrences].length == 0 }
