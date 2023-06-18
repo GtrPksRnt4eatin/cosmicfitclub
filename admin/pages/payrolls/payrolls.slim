@@ -43,15 +43,35 @@ html
             tr
               th colspan="100%"
                 | {slip.staff.name}
+            tr
+              td colspan='2'
+              td[] payout
+              td[] cosmic
+              td[] loft
             tr rv-each-line='slip.lines'
               td[] {line.start_time | classtime }
               td[] {line.description}
-              td[] {line.value  | money }
-              td[] {line.cosmic | money }
-              td[] {line.loft   | money }
+              td.pay[] {line.value  | money }
+              td.pay[] {line.cosmic | money }
+              td.pay[] {line.loft   | money }
             tr 
               td
               td TOTALS: 
-              td[] {slip.totals.payout_total | money }
-              td[] {slip.totals.cosmic_total | money }
-              td[] {slip.totals.loft_total   | money }
+              td.pay[] {slip.totals.payout_total | money }
+              td.pay[] {slip.totals.cosmic_total | money }
+              td.pay[] {slip.totals.loft_total   | money }
+          tbody
+            tr.spacer
+            tr
+              th colspan="100%"
+                | Payouts
+            tr
+              td Loft Total
+              td { slip.totals.loft_total }
+            tr
+              td Cosmic Total
+              td { slip.totals.cosmic_total }
+
+            tr rv-each-slip='data.selected_proll.slips'
+              td[]     { slip.staff.name }
+              td.pay[] { slip.totals.payout_total | money }

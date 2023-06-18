@@ -23,10 +23,14 @@
 }
 
 .proll td {
-  padding: 0.1em;
+  padding: 0.2em;
 }
 
 .proll tr.spacer {
-  height: 1em;
+  height: 1.5em;
   background: transparent;
+}
+
+.proll .pay {
+  text-align: right;
 }

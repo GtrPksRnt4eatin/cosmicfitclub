@@ -250,25 +250,30 @@ def Staff::payroll(from, to)
 
       occurrence_row[:payment_total] ||= 0
       occurrence_row[:loft] ||= 0
-      occurrence_row[:cosmic] = (occurrence_row[:passes_total].to_i * 1200) + (occurrence_row[:payment_total])
+      
+      net_income = (occurrence_row[:passes_total].to_i * 1200) + (occurrence_row[:payment_total])
 
-      ( occurrence_row[:pay] = 0; next ) if teacher_row[:staff_unpaid]
+      #( occurrence_row[:pay] = 0; ocurrence_row[:loft] = 0; occurrence_row[:cosmic] = net_income; next ) if teacher_row[:staff_unpaid]
 
-      occurrence_row[:pay] = occurrence_row[:passes_total].to_i * 700
-      occurrence_row[:pay] = occurrence_row[:pay] + (occurrence_row[:payment_total] * 0.6)
-
-      occurrence_row[:pay] = case(teacher_row[:staff_id])
+      case(teacher_row[:staff_id])
+        when 18 # Ben 50/50 Loft & Cosmic
+          occurrence_row[:pay]    = 0
+          occurrence_row[:cosmic] = 0.5 * net_income
+          occurrence_row[:loft]   = 0.5 * net_income
         when 103 # Sam Defers to Loft
-          occurrence_row[:loft] = occurrence_row[:cosmic]
-          0
+          occurrence_row[:pay]    = 0
+          occurrence_row[:cosmic] = 0
+          occurrence_row[:loft]   = net_income
         when 106 # Cosmic Loft gets 100% of loft rentals
-          occurrence_row[:loft] = occurrence_row[:cosmic]
-          0
+          occurrence_row[:pay]    = net_income
+          occurrence_row[:cosmic] = 0
+          occurrence_row[:loft]   = 0
         else
-          occurrence_row[:pay]
+          occurrence_row[:pay]    = (occurrence_row[:passes_total].to_i * 700) + (occurrence_row[:payment_total] * 0.6) 
+          occurrence_row[:cosmic] = net_income - occurrence_row[:pay] 
+          occurrence_row[:loft]   = 0
       end
 
-      occurrence_row[:cosmic] = occurrence_row[:cosmic] - occurrence_row[:pay] - occurrence_row[:loft]
     }
   }
   punch_groups = HourlyPunch.where(starttime: from...to).all.group_by {|x| x.customer_id }
@@ -296,6 +301,8 @@ def Staff::payroll(from, to)
   result.each     { |x| x[:class_occurrences].sort_by! { |y| y[:starttime] } }
   result.each     { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:pay] ? y[:pay] : 0 ) } }
   result.each     { |x| x[:total_loft] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:loft] ? y[:loft] : 0 ) } }
+  result.each     { |x| x[:total_loft_classes] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:loft_classes] ? y[:loft_classes] : 0 ) } }
+  result.each     { |x| x[:total_loft_rentals] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:loft_rentals] ? y[:loft_rentals] : 0 ) } }
   result.each     { |x| x[:total_cosmic] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:cosmic] ? y[:cosmic] : 0 ) } }
   result.reject   { |x| x[:class_occurrences].length == 0 }
 end
