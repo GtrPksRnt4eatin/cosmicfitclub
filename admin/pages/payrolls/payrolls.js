@@ -1,10 +1,15 @@
 data = {
-  prolls: []
+  prolls: [],
+  selected_proll: null
 }
 
 ctrl = {
   get_data: function(e,m) {
     $.get('/models/staff/payroll_reports', on_payroll_reports, 'json' );
+  },
+
+  select_report: function(e,m) {
+    data.selected_proll = m.proll;
   }
 }
 

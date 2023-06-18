@@ -8,8 +8,8 @@ html
 
     title Cosmicfit Admin
 
-    == css [ 'fonts', 'chosen-ems', 'site', 'header', 'flatpickr', '/admin/payrolls' ]
-    == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'flatpickr', 'rivets', 'rv_dates', 'rv_money', 'lib' ]
+    == css [ 'fonts', 'site', 'header', 'flatpickr', '/admin/payrolls' ]
+    == js  [ 'jquery', 'moment', 'flatpickr', 'rivets', 'rv_dates', 'rv_money', 'lib' ]
     == js  [ 'element', 'ev_channel', '/auth/elements/userview', '/admin/payrolls' ]
 
   body
@@ -28,9 +28,15 @@ html
             th payout_total
             th cosmic_total
             th loft_total
-          tr rv-each-proll='data.prolls'
-            td[] {proll.start_date | dateformat 'YYYY/MM/DD' }
-            td[] {proll.end_date | dateformat 'YYYY/MM/DD' }
-            td[] {proll.totals.payout_total | money }
-            td[] {proll.totals.cosmic_total | money }
-            td[] {proll.totals.loft_total | money }            
+          tr.proll_row rv-each-proll='data.prolls' rv-on-click='ctrl.select_report'
+            td[] { proll.start_date | dateformat 'YYYY/MM/DD' }
+            td[] { proll.end_date   | dateformat 'YYYY/MM/DD' }
+            td[] { proll.totals.payout_total | money }
+            td[] { proll.totals.cosmic_total | money }
+            td[] { proll.totals.loft_total   | money }
+
+      .tile rv-show='data.selected_report'
+        .title Payroll Report: {data.selected_report.start_date | dateformat 'YYYY/MM/DD'} - {data.selected_report.end_date | dateformat 'YYYY/MM/DD'}
+        table rv-each-slip='data.selected_report.slips'
+          tr rv-each-line='slip.lines'
+            td[] {line.description}
