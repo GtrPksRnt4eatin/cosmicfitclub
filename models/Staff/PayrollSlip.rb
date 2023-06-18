@@ -11,9 +11,9 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
   end
 
   def totals
-    { :payout_total => self.lines.inject(0) { |sum,x| sum + x.value },
-      :cosmic_total => self.lines.inject(0) { |sum,x| sum + x.cosmic },
-      :loft_total   => self.lines.inject(0) { |sum,x| sum + x.loft }
+    { :payout_total => self.lines.inject(0) { |sum,x| sum + (x.value  || 0) },
+      :cosmic_total => self.lines.inject(0) { |sum,x| sum + (x.cosmic || 0) },
+      :loft_total   => self.lines.inject(0) { |sum,x| sum + (x.loft   || 0) }
     }
   end
 

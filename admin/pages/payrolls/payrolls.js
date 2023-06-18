@@ -15,6 +15,7 @@ $(document).ready(function() {
   include_rivets_money();
 
   rivets.bind( document.body, { data: data, ctrl: ctrl } );
+  ctrl.get_data();
 })
 
 function on_payroll_reports(resp) {
