@@ -35,7 +35,7 @@ html
             td[] { proll.totals.cosmic_total | money }
             td[] { proll.totals.loft_total   | money }
 
-      .tile rv-show='data.selected_report'
+      .tile rv-show='data.selected_proll'
         .title Payroll Report: {data.selected_report.start_date | dateformat 'YYYY/MM/DD'} - {data.selected_report.end_date | dateformat 'YYYY/MM/DD'}
         table rv-each-slip='data.selected_report.slips'
           tr rv-each-line='slip.lines'
