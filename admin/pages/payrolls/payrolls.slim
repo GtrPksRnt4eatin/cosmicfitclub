@@ -67,12 +67,12 @@ html
                 | Payouts
             tr
               td Loft Total
-              td { data.selected_proll.totals.loft_total }
+              td[] { data.selected_proll.totals.loft_total }
             tr
               td Cosmic Total
-              td { data.selected_proll.totals.cosmic_total }
+              td[] { data.selected_proll.totals.cosmic_total }
 
-            tr rv-each-slip='data.selected_proll.slips'
+            tr rv-each-slip='data.selected_proll.slips' rv-show='slip.totals.payout_total'
               td[]     { slip.staff.name }
               td[]     { slip.staff.stripe_connect_id }
               td.pay[] { slip.totals.payout_total | money }

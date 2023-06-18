@@ -88,7 +88,7 @@ class Event < Sequel::Model
 
   def get_image(size)
     return nil if self.image.nil?
-    return self.image[size] unless self.image[size].nil?
+    return self.image(size) unless self.image(size).nil?
     return self.image
   end
 
