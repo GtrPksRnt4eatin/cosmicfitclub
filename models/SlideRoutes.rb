@@ -6,7 +6,7 @@ class SlideRoutes < Sinatra::Base
   end
 
   get '/' do
-  	JSON.generate Slide.where( :group => 'index' ).all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image(:original).url, :thumb => s.image(:medium).url } }
+  	JSON.generate Slide.where( :group => 'index' ).all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image_url(:original), :thumb => s.image_url(:medium) } }
   end
 
   delete '/:id' do
@@ -21,7 +21,7 @@ class SlideRoutes < Sinatra::Base
   end
 
   get '/kids' do
-    JSON.generate Slide.where( :group => 'kids' ).all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image(:original).url, :thumb => s.image(:medium).url } }
+    JSON.generate Slide.where( :group => 'kids' ).all.map { |s| { :id => s.id, :data => JSON.parse(s.image_data)['metadata'], :url => s.image_url(:original), :thumb => s.image_url(:medium) } }
   end
 
 end
