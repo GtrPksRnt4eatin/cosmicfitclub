@@ -39,6 +39,7 @@ html
         .title Payroll Report: {data.selected_proll.start_date | dateformat 'YYYY/MM/DD'} - {data.selected_proll.end_date | dateformat 'YYYY/MM/DD'}
         table 
           tbody rv-each-slip='data.selected_proll.slips'
+            tr.spacer
             tr
               th colspan="100%"
                 | {slip.staff.name}
@@ -51,7 +52,6 @@ html
             tr 
               td
               td TOTALS: 
-              td[] {slip.totals.value}
-              td[] {slip.totals.payout_total}
-              td[] {slip.totals.cosmic_total}
-              td[] {slip.totals.loft_total}
+              td[] {slip.totals.payout_total | money }
+              td[] {slip.totals.cosmic_total | money }
+              td[] {slip.totals.loft_total   | money }

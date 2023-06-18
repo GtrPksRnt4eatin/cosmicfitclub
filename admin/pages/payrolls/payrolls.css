@@ -7,13 +7,26 @@
   background: rgba(255,255,255,0.2);
 }
 
+.proll table {
+  margin: auto;
+}
+
 .proll tbody {
+  background: rgb(255,255,255,0.8);
   text-align: left;
   padding-top: 1em;
   color: black;
 }
 
 .proll tr {
-  background: rgb(255,255,255,0.8);
   border: 1px solid black;
+}
+
+.proll td {
+  padding: 0.1em;
+}
+
+.proll tr.spacer {
+  height: 1em;
+  background: transparent;
 }
