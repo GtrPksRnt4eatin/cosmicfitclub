@@ -37,6 +37,6 @@ html
 
       .tile rv-show='data.selected_proll'
         .title Payroll Report: {data.selected_proll.start_date | dateformat 'YYYY/MM/DD'} - {data.selected_proll.end_date | dateformat 'YYYY/MM/DD'}
-        table rv-each-slip='data.selected_report.slips'
+        table rv-each-slip='data.selected_proll.slips'
           tr rv-each-line='slip.lines'
             td[] {line.description}
