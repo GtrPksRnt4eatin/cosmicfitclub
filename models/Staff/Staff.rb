@@ -75,7 +75,7 @@ class Staff < Sequel::Model(:staff)
   def to_payout_token
     { :id=>self.id, :name=>self.name, :stripe_connect_id=>self.stripe_connect_id }
   end
-  
+
   def to_list_hash
     { :id=>self.id, :name=>self.name, :title=>self.title, :bio=>self.bio, :image_url=>self.get_image_url(:medium) }
   end
@@ -253,30 +253,30 @@ def Staff::payroll(from, to)
     teacher_row[:class_occurrences].each     { |occurrence_row|
 
       occurrence_row[:payment_total] ||= 0
-      occurrence_row[:loft] ||= 0
+      occurrence_row[:loft_classes]  ||= 0
+      occurrence_row[:loft_rentals]  ||= 0
       
       net_income = (occurrence_row[:passes_total].to_i * 1200) + (occurrence_row[:payment_total])
 
-      #( occurrence_row[:pay] = 0; ocurrence_row[:loft] = 0; occurrence_row[:cosmic] = net_income; next ) if teacher_row[:staff_unpaid]
-
       case(teacher_row[:staff_id])
         when 18 # Ben 50/50 Loft & Cosmic
-          occurrence_row[:pay]    = 0
-          occurrence_row[:cosmic] = 0.5 * net_income
-          occurrence_row[:loft]   = 0.5 * net_income
+          occurrence_row[:pay]          = 0
+          occurrence_row[:cosmic]       = 0.5 * net_income
+          occurrence_row[:loft_classes] = 0.5 * net_income
         when 103 # Sam Defers to Loft
           occurrence_row[:pay]    = 0
           occurrence_row[:cosmic] = 0
-          occurrence_row[:loft]   = net_income
+          occurrence_row[:loft_classes] = net_income
         when 106 # Cosmic Loft gets 100% of loft rentals
-          occurrence_row[:pay]    = net_income
-          occurrence_row[:cosmic] = 0
-          occurrence_row[:loft]   = 0
+          occurrence_row[:pay]          = 0
+          occurrence_row[:cosmic]       = 0
+          occurrence_row[:loft_rentals] = net_income
         else
           occurrence_row[:pay]    = (occurrence_row[:passes_total].to_i * 700) + (occurrence_row[:payment_total] * 0.6) 
           occurrence_row[:cosmic] = net_income - occurrence_row[:pay] 
           occurrence_row[:loft]   = 0
       end
+      occurrence_row[:loft] = occurrence_row[:loft_rentals] + occurrence_row[:loft_classes]
 
     }
   }
