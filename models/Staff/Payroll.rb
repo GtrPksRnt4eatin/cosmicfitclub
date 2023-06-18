@@ -34,7 +34,12 @@ class Payroll < Sequel::Model(:payrolls)
   def details_hash
     hsh = self.to_hash
     hsh[:slips] = slips.map(&:details_hash)
+    hsh[:totals] = self.totals
     hsh
-  end 
+  end
+
+  def totals
+    self.slips.map(&:totals).inject { |sum,x| sum.merge(x){ |k,x,y| x+y } }
+  end
 
 end
