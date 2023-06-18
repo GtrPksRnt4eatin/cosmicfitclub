@@ -83,7 +83,7 @@ class Event < Sequel::Model
   #################### ATTRIBUTE ACCESS ###################
 
   def image_url
-    self.image.nil? ? '' : self.image[:original].nil? ? self.image.url : self.image[:original].url
+    self.image.nil? ? '' : self.image(:original).nil? ? self.image.url : self.image(:original).url
   end
 
   def get_image(size)
@@ -94,7 +94,7 @@ class Event < Sequel::Model
 
   def thumb_url; thumb_image_url end
   def thumb_image_url
-    self.image.nil? ? '' : ( self.image.is_a?(ImageUploader::UploadedFile) ? self.image_url : self.image[:medium].url )
+    self.image.nil? ? '' : ( self.image.is_a?(ImageUploader::UploadedFile) ? self.image_url : self.image(:medium).url )
   end
 
   def wide_image_url

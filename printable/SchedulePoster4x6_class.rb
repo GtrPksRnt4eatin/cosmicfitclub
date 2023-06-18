@@ -11,7 +11,7 @@ module SchedulePoster4x6_class
 
     @@image.draw_iphone_bubble2(classdef_id, 75, 460, 1050, 1050*1.1) if classdef_id
 
-    @@bubble = MiniMagick::Image.open(ClassDef[classdef_id].image[:original].url) if classdef_id
+    @@bubble = MiniMagick::Image.open(ClassDef[classdef_id].image(:original).url) if classdef_id
     @@bubble = MiniMagick::Image.open("printable/assets/#{img}")              unless classdef_id
     
     @@image.draw_highlight_text("First Class Free! Come In Today!",18,0,75,"South")

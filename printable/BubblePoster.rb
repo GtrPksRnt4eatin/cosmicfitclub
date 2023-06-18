@@ -7,13 +7,13 @@ module BubblePoster
     val = case data[0]
     when :class
       cls = ClassDef[data[1]] or return
-      { :img => cls.image[:original].url, :lines => cls.footer_lines }
+      { :img => cls.image(:original).url, :lines => cls.footer_lines }
     when :event
       evt = Event[data[1]] or return
-      { :img => evt.image[:original].url, :lines => evt.poster_lines }
+      { :img => evt.image(:original).url, :lines => evt.poster_lines }
     when :staff
       stf = Staff[data[1]] or return
-      { :img => stf.image[:original].url, :lines => stf.footer_lines }
+      { :img => stf.image(:original).url, :lines => stf.footer_lines }
     when :sched
       sch = ClassdefSchedule[data[1]] or return
       { :img => sch.thumb_url, :lines => sch.poster_lines }

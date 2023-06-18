@@ -144,7 +144,7 @@ module MiniMagickExtensions
       def draw_iphone_bubble(cls_id, x, y, size)
         
         cls = ClassDef[cls_id] or return   
-        img  = MiniMagick::Image.open(cls.image[:original].url)
+        img  = MiniMagick::Image.open(cls.image(:original).url)
         img.resize "#{size}x#{size}!"
         
         ptsize = (size * 0.05) / 300 * 72
@@ -172,7 +172,7 @@ module MiniMagickExtensions
         height ||= width
         
         cls = ClassDef[cls_id] or return   
-        img  = MiniMagick::Image.open(cls.image[:original].url)
+        img  = MiniMagick::Image.open(cls.image(:original).url)
         img.resize "#{width}x#{height}!"
         
         ptsize = (width * 0.05) / 300 * 72

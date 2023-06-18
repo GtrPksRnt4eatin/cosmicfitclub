@@ -3,7 +3,7 @@ module EventSessionsPoster
 
   def EventSessionsPoster::generate(event_id)
   	@@event = Event[event_id] or return false
-    @@image = MiniMagick::Image.open(@@event.image[:original].url)
+    @@image = MiniMagick::Image.open(@@event.image(:original).url)
     @@image.resize "2550x2550!"
     starty = 900
     ptsize = 16

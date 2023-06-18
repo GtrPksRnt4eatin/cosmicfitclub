@@ -20,7 +20,7 @@ module InstagramStory
     @@image ||= MiniMagick::Image.open "printable/assets/1080x1920_bg.jpg"
 
     @@bubble = MiniMagick::Image.open "printable/assets/#{event_id}"        if event_id.is_a? String
-    @@bubble = MiniMagick::Image.open Event[event_id].image[:original].url  if event_id.is_a? Integer
+    @@bubble = MiniMagick::Image.open Event[event_id].image(:original).url  if event_id.is_a? Integer
     @@bubble.to_bubble(lines)
 
     @@image.draw_logo(60,210,960,nil)
