@@ -1,6 +1,8 @@
 
 class Payroll < Sequel::Model(:payrolls)
 
+  one_to_many :slips, :class => :PayrollSlip
+
   PAY_PERIODS_ICAL = "DTSTART;TZID=EST:20170105T000000\nRRULE:FREQ=WEEKLY;INTERVAL=2"
 
   def Payroll::Schedule 
@@ -29,6 +31,10 @@ class Payroll < Sequel::Model(:payrolls)
     { :from => period_start, :to => period_end - 0.00001 }
   end
 
-  
+  def details_hash
+    hsh = self.to_hash
+    hsh[:slips] = slips.map(&:details_hash)
+    hsh
+  end 
 
 end
