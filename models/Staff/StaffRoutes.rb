@@ -97,7 +97,9 @@ class StaffRoutes < Sinatra::Base
           description: line[:class_name],
           quantity: line[:headcount],
           category: "class_pay",
-          value: line[:pay]
+          value: line[:pay],
+          cosmic: line[:cosmic],
+          loft: line[:loft]
         })
       end
     end

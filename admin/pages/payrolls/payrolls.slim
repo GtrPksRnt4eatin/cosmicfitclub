@@ -29,8 +29,8 @@ html
             th cosmic_total
             th loft_total
           tr rv-each-proll='data.prolls'
-            td[] {proll.start_date}
-            td[] {proll.end_date}
-            td[] {proll.payout_total}
-            td[] {proll.cosmic_total}
-            td[] {proll.loft_total}            
+            td[] {proll.start_date | dateformat 'YYYY/MM/DD' }
+            td[] {proll.end_date | dateformat 'YYYY/MM/DD' }
+            td[] {proll.payout_total | money }
+            td[] {proll.cosmic_total | money }
+            td[] {proll.loft_total | money }            
