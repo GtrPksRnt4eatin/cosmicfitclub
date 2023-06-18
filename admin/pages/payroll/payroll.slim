@@ -39,6 +39,7 @@ html
               th.count
               th.pay
               th.pay
+              th.pay
               th.edit
             tr
               th.date  DATE
@@ -47,6 +48,7 @@ html
               th.count PASSES
               th.count CARDS
               th.pay   PAY
+              th.pay   LOFT
               th.pay   COSMIC
               th.edit
             tr rv-each-occ='staff.class_occurrences'
@@ -59,6 +61,7 @@ html
               td.count [rv-if='occ.class_name']          { occ.passes_total }
               td.count [rv-if='occ.class_name']          { occ.payment_total | money }
               td.pay[]                                   { occ.pay | money }
+              td.pay[]                                   { occ.loft | money }
               td.pay[]                                   { occ.cosmic | money }
               td.edit                                  
                 a rv-href='occ.id | occlink'
@@ -70,5 +73,6 @@ html
               th.count
               th.count TOTAL:
               th.pay[] { staff.total_pay | money }
-              th.pay[]
+              th.pay[] { staff.total_loft | money }
+              th.pay[] { staff.total_cosmic | money }
               th.edit

@@ -50,6 +50,7 @@ class CFCAdmin < Sinatra::Base
   get( '/group_timeslots',       :auth=> 'admin'      ) { render_page :group_timeslots     }
 
   get( '/payroll',               :auth=> 'payroll'    ) { render_page :payroll             }
+  get( '/payrolls',              :auth=> 'payroll'    ) { render_page :payrolls            }
   get( '/paypal',                :auth=> 'payroll'    ) { render_page :paypal              }
   
   get( '/console',               :auth=> 'admin'      ) { render_page :console             }

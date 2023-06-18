@@ -295,6 +295,8 @@ def Staff::payroll(from, to)
   result.sort_by! { |x| x[:staff_id] == 106 ? 1 : 0 }
   result.each     { |x| x[:class_occurrences].sort_by! { |y| y[:starttime] } }
   result.each     { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:pay] ? y[:pay] : 0 ) } }
+  result.each     { |x| x[:total_loft] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:loft] ? y[:loft] : 0 ) } }
+  result.each     { |x| x[:total_cosmic] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:cosmic] ? y[:cosmic] : 0 ) } }
   result.reject   { |x| x[:class_occurrences].length == 0 }
 end
 
