@@ -27,9 +27,9 @@ ctrl = {
     $.get('/models/staff/payroll2drive', { from: match[1], to: match[2] }, on_save_to_drive);
   },
   generate_payroll: function(e,m) {
-    $.post('/models/staff/payroll', { from: data['from'], to: data['to'] }, function(result) {
-      console.log(result);
-    })
+    $.post('/models/staff/payroll', { from: data['from'], to: data['to'] })
+     .done( function() { window.location = '/admin/payrolls'} )
+     .fail( function(e,xhr) { alert('Failed: ' + e); } )
   }
 }
 

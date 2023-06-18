@@ -63,14 +63,14 @@ html
           tbody
             tr.spacer
             tr
-              th colspan="100%"
+              th colspan="2"
                 | Payouts
             tr
               td Loft Total
-              td { slip.totals.loft_total }
+              td { data.selected_proll.totals.loft_total }
             tr
               td Cosmic Total
-              td { slip.totals.cosmic_total }
+              td { data.selected_proll.totals.cosmic_total }
 
             tr rv-each-slip='data.selected_proll.slips'
               td[]     { slip.staff.name }
