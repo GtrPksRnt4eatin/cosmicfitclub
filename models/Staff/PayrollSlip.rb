@@ -1,10 +1,16 @@
 class PayrollSlip < Sequel::Model(:payroll_slips)
 
   many_to_one :payroll
+  many_to_one :staff
   one_to_many :lines, :class => :PayrollLine
 
+
   def details_hash
-    hsh = self.to_hash
+    hsh = { 
+      id: self.id,
+      payroll_id: self.payroll_id,
+      staff: self.staff.to_token
+    }
     hsh[:lines] = self.lines.map(&:to_hash)
     hsh[:totals] = self.totals
     hsh

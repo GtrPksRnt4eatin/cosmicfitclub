@@ -35,12 +35,15 @@ html
             td[] { proll.totals.cosmic_total | money }
             td[] { proll.totals.loft_total   | money }
 
-      .tile rv-show='data.selected_proll'
+      .tile.proll rv-show='data.selected_proll'
         .title Payroll Report: {data.selected_proll.start_date | dateformat 'YYYY/MM/DD'} - {data.selected_proll.end_date | dateformat 'YYYY/MM/DD'}
-        table rv-each-slip='data.selected_proll.slips'
-          tr rv-each-line='slip.lines'
-            td[] {line.start_time | classtime }
-            td[] {line.description}
-            td[] {line.value  | money }
-            td[] {line.cosmic | money }
-            td[] {line.loft   | money }
+        table 
+          tbody rv-each-slip='data.selected_proll.slips'
+            th colspan="100%"
+              | {slip.staff.name}
+            tr rv-each-line='slip.lines'
+              td[] {line.start_time | classtime }
+              td[] {line.description}
+              td[] {line.value  | money }
+              td[] {line.cosmic | money }
+              td[] {line.loft   | money }
