@@ -8,10 +8,12 @@
 }
 
 .proll tbody {
-  margin-top: 1em;
+  text-align: left;
+  padding-top: 1em;
+  color: black;
 }
 
 .proll tr {
-  background: rgb(255,255,255,0.3);
+  background: rgb(255,255,255,0.8);
   border: 1px solid black;
 }
