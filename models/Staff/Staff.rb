@@ -72,6 +72,10 @@ class Staff < Sequel::Model(:staff)
     { :id=>self.id, :name=>self.name }
   end
 
+  def to_payout_token
+    { :id=>self.id, :name=>self.name, :stripe_connect_id=>self.stripe_connect_id }
+  end
+  
   def to_list_hash
     { :id=>self.id, :name=>self.name, :title=>self.title, :bio=>self.bio, :image_url=>self.get_image_url(:medium) }
   end

@@ -74,4 +74,5 @@ html
 
             tr rv-each-slip='data.selected_proll.slips'
               td[]     { slip.staff.name }
+              td[]     { slip.staff.stripe_connect_id }
               td.pay[] { slip.totals.payout_total | money }

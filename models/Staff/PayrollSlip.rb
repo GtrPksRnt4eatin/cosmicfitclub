@@ -9,7 +9,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
     hsh = { 
       id: self.id,
       payroll_id: self.payroll_id,
-      staff: self.staff.to_token
+      staff: self.staff.to_payout_token
     }
     hsh[:lines] = self.lines.map(&:to_hash)
     hsh[:totals] = self.totals
