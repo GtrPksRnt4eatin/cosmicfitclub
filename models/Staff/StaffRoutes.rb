@@ -119,7 +119,8 @@ class StaffRoutes < Sinatra::Base
       :amount             => params[:amount],
       :payroll_id         => params[:payroll_id],
       :payroll_slip_id    => params[:slip_id],
-      :staff_id           => params[:staff_id]
+      :staff_id           => params[:staff_id],
+      :tag                => params[:tag]
     }).to_json
   end
 
