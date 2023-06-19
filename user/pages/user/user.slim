@@ -78,10 +78,11 @@ html
           .header Finance
           hr
           div
-            a href='/admin/payroll' Payroll
+            a href='/admin/payrolls' View Payrolls
+          div
+            a href='/admin/payroll' Generate Payroll
           div
             a href='/admin/paypal' Paypal
-
 
       -if user.has_role? "scheduling"
         .tile

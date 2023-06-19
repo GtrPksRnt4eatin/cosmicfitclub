@@ -113,8 +113,8 @@ class StaffRoutes < Sinatra::Base
     puts params[:stripe_connected_acct]
     result = StripeMethods::PayoutVendor(params[:amount], params[:stripe_connected_acct], params[:descriptor])
     Payout.create({
-      :stripe_transfer_id => result[:transfer].id, 
-      :stripe_payout_id   => result[:payout].id, 
+      :stripe_transfer_id => result[:transfer].try(:id),
+      :stripe_payout_id   => result[:payout].id,
       :date               => Time.at(result[:payout]['created']),
       :amount             => params[:amount],
       :payroll_id         => params[:payroll_id],
