@@ -63,23 +63,23 @@ html
           tbody
             tr.spacer
             tr
-              th colspan="2"
+              th colspan="4"
                 | Payouts
 
             tr
               td Cosmic Total
               td[] acct_19PkJECHwAcud5J9
-              td[] { data.selected_proll.totals.cosmic_total }
+              td[] { data.selected_proll.totals.cosmic_total | money }
 
             tr
               td Loft Classes
               td[] acct_1N70TxFfb5QzQMoY
-              td[] { data.selected_proll.totals.loft_classes }
+              td[] { data.selected_proll.totals.loft_classes | money }
 
             tr
               td Loft Rentals
               td[] acct_1N70TxFfb5QzQMoY
-              td[] { data.selected_proll.totals.loft_rentals }
+              td[] { data.selected_proll.totals.loft_rentals | money }
 
             tr rv-each-slip='data.selected_proll.slips' rv-show='slip.totals.payout_total'
               td[]     { slip.staff.name }
