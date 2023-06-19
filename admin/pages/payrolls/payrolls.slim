@@ -94,9 +94,9 @@ html
               td[]     { slip.staff.name }
               td[]     { slip.staff.stripe_connect_id }
               td.pay[] { slip.totals.payout_total | money }
-              td rv-show="slip.payouts"
+              td rv-show="slip.payouts.0"
                 | { slip.payouts.0.stripe_payout_id }
-              td rv-show="slip.payouts"
+              td rv-show="slip.payouts.0"
                 | { slip.payouts.0.date | dateformat 'YYYY-MM-DD HH:MM' }
               td rv-hide="slip.payouts"
                 button rv-data-stripeid='slip.staff.stripe_connect_id' data-descriptor="Classes" rv-data-value='slip.totals.payout_total' rv-data-slipid='slip.id' rv-on-click='ctrl.payout_now'
