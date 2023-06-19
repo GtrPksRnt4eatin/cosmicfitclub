@@ -115,7 +115,7 @@ class StaffRoutes < Sinatra::Base
     Payout.create({
       :stripe_transfer_id => result[:transfer].id, 
       :stripe_payout_id   => result[:payout].id, 
-      :date               => result[:payout]['date'],
+      :date               => Time.at(result[:payout]['created']),
       :amount             => params[:amount],
       :payroll_id         => params[:payroll_id],
       :payroll_slip_id    => params[:slip_id],
