@@ -99,7 +99,9 @@ class StaffRoutes < Sinatra::Base
           category: "class_pay",
           value: line[:pay],
           cosmic: line[:cosmic],
-          loft: line[:loft]
+          loft: line[:loft],
+          loft_rentals: line[:loft_rentals],
+          loft_classes: line[:loft_classes]
         })
       end
     end
