@@ -1,6 +1,7 @@
 data = {
   prolls: [],
-  selected_proll: null
+  selected_proll: null,
+  selected_proll_id: 0
 }
 
 ctrl = {
@@ -9,6 +10,7 @@ ctrl = {
   },
 
   select_report: function(e,m) {
+    data.selected_proll_id = m.proll.id;
     data.selected_proll = m.proll;
   },
 
@@ -21,7 +23,8 @@ ctrl = {
       descriptor:            `${start} to ${end} ${e.target.dataset.descriptor}`,
       slip_id:               m.slip ? m.slip.id : null,
       staff_id:              m.slip ? m.slip.staff.id : null,
-      payroll_id:            data.selected_proll.id
+      payroll_id:            data.selected_proll.id,
+      tag:                   e.target.dataset.tag || "pay_slip"
     }
     $.post('/models/staff/payout', params, 'json')
      .success( function(resp) { console.log(resp); alert("success"); ctrl.get_data(); })
@@ -47,4 +50,7 @@ $(document).ready(function() {
 
 function on_payroll_reports(resp) {
   data.prolls = resp;
+  if(data.selected_proll_id) {
+    data.selected_proll = data.prolls.find(function(x) { return x.id == data.selected_proll_id; })
+  }
 }
