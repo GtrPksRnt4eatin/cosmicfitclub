@@ -108,6 +108,10 @@ class StaffRoutes < Sinatra::Base
     JSON.generate proll
   end
 
+  post '/payout' do  
+    StripeMethods::PayoutVendor(params[:amount], params[:connected_acct_id], params[:descriptor])
+  end
+
   get '/paypal' do
     data = PayPalSDK::list_transactions(params[:from],params[:to])
     data.map! do |x|

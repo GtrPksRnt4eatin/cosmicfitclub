@@ -71,7 +71,7 @@ html
               td[] acct_19PkJECHwAcud5J9
               td[] { data.selected_proll.totals.cosmic_total | money }
               td
-                button rv-data-stripeid='acct_19PkJECHwAcud5J9' rv-data-value='data.selected_proll.totals.cosmic_total' rv-on-click='ctrl.payout_now'
+                button data-stripeid='acct_19PkJECHwAcud5J9' data-descriptor="Classes" rv-data-value='data.selected_proll.totals.cosmic_total' rv-on-click='ctrl.payout_now'
                   | Pay Now
 
             tr
@@ -79,7 +79,7 @@ html
               td[] acct_1N70TxFfb5QzQMoY
               td[] { data.selected_proll.totals.loft_classes | money }
               td
-                button rv-data-stripeid='acct_1N70TxFfb5QzQMoY' rv-data-value='data.selected_proll.totals.loft_classes' rv-on-click='ctrl.payout_now'
+                button data-stripeid='acct_1N70TxFfb5QzQMoY' data-descriptor="Classes" rv-data-value='data.selected_proll.totals.loft_classes' rv-on-click='ctrl.payout_now'
                   | Pay Now
 
             tr
@@ -87,7 +87,7 @@ html
               td[] acct_1N70TxFfb5QzQMoY
               td[] { data.selected_proll.totals.loft_rentals | money }
               td
-                button rv-data-stripeid='acct_1N70TxFfb5QzQMoY' rv-data-value='data.selected_proll.totals.loft_rentals' rv-on-click='ctrl.payout_now'
+                button data-stripeid='acct_1N70TxFfb5QzQMoY' data-descriptor="Training" rv-data-value='data.selected_proll.totals.loft_rentals' rv-on-click='ctrl.payout_now'
                   | Pay Now
 
             tr rv-each-slip='data.selected_proll.slips' rv-show='slip.totals.payout_total'
@@ -95,5 +95,5 @@ html
               td[]     { slip.staff.stripe_connect_id }
               td.pay[] { slip.totals.payout_total | money }
               td
-                button rv-data-stripeid='slip.staff.stripe_connect_id' rv-data-value='slip.totals.payout_total' rv-data-slipid='slip.id' rv-on-click='ctrl.payout_now'
+                button rv-data-stripeid='slip.staff.stripe_connect_id' data-descriptor="Classes" rv-data-value='slip.totals.payout_total' rv-data-slipid='slip.id' rv-on-click='ctrl.payout_now'
                   | Pay Now
