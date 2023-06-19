@@ -109,7 +109,9 @@ class StaffRoutes < Sinatra::Base
   end
 
   post '/payout' do  
-    StripeMethods::PayoutVendor(params[:amount], params[:connected_acct_id], params[:descriptor])
+    puts params
+    puts params[:stripe_connected_acct]
+    StripeMethods::PayoutVendor(params[:amount], params[:stripe_connected_acct], params[:descriptor])
   end
 
   get '/paypal' do
