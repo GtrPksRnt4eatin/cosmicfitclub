@@ -10,6 +10,10 @@ ctrl = {
 
   select_report: function(e,m) {
     data.selected_proll = m.proll;
+  },
+
+  payout_now: function(e,m) {
+    var x=5;
   }
 }
 
