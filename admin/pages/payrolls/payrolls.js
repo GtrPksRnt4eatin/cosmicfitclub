@@ -24,7 +24,7 @@ ctrl = {
       payroll_id:            data.selected_proll.id
     }
     $.post('/models/staff/payout', params, 'json')
-     .success( function(resp) { console.log(resp); alert("success"); })
+     .success( function(resp) { console.log(resp); alert("success"); ctrl.get_data(); })
      .fail( function(e,xhr) { console.log(e); alert("failure"); })
   }
 }
