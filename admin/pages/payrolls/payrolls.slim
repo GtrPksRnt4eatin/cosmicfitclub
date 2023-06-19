@@ -60,6 +60,8 @@ html
               td.pay[] {slip.totals.payout_total | money }
               td.pay[] {slip.totals.cosmic_total | money }
               td.pay[] {slip.totals.loft_total   | money }
+
+        table
           tbody
             tr.spacer
             tr
@@ -89,8 +91,7 @@ html
               td
                 button data-stripeid='acct_1N70TxFfb5QzQMoY' data-descriptor="Training" rv-data-value='data.selected_proll.totals.loft_rentals' rv-on-click='ctrl.payout_now'
                   | Pay Now
-        table
-          tbody
+
             tr rv-each-slip='data.selected_proll.slips' rv-show='slip.totals.payout_total'
               td[]     { slip.staff.name }
               td[]     { slip.staff.stripe_connect_id }
