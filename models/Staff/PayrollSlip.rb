@@ -3,6 +3,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
   many_to_one :payroll
   many_to_one :staff
   one_to_many :lines, :class => :PayrollLine
+  one_to_many :payouts
 
 
   def details_hash
@@ -12,6 +13,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
       staff: self.staff.to_payout_token
     }
     hsh[:lines] = self.lines.map(&:to_hash)
+    hsh[:payouts] = self.payouts.map(&:to_hash)
     hsh[:totals] = self.totals
     hsh
   end
