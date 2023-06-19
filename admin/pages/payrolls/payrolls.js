@@ -19,8 +19,8 @@ ctrl = {
       amount:                e.target.dataset.value,
       stripe_connected_acct: e.target.dataset.stripeid,
       descriptor:            `${start} to ${end} ${e.target.dataset.descriptor}`,
-      slip_id:               m.slip.id,
-      staff_id:              m.slip.staff.id,
+      slip_id:               m.slip ? m.slip.id : null,
+      staff_id:              m.slip ? m.slip.staff.id : null,
       payroll_id:            data.selected_proll.id
     }
     $.post('/models/staff/payout', params, 'json')
