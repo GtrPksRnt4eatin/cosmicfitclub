@@ -34,9 +34,9 @@ class Payroll < Sequel::Model(:payrolls)
     hsh = self.to_hash
     hsh[:slips]                 = slips.map(&:details_hash)
     hsh[:payouts]               = Payout.where(payroll_id: self.id).all.map(&:to_hash)
-    hsh[:cosmic_classes_payout] = Payout.where(payroll_id: self.id, tag: "cosmic_classes").try(&:to_hash)
-    hsh[:loft_trainings_payout] = Payout.where(payroll_id: self.id, tag: "loft_trainings").try(&:to_hash)
-    hsh[:loft_classes_payout]   = Payout.where(payroll_id: self.id, tag: "loft_classes").try(&:to_hash)
+    hsh[:cosmic_classes_payout] = Payout.where(payroll_id: self.id, tag: "cosmic_classes").first.try(&:to_hash)
+    hsh[:loft_trainings_payout] = Payout.where(payroll_id: self.id, tag: "loft_trainings").first.try(&:to_hash)
+    hsh[:loft_classes_payout]   = Payout.where(payroll_id: self.id, tag: "loft_classes").first.try(&:to_hash)
     hsh[:totals]                = self.totals
     hsh
   end
