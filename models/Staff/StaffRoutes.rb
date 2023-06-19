@@ -111,7 +111,16 @@ class StaffRoutes < Sinatra::Base
   post '/payout' do  
     puts params
     puts params[:stripe_connected_acct]
-    StripeMethods::PayoutVendor(params[:amount], params[:stripe_connected_acct], params[:descriptor])
+    result = StripeMethods::PayoutVendor(params[:amount], params[:stripe_connected_acct], params[:descriptor])
+    Payout.create({
+      :stripe_transfer_id => result[:transfer].id, 
+      :stripe_payout_id   => result[:payout].id, 
+      :date               => result[:payout]['date'],
+      :amount             => params[:amount],
+      :payroll_id         => params[:payroll_id],
+      :payroll_slip_id    => params[:slip_id],
+      :staff_id           => params[:staff_id]
+    }).to_json
   end
 
   get '/paypal' do

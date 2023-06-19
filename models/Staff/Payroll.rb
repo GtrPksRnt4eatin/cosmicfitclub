@@ -33,8 +33,9 @@ class Payroll < Sequel::Model(:payrolls)
 
   def details_hash
     hsh = self.to_hash
-    hsh[:slips] = slips.map(&:details_hash)
-    hsh[:totals] = self.totals
+    hsh[:slips]   = slips.map(&:details_hash)
+    hsh[:payouts] = Payout.where(payroll_id: self.id).all.map(&:to_hash)
+    hsh[:totals]  = self.totals
     hsh
   end
 
