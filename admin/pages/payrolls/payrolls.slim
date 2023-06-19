@@ -65,14 +65,21 @@ html
             tr
               th colspan="2"
                 | Payouts
-            tr
-              td Loft Total
-              td[] acct_1N70TxFfb5QzQMoY
-              td[] { data.selected_proll.totals.loft_total }
+
             tr
               td Cosmic Total
               td[] acct_19PkJECHwAcud5J9
               td[] { data.selected_proll.totals.cosmic_total }
+
+            tr
+              td Loft Classes
+              td[] acct_1N70TxFfb5QzQMoY
+              td[] { data.selected_proll.totals.loft_classes }
+
+            tr
+              td Loft Rentals
+              td[] acct_1N70TxFfb5QzQMoY
+              td[] { data.selected_proll.totals.loft_rentals }
 
             tr rv-each-slip='data.selected_proll.slips' rv-show='slip.totals.payout_total'
               td[]     { slip.staff.name }
