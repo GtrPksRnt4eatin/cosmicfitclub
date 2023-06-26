@@ -51,9 +51,17 @@ html
           div.editable.value rv-on-click='ctrl.edit_short_url'
             | /{data.event.short_url.short_path}
         .tuplet
-          .attrib Collaborators:
-          div
-            table
+          .attrib Description:
+          #description.value.editable rv-on-click='ctrl.edit_description'
+            | { data.event.description }
+        .tuplet
+          .attrib Details:
+          #details.value.editable rv-on-click='ctrl.edit_details'
+            | { data.event.details }
+        .tuplet
+          label Collaborators:
+          .collabs
+            table.reflections
               tr
                 th Collaborator
                 th Phone #
@@ -67,14 +75,6 @@ html
                 td[] { collab.stripe_id }
                 td[] { collab.percentage }
           .editable.value rv-on-click='ctrl.add_collaborator'
-        .tuplet
-          .attrib Description:
-          #description.value.editable rv-on-click='ctrl.edit_description'
-            | { data.event.description }
-        .tuplet
-          .attrib Details:
-          #details.value.editable rv-on-click='ctrl.edit_details'
-            | { data.event.details }
 
         div.tuplet
           label Sessions:
