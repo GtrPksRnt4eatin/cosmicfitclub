@@ -40,8 +40,8 @@ var ctrl = {
   },  
 
   del: function(e,m) {
-    $.del(`/models/events/${m.event.id}`)
-     .success(function() { data.events.splice( data.events.indexOf( m.event ), 1 ); })
+    $.del(`/models/events/${m.data.event_id}`)
+     .success(function() { data.events.splice( data.events.indexOf( m.data.event ), 1 ); })
      .fail(function(xhr) { 
         alert(xhr.responseText);
      });
