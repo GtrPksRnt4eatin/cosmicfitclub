@@ -202,7 +202,7 @@ class Event < Sequel::Model
       :wide_image       => self.wide_image.try(:details_hash),
       :full_image       => self.image_url,
       :short_url        => self.short_url,
-      :collaborations   => self.collaborations,
+      :collaborations   => self.collaborations.map(&:details_view),
       :sessions         => self.sessions,
       :prices           => self.available_prices,
       :a_la_carte       => self.a_la_carte,
