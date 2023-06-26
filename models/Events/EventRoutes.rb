@@ -263,6 +263,23 @@ class EventRoutes < Sinatra::Base
   end
 
   ################################## EVENT PASSES ###############################
+  
+  ############################## EVENT COLLABORATORS ############################
+
+  post '/collabs' do
+    if collab = EventCollaboration.where( :event_id=>params[:event_id], :customer_id=>params[:customer_id] ) then
+      collab.update( :percentage=>params[:percentage], :notify=>params[:notify] )
+    else
+      EventCollaboration.create( :event_id=>params[:event_id], :customer_id=>params[:customer_id], :percentage=>params[:percentage], :notify=>params[:notify] )
+    end
+  end
+
+  delete '/colalbs/:id' do
+    collab = EventCollaboration[params[:id]] or halt(404, "Couldn't Find EventCollaboration")
+    collab.delete
+  end
+
+  ############################## EVENT COLLABORATORS ############################
 
   get '/:id/attendance' do
     content_type :json
