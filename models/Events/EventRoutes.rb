@@ -271,7 +271,7 @@ class EventRoutes < Sinatra::Base
       collab.update( :percentage=>params[:percentage], :notify=>params[:notify] )
     else
       EventCollaboration.create( :event_id=>params[:event_id], :customer_id=>params[:customer_id], :percentage=>params[:percentage], :notify=>params[:notify] )
-    end
+    end.to_json
   end
 
   delete '/colalbs/:id' do
