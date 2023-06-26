@@ -264,10 +264,10 @@ class EventRoutes < Sinatra::Base
 
   ################################## EVENT PASSES ###############################
   
-  ############################## EVENT COLLABORATORS ############################
+  ############################## EVENT COLLABORATIONS ###########################
 
   post '/collabs' do
-    if collab = EventCollaboration.where( :event_id=>params[:event_id], :customer_id=>params[:customer_id] ) then
+    if collab = EventCollaboration.find( :event_id=>params[:event_id], :customer_id=>params[:customer_id] ) then
       collab.update( :percentage=>params[:percentage], :notify=>params[:notify] )
     else
       EventCollaboration.create( :event_id=>params[:event_id], :customer_id=>params[:customer_id], :percentage=>params[:percentage], :notify=>params[:notify] )
@@ -279,7 +279,7 @@ class EventRoutes < Sinatra::Base
     collab.delete
   end
 
-  ############################## EVENT COLLABORATORS ############################
+  ############################## EVENT COLLABORTIONS ###########################
 
   get '/:id/attendance' do
     content_type :json
