@@ -78,7 +78,7 @@ ctrl = {
   add_collaborator: function(e,m) {
     custy_selector.show_modal(null, function(custy_id) {
       let payload = { event_id: data.event.id, customer_id: custy_id }
-      $.post('/models/events/collab', payload)
+      $.post('/models/events/collabs', payload)
        .done( function() { fetch_event(); } )
     });
   },
