@@ -117,7 +117,7 @@ ctrl = {
   },
 
   delete_event(e,m) {
-    $.del(`/models/events/${m.event.id}`)
+    $.del(`/models/events/${m.data.event_id}`)
      .success(function() { window.location.href='/admin/events'; })
      .fail(function(xhr) { alert(xhr.responseText); });
   },
