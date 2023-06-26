@@ -55,8 +55,17 @@ html
           div
             table
               tr
-                th 
+                th Collaborator
+                th Phone #
+                th Notify
+                th Stripe ID
+                th Percent
               tr rv-each-collab='data.event.collaborators'
+                td[] { collab.label  }
+                td[] { collab.phone  }
+                td[] { collab.notify }
+                td[] { collab.stripe_id }
+                td[] { collab.percentage }
           .editable.value rv-on-click='ctrl.edit_collaborator'
         .tuplet
           .attrib Description:
