@@ -75,10 +75,16 @@ ctrl = {
     edit_text.show_long("Edit Event Details", data.event.details, function(val) { data.event.details = val; ctrl.save_changes(); } )
   },
 
-  edit_collaborator: function(e,m) {
+  add_collaborator: function(e,m) {
     custy_selector.show_modal(null, function(custy_id) {
-      console.log(custy_id);
+      let payload = { event_id: data.event.id, customer_id: custy_id }
+      $.post('/models/events/collab', payload)
+       .done( function() { fetch_event(); } )
     });
+  },
+
+  edit_collaborator: function(e,m) {
+    console.log(m);
   },
 
   update_hidden: function(e,m) {
