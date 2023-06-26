@@ -75,6 +75,12 @@ ctrl = {
     edit_text.show_long("Edit Event Details", data.event.details, function(val) { data.event.details = val; ctrl.save_changes(); } )
   },
 
+  edit_collaborator: function(e,m) {
+    custy_selector.show_modal(null, function(custy_id) {
+      console.log(custy_id);
+    });
+  },
+
   update_hidden: function(e,m) {
     ctrl.save_changes();
   },
@@ -136,6 +142,7 @@ $(document).ready(function() {
   setup_rivets();
 
   popupmenu       = new PopupMenu(id('popupmenu_container'));
+  custy_selector  = new CustySelector();
   img_chooser     = new AspectImageChooser();
   edit_text       = new EditText();
   edit_text_array = new EditTextArray();
@@ -166,6 +173,9 @@ $(document).ready(function() {
 
   edit_text_array.ev_sub('show', popupmenu.show );
   edit_text_array.ev_sub('done', function(val) { popupmenu.hide(); } );
+
+  custy_selector.ev_sub('show', popupmenu.show );
+  custy_selector.ev_sub('close_modal', function(val) { popupmenu.hide(); } );
 
   //sortSessions();
 
