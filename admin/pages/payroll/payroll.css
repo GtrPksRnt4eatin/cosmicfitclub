@@ -27,6 +27,10 @@
   .paystub {
     font-size: 1.15vw;
   }
+
+  .paystub th {
+    padding: 0.25em 1em;
+  }
     
   .paystub .date  { width: 16em; text-align: left; }
   .paystub .name  { width: 20em; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
