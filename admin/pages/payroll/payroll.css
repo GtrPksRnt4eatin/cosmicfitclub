@@ -28,7 +28,8 @@
     font-size: 1.15vw;
   }
 
-  .paystub th {
+  .paystub th,
+  .paystub td {
     padding: 0.25em 0.5em;
   }
     
