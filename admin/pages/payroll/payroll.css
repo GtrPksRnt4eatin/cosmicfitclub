@@ -26,6 +26,7 @@
 
   .paystub {
     font-size: 1.22vw;
+    margin: auto;
   }
 
   .paystub th,
