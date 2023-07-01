@@ -29,7 +29,7 @@
   }
     
   .paystub .date  { width: 16em; text-align: left; }
-  .paystub .name  { width: 28em; text-align: left; }
+  .paystub .name  { width: 20em; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .paystub .count { width: 3.5em; text-align: right; }
   .paystub .pay   { width: 5.5em; text-align: right; }
   .paystub .edit  { width: 3em; }
