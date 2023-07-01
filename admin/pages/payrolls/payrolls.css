@@ -37,7 +37,7 @@
 
 @media(max-width: 800px) {
   .tile {
-    font-size: 2vw
+    font-size: 2vw;
     margin: 5vw;
   }
 }
