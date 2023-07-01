@@ -25,12 +25,12 @@
   .tile { width: 98%; }
 
   .paystub {
-    font-size: 1.1vw;
+    font-size: 1.15vw;
   }
     
-  .paystub .date  { width: 18em; text-align: left; }
-  .paystub .name  { width: 26em; text-align: left; }
-  .paystub .count { width: 4em; text-align: right; }
-  .paystub .pay   { width: 5em; text-align: right; }
+  .paystub .date  { width: 16em; text-align: left; }
+  .paystub .name  { width: 28em; text-align: left; }
+  .paystub .count { width: 3.5em; text-align: right; }
+  .paystub .pay   { width: 5.5em; text-align: right; }
   .paystub .edit  { width: 3em; }
 }
