@@ -30,7 +30,6 @@ ctrl = {
     custy_selector.show_modal(m.slot.customer_id, function(custy_id) {
       m.slot.customer_id = custy_id;
       m.slot.customer_string = custy_selector.selected_customer.list_string;
-      alert(custy_id);
     } );
   },
   
@@ -70,7 +69,7 @@ $(document).ready( function() {
     data.num_slots = 1;
     data.rental.slots = [];
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
-    calculate_total();
+    //calculate_total();
   });
 
 });
