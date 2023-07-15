@@ -54,10 +54,10 @@ $(document).ready( function() {
   $(window).bind('popstate', function(e) { 
     data['query_date'] = history.state.day; get_occurrences(); 
   });
-
-  get_occurrences();
-
+  
 });
+
+window.addEventListener('pageshow', get_occurrences);
 
 function setup_bindings() {
   include_rivets_dates();
