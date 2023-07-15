@@ -45,7 +45,10 @@ LoftCalendar.prototype = {
   get_reservations: function(from,to) {
     $.get( '/models/groups/range', { from: from, to: to } )
      .then(function(resp) { 
-        this.state.reservations = resp; 
+        this.state.reservations = resp;
+        this.state.reservations.for_each( function(res) {
+          console.log(res);
+        }.bind(this))
       }.bind(this));
   },
 
