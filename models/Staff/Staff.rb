@@ -242,6 +242,8 @@ def Staff::payroll(from, to)
   to = ( to.is_a?(String) ? Date.parse(to) : to )
 
   result = $DB[payroll_query, from, to.next_day].all
+  result.sort_by! { |x| Staff[x[:staff_id]].unpaid == true ? 0 : 1 }
+  result.sort_by! { |x| x[:staff_id] == 106 ? 1 : 0 }
 
   result.each { |teacher_row|
     teacher_row[:class_occurrences].each     { |x| x.transform_keys!(&:to_sym) }
@@ -300,8 +302,6 @@ def Staff::payroll(from, to)
     existing[:class_occurrences].concat(val[:class_occurrences]) unless existing.nil?
     result << val if existing.nil?
   }
-  result.sort_by! { |x| Staff[x[:staff_id]].unpaid == true ? 0 : 1 }
-  result.sort_by! { |x| x[:staff_id] == 106 ? 1 : 0 }
   result.each     { |x| x[:class_occurrences].sort_by! { |y| y[:starttime] } }
   result.each     { |x| x[:total_pay] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:pay] ? y[:pay] : 0 ) } }
   result.each     { |x| x[:total_loft] = x[:class_occurrences].inject(0){ |sum,y| sum + ( y[:loft] ? y[:loft] : 0 ) } }
