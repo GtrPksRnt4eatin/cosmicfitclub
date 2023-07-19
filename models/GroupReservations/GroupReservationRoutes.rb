@@ -5,6 +5,7 @@ class GroupReservationRoutes < Sinatra::Base
   end
 
   post '/' do
+    puts "HELLO!!!!!!!!!!!!!!!!!!!!!!!"
     data = JSON.parse(request.body.read)
     puts data
 
@@ -41,6 +42,7 @@ class GroupReservationRoutes < Sinatra::Base
   #################################### GROUP RESERVATION LISTS ##############################
 
   error do
+    puts "ERRORRRRRRRR!!!!!!!!"
     Slack.err( 'Group Reservation Route Error', env['sinatra.error'] )
     'An Error Occurred.'
   end
