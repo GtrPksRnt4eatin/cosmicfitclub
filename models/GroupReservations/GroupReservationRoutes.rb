@@ -2,6 +2,7 @@ class GroupReservationRoutes < Sinatra::Base
 
   before do
     cache_control :no_store
+    content_type :json
   end
 
   post '/' do
@@ -24,6 +25,11 @@ class GroupReservationRoutes < Sinatra::Base
     end
     
     res.to_public_daypilot.to_json
+  end
+
+  get '/:id' do
+    res = GroupReservation[params[:id]] or halt(404, "Reservation Not Found")
+    res.details_view.to_json
   end
 
   #################################### GROUP RESERVATION LISTS ##############################

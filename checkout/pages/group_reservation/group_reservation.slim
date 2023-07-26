@@ -5,9 +5,9 @@ html
   head
     == no_scaling
 
-    == css ['fonts', 'site', 'header', 'group_reservation']
+    == css ['fonts', 'site', 'header', 'tuples', 'group_reservation']
     == js  ['jquery', 'lib', 'element', 'ev_channel', 'rivets' ]
-    == js  ['/auth/elements/userview']
+    == js  ['/auth/elements/userview', '/checkout/elements/group_reservation']
     == js  ['group_reservation']
     
     javascript:
@@ -22,3 +22,4 @@ html
     .content
       
       .tile
+        group-reservation reservation='data.reservation'
