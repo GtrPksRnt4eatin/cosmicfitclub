@@ -98,7 +98,7 @@ class EventTicket < Sequel::Model
   ########################## VIEWS ########################
    
   def summary
-    "#{self.customer.to_list_string} bought a $#{self.price.to_f/100} #{self.eventprice.title} ticket for #{self.event.name}."
+    "#{self.customer.to_list_string} bought a $#{self.price.to_f/100} #{self.eventprice.try(:title)} ticket for #{self.event.name}."
   end
 
   def sessions_string
