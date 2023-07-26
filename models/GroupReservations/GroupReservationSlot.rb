@@ -8,6 +8,7 @@ class GroupReservationSlot < Sequel::Model
     def details_view
       hsh = self.to_hash
       hsh[:customer] = self.customer.try(:to_token)
+      hsh[:customer_string] = self.customer.try(:to_list_string)
       hsh[:payment]  = self.payment.try(:to_hash)
       hsh[:checkin]  = self.checkin.try(:to_hash)
       hsh

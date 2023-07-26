@@ -1,5 +1,8 @@
 function GroupReservation(perent,attr) {
   this.reservation = attr['reservation'];
+
+  rivets.formatters.count = function(val) { return val.length; }
+
   this.bind_handlers([]);
   this.load_styles();
 }
@@ -14,6 +17,10 @@ Object.assign( GroupReservation.prototype, ev_channel);
 GroupReservation.prototype.HTML = `
   <div class='group_reservation'>
     <div class='tuple'>
+      <div class='attrib'>Reservation Tag:</div>
+      <div class='value'>{reservation.tag}</div>
+    </div>
+    <div class='tuple'>
       <div class='attrib'> Start: </div>
       <div class='value'> {reservation.start_time} </div>
     </div>
@@ -27,12 +34,12 @@ GroupReservation.prototype.HTML = `
     </div>
     <div class='tuple'>
       <div class='attrib'>Rigging Notes:</div>
-      <div class='value'>reservation.note</div>
+      <div class='value'>{reservation.note}</div>
     </div>
     <div class='tuple'>
       <div class='attrib'># of Slots (max 4):</div>
       <div class='value'>
-        <select>
+        <select rv-value='reservation.slots | count'>
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -49,7 +56,9 @@ GroupReservation.prototype.HTML = `
 `.untab(2);
 
 GroupReservation.prototype.CSS = `
-
+  .group_reservation .attrib {
+    width: 10em;
+  }
 `.untab(2);
 
 rivets.components['group-reservation'] = {
