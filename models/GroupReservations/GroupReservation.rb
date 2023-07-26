@@ -37,4 +37,11 @@ class GroupReservation < Sequel::Model
         :id    => self.id
       }
     end
+
+    def details_view
+      hsh = self.to_h
+      hsh.customer = self.customer.to_token
+      hsh.slots = self.slots.map{&:details_view)
+      hsh
+    end
 end

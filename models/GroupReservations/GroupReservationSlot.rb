@@ -5,4 +5,11 @@ class GroupReservationSlot < Sequel::Model
     many_to_one :payment,     :class => :CustomerPayment,         :key => :payment_id
     one_to_one  :checkin,     :class => :GroupReservationCheckin, :key => :slot_id
 
+    def details_view
+      hsh = self.to_hash
+      hsh[:customer] = self.customer.to_token
+      hsh[:payment]  = self.payment.to_hash
+      hsh[:checkin]  = self.checkin.to_hash
+      hsh
+    end
 end

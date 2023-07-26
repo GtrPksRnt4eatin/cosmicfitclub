@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+html
+
+  head
+    == no_scaling
+
+    == css ['fonts', 'site', 'header', 'group_reservation']
+    == js  ['jquery', 'lib', 'element', 'ev_channel', 'rivets' ]
+    == js  ['/auth/elements/userview']
+    == js  ['group_reservation']
+    
+    javascript:
+      reservation_id = #{{ params[:id] }};
+
+  body
+
+    #stars
+
+    == include_slim('slim/partials/header')
+
+    .content
+      
+      .tile
