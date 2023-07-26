@@ -36,24 +36,25 @@ class Checkout < Sinatra::Base
   register Sinatra::SharedResources
   helpers  Sinatra::ViewHelpers
 
-  get('/plan/:id')                               { render_page :plan           }
-  get('/pack/:id')                               { render_page :pack           }
-  get('/training/:id')                           { render_page :training       }
-  get('/event/:id')                              { render_page :event          }
-  get('/event2/:id')                             { render_page :event2         }  
-  get('/complete')                               { render_page :complete       }
-  get('/misc')                                   { render_page :misc           }
-  get('/front_desk')                             { render_page :front_desk     }
-  get('/redeem_gift')                            { render_page :gift_cert      }
-  get('/loft')                                   { render_page :loft_rental    }
+  get('/plan/:id')                               { render_page :plan              }
+  get('/pack/:id')                               { render_page :pack              }
+  get('/training/:id')                           { render_page :training          }
+  get('/event/:id')                              { render_page :event             }
+  get('/event2/:id')                             { render_page :event2            }  
+  get('/complete')                               { render_page :complete          }
+  get('/misc')                                   { render_page :misc              }
+  get('/front_desk')                             { render_page :front_desk        }
+  get('/redeem_gift')                            { render_page :gift_cert         }
+  get('/loft')                                   { render_page :loft_rental       }
+  get('/group/:id')                              { render_page :group_reservation }
 
-  get('/transactions')                           { render_page :transactions   }
+  get('/transactions')                           { render_page :transactions      }
 
-  get('/class_reg/:id',   :onboard => 'user'   ) { render_page :class_reg      }
+  get('/class_reg/:id',   :onboard => 'user'   ) { render_page :class_reg         }
 
-  get('/class_checkin',   :auth => 'frontdesk' ) { render_page :class_checkin  } 
-  get('/class_sheet/:id', :auth => 'frontdesk' ) { render_page :class_sheet    }
-  get('/customer_file',   :auth => 'frontdesk' ) { render_page :customer_file  }
+  get('/class_checkin',   :auth => 'frontdesk' ) { render_page :class_checkin     } 
+  get('/class_sheet/:id', :auth => 'frontdesk' ) { render_page :class_sheet       }
+  get('/customer_file',   :auth => 'frontdesk' ) { render_page :customer_file     }
 
   post('/plan/charge')       { buy_plan             }
   post('/pack/charge')       { buy_pack             }
