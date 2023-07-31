@@ -1,5 +1,5 @@
 
-var daypilot;
+var daypilot, start, end;
 
 $(document).ready( function() {
 
@@ -17,8 +17,8 @@ $(document).ready( function() {
 window.addEventListener('pageshow', fetch_data);
 
 function setup_daypilot() {
-  let start = (new Date).toISOString().split('T')[0];
-  let end = new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0];
+  start = (new Date).toISOString().split('T')[0];
+  end = new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0];
   daypilot = new DayPilot.Calendar('daypilot', {
     viewType: "Days",
     days: 7,
