@@ -37,7 +37,7 @@ $(document).ready( function() {
         args.data.html = args.data.text.split(',').join(',<br/>');
       },
       onEventClick: function(args) {
-        var x = 5;
+        window.location = '/checkout/group/' + args.data.id;
       }
     });
   
