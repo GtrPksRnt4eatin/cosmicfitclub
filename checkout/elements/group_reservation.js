@@ -58,7 +58,7 @@ GroupReservation.prototype.HTML = `
     </div>
     <div class='tuple' rv-each-slot="reservation.slots">
       <div class='attrib'>#{index | fix_index}</div>
-      <div class='value edit'>{slot.customer_string}</div>
+      <div class='value edit'>{ slot | slot_price } - {slot.customer_string}</div>
     </div>
     <hr>
     
