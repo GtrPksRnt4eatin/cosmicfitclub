@@ -165,4 +165,9 @@ class ScheduleRoutes < Sinatra::Base
     items = ClassException.between(from,to)
   end
 
+  error do
+    Slack.err( 'Schedule Route Error', env['sinatra.error'] )
+    'An Error Occurred.'
+  end
+
 end
