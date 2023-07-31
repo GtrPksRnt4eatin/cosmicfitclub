@@ -23,6 +23,22 @@ class GroupReservation < Sequel::Model
     self.tag = rand(36**8).to_s(36)
   end
 
+  def duration_ical
+    "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
+  end
+
+  ################# CALCULATED PROPERTIES #################
+
+  def duration_sec
+    Time.parse(end_time) - Time.parse(start_time)
+  end
+  
+  def duration_ical
+    "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
+  end
+  
+  ################# CALCULATED PROPERTIES #################
+
   ############################ VIEWS ############################
 
   def to_public_daypilot
@@ -40,6 +56,14 @@ class GroupReservation < Sequel::Model
       :text  => text,
       :id    => self.id
     }
+  end
+
+  def to_ical_event
+    ical = Icalendar::Event.new
+    ical.dtstart = DateTime.parse(self.start_time.to_s)
+    ical.duration = self.duration_ical
+    ical.summary = customer.to_list_string
+    ical
   end
 
   def details_view

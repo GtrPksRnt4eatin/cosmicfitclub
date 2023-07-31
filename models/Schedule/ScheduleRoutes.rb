@@ -49,7 +49,7 @@ class ScheduleRoutes < Sinatra::Base
     from  = Date.today.beginning_of_week
     to    = Date.today.end_of_week.tomorrow 
     attachment "#{from} - #{to} Schedule.csv"
-    items = get_all_between(from, to)
+    items = new_get_all_between(from, to)
     CSV.generate do |csv|
       csv << ['COSMIC FIT CLUB SCHEDULE', "#{from.to_s} to #{to.to_s}" ]
       csv << []
@@ -104,38 +104,39 @@ class ScheduleRoutes < Sinatra::Base
     ical = Icalendar::Calendar.new
     ical.add_timezone TZInfo::Timezone.get("America/New_York").ical_timezone(Time.now)
     EventSession.between(from,to).map(&:to_ical_event).each         { |evt| ical.add_event(evt) }
+    GroupReservation.all_between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
     ClassdefSchedule.all.map(&:to_ical_event).each                  { |evt| ical.add_event(evt) }
-    #ClassOccurrence.past_between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
+   #ClassOccurrence.past_between(from,to).map(&:to_ical_event).each { |evt| ical.add_event(evt) }
     ical.to_ical
   end
 
-  def get_all_between(from,to)
-    classes  = get_classitems_between(from,to)
-    events   = get_eventsessions_between(from,to)
-    rentals = get_rentals_between(from,to)
-    items = events + classes + rentals
-    items.group_by { |x| x[:day] }.sort.to_h
-  end
+  #def get_all_between(from,to)
+  #  classes  = get_classitems_between(from,to)
+  #  events   = get_eventsessions_between(from,to)
+  #  rentals = get_rentals_between(from,to)
+  #  items = events + classes + rentals
+  #  items.group_by { |x| x[:day] }.sort.to_h
+  #end
 
-  def get_classitems_between(from,to)
-    items = ClassOccurrence.past_between(from,to).map(&:schedule_details_hash)
-    ClassdefSchedule.all.each do |sched|
-      details = sched.schedule_details_hash
-      sched.get_occurrences(from,to).each do |starttime|
-        exception = ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 ).try(:details)
-        start = exception ? exception[:starttime].to_time : starttime.to_time
-        details[:instructors] = [ Staff[exception[:teacher_id]].to_token ] if ( exception && exception[:teacher_id] )
-        items << {
-          :day => Date.strptime(start.iso8601).to_s,
-          :starttime => start,
-          :endtime   => start + sched.duration_sec, 
-          :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), start.iso8601 ),
-          :exception => exception
-        }.merge!(details)
-      end
-    end
-    items
-  end
+  #def get_classitems_between(from,to)
+  #  items = ClassOccurrence.past_between(from,to).map(&:schedule_details_hash)
+  #  ClassdefSchedule.all.each do |sched|
+  #    details = sched.schedule_details_hash
+  #    sched.get_occurrences(from,to).each do |starttime|
+  #      exception = ClassException.find( :classdef_id => sched.classdef.id, :original_starttime => starttime.to_time.iso8601 ).try(:details)
+  #      start = exception ? exception[:starttime].to_time : starttime.to_time
+  #      details[:instructors] = [ Staff[exception[:teacher_id]].to_token ] if ( exception && exception[:teacher_id] )
+  #      items << {
+  #        :day => Date.strptime(start.iso8601).to_s,
+  #        :starttime => start,
+  #        :endtime   => start + sched.duration_sec, 
+  #        :headcount => ClassOccurrence.get_headcount( sched.classdef.id, ( sched.teachers[0].nil? ? 0 : sched.teachers[0].id ), start.iso8601 ),
+  #        :exception => exception
+  #      }.merge!(details)
+  #    end
+  #  end
+  #  items
+  #end
 
   def new_get_all_between(from,to)
     classes  = new_get_classitems_between(from,to)
