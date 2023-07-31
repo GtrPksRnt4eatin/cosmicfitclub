@@ -1,7 +1,7 @@
 function GroupReservation(perent,attr) {
   this.reservation = attr['reservation'];
 
-  rivets.formatters.count = function(val) { return val.length; }
+  rivets.formatters.count = function(val) { return val ? val.length : 0; }
 
   this.bind_handlers([]);
   this.load_styles();
