@@ -12,6 +12,8 @@ class GroupReservationRoutes < Sinatra::Base
       :start_time          => data['start_time'],
       :end_time            => data['end_time'],
       :customer_id         => data['customer_id'],
+      :activity            => data['activity'],
+      :note                => data['note'],
       :is_lesson           => data['is_lesson']
     )
 

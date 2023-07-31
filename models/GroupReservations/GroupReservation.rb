@@ -30,7 +30,7 @@ class GroupReservation < Sequel::Model
   ################# CALCULATED PROPERTIES #################
 
   def duration_sec
-    Time.parse(end_time) - Time.parse(start_time)
+    self.end_time - self.start_time
   end
   
   def duration_ical
