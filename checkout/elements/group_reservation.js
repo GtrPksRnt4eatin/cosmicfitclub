@@ -7,12 +7,30 @@ function GroupReservation(perent,attr) {
     return( rivets.formatters.money(duration / 60 * 1200) ); 
   }.bind(this)
 
+  rivets.formatters.total_price = function(res) {
+    let total = res.slots.reduce( function(total, slot) { 
+      let duration = slot.duration || rivets.formatters.duration(res.start_time, res.end_time);
+      return(total + (duration / 60 * 1200));
+    }, 0)
+    return(rivets.formatters.money(total));
+  }
+
   this.bind_handlers([]);
   this.load_styles();
 }
 
 GroupReservation.prototype = {
-	constructor: GroupReservation
+	constructor: GroupReservation,
+
+  delete: function(e,m) {
+    $.del('/models/groups/' + m.reservation.id)
+     .success( function() { history.back(); })
+     .fail(function() { alert('Delete Failed'); });
+  },
+
+  checkout: function(e,m) {
+
+  }
 }
 
 Object.assign( GroupReservation.prototype, element);
@@ -60,8 +78,9 @@ GroupReservation.prototype.HTML = `
       <div class='attrib'>#{index | fix_index}</div>
       <div class='value edit'>{ slot | slot_price } - {slot.customer_string}</div>
     </div>
-    <hr>
-    
+    <button rv-on-click='delete'> Delete Reservation </button>
+    <br>
+    <button rv-on-click='checkout'> Pay Now </button>
   </div>
 `.untab(2);
 

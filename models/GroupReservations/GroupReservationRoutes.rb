@@ -32,6 +32,12 @@ class GroupReservationRoutes < Sinatra::Base
     res.details_view.to_json
   end
 
+  delete '/:id' do
+    res = GroupReservation[params[:id]] or halt(404, "Reservation Not Found")
+    res.full_delete
+    {}.to_json
+  end
+
   #################################### GROUP RESERVATION LISTS ##############################
 
   get '/range/:from/:to' do
