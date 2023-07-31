@@ -36,6 +36,9 @@ $(document).ready( function() {
       eventHoverHandling: "Disabled",
       onBeforeEventRender:   function(args) {
         args.data.html = args.data.text.split(',').join(',<br/>');
+      },
+      onEventClick: function(args) {
+        var x = 5;
       }
     });
   
