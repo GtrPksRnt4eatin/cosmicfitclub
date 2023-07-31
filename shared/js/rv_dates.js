@@ -25,6 +25,13 @@ function include_rivets_dates() {
     return start.format('ddd MMM Do h:mm a') + ' - ' + end.format('ddd MMM Do h:mm a');
   }
 
+  rivets.formatters.duration   = function(start, end) {
+    start = moment.parseZone(start);
+    end = moment.parseZone(end);
+    durtion = moment.duration(end.diff(start));
+    return duration.asMinutes();
+  }
+
   rivets.binders['datefield'] = { 
     bind: function(el) {
       this.flatpickrInstance = $(el).flatpickr({

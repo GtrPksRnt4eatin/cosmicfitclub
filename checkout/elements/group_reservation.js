@@ -22,11 +22,15 @@ GroupReservation.prototype.HTML = `
     </div>
     <div class='tuple'>
       <div class='attrib'> Start: </div>
-      <div class='value'> {reservation.start_time} </div>
+      <div class='value'> {reservation.start_time | fulldate} </div>
     </div>
     <div class='tuple'>
       <div class='attrib'> End: </div>
-      <div class='value'> {reservation.end_time} </div>
+      <div class='value'> {reservation.end_time | fulldate} </div>
+    </div>
+    <div class='tuple'>
+      <div class='attrib'> Duration: </div>
+      <div class='value'> {reservation.start_time | duration reservation.end_time } Minutes </div>
     </div>
     <div class='tuple'>
       <div class='attrib'> Apparatus: </div>
