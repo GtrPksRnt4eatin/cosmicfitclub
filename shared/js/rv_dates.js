@@ -28,7 +28,7 @@ function include_rivets_dates() {
   rivets.formatters.duration   = function(start, end) {
     start = moment.parseZone(start);
     end = moment.parseZone(end);
-    durtion = moment.duration(end.diff(start));
+    duration = moment.duration(end.diff(start));
     return duration.asMinutes();
   }
 
