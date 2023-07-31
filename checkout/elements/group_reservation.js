@@ -4,7 +4,7 @@ function GroupReservation(perent,attr) {
   rivets.formatters.count = function(val) { return val ? val.length : 0; }
   rivets.formatters.slot_price = function(slot) {
     let duration = slot.duration || rivets.formatters.duration(this.reservation.start_time, this.reservation.end_time);
-    return( duration / 60 * 1200 )
+    return( rivets.formatters.money(duration / 60 * 1200) ); 
   }.bind(this)
 
   this.bind_handlers([]);
@@ -61,8 +61,7 @@ GroupReservation.prototype.HTML = `
       <div class='value edit'>{slot.customer_string}</div>
     </div>
     <hr>
-    <div>Payments:</div>
-    <div>{reservation.slots | count} slots @ $12 * </div> 
+    
   </div>
 `.untab(2);
 
