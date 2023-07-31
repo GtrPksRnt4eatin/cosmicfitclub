@@ -32,7 +32,6 @@ $(document).ready( function() {
       eventDeleteHandling: "Disabled",
       eventMoveHandling: "Disabled",
       eventResizeHandling: "Disabled",
-      eventClickHandling: "Disabled",
       eventHoverHandling: "Disabled",
       onBeforeEventRender:   function(args) {
         args.data.html = args.data.text.split(',').join(',<br/>');
