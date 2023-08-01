@@ -1,5 +1,5 @@
 
-var daypilot, start, end;
+var daypilot, start, end, loft_calendar;
 
 $(document).ready( function() {
 
@@ -11,7 +11,9 @@ $(document).ready( function() {
   custy_selector.show_add_form();
   
   //setup_daypilot();
-  rivets.bind($('body'), { data : {} } );
+  var view = rivets.bind($('body'), { data : {} } );
+
+  loft_calendar = get_element(view,'loft-calendar');
   
 });
 
@@ -48,14 +50,15 @@ function setup_daypilot() {
 }
 
 function fetch_data() {
-  daypilot.events.list = [];
-  daypilot.update();
-
-  $.get(`/models/groups/range-admin/${start}/${end}`)
-  .success( function(val) {
-    for(i=0; i<val.length; i++) {
-      daypilot.events.add(val[i]);
-    }
-    daypilot.update();
-  })
+  //daypilot.events.list = [];
+  //daypilot.update();
+ 
+  loft_calendar.refresh_data();
+  //$.get(`/models/groups/range-admin/${start}/${end}`)
+  //.success( function(val) {
+  //  for(i=0; i<val.length; i++) {
+   //   daypilot.events.add(val[i]);
+   // }
+  //  daypilot.update();
+  //})
 }

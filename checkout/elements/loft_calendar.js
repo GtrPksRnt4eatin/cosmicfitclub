@@ -14,7 +14,7 @@ function LoftCalendar(parent,attr) {
   let start = (new Date).toISOString().split('T')[0];
   let end = new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0];
   
-  this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events']);
+  this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events', 'refresh_data']);
   this.build_daypilot();
   this.get_gcal_events();
   this.get_reservations(start, end);
@@ -84,6 +84,14 @@ LoftCalendar.prototype = {
 
   on_reservation_selected: function(args) {
     window.location = '/checkout/group/' + args.e.data.id;
+  },
+
+  refresh_data: function() {
+    this.state.daypilot.events.list = [];
+    this.state.daypilot.update();
+    this.get_reservations();
+    this.get_gcal_events();
+    this.state.daypilot.update();
   }
 
 }
