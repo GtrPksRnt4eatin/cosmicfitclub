@@ -94,6 +94,7 @@ LoftCalendar.prototype = {
       .then(this.get_gcal_events()
       .then(this.state.daypilot.update())
     );
+  }
 }
 
 Object.assign( LoftCalendar.prototype, element);
