@@ -8,7 +8,8 @@ function LoftCalendar(parent,attr) {
     window_end: null,
     daypilot: null,
     reservations: null,
-    gcal_events: null   
+    gcal_events: null,
+    loading: false   
   }
       
   this.start = (new Date).toISOString().split('T')[0];
@@ -88,12 +89,16 @@ LoftCalendar.prototype = {
   },
 
   refresh_data: function() {
+    if(this.loading) return;
+    this.loading = true;
     this.state.daypilot.events.list = [];
     //this.state.daypilot.update();
     this.get_reservations()
       .then(this.get_gcal_events()
-      .then(this.state.daypilot.update())
-    );
+        .then(this.state.daypilot.update()
+          .then(function() { this.state.loading = false; }.bind(this))
+        )
+      );
   }
 }
 
