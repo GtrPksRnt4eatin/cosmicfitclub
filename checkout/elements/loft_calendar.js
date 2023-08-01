@@ -18,8 +18,6 @@ function LoftCalendar(parent,attr) {
   this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events', 'refresh_data']);
   this.build_daypilot();
   this.refresh_data();
-  //this.get_gcal_events();
-  //this.get_reservations(start, end);
 }
 
 LoftCalendar.prototype = {
@@ -75,7 +73,7 @@ LoftCalendar.prototype = {
             end: moment(event.end).subtract(4,'hours').format(),
             text: this.admin ? event.summary : "Reserved", 
             allday: event.allday,
-            backColor: '#BBBBFF'
+            backColor: '#DDDDFF'
           })
         }.bind(this)) 
       }.bind(this));
@@ -86,6 +84,7 @@ LoftCalendar.prototype = {
   },
 
   on_reservation_selected: function(args) {
+    if(args.e.data.id==12345) { alert("Google Calendar Events Can't be opened here"); return; }
     window.location = '/checkout/group/' + args.e.data.id;
   },
 
@@ -93,7 +92,6 @@ LoftCalendar.prototype = {
     if(this.loading) return;
     this.loading = true;
     this.state.daypilot.events.list = [];
-    //this.state.daypilot.update();
     this.get_reservations()
       .then(function() { return this.get_gcal_events()       }.bind(this))
       .then(function() { return this.state.daypilot.update() }.bind(this))
