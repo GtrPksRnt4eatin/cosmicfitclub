@@ -74,7 +74,8 @@ LoftCalendar.prototype = {
             start: moment(event.start).subtract(4,'hours').format(),
             end: moment(event.end).subtract(4,'hours').format(),
             text: this.admin ? event.summary : "Reserved", 
-            allday: event.allday
+            allday: event.allday,
+            backColor: '#BBBBFF'
           })
         }.bind(this)) 
       }.bind(this));
