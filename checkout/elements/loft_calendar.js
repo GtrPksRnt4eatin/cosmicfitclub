@@ -1,14 +1,15 @@
 function LoftCalendar(parent,attr) {
 
-  this.selected_timeslot = attr['timeslot']
+  this.selected_timeslot = attr['timeslot'];
+  this.admin = attr['admin'];
 
-    this.state = {
-      window_start: null,
-      window_end: null,
-      daypilot: null,
-      reservations: null,
-      gcal_events: null   
-    }
+  this.state = {
+    window_start: null,
+    window_end: null,
+    daypilot: null,
+    reservations: null,
+    gcal_events: null   
+  }
       
   let start = (new Date).toISOString().split('T')[0];
   let end = new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0];
@@ -34,19 +35,24 @@ LoftCalendar.prototype = {
       dayBeginsHour: 9,
       dayEndsHour: 24,
       showAllDayEvents: false,
-      timeRangeSelectedHandling: "Enabled",
-      onTimeRangeSelected: this.on_timeslot_selected,
       eventDeleteHandling: "Disabled",
       eventMoveHandling: "Disabled",
       eventResizeHandling: "Disabled",
-      eventClickHandling: "Disabled",
       eventHoverHandling: "Disabled",
+      timeRangeSelectedHandling: (this.admin ? "Disabled" : "Enabled"),
+      eventClickHandling: (this.admin ? "Enabled" : "Disabled"),
+      onTimeRangeSelected: this.on_timeslot_selected,
+      onEventClick: this.on_reservation_selected,
+      onBeforeEventRender:   function(args) {
+        this.admin && ( args.data.html = args.data.text.split(',').join(',<br/>'));
+      },
     });
     this.state.daypilot.init();
   },
 
   get_reservations: function(from,to) {
-    $.get( `/models/groups/range/${from}/${to}`)
+    let path = this.admin ? `models/groups/range-admin/${from}/${to}` : `/models/groups/range/${from}/${to}`
+    $.get( path )
      .then(function(resp) { 
         this.state.reservations = resp;
         this.state.reservations.for_each( function(res) {
@@ -65,7 +71,7 @@ LoftCalendar.prototype = {
             id: 12345,
             start: moment(event.start).subtract(4,'hours').format(),
             end: moment(event.end).subtract(4,'hours').format(),
-            text: "Reserved", 
+            text: this.admin ? event.summary : "Reserved", 
             allday: event.allday
           })
         }.bind(this)) 
@@ -74,6 +80,10 @@ LoftCalendar.prototype = {
 
   on_timeslot_selected: function(args) {
     this.ev_fire('on_timeslot_selected', args);
+  },
+
+  on_reservation_selected: function(args) {
+    window.location = '/checkout/group/' + args.e.data.id;
   }
 
 }
@@ -96,6 +106,7 @@ LoftCalendar.prototype.CSS = `
 `.untab(2);
 
 rivets.components['loft-calendar'] = { 
+  static: ['admin'],
   template:   function()        { return LoftCalendar.prototype.HTML; },
   initialize: function(el,attr) { return new LoftCalendar(el,attr);   }
 }
