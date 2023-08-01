@@ -51,7 +51,7 @@ LoftCalendar.prototype = {
   },
 
   get_reservations: function(from,to) {
-    let path = this.admin ? `models/groups/range-admin/${from}/${to}` : `/models/groups/range/${from}/${to}`
+    let path = this.admin ? `/models/groups/range-admin/${from}/${to}` : `/models/groups/range/${from}/${to}`
     $.get( path )
      .then(function(resp) { 
         this.state.reservations = resp;
