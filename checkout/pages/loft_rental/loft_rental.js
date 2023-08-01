@@ -69,19 +69,6 @@ $(document).ready( function() {
     data.num_slots = 1;
     data.rental.slots = [];
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
-    //calculate_total();
   });
 
 });
-
-//function on_timeslot_selected(args) {
-//  if(!userview.logged_in) { userview.onboard(); return;  }
-//  data.selected_timeslot.starttime = new Date(args.start.value);
-//  data.selected_timeslot.endtime = new Date(data.selected_timeslot.starttime.getTime() + 60 * 60 * 1000)
-//  data.num_slots = 2;
-//  data.rental.slots = [];
-//  data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
-//  data.rental.slots.push( { customer_id: 0, customer_string: "Add Student" } );
-//  calculate_total();
-//}
-
