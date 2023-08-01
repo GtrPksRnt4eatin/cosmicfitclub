@@ -53,7 +53,7 @@ LoftCalendar.prototype = {
 
   get_reservations: function() {
     let path = this.admin ? `/models/groups/range-admin/${this.start}/${this.end}` : `/models/groups/range/${this.start}/${this.end}`
-    $.get( path )
+    return $.get( path )
      .then(function(resp) { 
         this.state.reservations = resp;
         this.state.reservations.for_each( function(res) {
@@ -63,7 +63,7 @@ LoftCalendar.prototype = {
   },
 
   get_gcal_events: function() {
-    $.get( '/models/schedule/loft_events')
+    return $.get( '/models/schedule/loft_events')
      .then(function(resp) { 
         this.state.gcal_events = resp;
         this.state.gcal_events.for_each( function(event) {
