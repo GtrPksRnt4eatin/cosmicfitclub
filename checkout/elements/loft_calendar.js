@@ -89,12 +89,11 @@ LoftCalendar.prototype = {
 
   refresh_data: function() {
     this.state.daypilot.events.list = [];
-    this.state.daypilot.update();
-    this.get_reservations();
-    this.get_gcal_events();
-    this.state.daypilot.update();
-  }
-
+    //this.state.daypilot.update();
+    this.get_reservations()
+      .then(this.get_gcal_events()
+      .then(this.state.daypilot.update())
+    );
 }
 
 Object.assign( LoftCalendar.prototype, element);
