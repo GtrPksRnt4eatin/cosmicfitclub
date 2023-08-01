@@ -16,8 +16,9 @@ function LoftCalendar(parent,attr) {
   
   this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events', 'refresh_data']);
   this.build_daypilot();
-  this.get_gcal_events();
-  this.get_reservations(start, end);
+  this.refresh_data();
+  //this.get_gcal_events();
+  //this.get_reservations(start, end);
 }
 
 LoftCalendar.prototype = {
