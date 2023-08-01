@@ -10,7 +10,8 @@ $(document).ready( function() {
   custy_selector.ev_sub('close_modal', popupmenu.hide );
   custy_selector.show_add_form();
   
-  setup_daypilot();
+  //setup_daypilot();
+  rivets.bind($('body'), { data : {} } );
   
 });
 
