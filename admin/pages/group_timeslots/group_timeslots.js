@@ -14,7 +14,7 @@ $(document).ready( function() {
 });
 
 window.addEventListener('pageshow', fetch_data);
-window.addEventListener('popstate', fetch_data2);
+//window.addEventListener('popstate', fetch_data2);
 
 $(window).bind("unload", function() {});
 
@@ -22,6 +22,6 @@ function fetch_data() {
   loft_calendar && loft_calendar.refresh_data();
 }
 
-function fetch_data2() {
-  loft_calendar && loft_calendar.refresh_data();
-}
+//function fetch_data2() {
+//  loft_calendar && loft_calendar.refresh_data();
+//}
