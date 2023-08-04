@@ -13,15 +13,9 @@ $(document).ready( function() {
   loft_calendar = get_element(view,'loft-calendar');
 });
 
-window.addEventListener('pageshow', fetch_data);
-//window.addEventListener('popstate', fetch_data2);
-
+// disable bfcache
 $(window).bind("unload", function() {});
 
-function fetch_data() {
+window.addEventListener('pageshow', function() {
   loft_calendar && loft_calendar.refresh_data();
-}
-
-//function fetch_data2() {
-//  loft_calendar && loft_calendar.refresh_data();
-//}
+});
