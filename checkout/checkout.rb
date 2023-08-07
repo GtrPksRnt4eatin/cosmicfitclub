@@ -56,18 +56,20 @@ class Checkout < Sinatra::Base
   get('/class_sheet/:id', :auth => 'frontdesk' ) { render_page :class_sheet       }
   get('/customer_file',   :auth => 'frontdesk' ) { render_page :customer_file     }
 
-  post('/plan/charge')       { buy_plan             }
-  post('/pack/charge')       { buy_pack             }
-  post('/pack/buy')          { buy_pack_precharged  }
-  post('/pack/intent')       { buy_pack_intent      }
-  post('/donate/intent')     { donate_intent        }
-  post('/training/charge')   { buy_training         }
-  post('/event/precharged')  { buy_event_precharged }
-  post('/event/charge')      { buy_event            }
-  post('/event/charge_priv') { buy_event_privates   }
-  post('/event/passes')      { buy_event_passes     }
-  post('/event/register')    { register_event       }
-  post('/misc/charge')       { buy_misc             }
+  post('/plan/charge')         { buy_plan             }
+  post('/pack/charge')         { buy_pack             }
+  post('/pack/buy')            { buy_pack_precharged  }
+  post('/pack/intent')         { buy_pack_intent      }
+  post('/donate/intent')       { donate_intent        }
+  post('/training/charge')     { buy_training         }
+  post('/event/precharged')    { buy_event_precharged }
+  post('/event/charge')        { buy_event            }
+  post('/event/charge_priv')   { buy_event_privates   }
+  post('/event/passes')        { buy_event_passes     }
+  post('/event/register')      { register_event       }
+  post('/group/apply_payment') { group_payment        }
+  post('/group/apply_passes')  { group_passes         }
+  post('/misc/charge')         { buy_misc             }
 
   post('/charge_card')       { charge_card         }
   post('/charge_saved_card') { charge_saved_card   }

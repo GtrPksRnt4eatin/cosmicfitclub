@@ -29,5 +29,14 @@ html
       
       .tile
         group-reservation reservation='data.reservation'
+
+        hr
+        H2 Payments
+
+        input#payval type='number' min='0' max='100' step='1' value='12'
+        button rv-on-click='ctrl.checkout_card' Pay now
+
+        input#passval type='number' min='0' max='10' step='1' value='1'
+        button rv-on-click='ctrl.checkout_passes' Apply Passes
     
       #popupmenu_container

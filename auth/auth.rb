@@ -114,7 +114,7 @@ class CFCAuth < Sinatra::Base
   def create_jwt(user)
     customer = user.customer
     JWT.encode({
-        exp: Time.now.to_i + 120 * 60,
+        exp: Time.now.to_i + (10 * 24 * 60 * 60),
         iat: Time.now.to_i,
         iss: ENV['JWT_ISSUER'],
         scopes: user.roles.map(&:name),
@@ -132,7 +132,8 @@ class CFCAuth < Sinatra::Base
 
   def set_jwt_header(user)
     jwt = user ? create_jwt(user) : ''
-    val = "cosmicjwt=#{jwt}; domain=.cosmicfitclub.com; path=/; SameSite=None; secure; HttpOnly"
+    exp = (Time.now + (10 * 24 * 60 * 60)).to_s
+    val = "cosmicjwt=#{jwt}; domain=.cosmicfitclub.com; expires=#{exp}; path=/; SameSite=None; secure; HttpOnly"
     response.set_header('Set-Cookie', val)
     jwt
   end

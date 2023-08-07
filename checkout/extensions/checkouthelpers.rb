@@ -158,6 +158,17 @@ module Sinatra
       
     end
 
+    def group_payment
+      group = GroupReservation[params[:reservation_id]] or halt(404, "Couldn't find Reservation")
+      payment = CustomerPayment[params[:payment_id]] or halt(404, "Payment Not Found")
+      payment.update(:group_reservation_id => group.id)
+      status 204
+    end
+
+    def group_passes
+
+    end
+
     def register_event
       data = JSON.parse request.body.read
       custy = logged_in? ? customer : Customer.get_from_email( data['email'], "");
