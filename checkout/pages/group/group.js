@@ -77,6 +77,6 @@ $(document).ready( function() {
      data.reservation = val;
    })
 
-   rivets.bind( $('body'), { data: data });
+   rivets.bind( $('body'), { data: data, ctrl: ctrl });
 });
 
