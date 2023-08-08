@@ -9,7 +9,7 @@ ctrl = {
     let price = parseInt($('#payval').val()) * 100;
     pay_form.checkout(userview.id, price, desc, null, function(payment_id) {
       var payload = {
-        customer_id: userview_id,
+        customer_id: userview.id,
         reservation_id: data.reservation.id,
         payment_id: payment_id 
       }
@@ -25,7 +25,7 @@ ctrl = {
     let passes = parseInt($('#passval').val());
 
     var payload = {
-      customer_id: userview_id,
+      customer_id: userview.id,
       reservation_id: data.reservation.id,
       passes: passes 
     }
