@@ -29,7 +29,7 @@ ctrl = {
       reservation_id: data.reservation.id,
       passes: passes 
     }
-
+    
     $.post('apply_passes', payload)
      .done( on_successful_charge )
      .fail( on_failed_charge     );

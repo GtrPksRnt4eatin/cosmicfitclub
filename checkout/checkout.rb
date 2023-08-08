@@ -46,6 +46,7 @@ class Checkout < Sinatra::Base
   get('/front_desk')                             { render_page :front_desk        }
   get('/redeem_gift')                            { render_page :gift_cert         }
   get('/loft')                                   { render_page :loft_rental       }
+  get('/point')                                  { render_page :loft_rental       }
   get('/group/:id')                              { render_page :group             }
 
   get('/transactions')                           { render_page :transactions      }
