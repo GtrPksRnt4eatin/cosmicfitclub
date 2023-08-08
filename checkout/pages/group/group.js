@@ -6,7 +6,7 @@ ctrl = {
   checkout_card: function(e,m) {
     let start = rivets.formatters.classtime(data.reservation.start_time);
     let desc = `Point Rental for ${start}`;
-    let price = $('#payval').value() * 100;
+    let price = parseInt($('#payval').val()) * 100;
     pay_form.checkout(userview.id, price, desc, null, function(payment_id) {
       var payload = {
         customer_id: userview_id,
@@ -22,7 +22,7 @@ ctrl = {
   checkout_passes: function(e,m) {
     let start = rivets.formatters.classtime(data.reservation.start_time);
     let desc = `Point Rental for ${start}`;
-    let passes = $('#passval').value();
+    let passes = parseInt($('#passval').val());
 
     var payload = {
       customer_id: userview_id,
