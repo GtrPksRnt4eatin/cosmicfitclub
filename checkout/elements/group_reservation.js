@@ -1,5 +1,9 @@
 function GroupReservation(perent,attr) {
   this.reservation = attr['reservation'];
+  this.reservation.total_price = this.reservation.slots.reduce( function(total, slot) { 
+    let duration = slot.duration || rivets.formatters.duration(res.start_time, res.end_time);
+    return(total + (duration / 60 * 1200));
+  }, 0)
 
   rivets.formatters.count = function(val) { return val ? val.length : 0; }
   rivets.formatters.slot_price = function(slot) {
@@ -7,15 +11,7 @@ function GroupReservation(perent,attr) {
     return( rivets.formatters.money(duration / 60 * 1200) ); 
   }.bind(this)
 
-  rivets.formatters.total_price = function(res) {
-    let total = res.slots.reduce( function(total, slot) { 
-      let duration = slot.duration || rivets.formatters.duration(res.start_time, res.end_time);
-      return(total + (duration / 60 * 1200));
-    }, 0)
-    return(rivets.formatters.money(total));
-  }
-
-  this.bind_handlers([]);
+  this.bind_handlers(['price']);
   this.load_styles();
 }
 
@@ -27,6 +23,8 @@ GroupReservation.prototype = {
      .success( function() { history.back(); })
      .fail(function() { alert('Delete Failed'); });
   },
+  
+  get price() { return this.reservation.total_price; },
 
   checkout: function(e,m) {
 
@@ -78,6 +76,7 @@ GroupReservation.prototype.HTML = `
       <div class='attrib'>#{index | fix_index}</div>
       <div class='value edit'>{ slot | slot_price } - {slot.customer_string}</div>
     </div>
+    <h2>Total Price: { price | money } </h2>
     <button rv-on-click='delete'> Delete Reservation </button>
     <br>
     <button rv-on-click='checkout'> Pay Now </button>
