@@ -28,13 +28,9 @@ ctrl = {
 
   add_slot: function(e,m) {
     if(data.num_slots == 4) { return; }
-    data.num_slots = isNaN(data.num_slots) ? 1 : data.num_slots + 1;
-    while(data.rental.slots.length<data.num_slots) {
-      data.rental.slots.push({ customer_id: 0, customer_string: '' }); 
-    }
-    while(data.rental.slots.length>data.num_slots){
-      data.rental.slots.pop();
-    }
+    if(isNaN(data.num_slots)) { return; }
+    data.num_slots = data.num_slots + 1;
+    data.rental.slots.push({ customer_id: 0, customer_string: '' });
   },
 
   choose_custy: function(e,m) {
