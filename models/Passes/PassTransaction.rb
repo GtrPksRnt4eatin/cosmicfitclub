@@ -1,6 +1,7 @@
 class PassTransaction < Sequel::Model
 
   many_to_one :reservation, :class => :ClassReservation, :id => :reservation_id
+  many_to_one :group_reservation, :class => :GroupReservation, :id => :group_reservation_id
   many_to_one :wallet
   one_to_many :comps, :class => :CompTicket
 

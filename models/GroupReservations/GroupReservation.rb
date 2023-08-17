@@ -41,6 +41,11 @@ class GroupReservation < Sequel::Model
 
   ############################ VIEWS ############################
 
+  def summary
+    text = slots.map { |s| s.customer.nil? ? "TBD" : s.customer.to_list_string }.join(',')
+    "#{duration_sec / 60} Min Group Reservation #{self.start_time.strftime("%Y/%m/%d %H:%M")} #{text}"
+  end
+
   def to_public_daypilot
     { :start => self.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),

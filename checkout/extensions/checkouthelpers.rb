@@ -161,12 +161,16 @@ module Sinatra
     def group_payment
       group = GroupReservation[params[:reservation_id]] or halt(404, "Couldn't find Reservation")
       payment = CustomerPayment[params[:payment_id]] or halt(404, "Payment Not Found")
-      payment.update(:group_reservation_id => group.id)
+      payment.update(:group_reservation => group)
       status 204
     end
 
     def group_passes
-
+      group = GroupReservation[params[:reservation_id]] or halt(404, "Couldn't find Reservation")
+      custy = Customer[params[:customer_id]] or halt(404, "Couldn't find Customer")
+      trans = custy.rem_passes( params[:num_passes], group.summary, "" )
+      trans.update(:group_reservation => group)
+      status 204 
     end
 
     def register_event

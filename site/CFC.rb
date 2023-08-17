@@ -28,23 +28,16 @@ class CFC < Sinatra::Base
   get( '/staff')             { render_page :staff    }
   get( '/media')             { render_page :media    }
   get( '/faq')               { render_page :faq      }
+  get( '/privacy')           { render_page :privacy  }
 
   get( '/class/:id')         { render_page :class    } 
 
-  ####################### TEST PAGES #########################
-
-  #get( '/kids')              { render_page :kids     }
-
-  ####################### TEST PAGES #########################
-  
   get( '/waiver', :auth => 'user' ) { render_page :waiver }
 
   get( '/checkout')                 { render_page :checkout }
   get( '/checkout/plans/:id' )      { render_page :checkout_plan }
   get( '/checkout/packages/:id' )   { render_page :checkout_pack }
   get( '/checkout/complete')        { render_page :checkout_complete }
-
-  get( '/covid19' )                 { render_page :covid19           }
 
   get( '/login' ) { redirect('/auth/login') }
 

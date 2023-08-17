@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+html
+  head
+
+    == no_scaling
+
+    title Cosmic Fit Club
+
+    ==css [ 'fonts', 'site', 'slick', 'slick-theme', 'header', 'footer' ]
+    ==js  [ 'jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview' ]
+
+  body
+    #stars
+    
+    == include_slim('slim/partials/slim_header')
+      
+    .content
+      .tile
+        img style='width: 90vw; margin: auto; display: block;' src='privacy1.png'
+        img style='width: 90vw; margin: auto; display: block;' src='privacy2.png'
+        img style='width: 90vw; margin: auto; display: block;' src='privacy3.png'
+
+    == include_slim('slim/partials/footer')
+
+    == analytics

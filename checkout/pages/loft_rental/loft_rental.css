@@ -37,6 +37,10 @@ button#request {
   padding: 0.25em 1em;
   cursor: pointer;
   width: 100%;
+} 
+
+.selectize-control {
+  font-size: 0.55vw;
 }
 
 @media (orientation: portrait) {
