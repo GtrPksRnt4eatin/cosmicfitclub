@@ -58,6 +58,8 @@ class TwilioRoutes < Sinatra::Base
   post '/incoming2' do
   	content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
+    num = /\+(\d)(\d\d\d)(\d\d\d)(\d\d\d\d)/.match(params[:From])
+    num = num ? num[1..4].join('-') : params[:From]
     response.dial(caller_id: num) { |dial| dial.number '201-280-6512' }
     #response.hangup
     #return response.to_s
