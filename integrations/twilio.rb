@@ -50,6 +50,7 @@ class TwilioRoutes < Sinatra::Base
   	content_type 'application/xml'
   	response = Twilio::TwiML::VoiceResponse.new
     response.dial(caller_id: num) { |dial| dial.number '201-280-6512' }
+    response.hangup
     return response.to_s
   	response.gather(input: 'dtmf', timeout: 4, num_digits: 1, action: 'https://cosmicfitclub.com/twilio/selection') do |gather|
   	  gather.say(message: 'Hi, Thanks for calling Cosmic Fit Club!')
