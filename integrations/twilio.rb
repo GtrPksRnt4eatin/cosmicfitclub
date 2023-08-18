@@ -36,7 +36,16 @@ rescue Exception => e
 end
 
 class TwilioRoutes < Sinatra::Base
-  
+
+  configure do
+    enable :cross_origin
+  end
+
+  before do
+    response.headers['Access-Control-Allow-Origin'] = request.env["HTTP_ORIGIN"]
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+  end
+
   post '/incoming' do
     num = /\+(\d)(\d\d\d)(\d\d\d)(\d\d\d\d)/.match(params[:From])
     num = num ? num[1..4].join('-') : params[:From]
