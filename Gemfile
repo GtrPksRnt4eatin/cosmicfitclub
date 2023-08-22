@@ -9,7 +9,7 @@ gem 'stripe'
 gem 'slim'
 gem 'json'
 gem 'thin'
-gem 'google-api-client'
+gem 'google-api-client', '~> 0.7.1'
 gem 'sequel'
 gem 'shrine'
 gem 'pg'
@@ -49,4 +49,5 @@ gem "addressable", ">= 2.8.0"
 gem "nokogiri", ">= 1.12.5"
 gem "rexml", ">= 3.2.5"
 gem 'google-apis-calendar_v3', '~> 0.1'
+gem 'google-apis-sheets_v4', '~> 0.1'
 gem 'googleauth'
