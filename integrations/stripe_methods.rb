@@ -157,7 +157,7 @@ module StripeMethods
   end
 
   def StripeMethods::get_customer(customer_id)
-    Stripe::Customer.retrieve(customer_id)
+    Stripe::Customer.retrieve({ id: customer_id, expand: ['sources'] })
   end
 
   def StripeMethods::get_subscription(subscription_id)
