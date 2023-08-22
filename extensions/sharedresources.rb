@@ -33,17 +33,17 @@ module Sinatra
         cache_control :public, max_age: 604800
         path_arr = params[:path].nil? ? [] : params[:path].scan(/\/?(\w+)/).flatten 
         path = "#{$root_folder}/shared/img/#{params[:file]}.#{params[:ext]}"
-        path = "#{$root_folder}/shared/img/#{path_arr.last(2).join('/')}.#{params[:ext]}" unless File.exists? path
-        path = "#{$root_folder}/shared/img/#{path_arr.last(3).join('/')}.#{params[:ext]}" unless File.exists? path
-        send_file path if File.exists? path
+        path = "#{$root_folder}/shared/img/#{path_arr.last(2).join('/')}.#{params[:ext]}" unless File.exist? path
+        path = "#{$root_folder}/shared/img/#{path_arr.last(3).join('/')}.#{params[:ext]}" unless File.exist? path
+        send_file path if File.exist? path
       end
 
       app.get /.*?(?<file>[^\/]*)\.(?<ext>ttf|woff|woff2)/ do
         cache_control :public, max_age: 604800
         path = "shared/fonts/#{params[:file]}.#{params[:ext]}"
         wfpath = "shared/fonts/webfonts/#{params[:file]}.#{params[:ext]}"
-        send_file wfpath if File.exists? wfpath
-        send_file "shared/fonts/#{params[:file]}.#{params[:ext]}" unless File.exists? wfpath
+        send_file wfpath if File.exist? wfpath
+        send_file "shared/fonts/#{params[:file]}.#{params[:ext]}" unless File.exist? wfpath
       end
 
     end
