@@ -16,19 +16,19 @@ module Sinatra
 
       app.get '*/:file.css' do
         path = "#{app.root}/pages/#{params[:file]}/#{params[:file]}.css"
-        pass unless File.exists? path
+        pass unless File.exist? path
         send_file path
       end
 
       app.get '*/:file.js' do
         path = "#{app.root}/pages/#{params[:file]}/#{params[:file]}.js"
-        pass unless File.exists? path
+        pass unless File.exist? path
         send_file path
       end
 
       app.get '*/elements/:file.js' do
         path = "#{app.root}/elements/#{params[:file]}.js"
-        pass unless File.exists? path
+        pass unless File.exist? path
         send_file path  
       end
 
