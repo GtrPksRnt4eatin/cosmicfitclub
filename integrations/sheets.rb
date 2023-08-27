@@ -54,7 +54,7 @@ module Sheets
     evt = Event[event_id] or return false
     title = evt.starttime.strftime("%Y-%m-%d [\##{evt.id}] #{evt.name}")
     svc = Sheets::get_service2
-    folder = svc.folder_by_id("1gEYA96NDJcToN_bJQ0_OpluI-ISYHyVg")
+    folder = svc.file_by_id("1gEYA96NDJcToN_bJQ0_OpluI-ISYHyVg")
     sheet = folder.file_by_name(title)
     sheet ||= folder.create_spreadsheet(title)
 
