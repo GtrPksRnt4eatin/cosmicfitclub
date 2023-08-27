@@ -55,7 +55,7 @@ module Sheets
     title = evt.starttime.strftime("%Y-%m-%d [\##{evt.id}] #{evt.name}")
     svc = Sheets::get_service2
     folder = svc.file_by_id("1gEYA96NDJcToN_bJQ0_OpluI-ISYHyVg")
-    sheet = folder.file_by_name(title)
+    sheet = folder.file_by_title(title)
     sheet ||= folder.create_spreadsheet(title)
 
     wksht = sheet.worksheets[0]
