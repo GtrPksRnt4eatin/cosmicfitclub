@@ -58,7 +58,7 @@ module Slack
   end
 
   def Slack.err(label, err)
-    msg = "#{label}:\r\r`#{err.message}\r\r`"
+    msg = "#{label}:\r\r`#{err} - #{err.message}\r\r`"
     Slack.send({ 
       :channel => 'website_errors', 
       :text => msg, 

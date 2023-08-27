@@ -34,7 +34,7 @@ gem 'koala'
 gem 'sucker_punch'
 gem 'humanize'
 gem 'rqrcode'
-gem 'google_drive', '~> 2.1'
+gem 'google_drive'
 gem 'sinatra-cross_origin'
 gem 'sinatra-contrib'
 gem 'jwt'
@@ -48,6 +48,6 @@ gem 'tzinfo-data'
 gem "addressable", ">= 2.8.0"
 gem "nokogiri", ">= 1.12.5"
 gem "rexml", ">= 3.2.5"
-gem 'google-apis-calendar_v3', '~> 0.1'
-gem 'google-apis-sheets_v4', '~> 0.1'
+gem 'google-apis-calendar_v3'
+gem 'google-apis-sheets_v4'
 gem 'googleauth'
