@@ -11,7 +11,7 @@ class EventTicket < Sequel::Model
   one_to_many :checkins,         :class => :EventCheckin,    :key => :ticket_id
   one_to_many :passes,           :class => :EventPass,       :key => :ticket_id
   many_to_one :payment,          :class => :CustomerPayment, :key => :customer_payment_id
-  one_to_many :pass_transaction, :class => :PassTransaction, :key => :event_ticket_id
+  many_to_one :pass_transaction, :class => :PassTransaction, :key => :pass_transaction_id
   pg_array_to_many :sessions,    :class => :EventSession,    :key => :included_sessions
 
   ###################### ASSOCIATIONS #####################
@@ -43,8 +43,18 @@ class EventTicket < Sequel::Model
     self.payment.try(:stripe_id)
   end
 
+  def pass_totals
+    { :gross   => self.pass_transaction.delta * -1200, 
+      :fees    => self.pass_transaction.delta * -065,
+      :refunds => 0, 
+      :net     => self.pass_transaction.delta * -1135
+    }
+  end
+
   def full_payment_info
-    StripeMethods::get_payment_totals(self.get_stripe_id)
+    return StripeMethods::get_payment_totals(self.get_stripe_id) if(self.payment)
+    return self.pass_totals if(self.pass_transaction)
+    return {:gross=>0, :fees=>0, :refunds=>0, :net=>0}
   end
 
   ################# CALCULATED PROPERTIES #################

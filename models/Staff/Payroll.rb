@@ -30,6 +30,18 @@ class Payroll < Sequel::Model(:payrolls)
     { :from => period_start, :to => period_end - 0.00001 }
   end
 
+  def full_delete
+    self.slips.each do |slip|
+      slip.lines.each do |line|
+        line.delete
+      end
+      slip.delete
+    end
+    self.delete
+  end
+
+  ############################## VIEWS ####################################################
+
   def details_hash
     hsh = self.to_hash
     hsh[:slips]                 = slips.map(&:details_hash)
@@ -45,14 +57,6 @@ class Payroll < Sequel::Model(:payrolls)
     self.slips.map(&:totals).inject { |sum,x| sum.merge(x){ |k,x,y| x+y } }
   end
 
-  def full_delete
-    self.slips.each do |slip|
-      slip.lines.each do |line|
-        line.delete
-      end
-      slip.delete
-    end
-    self.delete
-  end
+  ############################## VIEWS ####################################################
 
 end
