@@ -169,7 +169,7 @@ module StripeMethods
 
     return empty_row unless payment_id
      
-    charge  = Stripe::Charge.retrieve             payment_id                 rescue nil
+    charge  = Stripe::Charge.retrieve({id: payment_id, expand: ['refunds']}) rescue nil
     trans   = Stripe::BalanceTransaction.retrieve charge.balance_transaction rescue nil
 
     return empty_row if trans.nil?
