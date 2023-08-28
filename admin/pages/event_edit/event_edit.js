@@ -172,6 +172,15 @@ $(document).ready(function() {
     popupmenu.hide();
   });
 
+  collabform = new EventCollabForm();
+  collabform.ev_sub('show',   popupmenu.show );
+  collabform.ev_sub('after_post', function(collab) {
+    var i = data['event']['collaborations'].findIndex( function(obj) { return obj['id'] == collab['id']; });
+    if(i != -1) { data['event']['collaborations'][i] = collab;  }
+    else        { data['event']['collaborations'].push(collab); }
+    popupmenu.hide(); 
+  });
+
   img_chooser.ev_sub('show', popupmenu.show );
 
   edit_text.ev_sub('show', popupmenu.show );
