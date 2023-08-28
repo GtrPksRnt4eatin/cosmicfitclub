@@ -14,7 +14,7 @@ function EventCollabForm() {
   
   EventCollabForm.prototype = {
   
-    constructor: SessionForm,
+    constructor: EventCollabForm,
   
     show_new()  { 
         this.state.collab = { "id": 0 };
