@@ -166,7 +166,7 @@ $(document).ready(function() {
   priceform   = new PriceForm();
   priceform.ev_sub('show',   popupmenu.show );
   priceform.ev_sub('after_post', function(price) {
-    var i = data['event']['prices'].findIndex( function(obj) { return obj['id'] == price['id']; });
+    var i = data['']['prices'].findIndex( function(obj) { return obj['id'] == price['id']; });
     if(i != -1) { data['event']['prices'][i] = price;  }
     else        { data['event']['prices'].push(price); }
     popupmenu.hide();
