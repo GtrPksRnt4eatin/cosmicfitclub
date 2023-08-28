@@ -68,13 +68,18 @@ html
                 th Notify
                 th Stripe ID
                 th Percent
+                th
+                  .add rv-on-click='ctrl.add_collaborator'
+                    .plus +
               tr rv-each-collab='data.event.collaborations'
                 td[] { collab.label  }
                 td[] { collab.phone  }
                 td[] { collab.notify }
                 td[] { collab.stripe_id }
                 td[] { collab.percentage }
-          .editable.value rv-on-click='ctrl.add_collaborator'
+                td.nobg
+                  .edit rv-on-click='ctrl.edit_collaborator
+                  .delete rv-on-click='ctrl.del_collaborator'
 
         div.tuplet
           label Sessions:
