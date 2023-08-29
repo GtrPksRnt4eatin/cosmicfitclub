@@ -27,7 +27,7 @@ function EventCollabForm() {
     },
 
     load_staff_info(custy) {
-      $.get(`/models/customer/${custy.id}/staffinfo`, function(data) {
+      $.get(`/models/customers/${custy.id}/staffinfo`, function(data) {
         console.log(data);
         this.state.collab.customer = data;
       })
