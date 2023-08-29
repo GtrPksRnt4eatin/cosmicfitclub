@@ -6,7 +6,7 @@ function EventCollabForm() {
   
     rivets.formatters.to_s = function(val) { return(typeof val == "string" ? val : JSON.stringify(val)); }
   
-    this.bind_handlers(['save']);
+    this.bind_handlers(['save', 'show_new', 'show_edit', 'load_staff_info']);
     this.build_dom();
     this.load_styles();
     this.bind_dom();
@@ -53,15 +53,15 @@ function EventCollabForm() {
       </div>
       <div class='tuplet'>
         <label>Phone:</label>
-        <input rv-value='state.collab.phone' />
-      </div>
-      <div class='tuplet'>
-        <label>Notify:</label>
-        <input rv-value='state.collab.notify'/>
+        <input disabled rv-value='state.collab.phone' />
       </div>
       <div class='tuplet'>
         <label>Stripe ID:</label>
-        <input rv-value='state.collab.stripe_id'/>
+        <input disabled rv-value='state.collab.customer.staff.stripe_id'/>
+      </div>
+      <div class='tuplet'>
+        <label>Notify:</label>
+        <input type='checkbox' rv-value='state.collab.notify'/>
       </div>
       <div class='tuplet'>
         <label>Percentage:</label>
