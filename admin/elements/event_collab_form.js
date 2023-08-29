@@ -30,12 +30,12 @@ function EventCollabForm() {
       $.get(`/models/customers/${custy.id}/staffinfo`, function(data) {
         console.log(data);
         this.state.collab.customer = data;
-      })
+      }.bind(this))
     },
   
     save(e) {
-      $.post(`/models/events/${data['event'].id}/collaborations`, JSON.stringify(this.state.session), function(sess) {
-        this.ev_fire('after_post', JSON.parse(sess) );
+      $.post(`/models/events/${data['event'].id}/collaborations`, JSON.stringify(this.state.collab), function(collab) {
+        this.ev_fire('after_post', JSON.parse(collab) );
       }.bind(this));  
     }
   
