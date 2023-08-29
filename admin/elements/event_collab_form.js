@@ -82,5 +82,9 @@ function EventCollabForm() {
     .eventcollabform .done {
       cursor: pointer;
     }
+
+    .eventcollabform custy-selector {
+      width: 100%;
+    }
   
   `.untab(2);
