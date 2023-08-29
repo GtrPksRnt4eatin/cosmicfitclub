@@ -57,7 +57,7 @@ function EventCollabForm() {
       </div>
       <div class='tuplet'>
         <label>Stripe ID:</label>
-        <input disabled rv-value='state.collab.customer.staff.stripe_id'/>
+        <input disabled rv-value='state.collab.customer.staff.stripe_connect_id'/>
       </div>
       <div class='tuplet'>
         <label>Notify:</label>
