@@ -128,23 +128,15 @@ img.filler {
 th:last-child,
 td:last-child {
   text-align: center;
-}
-
-th:nth-child(1),
-th:nth-child(2),
-th:nth-child(3),
-th:nth-child(4) {
-  width: 23%;
-}
-
-th:nth-child(5){
   width: 8%;
 }
 
+th:not(:last-child) {
+  width: 23%;
+}
 
 table.reflections td,
 table.reflections th {
-
   color: black;
   background: rgba(255,255,255,0.5);
   border-radius: 0.5em;
@@ -154,12 +146,6 @@ table.reflections th {
 table.reflections td.nobg {
   background: none;
 }
-
-.add {
-  min-width: 10em;
-}
-
-
 
 #delete {
   background: rgba(255,0,0,0.5);
