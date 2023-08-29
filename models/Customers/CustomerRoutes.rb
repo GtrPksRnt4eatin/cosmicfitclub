@@ -81,6 +81,12 @@ class CustomerRoutes < Sinatra::Base
     status 204
   end
 
+  get '/:id/staffinfo' do
+    content_type :json
+    custy = Customer[params[:id].to_i] or halt(404,'Customer Not Found')
+    return custy.staff_info.to_json
+  end
+
   get '/:id/status' do
     content_type :json
     custy = Customer[params[:id].to_i] or halt 404

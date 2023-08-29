@@ -25,6 +25,13 @@ function EventCollabForm() {
         this.state.collab = collab;
         this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
     },
+
+    load_staff_info(custy) {
+      $.get(`/models/customer/${custy.id}/staffinfo`, function(data) {
+        console.log(data);
+        this.state.collab.customer = data;
+      })
+    },
   
     save(e) {
       $.post(`/models/events/${data['event'].id}/collaborations`, JSON.stringify(this.state.session), function(sess) {
@@ -42,7 +49,7 @@ function EventCollabForm() {
     <div class='eventcollabform form'>
       <div class='tuplet'>
         <label>Collaborator:</label>
-        <custy-selector></custy-selector>
+        <custy-selector onchange='this.load_staff_info'></custy-selector>
       </div>
       <div class='tuplet'>
         <label>Phone:</label>
