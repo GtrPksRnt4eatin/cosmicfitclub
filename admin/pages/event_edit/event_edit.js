@@ -76,7 +76,7 @@ ctrl = {
   },
 
   add_collaborator: function(e,m) {
-    collabform.show();
+    collabform.show_new();
 
     //custy_selector.show_modal(null, function(custy_id) {
     //  let payload = { event_id: data.event.id, customer_id: custy_id }
@@ -86,7 +86,7 @@ ctrl = {
   },
 
   edit_collaborator: function(e,m) {
-    console.log(m);
+    collabform.show_edit(m.collab);
   },
 
   update_hidden: function(e,m) {

@@ -101,6 +101,7 @@ img.filler {
   text-align: center;
 }
 
+.collabs,
 .sessions,
 .prices,
 .modes {
@@ -110,15 +111,6 @@ img.filler {
   width: 40em;
   position: relative;
   min-height: 11.5em;
-}
-
-.session,
-.price {
-  margin: 1em;
-  padding: .5em;
-  display: inline-block;
-  box-shadow: 0 0 .1em white;
-  position: relative;
 }
 
 .delete:active {
