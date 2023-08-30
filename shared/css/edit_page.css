@@ -179,28 +179,29 @@ input[type=checkbox].toggle {
   height: 0;
   width: 0;
   visibility: hidden;
+  position: absolute;
 }
 
 label.toggle {
 	cursor: pointer;
-	text-indent: -9999px;
-	width: 200px;
-	height: 100px;
+	text-indent: -199.98em;
+	width: 4em;
+	height: 2em;
 	background: grey;
 	display: block;
-	border-radius: 100px;
+	border-radius: 2em;
 	position: relative;
 }
 
 label.toggle:after {
 	content: '';
 	position: absolute;
-	top: 5px;
-	left: 5px;
-	width: 90px;
-	height: 90px;
+	top: 0.1em;
+	left: 0.1em;
+	width: 1.8em;
+	height: 1.8em;
 	background: #fff;
-	border-radius: 90px;
+	border-radius: 1.8em;
 	transition: 0.3s;
 }
 
@@ -209,12 +210,12 @@ input.toggle:checked + label.toggle {
 }
 
 input.toggle:checked + label.toggle:after {
-	left: calc(100% - 5px);
+	left: calc(100% - 0.1em);
 	transform: translateX(-100%);
 }
 
 label.toggle:active:after {
-	width: 130px;
+	width: 2.6em;
 }
 
 /* CHECKBOX TOGGLE */
