@@ -1,7 +1,8 @@
 function EventCollabForm() {
 
     this.state = {
-      collab: { }
+      collab: { },
+      customer: { }
     }
   
     rivets.formatters.to_s = function(val) { return(typeof val == "string" ? val : JSON.stringify(val)); }
@@ -28,13 +29,13 @@ function EventCollabForm() {
 
     load_staff_info(custy) {
       $.get(`/models/customers/${custy.id}/staffinfo`, function(data) {
-        console.log(data);
-        this.state.collab.customer = data;
+        this.state.collab.customer_id = data.id;
+        this.state.customer = data;
       }.bind(this))
     },
   
     save(e) {
-      $.post(`/models/events/collabs`, JSON.stringify(this.state.collab), function(collab) {
+      $.post(`/models/events/collabs`, this.state.collab, function(collab) {
         this.ev_fire('after_post', JSON.parse(collab) );
       }.bind(this));  
     }
@@ -53,11 +54,11 @@ function EventCollabForm() {
       </div>
       <div class='tuplet'>
         <label>Phone:</label>
-        <input disabled rv-value='state.collab.customer.phone' />
+        <input disabled rv-value='state.customer.phone' />
       </div>
       <div class='tuplet'>
         <label>Stripe ID:</label>
-        <input disabled rv-value='state.collab.customer.staff.stripe_connect_id'/>
+        <input disabled rv-value='state.customer.staff.stripe_connect_id'/>
       </div>
       <div class='tuplet'>
         <label>Notify:</label>
