@@ -99,7 +99,7 @@ ctrl = {
   edit_collaborator(e,m) { collabform.show_edit(m.collab);     cancelEvent(e); },
   del_collaborator(e,m)  {
     if(!confirm('really delete this collaboration?')) return;
-    $.del(`/models/events/collab/${m.collab.id}`)
+    $.del(`/models/events/collabs/${m.collab.id}`)
      .done( function() { data['event']['collaborations'].splice(m.index,1); });
   },
 
