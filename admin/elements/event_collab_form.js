@@ -24,6 +24,7 @@ function EventCollabForm() {
   
     show_edit(collab) { 
         this.state.collab = collab;
+        this.load_staff_info(collab.customer);
         this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
     },
 
@@ -67,7 +68,7 @@ function EventCollabForm() {
       </div>
       <div class='tuplet'>
         <label>Percentage:</label>
-        <input rv-value='state.collab.percent'/>
+        <input class='percent' type='number' max='100' step='0.5' min='0' rv-value='state.collab.percent'/>
       </div>
       <div class='done' rv-on-click='this.save'>Save</div>
     </div>
@@ -87,6 +88,14 @@ function EventCollabForm() {
 
     .eventcollabform custy-selector {
       width: 100%;
+    }
+
+    .eventcollabform .percent {
+      width: 4em;
+    }
+
+    .eventcollabform .percent:after {
+      content: '%';
     }
   
   `.untab(2);
