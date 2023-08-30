@@ -348,29 +348,29 @@ class Event < Sequel::Model
     
   end
 
-  def generate_payroll
-    proll = Payroll.create({ start_date: self.starttime, end_date: self.endtime})
-    slip = PayrollSlip.create({ staff_id: row[:staff_id], payroll_id: proll.id})
-
-    self.tickets.sort_by{ |x| x.created_on ? x.created_on.to_i : 0 }.each do |tic|
-        row[:class_occurrences].each do |line|
-          PayrollLine.create({ 
-            payroll_slip_id: slip.id,
-            class_occurrence_id: line[:id],
-            start_time: line[:starttime],
-            description: line[:class_name],
-            quantity: line[:headcount],
-            category: "class_pay",
-            value: line[:pay],
-            cosmic: line[:cosmic],
-            loft: line[:loft],
-            loft_rentals: line[:loft_rentals],
-            loft_classes: line[:loft_classes]
-          })
-        end
-      end
-      JSON.generate proll
-    end
-  end
+  #def generate_payroll
+  #  proll = Payroll.create({ start_date: self.starttime, end_date: self.endtime})
+  #  slip = PayrollSlip.create({ staff_id: row[:staff_id], payroll_id: proll.id})
+  #
+  #  self.tickets.sort_by{ |x| x.created_on ? x.created_on.to_i : 0 }.each do |tic|
+  #      row[:class_occurrences].each do |line|
+  #        PayrollLine.create({ 
+  #          payroll_slip_id: slip.id,
+  #          class_occurrence_id: line[:id],
+  #          start_time: line[:starttime],
+  #          description: line[:class_name],
+  #          quantity: line[:headcount],
+  #          category: "class_pay",
+  #          value: line[:pay],
+  #          cosmic: line[:cosmic],
+  #          loft: line[:loft],
+  #          loft_rentals: line[:loft_rentals],
+  #          loft_classes: line[:loft_classes]
+  #        })
+  #      end
+  #    end
+  #    JSON.generate proll
+  #  end
+  #end
 
 end
