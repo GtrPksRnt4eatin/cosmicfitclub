@@ -5,7 +5,8 @@ class EventCollaboration < Sequel::Model
   many_to_one :event
 
   def details_view
-    { customer: self.customer.to_list_hash,
+    { id: self.id,
+      customer: self.customer.to_list_hash,
       label: self.customer.to_list_string,
       event_id: self.event_id,
       phone: self.customer.phone,
