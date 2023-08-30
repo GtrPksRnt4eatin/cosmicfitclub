@@ -75,14 +75,6 @@ ctrl = {
     edit_text.show_long("Edit Event Details", data.event.details, function(val) { data.event.details = val; ctrl.save_changes(); } )
   },
 
-  add_collaborator: function(e,m) {
-    collabform.show_new(data.event.id);
-  },
-
-  edit_collaborator: function(e,m) {
-    collabform.show_edit(m.collab);
-  },
-
   update_hidden: function(e,m) {
     ctrl.save_changes();
   },
@@ -103,13 +95,12 @@ ctrl = {
     request.send(fd);
   },
 
-  
-  add_price(e,m)  { priceform.show_new();          cancelEvent(e); },
-  edit_price(e,m) { priceform.show_edit(m.price);  cancelEvent(e); },
-  del_price(e,m)  {
-    if(!confirm('really delete this price?')) return;
-    $.del(`/models/events/prices/${m.price.id}`)
-     .done( function() { data['event']['prices'].splice(m.index,1); } ); 
+  add_collaborator(e,m)  { collabform.show_new(data.event.id); cancelEvent(e); },
+  edit_collaborator(e,m) { collabform.show_edit(m.collab);     cancelEvent(e); },
+  del_collaborator(e,m)  {
+    if(!confirm('really delete this collaboration?')) return;
+    $.del(`/models/events/collab/${m.collab.id}`)
+     .done( function() { data['event']['collaborations'].splice(m.index,1); });
   },
 
   add_session(e,m)  { sessionform.show_new();        cancelEvent(e); },
@@ -118,6 +109,14 @@ ctrl = {
     if(!confirm('really delete this session?')) return;
     $.del(`/models/events/sessions/${m.sess.id}`)
      .done( function() { data['event']['sessions'].splice(m.index,1); } );
+  },
+  
+  add_price(e,m)  { priceform.show_new();          cancelEvent(e); },
+  edit_price(e,m) { priceform.show_edit(m.price);  cancelEvent(e); },
+  del_price(e,m)  {
+    if(!confirm('really delete this price?')) return;
+    $.del(`/models/events/prices/${m.price.id}`)
+     .done( function() { data['event']['prices'].splice(m.index,1); } ); 
   },
 
   choose_img(e,m) {
