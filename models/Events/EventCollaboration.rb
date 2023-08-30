@@ -10,8 +10,8 @@ class EventCollaboration < Sequel::Model
       event_id: self.event_id,
       phone: self.customer.phone,
       stripe_connect_id: self.customer.staff[0] ? self.customer.staff[0].stripe_connect_id : '',
-      percentage: self.percentage,
-      notify: self.notify     
+      percentage: self.percentage || 0,
+      notify: self.notify || false     
     }
   end
 

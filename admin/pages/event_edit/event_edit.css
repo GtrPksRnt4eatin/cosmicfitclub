@@ -109,7 +109,6 @@ img.filler {
   box-sizing: border-box;
   display: inline-block;
   position: relative;
-  min-height: 11.5em;
 }
 
 .delete:active {
