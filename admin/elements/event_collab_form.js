@@ -94,7 +94,7 @@ function EventCollabForm() {
       width: 4em;
     }
 
-    .eventcollabform .percent:after {
+    .eventcollabform .percent::after {
       content: '%';
     }
   
