@@ -274,7 +274,7 @@ class EventRoutes < Sinatra::Base
     end.to_json
   end
 
-  delete '/colalbs/:id' do
+  delete '/collabs/:id' do
     collab = EventCollaboration[params[:id]] or halt(404, "Couldn't Find EventCollaboration")
     collab.delete
   end
