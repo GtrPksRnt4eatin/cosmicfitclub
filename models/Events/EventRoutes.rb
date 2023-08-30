@@ -267,6 +267,7 @@ class EventRoutes < Sinatra::Base
   ############################## EVENT COLLABORATIONS ###########################
 
   post '/collabs' do
+    content_type :json
     if collab = EventCollaboration.find( :event_id=>params[:event_id], :customer_id=>params[:customer_id] ) then
       collab.update( :percentage=>params[:percentage], :notify=>params[:notify] )
     else
