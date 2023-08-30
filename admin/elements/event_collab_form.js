@@ -12,7 +12,7 @@ function EventCollabForm() {
     this.load_styles();
     this.bind_dom();
 
-    this.custy_selector = get_element(this.view,"CustySelector");
+    this.custy_selector = get_element(this.view,"custy-selector");
   }
   
   EventCollabForm.prototype = {
