@@ -261,5 +261,6 @@ rivets.components['custy-selector'] = {
   initialize: function(el,attr) { 
     selector = new CustySelector(el,true,false,false,false);
     selector.ev_sub('customer_selected', function(id) { attr['onchange'] && attr['onchange'].call(null,selector.selected_customer); }) 
+    return(selector);
   }
 }

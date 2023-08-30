@@ -11,6 +11,8 @@ function EventCollabForm() {
     this.build_dom();
     this.load_styles();
     this.bind_dom();
+
+    this.custy_selector = get_element(this.view,"CustySelector");
   }
   
   EventCollabForm.prototype = {
@@ -24,6 +26,7 @@ function EventCollabForm() {
   
     show_edit(collab) { 
         this.state.collab = collab;
+        this.custy_selector.select_customer(collab.customer.id);
         this.load_staff_info(collab.customer);
         this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
     },
