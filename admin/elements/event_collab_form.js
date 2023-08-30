@@ -63,7 +63,7 @@ function EventCollabForm() {
       <div class='tuplet'>
         <label>Notify:</label>
         <input id='notify-toggle' class='toggle' type='checkbox' rv-value='state.collab.notify'/>
-        <label for='notify-toggle' class='toggle'>Toggle</label>
+        <label for='notify-toggle' class='toggle'></label>
       </div>
       <div class='tuplet'>
         <label>Percentage:</label>
