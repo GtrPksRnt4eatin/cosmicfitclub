@@ -16,8 +16,8 @@ function EventCollabForm() {
   
     constructor: EventCollabForm,
   
-    show_new()  { 
-        this.state.collab = { "id": 0 };
+    show_new(event_id)  { 
+        this.state.collab = { "event_id": event_id };
         this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} ); 
     },
   
