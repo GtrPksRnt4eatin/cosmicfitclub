@@ -63,21 +63,21 @@ class SlackBot < Sinatra::Base
 
   post '/eventPromo' do
     event_list = Event::future.map { |x| [x.id, x.name] }
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     client.chat_postMessage(slackbot_static_select("Select an Event", event_list, "event_promo"))
     status 204
   end
 
   post '/classPromo' do
     class_list = ClassDef::list_active_and_current.map { |x| [x.id, x.name] }
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     client.chat_postMessage(slackbot_static_select("Select a Class", class_list, "class_promo"))
     status 204
   end
 
   post '/timeslotPromo' do
     timeslot_list = ClassdefSchedule.all.map { |x| [ x.id, "#{x.classdef.name} #{x.simple_meeting_time_description_with_staff(false)}" ] }
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     msg = slackbot_static_select("Select a Timeslot", timeslot_list, "timeslot_promo")
     p msg
     p client.chat_postMessage(slackbot_static_select("Select a Timeslot", timeslot_list, "timeslot_promo"))
@@ -86,7 +86,7 @@ class SlackBot < Sinatra::Base
 
   post '/teacherPromo' do
     teacher_list = Staff::active_teacher_list.map { |x| [x.id, x.name] }
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     client.chat_postMessage(slackbot_static_select("Select a Teacher", teacher_list, "teacher_promo"))
     status 204
   end
@@ -130,7 +130,7 @@ class GeneratePayrollReport
   include SuckerPunch::Job
   def perform(start,finish)
     csv = Staff::payroll_csv(start,finish)
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     client.files_upload(
       channels: 'payroll',
       as_user: true,
@@ -148,7 +148,7 @@ class GeneratePayPalReport
   include SuckerPunch::Job
   def perform(start,finish)
     csv = PayPalSDK::list_transactions_csv(start,finish)
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     client.files_upload(
       channels: 'payroll',
       as_user: true,
@@ -166,7 +166,7 @@ class PostDailyPromo
   include SuckerPunch::Job
   def perform(date)
     promo = DailyPromo::generate_for_bot(date)
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     client.files_upload(
       channels: '#promotional_materials',
       as_user: false,
@@ -185,7 +185,7 @@ class PostEventPromo
   include SuckerPunch::Job
   def perform(event)
     promos = EventPoster.generate_for_bot(event)
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
       client.files_upload(
         channels: '#promotional_materials',
@@ -205,7 +205,7 @@ class PostUpcomingEventsPromo
   include SuckerPunch::Job
   def perform()
     promos = UpcomingEvents.generate_for_bot
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
       client.files_upload(
         channels: '#promotional_materials',
@@ -225,7 +225,7 @@ class PostClassPromo
   include SuckerPunch::Job
   def perform(classdef)
     promos = ClassPromo.generate_for_bot(classdef)
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
       client.files_upload(
         channels: '#promotional_materials',
@@ -245,7 +245,7 @@ class PostStaffPromo
   include SuckerPunch::Job
   def perform(staff)
     promos = StaffPoster.generate_for_bot(staff)
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
       client.files_upload(
         channels: '#promotional_materials',
@@ -265,7 +265,7 @@ class PostTimeslotPromo
   include SuckerPunch::Job
   def perform(sched)
     promos = SchedulePromo.generate_for_bot(sched)
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
       client.files_upload(
         channels: '#promotional_materials',
@@ -285,7 +285,7 @@ class PostSchedPromos
   include SuckerPunch::Job
   def perform()
     promos = SchedulePromo.generate_all_for_bot
-    client = Slack::Web::Client.new
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
       client.files_upload(
         channels: '#promotional_materials',
