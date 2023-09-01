@@ -1461,12 +1461,31 @@ GEM
     eventbrite_sdk (3.6.0)
       rest-client (~> 2.0)
     eventmachine (1.2.7)
-    faraday (0.17.6)
-      multipart-post (>= 1.2, < 3)
+    faraday (1.10.3)
+      faraday-em_http (~> 1.0)
+      faraday-em_synchrony (~> 1.0)
+      faraday-excon (~> 1.1)
+      faraday-httpclient (~> 1.0)
+      faraday-multipart (~> 1.0)
+      faraday-net_http (~> 1.0)
+      faraday-net_http_persistent (~> 1.0)
+      faraday-patron (~> 1.0)
+      faraday-rack (~> 1.0)
+      faraday-retry (~> 1.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-em_http (1.0.0)
+    faraday-em_synchrony (1.0.0)
+    faraday-excon (1.1.0)
+    faraday-httpclient (1.0.1)
     faraday-multipart (1.0.4)
       multipart-post (~> 2)
-    faraday_middleware (0.14.0)
-      faraday (>= 0.7.4, < 1.0)
+    faraday-net_http (1.0.1)
+    faraday-net_http_persistent (1.2.0)
+    faraday-patron (1.0.0)
+    faraday-rack (1.0.0)
+    faraday-retry (1.0.3)
+    faraday_middleware (1.2.0)
+      faraday (~> 1.0)
     ffi (1.15.5)
     forme (2.4.0)
     gems (1.2.0)
@@ -1525,7 +1544,7 @@ GEM
       ruby-vips (>= 2.0.17, < 3)
     jmespath (1.6.2)
     json (2.6.3)
-    jwt (2.5.0)
+    jwt (2.7.1)
     koala (3.5.0)
       addressable
       faraday
@@ -1626,9 +1645,8 @@ GEM
       sinatra (= 3.1.0)
       tilt (~> 2.0)
     sinatra-cross_origin (0.4.0)
-    slack-ruby-client (0.14.6)
-      activesupport
-      faraday (>= 0.9)
+    slack-ruby-client (1.0.0)
+      faraday (>= 1.0)
       faraday_middleware
       gli
       hashie
@@ -1650,9 +1668,9 @@ GEM
     thor (1.2.2)
     tilt (2.2.0)
     trailblazer-option (0.1.2)
-    twilio-ruby (5.26.0)
-      faraday (~> 0.9)
-      jwt (>= 1.5, <= 2.5)
+    twilio-ruby (6.5.0)
+      faraday (>= 0.9, < 3.0)
+      jwt (>= 1.5, < 3.0)
       nokogiri (>= 1.6, < 2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -1720,7 +1738,7 @@ DEPENDENCIES
   stripe
   sucker_punch
   thin
-  twilio-ruby (~> 5.26.0)
+  twilio-ruby
   tzinfo
   tzinfo-data
 

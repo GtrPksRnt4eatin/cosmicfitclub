@@ -24,7 +24,6 @@ gem 'bcrypt'
 gem 'autoforme'
 gem 'ice_cube', '>= 0.16.3'
 gem 'rest-client'
-gem 'twilio-ruby', '~> 5.26.0'
 gem 'activesupport'
 gem 'rack-ssl-enforcer'
 gem 'icalendar'
@@ -40,12 +39,14 @@ gem 'braintree'
 gem 'paypal-payouts-sdk'
 gem 'paypal-sdk-rest'
 gem 'rack-contrib'
-gem 'slack-ruby-client'
 gem 'tzinfo'
 gem 'tzinfo-data'
 gem "addressable", ">= 2.8.0"
 gem "nokogiri", ">= 1.12.5"
 gem "rexml", ">= 3.2.5"
+
+gem 'slack-ruby-client'
+gem 'twilio-ruby'
 
 gem 'google_drive', '>= 2.1.5'
 gem 'google-api-client'
