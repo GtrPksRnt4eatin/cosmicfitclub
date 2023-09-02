@@ -259,7 +259,7 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
 rivets.components['custy-selector'] = { 
   template:   function()        { return CustySelector.prototype.HTML; },
   initialize: function(el,attr) { 
-    selector = new CustySelector(el,true,false,false,false,true);
+    selector = new CustySelector(null,true,false,false,false,true);
     selector.ev_sub('customer_selected', function(id) { attr['onchange'] && attr['onchange'].call(null,selector.selected_customer); }) 
     return(selector);
   }
