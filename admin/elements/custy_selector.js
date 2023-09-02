@@ -1,5 +1,7 @@
 function CustySelector(parent, load, show_title, show_edit, show_new, component) {
 
+  this.this = this;
+
   this.state = { 
     customer_id: 0,
     new_customer_name: "",
