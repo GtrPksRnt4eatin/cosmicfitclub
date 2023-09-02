@@ -32,6 +32,7 @@ function EventCollabForm() {
     },
 
     load_staff_info(custy) {
+      if(!custy) { this.state.collab.customer_id = 0; this.state.customer = {}; return; }
       $.get(`/models/customers/${custy.id}/staffinfo`, function(data) {
         this.state.collab.customer_id = data.id;
         this.state.customer = data;
