@@ -76,6 +76,7 @@ ctrl = {
   },
 
   update_hidden: function(e,m) {
+    data.event.hidden = !e.target.value;
     ctrl.save_changes();
   },
 
