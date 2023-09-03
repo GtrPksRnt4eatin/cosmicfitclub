@@ -127,12 +127,6 @@ html
                 td.nobg
                   .edit   rv-on-click='ctrl.edit_price'
                   .delete rv-on-click='ctrl.del_price'
- 
-        div.tuplet
-          .attrib Visibility:
-          .live
-            input#visibility.toggle type='checkbox' rv-checked='data.event.hidden | invert' rv-on-change='ctrl.update_hidden'
-            label.toggle for='visibility' 
 
         div.tuplet
           .attrib Mode:
@@ -155,6 +149,12 @@ html
           label External Link
           .ext_link
             input rv-value='data.event.registration_url'
+        
+        div.tuplet
+          .attrib Visibility:
+          .live
+            input#visibility.toggle type='checkbox' rv-checked='data.event.hidden | invert' rv-on-change='ctrl.update_hidden'
+            label.toggle for='visibility' 
         
         br
         a rv-href='data.event_id | event_checkout_url' View Checkout Page
