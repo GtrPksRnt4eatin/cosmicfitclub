@@ -1443,7 +1443,7 @@ GEM
     aws-sigv4 (1.6.0)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.19)
-    bigdecimal (1.4.4)
+    bigdecimal (3.1.4)
     braintree (4.13.0)
       builder (>= 3.2.4)
       rexml (>= 3.1.9)
@@ -1697,7 +1697,7 @@ DEPENDENCIES
   autoforme
   aws-sdk
   bcrypt
-  bigdecimal (~> 1.4)
+  bigdecimal
   braintree
   eventbrite_sdk
   google-api-client
