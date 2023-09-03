@@ -72,7 +72,7 @@ function EventCollabForm() {
       </div>
       <div class='tuplet'>
         <label>Percentage:</label>
-        <input class='percent' type='number' max='100' step='0.5' min='0' rv-value='state.collab.percent'/>
+        <input class='percent' type='number' max='100' step='0.5' min='0' rv-value='state.collab.percentage'/>
       </div>
       <div class='done' rv-on-click='this.save'>Save</div>
     </div>
