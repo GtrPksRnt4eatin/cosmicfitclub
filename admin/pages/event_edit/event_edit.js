@@ -143,7 +143,7 @@ $(document).ready(function() {
   setup_rivets();
 
   popupmenu       = new PopupMenu(id('popupmenu_container'));
-  custy_selector  = new CustySelector();
+  //custy_selector  = new CustySelector();
   img_chooser     = new AspectImageChooser();
   edit_text       = new EditText();
   edit_text_array = new EditTextArray();
@@ -184,8 +184,8 @@ $(document).ready(function() {
   edit_text_array.ev_sub('show', popupmenu.show );
   edit_text_array.ev_sub('done', function(val) { popupmenu.hide(); } );
 
-  custy_selector.ev_sub('show', popupmenu.show );
-  custy_selector.ev_sub('close_modal', function(val) { popupmenu.hide(); } );
+  //custy_selector.ev_sub('show', popupmenu.show );
+  //custy_selector.ev_sub('close_modal', function(val) { popupmenu.hide(); } );
 
   //sortSessions();
 
