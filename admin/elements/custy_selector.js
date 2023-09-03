@@ -14,9 +14,10 @@ function CustySelector(parent, load, show_title, show_edit, show_new, component)
 
   this.bind_handlers(['get_custy_list','on_data','on_data_failed','refresh_selectize','edit_customer','new_customer','custy_selected','select_customer','init_selectize','show_add_form','create_customer']);
 
+  component && (this.dom = el);
   component && (this.this = this);
   !component && this.build_dom();
-  !component && this.bind_dom();
+  !component && this.bind_dom(this);
 
   this.mount(parent);
   this.load_styles();
@@ -262,7 +263,7 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
 rivets.components['custy-selector'] = { 
   template:   function()        { return CustySelector.prototype.HTML; },
   initialize: function(el,attr) { 
-    selector = new CustySelector(null,true,false,false,false,true);
+    selector = new CustySelector(el,true,false,false,false,true);
     selector.ev_sub('customer_selected', function(id) { attr['onchange'] && attr['onchange'].call(null,selector.selected_customer); }) 
     return(selector);
   }
