@@ -129,13 +129,13 @@ html
                   .delete rv-on-click='ctrl.del_price'
  
         div.tuplet
-          label Visibility
+          .attrib Visibility:
           .live
-            input#visibility.toggle type='checkbox' rv-checked='data.event.hidden' rv-on-change='ctrl.update_hidden'/>
+            input#visibility.toggle type='checkbox' rv-checked='data.event.hidden' rv-on-change='ctrl.update_hidden'
             label.toggle for='visibility' 
-            
+
         div.tuplet
-          label Mode
+          .attrib Mode:
           .modes
             select rv-selectize='data.event.mode'
               option value=""
