@@ -67,7 +67,7 @@ function EventCollabForm() {
       </div>
       <div class='tuplet'>
         <label>Notify:</label>
-        <input id='notify-toggle' class='toggle' type='checkbox' rv-value='state.collab.notify'/>
+        <input id='notify-toggle' class='toggle' type='checkbox' rv-checked='state.collab.notify'/>
         <label for='notify-toggle' class='toggle'></label>
       </div>
       <div class='tuplet'>
