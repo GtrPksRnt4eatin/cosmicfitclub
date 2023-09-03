@@ -41,7 +41,7 @@ function EventCollabForm() {
   
     save(e) {
       $.post(`/models/events/collabs`, this.state.collab, function(collab) {
-        this.ev_fire('after_post', JSON.parse(collab) );
+        this.ev_fire('after_post', collab);
       }.bind(this));  
     }
   
