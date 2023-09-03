@@ -64,18 +64,18 @@ html
             table.reflections
               tr
                 th Collaborator
+                th Stripe ID
                 th Phone #
                 th Notify
-                th Stripe ID
                 th Percent
                 th
                   .add rv-on-click='ctrl.add_collaborator'
                     .plus +
               tr rv-each-collab='data.event.collaborations'
                 td[] { collab.label  }
+                td[] { collab.stripe_connect_id }
                 td[] { collab.phone  }
                 td[] { collab.notify }
-                td[] { collab.stripe_connect_id }
                 td[] { collab.percentage }
                 td.nobg
                   .edit rv-on-click='ctrl.edit_collaborator'
