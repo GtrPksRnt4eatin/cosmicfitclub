@@ -157,10 +157,9 @@ html
             label.toggle for='visibility' 
         
         br
-        a rv-href='data.event_id | event_checkout_url' View Checkout Page
-        br
-            
-        button#submit rv-on-click='ctrl.save_changes' Save Event
+
+        button#checkout rv-on-click='ctrl.view_checkout' View Checkout
+        button#attendance rv-on-click='ctrl.view_attendance' View Attendance
         button#delete rv-on-click='ctrl.delete_event' Delete Event
         button#duplicate rv-on-click='ctrl.duplicate_event' Duplicate Event
 

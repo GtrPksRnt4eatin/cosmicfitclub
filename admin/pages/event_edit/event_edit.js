@@ -124,6 +124,14 @@ ctrl = {
     if(e.target.value) { m.event.image_url = e.target.value; }
   },
 
+  view_checkout(e,m) {
+    window.location.href="/checkout/event/" + data.event.id;
+  },
+
+  view_attendance(e,m) {
+    window.location.href="/frontdesk/event_attendance/" + data.event.id;
+  },
+
   delete_event(e,m) {
     $.del(`/models/events/${m.data.event_id}`)
      .success(function() { window.location.href='/admin/events'; })
