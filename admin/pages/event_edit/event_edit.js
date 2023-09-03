@@ -194,6 +194,7 @@ $(document).ready(function() {
 function setup_rivets() {
   include_rivets_dates();
 
+  rivets.formatters.invert = function(val) { return(!val); }
   rivets.formatters.eq = function(val, arg) { return val == arg; }
 
   rivets.formatters.session_names = function(arr) {

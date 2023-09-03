@@ -131,7 +131,7 @@ html
         div.tuplet
           .attrib Visibility:
           .live
-            input#visibility.toggle type='checkbox' rv-checked='data.event.hidden' rv-on-change='ctrl.update_hidden'
+            input#visibility.toggle type='checkbox' rv-checked='data.event.hidden | invert' rv-on-change='ctrl.update_hidden'
             label.toggle for='visibility' 
 
         div.tuplet
