@@ -72,7 +72,7 @@ html
                   .add rv-on-click='ctrl.add_collaborator'
                     .plus +
               tr rv-each-collab='data.event.collaborations'
-                td[] { collab.label  }
+                td[] { collab.customer.name }
                 td[] { collab.stripe_connect_id }
                 td[] { collab.phone  }
                 td[] { collab.notify }

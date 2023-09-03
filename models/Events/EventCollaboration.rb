@@ -7,7 +7,6 @@ class EventCollaboration < Sequel::Model
   def details_view
     { id: self.id,
       customer: self.customer.to_list_hash,
-      label: self.customer.to_list_string,
       event_id: self.event_id,
       phone: self.customer.phone,
       stripe_connect_id: self.customer.staff[0] ? self.customer.staff[0].stripe_connect_id : '',
