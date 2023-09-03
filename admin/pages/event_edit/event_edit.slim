@@ -131,11 +131,9 @@ html
         div.tuplet
           label Visibility
           .live
-            label for='hide' Hidden
-            input type='radio' name='hide' rv-checked='data.event.hidden' rv-on-change='ctrl.update_hidden' value="true"
-            label for='show' Shown
-            input type='radio' name='show' rv-checked='data.event.hidden' rv-on-change='ctrl.update_hidden' value="false"
-        
+            input#visibility.toggle type='checkbox' rv-checked='data.event.hidden' rv-on-change='ctrl.update_hidden'/>
+            label.toggle for='visibility' 
+            
         div.tuplet
           label Mode
           .modes
