@@ -18,8 +18,8 @@ function CustySelector(parent, load, show_title, show_edit, show_new, component)
   component && (this.this = this);
   !component && this.build_dom();
   !component && this.bind_dom(this);
-
-  this.mount(parent);
+  !component && this.mount(parent);
+  
   this.load_styles();
   
   CustySelector.state.instances.push(this);

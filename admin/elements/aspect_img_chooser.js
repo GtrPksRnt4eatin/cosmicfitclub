@@ -36,7 +36,7 @@ AspectImageChooser.prototype = {
   build_croppie: function(width,height) {
   	this.state.width  = width  | this.state.width;
   	this.state.height = height | this.state.height;
-    el = $(this.dom).find('.croppie')[0];
+    let el = $(this.dom).find('.croppie')[0];
     size = this.viewport_size();
   	this.croppie = new Croppie( el, {
       viewport: size,
