@@ -157,7 +157,6 @@ class EventTicket < Sequel::Model
         :payment   => self.payment.try(:to_hash),
         :passes    => self.passes.sort_by { |x| [x.start_time, x.id] }.map(&:to_token)
       }
-
     }
   end
   
