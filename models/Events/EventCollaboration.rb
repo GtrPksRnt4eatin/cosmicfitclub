@@ -4,12 +4,20 @@ class EventCollaboration < Sequel::Model
   many_to_one :customer
   many_to_one :event
 
+  def phone
+    self.customer.try(:phone)
+  end
+
+  def stripe_connect_id
+    self.customer.try(:staff)[0].try(:stripe_connect_id)
+  end
+
   def details_view
     { id: self.id,
-      customer: self.customer.to_list_hash,
       event_id: self.event_id,
-      phone: self.customer.phone,
-      stripe_connect_id: self.customer.staff[0] ? self.customer.staff[0].stripe_connect_id : '',
+      customer: self.customer.to_list_hash,
+      phone: self.phone,
+      stripe_connect_id: self.stripe_connect_id,
       percentage: self.percentage.to_f || 0,
       notify: self.notify || false     
     }
