@@ -24,7 +24,12 @@ GroupReservation.prototype = {
      .fail(function() { alert('Delete Failed'); });
   },
   
-  get price() { return this.reservation.total_price; },
+  get price() { 
+    return this.reservation.slots?.reduce( function(total, slot) { 
+      let duration = slot.duration || rivets.formatters.duration(res.start_time, res.end_time);
+      return(total + (duration / 60 * 1200));
+    }, 0) || 0; 
+  },
 
   checkout: function(e,m) {
 
