@@ -1,9 +1,9 @@
 function GroupReservation(perent,attr) {
   this.reservation = attr['reservation'];
-  this.reservation.total_price = this.reservation.slots.reduce( function(total, slot) { 
+  this.reservation.total_price = this.reservation.slots?.reduce( function(total, slot) { 
     let duration = slot.duration || rivets.formatters.duration(res.start_time, res.end_time);
     return(total + (duration / 60 * 1200));
-  }, 0)
+  }, 0) || 0;
 
   rivets.formatters.count = function(val) { return val ? val.length : 0; }
   rivets.formatters.slot_price = function(slot) {
