@@ -83,7 +83,7 @@ GroupReservation.prototype.HTML = `
     </div>
     <hr>
     <h3>People</h3>
-    <table>
+    <table class='reflections'>
       <tr>
         <th colspan='2'> People </th>
         <th>
