@@ -11,12 +11,28 @@ function GroupReservation(perent,attr) {
     return( rivets.formatters.money(duration / 60 * 1200) ); 
   }.bind(this)
 
-  this.bind_handlers(['price']);
+  this.bind_handlers(['add_custy','edit_custy','del_custy', 'delete', 'price', 'checkout']);
   this.load_styles();
 }
 
 GroupReservation.prototype = {
 	constructor: GroupReservation,
+
+  add_custy(e,m) {
+    if(this.reservation.slots.length >= 4) { return; }
+    this.reservation.slots.push({ customer_id: 0, customer_string: '' });
+  },
+
+  edit_custy(e,m) {
+    this.ev_fire('choose_custy', function(custy) {
+      m.slot.customer_id = custy.id;
+      m.slot.customer_string = custy.label;  
+    }.bind(this))
+  },
+
+  del_custy(e,m) {
+    this.reservation.slots.delete(m.slot);
+  },
 
   delete: function(e,m) {
     $.del('/models/groups/' + m.reservation.id)
@@ -65,18 +81,25 @@ GroupReservation.prototype.HTML = `
       <div class='attrib'>Rigging Notes:</div>
       <div class='value'>{reservation.note}</div>
     </div>
-    <div class='tuple'>
-      <div class='attrib'># of Slots (max 4):</div>
-      <div class='value'>
-        <select rv-value='reservation.slots | count'>
-          <option value="0">0</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
-      </div>
-    </div>
+    <hr>
+    <h3>People</h3>
+    <table>
+      <tr>
+        <th colspan='2'> People </th>
+        <th>
+          <div class='add' rv-on-click='add_custy'>
+            <div class='plus'></div>
+          </div>
+        </th>
+      </tr>
+      <tr rv-each-slot='reservation.slots'>
+        <td> { slot.customer_string } </td>
+        <td> { slot | slot_price } </td>
+        <td class='nobg'>
+          <div class='edit' rv-on-click='edit_custy'></div>
+          <div class='delete' rv-on-click='del_custy'></div>        
+        </td>
+      </tr>
     <div class='tuple' rv-each-slot="reservation.slots">
       <div class='attrib'>#{index | fix_index}</div>
       <div class='value edit'>{ slot | slot_price } - {slot.customer_string}</div>
