@@ -31,7 +31,9 @@ GroupReservation.prototype = {
   },
 
   del_custy(e,m) {
-    this.reservation.slots.delete(m.slot);
+    let idx = this.reservation.slots.indexOf(m.slot);
+    if(idx = -1) { return; }
+    this.reservation.slots.splice(idx,1);
   },
 
   delete: function(e,m) {
