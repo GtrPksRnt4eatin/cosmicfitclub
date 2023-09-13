@@ -74,7 +74,8 @@ class GroupReservation < Sequel::Model
   def details_view
     hsh = self.to_hash
     hsh[:customer] = self.customer.to_token
-    hsh[:slots] = self.slots.map(&:details_view)
+    hsh[:slots]    = self.slots.map(&:details_view)
+    hsh[:payments] = self.payments.map(&:to_token)
     hsh
   end
 
