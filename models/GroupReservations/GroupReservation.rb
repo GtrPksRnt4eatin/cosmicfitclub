@@ -2,6 +2,7 @@ class GroupReservation < Sequel::Model
 
   many_to_one :customer
   one_to_many :slots, :class => :GroupReservationSlot
+  one_to_many :payments, :class => :CustomerPayment
 
   def GroupReservation.all_between(from,to) 
     from = Time.parse(from) if from.is_a? String
