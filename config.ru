@@ -16,10 +16,10 @@ Dir["extensions/*.rb"].each    { |file| require_relative file }
 require_relative 'auth/auth_helpers'
 require_relative 'auth/auth'
 
-Dir["integrations/*.rb"].each               { |file| require_relative file }
-Dir["ruby/*.rb"].each                       { |file| require_relative file }
-Dir["models/mixins/*.rb"].each              { |file| require_relative file }
-Dir["models/**/*.rb"].each                  { |file| require_relative file }
+Dir["integrations/*.rb"].each              { |file| require_relative file }
+Dir["ruby/*.rb"].each                      { |file| require_relative file }
+Dir["models/mixins/*.rb"].each             { |file| require_relative file }
+Dir["models/**/*.rb"].each                 { |file| require_relative file }
 Dir["printable/*.rb"].each                 { |file| require_relative file }
 Dir["printable/*.rb"].each                 { |file| require_relative file }
 Dir["printable/lib/*.rb"].each             { |file| require_relative file }

@@ -34,6 +34,10 @@ class EventTicket < Sequel::Model
   def recipient
     super || self.customer
   end
+  
+  def created_on
+    super || 0
+  end
 
   #################### ATTRIBUTE ACCESS ###################
 
@@ -41,6 +45,15 @@ class EventTicket < Sequel::Model
 
   def get_stripe_id
     self.payment.try(:stripe_id)
+  end
+
+  def first_on_payment?
+    self.payment.tickets.sort_by(&:created_on).first == self
+  end
+
+  def payment_totals
+    return payment.totals if self.first_on_payment? 
+    return { :gross=>0, :fees=>0, :refunds=>0, :net=>0 }
   end
 
   def pass_totals
@@ -52,9 +65,9 @@ class EventTicket < Sequel::Model
   end
 
   def full_payment_info
-    return StripeMethods::get_payment_totals(self.get_stripe_id) if(self.payment)
-    return self.pass_totals if(self.pass_transaction)
-    return {:gross=>0, :fees=>0, :refunds=>0, :net=>0}
+    return self.payment_totals if self.payment
+    return self.pass_totals    if self.pass_transaction
+    return { :gross=>0, :fees=>0, :refunds=>0, :net=>0 }
   end
 
   ################# CALCULATED PROPERTIES #################
@@ -135,6 +148,18 @@ class EventTicket < Sequel::Model
 
   def to_details_json
     self.to_json( :include => { :checkins => {}, :customer => { :only => [ :id, :name, :email ] }, :recipient => { :only => [ :id, :name, :email ] }, :event => { :only => [ :id, :name ] } } )
+  end
+
+  def accounting_row
+    { :id             => self.id,
+      :created_on     => self.created_on,
+      :customer_id    => self.recipient.try(:id),
+      :customer_name  => self.recipient.try(:name),
+      :customer_email => self.recipient.try(:email),
+    }.merge(self.full_payment_info).merge({ 
+      :payment_type   => self.payment.try(:type),
+      :ticket_type    =>self.eventprice.try(:name)
+    })
   end
 
   def edit_details

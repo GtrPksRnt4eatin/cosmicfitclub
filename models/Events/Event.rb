@@ -289,6 +289,10 @@ class Event < Sequel::Model
     (self.sessions.map(&:attendance_hash) << orphan_tickets).compact 
   end
 
+  def accounting_rows
+    tickets.sort_by(&:created_on).map(&:accounting_row)
+  end
+
   def accounting_arr
           
       used_payment_ids = []

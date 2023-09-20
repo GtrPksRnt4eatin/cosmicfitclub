@@ -21,6 +21,11 @@ class CustomerPayment < Sequel::Model
   	Slack.website_purchases(self.summary)   
   end
 
+  def totals
+    return StripeMethods::get_payment_totals(self.stripe_id) if self.stripe_id
+    return { :gross=>amount, :fees=>0, :refunds=>0, :net=>amount }
+  end
+
   def to_token
     { :id => self.id, :amount => self.amount, :timestamp => self.timestamp, :stripe_id=> self.stripe_id }
   end
