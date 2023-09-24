@@ -34,10 +34,11 @@ function include_rivets_dates() {
 
   rivets.binders['datefield'] = { 
     bind: function(el) {
+      let format = el.format || 'm/d/Y h:i K';
       this.flatpickrInstance = $(el).flatpickr({
         enableTime: true, 
         altInput: true, 
-        altFormat: 'm/d/Y h:i K',
+        altFormat: format,
         onChange: function(val) { this.publish(val); if(this.el.onchange) { this.el.onchange(); } }.bind(this)
       })
     },

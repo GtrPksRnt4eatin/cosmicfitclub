@@ -35,13 +35,13 @@ html
           .tuple
             .attrib
               | Start:
-            .value
+            .value.pointer rv-on-click='ctrl.clear_starttime'
               | {data.selected_timeslot.start | classtime}
           .tuple
             .attrib
               | End:
             .value 
-              input rv-datefield='data.selected_timeslot.end'
+              input data-format='ddd MMM Do @ hh:mm A' rv-datefield='data.selected_timeslot.end'
 
           .tuple
             .attrib Apparatus:

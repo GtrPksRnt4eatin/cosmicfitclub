@@ -43,6 +43,10 @@ button#request {
   font-size: 0.55vw;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 @media (orientation: portrait) {
   
   .tile {

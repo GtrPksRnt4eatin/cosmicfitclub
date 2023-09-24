@@ -42,12 +42,12 @@ ctrl = {
   
   request_slot: function(e,m) {
     $.post('/models/groups', JSON.stringify( data.rental ) )
-      .done(function() {
-        window.location.href = '/checkout/complete';
-      })
-      .fail(function(e) {
-        alert(e.status);
-      });
+     .done(function()  { window.location.href = '/checkout/complete'; })
+     .fail(function(e) { alert(e.status);                             });
+  },
+
+  clear_starttime: function(e,m) {
+    data.selected_timeslot = null;
   }
 }
 
