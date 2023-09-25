@@ -21,6 +21,7 @@ GroupReservation.prototype = {
   add_custy(e,m) {
     if(this.reservation.slots.length >= 4) { return; }
     this.reservation.slots.push({ customer_id: 0, customer_string: '' });
+    this.edit_custy(null, { slot: this.reservation.slots.slice(-1) });
   },
 
   edit_custy(e,m) {
@@ -84,7 +85,6 @@ GroupReservation.prototype.HTML = `
       <div class='value'>{reservation.note}</div>
     </div>
     <hr>
-    <h3>People</h3>
     <table class='reflections'>
       <tr>
         <th colspan='2'> People </th>
@@ -102,6 +102,7 @@ GroupReservation.prototype.HTML = `
           <div class='delete' rv-on-click='del_custy'></div>        
         </td>
       </tr>
+    </table>
     <h2>Total Price: { price | money } </h2>
     <button rv-on-click='delete'> Delete Reservation </button>
     <br>
