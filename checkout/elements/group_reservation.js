@@ -114,6 +114,14 @@ GroupReservation.prototype.CSS = `
   .group_reservation .attrib {
     width: 10em;
   }
+
+  .group_reservation table.reflections td, 
+  .group_reservation table.reflections th {
+    color: black;
+    background: rgba(255,255,255,0.5);
+    border-radius: 0.5em;
+  }
+  
 `.untab(2);
 
 rivets.components['group-reservation'] = {
