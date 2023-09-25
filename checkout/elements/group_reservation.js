@@ -102,10 +102,6 @@ GroupReservation.prototype.HTML = `
           <div class='delete' rv-on-click='del_custy'></div>        
         </td>
       </tr>
-    <div class='tuple' rv-each-slot="reservation.slots">
-      <div class='attrib'>#{index | fix_index}</div>
-      <div class='value edit'>{ slot | slot_price } - {slot.customer_string}</div>
-    </div>
     <h2>Total Price: { price | money } </h2>
     <button rv-on-click='delete'> Delete Reservation </button>
     <br>
