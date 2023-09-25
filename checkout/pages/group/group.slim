@@ -36,7 +36,7 @@ html
           tr
             th Payments
           tr rv-each-payment='data.reservation.payments' 
-            td[] { payment.customer.name } paid { payment.amount | money } on { payment.timestamp | fulldate }
+            td[] on { payment.timestamp | classtime } { payment.customer.name } paid { payment.amount | money }
 
         input#payval type='number' min='0' max='100' step='1' value='12'
         button rv-on-click='ctrl.checkout_card' Pay now

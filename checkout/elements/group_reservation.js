@@ -107,8 +107,6 @@ GroupReservation.prototype.HTML = `
         <th>{ price | money }</th>
       </tr>
     </table>
-    <button rv-on-click='delete'> Delete Reservation </button>
-    <button rv-on-click='checkout'> Pay Now </button>
   </div>
 `.untab(2);
 
