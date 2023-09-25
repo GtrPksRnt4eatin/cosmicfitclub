@@ -84,29 +84,33 @@ GroupReservation.prototype.HTML = `
       <div class='attrib'>Rigging Notes:</div>
       <div class='value'>{reservation.note}</div>
     </div>
-    <hr>
-    <table class='reflections'>
-      <tr>
-        <th colspan='2'> People </th>
-        <th>
-          <div class='add' rv-on-click='add_custy'>
-            <div class='plus'>+</div>
-          </div>
-        </th>
-      </tr>
-      <tr rv-each-slot='reservation.slots'>
-        <td> { slot.customer_string } </td>
-        <td> { slot | slot_price } </td>
-        <td class='nobg'>
-          <div class='edit' rv-on-click='edit_custy'></div>
-          <div class='delete' rv-on-click='del_custy'></div>        
-        </td>
-      </tr>
-      <tr>
-        <th>Total</th>
-        <th>{ price | money }</th>
-      </tr>
-    </table>
+    <div class='tuple'>
+      <div class='attrib'> People: </div>
+      <div class='value'>
+        <table class='reflections'>
+          <tr>
+            <th colspan='2'> People </th>
+            <th>
+              <div class='add' rv-on-click='add_custy'>
+                <div class='plus'>+</div>
+              </div>
+            </th>
+          </tr>
+          <tr rv-each-slot='reservation.slots'>
+            <td> { slot.customer_string } </td>
+            <td> { slot | slot_price } </td>
+            <td class='nobg'>
+              <div class='edit' rv-on-click='edit_custy'></div>
+              <div class='delete' rv-on-click='del_custy'></div>        
+            </td>
+          </tr>
+          <tr>
+            <th>Total Price:</th>
+            <th>{ price | call }</th>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 `.untab(2);
 
