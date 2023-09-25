@@ -102,10 +102,12 @@ GroupReservation.prototype.HTML = `
           <div class='delete' rv-on-click='del_custy'></div>        
         </td>
       </tr>
+      <tr>
+        <th>Total</th>
+        <th>{ price | money }</th>
+      </tr>
     </table>
-    <h2>Total Price: { price | money } </h2>
     <button rv-on-click='delete'> Delete Reservation </button>
-    <br>
     <button rv-on-click='checkout'> Pay Now </button>
   </div>
 `.untab(2);
