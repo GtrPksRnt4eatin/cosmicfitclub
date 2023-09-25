@@ -90,7 +90,7 @@ GroupReservation.prototype.HTML = `
         <th colspan='2'> People </th>
         <th>
           <div class='add' rv-on-click='add_custy'>
-            <div class='plus'></div>
+            <div class='plus'>+</div>
           </div>
         </th>
       </tr>
@@ -121,7 +121,7 @@ GroupReservation.prototype.CSS = `
     background: rgba(255,255,255,0.5);
     border-radius: 0.5em;
   }
-  
+
 `.untab(2);
 
 rivets.components['group-reservation'] = {
