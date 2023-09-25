@@ -32,13 +32,13 @@ html
 
         hr
 
-        table
+        table.reflections
           tr
             th Payments
           tr rv-each-payment='data.reservation.payments'
             td[] { payment.timestamp }
-            td[] { stripe_id }
-            td[] { amount | money }
+            td[] { payment.customer.name }
+            td[] { payment.amount | money }
 
         input#payval type='number' min='0' max='100' step='1' value='12'
         button rv-on-click='ctrl.checkout_card' Pay now
