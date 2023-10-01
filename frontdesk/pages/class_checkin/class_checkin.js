@@ -37,6 +37,9 @@ ctrl = {
     if(!data.newsheet.location_id) { $('#custom_sheet').shake(); return; }
     if(!data.newsheet.starttime)   { $('#custom_sheet').shake(); return; }
     $.post('/models/classdefs/occurrences', newsheet_args(), get_occurrences );
+  },
+  set_custom_defaults(e,m) {
+    console.log(e.target.value);
   }
 }
 
