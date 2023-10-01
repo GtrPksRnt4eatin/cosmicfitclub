@@ -39,7 +39,20 @@ ctrl = {
     $.post('/models/classdefs/occurrences', newsheet_args(), get_occurrences );
   },
   set_custom_defaults(e,m) {
-    console.log(e.target.value);
+    switch(parseInt(e.target.value)) {
+      case 188:
+        data.newsheet.location_id = 2;
+        break;
+      case 173:
+      case 178:
+        data.newsheet.location_id = 2;
+        data.newsheet.staff_id = 106;
+        break;
+      case 174:
+        data.newsheet.location_id = 1;
+        data.newsheet.staff_id = 1;
+        break;
+    }
   }
 }
 
