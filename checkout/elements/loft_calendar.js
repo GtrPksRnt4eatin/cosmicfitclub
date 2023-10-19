@@ -67,10 +67,11 @@ LoftCalendar.prototype = {
         this.state.gcal_events = resp;
         this.state.gcal_events.for_each( function(event) {
           if(event.location != "Loft-1F-Front (4)") return;
+          let dst_hrs = moment(event.start).isDST() ? 4 : 5; 
           location && this.state.daypilot.events.add({
             id: 12345,
-            start: moment(event.start).subtract(4,'hours').format(),
-            end: moment(event.end).subtract(4,'hours').format(),
+            start: moment(event.start).subtract(dst_hrs,'hours').format(),
+            end: moment(event.end).subtract(dst_hrs,'hours').format(),
             text: this.admin ? event.summary : "Reserved", 
             allday: event.allday,
             backColor: '#DDDDFF'
@@ -116,6 +117,8 @@ LoftCalendar.prototype = {
     date.setDate(date.getDate() - 7);
     this.end = date.toISOString().split('T')[0];
     this.refresh_data();
+    this.state.daypilot.startDate = this.start;
+    this.state.daypilot.update();
   }
 }
 
