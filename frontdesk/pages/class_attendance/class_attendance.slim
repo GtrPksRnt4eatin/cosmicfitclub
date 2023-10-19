@@ -32,8 +32,10 @@ html
 
       .tile
         .heading
-          input.datepicker rv-datefield='data.occurrence.starttime' rv-on-change='ctrl.datechange'
-            | :
+          span
+            input.datepicker rv-datefield='data.occurrence.starttime' rv-on-change='ctrl.datechange'
+            .edit 
+              .img
           span
             | { data.occurrence.title } 
           span

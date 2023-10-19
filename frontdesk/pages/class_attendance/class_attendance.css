@@ -197,6 +197,16 @@ td.checkin:hover {
   cursor: pointer;
 }
 
+.flatpickr-input {
+  font-size: 1.4vw;
+  line-height: 1.5em;
+  background: transparent;
+  font-family: "Industry-Light";
+  color: rgba(255,255,255,0.8);
+  font-weight: bold;
+  border: none;
+}
+
 @media(max-width: 1000px) {
 
   .heading {
