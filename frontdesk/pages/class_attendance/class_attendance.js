@@ -170,9 +170,9 @@ function change_location(loc_id) {
 
 function change_starttime(starttime) {
   payload = { "starttime": starttime, "classdef_id": data.occurrence.classdef_id, "location_id": data.occurrence.location.id, "staff_id": data.occurrence.staff_id };
-  $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; }, 'json' );
+  $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; alert("Start Time Changed") }, 'json' );
 }
 
 function change_capacity(new_capacity) {
   payload = { }
-}
+} 
