@@ -96,6 +96,24 @@ LoftCalendar.prototype = {
       .then(function() { return this.get_gcal_events()       }.bind(this))
       .then(function() { return this.state.daypilot.update() }.bind(this))
       .then(function() { this.state.loading = false;         }.bind(this))
+  },
+
+  next_wk: function() {
+    let date = new Date(this.start+"T00:00:00")
+    date.setDate(date.getDate() + 7);
+    this.start = date.toISOString().split('T')[0];
+    date.setDate(date.getDate() + 7);
+    this.end = date.toISOString().split('T')[0];
+    this.refresh_data();
+  },
+
+  prev_wk: function() {
+    let date = new Date(this.start+"T00:00:00")
+    date.setDate(date.getDate() - 7);
+    this.start = date.toISOString().split('T')[0];
+    date.setDate(date.getDate() - 7);
+    this.end = date.toISOString().split('T')[0];
+    this.refresh_data();
   }
 }
 
@@ -104,6 +122,8 @@ Object.assign( LoftCalendar.prototype, ev_channel);
 
 LoftCalendar.prototype.HTML = `
   <div class='loftcalendar'>
+    <button rv-on-click='prev_wk'>Prev</button>
+    <button rv-on-click='next_wk'>Next</button>
     <div id='daypilot'></div>
   </div>
 `.untab(2);
