@@ -32,8 +32,8 @@ html
 
       .tile
         .heading
-          span
-            input.datepicker rv-datefield='data.occurrence.starttime' rv-on-change='ctrl.datechange'
+          span.relative.editfield
+            input.datepicker data-format='D M j h:i K' rv-datefield='data.occurrence.starttime' rv-on-change='ctrl.datechange'
             .edit 
               .img
           span
