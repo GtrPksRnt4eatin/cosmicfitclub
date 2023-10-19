@@ -105,6 +105,8 @@ LoftCalendar.prototype = {
     date.setDate(date.getDate() + 7);
     this.end = date.toISOString().split('T')[0];
     this.refresh_data();
+    this.state.daypilot.startDate = this.start;
+    this.state.daypilot.update();
   },
 
   prev_wk: function() {
