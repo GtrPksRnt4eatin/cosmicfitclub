@@ -81,7 +81,12 @@ ctrl = {
 
   set_2x_price(e,m) {
     reservation_form.set_price(2400,2);
-  }
+  },
+
+  datechange(e,m) {
+    var starttime = moment(data.occurrence.starttime).toISOString();
+    change_starttime(starttime);
+  },
 
 }
 
@@ -160,6 +165,11 @@ function change_teacher(staff_id) {
 
 function change_location(loc_id) {
   payload = { "starttime": data.occurrence.starttime, "classdef_id": data.occurrence.classdef_id, "location_id": loc_id, "staff_id": data.occurrence.staff_id };
+  $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; }, 'json' );
+}
+
+function change_starttime(starttime) {
+  payload = { "starttime": starttime, "classdef_id": data.occurrence.classdef_id, "location_id": data.occurrence.location.id, "staff_id": data.occurrence.staff_id };
   $.post('/models/classdefs/occurrences/' + data.occurrence.id, payload, function(resp) { data.occurrence = resp; }, 'json' );
 }
 

@@ -32,8 +32,8 @@ html
 
       .tile
         .heading
-          span
-            | { data.occurrence.starttime | classtime } :
+          input.datepicker rv-calendar='data.occurrence.starttime' rv-on-change='ctrl.datechange'
+            | :
           span
             | { data.occurrence.title } 
           span
@@ -64,8 +64,6 @@ html
             a.small.disabled rv-unless='data.occurrence.next_id' -Next Session->
 
           .delete rv-hide='data.reservations | reg_count' rv-on-click='ctrl.delete'
-
-          
 
         table.reservations
           tr rv-each-reservation='data.reservations' rv-title='reservation.id'
