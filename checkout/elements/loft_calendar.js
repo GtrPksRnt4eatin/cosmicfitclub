@@ -95,7 +95,7 @@ LoftCalendar.prototype = {
     this.get_reservations()
       .then(function() { return this.get_gcal_events()       }.bind(this))
       .then(function() { return this.state.daypilot.update() }.bind(this))
-      .then(function() { this.state.loading = false;         }.bind(this))
+      .then(function() { this.loading = false;               }.bind(this))
   },
 
   next_wk: function() {
