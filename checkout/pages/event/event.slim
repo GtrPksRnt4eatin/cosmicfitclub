@@ -251,7 +251,7 @@ html
 
               #discount_code
                 div Enter Code
-                input#code rv-value='data.discount_code' rv-on-change='ctrl.calc_total'
+                input#code rv-value='data.discount_code' rv-on-input='ctrl.calc_total'
 
               div
                 button#checkout rv-on-click='ctrl.checkout_new' Buy { data.multiplier | num_tix }For { data.total_price | money }
