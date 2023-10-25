@@ -50,7 +50,7 @@ button#request {
 @media (orientation: portrait) {
   
   .tile {
-    width: auto;
+    width: 95vw;
   }
 
 }
