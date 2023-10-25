@@ -230,4 +230,8 @@ td.checkin:hover {
     width: 100% !important;
   }
 
+  .flatpickr-input {
+    font-size: 3vw;
+  }
+
 }
