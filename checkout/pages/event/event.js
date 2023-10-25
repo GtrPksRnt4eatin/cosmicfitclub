@@ -169,8 +169,9 @@ function calculate_total() {
 
     case 'memberfree':
     case 'single':
+      price = 
       data.total_price = ( member() ? data.event_data.prices[0].member_price : data.event_data.prices[0].full_price ) * data.multiplier;
-      if(data.discount_code=="scholarship") { data.total_price = 27500; }
+      if(data.discount_code=="scholarship") { data.total_price = 27500 * data.multiplier; }
       break;
 
     case 'multi':
