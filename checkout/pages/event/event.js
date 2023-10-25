@@ -34,7 +34,8 @@ var data = {
   attendance: [],
   selected_session: null,
   included_session_passes: [],
-  loaded: false
+  loaded: false,
+  discount_code: ""
 }
 
 $(document).ready( function() {
@@ -168,7 +169,8 @@ function calculate_total() {
 
     case 'memberfree':
     case 'single':
-      data.total_price = ( member() ? data.event_data.prices[0].member_price : data.event_data.prices[0].full_price ) * data.multiplier; 
+      data.total_price = ( member() ? data.event_data.prices[0].member_price : data.event_data.prices[0].full_price ) * data.multiplier;
+      if(data.discount_code=="scholarship") { data.total_price = 27500; }
       break;
 
     case 'multi':
@@ -272,6 +274,9 @@ function member()     {
 ///////////////////////////////////////// PAGE EVENTS ///////////////////////////////////////////////////
 
 var ctrl = {
+  calc_total(e,m) {
+    calculate_total();
+  },
   choose_price(e,m) {
     data.a_la_carte = false;
     clear_selected_price();
