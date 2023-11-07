@@ -77,7 +77,7 @@ class StaffRoutes < Sinatra::Base
   end
 
   get '/payroll_reports' do
-    Payroll.all.map(&:details_hash).to_json
+    Payroll.order(:start_date).map(&:details_hash).to_json
   end
   
   get '/payroll2drive' do 
