@@ -9,6 +9,10 @@
   margin-top: .7em;
 }
 
+#discount_code {
+  display: none;
+}
+
 .num_tix {
   margin-top: 0.5em;
   padding: 0.2em;
