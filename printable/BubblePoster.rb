@@ -61,11 +61,11 @@ module BubblePoster
     @@image.draw_elements([
       { :type     => 'img_array',
         :x_offset => 0,
-        :y_offset => 0,
-        :width    => 2411,
-        :height   => 2411,
-        :margin   => 75,
-        :rowsize  => 3,
+        :y_offset => opts[:offset] || 0,
+        :width    => opts[:width] || 2411,
+        :height   => opts[:height] || 2411,
+        :margin   => opts[:margin] || 75,
+        :rowsize  => opts[:rowsize] || 3,
         :ptscale  => opts[:ptscale]  || 0.075,
         :ptscale2 => opts[:ptscale2] || 0.9,
         :images   => data.map { |x| BubblePoster::get_bubble_data(x) }
