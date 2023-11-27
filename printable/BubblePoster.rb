@@ -10,7 +10,7 @@ module BubblePoster
       { :img => cls.image.url, :lines => cls.footer_lines }
     when :event
       evt = Event[data[1]] or return
-      { :img => evt.image(:original).url, :lines => evt.poster_lines }
+      { :img => evt.image.url, :lines => evt.poster_lines }
     when :staff
       stf = Staff[data[1]] or return
       { :img => stf.image(:original).url, :lines => stf.footer_lines }
