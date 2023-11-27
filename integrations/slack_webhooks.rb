@@ -177,6 +177,7 @@ class PostCustomPromo
     )
   rescue => err
     Slack.err("PostCustomPromo Error", err)
+    p err
   end
 end
 
