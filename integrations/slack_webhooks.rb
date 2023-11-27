@@ -162,6 +162,24 @@ class GeneratePayPalReport
   end
 end
 
+class PostCustomPromo
+  include SuckerPunch::Job
+  def perform(elements, options)
+    promo = BubblePoster::generate_a4(elements, options)
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
+    client.files_upload(
+      channels: '#promotional_materials',
+      as_user: false,
+      file: Faraday::UploadIO.new(promo.path, "image/jpeg"),
+      title: "#{date.to_s} Promo",
+      filetype: 'jpg',
+      filename: "#{date.to_s}_promo.jpg"
+    )
+  rescue => err
+    Slack.err("PostCustomPromo Error", err)
+  end
+end
+
 class PostDailyPromo
   include SuckerPunch::Job
   def perform(date)
