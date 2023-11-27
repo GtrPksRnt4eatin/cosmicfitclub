@@ -7,7 +7,7 @@ module BubblePoster
     val = case data[0]
     when :class
       cls = ClassDef[data[1]] or return
-      { :img => cls.image(:original).url, :lines => cls.footer_lines }
+      { :img => cls.image.url, :lines => cls.footer_lines }
     when :event
       evt = Event[data[1]] or return
       { :img => evt.image(:original).url, :lines => evt.poster_lines }
