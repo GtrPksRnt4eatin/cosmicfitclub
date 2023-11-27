@@ -69,7 +69,7 @@ module BubblePoster
         :ptscale  => opts[:ptscale]  || 0.075,
         :ptscale2 => opts[:ptscale2] || 0.9,
         :images   => data.map { |x| BubblePoster::get_bubble_data(x) }
-      }
+      },
       { :type => 'footer' }
     ])
 
