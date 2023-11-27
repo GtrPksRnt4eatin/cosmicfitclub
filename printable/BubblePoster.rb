@@ -69,15 +69,7 @@ module BubblePoster
         :ptscale  => opts[:ptscale]  || 0.075,
         :ptscale2 => opts[:ptscale2] || 0.9,
         :images   => data.map { |x| BubblePoster::get_bubble_data(x) }
-      },
-      { :type        => 'highlight_text',
-        :text        => 'First Class Free! Come In Today!',
-        :ptsize      => 30,
-        :x_offset    => 0,
-        :y_offset    => 140,
-        :gravity     => 'South',
-        :strokewidth => 3 
-      },
+      }
       { :type => 'footer' }
     ])
 
