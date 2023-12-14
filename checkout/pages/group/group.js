@@ -83,7 +83,12 @@ $(document).ready( function() {
    view = rivets.bind( $('body'), { data: data, ctrl: ctrl });
    group_reservation = get_element(view,'group-reservation');
 
-   group_reservation.ev_sub('show_custy', function(custy) { });
+   group_reservation.ev_sub('show_custy', function(custy) {
+      custy_selector.show_modal(m.slot.customer_id, function(custy_id) {
+        m.slot.customer_id = custy_id;
+        m.slot.customer_string = custy_selector.selected_customer.list_string;
+      } );
+   });
 
 
 });
