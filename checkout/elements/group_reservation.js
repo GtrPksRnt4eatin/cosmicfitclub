@@ -25,10 +25,10 @@ GroupReservation.prototype = {
   },
 
   edit_custy(e,m) {
-    this.ev_fire('choose_custy', m.slot.customer_id, function(custy) {
+    this.ev_fire('choose_custy', [m.slot.customer_id, function(custy) {
       m.slot.customer_id = custy.id;
       m.slot.customer_string = custy.label;  
-    }.bind(this))
+    }.bind(this)])
   },
 
   del_custy(e,m) {
