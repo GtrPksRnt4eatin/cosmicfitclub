@@ -16,7 +16,7 @@ function GroupReservation(perent,attr) {
 }
 
 GroupReservation.prototype = {
-	constructor: GroupReservation,
+  constructor: GroupReservation,
 
   add_custy(e,m) {
     if(this.reservation.slots.length >= 4) { return; }
