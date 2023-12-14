@@ -1,6 +1,6 @@
 ev_channel = {
 
-  ev_fire(eventname, payload) {
+  ev_fire(eventname, ...payload) {
     payload ||= [];
     this.ev_listeners = this.ev_listeners || [];
     var listeners = this.ev_listeners.filter( function(listener) { return listener.event == eventname; } );
