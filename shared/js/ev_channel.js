@@ -1,9 +1,10 @@
 ev_channel = {
 
   ev_fire(eventname, payload) {
+    payload ||= [];
     this.ev_listeners = this.ev_listeners || [];
     var listeners = this.ev_listeners.filter( function(listener) { return listener.event == eventname; } );
-    listeners.forEach( function(listener) { listener.callback.apply(this,[...payload]); } );
+    listeners.forEach( function(listener) { listener.callback.apply(this, [...payload] ); });
   },	
   
   ev_sub(eventname,callback) {
