@@ -77,6 +77,7 @@ $(document).ready( function() {
      data.reservation = val;
    })
 
-   rivets.bind( $('body'), { data: data, ctrl: ctrl });
+   view = rivets.bind( $('body'), { data: data, ctrl: ctrl });
+   group_reservation = get_element(view,'group-reservation');
 });
 
