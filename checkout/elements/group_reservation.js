@@ -45,7 +45,7 @@ GroupReservation.prototype = {
   
   price: function() { 
     return this.reservation.slots?.reduce( function(total, slot) { 
-      let duration = slot.duration || rivets.formatters.duration(res.start_time, res.end_time);
+      let duration = slot.duration || rivets.formatters.duration(this.reservation.start_time, this.reservation.end_time);
       return(total + (duration / 60 * 1200));
     }, 0) || 0; 
   },
