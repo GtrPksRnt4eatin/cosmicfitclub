@@ -8,7 +8,7 @@ ev_channel = {
   
   ev_sub(eventname,callback) {
     this.ev_listeners = this.ev_listeners || [];
-  	var token = this.ev_gen_token();
+    var token = this.ev_gen_token();
     var listener = { token: token, event: eventname, callback: callback }
     this.ev_listeners.push(listener);
     return token;
