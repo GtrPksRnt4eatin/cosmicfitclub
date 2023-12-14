@@ -64,12 +64,15 @@ $(document).ready( function() {
 
   userview  = new UserView( id('userview_container') );
   popupmenu = new PopupMenu( id('popupmenu_container') );
+  
+  custy_selector = new CustySelector();
+  custy_selector.ev_sub('show'       , popupmenu.show );
+  custy_selector.ev_sub('close_modal', popupmenu.hide );
+  
   pay_form  = new PaymentForm();
-
   pay_form.customer_facing();
   pay_form.ev_sub('show', popupmenu.show );
   pay_form.ev_sub('hide', popupmenu.hide );
-
 
   $.get('/models/groups/' + reservation_id)
    .then(function(val) {
@@ -81,5 +84,7 @@ $(document).ready( function() {
    group_reservation = get_element(view,'group-reservation');
 
    group_reservation.ev_sub('show_custy', function(custy) { });
+
+
 });
 
