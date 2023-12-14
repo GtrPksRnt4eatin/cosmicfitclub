@@ -79,5 +79,7 @@ $(document).ready( function() {
 
    view = rivets.bind( $('body'), { data: data, ctrl: ctrl });
    group_reservation = get_element(view,'group-reservation');
+
+   group_reservation.ev_sub('show_custy', function(custy) { });
 });
 
