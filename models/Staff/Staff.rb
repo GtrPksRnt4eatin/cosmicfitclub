@@ -269,6 +269,10 @@ def Staff::payroll(from, to)
           occurrence_row[:pay]    = 0
           occurrence_row[:cosmic] = 0
           occurrence_row[:loft_classes] = net_income
+        when 29 # Ara gets $50 minimum
+	  occurrence_row[:pay]    = net_income < 5000 ? 5000 : (occurrence_row[:passes_total].to_i * 700) + (occurrence_row[:payment_total] * 0.6) 
+	  occurrence_row[:cosmic] = net_income - occurrence_row[:pay]
+	  occurrence_row[:loft]   = 0	      
         when 106 # Cosmic Loft gets 100% of loft rentals
           occurrence_row[:pay]          = 0
           occurrence_row[:cosmic]       = 0
