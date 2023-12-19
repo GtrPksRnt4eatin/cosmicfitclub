@@ -259,6 +259,7 @@ def Staff::payroll(from, to)
       occurrence_row[:loft_rentals]  ||= 0
       
       net_income = (occurrence_row[:passes_total].to_i * 1200) + (occurrence_row[:payment_total])
+      default_split = (occurrence_row[:passes_total].to_i * 700) + (occurrence_row[:payment_total] * 0.6) 
 
       case(teacher_row[:staff_id])
         when 18 # Ben 50/50 Loft & Cosmic
@@ -266,21 +267,21 @@ def Staff::payroll(from, to)
           occurrence_row[:cosmic]       = 0.5 * net_income
           occurrence_row[:loft_classes] = 0.5 * net_income
         when 103 # Sam Defers to Loft
-          occurrence_row[:pay]    = 0
-          occurrence_row[:cosmic] = 0
+          occurrence_row[:pay]          = 0
+          occurrence_row[:cosmic]       = 0
           occurrence_row[:loft_classes] = net_income
-        when 29 # Ara gets $50 minimum
-	  occurrence_row[:pay]    = net_income < 5000 ? 5000 : (occurrence_row[:passes_total].to_i * 700) + (occurrence_row[:payment_total] * 0.6) 
-	  occurrence_row[:cosmic] = net_income - occurrence_row[:pay]
-	  occurrence_row[:loft]   = 0	      
+        when 29 # Ara gets $60 minimum
+	  occurrence_row[:pay]          = default_split < 6000 ? 6000 : default_split
+	  occurrence_row[:cosmic]       = net_income - occurrence_row[:pay]
+	  occurrence_row[:loft]         = 0	      
         when 106 # Cosmic Loft gets 100% of loft rentals
           occurrence_row[:pay]          = 0
           occurrence_row[:cosmic]       = 0
           occurrence_row[:loft_rentals] = net_income
         else
-          occurrence_row[:pay]    = (occurrence_row[:passes_total].to_i * 700) + (occurrence_row[:payment_total] * 0.6) 
-          occurrence_row[:cosmic] = net_income - occurrence_row[:pay] 
-          occurrence_row[:loft]   = 0
+          occurrence_row[:pay]          = default_split
+          occurrence_row[:cosmic]       = net_income - default_split
+          occurrence_row[:loft]         = 0
       end
       occurrence_row[:loft] = occurrence_row[:loft_rentals] + occurrence_row[:loft_classes]
 
