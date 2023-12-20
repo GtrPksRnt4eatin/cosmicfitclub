@@ -206,7 +206,7 @@ class CFCAuth < Sinatra::Base
     data = params
     data = JSON.parse(request.body.read).transform_keys(&:to_sym) unless params[:email]
     custy = Customer.find_by_email(data[:email])
-    halt 404 if custy.nil?
+    (Slack.website_access( "Failed to reset: #{data}" ); halt 404) if custy.nil?
     Slack.website_access( "Sending Token #{ custy.to_list_string }" )
     custy.reset_password
     JSON.generate({ :status => 'ok'})
