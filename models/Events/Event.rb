@@ -298,7 +298,7 @@ class Event < Sequel::Model
       used_payment_ids = []
       totals = { :gross => 0, :fees => 0, :refunds => 0, :net => 0 }
 
-      rows = self.tickets.sort_by{ |x| x.created_on ? x.created_on.to_i : 0 }.map do |tic|
+      rows = self.tickets.sort_by{ |x| [ x.try(:created_on), x.try(:id) ] }.map do |tic|
 
         custy        = tic.recipient.to_list_hash
         custy_info   = [ custy[:id], custy[:name], custy[:email] ]
