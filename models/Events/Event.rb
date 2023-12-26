@@ -317,11 +317,11 @@ class Event < Sequel::Model
           end
         end
         
-        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + [ tic.eventprice.try(:title) ]
+        [ tic.id, tic.created_on.strftime("%a %m/%d %I:%M %P") ] + custy_info + payment_info + [ tic.eventprice.try(:title) ] + [ tic.full_payment_info.to_json ] + [tic.get_stripe_id]
       
       end
       
-      arr = [ [ "Ticket ID", "Purchase Date", "Customer ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net", "Ticket Type" ] ]
+      arr = [ [ "Ticket ID", "Purchase Date", "Customer ID", "Name", "Email", "Gross", "Fee", "Refunds", "Net", "Ticket Type", "Payment ID" ] ]
       arr + rows << [] << [ "Totals:", "", "", self.headcount, "" ] + totals.values.map(&:fmt_stripe_money)
 
   end
