@@ -70,7 +70,6 @@ html
                 th Percent
                 th
                   .add rv-on-click='ctrl.add_collaborator'
-                    .plus +
               tr rv-each-collab='data.event.collaborations'
                 td[] { collab.customer.name }
                 td[] { collab.stripe_connect_id }
@@ -91,7 +90,6 @@ html
                 th Title
                 th
                   .add rv-on-click='ctrl.add_session'
-                    .plus +
               tr rv-each-sess='data.event.sessions'
                 td
                   | { sess.start_time | simpledate }
@@ -114,7 +112,6 @@ html
                 th Full Price
                 th
                   .add rv-on-click='ctrl.add_price'
-                    .plus +
               tr rv-each-price='data.event.prices'
                 td
                   | { price.title }

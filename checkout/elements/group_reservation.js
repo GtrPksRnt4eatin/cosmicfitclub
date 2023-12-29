@@ -90,9 +90,7 @@ GroupReservation.prototype.HTML = `
         <tr>
           <th colspan='2'> People </th>
           <th>
-            <div class='add' rv-on-click='add_custy'>
-              <div class='plus'>+</div>
-            </div>
+            <div class='add' rv-on-click='add_custy'></div>
           </th>
         </tr>
         <tr rv-each-slot='reservation.slots'>
