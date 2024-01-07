@@ -52,9 +52,13 @@ class SlackBot < Sinatra::Base
     when "event_promo"
       event = Event[data["actions"][0]["selected_option"]["value"]] or halt(404, "event not found");
       PostEventPromo.perform_async(event)
-    when "weekly_schedule"
-      PostWeeklySchedule.perform_async()
     end
+  end
+
+  post '/weeklySchedule' do
+    date = Date.parse(params["text"]) rescue Date.today
+    PostWeeklySchedule.perform_async(date)
+    "Generating Promo... Please Wait!"
   end
 
   post '/dailyPromo' do
