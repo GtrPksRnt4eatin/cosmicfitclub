@@ -30,7 +30,7 @@ module SchedulePoster4x6
     offset = SchedulePoster4x6::build_day(7,50,offset + 20) if num_days > 7
     
     @@image.save('schedules/schedule_4x6.jpg')
-
+    @@image
   end
 
   ################################### RENDERING ######################################
