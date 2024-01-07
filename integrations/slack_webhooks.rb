@@ -206,8 +206,9 @@ end
 class PostWeeklySchedule < SlackUploader
   include SuckerPunch::Job
   def perform(date)
+    date ||= Date.today
     promo = SchedulePoster4x6::generate(date)
-    upload([{:title=> "SchedulePoster_#{Date.now}", :io=>promo.path, :mime=>"image/jpeg"}])
+    upload([{:title=> "SchedulePoster_#{date}", :io=>promo.path, :mime=>"image/jpeg"}])
   rescue => err
     Slack.err("PostCustomPromo Error", err)
   end
