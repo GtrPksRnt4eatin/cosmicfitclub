@@ -62,6 +62,12 @@ class SlackBot < Sinatra::Base
     "Generating Promo... Please Wait!"
   end
 
+  post '/classesPromo' do
+    class_ids = ClassDef::active.map(&:id)
+    PostClassesPromo.perform_async(class_ids)
+    "Generating Promo... Please Wait!"
+  end
+
   post '/dailyPromo' do
     date = Date.parse(params["text"]) rescue Date.today
     PostDailyPromo.perform_async(date)
@@ -152,6 +158,7 @@ class GeneratePayrollReport
 end
 
 class SlackUploader
+  include SuckerPunch::Job
   def upload(promos)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
@@ -160,8 +167,8 @@ class SlackUploader
         as_user: false,
         file: Faraday::UploadIO.new(p[:io], p[:mime] ),
         title: "#{p[:title]}",
-        filetype: 'jpg',
-        filename: "#{p[:title]}"
+        filetype: p[:ext],
+        filename: "#{p[:title]}.#{p[:ext]}"
       )
     end
   end
@@ -205,13 +212,19 @@ class PostCustomPromo
 end
 
 class PostWeeklySchedule < SlackUploader
-  include SuckerPunch::Job
   def perform(date)
     date ||= Date.today
     promo = SchedulePoster4x6::generate(date)
     upload([{:title=> "SchedulePoster_#{date}", :io=>promo.path, :mime=>"image/jpeg"}])
   rescue => err
     Slack.err("PostCustomPromo Error", err)
+  end
+end
+
+class PostClassesPromo < SlackUploader
+  def perform(class_ids)
+    promo = ClassesPoster_4x6::generate("", class_ids)
+    upload([:title=> "ClassesPoster_#{Date.today}", :io=>promo.path, :mime=>"image/jpeg", :ext=>'jpg'}])
   end
 end
 
