@@ -143,7 +143,7 @@ module UpcomingEvents
         { :type        => 'highlight_text',
           :text        => 'Upcoming Events!',
           :ptsize      => 27.3,
-          :x_offset    => 150,
+          :x_offset    => 148,
           :y_offset    => 800 + (Event::future.count == 3 ? 600 : 0),
           :fill        => "\#BBBBFFFF",
           :stroke      => "\#DDDDFFDD",
