@@ -58,6 +58,7 @@ class SlackBot < Sinatra::Base
   post '/weeklySchedule' do
     date = Date.parse(params["text"]) rescue Date.today
     PostWeeklySchedule.perform_async(date)
+    status 200
     "Generating Promo... Please Wait!"
   end
 
