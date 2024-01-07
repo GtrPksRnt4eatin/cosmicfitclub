@@ -13,7 +13,7 @@ module ClassesPoster_4x6
     @@image.draw_logo(100,100,2350,nil) if class_ids.count <= 6
     @@image.draw_logo(650,75,1250,nil) if class_ids.count > 6
 
-    @@image.draw_footer(19)
+    @@image.draw_footer({ :ptsize=> 19 })
     class_ids.each_with_index do |id,idx|
       geo = /(\d+)x(\d+)\+(\d+)\+(\d+)/.match(@@img_geometrys[idx])
       @@image = @@image.draw_iphone_bubble(id,geo[3].to_i,geo[4].to_i,geo[1].to_i) 
