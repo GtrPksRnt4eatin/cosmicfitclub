@@ -142,7 +142,7 @@ module UpcomingEvents
         },
         { :type        => 'highlight_text',
           :text        => 'Upcoming Events!',
-          :ptsize      => 27.4,
+          :ptsize      => 27.3,
           :x_offset    => 150,
           :y_offset    => 800 + (Event::future.count == 3 ? 600 : 0),
           :fill        => "\#BBBBFFFF",
@@ -158,7 +158,7 @@ module UpcomingEvents
           :margin_y => Event::future.count == 3 ? 106 : 50,
           :rowsize  => 2,
           :ptscale  => 0.052,
-          :ptscale2 => 0.9,
+          :ptscale2 => 0.94,
           :images   => [ { :img => 'blank'} ] + Event::future.first(5).map { |x| { :img => x.image_url, :lines => x.poster_lines } }
         },
         { :type => 'footer' }
