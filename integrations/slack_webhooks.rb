@@ -224,7 +224,9 @@ end
 class PostClassesPromo < SlackUploader
   def perform(class_ids)
     promo = ClassesPoster_4x6::generate("", class_ids)
-    upload([:title=> "ClassesPoster_#{Date.today}", :io=>promo.path, :mime=>"image/jpeg", :ext=>'jpg'}])
+    upload([{:title=> "ClassesPoster_#{Date.today}", :io=>promo.path, :mime=>"image/jpeg", :ext=>'jpg'}])
+  rescue => err
+    Slack.err("PostClassesPromo Error", err)
   end
 end
 
@@ -247,21 +249,10 @@ class PostDailyPromo
   end
 end 
 
-class PostEventPromo
-  include SuckerPunch::Job
+class PostEventPromo < SlackUploader
   def perform(event)
     promos = EventPoster.generate_for_bot(event)
-    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
-    promos.each do |p|
-      client.files_upload(
-        channels: '#promotional_materials',
-        as_user: false,
-        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
-        title: "#{p[:title]}",
-        filetype: 'jpg',
-        filename: "#{p[:title]}.jpg"
-      )
-    end
+    upload( promos.map { |p| { :title=>p[:title], :io=>p[:img].path, :mime=>"image/jpeg", :ext=>'jpg'} })
   rescue => err
     Slack.err("PostEventPromo Error", err)
   end
