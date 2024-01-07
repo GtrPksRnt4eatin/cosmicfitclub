@@ -2,8 +2,8 @@
 module ClassesPoster_4x6
 
   def ClassesPoster_4x6::generate(heading="", class_ids)
-  	row_y = [1250,2060,2870] if class_ids.count <= 6
-  	row_y = [600,1410,2220]  if class_ids.count > 6
+    row_y = [1250,2060,2870] if class_ids.count <= 6
+    row_y = [600,1410,2220]  if class_ids.count > 6
 
     @@img_geometrys =      ["730x730+100+#{row_y[0]}","730x730+910+#{row_y[0]}","730x730+1720+#{row_y[0]}"]
     @@img_geometrys.concat ["730x730+100+#{row_y[1]}","730x730+910+#{row_y[1]}","730x730+1720+#{row_y[1]}"]
@@ -18,7 +18,7 @@ module ClassesPoster_4x6
       geo = /(\d+)x(\d+)\+(\d+)\+(\d+)/.match(@@img_geometrys[idx])
       @@image = @@image.draw_iphone_bubble(id,geo[3].to_i,geo[4].to_i,geo[1].to_i) 
     end
-    ClassesPoster::first_class_free
+    #ClassesPoster::first_class_free
   end
 
   def ClassesPoster_4x6::first_class_free
