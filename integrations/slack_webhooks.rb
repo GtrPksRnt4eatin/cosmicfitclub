@@ -63,7 +63,7 @@ class SlackBot < Sinatra::Base
   end
 
   post '/classesPromo' do
-    class_ids = ClassDef::active.map(&:id)
+    class_ids = ClassDef.list_active_and_current.map(&:id)
     PostClassesPromo.perform_async(class_ids)
     "Generating Promo... Please Wait!"
   end
