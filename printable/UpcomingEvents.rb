@@ -151,14 +151,14 @@ module UpcomingEvents
         },
         { :type     => 'img_array',
           :x_offset => 0,
-          :y_offset => 0,
+          :y_offset => Event::future.count == 3 ? 1200 : 0,
           :width    => 2411,
           :height   => Event::future.count == 3 ? 2411 : 3340,
           :margin_x => 106,
-          :margin_y => 50,
+          :margin_y => Event::future.count == 3 ? 106 : 50,
           :rowsize  => 2,
-          :ptscale  => 0.05,
-          :ptscale2 => 0.8,
+          :ptscale  => 0.052,
+          :ptscale2 => 0.85,
           :images   => [ { :img => 'blank'} ] + Event::future.first(5).map { |x| { :img => x.image_url, :lines => x.poster_lines } }
         },
         { :type => 'footer' }
