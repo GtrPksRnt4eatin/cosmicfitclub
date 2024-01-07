@@ -19,6 +19,7 @@ module ClassesPoster_4x6
       @@image = @@image.draw_iphone_bubble(id,geo[3].to_i,geo[4].to_i,geo[1].to_i) 
     end
     #ClassesPoster::first_class_free
+    @@image
   end
 
   def ClassesPoster_4x6::first_class_free
