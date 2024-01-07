@@ -52,6 +52,8 @@ class SlackBot < Sinatra::Base
     when "event_promo"
       event = Event[data["actions"][0]["selected_option"]["value"]] or halt(404, "event not found");
       PostEventPromo.perform_async(event)
+    when "weekly_schedule"
+      PostWeeklySchedule.perform_async()
     end
   end
 
@@ -144,10 +146,27 @@ class GeneratePayrollReport
   end
 end
 
+class SlackUploader
+  def upload(promos)
+    client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
+    promos.each do |p|
+      client.files_upload(
+        channels: '#promotional_materials',
+        as_user: false,
+        file: Faraday::UploadIO.new(p[:io], p[:mime] ),
+        title: "#{p[:title]}",
+        filetype: 'jpg',
+        filename: "#{p[:title]}.jpg"
+      )
+    end
+  end
+end
+
 class GeneratePayPalReport
   include SuckerPunch::Job
   def perform(start,finish)
     csv = PayPalSDK::list_transactions_csv(start,finish)
+    upload({:title=> 
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     client.files_upload(
       channels: 'payroll',
@@ -178,6 +197,16 @@ class PostCustomPromo
   rescue => err
     Slack.err("PostCustomPromo Error", err)
     p err
+  end
+end
+
+class PostWeeklySchedule < SlackUploader
+  include SuckerPunch::Job
+  def perform(date)
+    promo = SchedulePoster4x6::generate(date)
+    upload([{:title=> "SchedulePoster_#{Date.now}", :io=>promo.path, :mime=>"image/jpeg"}])
+  rescue => err
+    Slack.err("PostCustomPromo Error", err)
   end
 end
 
