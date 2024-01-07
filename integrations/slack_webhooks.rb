@@ -160,7 +160,7 @@ class SlackUploader
         file: Faraday::UploadIO.new(p[:io], p[:mime] ),
         title: "#{p[:title]}",
         filetype: 'jpg',
-        filename: "#{p[:title]}.jpg"
+        filename: "#{p[:title]}"
       )
     end
   end
@@ -170,7 +170,6 @@ class GeneratePayPalReport
   include SuckerPunch::Job
   def perform(start,finish)
     csv = PayPalSDK::list_transactions_csv(start,finish)
-    upload({:title=> 
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     client.files_upload(
       channels: 'payroll',
