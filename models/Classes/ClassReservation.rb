@@ -59,7 +59,7 @@ class ClassReservation < Sequel::Model
       :classname => occurrence.nil? ? "Orphaned Reservation" : occurrence.classdef.name, 
       :instructor=> occurrence.nil? ? "Some Teacher" : occurrence.teacher.name, 
       :starttime => occurrence.nil? ? Time.new : occurrence.starttime,
-      :url       => "/frontdesk/class_attendance/#{id}"
+      :url       => "/frontdesk/class_attendance/#{occurrence.nil? ? 0 : occurrence.id}"
     } 
   end
 
