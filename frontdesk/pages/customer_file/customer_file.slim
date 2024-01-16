@@ -308,7 +308,8 @@ html
                 td 
                   | { res.starttime | fulldatewyr }
                 td
-                  | { res.classname } w/ { res.instructor }
+                  a rv-href='res.url'
+                    | { res.classname } w/ { res.instructor }
 
           #page_three.tab-content
             table
