@@ -54,4 +54,13 @@ class ClassReservation < Sequel::Model
     }
   end
 
+  def to_token
+    { :id => id,
+      :classname => occurrence.nil? ? "Orphaned Reservation" : occurrence.classdef.name, 
+      :instructor=> occurrence.nil? ? "Some Teacher" : occurrence.teacher.name, 
+      :starttime => occurrence.nil? ? Time.new : occurrence.starttime,
+      :url       => "/frontdesk/class_attendance/#{id}"
+    } 
+  end
+
 end
