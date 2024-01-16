@@ -163,14 +163,7 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id/reservations' do
     custy = Customer[params[:id].to_i] or halt 404
-    reservations = custy.reservations.map { |res|
-      { :id => res.id,
-        :classname => res.occurrence.nil? ? "Orphaned Reservation" : res.occurrence.classdef.name, 
-        :instructor=> res.occurrence.nil? ? "Some Teacher" : res.occurrence.teacher.name, 
-        :starttime => res.occurrence.nil? ? Time.new : res.occurrence.starttime,
-        :url       => "/frontdesk/class_attendance/#{res.id}"
-      } 
-    }
+    reservations = custy.reservations.map(&:to_token)
     JSON.generate reservations.sort_by { |r| r[:starttime] }.reverse
   end
 
