@@ -3,7 +3,7 @@ module DailyPromo
   def DailyPromo::generate_for_bot(date)
     date ||= Date.today
     date = Date.parse(date) if date.is_a? String
-    list = Scheduling::flat_virtual(date,date+1)
+    list = Scheduling::flat_list(date,date+1)
     DailyPromo::generate4x5(date,list)
   end
 
