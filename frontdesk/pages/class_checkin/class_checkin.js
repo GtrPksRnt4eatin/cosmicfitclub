@@ -5,7 +5,7 @@ data['newsheet'] = {
 }
 
 data['query_date'] = moment().toISOString().slice(0,10);
-data['gcal_url'] = "https://calendar.google.com/calendar/embed?height=400&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&showTitle=0&showNav=1&mode=AGENDA&showPrint=0&showTabs=0&showCalendars=0&showTz=0&showDate=0&src=YmtsZWluMjYxQGdtYWlsLmNvbQ&src=M3FrbjViZWRoZjRwZzc2OTk1MzFuaDB0MGNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=c2FtQGNvc21pY2ZpdGNsdWIuY29t&color=%237986CB&color=%23C0CA33&color=%234285F4"
+data['gcal_url'] = "https://calendar.google.com/calendar/embed?height=400&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&showTitle=0&showNav=1&mode=AGENDA&showPrint=0&showTabs=0&showCalendars=0&showTz=0&showDate=0&src=YmtsZWluMjYxQGdtYWlsLmNvbQ&src=M3FrbjViZWRoZjRwZzc2OTk1MzFuaDB0MGNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=c2FtQGNvc21pY2ZpdGNsdWIuY29t&color=%237986CB&color=%23C0CA33&color=%234285F4";
 
 build_gcal_url(date) {
   baseurl  = "https://calendar.google.com/calendar/embed?";
