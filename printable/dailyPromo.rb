@@ -4,6 +4,7 @@
       date ||= Date.today
       date = Date.parse(date) if date.is_a? String
       list = Scheduling::flat_list(date,date+1)
+      list.reject! { |x| x[:classdef_id]==173 } # no point rentals on flier
       DailyPromo::generate4x5(date,list)
     end
   
