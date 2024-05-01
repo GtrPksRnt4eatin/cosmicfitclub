@@ -163,7 +163,7 @@ SessionSlots.prototype.HTML = `
               <input type='checkbox' name='addon' rv-checked='addon.checked'/>+{addon.price | money} {addon.name}
             </label>
           </div>
-	</div>
+        </div>
       </div>
       
       <div>
