@@ -169,11 +169,11 @@ SessionSlots.prototype.HTML = `
       <div>
         <hr/>
 	<div class='tuple'>
-	  <div class='attrib'>Price</div>
-	  <div class='value'>
-	    { state.passes | total_price }
-	  </div>
-	</div>
+          <div class='attrib'>Price</div>
+          <div class='value'>
+            { state.passes | total_price }
+          </div>
+        </div>
       </div>
 
       <div>
