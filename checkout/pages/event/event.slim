@@ -49,24 +49,20 @@ html
       .tile
 
         .flex.flex1
-           
           .img_heading 
             h2
               | { data.event_data.name }
             h3
               | { data.event_data.subheading }
-
           img.event_img rv-src='data.event_data.full_image'
 
         .flex.flex2
-
-          .description
-            | { data.event_data.description }
-
-          hr width="75%"
-
-          .details rv-show='data.event_data.details'
-            | { data.event_data.details }
+          .scroll
+            .description
+              | { data.event_data.description }
+            hr width="75%"
+            .details rv-show='data.event_data.details'
+              | { data.event_data.details }
 
         .flex.flex3 rv-show="data.mode | equals 'privates2' "
           div rv-hide='data.selected_session'
