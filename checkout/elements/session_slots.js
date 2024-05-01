@@ -148,7 +148,7 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
         <hr/>
         <div class='tuple' rv-each-slot='state.passes'>
           <div class='attrib'>Slot #{index | fix_index}</div>
-          <div class='value edit' rv-on-click='choose_custy'>
+          <div class='value' rv-on-click='choose_custy'>
             {slot.customer_string}           
           </div>
         </div>
