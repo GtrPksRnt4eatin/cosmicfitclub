@@ -11,7 +11,7 @@ function SessionChooser(parent,attr) {
   }
   
   this.bind_handlers(['build_daypilot','load_sessions','get_attendance','update_daypilot_colors','session_available','on_session_selected','sort_included_sessions','set_included_sessions','clear_session']);
-  this.load_css();
+  this.load_styles();
 }
   
   SessionChooser.prototype = {
