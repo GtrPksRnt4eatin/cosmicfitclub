@@ -346,6 +346,9 @@ h4 {
     border-radius: 2em;
     box-shadow: 0 0 0.3em white;
     padding: 1em;
+  }
+
+  .flex .scroll {
     overflow: auto;
   }
 
@@ -360,6 +363,7 @@ h4 {
   }
 
   .flex.flex3 {
+    overflow: auto;      
     flex: 1;
   }
 
