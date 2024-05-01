@@ -11,6 +11,7 @@ function SessionChooser(parent,attr) {
   }
   
   this.bind_handlers(['build_daypilot','load_sessions','get_attendance','update_daypilot_colors','session_available','on_session_selected','sort_included_sessions','set_included_sessions','clear_session']);
+  this.load_css();
 }
   
   SessionChooser.prototype = {
@@ -126,16 +127,18 @@ function SessionChooser(parent,attr) {
   Object.assign( SessionChooser.prototype, element);
   Object.assign( SessionChooser.prototype, ev_channel);
   
-  SessionChooser.prototype.HTML = ES5Template(function(){/**
+  SessionChooser.prototype.HTML = `
     <div>  
       <hr class='mobile'><br class='mobile'>    
       <h2>Choose An Available Session:</h2><br/>
       <div id='daypilot'></div>
     </div>  
-  **/}).untab(2);
+  `.untab(2);
   
   SessionChooser.prototype.CSS = `
-  
+    session-chooser #daypilot {
+      border: 0.5em solid rgba(255,255,255,0.5);
+    }
   `.untab(2);
   
   rivets.components['session-chooser'] = { 
