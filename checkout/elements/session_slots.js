@@ -125,7 +125,7 @@ SessionSlots.prototype = {
 Object.assign( SessionSlots.prototype, element);
 Object.assign( SessionSlots.prototype, ev_channel);
 
-SessionSlots.prototype.HTML = ES5Template(function(){/**
+SessionSlots.prototype.HTML = `
   <div id='private_slots' rv-show='session' >
     <hr class='mobile'><br class='mobile'>   
 
@@ -146,7 +146,7 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
 
       <div rv-show='state.num_slots'>
         <hr/>
-        <div class='tuple' rv-each-slot='state.passes'>
+        <div class='tuple slots' rv-each-slot='state.passes'>
           <div class='attrib'>Slot #{index | fix_index}</div>
           <div class='value' rv-on-click='choose_custy'>
             {slot.customer_string}           
@@ -163,17 +163,17 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
               <input type='checkbox' name='addon' rv-checked='addon.checked'/>+{addon.price | money} {addon.name}
             </label>
           </div>
-	      </div>
+	</div>
       </div>
       
       <div>
         <hr/>
-	      <div class='tuple'>
-	        <div class='attrib'>Price</div>
-	        <div class='value'>
-	          { state.passes | total_price }
-	        </div>
-	      </div>
+	<div class='tuple'>
+	  <div class='attrib'>Price</div>
+	  <div class='value'>
+	    { state.passes | total_price }
+	  </div>
+	</div>
       </div>
 
       <div>
@@ -182,10 +182,9 @@ SessionSlots.prototype.HTML = ES5Template(function(){/**
 
     </div>
   </div>
-**/}).untab(2);
+`.untab(2);
 
 SessionSlots.prototype.CSS = `
-
   #private_slots {}
 
   #private_slots .tuple .attrib {
@@ -197,6 +196,9 @@ SessionSlots.prototype.CSS = `
     cursor: pointer;
   }
 
+  #private_slots .slots .value {
+    cursor: pointer;
+  }
 `.untab(2);
 
 rivets.components['session-slots'] = { 
