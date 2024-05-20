@@ -10,6 +10,7 @@ require_relative '../integrations/paypal_sdk'
 require_relative '../integrations/stripe_methods'
 require_relative '../integrations/slack'
 require_relative '../integrations/slack_webhooks'
+require_relative '../integrations/google_calendar.rb'
 require_relative '../ruby/shrine'
 
 Dir["../models/mixins/*.rb"].each { |file| require_relative file unless /.*Routes.*/=~file }

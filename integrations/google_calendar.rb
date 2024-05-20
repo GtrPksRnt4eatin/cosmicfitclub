@@ -29,4 +29,23 @@ module Calendar
       end
     end
 
+    def Calendar::create_point_rental(start,finish,title)
+      service = self::get_service
+      event = Google::Apis::CalendarV3::Event.new( 
+        summary: title,
+        location: "Loft-1F-Front (4)",
+        start: Google::Apis::CalendarV3::EventDateTime.new(
+          date_time: start.iso8601, 
+          time_zone: 'America/New_York'
+        ),
+        end: Google::Apis::CalendarV3::EventDateTime.new(
+          date_time: finish.iso8601,
+          time_zone: 'America/New_York'
+        )
+      )
+
+      service.insert_event('sam@cosmicfitclub.com', event)
+
+    end
+
 end

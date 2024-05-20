@@ -34,9 +34,13 @@ html
 
         table.reflections
           tr
-            th Payments
+            td Total:
+            td
           tr rv-each-payment='data.reservation.payments' 
             td[] on { payment.timestamp | classtime } { payment.customer.name } paid { payment.amount | money }
+          tr
+            td Remaining Balance: 
+            td 
 
         input#payval type='number' min='0' max='100' step='1' value='12'
         button rv-on-click='ctrl.checkout_card' Pay now

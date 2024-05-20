@@ -33,7 +33,7 @@ require_relative 'user/user'
 require_relative 'frontdesk/frontdesk'
 require_relative 'offers/offers'
 
-use Rack::SslEnforcer
+use Rack::SslEnforcer 
 use Rack::Deflater
 
 use Rack::Session::Cookie, :key => '_rack_session',
