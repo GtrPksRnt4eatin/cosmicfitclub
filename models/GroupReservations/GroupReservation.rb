@@ -24,12 +24,12 @@ class GroupReservation < Sequel::Model
     self.tag = rand(36**8).to_s(36)
   end
 
-  def duration_ical
-    "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
+  def after_create
+    Calendar::create_point_rental(start_time, end_time, customer_string)
   end
 
-  ################# CALCULATED PROPERTIES #################
-
+  #################### CALCULATED PROPERTIES ####################
+  
   def duration_sec
     self.end_time - self.start_time
   end
@@ -38,13 +38,16 @@ class GroupReservation < Sequel::Model
     "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
   end
   
-  ################# CALCULATED PROPERTIES #################
+  #################### CALCULATED PROPERTIES ####################
 
   ############################ VIEWS ############################
 
+  def customer_string
+    slots.map { |s| s.customer.nil? ? "TBD" : s.customer.to_list_string }.join(',')
+  end
+
   def summary
-    text = slots.map { |s| s.customer.nil? ? "TBD" : s.customer.to_list_string }.join(',')
-    "#{duration_sec / 60} Min Group Reservation #{self.start_time.strftime("%Y/%m/%d %H:%M")} #{text}"
+    "#{duration_sec / 60} Min Group Reservation #{self.start_time.strftime("%Y/%m/%d %H:%M")} #{customer_string}"
   end
 
   def to_public_daypilot
@@ -56,10 +59,9 @@ class GroupReservation < Sequel::Model
   end
 
   def to_admin_daypilot
-    text = slots.map { |s| s.customer.nil? ? "TBD" : s.customer.to_list_string }.join(',')
     { :start => self.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
-      :text  => text,
+      :text  => customer_string,
       :id    => self.id
     }
   end
