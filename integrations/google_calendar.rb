@@ -33,7 +33,7 @@ module Calendar
       service = self::get_service
       event = Google::Apis::CalendarV3::Event.new( 
         summary: title,
-        location: "Loft-1F-Front (4)",
+        #location: "Loft-1F-Front (4)",
         start: Google::Apis::CalendarV3::EventDateTime.new(
           date_time: start.iso8601, 
           time_zone: 'America/New_York'
@@ -41,10 +41,14 @@ module Calendar
         end: Google::Apis::CalendarV3::EventDateTime.new(
           date_time: finish.iso8601,
           time_zone: 'America/New_York'
-        )
+        ),
+        attendees: [
+          { resource: true,
+            email: "c_1886mhe5itnkig8ekabujeden03cm@resource.calendar.google.com"
+          }
+        ]
       )
 
-      #service.insert_event("c_1886mhe5itnkig8ekabujeden03cm@resource.calendar.google.com", event)
       service.insert_event('sam@cosmicfitclub.com', event)
 
     end
