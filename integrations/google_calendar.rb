@@ -9,8 +9,8 @@ module Calendar
         json_key_io: StringIO.new(ENV['GOOGLE_SERVICE']),
         scope: scope
       )
-      authorizer.sub = "ben@cosmicfitclub.com"
-      authorizer.fetch_access_token!
+      authorizer.sub = "sam@cosmicfitclub.com"
+      #authorizer.fetch_access_token!
 
       service = Google::Apis::CalendarV3::CalendarService.new
       service.authorization = authorizer
