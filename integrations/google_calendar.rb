@@ -9,6 +9,7 @@ module Calendar
         json_key_io: StringIO.new(ENV['GOOGLE_SERVICE']),
         scope: scope
       )
+      authorizer.sub = "ben@cosmicfitclub.com"
       authorizer.fetch_access_token!
 
       service = Google::Apis::CalendarV3::CalendarService.new
@@ -43,9 +44,7 @@ module Calendar
           time_zone: 'America/New_York'
         ),
         attendees: [
-          { resource: true,
-            email: "c_1886mhe5itnkig8ekabujeden03cm@resource.calendar.google.com"
-          }
+          { email: "c_1886mhe5itnkig8ekabujeden03cm@resource.calendar.google.com" }
         ]
       )
 
