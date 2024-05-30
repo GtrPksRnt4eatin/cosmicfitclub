@@ -83,6 +83,10 @@ ctrl = {
     reservation_form.set_price(2400,2);
   },
 
+  set_3x_price(e,m) {
+    reservation_form.set_price(3600,3);
+  },
+
   datechange(e,m) {
     var starttime = moment(data.occurrence.starttime).toISOString();
     change_starttime(starttime);
