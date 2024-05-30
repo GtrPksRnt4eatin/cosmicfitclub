@@ -26,6 +26,10 @@ class PassRoutes < Sinatra::Base
     Package.where(:available=>true).reverse_order(:num_passes).all.to_json
   end
 
+  get '/packages/front_desk' do
+    Package.where(:available_at_desk => true).reverse_order(:num_passes).all.to_json
+  end
+
   post '/compticket' do
     custy = Customer[params[:customer_id]]
     halt 404 if custy.nil?
