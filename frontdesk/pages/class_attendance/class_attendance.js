@@ -93,6 +93,10 @@ ctrl = {
     change_starttime(starttime);
   },
 
+  buy_package(pack) {
+    var x = pack;
+  }
+
 }
 
 $(document).ready( function() {
