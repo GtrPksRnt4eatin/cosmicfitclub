@@ -40,7 +40,7 @@ PackageSelector.prototype.CSS = `
 
 `.untab(2);
 
-rivets.components['package_selector'] = {
+rivets.components['package-selector'] = {
   template:   function()        { return PackageSelector.prototype.HTML },
   initialize: function(el,attr) { return new PackageSelector(el,attr);  }
 }
