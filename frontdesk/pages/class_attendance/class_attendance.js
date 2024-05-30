@@ -148,7 +148,7 @@ function setup_bindings() {
   rivets.formatters.passes           = function(val) { return empty(val) ? "" : `(${val})`; }
   rivets.formatters.occurrence_href  = function(val) { return "/frontdesk/class_attendance/" + val; }
   rivets.formatters.saved_cards_href = function(val) { return "/admin/payment_sources?id=" + val; }
-  var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+  binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
 
 function get_reservations()    { 
