@@ -19,7 +19,8 @@ html
     == js_bundle( "class_attend1", [ 'jquery', 'jquery.priceformat', 'jquery.chosen', 'selectize.min', 'rv_select', 'flatpickr', 'element', 'ev_channel' ] )
     == js_bundle( "class_attend2", [ 'rivets', 'moment', 'rv_dates', 'rv_money', 'lib', 'popupmenu' ] )
     == js_sync  [ '/checkout/elements/payment_form', '/checkout/elements/reservation_form', '/auth/elements/userview']
-    == js_sync  [ '/frontdesk/elements/new_customer_form', '/frontdesk/elements/teacher_selector', '/frontdesk/elements/location_selector', '/admin/elements/custy_selector']
+    == js_sync  [ '/frontdesk/elements/new_customer_form', '/frontdesk/elements/teacher_selector', '/frontdesk/elements/location_selector' ]
+    == js_sync  [ '/frontdesk/elements/package_selector', '/admin/elements/custy_selector' ]
     == js_sync  [ 'class_attendance' ]
 
   body
@@ -89,12 +90,13 @@ html
           button rv-on-click='ctrl.set_2x_price' 2X
           button rv-on-click='ctrl.set_3x_price' 3X
         br
-        
+
+        package-selector
+
         div
           a rv-href='data.selected_customer | saved_cards_href' Saved Cards
 
         br
-
 
         table.inline_block
           tr 
