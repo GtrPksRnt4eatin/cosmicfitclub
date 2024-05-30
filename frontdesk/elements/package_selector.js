@@ -1,9 +1,12 @@
 function PackageSelector(el, attr, build_dom) {
   this.dom = el;
   this.attr = attr;
-  this.state = {};
+  this.state = {
+    packages: []
+  };
 
   this.get_packages();
+  this.bind_handlers(['select', 'get_packages']);
   this.bind_dom();
 }
 
