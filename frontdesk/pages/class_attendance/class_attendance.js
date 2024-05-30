@@ -20,7 +20,7 @@ ctrl = {
     $.post('/models/classdefs/reservations/' + m.reservation.id + '/checkin', get_reservations);
   },
 
-	cancel: function(e,m) {
+  cancel: function(e,m) {
     var proceed;
     var data = { to_passes: false };
     switch(m.reservation.payment_type) {
@@ -88,6 +88,7 @@ ctrl = {
   },
 
   datechange(e,m) {
+    if(!data.occurrence.location) { return; }
     var starttime = moment(data.occurrence.starttime).toISOString();
     change_starttime(starttime);
   },
