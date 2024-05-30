@@ -7,7 +7,6 @@ function PackageSelector(el, attr, build_dom) {
 
   this.get_packages();
   this.bind_handlers(['select', 'get_packages']);
-  this.bind_dom();
 }
 
 PackageSelector.prototype = {
