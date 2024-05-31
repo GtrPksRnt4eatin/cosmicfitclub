@@ -13,7 +13,7 @@ PackageSelector.prototype = {
   constructor: PackageSelector,
 
   select: function(e,m) {
-    this.attr['on_select'] && this.attr['on_select'].call(m.pack);
+    this.attr['onSelect'] && this.attr['onSelect'].call(m.pack);
     this.ev_fire('select', e.target.value);
   },
 
