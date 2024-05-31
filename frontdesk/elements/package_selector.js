@@ -13,6 +13,7 @@ PackageSelector.prototype = {
   constructor: PackageSelector,
 
   select: function(e,m) {
+    //let pack = m.state.packages.find( function(x) { return x.id == parseInt(e.target.value)} );
     this.attr['onSelect'] && this.attr['onSelect'].call(m.pack);
     this.ev_fire('select', e.target.value);
   },
@@ -30,9 +31,9 @@ PackageSelector.prototype.HTML = `
   <div>
     <div class='title'>Choose A Package</div>
     <div>
-      <select rv-on-change='select' >
+      <select>
         <option value='0' data-price='0'> None </option>
-        <option rv-each-pack="state.packages" rv-value='pack.id'>
+        <option rv-each-pack="state.packages" rv-on-click='select' rv-value='pack.id'>
           { pack.formatted_price } { pack.name }
         </option>
       </select>
