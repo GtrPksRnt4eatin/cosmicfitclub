@@ -30,7 +30,7 @@ PackageSelector.prototype.HTML = `
   <div>
     <div class='title'>Choose A Package</div>
     <div>
-      <select rv-on-change='this.select' >
+      <select rv-on-change='select' >
         <option value='0' data-price='0'> None </option>
         <option rv-each-pack="state.packages" rv-value='pack.id'>
           { pack.formatted_price } { pack.name }
