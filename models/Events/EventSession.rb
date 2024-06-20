@@ -11,7 +11,9 @@ class EventSession < Sequel::Model
 
   def EventSession.between(from,to)
     from = Time.parse(from) if from.is_a? String
-    to   = Time.parse(to)   if   to.is_a? String
+    from = from.to_time     if from.is_a? Date
+    to   = Time.parse(to)   if to.is_a? String
+    to   = to.to_time       if to.is_a? Date
     self.order(:start_time).map do |sess|
       next if sess.start_time.nil?
       start = Time.parse(sess.start_time)
