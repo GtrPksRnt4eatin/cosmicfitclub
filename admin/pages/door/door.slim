@@ -14,12 +14,12 @@ html
 
     .tile
       h4 DOOR CONTROLS
-      iframe#doorcam src='http://72.231.24.250/axis-cgi/mjpg/video.cgi'
+      img#doorcam src='http://72.231.24.250/mjpg/video.mjpg'
       br
-      button#up   UP
+      <span> { data.status } </span>
       br
-      button#down DOWN
+      button#up   OPEN
       br
-      button#stop STOP
+      button#down CLOSE
 
     == analytics
