@@ -24,4 +24,15 @@ class Door < Sinatra::Base
     RestClient.patch( 'http://cosmicfitclub.ddns.net:5000/api/v1/pin/22', { :value => 0 }.to_json, :content_type => 'application/json', :timeout => 3 ) 
   end
 
+  post('/open', :auth=> 'door') do
+    RestClient.get( 'http://72.231.24.250:86/cm?cmnd=Power%20On', :content_type => 'application/json', :timeout => 3 )
+  end
+
+  post('/close', :auth=> 'door') do
+    RestClient.get( 'http://72.231.24.250:86/cm?cmnd=Power%20Off', :content_type => 'application/json', :timeout => 3 )
+  end
+
+  get('/status', :auth=> 'door') do
+    RestClient.get( 'http://72.231.24.250:86/cm?cmnd=Power', :content_type=>'application/json', :timeout=>3)
+
 end
