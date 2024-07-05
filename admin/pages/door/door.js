@@ -11,8 +11,6 @@ $(document).ready(function() {
            $('#up').css('background', 'rgba(255,255,255,0.2)');
            break;          
        }
-       console.log(resp);
-       $('#status').innerHTML = resp;
     }, 'json');
   }, 1000);
  
