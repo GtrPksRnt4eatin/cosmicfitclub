@@ -1,6 +1,6 @@
 $(document).ready(function() {
   setInterval(function() {
-    $.get('/door/status', function(resp) {
+    $.get('/door/status', 'json', function(resp) {
        console.log(resp);
        $('#status').value = resp;
     });
