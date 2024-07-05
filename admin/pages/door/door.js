@@ -1,9 +1,9 @@
 $(document).ready(function() {
   setInterval(function() {
-    $.get('/door/status', 'json', function(resp) {
+    $.get('/door/status', function(resp) {
        console.log(resp);
        $('#status').innerHTML = resp;
-    });
+    }, 'json');
   }, 1000);
  
   $('#up').on('click', function(e) {
