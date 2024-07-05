@@ -22,6 +22,11 @@ $(document).ready(function() {
   $('#down').on('click', function(e) {
     $.post('/door/close');
     cancelEvent(e);
-  });  
+  });
+
+  $('#momentary').on('click', function(e) {
+    $.post('/door/momentary');
+    cancelEvent(e);
+  });
 
 });
