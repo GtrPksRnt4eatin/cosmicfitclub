@@ -6,7 +6,7 @@ class GroupReservationSlot < Sequel::Model
     one_to_one  :checkin,     :class => :GroupReservationCheckin, :key => :slot_id
 
     def after_save
-      self.reservation.publish_gcal_event
+      self.reservation && self.reservation.publish_gcal_event
     end
 
     def details_view
