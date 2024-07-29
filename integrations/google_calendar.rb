@@ -47,9 +47,15 @@ module Calendar
           { email: "c_1886mhe5itnkig8ekabujeden03cm@resource.calendar.google.com" }
         ]
       )
-
       service.insert_event('sam@cosmicfitclub.com', event)
-
     end
 
+    def Calendar::update_event(event_id)
+      service = self::get_service
+      event = service.get_event('sam@cosmicfitclub.com',event_id)
+      event = yield event
+      result = service.update_event('sam@comicfitclub.com', event_id, event)
+      result.updated
+    end
+    
 end
