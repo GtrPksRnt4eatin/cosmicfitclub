@@ -25,7 +25,20 @@ class GroupReservation < Sequel::Model
   end
 
   def after_create
-    Calendar::create_point_rental(start_time, end_time, customer_string)
+    publish_gcal_event
+  end
+
+  def publish_gcal_event
+    if self.gcal_event_id then
+      Calendar::update_event(self.gcal_event_id) do |event|
+        event.summary = self.customer_string
+        event.start.datetime = start_time.iso8601
+        event.end.datetime = end_time.iso8601
+      end
+    else
+      event_id = Calendar::create_point_rental(start_time, end_time, customer_string)
+      self.update( :gcal_event_id => event_id )
+    end
   end
 
   #################### CALCULATED PROPERTIES ####################
@@ -43,6 +56,7 @@ class GroupReservation < Sequel::Model
   ############################ VIEWS ############################
 
   def customer_string
+    return customer.to_list_string if slots.count == 0
     slots.map { |s| s.customer.nil? ? "TBD" : s.customer.to_list_string }.join(',')
   end
 
