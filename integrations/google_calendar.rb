@@ -47,7 +47,7 @@ module Calendar
           { email: "c_1886mhe5itnkig8ekabujeden03cm@resource.calendar.google.com" }
         ]
       )
-      service.insert_event('sam@cosmicfitclub.com', event)
+      service.insert_event('sam@cosmicfitclub.com', event).id
     end
 
     def Calendar::update_event(event_id)
