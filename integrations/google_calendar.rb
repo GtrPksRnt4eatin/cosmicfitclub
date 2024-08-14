@@ -21,7 +21,7 @@ module Calendar
       service = self::get_service
       start = DateTime.parse(date).beginning_of_day.iso8601
       finish = DateTime.parse(date).end_of_day.iso8601
-      events = service.list_events('sam@cosmicfitclub.com', start, finish)      
+      events = service.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', time_min: start, time_max: finish)      
       events.map do |x| 
         { :start    => x.start.date || x.start.date_time,
           :end      => x.end.date || x.end.date_time,
