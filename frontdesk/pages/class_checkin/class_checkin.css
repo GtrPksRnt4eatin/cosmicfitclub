@@ -297,3 +297,13 @@
   }
 
 }
+
+
+#gcal_events {
+  font-size: 0.5em;
+  text-align: center;
+}
+
+#gcal_events table td {
+  padding: 0 1em;
+}
