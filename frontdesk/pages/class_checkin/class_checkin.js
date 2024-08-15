@@ -76,7 +76,8 @@ $(document).ready( function() {
   if( ! empty(day) ) { data['query_date'] = day; }
   day = moment(data['query_date']).toISOString().slice(0,10);
   history.replaceState({ "day": day }, "", `class_checkin?day=${day}`);
-  build_gcal_url(day);
+  get_calendar_events(day);
+  //build_gcal_url(day);
   
   $(window).bind('popstate', function(e) { 
     data['query_date'] = history.state.day; get_occurrences(); 
@@ -92,6 +93,10 @@ function setup_bindings() {
   rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
   rivets.formatters.no_students = function(val) { return empty(val) ? true : !val.length; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+}
+
+function get_calendar_events(day) {
+  $.get(`/events/gcal?day=${day}`, function(resp) { data.events = resp; }); 
 }
 
 function get_occurrences() {
