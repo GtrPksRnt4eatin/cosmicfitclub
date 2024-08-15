@@ -19,8 +19,8 @@ module Calendar
 
     def Calendar::get_day_events(date)
       service = self::get_service
-      start = DateTime.parse(date + " 00:00 E").beginning_of_day.to_time.iso8601
-      finish = DateTime.parse(date + " 00:00 E").end_of_day.to_time.iso8601
+      start = Time.parse(date).iso8601
+      finish = (Time.parse(date) + 86400).iso8601
       events = service.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', time_min: start, time_max: finish).items    
       events.map do |x| 
         { :start    => x.start.date || x.start.date_time,
