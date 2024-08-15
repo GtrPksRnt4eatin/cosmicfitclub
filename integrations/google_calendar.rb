@@ -29,7 +29,7 @@ module Calendar
           :location => x.location,
           :allday   => x.start.date_time ? false : true
         }
-      end
+      end.reject { |x| x[:allday] || !x[:location] }
     end
 
     def Calendar::get_loft_events
