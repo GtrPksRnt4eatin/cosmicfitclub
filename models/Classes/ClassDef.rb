@@ -60,7 +60,13 @@ class ClassDef < Sequel::Model
   end
 
   def all_reservations
-    self.occurrences.map { |o| o.reservations }.flatten
+    query = %{
+      SELECT * FROM class_occurrences
+      JOIN class_reservations
+      ON class_occurrences.id = class_reservations.class_occurrence_id
+      WHERE class_occurrences.classdef_id = ?
+    }
+    $DB[query, self.id].all
   end
 
   def frequent_flyers
