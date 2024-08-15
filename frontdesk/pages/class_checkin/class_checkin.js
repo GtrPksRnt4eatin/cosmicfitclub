@@ -1,4 +1,4 @@
-ddata['newsheet'] = {
+data['newsheet'] = {
   classdef_id: 0,
   staff_id: 0,
   starttime: null
