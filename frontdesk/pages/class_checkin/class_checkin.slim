@@ -102,5 +102,8 @@ html
             button.create_sheet rv-on-click='ctrl.create_custom' Create
 
       .title
+        div rv-each-event='data.events'
+          span { event.summary }
+      .title
         iframe rv-src="data.gcal_url" style="border:solid 1px #777" width="350" height="200" frameborder="0" scrolling="no"></iframe>
       .spacer
