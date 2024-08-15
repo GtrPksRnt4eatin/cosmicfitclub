@@ -101,14 +101,15 @@ html
           .row
             button.create_sheet rv-on-click='ctrl.create_custom' Create
 
-      .title
-        div rv-each-event='data.events'
-          span
-            | { event.start | shortdt } - { event.end | time2 }
-          span 
-            | { event.summary }
-          span
-            | { event.location }
+      .tile
+        table
+          tr rv-each-event='data.events'
+            td
+              | { event.start | shortdt } - { event.end | time2 }
+            td 
+              | { event.summary }
+            td
+              | { event.location }
       .title
         iframe rv-src="data.gcal_url" style="border:solid 1px #777" width="350" height="200" frameborder="0" scrolling="no"></iframe>
       .spacer
