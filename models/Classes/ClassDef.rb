@@ -71,7 +71,7 @@ class ClassDef < Sequel::Model
 
   def frequent_flyers
     all_reservations.map do |res| 
-      res.customer.try(:to_list_hash)
+      Customer[res[:customer_id]].try(:to_list_hash)
     end.group_by(&:itself).map do |k,v| 
       [k, v.size]
     end.map do |k,v| 
