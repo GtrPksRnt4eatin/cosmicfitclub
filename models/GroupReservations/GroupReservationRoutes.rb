@@ -5,6 +5,10 @@ class GroupReservationRoutes < Sinatra::Base
     content_type :json
   end
 
+  get '/gcal_events' do
+    Calendar::get_day_events(params[:day]).to_json
+  end
+
   post '/' do
     data = JSON.parse(request.body.read)
 
@@ -38,10 +42,6 @@ class GroupReservationRoutes < Sinatra::Base
     res = GroupReservation[params[:id]] or halt(404, "Reservation Not Found")
     res.full_delete
     {}.to_json
-  end
-
-  get '/gcal_events' do
-    Calendar::get_day_events(params[:day]).to_json
   end
 
   #################################### GROUP RESERVATION LISTS ##############################
