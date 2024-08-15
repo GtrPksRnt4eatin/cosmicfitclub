@@ -40,6 +40,10 @@ class GroupReservationRoutes < Sinatra::Base
     {}.to_json
   end
 
+  get '/gcal_events' do
+    Calendar::get_day_events(params[:day]).to_json
+  end
+
   #################################### GROUP RESERVATION LISTS ##############################
 
   get '/range/:from/:to' do
