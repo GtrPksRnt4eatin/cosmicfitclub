@@ -1,4 +1,4 @@
-data['newsheet'] = {
+ddata['newsheet'] = {
   classdef_id: 0,
   staff_id: 0,
   starttime: null
@@ -96,7 +96,7 @@ function setup_bindings() {
 }
 
 function get_calendar_events(day) {
-  $.get(`/events/gcal?day=${day}`, function(resp) { data.events = resp; }); 
+  $.get(`/models/groups/gcal_events?day=${day}`, function(resp) { data.events = resp; }); 
 }
 
 function get_occurrences() {
