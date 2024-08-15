@@ -68,12 +68,7 @@ module Calendar
     def Calendar::update_event(event_id)
       svc = self::get_service
       evt = svc.get_event('sam@cosmicfitclub.com',event_id)
-      #Slack.raw_err("event=#{event_id}",event.class)
-      #yield event
-      evt.summary = "dont have a cow"
-      #Slack.raw_err("event=#{event_id}",event.to_json)
-      result = svc.update_event('sam@comicfitclub.com', event_id, evt)
-      #result.updated
+      svc.update_event('sam@cosmicfitclub.com', event_id, yield evt).updated
     end
     
 end
