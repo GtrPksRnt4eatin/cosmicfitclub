@@ -301,7 +301,11 @@
 
 #gcal_events {
   font-size: 0.5em;
-  text-align: center;
+  line-height: 1.3em;
+}
+
+#gcal_events table {
+  margin: auto;
 }
 
 #gcal_events table td {
