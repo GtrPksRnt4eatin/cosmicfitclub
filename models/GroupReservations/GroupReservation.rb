@@ -57,8 +57,8 @@ class GroupReservation < Sequel::Model
   ############################ VIEWS ############################
 
   def customer_string
-    return customer.to_list_string if slots.count == 0
-    slots.map { |s| s.customer.nil? ? "TBD" : s.customer.to_list_string }.join(',')
+    return customer.name if slots.count == 0
+    slots.map { |s| s.customer.nil? ? "TBD" : s.customer.name }.join(',')
   end
 
   def summary
