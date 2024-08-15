@@ -5,22 +5,13 @@ data['newsheet'] = {
 }
 
 data['query_date'] = moment().toISOString().slice(0,10);
-data['gcal_url'] = "https://calendar.google.com/calendar/embed?height=400&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&showTitle=0&showNav=1&mode=AGENDA&showPrint=0&showTabs=0&showCalendars=0&showTz=0&showDate=0&src=YmtsZWluMjYxQGdtYWlsLmNvbQ&src=M3FrbjViZWRoZjRwZzc2OTk1MzFuaDB0MGNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=c2FtQGNvc21pY2ZpdGNsdWIuY29t&color=%237986CB&color=%23C0CA33&color=%234285F4";
-
-function build_gcal_url(date) {
-  base_url  = "https://calendar.google.com/calendar/embed?";
-  options   = "height=400&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&showTitle=0&showNav=0&mode=AGENDA&showPrint=0&showTabs=0&showCalendars=0&showTz=0&showDate=0&color=%237986CB&color=%23C0CA33&color=%234285F4";
-  date      = `&dates=${moment(date).format("YYYYMMDD")}/${moment(date).format("YYYYMMDD")}`;
-  src_hash  = "&src=YmtsZWluMjYxQGdtYWlsLmNvbQ&src=M3FrbjViZWRoZjRwZzc2OTk1MzFuaDB0MGNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=c2FtQGNvc21pY2ZpdGNsdWIuY29t";
-  data['gcal_url'] = `${base_url}?${options}${date}${src_hash}`;
-}
 
 ctrl = {
   datechange:      function(e,m) {
     data['occurrences'] = [];
     var day = moment(data['query_date']).toISOString().slice(0,10);
     history.pushState({ "day": day }, "", `class_checkin?day=${day}`);
-    build_gcal_url(data['query_date']);
+    get_calendar_events(data['query_date']);
     get_occurrences(); 
   },
   generate_sheets: function(e,m) { 
@@ -77,7 +68,6 @@ $(document).ready( function() {
   day = moment(data['query_date']).toISOString().slice(0,10);
   history.replaceState({ "day": day }, "", `class_checkin?day=${day}`);
   get_calendar_events(day);
-  //build_gcal_url(day);
   
   $(window).bind('popstate', function(e) { 
     data['query_date'] = history.state.day; get_occurrences(); 
