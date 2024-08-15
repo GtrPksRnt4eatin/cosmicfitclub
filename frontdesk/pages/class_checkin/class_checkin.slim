@@ -103,7 +103,12 @@ html
 
       .title
         div rv-each-event='data.events'
-          span { event.summary }
+          span
+            | { event.start | shortdt } - { event.end | time2 }
+          span 
+            | { event.summary }
+          span
+            | { event.location }
       .title
         iframe rv-src="data.gcal_url" style="border:solid 1px #777" width="350" height="200" frameborder="0" scrolling="no"></iframe>
       .spacer
