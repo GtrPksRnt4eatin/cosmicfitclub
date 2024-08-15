@@ -68,7 +68,7 @@ module Calendar
     def Calendar::update_event(event_id)
       svc = self::get_service
       evt = svc.get_event('sam@cosmicfitclub.com',event_id)
-      svc.update_event('sam@cosmicfitclub.com', event_id, yield evt).updated
+      svc.update_event('sam@cosmicfitclub.com', event_id, yield(evt)).updated
     end
     
 end
