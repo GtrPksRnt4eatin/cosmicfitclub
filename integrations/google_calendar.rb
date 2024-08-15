@@ -70,7 +70,7 @@ module Calendar
       event = service.get_event('sam@cosmicfitclub.com',event_id)
       Slack.raw_err("event=#{event_id}",event.class)
       yield event
-      Slack.raw_err("event=#{event_id}",event.class)
+      Slack.raw_err("event=#{event_id}",event.to_json)
       result = service.update_event('sam@comicfitclub.com', event_id, event)
       result.updated
     end
