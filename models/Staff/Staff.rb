@@ -263,9 +263,9 @@ def Staff::payroll(from, to)
 
       case(teacher_row[:staff_id])
         when 18 # Ben 50/50 Loft & Cosmic
-          occurrence_row[:pay]          = 0
-          occurrence_row[:cosmic]       = 0.5 * net_income
-          occurrence_row[:loft_classes] = 0.5 * net_income
+          occurrence_row[:pay]          = default_split
+          occurrence_row[:cosmic]       = 0.5 * (net_income - default_split)
+          occurrence_row[:loft_classes] = 0.5 * (net_income - default_split)
         #when 103 # Sam Defers to Loft
         #  occurrence_row[:pay]          = 0
         #  occurrence_row[:cosmic]       = 0
