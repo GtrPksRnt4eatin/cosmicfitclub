@@ -12,7 +12,7 @@ $(document).ready(function() {
            break;          
        }
     }, 'json');
-  }, 1000);
+  }, 2000);
  
   $('#up').on('click', function(e) {
     $.post('/door/open');
