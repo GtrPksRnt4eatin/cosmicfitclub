@@ -3,6 +3,11 @@ data = {
 }
 
 ctrl = {
+  full_delete: function(e,m) {
+    $.post( '/models/groups/full_delete', { reservation_id: data.reservation_id } )
+     .done( function() { History.back(); } )
+     .fail( function() { alert('Failed to delete'); } )
+  },
   checkout_card: function(e,m) {
     let start = rivets.formatters.classtime(data.reservation.start_time);
     let desc = `Point Rental for ${start}`;
