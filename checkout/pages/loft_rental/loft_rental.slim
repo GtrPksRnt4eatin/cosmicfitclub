@@ -41,7 +41,7 @@ html
             .attrib
               | End:
             .value 
-              input data-format='D M d @ h:i K' rv-datefield='data.selected_timeslot.end'
+              input data-format='D M d @ h:i K' data-increment=30 rv-datefield='data.selected_timeslot.end'
 
           .tuple
             .attrib Apparatus:
@@ -61,7 +61,7 @@ html
           div.add rv-on-click='ctrl.add_slot'
         
           .tuple
-            .attrib # of Slots (max 4):
+            .attrib # of People (max 4):
             .value
               select rv-value='data.num_slots' rv-on-change='ctrl.set_num_slots'
                 option value="0" 0
