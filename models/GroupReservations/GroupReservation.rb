@@ -26,16 +26,7 @@ class GroupReservation < Sequel::Model
 
   def after_create
     publish_gcal_event
-    model = { 
-      :duration => "#{self.duration_sec/60} minute",
-      :start => self.start_time.strftime("%Y/%m/%d %H:%M"),
-      :participants => self.customer_string,
-      :confirmation => self.tag
-    }
-    slots.each do |s|
-      next if s.customer.nil? 
-      Mail.point_reservation(s.customer.email, model)
-    end
+    send_confirmation_email
   end
 
   def publish_gcal_event
@@ -49,6 +40,19 @@ class GroupReservation < Sequel::Model
     else
       event_id = Calendar::create_point_rental(start_time, end_time, customer_string)
       self.update( :gcal_event_id => event_id )
+    end
+  end
+
+  def send_confirmation_email
+    model = {
+      :duration => "#{self.duration_sec/60} minute",
+      :start => self.start_time.strftime("%Y/%m/%d %H:%M"),
+      :participants => self.customer_string,
+      :confirmation => self.tag
+    }
+    slots.each do |s|
+      next if s.customer.nil?
+      Mail.point_reservation(s.customer.email, model)
     end
   end
 
