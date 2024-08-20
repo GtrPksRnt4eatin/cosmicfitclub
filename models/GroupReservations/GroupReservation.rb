@@ -26,7 +26,6 @@ class GroupReservation < Sequel::Model
 
   def after_create
     publish_gcal_event
-    send_confirmation_email
   end
 
   def publish_gcal_event
@@ -43,7 +42,7 @@ class GroupReservation < Sequel::Model
     end
   end
 
-  def send_confirmation_email
+  def send_confirmation_emails
     model = {
       :duration => "#{self.duration_sec/60} minute",
       :start => self.start_time.strftime("%Y/%m/%d %H:%M"),

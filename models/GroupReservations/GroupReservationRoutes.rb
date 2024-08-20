@@ -30,6 +30,7 @@ class GroupReservationRoutes < Sinatra::Base
       )
     end
     
+    res.send_confirmation_emails
     res.to_public_daypilot.to_json
   end
 
