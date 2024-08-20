@@ -67,7 +67,7 @@ module Calendar
 
     def Calendar::delete_event(event_id)
       svc = self::get_service
-      svc.delete_event('sam@cosmicfitclub.com', event_id)
+      svc.delete_event('sam@cosmicfitclub.com', event_id) rescue nil
     end
 
     def Calendar::update_event(event_id)
