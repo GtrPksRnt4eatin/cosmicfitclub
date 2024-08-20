@@ -26,6 +26,16 @@ class GroupReservation < Sequel::Model
 
   def after_create
     publish_gcal_event
+    model = { 
+      :duration => "#{self.duration_sec/60} minute",
+      :start => self.start_time.strftime("%Y/%m/%d %H:%M"),
+      :participants => self.customer_string,
+      :confirmation => self.tag
+    }
+    slots.each do |s|
+      next if s.customer.nil? 
+      Mail.point_reservation(s.customer.email, model)
+    end
   end
 
   def publish_gcal_event
