@@ -5,7 +5,7 @@ data = {
 ctrl = {
   full_delete: function(e,m) {
     $.del( `/models/groups/${data.reservation.id}` )
-     .done( function() { History.back(); } )
+     .done( function() { history.back(); } )
      .fail( function() { alert('Failed to delete'); } )
   },
   checkout_card: function(e,m) {
