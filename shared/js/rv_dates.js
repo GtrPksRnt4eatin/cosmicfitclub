@@ -35,10 +35,12 @@ function include_rivets_dates() {
   rivets.binders['datefield'] = { 
     bind: function(el) {
       let format = el.dataset.format || 'm/d/Y h:i K';
+      let increment = el.dataset.increment || 5;
       this.flatpickrInstance = $(el).flatpickr({
         enableTime: true, 
         altInput: true, 
         altFormat: format,
+        minuteIncrement: increment,
         onChange: function(val) { this.publish(val); if(this.el.onchange) { this.el.onchange(); } }.bind(this)
       })
     },
