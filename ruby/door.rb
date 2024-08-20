@@ -24,7 +24,6 @@ class Door < Sinatra::Base
   end
   
   get('/status', :auth=> 'door') do
-    return
     RestClient.get( 'http://72.231.24.250:86/cm?cmnd=Power', :content_type=>'application/json', :timeout=>1)
   end
 
