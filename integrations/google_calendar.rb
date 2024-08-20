@@ -65,6 +65,11 @@ module Calendar
       service.insert_event('sam@cosmicfitclub.com', event).id
     end
 
+    def Calendar::delete_event(event_id)
+      svc = self::get_service
+      svc.delete_event('sam@cosmicfitclub.com', event_id)
+    end
+
     def Calendar::update_event(event_id)
       svc = self::get_service
       evt = svc.get_event('sam@cosmicfitclub.com', event_id)
