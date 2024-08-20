@@ -71,7 +71,7 @@ $(document).ready( function() {
     if(!userview.logged_in) { userview.onboard(); return;  }
     data.rental.customer_id = userview.id;
     let start = new Date(val.start.value);
-    let end   = new Date( Math.max( start.getTime + 3600000, new Date(val.end.value).getTime);
+    let end   = new Date( Math.max( start.getTime + 3600000, new Date(val.end.value).getTime()));
     data.selected_timeslot = { start: start, end: end };
     data.rental.start_time = start;
     data.rental.end_time = end;
