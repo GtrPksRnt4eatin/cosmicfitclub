@@ -36,7 +36,7 @@ html
             .attrib
               | Start:
             .value.pointer rv-on-click='ctrl.clear_starttime'
-              | {data.selected_timeslot.start | classtime}
+              | {data.selected_timeslot.start | dateformat 'ddd MMM D @ h:mm A' }
           .tuple
             .attrib
               | End:
