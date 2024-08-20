@@ -70,9 +70,11 @@ $(document).ready( function() {
   loft_calendar.ev_sub('on_timeslot_selected', function(val) {
     if(!userview.logged_in) { userview.onboard(); return;  }
     data.rental.customer_id = userview.id;
-    data.selected_timeslot = { start: new Date(val.start.value), end: new Date(val.end.value) };
-    data.rental.start_time = new Date(val.start.value);
-    data.rental.end_time = new Date(val.end.value);
+    let start = new Date(val.start.value);
+    let end   = new Date( Math.max( start.getTime + 3600000, new Date(val.end.value).getTime);
+    data.selected_timeslot = { start: start, end: end };
+    data.rental.start_time = start;
+    data.rental.end_time = end;
     data.num_slots = 1;
     data.rental.slots = [];
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
