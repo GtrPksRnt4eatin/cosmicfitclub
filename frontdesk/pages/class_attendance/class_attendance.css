@@ -208,6 +208,19 @@ td.checkin:hover {
   text-align: right;
 }
 
+#gcal_events {
+  font-size: 0.5em;
+  line-height: 1.3em;
+}
+
+#gcal_events table {
+  margin: auto;
+}
+
+#gcal_events table td {
+  padding: 0 1em;
+}
+
 @media(max-width: 1000px) {
 
   .heading {
