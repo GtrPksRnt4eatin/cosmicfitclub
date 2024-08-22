@@ -171,7 +171,7 @@ function get_occurrence_details() {
   $.get('/models/classdefs/occurrences/' + occurrence_id + '/details', function(resp) { 
     data['occurrence'] = resp; 
     reservation_form.set_occurrence(data['occurrence']);
-    get_calendar_events(data['occurrence'].starttime);
+    get_calendar_events(data['occurrence'].starttime.substring(0,10));
   }, 'json'); 
 }
 
