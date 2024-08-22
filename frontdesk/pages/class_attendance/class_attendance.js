@@ -3,7 +3,8 @@ data = {
   occurrence: {},
   frequent_flyers: [],
   staff_list: [],
-  selected_customer: 0
+  selected_customer: 0,
+  events: []
 }
 
 ctrl = {
@@ -138,6 +139,7 @@ $(document).ready( function() {
     custy_selector.ev_sub('customer_selected', reservation_form.load_customer );
     custy_selector.ev_sub('customer_selected', function(val) { data.selected_customer = val; });
 
+    get_calendar_events(data.occurrence.starttime);
     get_frequent_fliers();
 
 });
@@ -161,6 +163,10 @@ function get_reservations()    {
 
 function get_frequent_fliers() {
   $.get('/models/classdefs/occurrences/' + occurrence_id + '/frequent_flyers', function(resp) { data['frequent_flyers'] = resp; }, 'json'); 
+}
+
+function get_calendar_events(day) {
+  $.get(`/models/groups/gcal_events?day=${day}`, function(resp) { data.events = resp; }); 
 }
 
 function get_occurrence_details() {
