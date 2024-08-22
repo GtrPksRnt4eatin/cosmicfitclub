@@ -105,6 +105,16 @@ html
             td
               select.frequent multiple="true"
                 option rv-each-flyer='data.frequent_flyers' rv-value='flyer.id' rv-on-click='ctrl.choose_flyer'
-                  | {flyer.count} times - { flyer.name } ( {flyer.email} )
+                  | {flyer.count} times - { flyer.name } ( {flyer.email} )'
+
+      .tile#gcal_events
+        table
+          tr rv-each-event='data.events'
+            td
+              | { event.start | shortdt } - { event.end | time2 }
+            td 
+              | { event.summary }
+            td
+              | { event.location }
 
     #popupmenu_container
