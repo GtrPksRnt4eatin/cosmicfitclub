@@ -139,9 +139,7 @@ $(document).ready( function() {
     custy_selector.ev_sub('customer_selected', reservation_form.load_customer );
     custy_selector.ev_sub('customer_selected', function(val) { data.selected_customer = val; });
 
-    get_calendar_events(data.occurrence.starttime);
     get_frequent_fliers();
-
 });
 
 function setup_bindings() {
@@ -170,7 +168,11 @@ function get_calendar_events(day) {
 }
 
 function get_occurrence_details() {
-  $.get('/models/classdefs/occurrences/' + occurrence_id + '/details', function(resp) { data['occurrence'] = resp; reservation_form.set_occurrence(data['occurrence']); }, 'json'); 
+  $.get('/models/classdefs/occurrences/' + occurrence_id + '/details', function(resp) { 
+    data['occurrence'] = resp; 
+    reservation_form.set_occurrence(data['occurrence']);
+    get_calendar_events(data['occurrence'].starttime);
+  }, 'json'); 
 }
 
 function change_teacher(staff_id) {
