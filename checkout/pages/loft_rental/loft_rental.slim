@@ -36,12 +36,12 @@ html
             .attrib
               | Start:
             .value.pointer rv-on-click='ctrl.clear_starttime'
-              | {data.selected_timeslot.start | dateformat 'ddd MMM D @ h:mm A' }
+              | {data.rental.start_time | dateformat 'ddd MMM D @ h:mm A' }
           .tuple
             .attrib
               | End:
             .value 
-              input data-format='D M d @ h:i K' data-increment=30 rv-datefield='data.selected_timeslot.end'
+              input data-format='D M d @ h:i K' data-increment=30 rv-datefield='data.rental.end_time'
 
           .tuple
             .attrib Apparatus:
