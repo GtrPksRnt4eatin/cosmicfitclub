@@ -23,7 +23,8 @@ module Calendar
       finish = (Time.parse(date) + 86400).iso8601
       events = service.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', time_min: start, time_max: finish).items    
       events.map do |x| 
-        { :start    => x.start.date || x.start.date_time,
+        { :gcal_id  => x.id,
+          :start    => x.start.date || x.start.date_time,
           :end      => x.end.date || x.end.date_time,
           :summary  => x.summary,
           :location => x.location,
@@ -36,7 +37,8 @@ module Calendar
       service = self::get_service
       events = service.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', time_min:  DateTime.now.prev_month(1).to_time.iso8601).items
       events.map do |x| 
-        { :start    => x.start.date || x.start.date_time,
+        { :gcal_id  => x.id,
+          :start    => x.start.date || x.start.date_time,
           :end      => x.end.date || x.end.date_time,
           :summary  => x.summary,
           :location => x.location,
