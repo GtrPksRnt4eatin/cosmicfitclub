@@ -56,6 +56,10 @@ class GroupReservation < Sequel::Model
     end
   end
 
+  def send_slack_notification
+    Slack.website_purchases(self.summary)
+  end
+
   #################### CALCULATED PROPERTIES ####################
   
   def duration_sec
