@@ -29,7 +29,8 @@ class GroupReservationRoutes < Sinatra::Base
         :duration_mins        => data['duration_mins'],
       )
     end
-    
+
+    res.send_slack_notification
     res.send_confirmation_emails
     res.to_public_daypilot.to_json
   end
