@@ -69,7 +69,7 @@ LoftCalendar.prototype = {
           if(event.location != "Loft-1F-Front (4)") return;
           let dst_hrs = moment(event.start).isDST() ? 4 : 5; 
           location && this.state.daypilot.events.add({
-            id: 12345,
+            id: event.gcal_id,
             start: moment(event.start).subtract(dst_hrs,'hours').format(),
             end: moment(event.end).subtract(dst_hrs,'hours').format(),
             text: this.admin ? event.summary : "Reserved", 
