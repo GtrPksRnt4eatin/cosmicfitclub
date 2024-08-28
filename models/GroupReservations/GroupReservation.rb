@@ -50,7 +50,6 @@ class GroupReservation < Sequel::Model
       :participants => self.customer_string,
       :confirmation => self.tag
     }
-     Slack.website_purchases( "Slots count: #{slots.count}")
     slots.each do |s|
       next if s.customer.nil?
       Mail.point_reservation(s.customer.email, model)
