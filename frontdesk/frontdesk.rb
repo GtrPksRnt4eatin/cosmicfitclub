@@ -29,8 +29,7 @@ class CFCFrontDesk < Sinatra::Base
 
   get '/bus_times' do
     stop_id = 'MTA_307912'
-    api_key = 'c128716a-aba2-4bcf-8a8e-9d8f0e72be84'
-    RestClient.get( 'https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id}&key=#{api_key}', :content_type=>'application/json', :timeout=>1)
+    RestClient.get( "https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id}&key=#{ENV['BUSTIME_KEY']}", :content_type=>'application/json', :timeout=>1)
   end
   
   not_found do
