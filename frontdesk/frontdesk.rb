@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'rest-client'
 
 class CFCFrontDesk < Sinatra::Base
 
@@ -24,6 +25,13 @@ class CFCFrontDesk < Sinatra::Base
   get( '/event_checkin',        :auth => "frontdesk" ) { render_page :event_checkin    }
   get( '/event_attendance/:id', :auth => "frontdesk" ) { render_page :event_attendance }
   get( '/customer_file',        :auth => "frontdesk" ) { render_page :customer_file    }
+  get( '/dashboard',            :auth => "frontdesk" ) { render_page :dashboard        }
+
+  get '/bus_times' do
+    stop_id = 'MTA_307912'
+    api_key = 'c128716a-aba2-4bcf-8a8e-9d8f0e72be84'
+    RestClient.get( 'https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id}&key=#{api_key}', :content_type=>'application/json', :timeout=>1)
+  end
   
   not_found do
     'This is nowhere to be found.'
