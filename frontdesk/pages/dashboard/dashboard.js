@@ -17,6 +17,8 @@ $(document).ready( function() {
     var m = d.getMinutes();
     var h = d.getHours();
     data.current_time = h + ":" + m + ":" + s;
-  }, 1000)
+  }, 1000);
+
+  var binding = rivets.bind( $('body'), { data: data } );
 
 });
