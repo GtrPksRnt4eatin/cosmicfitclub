@@ -33,7 +33,7 @@ class CFCFrontDesk < Sinatra::Base
     resp = JSON.parse(resp)["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"][0]["MonitoredStopVisit"]
     resp.map! { |x| x["MonitoredVehicleJourney"]["MonitoredCall"] }
     resp.map! { |y| { 
-      :arrival=> Time.parse(y["ExpectedArrivalTime"]), 
+      :arrival=> Time.parse(y["ExpectedArrivalTime"]).strftime("%H"), 
       :arrives_in=> (Time.parse(y["ExpectedArrivalTime"])-Time.now).to_i/60, 
       :stops=> y["Extensions"]["Distances"]["StopsFromCall"]
     } }
