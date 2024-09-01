@@ -180,6 +180,14 @@ class ClassDefRoutes < Sinatra::Base
     ClassdefSchedule.get_all_occurrences_with_exceptions_merged(day.to_s,(day+1).to_s).each do |occ|
       ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0][:id], Time.parse(occ[:starttime].to_s, occ[:location_id]) )
     end
+    Calendar::get_day_events(day.to_s).each do |evt|
+      case evt[:location]
+        when 'Loft-1F-Front (4)'
+          ClassOccurrence.get( 173, 106, Time.parse(evt[:start]), 2 )
+        when 'Loft-1F-Back (8)'
+          ClassOccurrence.get( 178, 106, Time.parse(evt[:start]), 2 )
+      end
+    end
     status 204
     {}.to_json
   end
