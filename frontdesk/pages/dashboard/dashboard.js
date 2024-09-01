@@ -7,7 +7,7 @@ $(document).ready( function() {
   setTimeout(function() {
     $.get('/frontdesk/bus_times', function(resp) { 
       data.bus_times = resp;
-    })
+    }, 'json')
   }, 3000 );
 
 });
