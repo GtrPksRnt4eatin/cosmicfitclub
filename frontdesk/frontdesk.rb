@@ -37,7 +37,7 @@ class CFCFrontDesk < Sinatra::Base
       :arrives_in=> (Time.parse(y["ExpectedArrivalTime"])-Time.now).to_i/60, 
       :stops=> y["Extensions"]["Distances"]["StopsFromCall"]
     } }
-    resp
+    resp.to_json
   end
   
   not_found do
