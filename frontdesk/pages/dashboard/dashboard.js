@@ -1,6 +1,6 @@
 data = {
   bus_times: {},
-  current_time: 
+  current_time: ""
 }
 
 $(document).ready( function() { 
