@@ -183,9 +183,9 @@ class ClassDefRoutes < Sinatra::Base
     Calendar::get_day_events(day.to_s).each do |evt|
       case evt[:location]
         when 'Loft-1F-Front (4)'
-          ClassOccurrence.get( 173, 106, Time.parse(evt[:start]), 2 )
+          ClassOccurrence.get( 173, 106, evt[:start].to_time, 2 )
         when 'Loft-1F-Back (8)'
-          ClassOccurrence.get( 178, 106, Time.parse(evt[:start]), 2 )
+          ClassOccurrence.get( 178, 106, evt[:start].to_time, 2 )
       end
     end
     status 204
