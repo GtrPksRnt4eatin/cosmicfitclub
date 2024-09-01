@@ -20,6 +20,8 @@ html
     .content
 
       .tile
+        div 
+          | Current Time: {data.current_time}
         div rv-each-bus='data.bus_times'
           span
             | A B24 Bus is {bus.stops} stops away. Arriving in {bus.arrives_in} minutes @ {bus.arrival}

@@ -1,5 +1,6 @@
 data = {
-  bus_times: {}
+  bus_times: {},
+  current_time: 
 }
 
 $(document).ready( function() { 
@@ -9,5 +10,13 @@ $(document).ready( function() {
       data.bus_times = resp;
     }, 'json')
   }, 3000 );
+
+  setTimeout(function() {
+    var d = new Date();
+    var s = d.getSeconds();
+    var m = d.getMinutes();
+    var h = d.getHours();
+    data.current_time = h + ":" + m + ":" + s;
+  }, 1000)
 
 });
