@@ -5,13 +5,13 @@ data = {
 
 $(document).ready( function() { 
   
-  setTimeout(function() {
+  setInterval(function() {
     $.get('/frontdesk/bus_times', function(resp) { 
       data.bus_times = resp;
     }, 'json')
   }, 3000 );
 
-  setTimeout(function() {
+  setInterval(function() {
     var d = new Date();
     var s = d.getSeconds();
     var m = d.getMinutes();
