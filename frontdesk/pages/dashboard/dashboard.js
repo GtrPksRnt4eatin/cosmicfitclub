@@ -4,21 +4,19 @@ data = {
 }
 
 $(document).ready( function() { 
-  
-  setInterval(function() {
-    $.get('/frontdesk/bus_times', function(resp) { 
-      data.bus_times = resp;
-    }, 'json')
-  }, 3000 );
-
-  setInterval(function() {
-    var d = new Date();
-    var s = d.getSeconds();
-    var m = d.getMinutes();
-    var h = d.getHours();
-    data.current_time = h + ":" + m + ":" + s;
-  }, 1000);
-
+  updateClock();
+  getBusTimes();
+  setInterval(updateClock, 1000  );
+  setInterval(getBusTimes, 10000 );
   var binding = rivets.bind( $('body'), { data: data } );
-
 });
+
+function updateClock() {
+  data.current_time = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+}
+
+function getBusTimes() {
+  $.get('/frontdesk/bus_times', function(resp) { 
+    data.bus_times = resp;
+  }, 'json')
+}
