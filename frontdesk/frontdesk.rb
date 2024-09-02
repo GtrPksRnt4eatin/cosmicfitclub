@@ -28,7 +28,8 @@ class CFCFrontDesk < Sinatra::Base
   get( '/dashboard',            :auth => "frontdesk" ) { render_page :dashboard        }
 
   get '/bus_times' do
-    stop_id = 'MTA_307912'
+    #stop_id = 'MTA_307912'
+    stop_id = 'MTA_302278'
     resp = RestClient.get( "https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id}&key=#{ENV['BUSTIME_KEY']}", :content_type=>'application/json', :timeout=>1)
     resp = JSON.parse(resp)["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"][0]["MonitoredStopVisit"]
     resp.map! { |x| x["MonitoredVehicleJourney"]["MonitoredCall"] }
