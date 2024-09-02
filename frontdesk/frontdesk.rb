@@ -32,6 +32,7 @@ class CFCFrontDesk < Sinatra::Base
     resp = RestClient.get( "https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id}&key=#{ENV['BUSTIME_KEY']}", :content_type=>'application/json', :timeout=>1)
     resp = JSON.parse(resp)["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"][0]["MonitoredStopVisit"]
     resp.map! { |x| x["MonitoredVehicleJourney"]["MonitoredCall"] }
+    return [] if resp.nil?
     resp.map! { |y| { 
       :arrival=> Time.parse(y["ExpectedArrivalTime"]).strftime("%I:%M %P"), 
       :arrives_in=> (Time.parse(y["ExpectedArrivalTime"])-Time.now).to_i/60, 
