@@ -32,7 +32,7 @@ class CFCFrontDesk < Sinatra::Base
     stop_id_south = 'MTA_302278'
     resp_north = RestClient.get( "https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id_north}&key=#{ENV['BUSTIME_KEY']}", :content_type=>'application/json', :timeout=>1)
     resp_south = RestClient.get( "https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id_south}&key=#{ENV['BUSTIME_KEY']}", :content_type=>'application/json', :timeout=>1)
-    { :north => unpack_bus_times(resp_north) 
+    { :north => unpack_bus_times(resp_north),
       :south => unpack_bus_times)resp_south)
     }.to_json
   end
