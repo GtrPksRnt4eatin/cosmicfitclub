@@ -28,18 +28,24 @@ class CFCFrontDesk < Sinatra::Base
   get( '/dashboard',            :auth => "frontdesk" ) { render_page :dashboard        }
 
   get '/bus_times' do
-    #stop_id = 'MTA_307912'
-    stop_id = 'MTA_302278'
-    resp = RestClient.get( "https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id}&key=#{ENV['BUSTIME_KEY']}", :content_type=>'application/json', :timeout=>1)
+    stop_id_north = 'MTA_307214'
+    stop_id_south = 'MTA_302278'
+    resp_north = RestClient.get( "https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id_north}&key=#{ENV['BUSTIME_KEY']}", :content_type=>'application/json', :timeout=>1)
+    resp_south = RestClient.get( "https://bustime.mta.info/api/siri/stop-monitoring.json?MonitoringRef=#{stop_id_south}&key=#{ENV['BUSTIME_KEY']}", :content_type=>'application/json', :timeout=>1)
+    { :north => unpack_bus_times(resp_north) 
+      :south => unpack_bus_times)resp_south)
+    }.to_json
+  end
+
+  def unpack_bus_times(resp)
     resp = JSON.parse(resp)["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"][0]["MonitoredStopVisit"]
-    resp.map! { |x| x["MonitoredVehicleJourney"]["MonitoredCall"] }
-    return [] if resp.nil?
+    resp.map! { |x| x["MonitoredVehicleJourney"]["MonitoredCall"] } unless resp.nil?
     resp.map! { |y| { 
       :arrival=> Time.parse(y["ExpectedArrivalTime"]).strftime("%I:%M %P"), 
       :arrives_in=> (Time.parse(y["ExpectedArrivalTime"])-Time.now).to_i/60, 
       :stops=> y["Extensions"]["Distances"]["StopsFromCall"]
-    } }
-    resp.to_json
+    } } unless resp.nil?
+    resp
   end
   
   not_found do

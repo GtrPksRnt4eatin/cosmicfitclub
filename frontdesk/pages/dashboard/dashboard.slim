@@ -22,6 +22,17 @@ html
       .tile
         div 
           | Current Time: {data.current_time}
-        div rv-each-bus='data.bus_times'
+
+      .tile
+        div 
+          | Meeker Ave. & Sutton St. headed South To Williamsburg (G & L Trains) 
+        div rv-each-bus='data.bus_times.south'
+          span
+            | A B24 Bus is {bus.stops} stops away. Arriving in {bus.arrives_in} minutes @ {bus.arrival}
+
+      .tile
+        div
+          | Kingsland Ave. & Lombardy St. headed North To Queens/Greenpoint (7 Train)
+        div rv-each-bus='data.bus_times.north'
           span
             | A B24 Bus is {bus.stops} stops away. Arriving in {bus.arrives_in} minutes @ {bus.arrival}
