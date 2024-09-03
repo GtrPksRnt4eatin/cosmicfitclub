@@ -47,6 +47,11 @@ class GroupReservationRoutes < Sinatra::Base
 
   #################################### GROUP RESERVATION LISTS ##############################
 
+  get '/my_upcoming' do
+    content_type :json
+    GroupReservationSlot.where(:customer=>customer).where(:start_time => Date.today..nil).all.map(&:reservation).map(&:to_token)
+  end
+
   get '/range/:from/:to' do
     content_type :json
     GroupReservation.all_between(params[:from], params[:to]).map(&:to_public_daypilot).to_json

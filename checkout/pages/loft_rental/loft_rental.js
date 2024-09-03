@@ -9,7 +9,8 @@ data = {
     slots: []
   },
   selected_timeslot: null,
-  num_slots: 0
+  num_slots: 0,
+  my_reservations: []
 };
 
 var daypilot;
@@ -49,6 +50,7 @@ ctrl = {
   clear_starttime: function(e,m) {
     data.selected_timeslot = null;
   }
+
 }
 
 $(document).ready( function() {
@@ -79,5 +81,7 @@ $(document).ready( function() {
     data.rental.slots = [];
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
   });
+
+  $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations = resp; }, 'json');
 
 });

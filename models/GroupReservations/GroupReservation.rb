@@ -80,7 +80,7 @@ class GroupReservation < Sequel::Model
   end
 
   def summary
-    "#{duration_sec / 60} Min Group Reservation #{self.start_time.strftime("%Y/%m/%d %H:%M")} #{customer_string}"
+    "#{duration_sec / 60.to_i} Min Point Rental on #{self.start_time.strftime("%a %b %d %Y %l:%M %P")} #{customer_string}"
   end
 
   def to_public_daypilot
@@ -113,6 +113,12 @@ class GroupReservation < Sequel::Model
     hsh[:slots]    = self.slots.map(&:details_view)
     hsh[:payments] = self.payments.map(&:to_token)
     hsh
+  end
+
+  def to_token
+    { :id => self.id,
+      :summary => self.summary
+    }
   end
 
   ############################ VIEWS ############################
