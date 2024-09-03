@@ -142,7 +142,7 @@ LoftCalendar.prototype.CSS = `
   
   loft-calendar .calendar_default_event_inner {
     font-size: 10px;
-    line-height: 1.1em;
+    line-height: 1.2em;
     padding: 8px 2px 2px 6px
   }
 
