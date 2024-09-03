@@ -34,6 +34,11 @@ class GroupReservationRoutes < Sinatra::Base
     res.to_public_daypilot.to_json
   end
 
+  get '/my_upcoming' do
+    content_type :json
+    GroupReservationSlot.where(:customer=>customer).where(:start_time => Date.today..nil).all.map(&:reservation).map(&:to_token)
+  end
+
   get '/:id' do
     res = GroupReservation[params[:id]] or halt(404, "Reservation Not Found")
     res.details_view.to_json
@@ -46,11 +51,6 @@ class GroupReservationRoutes < Sinatra::Base
   end
 
   #################################### GROUP RESERVATION LISTS ##############################
-
-  get '/my_upcoming' do
-    content_type :json
-    GroupReservationSlot.where(:customer=>customer).where(:start_time => Date.today..nil).all.map(&:reservation).map(&:to_token)
-  end
 
   get '/range/:from/:to' do
     content_type :json
