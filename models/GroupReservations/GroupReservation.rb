@@ -86,8 +86,9 @@ class GroupReservation < Sequel::Model
   def to_public_daypilot
     { :start => self.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
-      :text  => "Reserved",
-      :id    => self.id
+      :text  => self.customer_id == session['customer_id'] ? customer_string : "Reserved",
+      :id    => self.id,
+      :gcal  => self.gcal_event_id
     }
   end
 
@@ -95,7 +96,8 @@ class GroupReservation < Sequel::Model
     { :start => self.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :text  => customer_string,
-      :id    => self.id
+      :id    => self.id,
+      :gcal  => self.gcal_event_id
     }
   end
 

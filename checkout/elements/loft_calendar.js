@@ -56,6 +56,8 @@ LoftCalendar.prototype = {
      .then(function(resp) { 
         this.state.reservations = resp;
         this.state.reservations.for_each( function(res) {
+          let gcal = this.state.daypilot.find(res.gcal);
+          gcal && this.state.daypilot.remove(gcal);
           this.state.daypilot.events.add(res);
         }.bind(this))
       }.bind(this));
