@@ -84,9 +84,10 @@ class GroupReservation < Sequel::Model
   end
 
   def to_public_daypilot(logged_in=nil)
+    show_text = self.customer_id == logged_in
     { :start => self.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
-      :text  => self.customer_id == logged_in ? customer_string : "Reserved",
+      :text  => show_text ? customer_string : "Reserved",
       :id    => self.id,
       :gcal  => self.gcal_event_id
     }
