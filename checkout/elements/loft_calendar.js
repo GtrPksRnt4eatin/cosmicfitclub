@@ -15,6 +15,7 @@ function LoftCalendar(parent,attr) {
   this.start = (new Date).toISOString().split('T')[0];
   this.end = new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0];
   
+  this.load_styles();
   this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events', 'refresh_data', 'next_wk', 'prev_wk']);
   this.build_daypilot();
   this.refresh_data();
