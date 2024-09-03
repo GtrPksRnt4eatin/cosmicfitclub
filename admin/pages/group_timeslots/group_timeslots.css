@@ -2,19 +2,3 @@
   width: 70vw;
   margin: auto;
 }
-.calendar_default_event_inner {
-  font-size: 0.5vw !important;
-}
-
-.calendar_default_event {
-  text-align: left !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-  line-height: 1em !important;
-}
-
-@media(max-width: 800px) {
-  .calendar_default_event_inner {
-    font-size: 0.8vw !important;
-  }
-}
