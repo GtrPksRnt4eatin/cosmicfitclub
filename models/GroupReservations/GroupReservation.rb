@@ -80,7 +80,7 @@ class GroupReservation < Sequel::Model
   end
 
   def summary
-    "#{duration_sec / 60.to_i} Min Point Rental on #{self.start_time.strftime("%a %b %d %Y %l:%M %P")} #{customer_string}"
+    "#{(duration_sec / 60).to_i} Min Point Rental on #{self.start_time.strftime("%a %b %d %Y @ %l:%M %P")} for #{customer_string}"
   end
 
   def to_public_daypilot
