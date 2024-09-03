@@ -9,7 +9,7 @@ html
     == css [ 'fonts', 'site', 'header', 'menu_colors', 'dashboard' ]
 
     == js_bundle( 'dashboard1', ['jquery', 'rivets', 'lib', 'element', 'ev_channel' ])
-    == js_sync ['/auth/elements/userview', 'dashboard']
+    == js_sync ['/auth/elements/userview', '/checkout/elements/loft_calendar', 'dashboard']
 
   body
 
@@ -36,3 +36,6 @@ html
         div rv-each-bus='data.bus_times.north'
           span
             | A B24 Bus is {bus.stops} stops away. Arriving in {bus.arrives_in} minutes @ {bus.arrival}
+
+      .tile
+        loft-calendar admin='true' view='Day'

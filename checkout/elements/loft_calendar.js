@@ -2,6 +2,7 @@ function LoftCalendar(parent,attr) {
 
   this.selected_timeslot = attr['timeslot'];
   this.admin = attr['admin'];
+  this.viewType = attr['view'] || "Days";
 
   this.state = {
     window_start: null,
@@ -26,7 +27,7 @@ LoftCalendar.prototype = {
 
   build_daypilot: function() {
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
-      viewType: "Days",
+      viewType: this.viewType,
       days: 7,
       cellDuration: 30,
       cellHeight: 20,
@@ -37,11 +38,11 @@ LoftCalendar.prototype = {
       dayEndsHour: 24,
       showAllDayEvents: false,
       eventDeleteHandling: "Disabled",
-      eventMoveHandling: "Disabled",
+      eventMoveHandling:   "Disabled",
       eventResizeHandling: "Disabled",
-      eventHoverHandling: "Disabled",
-      timeRangeSelectedHandling: (this.admin ? "Disabled" : "Enabled"),
-      eventClickHandling: (this.admin ? "Enabled" : "Disabled"),
+      eventHoverHandling:  "Disabled",
+      timeRangeSelectedHandling: (this.admin ? "Disabled" : "Enabled" ),
+      eventClickHandling:        (this.admin ? "Enabled"  : "Disabled"),
       onTimeRangeSelected: this.on_timeslot_selected,
       onEventClick: this.on_reservation_selected,
       onBeforeEventRender:   function(args) {
