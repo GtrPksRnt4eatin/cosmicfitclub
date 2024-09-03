@@ -84,7 +84,11 @@ html
             | Request this Timeslot
       
       .tile rv-hide='data.selected_timeslot'
+        div 
+          | My Upcoming Reservations:
+
         div rv-each-reservation='data.my_reservations'
+          br
           | { reservation.summary }
 
     #popupmenu_container

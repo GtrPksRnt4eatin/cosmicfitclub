@@ -76,11 +76,11 @@ class GroupReservation < Sequel::Model
 
   def customer_string
     return customer.name if slots.count == 0
-    slots.map { |s| s.customer.nil? ? "TBD" : s.customer.name }.join(',')
+    slots.map { |s| s.customer.nil? ? "TBD" : s.customer.name }.join(', ')
   end
 
   def summary
-    "#{(duration_sec / 60).to_i} Min Point Rental on #{self.start_time.strftime("%a %b %d %Y @ %l:%M %P")} for #{customer_string}"
+    "#{(duration_sec / 60).to_i} Min on #{self.start_time.strftime("%a %b %d %Y @ %l:%M %P")} for #{customer_string}"
   end
 
   def to_public_daypilot
