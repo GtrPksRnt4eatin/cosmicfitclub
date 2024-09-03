@@ -83,10 +83,10 @@ class GroupReservation < Sequel::Model
     "#{(duration_sec / 60).to_i} Min on #{self.start_time.strftime("%a %b %d %Y @ %l:%M %P")} for #{customer_string}"
   end
 
-  def to_public_daypilot
+  def to_public_daypilot(logged_in=nil)
     { :start => self.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
-      :text  => self.customer_id == session['customer_id'] ? customer_string : "Reserved",
+      :text  => self.customer_id == logged_in ? customer_string : "Reserved",
       :id    => self.id,
       :gcal  => self.gcal_event_id
     }

@@ -54,7 +54,9 @@ class GroupReservationRoutes < Sinatra::Base
 
   get '/range/:from/:to' do
     content_type :json
-    GroupReservation.all_between(params[:from], params[:to]).map(&:to_public_daypilot).to_json
+    GroupReservation.all_between(params[:from], params[:to]).map { |res| 
+      res.to_public_daypilot(session[:customer_id])
+    }.to_json
   end
 
   get '/range-admin/:from/:to' do
