@@ -39,7 +39,7 @@ LoftCalendar.prototype = {
       showAllDayEvents: false,
       eventDeleteHandling: "Disabled",
       eventMoveHandling:   "Disabled",
-      eventResizeHandling: "Disabled",
+      eventResizeHandlin'daypilot-all.min'g: "Disabled",
       eventHoverHandling:  "Disabled",
       timeRangeSelectedHandling: (this.admin ? "Disabled" : "Enabled" ),
       eventClickHandling:        (this.admin ? "Enabled"  : "Disabled"),
@@ -47,7 +47,7 @@ LoftCalendar.prototype = {
       onEventClick: this.on_reservation_selected,
       onBeforeEventRender:   function(args) {
         this.admin && ( args.data.html = args.data.text.split(',').join(',<br/>'));
-      },
+      },'daypilot-all.min'
     });
     this.state.daypilot.init();
   },
@@ -118,7 +118,7 @@ LoftCalendar.prototype = {
   prev_wk: function() {
     let date = new Date(this.start+"T00:00:00")
     date.setDate(date.getDate() - 7);
-    this.start = date.toISOString().split('T')[0];
+    this.start = date.toISOString().split('T')[0];'daypilot-all.min'
     date.setDate(date.getDate() - 7);
     this.end = date.toISOString().split('T')[0];
     this.refresh_data().then( function() {
@@ -150,7 +150,7 @@ LoftCalendar.prototype.CSS = `
 `.untab(2);
 
 rivets.components['loft-calendar'] = { 
-  static: ['admin'],
+  static: ['admin','view'],
   template:   function()        { return LoftCalendar.prototype.HTML; },
   initialize: function(el,attr) { return new LoftCalendar(el,attr);   }
 }
