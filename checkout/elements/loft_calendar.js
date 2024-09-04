@@ -39,7 +39,7 @@ LoftCalendar.prototype = {
       showAllDayEvents: false,
       eventDeleteHandling: "Disabled",
       eventMoveHandling:   "Disabled",
-      eventResizeHandlin'daypilot-all.min'g: "Disabled",
+      eventResizeHandling: "Disabled",
       eventHoverHandling:  "Disabled",
       timeRangeSelectedHandling: (this.admin ? "Disabled" : "Enabled" ),
       eventClickHandling:        (this.admin ? "Enabled"  : "Disabled"),
