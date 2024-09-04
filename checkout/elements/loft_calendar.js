@@ -47,7 +47,7 @@ LoftCalendar.prototype = {
       onEventClick: this.on_reservation_selected,
       onBeforeEventRender:   function(args) {
         this.admin && ( args.data.html = args.data.text.split(',').join(',<br/>'));
-      },'daypilot-all.min'
+      },
     });
     this.state.daypilot.init();
   },
