@@ -45,7 +45,7 @@ html
           ul.tabs
             li.current data-tab='info'  Info
             li data-tab='class_passes'  Class Passes
-            li data-tab='subscriptions' Subscriptions
+            li data-tab='rentals'       Point Rentals
             li data-tab='events'        Events
             li data-tab='class_checkin' Class History
             li data-tab='page_three'    Miscelaneous Charge
@@ -240,6 +240,10 @@ html
                   td
                     | { trans.running_total }
                   
+          #rentals.tab-content
+            rv-each-rental='data.customer.rentals'
+              div 
+                | rental.summary
 
           #subscriptions.tab-content
 
