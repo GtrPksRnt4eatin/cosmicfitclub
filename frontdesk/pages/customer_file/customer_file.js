@@ -299,12 +299,13 @@ function clear_reservations() {
 
 function refresh_customer_data() {
   if(data.customer.id === undefined) return;
-  $.get(`/models/customers/${data.customer.id}`,                 function(resp) { data.customer_info              = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/payment_sources`, function(resp) { data.customer.payment_sources   = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/membership`,      function(resp) { data.customer.membership_status = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/event_history`,   function(resp) { data.customer.event_history     = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/family`,          function(resp) { data.customer.family            = resp; }, 'json');
-  $.get(`/models/customers/${data.customer.id}/subscriptions`,   function(resp) { data.customer.subscriptions     = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}`,                  function(resp) { data.customer_info              = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/payment_sources`,  function(resp) { data.customer.payment_sources   = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/membership`,       function(resp) { data.customer.membership_status = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/event_history`,    function(resp) { data.customer.event_history     = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/family`,           function(resp) { data.customer.family            = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/subscriptions`,    function(resp) { data.customer.subscriptions     = resp; }, 'json');
+  $.get(`/models/customers/${data.customer.id}/upcoming_rentals`, function(resp) { data.customer.rentals           = resp; }, 'json');
   refresh_pass_data();
   get_customer_payments();
   refresh_reservations();
