@@ -15,6 +15,10 @@ class GroupReservation < Sequel::Model
     end.compact
   end
 
+  def GroupReservation.upcoming_for(customer_id)
+    GroupReservationSlot.where(:customer_id=>customer_id).where(:start_time => Date.today..nil).all.map(&:reservation).map(&:to_token)
+  end
+
   def full_delete
     Calendar::delete_event(self.gcal_event_id)
     self.slots.each { |s| s.delete } 
