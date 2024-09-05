@@ -240,10 +240,9 @@ html
                   td
                     | { trans.running_total }
                   
-          #rentals.tab-content
-            rv-each-rental='data.customer.rentals'
-              div 
-                | rental.summary
+          #rentals.tab-content 
+            div rv-each-rental='data.customer.rentals'
+              | rental.summary
 
           #subscriptions.tab-content
 
