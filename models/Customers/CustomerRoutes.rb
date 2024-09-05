@@ -169,6 +169,14 @@ class CustomerRoutes < Sinatra::Base
 
   #################################### CLASS PASSES ####################################
 
+  ################################### POINT RENTALS ####################################
+
+  get '/:id/upcoming_rentals' do
+    GroupReservations.upcoming_for(params[:id].to_i).to_json
+  end
+  
+  ################################### POINT RENTALS ####################################
+
   #################################### SUBSCRIPTION ####################################
 
   get '/:id/subscription' do
