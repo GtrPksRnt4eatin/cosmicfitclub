@@ -14,8 +14,8 @@ $(document).ready(function() {
     let frame = new Image();
     frame.src = "/vidpromo_bg.png"
     canvasInterval = window.setInterval(() => {
-      ctx.drawImage(video,0,0,1080,1920);
-      frame.complete && frame.drawImage(logo,0,0,500,1000);
+      ctx.drawImage(video,0,0);
+      frame.complete && ctx.drawImage(frame,0,0,1080,1350);
     }, 1000 / fps);
   }
 
