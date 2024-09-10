@@ -66,6 +66,10 @@ class GroupReservationRoutes < Sinatra::Base
 
   #################################### GROUP RESERVATION LISTS ##############################
 
+  post '/gcal_updates' do
+
+  end
+
   error do
     puts "ERRORRRRRRRR!!!!!!!!"
     Slack.err( 'Group Reservation Route Error', env['sinatra.error'] )

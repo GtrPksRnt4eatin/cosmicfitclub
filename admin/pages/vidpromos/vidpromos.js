@@ -1,7 +1,18 @@
 $(document).ready(function() {
+
   const canvas = document.getElementById("canvas");
   const video = document.getElementById("video");
   const ctx = canvas.getContext("2d");
+
+  video.onpause = function() { clearInterval(canvasInterval); }
+  video.onended = function() { clearInterval(canvasInterval); }
+  video.onplay  = function() { 
+    clearInterval(canvasInterval);
+    canvasInterval = window.setInterval(() => {
+      ctx.drawImage(video,0,0,1080,1920);
+    }, 1000 / fps);
+  }
+
 });
 
 function readURL(input) {
@@ -9,7 +20,6 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         var file = input.files[0];
         var url = URL.createObjectURL(file);
-        console.log(url);
         var reader = new FileReader();
         reader.onload = function() {
             video.src = url;
