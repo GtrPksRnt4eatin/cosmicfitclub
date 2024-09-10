@@ -4,6 +4,8 @@ $(document).ready(function() {
   const video = document.getElementById("video");
   const ctx = canvas.getContext("2d");
 
+  canvasInterval = 0; 
+
   video.onpause = function() { clearInterval(canvasInterval); }
   video.onended = function() { clearInterval(canvasInterval); }
   video.onplay  = function() { 
