@@ -11,11 +11,11 @@ $(document).ready(function() {
   video.onended = function() { clearInterval(canvasInterval); }
   video.onplay  = function() { 
     clearInterval(canvasInterval);
-    let logo = new Image();
-    logo.src = "logo.png"
+    let frame = new Image();
+    frame.src = "/vidpromo_bg.png"
     canvasInterval = window.setInterval(() => {
       ctx.drawImage(video,0,0,1080,1920);
-      logo.complete && ctx.drawImage(logo,0,0,500,500);
+      frame.complete && frame.drawImage(logo,0,0,500,1000);
     }, 1000 / fps);
   }
 
