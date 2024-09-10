@@ -48,6 +48,7 @@ class CFCAdmin < Sinatra::Base
   get( '/social_integrations',   :auth=> 'admin'      ) { render_page :social_integrations }
   get( '/classdef_schedule',     :auth=> 'admin'      ) { render_page :classdef_schedule   }
   get( '/group_timeslots',       :auth=> 'admin'      ) { render_page :group_timeslots     }
+  get( '/vidpromos',             :auth=> 'admin'      ) { render_page :vidpromos           }
 
   get( '/payroll',               :auth=> 'payroll'    ) { render_page :payroll             }
   get( '/payrolls',              :auth=> 'payroll'    ) { render_page :payrolls            }

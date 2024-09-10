@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+html
+  
+  title Video Promo Generator
+  
+  head
+    == css ['fonts', 'site', 'header', 'chosen-ems', 'admin/videopromos']
+    == js  ['jquery', 'jquery.chosen.min', 'rivets', 'lib']
+    == js  ['element', 'ev_channel', '/auth/elements/userview', 'admin/videopromos']
+
+  body
+    #stars
+
+    .tile
+      canvas#canvas
+      video#video style="display: hidden;"
+      input#file type="file" onchange="readURL(this);" />
