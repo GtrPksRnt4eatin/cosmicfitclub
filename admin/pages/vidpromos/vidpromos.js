@@ -18,7 +18,7 @@ $(document).ready(function() {
   video = document.getElementById("video");
   ctx = canvas.getContext("2d");
 
-  stream = new MediaStream([...canvas.captureStream(60).getVideoTracks()[0], ...video.captureStream().getAudioTracks()[0]]);
+  stream = new MediaStream([canvas.captureStream(60).getVideoTracks()[0], video.captureStream().getAudioTracks()[0]]);
   recorder = new MediaRecorder(stream);
 
   canvasInterval = 0; 
