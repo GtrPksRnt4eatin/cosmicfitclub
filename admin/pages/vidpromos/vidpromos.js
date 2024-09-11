@@ -13,19 +13,20 @@ $(document).ready(function() {
   canvasInterval = 0; 
   fps = 60;
 
+  let frame = new Image();
+  frame.src = "/vidpromo_bg.png"
+
   video.onpause = function() { clearInterval(canvasInterval); }
   video.onended = function() { clearInterval(canvasInterval); }
   video.onplay  = function() { 
     clearInterval(canvasInterval);
-    let frame = new Image();
-    frame.src = "/vidpromo_bg.png"
     canvasInterval = window.setInterval(() => {
       ctx.drawImage(video,dX,dY,dWidth,dHeight);
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);
       ctx.textAlign = "center";
       ctx.fillStyle = "white";
       ctx.font = "48pt Industry-Bold"
-      ctx.fillText(urlText, 0, 1200);
+      ctx.fillText(urlText, 640, 1250);
     }, 1000 / fps);
   }
 
