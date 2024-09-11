@@ -8,6 +8,7 @@ $(document).ready(function() {
   dY = 0;
   dWidth = 1080;
   dHeight = 1350;
+  urlText = "http://cosmicfitclub.com"
 
   canvasInterval = 0; 
   fps = 60;
@@ -21,6 +22,8 @@ $(document).ready(function() {
     canvasInterval = window.setInterval(() => {
       ctx.drawImage(video,dX,dY,dWidth,dHeight);
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);
+      ctx.textAlign = "center";
+      ctx.fillText(urlText, 0, 1200);
     }, 1000 / fps);
   }
 
