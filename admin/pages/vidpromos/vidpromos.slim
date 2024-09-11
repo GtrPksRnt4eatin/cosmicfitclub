@@ -18,8 +18,11 @@ html
         input#file type="file" onchange="readURL(this);"
         video#video controls="true" loop="true" style="height: 10vh;"
         span.sliders
-        label { data.dX}
+        label dX: { data.dX }
         input type="range" rv-value="data.dX" min="0" max="55"
+        label dY: { data.dY }
         input type="range" rv-value="data.dY" min="0" max="250"
-        input type="range" rv-value="data.dWidth" min="970" max="2160" 
+        label dWidth: { data.dWidth }
+        input type="range" rv-value="data.dWidth" min="970" max="2160"
+        label dHeight: { data.dHeight } 
         input type="range" rv-value="data.dHeight" min="970" max="2160"
