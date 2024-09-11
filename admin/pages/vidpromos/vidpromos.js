@@ -19,7 +19,7 @@ $(document).ready(function() {
   ctx = canvas.getContext("2d");
 
   stream = canvas.captureStream(60);
-  recorder = new MediaRecorder(stream);
+  recorder = new MediaRecorder(stream, { videoBitsPerSecond: 5000000 });
 
   canvasInterval = 0; 
   fps = 60;
