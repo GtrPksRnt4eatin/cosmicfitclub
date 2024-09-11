@@ -29,7 +29,7 @@ $(document).ready(function() {
       ctx.drawImage(video,data.dX,data.dY,data.dWidth,data.dHeight);
       lines = data.textLines.split("\n");
       maskHeight = 100 + (lines.length * 50);
-      ctx.fillStyle = `rgb(0 0 0 / {data.opacity}`;
+      ctx.fillStyle = `rgb(0 0 0 / ${data.opacity}`;
       ctx.fillRect(0,1350-maskHeight, 1080, maskHeight); 
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);     
       ctx.textAlign = "center";
