@@ -15,6 +15,7 @@ $(document).ready(function() {
 
   let frame = new Image();
   frame.src = "/vidpromo_bg.png"
+  frame.onload = function() { ctx.drawImage(frame,0,0,1080,1350); }
 
   video.onpause = function() { clearInterval(canvasInterval); }
   video.onended = function() { clearInterval(canvasInterval); }
