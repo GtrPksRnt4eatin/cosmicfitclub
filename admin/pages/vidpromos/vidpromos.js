@@ -14,11 +14,11 @@ ctrl = {
 
 $(document).ready(function() {
 
-  const canvas = document.getElementById("canvas");
-  const stream = canvas.captureStream(60);
-  const recorder = new MediaRecorder(stream);
-  const video = document.getElementById("video");
-  const ctx = canvas.getContext("2d");
+  canvas = document.getElementById("canvas");
+  stream = canvas.captureStream(60);
+  recorder = new MediaRecorder(stream);
+  video = document.getElementById("video");
+  ctx = canvas.getContext("2d");
 
   canvasInterval = 0; 
   fps = 60;
