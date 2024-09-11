@@ -27,7 +27,7 @@ $(document).ready(function() {
       ctx.textAlign = "center";
       ctx.fillStyle = "white";
       ctx.font = "42pt Industry-Bold"
-      ctx.fillText(urlText, 540, 1330);
+      ctx.fillText(urlText, 540, 1325);
     }, 1000 / fps);
   }
 
