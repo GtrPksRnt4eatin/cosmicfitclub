@@ -68,7 +68,7 @@ $(document).ready(function() {
     link.download = "Promo.mp4";
     $("body").append(link);
     link.click();
-    window.URL.revokeObjectURL(url);
+    window.URL.revokeObjectURL(blobUrl);
     link.remove();
     data.chunks = [];
   }
