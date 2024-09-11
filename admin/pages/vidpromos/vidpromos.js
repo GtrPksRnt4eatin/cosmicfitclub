@@ -30,10 +30,15 @@ $(document).ready(function() {
       lines = data.textLines.split("\n");
       maskHeight = 100 + (lines.length * 50);
       ctx.fillStyle = `rgb(0 0 0 / ${data.opacity}`;
-      ctx.fillRect(0,1350-maskHeight, 1080, maskHeight); 
-      frame.complete && ctx.drawImage(frame,0,0,1080,1350);     
+      ctx.fillRect(0,1350-maskHeight, 1080, maskHeight);
       ctx.textAlign = "center";
       ctx.fillStyle = "white";
+      ctx.font = "40pt Industry-Light";
+      lines.reverse().forEach(function(line,index) {
+        ctx.fillText(line, 540, 1300-(index*50))
+      });
+      frame.complete && ctx.drawImage(frame,0,0,1080,1350);     
+
       ctx.font = "40pt Industry-Bold";
       ctx.fillText(data.urlText, 540, 1325);
     }, 1000 / fps);
