@@ -23,6 +23,8 @@ $(document).ready(function() {
       ctx.drawImage(video,dX,dY,dWidth,dHeight);
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);
       ctx.textAlign = "center";
+      ctx.fillStyle = "white";
+      ctx.font = "48pt Industry-Bold"
       ctx.fillText(urlText, 0, 1200);
     }, 1000 / fps);
   }
