@@ -3,7 +3,8 @@ data = {
   dY: 0,
   dWidth: 1080,
   dHeight: 1350,
-  urlText: "http://cosmicfitclub.com"
+  urlText: "http://cosmicfitclub.com",
+  textLines: ""
 }
 
 $(document).ready(function() {
@@ -26,6 +27,9 @@ $(document).ready(function() {
     canvasInterval = window.setInterval(() => {
       ctx.drawImage(video,data.dX,data.dY,data.dWidth,data.dHeight);
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);
+      lines = data.textLines.split("\n");
+      maskHeight = lines.count * 50;
+      ctx.fillRect(0,1350-maskHeight, 1080, maskHeight);      
       ctx.textAlign = "center";
       ctx.fillStyle = "white";
       ctx.font = "40pt Industry-Bold";
