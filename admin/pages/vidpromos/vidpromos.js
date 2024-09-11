@@ -35,7 +35,7 @@ $(document).ready(function() {
       ctx.fillStyle = "white";
       ctx.font = "40pt Industry-Light";
       lines.reverse().forEach(function(line,index) {
-        ctx.fillText(line, 540, 1300-(index*50))
+        ctx.fillText(line, 540, 1250-(index*50))
       });
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);     
 
