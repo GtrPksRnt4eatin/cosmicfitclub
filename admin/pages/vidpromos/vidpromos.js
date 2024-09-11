@@ -4,6 +4,11 @@ $(document).ready(function() {
   const video = document.getElementById("video");
   const ctx = canvas.getContext("2d");
 
+  dX = 0;
+  dY = 0;
+  dWidth = 1080;
+  dheight = 1350;
+
   canvasInterval = 0; 
   fps = 60;
 
@@ -14,7 +19,7 @@ $(document).ready(function() {
     let frame = new Image();
     frame.src = "/vidpromo_bg.png"
     canvasInterval = window.setInterval(() => {
-      ctx.drawImage(video,0,0,1080,1350);
+      ctx.drawImage(video,dX,dY,dWidth,dHeight);
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);
     }, 1000 / fps);
   }
