@@ -1,0 +1,9 @@
+.tile.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+}
