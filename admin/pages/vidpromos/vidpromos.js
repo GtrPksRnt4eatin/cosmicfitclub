@@ -5,12 +5,25 @@ data = {
   dHeight: 1350,
   urlText: "http://cosmicfitclub.com",
   textLines: "",
-  opacity: 0.6
+  opacity: 0.6,
+  chunks: []
+}
+
+ctrl = {
+  record: function() {
+    video.pause();
+    video.currentTime = 0;
+    video.load();
+    video.play();
+    recorder.start();
+  }
 }
 
 $(document).ready(function() {
 
   const canvas = document.getElementById("canvas");
+  const stream = canvas.captureStream(60);
+  const recorder = new MediaRecorder(stream);
   const video = document.getElementById("video");
   const ctx = canvas.getContext("2d");
 
@@ -22,7 +35,10 @@ $(document).ready(function() {
   frame.onload = function() { ctx.drawImage(frame,0,0,1080,1350); }
 
   video.onpause = function() { clearInterval(canvasInterval); }
-  video.onended = function() { clearInterval(canvasInterval); }
+  video.onended = function() { 
+    clearInterval(canvasInterval); 
+    if(recorder.state == 'recording') { recorder.stop(); }
+  }
   video.onplay  = function() { 
     clearInterval(canvasInterval);
     canvasInterval = window.setInterval(() => {
@@ -46,7 +62,21 @@ $(document).ready(function() {
     }, 1000 / fps);
   }
 
-  rivets.bind(document.body, { data: data } );
+  recorder.ondataavailable = function(e) { chunks.push(e.data); }
+  recorder.onstop = function(e) {
+    let blob = new Blob(chunks, { 'type': 'video/mp4' });
+    let blobUrl = URL.createObjectURL(myBlob);
+    var link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = "Promo.mp4";
+    $("body").append(link);
+    link.click();
+    window.URL.revokeObjectURL(url);
+    link.remove();
+    chunks = [];
+  }
+
+  rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
 });
 
