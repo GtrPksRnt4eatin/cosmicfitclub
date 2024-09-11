@@ -28,7 +28,7 @@ $(document).ready(function() {
       ctx.drawImage(video,data.dX,data.dY,data.dWidth,data.dHeight);
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);
       lines = data.textLines.split("\n");
-      maskHeight = lines.count * 50;
+      maskHeight = lines.length * 50;
       ctx.fillRect(0,1350-maskHeight, 1080, maskHeight);      
       ctx.textAlign = "center";
       ctx.fillStyle = "white";
