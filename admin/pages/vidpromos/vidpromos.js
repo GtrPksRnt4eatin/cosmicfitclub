@@ -75,7 +75,7 @@ $(document).ready(function() {
 
 function readURL(input) {
     //THE METHOD THAT SHOULD SET THE VIDEO SOURCE
-    video.addAttribute("loop");
+    video.setAttribute("loop", true);
     if (input.files && input.files[0]) {
         var file = input.files[0];
         var url = URL.createObjectURL(file);
