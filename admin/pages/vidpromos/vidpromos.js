@@ -26,8 +26,8 @@ $(document).ready(function() {
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);
       ctx.textAlign = "center";
       ctx.fillStyle = "white";
-      ctx.font = "48pt Industry-Bold"
-      ctx.fillText(urlText, 540, 1300);
+      ctx.font = "42pt Industry-Bold"
+      ctx.fillText(urlText, 540, 1330);
     }, 1000 / fps);
   }
 
