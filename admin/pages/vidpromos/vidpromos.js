@@ -15,10 +15,11 @@ ctrl = {
 $(document).ready(function() {
 
   canvas = document.getElementById("canvas");
-  stream = canvas.captureStream(60);
-  recorder = new MediaRecorder(stream);
   video = document.getElementById("video");
   ctx = canvas.getContext("2d");
+
+  stream = new MediaStream([...canvas.captureStream(60).getVideoTracks()[0], ...video.captureStream().getAudioTracks()[0]]);
+  recorder = new MediaRecorder(stream);
 
   canvasInterval = 0; 
   fps = 60;
