@@ -55,10 +55,10 @@ $(document).ready(function() {
     }, 1000 / fps);
   }
 
-  recorder.ondataavailable = function(e) { chunks.push(e.data); }
+  recorder.ondataavailable = function(e) { data.chunks.push(e.data); }
   recorder.onstop = function(e) {
-    let blob = new Blob(chunks, { 'type': 'video/mp4' });
-    let blobUrl = URL.createObjectURL(myBlob);
+    let blob = new Blob(data.chunks, { 'type': 'video/mp4' });
+    let blobUrl = URL.createObjectURL(blob);
     var link = document.createElement("a");
     link.href = blobUrl;
     link.download = "Promo.mp4";
@@ -66,7 +66,7 @@ $(document).ready(function() {
     link.click();
     window.URL.revokeObjectURL(url);
     link.remove();
-    chunks = [];
+    data.chunks = [];
   }
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
