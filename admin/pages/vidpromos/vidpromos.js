@@ -28,18 +28,20 @@ $(document).ready(function() {
     canvasInterval = window.setInterval(() => {
       ctx.drawImage(video,data.dX,data.dY,data.dWidth,data.dHeight);
       lines = data.textLines.split("\n");
-      maskHeight = 150 + (lines.length * 55);
-      ctx.fillStyle = `rgb(0 0 0 / ${data.opacity}`;
-      ctx.fillRect(0,1350-maskHeight, 1080, maskHeight);
-      ctx.textAlign = "center";
-      ctx.fillStyle = "white";
-      ctx.font = "40pt Industry-Medium";
-      lines.reverse().forEach(function(line,index) {
-        ctx.fillText(line, 540, 1200-(index*55))
-      });
-      frame.complete && ctx.drawImage(frame,0,0,1080,1350);     
-
-      ctx.font = "40pt Industry-Bold";
+      if(lines.length>0) {
+        maskHeight = 150 + (lines.length * 55);
+        ctx.fillStyle = `rgb(0 0 0 / ${data.opacity}`;
+        ctx.fillRect(0,1350-maskHeight, 1080, maskHeight);
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+        ctx.font = "40px Industry-Medium";
+        lines.reverse().forEach(function(line,index) {
+          if(index == lines.length-1) { ctx.font = "40px Industry-Bold"; }
+          ctx.fillText(line, 540, 1200-(index*55))
+        });
+      }
+      frame.complete && ctx.drawImage(frame,0,0,1080,1350);
+      ctx.font = "40px Industry-Bold";
       ctx.fillText(data.urlText, 540, 1325);
     }, 1000 / fps);
   }
