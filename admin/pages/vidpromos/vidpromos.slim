@@ -17,7 +17,9 @@ html
       span.controls
         input#file type="file" onchange="readURL(this);"
         video#video controls="true" loop="true" style="height: 10vh;"
-        input type="range" rv-value="data.dX"
-        input type="range" rv-value="data.dY"
-        input type="range" rv-value="data.dWidth"
-        input type="range" rv-value="data.dHeight"
+        span.sliders
+        label { data.dX}
+        input type="range" rv-value="data.dX" min="0" max="55"
+        input type="range" rv-value="data.dY" min="0" max="250"
+        input type="range" rv-value="data.dWidth" min="970" max="2160" 
+        input type="range" rv-value="data.dHeight" min="970" max="2160"
