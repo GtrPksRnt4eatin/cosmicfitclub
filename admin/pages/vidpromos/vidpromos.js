@@ -33,6 +33,9 @@ $(document).ready(function() {
     clearInterval(canvasInterval); 
     if(recorder.state == 'recording') { recorder.stop(); }
   }
+  video.onloadeddata = function() {
+    stream.addTrack(video.captureStream().getAudioTracks()[0])
+  }
   video.onplay  = function() { 
     clearInterval(canvasInterval);
     canvasInterval = window.setInterval(() => {
@@ -93,8 +96,6 @@ function record() {
     video.removeAttribute("loop");
     video.pause();
     video.currentTime = 0;
-    video.load();
     video.play();
-    stream.addTrack(video.captureStream().getAudioTracks()[0])
     recorder.start();
   }
