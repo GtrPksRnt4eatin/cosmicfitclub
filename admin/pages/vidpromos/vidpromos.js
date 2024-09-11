@@ -10,13 +10,7 @@ data = {
 }
 
 ctrl = {
-  record: function() {
-    video.pause();
-    video.currentTime = 0;
-    video.load();
-    video.play();
-    recorder.start();
-  }
+  record: 
 }
 
 $(document).ready(function() {
@@ -93,3 +87,11 @@ function readURL(input) {
         reader.readAsDataURL(file);
     }
 }
+
+function record() {
+    video.pause();
+    video.currentTime = 0;
+    video.load();
+    video.play();
+    recorder.start();
+  }
