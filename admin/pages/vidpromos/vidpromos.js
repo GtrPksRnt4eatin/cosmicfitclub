@@ -1,14 +1,16 @@
+data = {
+  dX: 0,
+  dY: 0,
+  dWidth: 1080,
+  dHeight: 1350,
+  urlText: "http://cosmicfitclub.com"
+}
+
 $(document).ready(function() {
 
   const canvas = document.getElementById("canvas");
   const video = document.getElementById("video");
   const ctx = canvas.getContext("2d");
-
-  dX = 0;
-  dY = 0;
-  dWidth = 1080;
-  dHeight = 1350;
-  urlText = "http://cosmicfitclub.com"
 
   canvasInterval = 0; 
   fps = 60;
@@ -22,14 +24,16 @@ $(document).ready(function() {
   video.onplay  = function() { 
     clearInterval(canvasInterval);
     canvasInterval = window.setInterval(() => {
-      ctx.drawImage(video,dX,dY,dWidth,dHeight);
+      ctx.drawImage(video,data.dX,data.dY,data.dWidth,data.dHeight);
       frame.complete && ctx.drawImage(frame,0,0,1080,1350);
       ctx.textAlign = "center";
       ctx.fillStyle = "white";
-      ctx.font = "42pt Industry-Bold"
-      ctx.fillText(urlText, 540, 1325);
+      ctx.font = "40pt Industry-Bold";
+      ctx.fillText(data.urlText, 540, 1325);
     }, 1000 / fps);
   }
+
+  rivets.bind(document.body, { data: data } );
 
 });
 
