@@ -4,7 +4,8 @@ data = {
   dWidth: 1080,
   dHeight: 1350,
   urlText: "http://cosmicfitclub.com",
-  textLines: ""
+  textLines: "",
+  opacity: 0.6
 }
 
 $(document).ready(function() {
@@ -26,10 +27,11 @@ $(document).ready(function() {
     clearInterval(canvasInterval);
     canvasInterval = window.setInterval(() => {
       ctx.drawImage(video,data.dX,data.dY,data.dWidth,data.dHeight);
-      frame.complete && ctx.drawImage(frame,0,0,1080,1350);
       lines = data.textLines.split("\n");
-      maskHeight = lines.length * 50;
-      ctx.fillRect(0,1350-maskHeight, 1080, maskHeight);      
+      maskHeight = 100 + (lines.length * 50);
+      ctx.fillStyle = `rgb(0 0 0 / {data.opacity}`;
+      ctx.fillRect(0,1350-maskHeight, 1080, maskHeight); 
+      frame.complete && ctx.drawImage(frame,0,0,1080,1350);     
       ctx.textAlign = "center";
       ctx.fillStyle = "white";
       ctx.font = "40pt Industry-Bold";
