@@ -7,7 +7,7 @@ $(document).ready(function() {
   dX = 0;
   dY = 0;
   dWidth = 1080;
-  dheight = 1350;
+  dHeight = 1350;
 
   canvasInterval = 0; 
   fps = 60;
