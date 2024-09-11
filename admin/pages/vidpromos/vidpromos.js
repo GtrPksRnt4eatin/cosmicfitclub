@@ -75,6 +75,7 @@ $(document).ready(function() {
 
 function readURL(input) {
     //THE METHOD THAT SHOULD SET THE VIDEO SOURCE
+    video.addAttribute("loop");
     if (input.files && input.files[0]) {
         var file = input.files[0];
         var url = URL.createObjectURL(file);
@@ -88,6 +89,7 @@ function readURL(input) {
 }
 
 function record() {
+    video.removeAttribute("loop");
     video.pause();
     video.currentTime = 0;
     video.load();
