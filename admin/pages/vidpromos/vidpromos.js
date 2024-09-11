@@ -10,7 +10,6 @@ data = {
 }
 
 ctrl = {
-  record: 
 }
 
 $(document).ready(function() {
