@@ -204,7 +204,7 @@ html
                         button rv-on-click='ctrl.redeem_gift' Redeem Gift Cert
               tr
                 th
-                  | Comp Passes
+                  | Adjustments
                 td
                   table
                     tr
@@ -213,7 +213,7 @@ html
                     tr  
                       td
                         select.num value='0' rv-value='data.num_comp_tix'
-                          - (0..10).each do |i|
+                          - (-5..20).each do |i|
                             option value="#{i}" #{i}
                       td
                         input#comp_reason rv-value='data.comp_reason'
