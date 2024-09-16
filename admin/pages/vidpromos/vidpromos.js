@@ -61,16 +61,18 @@ $(document).ready(function() {
 
   recorder.ondataavailable = function(e) { data.chunks.push(e.data); }
   recorder.onstop = function(e) {
-    let blob = new Blob(data.chunks, { 'type': 'video/mp4' });
-    let blobUrl = URL.createObjectURL(blob);
-    var link = document.createElement("a");
-    link.href = blobUrl;
-    link.download = "Promo.mp4";
-    $("body").append(link);
-    link.click();
-    window.URL.revokeObjectURL(blobUrl);
-    link.remove();
-    data.chunks = [];
+    let buggyBlob = new Blob(data.chunks, { 'type': 'video/webm' });
+    ysFixWebmDuration(buggyBlob, video.duration*1000, function(blob) {
+      let blobUrl = URL.createObjectURL(blob);
+      var link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "Promo.webm";
+      $("body").append(link);
+      link.click();
+      window.URL.revokeObjectURL(blobUrl);
+      link.remove();
+      data.chunks = [];
+    })   
   }
 
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
