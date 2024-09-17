@@ -43,14 +43,14 @@ $(document).ready(function() {
     clearInterval(canvasInterval); 
     if(recorder.state == 'recording') { recorder.stop(); }
   }
-  
+
   video.onloadeddata = function() {
     track = (video.mozCaptureStream ? video.mozCaptureStream() : video.captureStream()).getAudioTracks()[0];
-    track.applyConstraints({
-      echoCancellation: false,
-      autoGainControl: false,
-      noiseSuppression: false
-    });
+    //track.applyConstraints({
+    //  echoCancellation: false,
+    //  autoGainControl: false,
+    //  noiseSuppression: false
+    //});
     stream.addTrack(track)
   }
 
