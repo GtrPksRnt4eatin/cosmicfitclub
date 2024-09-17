@@ -6,13 +6,23 @@ data = {
   urlText: "http://cosmicfitclub.com",
   textLines: "",
   opacity: 0.6,
-  chunks: []
+  chunks: [],
+  canvas_width: 1080,
+  canvas_height: 1350,
+  frame_url: "/vidpromo_bg.png"
+
 }
 
 ctrl = {
 }
 
 $(document).ready(function() {
+
+  const params = new URLSearchParams(window.location.search);
+  if(params.has('story')) {
+    data.canvas_height = 1920;
+    data.frame_url = '/vidpromo_story.png'
+  }
 
   canvas = document.getElementById("canvas");
   video = document.getElementById("video");
