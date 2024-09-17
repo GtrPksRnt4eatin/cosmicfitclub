@@ -43,15 +43,17 @@ $(document).ready(function() {
     clearInterval(canvasInterval); 
     if(recorder.state == 'recording') { recorder.stop(); }
   }
+  
   video.onloadeddata = function() {
-    track = (video.mozCaptureStream ? video.mozCaptureStream() : video.captureStream()).getAudioTracks()[0]
-    stream.addTrack(track)
-    stream.applyConstraints({
+    track = (video.mozCaptureStream ? video.mozCaptureStream() : video.captureStream()).getAudioTracks()[0];
+    track.applyConstraints({
       echoCancellation: false,
       autoGainControl: false,
       noiseSuppression: false
-    })
+    });
+    stream.addTrack(track)
   }
+
   video.onplay  = function() { 
     clearInterval(canvasInterval);
     canvasInterval = window.setInterval(() => {
