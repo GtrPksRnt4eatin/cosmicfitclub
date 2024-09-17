@@ -54,7 +54,7 @@ $(document).ready(function() {
       if(lines.length>0) {
         maskHeight = 150 + (lines.length * 55);
         ctx.fillStyle = `rgb(0 0 0 / ${data.opacity}`;
-        ctx.fillRect(0,1350-maskHeight, 1080, maskHeight);
+        ctx.fillRect(0,data.canvas_height-maskHeight, 1080, maskHeight);
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
         ctx.font = "40px Industry-Medium";
@@ -65,7 +65,7 @@ $(document).ready(function() {
       }
       frame.complete && ctx.drawImage(frame,0,0,data.canvas_width,data.canvas_height);
       ctx.font = "40px Industry-Bold";
-      ctx.fillText(data.urlText, 540, 1325);
+      ctx.fillText(data.urlText, 540, data.canvas_height-25);
     }, 1000 / fps);
   }
 
