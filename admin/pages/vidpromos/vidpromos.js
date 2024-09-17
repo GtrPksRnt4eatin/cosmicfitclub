@@ -63,7 +63,7 @@ $(document).ready(function() {
           ctx.fillText(line, 540, 1200-(index*55))
         });
       }
-      frame.complete && ctx.drawImage(frame,0,0,1080,1350);
+      frame.complete && ctx.drawImage(frame,0,0,data.canvas_width,data.canvas_height);
       ctx.font = "40px Industry-Bold";
       ctx.fillText(data.urlText, 540, 1325);
     }, 1000 / fps);
