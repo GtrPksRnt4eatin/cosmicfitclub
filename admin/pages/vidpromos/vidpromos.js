@@ -44,7 +44,8 @@ $(document).ready(function() {
     if(recorder.state == 'recording') { recorder.stop(); }
   }
   video.onloadeddata = function() {
-    stream.addTrack(video.captureStream().getAudioTracks()[0])
+    track = (video.mozCaptureStream ? video.mozCaptureStream() : video.captureStream()).getAudioTracks()[0]
+    stream.addTrack(track)
     stream.applyConstraints({
       echoCancellation: false,
       autoGainControl: false,
