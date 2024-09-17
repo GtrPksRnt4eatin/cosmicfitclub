@@ -40,10 +40,6 @@ button#request {
   width: 100%;
 } 
 
-.selectize-control {
-  font-size: 0.55vw;
-}
-
 .pointer {
   cursor: pointer;
 }
