@@ -36,7 +36,7 @@ $(document).ready(function() {
 
   let frame = new Image();
   frame.src = data.frame_url;
-  frame.onload = function() { ctx.drawImage(frame,0,0,1080,1350); }
+  frame.onload = function() { ctx.drawImage(frame,0,0,data.canvas_width,data.canvas_height); }
 
   video.onpause = function() { clearInterval(canvasInterval); }
   video.onended = function() { 
