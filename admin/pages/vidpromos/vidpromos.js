@@ -29,10 +29,10 @@ $(document).ready(function() {
   ctx = canvas.getContext("2d");
 
   stream = canvas.captureStream(60);
-  recorder = new MediaRecorder(stream, { videoBitsPerSecond: 5000000 });
+  recorder = new MediaRecorder(stream, { videoBitsPerSecond: 4000000 });
 
   canvasInterval = 0; 
-  fps = 60;
+  fps = 40;
 
   let frame = new Image();
   frame.src = data.frame_url;
@@ -45,6 +45,11 @@ $(document).ready(function() {
   }
   video.onloadeddata = function() {
     stream.addTrack(video.captureStream().getAudioTracks()[0])
+    stream.applyConstraints({
+      echoCancellation: false,
+      autoGainControl: false,
+      noiseSuppression: false
+    })
   }
   video.onplay  = function() { 
     clearInterval(canvasInterval);
