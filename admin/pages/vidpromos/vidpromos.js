@@ -35,7 +35,7 @@ $(document).ready(function() {
   fps = 60;
 
   let frame = new Image();
-  frame.src = "/vidpromo_bg.png"
+  frame.src = data.frame_url;
   frame.onload = function() { ctx.drawImage(frame,0,0,1080,1350); }
 
   video.onpause = function() { clearInterval(canvasInterval); }
