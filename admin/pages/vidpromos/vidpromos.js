@@ -60,7 +60,7 @@ $(document).ready(function() {
         ctx.font = "40px Industry-Medium";
         lines.reverse().forEach(function(line,index) {
           if(index == lines.length-1) { ctx.font = "40px Industry-Bold"; }
-          ctx.fillText(line, 540, 1200-(index*55))
+          ctx.fillText(line, 540, data.canvas_height-150-(index*55))
         });
       }
       frame.complete && ctx.drawImage(frame,0,0,data.canvas_width,data.canvas_height);
