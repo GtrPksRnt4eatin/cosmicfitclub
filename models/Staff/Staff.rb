@@ -69,7 +69,7 @@ class Staff < Sequel::Model(:staff)
   end
 
   def to_token
-    { :id=>self.id, :name=>self.name }
+    { :id=>self.id, :customer_id=> self.try(:customer).try(:id), :name=>self.name }
   end
 
   def to_payout_token
