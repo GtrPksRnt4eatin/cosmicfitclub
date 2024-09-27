@@ -244,6 +244,11 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
     line-height: 1.2em;
   }
 
+  .custy_selector .selectize-input,
+  .custy_selector .selectize_input input {
+    height: 100%;
+  }
+
   @media(max-width: 800px) {
   
     .custy_selector .add_custy,
