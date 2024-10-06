@@ -1,6 +1,8 @@
 $(document).ready(function() {
   setInterval(function() {
     $.get('/door/status', function(resp) {
+      $('button').css('display', 'inline-block');
+      $('#loading').css('display', 'none');
        switch(resp?.POWER) {
          case 'ON': 
            $('#up').css('background', 'rgba(0,255,0,0.2)');
