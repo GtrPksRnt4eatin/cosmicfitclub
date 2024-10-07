@@ -166,3 +166,5 @@ end
 map '/integrations/slackbot' do
   run SlackBot
 end
+
+Calendar::subscribe_to_changes
