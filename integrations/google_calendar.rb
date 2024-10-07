@@ -80,7 +80,7 @@ module Calendar
     end
 
     def Calendar::subscribe_to_changes()
-      channel = Google::Apis::CalendarV3::Channel.new(address: 'https://cosmicfitclub.com/models/groups/gcal_updates', id: 100, type: "web_hook")
+      channel = Google::Apis::CalendarV3::Channel.new(address: 'https://cosmicfitclub.com/models/groups/gcal_updates', id: Time.now.to_i, type: "web_hook")
       webhook = self.get_service.watch_event('sam@cosmicfitclub.com', channel, single_events: true, time_min: Time.now.iso8601)
     end
     
