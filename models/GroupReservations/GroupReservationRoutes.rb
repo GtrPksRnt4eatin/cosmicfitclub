@@ -67,7 +67,7 @@ class GroupReservationRoutes < Sinatra::Base
   #################################### GROUP RESERVATION LISTS ##############################
 
   post '/gcal_updates' do
-    Slack.post(headers.to_s)
+    Slack.post(request.env)
   end
 
   error do
