@@ -67,7 +67,8 @@ class GroupReservationRoutes < Sinatra::Base
   #################################### GROUP RESERVATION LISTS ##############################
 
   post '/gcal_updates' do
-    Slack.post(request.env)
+    cal_update = request.env.select { |k,v| k.include? "HTTP_X_GOOG" }
+    Slack.post(cal_update.to_s)
   end
 
   error do
