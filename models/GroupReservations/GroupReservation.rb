@@ -21,7 +21,11 @@ class GroupReservation < Sequel::Model
 
   def GroupReservation.update_from_gcal(change)
     res = GroupReservation.where(:gcal_event_id => change[:id]).first or return
-    res.update(:start_time=>change[:start], :end_time=>change[:end])
+    if change[:status] == "cancelled" 
+      res.full_delete
+    else 
+      res.update(:start_time=>change[:start], :end_time=>change[:end])
+    end
   end
 
   def full_delete
