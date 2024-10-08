@@ -89,6 +89,9 @@ module Calendar
         svc.stop_channel(Google::Apis::CalendarV3::Channel.new(id: update["HTTP_X_GOOG_CHANNEL_ID"].to_i, resource_id: update["HTTP_X_GOOG_RESOURCE_ID"]))
         return nil
       end
+      if(DateTime.parse(update["HTTP_X_GOOG_CHANNEL_EXPIRATION"]).mjd - DateTime.now.mjd < 2) 
+        Calendar::subscribe_to_changes
+      end
       @@last_update ||= Time.now
       result = svc.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', updated_min: @@last_update.iso8601).items
       @@last_update = Time.now
