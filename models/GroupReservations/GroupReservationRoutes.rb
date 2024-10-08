@@ -71,6 +71,7 @@ class GroupReservationRoutes < Sinatra::Base
     changes = Calendar::fetch_changes(cal_update) or return
     Slack.post(changes)
     changes.each { |change| GroupReservation.update_from_gcal(change) }
+    status 204
   end
 
   error do

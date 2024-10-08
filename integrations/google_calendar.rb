@@ -86,7 +86,7 @@ module Calendar
     def Calendar::fetch_changes(update)
       svc = self.get_service     
       if(update["HTTP_X_GOOG_CHANNEL_ID"].to_i != @@channel_id)
-        svc.stop_channel(Google::Apis::CalendarV3::Channel.new(id: update["HTTP_X_GOOG_CHANNEL_ID"].to_i, resource_id: update["HTTP_X_GOOG_RESOURCE_ID"]))
+        svc.stop_channel(Google::Apis::CalendarV3::Channel.new(id: update["HTTP_X_GOOG_CHANNEL_ID"].to_i, resource_id: update["HTTP_X_GOOG_RESOURCE_ID"])) rescue nil
         return nil
       end
       expiration = DateTime.parse(update["HTTP_X_GOOG_CHANNEL_EXPIRATION"])
