@@ -83,10 +83,10 @@ module Calendar
       webhook = self.get_service.watch_event('sam@cosmicfitclub.com', channel, single_events: true, time_min: Time.now.iso8601)
     end
 
-    def Calendar::fetch_changes(channel_id)
+    def Calendar::fetch_changes(update)
       svc = self.get_service
-      if(channel_id.to_i != @@channel_id)
-        svc.stop_channel(Google::Apis::CalendarV3::Channel.new(id: channel_id.to_i, resource_id: "sam@cosmicfitclub.com")) 
+      if(update["HTTP_X_GOOG_CHANNEL_ID"].to_i != @@channel_id)
+        svc.stop_channel(Google::Apis::CalendarV3::Channel.new(id: update["HTTP_X_GOOG_CHANNEL_ID"].to_i, resource_id: update["HTTP_X_GOOG_RESOURCE_ID"]) 
         return false
       end
       @@last_update ||= Time.now
