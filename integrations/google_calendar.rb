@@ -10,8 +10,6 @@ module Calendar
         scope: scope
       )
       authorizer.sub = "sam@cosmicfitclub.com"
-      #authorizer.fetch_access_token!
-
       service = Google::Apis::CalendarV3::CalendarService.new
       service.authorization = authorizer
       service
@@ -79,9 +77,18 @@ module Calendar
       svc.update_event('sam@cosmicfitclub.com', event_id, evt).updated
     end
 
-    def Calendar::subscribe_to_changes()
-      channel = Google::Apis::CalendarV3::Channel.new(address: 'https://cosmicfitclub.com/models/groups/gcal_updates', id: Time.now.to_i, type: "web_hook")
+    def Calendar::subscribe_to_changes
+      @@channel_id = Time.now.to_i
+      channel = Google::Apis::CalendarV3::Channel.new(address: 'https://cosmicfitclub.com/models/groups/gcal_updates', id: @@channel_id, type: "web_hook")
       webhook = self.get_service.watch_event('sam@cosmicfitclub.com', channel, single_events: true, time_min: Time.now.iso8601)
     end
-    
+
+    def Calendar::fetch_changes(channel_id)
+      svc = self.get_service
+      @@last_update ||= Time.now
+      result = svc.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', updatedMin: @@last_update.iso8601).items
+      @@last_update = Time.now
+      result
+    end
+
 end
