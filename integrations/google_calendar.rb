@@ -93,7 +93,7 @@ module Calendar
         Calendar::subscribe_to_changes
       end
       @@last_update ||= Time.now
-      result = svc.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', updated_min: @@last_update.iso8601).items
+      result = svc.list_events('sam@cosmicfitclub.com', single_events: true, updated_min: @@last_update.iso8601).items
       @@last_update = Time.now
       result.map do |x| 
         { :id=>x["id"], 
