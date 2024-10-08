@@ -95,7 +95,14 @@ module Calendar
       @@last_update ||= Time.now
       result = svc.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', updated_min: @@last_update.iso8601).items
       @@last_update = Time.now
-      result
+      result.map do |x| 
+        { :id=>x["id"], 
+          :summary=>x["summary"], 
+          :status=>x["status"], 
+          :start=>x.dig("start","dateTime"), 
+          :end=>x.dig("end","dateTime")
+        } 
+      end
     end
 
 end
