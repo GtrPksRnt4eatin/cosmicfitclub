@@ -99,8 +99,8 @@ module Calendar
         { :id=>x.id,
           :summary=>x.summary,
           :status=>x.status,
-          :start=>x.try(:start).try(:dateTime),
-          :end=>x.try(:end).try(:dateTime)
+          :start=>x.start,
+          :end=>x.end
         } 
       end
     end
