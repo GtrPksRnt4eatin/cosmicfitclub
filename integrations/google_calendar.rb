@@ -86,7 +86,7 @@ module Calendar
     def Calendar::fetch_changes(channel_id)
       svc = self.get_service
       @@last_update ||= Time.now
-      result = svc.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', updatedMin: @@last_update.iso8601).items
+      result = svc.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', updated_min: @@last_update.iso8601).items
       @@last_update = Time.now
       result
     end
