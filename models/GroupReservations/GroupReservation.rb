@@ -19,6 +19,11 @@ class GroupReservation < Sequel::Model
     GroupReservationSlot.where(:customer_id=>customer_id).where(:start_time => Date.today..nil).all.map(&:reservation).map(&:to_token)
   end
 
+  def GroupReservation.update_from_gcal(change)
+    res = GroupReservation.where(:gcal_event_id => change.id).first or return
+    res.update(:start_time=>change[:start], :end_time=>change[:end])
+  end
+
   def full_delete
     Calendar::delete_event(self.gcal_event_id)
     self.slots.each { |s| s.delete } 

@@ -70,6 +70,7 @@ class GroupReservationRoutes < Sinatra::Base
     cal_update = request.env.select { |k,v| k.include? "HTTP_X_GOOG" }
     changes = Calendar::fetch_changes(cal_update)
     Slack.post(changes) unless changes.nil?
+    changes.each { |change| GroupReservation.update_from_gcal(change) }
   end
 
   error do

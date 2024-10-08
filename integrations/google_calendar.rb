@@ -84,14 +84,14 @@ module Calendar
     end
 
     def Calendar::fetch_changes(update)
-      svc = self.get_service
+      svc = self.get_service     
       if(update["HTTP_X_GOOG_CHANNEL_ID"].to_i != @@channel_id)
         svc.stop_channel(Google::Apis::CalendarV3::Channel.new(id: update["HTTP_X_GOOG_CHANNEL_ID"].to_i, resource_id: update["HTTP_X_GOOG_RESOURCE_ID"]))
         return nil
       end
-      if(DateTime.parse(update["HTTP_X_GOOG_CHANNEL_EXPIRATION"]).mjd - DateTime.now.mjd < 2) 
-        Calendar::subscribe_to_changes
-      end
+      expiration = DateTime.parse(update["HTTP_X_GOOG_CHANNEL_EXPIRATION"])
+      if(update["HTTP_X_GOOG_RESOURCE_STATE"]=="sync") return nil
+      if(expiration.mjd - DateTime.now.mjd < 2)        Calendar::subscribe_to_changes
       @@last_update ||= Time.now
       result = svc.list_events('sam@cosmicfitclub.com', single_events: true, updated_min: @@last_update.iso8601).items
       @@last_update = Time.now
