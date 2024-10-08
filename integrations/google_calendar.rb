@@ -90,8 +90,8 @@ module Calendar
         return nil
       end
       expiration = DateTime.parse(update["HTTP_X_GOOG_CHANNEL_EXPIRATION"])
-      if(update["HTTP_X_GOOG_RESOURCE_STATE"]=="sync") then return nil
-      if(expiration.mjd - DateTime.now.mjd < 2)        then Calendar::subscribe_to_changes
+      return nil                     if update["HTTP_X_GOOG_RESOURCE_STATE"]=="sync"
+      Calendar::subscribe_to_changes if (expiration.mjd - DateTime.now.mjd < 2)
       @@last_update ||= Time.now
       result = svc.list_events('sam@cosmicfitclub.com', single_events: true, updated_min: @@last_update.iso8601).items
       @@last_update = Time.now
