@@ -96,11 +96,11 @@ module Calendar
       result = svc.list_events('sam@cosmicfitclub.com', single_events: true, updated_min: @@last_update.iso8601).items
       @@last_update = Time.now
       result.map do |x| 
-        { :id=>x["id"], 
-          :summary=>x["summary"], 
-          :status=>x["status"], 
-          :start=>x.dig("start","dateTime"), 
-          :end=>x.dig("end","dateTime")
+        { :id=>x.id,
+          :summary=>x.summary,
+          :status=>x.status,
+          :start=>x.try(:start).try(:dateTime),
+          :end=>x.try(:end).try(:dateTime)
         } 
       end
     end
