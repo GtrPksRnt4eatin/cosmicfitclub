@@ -85,10 +85,10 @@ module Calendar
 
     def Calendar::fetch_changes(channel_id)
       svc = self.get_service
-      if(channel_id.to_i != @@channel_id) { 
-        svc.stop_channel(Google::Apis::CalendarV3::Channel.new(id: channel_id.to_i)) 
+      if(channel_id.to_i != @@channel_id)
+        svc.stop_channel(Google::Apis::CalendarV3::Channel.new(id: channel_id.to_i, resource_id: "sam@cosmicfitclub.com")) 
         return false
-      }
+      end
       @@last_update ||= Time.now
       result = svc.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', updated_min: @@last_update.iso8601).items
       @@last_update = Time.now
