@@ -6,13 +6,20 @@ data = {
 $(document).ready( function() { 
   updateClock();
   getBusTimes();
-  setInterval(updateClock, 1000  );
-  setInterval(getBusTimes, 10000 );
-  var binding = rivets.bind( $('body'), { data: data } );
+  var view = rivets.bind( $('body'), { data: data } );
+  calendar = get_element(view, 'loft-calendar');
+  setInterval(updateClock,     1000);
+  setInterval(getBusTimes,    10000);
+  setInterval(updateCalendar, 60000)
+
 });
 
 function updateClock() {
   data.current_time = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+}
+
+function updateCalendar() {
+  calendar.full_refresh();
 }
 
 function getBusTimes() {
