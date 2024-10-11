@@ -11,7 +11,6 @@ $(document).ready( function() {
   setInterval(updateClock,     1000);
   setInterval(getBusTimes,    10000);
   setInterval(updateCalendar, 60000)
-
 });
 
 function updateClock() {

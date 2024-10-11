@@ -24,18 +24,13 @@ html
           | Current Time: {data.current_time}
 
       .tile
-        div 
-          | Meeker Ave. & Sutton St. headed South To Williamsburg (G & L Trains) 
+        div Approaching Busses: 
         div rv-each-bus='data.bus_times.south'
           span
-            | A B24 Bus is {bus.stops} stops away. Arriving in {bus.arrives_in} minutes @ {bus.arrival}
-
-      .tile
-        div
-          | Kingsland Ave. & Lombardy St. headed North To Queens/Greenpoint (7 Train)
+            | A Southbound (L,G Train) B24 Bus is arriving in {bus.arrives_in} minutes @ {bus.arrival}
         div rv-each-bus='data.bus_times.north'
           span
-            | A B24 Bus is {bus.stops} stops away. Arriving in {bus.arrives_in} minutes @ {bus.arrival}
+            | A Northbound (7 Train) B24 Bus is arriving in {bus.arrives_in} minutes @ {bus.arrival}
 
       .tile
         loft-calendar admin='true' view='Day'
