@@ -24,13 +24,22 @@ html
           | Current Time: {data.current_time}
 
       .tile
-        div Approaching Busses: 
-        div rv-each-bus='data.bus_times.south'
-          span
-            | A Southbound (L,G Train) B24 Bus is arriving in {bus.arrives_in} minutes @ {bus.arrival}
-        div rv-each-bus='data.bus_times.north'
-          span
-            | A Northbound (7 Train) B24 Bus is arriving in {bus.arrives_in} minutes @ {bus.arrival}
-
+        div Approaching B24 Busses: 
+        table
+          tr rv-each-bus='data.bus_times.south'
+            td
+              | { bus.arrives_in } Minutes
+            td
+              | Southbound (L&G Train)
+            td 
+              | { bus.arrival }
+          tr rv-each-bus='data.bus_times.north'
+            td
+              | { bus.arrives_in } Minutes
+            td
+              | Northbound (7 Train)
+            td 
+              | { bus.arrival }
+              
       .tile
         loft-calendar admin='true' view='Day'
