@@ -28,18 +28,24 @@ html
         table
           tr rv-each-bus='data.bus_times.south'
             td
-              | { bus.arrives_in } Minutes
+              div
+                | { bus.arrives_in } 
+              div 
+                | Minutes
             td
               | Southbound (L&G Train)
             td 
               | { bus.arrival }
           tr rv-each-bus='data.bus_times.north'
             td
-              | { bus.arrives_in } Minutes
+              div
+                | { bus.arrives_in } 
+              div
+                | Minutes
             td
               | Northbound (7 Train)
             td 
               | { bus.arrival }
-              
+
       .tile
         loft-calendar admin='true' view='Day'
