@@ -27,24 +27,30 @@ html
         div Approaching B24 Busses: 
         table
           tr rv-each-bus='data.bus_times.south'
-            td
+            td.minutes
               div
                 | { bus.arrives_in } 
               div 
                 | Minutes
-            td
-              | Southbound (L&G Train)
-            td 
+            td.direction
+              div
+                | Southbound 
+              div
+                | (L&G Train)
+            td.arrival
               | { bus.arrival }
           tr rv-each-bus='data.bus_times.north'
-            td
+            td.minutes
               div
                 | { bus.arrives_in } 
               div
                 | Minutes
-            td
-              | Northbound (7 Train)
-            td 
+            td.direction
+              div
+                | Northbound
+              div
+                | (7 Train)
+            td.arrival
               | { bus.arrival }
 
       .tile
