@@ -47,6 +47,8 @@ class CFCFrontDesk < Sinatra::Base
       :stops=> y["Extensions"]["Distances"]["StopsFromCall"]
     } } unless resp.nil?
     resp
+  rescue 
+    Slack.post(resp)
   end
   
   not_found do
