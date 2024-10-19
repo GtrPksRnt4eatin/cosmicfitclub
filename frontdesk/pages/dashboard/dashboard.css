@@ -5,3 +5,7 @@ loft-calendar .calendar_default_event_inner {
 loft-calendar .calendar_default_main {
   font-size: 1em;
 }
+
+td.minutes {
+  background: rgba(0,255,0,0.3);
+}

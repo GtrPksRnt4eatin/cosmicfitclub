@@ -46,7 +46,7 @@ class CFCFrontDesk < Sinatra::Base
       :arrives_in=> (Time.parse(y["ExpectedArrivalTime"])-Time.now).to_i/60, 
       :stops=> y["Extensions"]["Distances"]["StopsFromCall"]
     } } unless resp.nil?
-    resp
+    resp || []
   rescue 
     Slack.post(resp)
   end
