@@ -132,7 +132,7 @@ class CFCAuth < Sinatra::Base
 
   def set_jwt_header(user, no_exp=false)
     jwt = user ? create_jwt(user) : ''
-    exp = (Time.now + (90 * 24 * 60 * 60))
+    exp = (Time.now + (400 * 24 * 60 * 60))
     expires = no_exp ? exp.getgm.strftime("%a, %d %b %Y %T GMT") : "Session"
     val = "cosmicjwt=#{jwt}; domain=.cosmicfitclub.com; expires=#{expires}; path=/; SameSite=None; secure; HttpOnly"
     response.set_header('Set-Cookie', val)
