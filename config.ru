@@ -36,7 +36,6 @@ require_relative 'offers/offers'
 use Rack::SslEnforcer 
 use Rack::Deflater
 
-enable :sessions
 use Rack::Session::Cookie, :key => '_rack_session',
                            :path => '/',
                            #:expire_after => 60*60,
