@@ -72,7 +72,7 @@ class CFCAuth < Sinatra::Base
       Slack.website_access( "Failed Login: #{custy.to_list_string}" )          unless custy.nil?
       halt(401, "Login Failed: Incorrect Credentials" )
     end
-    jwt = set_jwt_header(user)
+    jwt = set_jwt_header(user, data['no_exp'])
     session[:customer_id] = user.customer.id unless user.customer.nil?
     Slack.website_access( "Successful Login #{ user.customer.to_list_string }" )
     status 204
@@ -88,7 +88,7 @@ class CFCAuth < Sinatra::Base
       halt(401, "Login Failed: Incorrect Credentials" )
     end
     Slack.website_access( "Successful JWT Login #{ user.customer.to_list_string }" )
-    jwt = set_jwt_header(user)
+    jwt = set_jwt_header(user, params[:no_exp])
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 
@@ -130,10 +130,11 @@ class CFCAuth < Sinatra::Base
     )
   end
 
-  def set_jwt_header(user)
+  def set_jwt_header(user, no_exp=false)
     jwt = user ? create_jwt(user) : ''
-    exp = (Time.now + (10 * 24 * 60 * 60)).to_s
-    val = "cosmicjwt=#{jwt}; domain=.cosmicfitclub.com; expires=#{exp}; path=/; SameSite=None; secure; HttpOnly"
+    exp = (Time.now + (90 * 24 * 60 * 60)).to_s
+    expires = no_exp ? exp.getgm.strftime("%a, %d %b %Y %T GMT") : "Session"
+    val = "cosmicjwt=#{jwt}; domain=.cosmicfitclub.com; expires=#{expires}; path=/; SameSite=None; secure; HttpOnly"
     response.set_header('Set-Cookie', val)
     jwt
   end

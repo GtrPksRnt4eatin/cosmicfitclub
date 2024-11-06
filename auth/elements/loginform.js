@@ -7,6 +7,7 @@ function LoginForm(parent) {
     "confirmation" : "",
     "mode"         : "login",
     "failed"       : false,
+    "no_exp"       : false,
     "errors"       : [] 
   }
 
@@ -115,6 +116,7 @@ LoginForm.prototype.HTML = `
         </a>
       </div>
       <hr>
+      <div class='fineprint'>Leave Me Signed In: <input type='checkbox' rv-checked='state.no_exp'/></div>
       <div class='fineprint'>Not Registered?<span rv-on-click='this.register_mode'>Create An Account</span></div>
       <div class='fineprint' rv-if="state.failed">
         Forgot Password?
