@@ -4,6 +4,12 @@ class GroupReservation < Sequel::Model
   one_to_many :slots, :class => :GroupReservationSlot
   one_to_many :payments, :class => :CustomerPayment
 
+  def GroupReservation.check_for_conflict(from,to)
+    from = Time.parse(from) if from.is_a? String
+    to   = Time.parse(to)   if   to.is_a? String
+    self.where( start_time: from..to, end_time: from..to ).first
+  end
+
   def GroupReservation.all_between(from,to) 
     from = Time.parse(from) if from.is_a? String
     to   = Time.parse(to)   if   to.is_a? String

@@ -12,6 +12,8 @@ class GroupReservationRoutes < Sinatra::Base
   post '/' do
     data = JSON.parse(request.body.read)
 
+    halt(409, "Conflicting Reservation Found") if GroupReservation.check_for_conflict(data['start_time'], data['end_time'])
+
     res = GroupReservation.create(
       :start_time          => data['start_time'],
       :end_time            => data['end_time'],
