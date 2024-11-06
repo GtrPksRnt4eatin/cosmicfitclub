@@ -100,6 +100,7 @@ LoginForm.prototype.HTML = `
         <label>Password:</label>
         <input class='password' type='password' rv-value='state.password'></input>
       </div>
+      <div class='fineprint'>Leave Me Signed In: <input type='checkbox' rv-checked='state.no_exp'/></div>
       <hr style='display: none;' >
       <div class='section'>
         <div class='submit' rv-on-click='this.login'>Login</div>
@@ -115,7 +116,6 @@ LoginForm.prototype.HTML = `
           <img src='login-google.png'/>
         </a>
       </div>
-      <div class='fineprint'>Leave Me Signed In: <input type='checkbox' rv-checked='state.no_exp'/></div>
       <hr>
       <div class='fineprint'>Not Registered?<span rv-on-click='this.register_mode'>Create An Account</span></div>
       <div class='fineprint' rv-if="state.failed">
