@@ -88,7 +88,7 @@ class CFCAuth < Sinatra::Base
       halt(401, "Login Failed: Incorrect Credentials" )
     end
     Slack.website_access( "Successful JWT Login #{ user.customer.to_list_string }" )
-    jwt = set_jwt_header(user, params[:no_exp])
+    jwt = set_jwt_header(user)
     JSON.pretty_generate JWT.decode(jwt,ENV['JWT_SECRET'],true,{ algorithm: 'HS256'})
   end
 

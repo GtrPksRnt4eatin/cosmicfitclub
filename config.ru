@@ -38,7 +38,7 @@ use Rack::Deflater
 
 use Rack::Session::Cookie, :key => '_rack_session',
                            :path => '/',
-                           :expire_after => 60*60,
+                           #:expire_after => 60*60,
                            :same_site => :none,
                            :httponly => true,
                            :secret => 'asdf123897798128bkjwekhakhjsk38389721387932179831hjsdfkj'
