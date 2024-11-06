@@ -6,6 +6,7 @@ class CFC < Sinatra::Base
   register Sinatra::PageFolders
   register Sinatra::SharedResources
   register Sinatra::Auth
+  use JwtAuth
 
   set :root, File.dirname(__FILE__)
 
