@@ -8,7 +8,8 @@ class CFCAdmin < Sinatra::Base
   register Sinatra::PageFolders
   register Sinatra::SharedResources
   register Sinatra::Auth
-
+  use JwtAuth
+  
   configure do
     set :start_time, Time.now
   end
