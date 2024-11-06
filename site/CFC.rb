@@ -15,7 +15,6 @@ class CFC < Sinatra::Base
   end
 
   before do
-    session['started'] = true
     last_modified settings.start_time
     etag settings.start_time.to_s
     cache_control :no_cache
