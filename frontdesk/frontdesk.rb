@@ -41,9 +41,11 @@ class CFCFrontDesk < Sinatra::Base
   def unpack_bus_times(resp)
     resp = JSON.parse(resp)["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"][0]["MonitoredStopVisit"]
     resp.map! { |x| x["MonitoredVehicleJourney"]["MonitoredCall"] } unless resp.nil?
-    resp.map! { |y| { 
-      :arrival=> Time.parse(y["ExpectedArrivalTime"]).strftime("%I:%M %P"), 
-      :arrives_in=> (Time.parse(y["ExpectedArrivalTime"])-Time.now).to_i/60, 
+    resp.map! { |y| 
+    arrival = y["ExpectedArrivalTime"] || y["AimedArrivalTime"]
+    { 
+      :arrival=> Time.parse(arrival).strftime("%I:%M %P"), 
+      :arrives_in=> (Time.parse(arrival)-Time.now).to_i/60, 
       :stops=> y["Extensions"]["Distances"]["StopsFromCall"]
     } } unless resp.nil?
     resp || []
