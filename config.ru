@@ -167,4 +167,8 @@ map '/integrations/slackbot' do
   run SlackBot
 end
 
+map '/nfc' do
+  run NfcTagRoutes
+end
+
 Calendar::subscribe_to_changes
