@@ -12,7 +12,7 @@ class NfcTagRoutes < Sinatra::Base
       sleep(10)
       RestClient.get( 'http://66.108.37.62:86/cm?cmnd=Power%20Off', :content_type => 'application/json', :timeout => 3 )
     end
-    params.to_json
+    params.to_s
   end
 
 end
