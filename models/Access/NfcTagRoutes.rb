@@ -11,7 +11,7 @@ class NfcTagRoutes < Sinatra::Base
   end
 
   get '/all' do
-    NfcTag.all.map(&:detail_view).to_json
+    NfcTag.order(:customer_id).all.map(&:detail_view).to_json
   end
 
   post '/' do
