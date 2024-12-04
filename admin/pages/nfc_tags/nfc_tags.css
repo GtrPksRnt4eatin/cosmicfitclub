@@ -19,3 +19,7 @@ button {
   width: 7em;
   cursor: pointer;
 }
+
+tfoot button {
+  height: 3.15em;
+}
