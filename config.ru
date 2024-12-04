@@ -143,6 +143,10 @@ map "/models/locations" do
   run LocationRoutes
 end
 
+map '/models/nfc' do
+  run NfcTagRoutes
+end
+
 map "/offers" do
   run CFCOffers
 end
@@ -165,10 +169,6 @@ end
 
 map '/integrations/slackbot' do
   run SlackBot
-end
-
-map '/nfc' do
-  run NfcTagRoutes
 end
 
 Calendar::subscribe_to_changes
