@@ -18,9 +18,9 @@ html
     #content
 
       .tile
-        .title NFC Tags
 
         table
+          th colspan='3' NFC Tags
           tr rv-each-tag="data.tags"
             td[] { tag.customer.name }
             td[] { tag.value }
