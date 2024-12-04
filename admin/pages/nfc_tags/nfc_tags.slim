@@ -22,16 +22,16 @@ html
       .tile
 
         table
-          th colspan='3' NFC Tags
-          tr rv-each-tag="data.tags"
-            td[] { tag.customer.name }
-            td[] { tag.value }
-            td: button rv-on-click="ctrl.del_tag" Delete Tag
-          tr
-            td
-              custy-selector onchange='ctrl.load_custy'
-            td
-              input rv-value='data.value'
-            td
-              button rv-on-click='ctrl.add_tag' Add Tag
+          thead
+            tr: th colspan='3' NFC Tags
+          tbody
+            tr rv-each-tag="data.tags"
+              td[] { tag.customer.name }
+              td[] { tag.value }
+              td: button rv-on-click="ctrl.del_tag" Delete Tag
+          tfoot  
+            tr
+              td: custy-selector onchange='ctrl.load_custy'
+              td: input rv-value='data.value'
+              td: button rv-on-click='ctrl.add_tag' Add Tag
               
