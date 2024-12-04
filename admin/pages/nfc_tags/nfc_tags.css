@@ -2,7 +2,7 @@
 
 .tile { display: inline-block; }
 
-td:first-child { width: 20em; }
+td:first-child { width: 22em; }
 
 thead, tfoot {
   padding: 0.5em 0;
