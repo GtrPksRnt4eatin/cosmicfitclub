@@ -28,7 +28,8 @@ class Door < Sinatra::Base
   end
 
   post('/tag') do
-    tag = NfcTag[ :value => params[:value] ] or halt 401
+    tag = NfcTag[ :value => params[:value] ] 
+    tag or ( Slack.website_access "Tag Scanned: #{params[:value]}"; halt 401 )
     status = RestClient.get( 'http://66.108.37.62:86/cm?cmnd=Power', :content_type=>'application/json', :timeout=>1)
     status = JSON.parse(status)
     Slack.website_access "#{Time.now.strftime("%m/%d/%Y %I:%M:%S %p")} Door Tagged By #{tag.customer.name}"
