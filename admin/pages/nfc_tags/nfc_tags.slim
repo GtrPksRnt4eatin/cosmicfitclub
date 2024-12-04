@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    == css [ 'fonts', 'chosen-ems', 'site', 'header', '/admin/nfc_tags' ]
+    == js  [ 'jquery', 'jquery.chosen.min', 'moment', 'rivets', 'rv_dates', 'lib' ]
+    == js  [ 'element', 'ev_channel', '/admin/nfc_tags' ]
+
+  body
+    #stars
+
+    #content
+
+      .tile
+        .title NFC Tags
+
+        table
+          tr rv-each-tag="data.tags"
+            td: { tag.customer.name }
+            td: { tag.value }
