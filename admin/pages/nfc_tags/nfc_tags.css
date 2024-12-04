@@ -1,3 +1,5 @@
 #content { text-align: center; }
 
 .tile { display: inline-block; }
+
+td { width: 15em; }
