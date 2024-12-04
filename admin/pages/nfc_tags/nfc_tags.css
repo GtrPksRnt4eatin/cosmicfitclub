@@ -2,4 +2,4 @@
 
 .tile { display: inline-block; }
 
-td { width: 15em; }
+td:first-child { width: 20em; }

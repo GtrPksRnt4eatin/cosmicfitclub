@@ -14,4 +14,14 @@ class NfcTagRoutes < Sinatra::Base
     NfcTag.all.map(&:detail_view).to_json
   end
 
+  post '/' do
+    customer = Customer[params[:customer_id]] or halt(404,"Can't find customer")
+    NfcTag.create(customer_id: params[:customer_id], value: params[:value])
+  end
+
+  delete '/:id' do
+    tag = NfcTag[params[:id]] or halt(404, "Can't find tag")
+    tag.delete
+  end
+
 end
