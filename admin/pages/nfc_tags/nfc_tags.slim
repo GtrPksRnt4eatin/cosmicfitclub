@@ -24,12 +24,12 @@ html
           tr rv-each-tag="data.tags"
             td[] { tag.customer.name }
             td[] { tag.value }
-            td: button Delete Tag
+            td: button rv-on-click="ctrl.del_tag" Delete Tag
           tr
             td
-              custy-selector
+              custy-selector onchange='ctrl.load_custy'
             td
               input
             td
-              button Add Tag
+              button rv-on-click='ctrl.add_tag' Add Tag
               
