@@ -38,7 +38,9 @@ class GroupReservationRoutes < Sinatra::Base
 
   get '/my_upcoming' do
     content_type :json
-    GroupReservationSlot.where(:customer_id=>session[:customer_id]).where(:start_time => Date.today..nil).all.map(&:reservation).map(&:to_token).to_json
+    owned = GroupReservation.where(:customer_id=>session[:customer_id]).where(:start_time => Date.today..nil).all
+    participating = GroupReservationSlot.where(:customer_id=>session[:customer_id]).where(:start_time => Date.today..nil).all
+    (owned+participating).uniq.map(&:reservation).map(&:to_token).to_json
   end
 
   get '/:id' do
