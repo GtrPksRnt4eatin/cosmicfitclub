@@ -14,6 +14,13 @@ class NfcTagRoutes < Sinatra::Base
     NfcTag.order(:customer_id).all.map(&:detail_view).to_json
   end
 
+  post '/validate' do
+    tag = NfcTag[ :value => params[:value] ] 
+    tag or ( Slack.website_access "Tag Scanned: #{params[:value]}"; halt 401 )
+    Slack.website_access "#{Time.now.strftime("%m/%d/%Y %I:%M:%S %p")} Door Tagged By #{tag.customer.name}"
+    status 204
+  end
+
   post '/' do
     customer = Customer[params[:customer_id]] or halt(404,"Can't find customer")
     NfcTag.create(customer_id: params[:customer_id], value: params[:value])
