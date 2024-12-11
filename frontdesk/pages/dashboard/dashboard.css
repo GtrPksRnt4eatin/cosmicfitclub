@@ -12,6 +12,8 @@ loft-calendar .calendar_default_main {
 
 promo-square {
   vertical-align: middle;
+  width: 10em;
+  height: 10em;
 }
 
 table {

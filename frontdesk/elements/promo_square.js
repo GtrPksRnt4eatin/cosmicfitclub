@@ -62,6 +62,8 @@ PromoSquare.prototype.CSS = `
   promo-square img { 
     border-radius: 2em;
     box-shadow: 0 0 8px white;
+    width:100%;
+    height: 100%;
   }
 
   promo-square .poster_lines {
