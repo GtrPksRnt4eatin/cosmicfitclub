@@ -8,7 +8,7 @@ function PromoSquare(el,attr) {
     classes: [],
     current: null,
     index: 0,
-    timer: setInterval(this.next_promo, 5000),
+    timer: setInterval(this.next_promo, 10000),
   }
 
   this.load_styles();

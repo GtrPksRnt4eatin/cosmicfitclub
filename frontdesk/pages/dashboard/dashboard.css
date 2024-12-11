@@ -12,10 +12,11 @@ loft-calendar .calendar_default_main {
 
 promo-square {
   vertical-align: middle;
-  width: 5em;
-  height: 5em;
+  width: 10em;
+  height: 10em;
   position: relative;
   display: inline-block;
+  background: rgba(0,0,0,0.2);
 }
 
 table {
