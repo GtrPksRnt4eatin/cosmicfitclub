@@ -23,7 +23,7 @@ PromoSquare.prototype = {
   },
 
   get_classes: function() {
-    $.get("models/classdefs/ranked_list")
+    $.get("/models/classdefs/ranked_list")
      .success( function(resp) { this.state['classes'] = resp; }.bind(this) );
   },
 
