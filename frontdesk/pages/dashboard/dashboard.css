@@ -32,3 +32,9 @@ td {
 td.minutes {
   background: rgba(0,255,0,0.3);
 }
+
+@media (max-width: 800px) {
+  table td { 
+    font-size: 1em;
+  }
+}
