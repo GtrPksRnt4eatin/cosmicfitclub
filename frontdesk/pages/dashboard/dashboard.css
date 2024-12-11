@@ -15,6 +15,7 @@ promo-square {
   width: 5em;
   height: 5em;
   position: relative;
+  display: inline-block;
 }
 
 table {
