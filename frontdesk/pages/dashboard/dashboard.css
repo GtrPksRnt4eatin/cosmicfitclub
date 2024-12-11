@@ -34,7 +34,7 @@ td.minutes {
 }
 
 @media (max-width: 800px) {
-  table td { 
+  .content td { 
     font-size: 1em;
   }
 }
