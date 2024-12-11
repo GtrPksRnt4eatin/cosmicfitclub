@@ -36,12 +36,9 @@ PromoSquare.prototype = {
       return;
     } 
     on_deck = isclass ? this.state.classes[index] : this.state.events[index];
-    if(!on_deck) {
-      this.state.index++;
-      this.next_promo();
-      return;
-    } 
-    this.state.current = on_deck;
+    this.state.index++;
+    if(on_deck) { this.state.current = on_deck; } 
+    else        { this.next_promo(); } 
   }
 }
 
