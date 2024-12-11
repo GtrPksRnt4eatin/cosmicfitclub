@@ -30,7 +30,7 @@ PromoSquare.prototype = {
   next_promo: function() {
     let isclass = this.state.index%2;
     let index = Math.floor(this.state.index/2);
-    if(index > Math.max(this.state.classes.count, this.state.events.count) {
+    if(index > Math.max(this.state.classes.count, this.state.events.count)) {
       this.state.index = 0;
       this.next_promo();
       return;
