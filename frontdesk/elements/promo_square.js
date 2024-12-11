@@ -46,10 +46,27 @@ Object.assign( PromoSquare.prototype, element);
 
 PromoSquare.prototype.HTML = `
   <img rv-src="state.current.image_url"/>
-  <div rv-each-line="state.current.poster_lines">{line}</div>
-`.untab(2);
+  <div class='poster_lines'>
+    <div rv-each-line="state.current.poster_lines">{line}</div>
+  </div>
+  `.untab(2);
 
 PromoSquare.prototype.CSS = `
+  promo-square {
+    position: relative;
+  }
+
+  promo-square img { 
+    border-radius: 2em;
+  }
+
+  promo-square .poster_lines {
+    position: absolute;
+    background: rgba(0,0,0,0.7);
+    border-radius: 0 0 2em 2em;
+    bottom: 0;
+    left: 0; right: 0;
+  }
 `.untab(2);
 
 rivets.components['promo-square'] = {
