@@ -164,7 +164,7 @@ class ClassDef < Sequel::Model
     { :id => self.id, 
       :name => self.name, 
       :image_url => self.thumbnail_image,
-      :locations => self.schedules.map(&:location).uniq
+      :locations => self.schedules.map(&:location).uniq,
       :poster_lines => self.footer_lines_teachers
     }
   end
