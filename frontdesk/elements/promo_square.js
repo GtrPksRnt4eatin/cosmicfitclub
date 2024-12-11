@@ -10,6 +10,8 @@ function PromoSquare(el,attr) {
     index: 0,
     timer: setInterval(this.next_promo, 5000),
   }
+  
+  this.load_styles();
   this.get_events();
   this.get_classes();
 }
