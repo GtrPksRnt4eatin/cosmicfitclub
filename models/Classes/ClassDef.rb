@@ -165,13 +165,14 @@ class ClassDef < Sequel::Model
       :name => self.name, 
       :image_url => self.thumbnail_image,
       :locations => self.schedules.map(&:location).uniq
+      :poster_lines => self.footer_lines_teachers
     }
   end
 
   def adminpage_view
     classpage_view.merge({
-      :description => self.description,
-      :schedules   => self.schedules
+      :description  => self.description,
+      :schedules    => self.schedules,
     })
   end
 
