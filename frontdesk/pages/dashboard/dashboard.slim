@@ -9,7 +9,7 @@ html
     == css [ 'fonts', 'site', 'header', 'menu_colors', 'dashboard' ]
 
     == js_bundle( 'dashboard1', ['jquery', 'rivets', 'lib', 'element', 'ev_channel', 'moment', 'daypilot-all.min'])
-    == js_sync ['/auth/elements/userview', '/checkout/elements/loft_calendar', 'dashboard']
+    == js_sync ['/auth/elements/userview', '/checkout/elements/loft_calendar', '/fromtdesk/elements/promo_square', 'dashboard']
 
   body
 
@@ -52,6 +52,9 @@ html
                 | (7 Train)
             td.arrival
               | { bus.arrival }
+
+      .tile
+        promo-square
 
       .tile
         loft-calendar admin='true' view='Day'

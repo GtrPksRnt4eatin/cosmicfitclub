@@ -26,7 +26,7 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   get '/ranked_list' do
-    ClassdefSchedule.get_class_page_rankings.map { |x| ClassDef[x].classpage_view }.to_json
+    ClassdefSchedule.get_class_page_rankings.map { |x| ClassDef[x].adminpage_view }.to_json
   end
 
   ####################################### LISTS #####################################################
