@@ -10,7 +10,7 @@ function PromoSquare(el,attr) {
     index: 0,
     timer: setInterval(this.next_promo, 5000),
   }
-  
+
   this.load_styles();
   this.get_events();
   this.get_classes();
@@ -60,6 +60,7 @@ PromoSquare.prototype.CSS = `
 
   promo-square img { 
     border-radius: 2em;
+    box-shadow: 0 0 8px white;
   }
 
   promo-square .poster_lines {
