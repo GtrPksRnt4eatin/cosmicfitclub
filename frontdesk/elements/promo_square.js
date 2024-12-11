@@ -56,6 +56,7 @@ PromoSquare.prototype.HTML = `
 PromoSquare.prototype.CSS = `
   promo-square {
     position: relative;
+    box-sizing: border-box;
   }
 
   promo-square img { 
