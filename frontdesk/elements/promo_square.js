@@ -54,7 +54,7 @@ PromoSquare.prototype.HTML = `
 PromoSquare.prototype.CSS = `
 `.untab(2);
 
-rivets.components[promo-square] = {
+rivets.components['promo-square'] = {
   template:   function()        { return PromoSquare.prototype.HTML },
   initialize: function(el,attr) { return new PromoSquare(el,attr);  }
 }
