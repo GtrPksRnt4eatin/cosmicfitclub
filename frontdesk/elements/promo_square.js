@@ -48,7 +48,7 @@ PromoSquare.prototype = {
 Object.assign( PromoSquare.prototype, element);
 
 PromoSquare.prototype.HTML = `
-  <img rv-src="this.state.current.image_url"/>
+  <img rv-src="state.current.image_url"/>
 `.untab(2);
 
 PromoSquare.prototype.CSS = `
