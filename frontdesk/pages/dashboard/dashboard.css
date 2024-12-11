@@ -6,8 +6,18 @@ loft-calendar .calendar_default_main {
   font-size: 1em;
 }
 
+promo-square {
+  vertical-align: middle;
+}
+
+table {
+  vertical-align: middle;
+  display: inline-block;
+  padding-right: 5em;
+}
+
 td {
-  padding: 0 0.5em;
+  padding: 0.2em 1em;
 }
 
 td.minutes {
