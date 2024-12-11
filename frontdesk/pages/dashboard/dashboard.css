@@ -6,6 +6,10 @@ loft-calendar .calendar_default_main {
   font-size: 1em;
 }
 
+td {
+  padding: 0 0.5em;
+}
+
 td.minutes {
   background: rgba(0,255,0,0.3);
 }

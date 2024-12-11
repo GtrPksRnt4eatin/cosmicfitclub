@@ -24,8 +24,10 @@ html
           | Current Time: {data.current_time}
 
       div
-        .tile Approaching B24 Busses: 
         table
+          tr
+            td colspan=3
+              Approaching B24 Busses:
           tr.tile rv-each-bus='data.bus_times.south'
             td.minutes
               div
