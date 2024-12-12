@@ -2,6 +2,10 @@
   font-size: 14pt;
 }
 
+.tile {
+  margin: 1em 0;
+}
+
 .first_row {
   display: flex;
 }
