@@ -12,16 +12,17 @@ loft-calendar .calendar_default_main {
 
 promo-square {
   vertical-align: middle;
-  width: 16em;
-  height: 16em;
+  width: 17em;
+  height: 17em;
   position: relative;
   display: inline-block;
+  font-size: 13pt;
 }
 
 table {
   vertical-align: middle;
   display: inline-block;
-  padding-right: 2em;
+  padding-right: 1em;
   font-size: 14pt;
 }
 
