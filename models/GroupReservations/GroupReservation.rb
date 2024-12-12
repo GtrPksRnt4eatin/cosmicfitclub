@@ -35,6 +35,7 @@ class GroupReservation < Sequel::Model
   end
 
   def full_delete
+    Slack.website_purchases("#{self.summary} Cancelled!")
     Calendar::delete_event(self.gcal_event_id)
     self.slots.each { |s| s.delete } 
     self.delete

@@ -52,7 +52,8 @@ ctrl = {
   },
 
   cancel: function(e,m) {
-    let x = 5;
+    $.delete(`/models/groups${m.reservation.id}`)
+     .done(function() { window.location.reload(); });
   }
 
 }
