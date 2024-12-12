@@ -73,6 +73,7 @@ PromoSquare.prototype.CSS = `
     border-radius: 0 0 2em 2em;
     bottom: 0;
     left: 0; right: 0;
+    line-height: 1.2em;
   }
 `.untab(2);
 
