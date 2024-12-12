@@ -52,6 +52,7 @@ ctrl = {
   },
 
   cancel: function(e,m) {
+    if(!confirm("Are you sure you want to cancel?")) { return; }
     $.delete(`/models/groups${m.reservation.id}`)
      .done(function() { window.location.reload(); });
   }
