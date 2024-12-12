@@ -1,4 +1,4 @@
-body {
+.content {
   font-size: 14pt;
 }
 
@@ -12,8 +12,8 @@ loft-calendar .calendar_default_main {
 
 promo-square {
   vertical-align: middle;
-  width: 17em;
-  height: 17em;
+  width: 16em;
+  height: 16em;
   position: relative;
   display: inline-block;
 }
