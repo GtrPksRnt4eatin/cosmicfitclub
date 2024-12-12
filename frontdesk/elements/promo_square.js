@@ -6,7 +6,7 @@ function PromoSquare(el,attr) {
   this.state = {
     events: [],
     classes: [],
-    current: null,
+    current: { poster_lines: ["Loading Promos...", "Please Wait"]},
     index: 0,
     timer: setInterval(this.next_promo, 10000),
   }
@@ -21,12 +21,26 @@ PromoSquare.prototype = {
 
   get_events: function() {
     $.get("/models/events/future_all")
-     .success( function(resp) { this.state['events'] = resp; }.bind(this) );
+     .success( function(resp) { 
+       this.state['events'] = resp;
+       this.state['events'].forEach(function(event) {
+         fetch(event.image_url)
+          .then(function(resp) { return resp.blob(); })
+          .then(function(blob) { event.image_url = URL.createObjectURL(blob); })
+       });
+     }.bind(this));
   },
 
   get_classes: function() {
     $.get("/models/classdefs/ranked_list")
-     .success( function(resp) { this.state['classes'] = resp; }.bind(this) );
+     .success( function(resp) { 
+       this.state['classes'] = resp; 
+       this.state['classes'].forEach(function(cls) {
+        fetch(cls.image_url)
+         .then(function(resp) { return resp.blob(); })
+         .then(function(blob) { cls.image_url = URL.createObjectURL(blob); })
+      });
+     }.bind(this) );
   },
 
   next_promo: function() {
