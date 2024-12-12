@@ -9,8 +9,8 @@ $(document).ready( function() {
   var view = rivets.bind( $('body'), { data: data } );
   calendar = get_element(view, 'loft-calendar');
   setInterval(updateClock,     1000);
-  setInterval(getBusTimes,    10000);
-  setInterval(updateCalendar, 60000)
+  setInterval(getBusTimes,    20000);
+  setInterval(updateCalendar, 120000);
 });
 
 function updateClock() {
