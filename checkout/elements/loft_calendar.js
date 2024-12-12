@@ -104,8 +104,8 @@ LoftCalendar.prototype = {
   },
 
   full_refresh: function() {
-    this.start = (new Date).toISOString().split('T')[0];
-    this.end = new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0];
+    this.start = (new Date).toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    this.end = new Date(Date.now() + 7*24*60*60*1000).toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });
     this.refresh_data().then( function() {
       this.state.daypilot.startDate = this.start;
       this.state.daypilot.update();
