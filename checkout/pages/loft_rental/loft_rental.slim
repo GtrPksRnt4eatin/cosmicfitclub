@@ -88,7 +88,8 @@ html
           | My Upcoming Reservations:
 
         div rv-each-reservation='data.my_reservations'
-          br
-          | { reservation.summary }
+          span
+            | { reservation.summary }
+            button rv-on-click='ctrl.cancel' Cancel
 
     #popupmenu_container

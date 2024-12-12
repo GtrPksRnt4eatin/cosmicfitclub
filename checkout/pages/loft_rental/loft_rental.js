@@ -49,6 +49,10 @@ ctrl = {
 
   clear_starttime: function(e,m) {
     data.selected_timeslot = null;
+  },
+
+  cancel: function(e,m) {
+    let x = 5;
   }
 
 }
