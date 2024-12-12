@@ -2,28 +2,16 @@
   font-size: 14pt;
 }
 
-loft-calendar .calendar_default_event_inner {
-  font-size: 1em;
-}
-
-loft-calendar .calendar_default_main {
-  font-size: 1em;
-}
-
-promo-square {
-  vertical-align: middle;
-  width: 19em;
-  height: 19em;
-  position: relative;
-  display: inline-block;
-  font-size: 12pt;
+.first_row {
+  display: flex;
 }
 
 table {
   vertical-align: middle;
   display: inline-block;
-  padding-right: 1em;
-  font-size: 14pt;
+  margin-right: 1em;
+  font-size: 12pt;
+  flex: 1;
 }
 
 td {
@@ -32,6 +20,23 @@ td {
 
 td.minutes {
   background: rgba(0,255,0,0.3);
+}
+
+promo-square {
+  vertical-align: middle;
+  width: 20em;
+  height: 20em;
+  position: relative;
+  display: inline-block;
+  font-size: 12pt;
+}
+
+loft-calendar .calendar_default_event_inner {
+  font-size: 1em;
+}
+
+loft-calendar .calendar_default_main {
+  font-size: 1em;
 }
 
 @media (max-width: 800px) {
