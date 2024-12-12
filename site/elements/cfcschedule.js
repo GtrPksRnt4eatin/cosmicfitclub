@@ -100,6 +100,11 @@ Schedule.prototype = {
   get_occurrences() {
     this.dom.setAttribute('data-loading', true);
     $.get(`/models/schedule/${this.state.current_date.toISOString()}/${this.state.current_date.clone().add(7, 'days').toISOString()}`, function(occurrences) {
+      occurrences.forEach( function(x) { 
+        x.occurrences = x.occurrences.filter( function(y) { 
+          return ![173,188].includes(y.classdef_id); 
+        }); 
+      });
       this.state.groups = occurrences;
       this.dom.setAttribute('data-loading', false);
     }.bind(this), 'json');
