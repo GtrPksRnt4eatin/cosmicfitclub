@@ -127,6 +127,10 @@ map "/door" do
   run Door
 end
 
+map "/dmx" do
+  run Dmx
+end
+
 map "/twilio" do
   run TwilioRoutes
 end
