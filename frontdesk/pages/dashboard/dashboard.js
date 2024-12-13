@@ -1,14 +1,15 @@
 data = {
   bus_times: {},
-  current_time: ""
+  current_time: "",
+  checked: [true,true,true,true]
 }
 
 ctrl = {
   color_change(e,m) {
-    $.post('/dmx/cmd', { index: 0, capability: "color", value: e.target.value })
-    $.post('/dmx/cmd', { index: 1, capability: "color", value: e.target.value })
-    $.post('/dmx/cmd', { index: 2, capability: "color", value: e.target.value })
-    $.post('/dmx/cmd', { index: 3, capability: "color", value: e.target.value })
+    data.checked[0] && $.post('/dmx/cmd', { index: 0, capability: "color", value: e.target.value })
+    data.checked[1] && $.post('/dmx/cmd', { index: 1, capability: "color", value: e.target.value })
+    data.checked[2] && $.post('/dmx/cmd', { index: 2, capability: "color", value: e.target.value })
+    data.checked[3] && $.post('/dmx/cmd', { index: 3, capability: "color", value: e.target.value })
   }
 }
 
