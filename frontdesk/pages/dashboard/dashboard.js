@@ -3,10 +3,16 @@ data = {
   current_time: ""
 }
 
+ctrl = {
+  color_change(e,m) {
+    let x=5;
+  }
+}
+
 $(document).ready( function() { 
   updateClock();
   getBusTimes();
-  var view = rivets.bind( $('body'), { data: data } );
+  var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
   calendar = get_element(view, 'loft-calendar');
   setInterval(updateClock,     1000);
   setInterval(getBusTimes,    20000);
