@@ -5,7 +5,10 @@ data = {
 
 ctrl = {
   color_change(e,m) {
-    let x=5;
+    $.post('/dmx/cmd', { index: 0, capability: "color", value: e.target.value })
+    $.post('/dmx/cmd', { index: 1, capability: "color", value: e.target.value })
+    $.post('/dmx/cmd', { index: 2, capability: "color", value: e.target.value })
+    $.post('/dmx/cmd', { index: 3, capability: "color", value: e.target.value })
   }
 }
 
