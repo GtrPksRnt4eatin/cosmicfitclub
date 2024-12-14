@@ -27,7 +27,7 @@ BusTimes.prototype.HTML = `
     <tr class="tile">
       <td colspan="3"> Approaching B24 Busses </td>
     </tr>
-    <tr class="tile" rv-each-bus="this.state.bus_times.south">
+    <tr class="tile" rv-each-bus="state.bus_times.south">
       <td class="minutes">
         <div> {bus.arrives_in} </div>
         <div> Minutes </div>
@@ -40,7 +40,7 @@ BusTimes.prototype.HTML = `
         { bus.arrival }
       </td>
     </tr>
-    <tr class="tile" rv-each-bus="this.state.bus_times.north">
+    <tr class="tile" rv-each-bus="state.bus_times.north">
       <td class="minutes">
         <div> {bus.arrives_in} </div>
         <div> Minutes </div>

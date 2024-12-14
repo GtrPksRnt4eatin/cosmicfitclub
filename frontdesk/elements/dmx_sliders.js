@@ -22,7 +22,7 @@ DmxSliders.prototype = {
   },
 
   show: function() {
-    this.ev_fire(show, this.dom);
+    this.ev_fire('show', this.dom);
   },
 
   change_value(e,m) {
