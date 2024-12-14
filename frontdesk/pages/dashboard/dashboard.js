@@ -10,6 +10,16 @@ ctrl = {
     data.checked[1] && $.post('/dmx/cmd', { index: 1, capability: "color", value: e.target.value })
     data.checked[2] && $.post('/dmx/cmd', { index: 2, capability: "color", value: e.target.value })
     data.checked[3] && $.post('/dmx/cmd', { index: 3, capability: "color", value: e.target.value })
+  },
+
+  show_spider1() {
+    dmx_slider.load_device(4);
+    dmx_spider.show();
+  },
+
+  show_spider2() {
+    dmx_slider.load_device(5);
+    dmx_spider.show();
   }
 }
 
@@ -17,6 +27,9 @@ $(document).ready( function() {
   updateClock();
   getBusTimes();
   var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+  dmx_sliders = new DmxSliders();
+  popupmenu   = new PopupMenu( id('popupmenu_container') );
+  dmx_sliders.ev_sub('show', popupmenu.show );
   calendar = get_element(view, 'loft-calendar');
   setInterval(updateClock,     1000);
   setInterval(getBusTimes,    20000);

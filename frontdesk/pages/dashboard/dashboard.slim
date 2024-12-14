@@ -8,8 +8,8 @@ html
     
     == css [ 'fonts', 'site', 'header', 'menu_colors', 'dashboard' ]
 
-    == js_bundle( 'dashboard1', ['jquery', 'rivets', 'lib', 'element', 'ev_channel', 'moment', 'daypilot-all.min'])
-    == js_sync ['/auth/elements/userview', '/checkout/elements/loft_calendar', '/frontdesk/elements/promo_square', 'dashboard']
+    == js_bundle( 'dashboard1', ['jquery', 'rivets', 'lib', 'popupmenu', 'element', 'ev_channel', 'moment', 'daypilot-all.min'])
+    == js_sync ['/auth/elements/userview', '/frontdesk/elements/dmx_sliders.js', '/checkout/elements/loft_calendar', '/frontdesk/elements/promo_square', 'dashboard']
 
   body
 
@@ -66,3 +66,7 @@ html
         input type="checkbox" rv-checked="data.checked.2"
         input type="checkbox" rv-checked="data.checked.3"
         input type="color" rv-on-change='ctrl.color_change'
+        button rv-on-click="show_spider1" Spider1
+        button rv-on-click="show_spider2" Spider2
+    
+    #popupmenu_container

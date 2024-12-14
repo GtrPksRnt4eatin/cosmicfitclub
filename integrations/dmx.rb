@@ -8,7 +8,7 @@ class Dmx < Sinatra::Base
   register Sinatra::Auth
 
   get('/device/:id') do
-    RestClient.get( "http://cosmicloft.dyndns.org:91/devices/#{params[:id]}", :content_type => 'application/json', :timeout => 3 )
+    RestClient.get( "http://cosmicloft.dyndns.org:91/device/#{params[:id]}", :content_type => 'application/json', :timeout => 3 )
   end
 
   post('/cmd') do
