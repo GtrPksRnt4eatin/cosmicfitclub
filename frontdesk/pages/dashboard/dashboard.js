@@ -13,13 +13,13 @@ ctrl = {
   },
 
   show_spider1() {
-    dmx_slider.load_device(4);
-    dmx_spider.show();
+    dmx_sliders.load_device(4);
+    dmx_sliders.show();
   },
 
   show_spider2() {
-    dmx_slider.load_device(5);
-    dmx_spider.show();
+    dmx_sliders.load_device(5);
+    dmx_sliders.show();
   }
 }
 
