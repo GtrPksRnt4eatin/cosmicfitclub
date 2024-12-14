@@ -6,7 +6,7 @@ function BusTimes(el, attr) {
   this.update();
   this.load_styles();
   this.bind_handlers(['update']);
-  this.timer = this.setInterval(this.update, 20000);
+  this.timer = setInterval(this.update, 20000);
 }
 
 BusTimes.prototype = {
