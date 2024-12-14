@@ -22,6 +22,8 @@ html
       .tile
         div 
           | Current Time: {data.current_time}
+      
+      bus_times
 
       div.first_row
         table
@@ -66,7 +68,7 @@ html
         input type="checkbox" rv-checked="data.checked.2"
         input type="checkbox" rv-checked="data.checked.3"
         input type="color" rv-on-change='ctrl.color_change'
-        button rv-on-click="show_spider1" Spider1
-        button rv-on-click="show_spider2" Spider2
+        button rv-on-click="ctrl.show_spider1" Spider1
+        button rv-on-click="ctrl.show_spider2" Spider2
     
     #popupmenu_container
