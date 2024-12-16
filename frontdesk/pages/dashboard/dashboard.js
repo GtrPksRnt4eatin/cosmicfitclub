@@ -23,8 +23,11 @@ ctrl = {
   }
 }
 
+
 function debounce(func, delay) {
   let timeoutId;
+  busy = false;
+  next_val = null;
 
   return function(...args) {
     if(busy) { next_val = args; return; }
@@ -32,8 +35,8 @@ function debounce(func, delay) {
       busy = true;
       func.apply(this, args);
       timer = setInterval(function() { 
-        if(next_val) { func.apply(this, next_val); }
-        else { busy = false; }
+        if(next_val) { func.apply(this, next_val); next_val = null; }
+        else { busy = false; clearInterval(timer); }
       },300);
     }
   };
