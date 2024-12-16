@@ -27,37 +27,7 @@ html
       bus_times
 
       div.first_row
-        table
-          tr.tile
-            td colspan=3
-              | Approaching B24 Busses:
-          tr.tile rv-each-bus='data.bus_times.south'
-            td.minutes
-              div
-                | { bus.arrives_in } 
-              div 
-                | Minutes
-            td.direction
-              div
-                | Southbound 
-              div
-                | (L&G Train)
-            td.arrival
-              | { bus.arrival }
-          tr.tile rv-each-bus='data.bus_times.north'
-            td.minutes
-              div
-                | { bus.arrives_in } 
-              div
-                | Minutes
-            td.direction
-              div
-                | Northbound
-              div
-                | (7 Train)
-            td.arrival
-              | { bus.arrival }
-
+        bus_times
         promo-square
 
       .tile
