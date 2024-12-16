@@ -5,11 +5,11 @@ data = {
 }
 
 ctrl = {
-  color_change(e,m) {
-    data.checked[0] && $.post('/dmx/cmd', { index: 0, capability: "color", value: e.target.value })
-    data.checked[1] && $.post('/dmx/cmd', { index: 1, capability: "color", value: e.target.value })
-    data.checked[2] && $.post('/dmx/cmd', { index: 2, capability: "color", value: e.target.value })
-    data.checked[3] && $.post('/dmx/cmd', { index: 3, capability: "color", value: e.target.value })
+  color_change(value) {
+    data.checked[0] && $.post('/dmx/cmd', { index: 0, capability: "color", value: value })
+    data.checked[1] && $.post('/dmx/cmd', { index: 1, capability: "color", value: value })
+    data.checked[2] && $.post('/dmx/cmd', { index: 2, capability: "color", value: value })
+    data.checked[3] && $.post('/dmx/cmd', { index: 3, capability: "color", value: value })
   },
 
   show_spider1() {
@@ -27,6 +27,8 @@ $(document).ready( function() {
   updateClock();
   getBusTimes();
   colorPicker = new iro.ColorPicker('#picker');
+  colorPicker.on('color:change', ctrl.color_change);
+
   var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
   dmx_sliders = new DmxSliders();
   popupmenu   = new PopupMenu( id('popupmenu_container') );
