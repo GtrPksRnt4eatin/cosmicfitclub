@@ -45,7 +45,7 @@ function debounce(func, delay) {
 $(document).ready( function() { 
   updateClock();
   getBusTimes();
-  colorPicker = new iro.ColorPicker('#picker');
+  colorPicker = new iro.ColorPicker('#picker', { width: 200 });
   colorPicker.on('color:change', debounce(ctrl.color_change,1000));
 
   var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
