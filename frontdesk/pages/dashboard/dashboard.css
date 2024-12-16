@@ -26,6 +26,10 @@ td.minutes {
   background: rgba(0,255,0,0.3);
 }
 
+:checked + button {
+  background: rgba(0,255,0,0.2);
+}
+
 promo-square {
   vertical-align: middle;
   width: 45vw;
