@@ -30,7 +30,7 @@ LoftCalendar.prototype = {
       viewType: this.viewType,
       days: 7,
       cellDuration: 30,
-      cellHeight: 20,
+      cellHeight: 15,
       headerDateFormat: "ddd MMM d",
       businessBeginsHour: 9,
       businessEndsHour: 24,
