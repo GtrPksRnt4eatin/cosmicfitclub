@@ -26,6 +26,15 @@ td.minutes {
   background: rgba(0,255,0,0.3);
 }
 
+#picker, .light_selection {
+  display: inline-block;
+}
+
+.light_selection button {
+  font-size: 2em;
+  padding: 1em;
+}
+
 :checked + button {
   background: rgba(0,255,0,0.2);
 }
