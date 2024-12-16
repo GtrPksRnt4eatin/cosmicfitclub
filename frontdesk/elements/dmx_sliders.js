@@ -61,7 +61,7 @@ DmxSliders.prototype.HTML = `
 
 DmxSliders.prototype.CSS = `
 
-  #dmx_sliders input[type="range] {
+  #dmx_sliders input {
     writing-mode: vertical-lr;
     direction: rtl;
   }
