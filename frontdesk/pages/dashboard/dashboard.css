@@ -38,6 +38,10 @@ td.minutes {
   vertical-align: middle;
 }
 
+.light_selection input {
+  display: none;
+}
+
 .light_selection label {
   display: inline-block;
 }
