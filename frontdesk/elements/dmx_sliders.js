@@ -9,6 +9,7 @@ function DmxSliders(el) {
 
   this.build_dom();
   this.bind_dom();
+  this.apply_styles();
   this.bind_handlers(['load_device', 'show', 'change_value'])
   this.load_styles();
 }
@@ -39,7 +40,7 @@ Object.assign( DmxSliders.prototype, element );
 Object.assign( DmxSliders.prototype, ev_channel );
 
 DmxSliders.prototype.HTML = `
-  <table>
+  <table id="dmx_sliders">
     <tr>
       <td rv-each-cap="this.state.device.capabilities">
         { cap }
@@ -59,5 +60,10 @@ DmxSliders.prototype.HTML = `
 `.untab(2);
 
 DmxSliders.prototype.CSS = `
+
+  #dmx_sliders input[type="range] {
+    writing-mode: vertical-lr;
+    direction: rtl;
+  }
 
 `.untab(2);
