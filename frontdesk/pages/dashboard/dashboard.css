@@ -47,6 +47,7 @@ td.minutes {
   padding: 1em;
   margin: 1em;
   font-weight: bold;
+  display: inline-block;
 }
 
 input[type="ch"]
