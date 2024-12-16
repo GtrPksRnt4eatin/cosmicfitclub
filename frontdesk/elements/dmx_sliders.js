@@ -23,7 +23,7 @@ DmxSliders.prototype = {
   },
 
   show: function() {
-    this.ev_fire('show', this.dom);
+    this.ev_fire('show', { 'dom': this.dom, 'position': 'modal');
   },
 
   change_value(e,m) {
