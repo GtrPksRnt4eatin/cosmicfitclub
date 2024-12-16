@@ -18,11 +18,10 @@ html
 
     == include_slim('slim/partials/slim_header')
 
-    .content
+    #clock
+      | {data.current_time}
 
-      .tile
-        div 
-          | Current Time: {data.current_time}
+    .content
       
       div.first_row
         bus_times
