@@ -36,6 +36,7 @@ td.minutes {
 #picker, .light_selection {
   display: inline-block;
   vertical-align: middle;
+  margin: 0.25em;
 }
 
 .light_selection input {
