@@ -43,14 +43,12 @@ td.minutes {
 }
 
 .light_selection span {
-  font-size: 1.5em;
-  padding: 1em;
-  margin: 1em;
+  font-size: 1.3em;
+  padding: 0.5em;
+  margin: 0.5em;
   font-weight: bold;
   display: inline-block;
 }
-
-input[type="ch"]
 
 :checked + span {
   background: rgba(116, 238, 116, 0.2);
