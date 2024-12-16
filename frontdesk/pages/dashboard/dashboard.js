@@ -24,12 +24,14 @@ ctrl = {
 }
 
 function debounce(func, delay) {
-  let timeout;
-  return function() {
-    const context = this;
-    const args = arguments;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(context, args), delay);
+  let timeoutId;
+
+  return function(...args) {
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
   };
 }
 
@@ -37,7 +39,7 @@ $(document).ready( function() {
   updateClock();
   getBusTimes();
   colorPicker = new iro.ColorPicker('#picker');
-  colorPicker.on('color:change', debounce(ctrl.color_change,500));
+  colorPicker.on('color:change', debounce(ctrl.color_change,100));
 
   var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
   dmx_sliders = new DmxSliders();
