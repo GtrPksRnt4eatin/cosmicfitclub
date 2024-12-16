@@ -32,10 +32,21 @@ html
         loft-calendar admin='true' view='Day'
       
       .tile
-        input type="checkbox" rv-checked="data.checked.0"
-        input type="checkbox" rv-checked="data.checked.1"
-        input type="checkbox" rv-checked="data.checked.2"
-        input type="checkbox" rv-checked="data.checked.3"
+        .light_selection
+          .row1
+            label
+              input type="checkbox" rv-checked="data.checked.0"
+              button Light 1
+            label
+              input type="checkbox" rv-checked="data.checked.1"
+              button Light 2
+          .row2
+            label
+              input type="checkbox" rv-checked="data.checked.2"
+              button Light 3
+            label
+              input type="checkbox" rv-checked="data.checked.3"
+              button Light 4
         div#picker
         input type="color" rv-on-change='ctrl.color_change'
         button rv-on-click="ctrl.show_spider1" Spider1
