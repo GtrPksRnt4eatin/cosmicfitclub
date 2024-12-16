@@ -27,11 +27,15 @@ function debounce(func, delay) {
   let timeoutId;
 
   return function(...args) {
-    clearTimeout(timeoutId);
-
-    timeoutId = setTimeout(() => {
+    if(busy) { next_val = args; return; }
+    if(!busy) {
+      busy = true;
       func.apply(this, args);
-    }, delay);
+      timer = setInterval(function() { 
+        if(next_val) { func.apply(this, next_val); }
+        else { busy = false; }
+      },300);
+    }
   };
 }
 
@@ -39,7 +43,7 @@ $(document).ready( function() {
   updateClock();
   getBusTimes();
   colorPicker = new iro.ColorPicker('#picker');
-  colorPicker.on('color:change', debounce(ctrl.color_change,100));
+  colorPicker.on('color:change', debounce(ctrl.color_change,1000));
 
   var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
   dmx_sliders = new DmxSliders();
