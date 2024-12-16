@@ -31,7 +31,8 @@ DmxSliders.prototype = {
 
   change_value(e,m) {
     let val = e.target.value;
-    $.post('/dmx/cmd', { index: this.state.index, capability: m.cap.name, value: val });
+    let cap = this.state.device.capabilities[m.index];
+    $.post('/dmx/cmd', { index: this.state.index, capability: cap, value: val });
   }
 
 }
