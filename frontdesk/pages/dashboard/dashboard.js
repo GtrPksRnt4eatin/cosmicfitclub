@@ -26,6 +26,9 @@ ctrl = {
 $(document).ready( function() { 
   updateClock();
   getBusTimes();
+  Coloris({
+    alpha: false
+  |);
   var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
   dmx_sliders = new DmxSliders();
   popupmenu   = new PopupMenu( id('popupmenu_container') );
