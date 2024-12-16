@@ -67,6 +67,6 @@ DmxSliders.prototype.CSS = `
   }
 
   #dmx_sliders {
-    font-size: 10pt;
+    font-size: 8pt;
   }
 `.untab(2);
