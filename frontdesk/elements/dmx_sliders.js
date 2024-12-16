@@ -7,7 +7,7 @@ function DmxSliders(el) {
     }
   }
 
-  this.dom = this.build_dom();
+  this.build_dom();
   this.bind_handlers(['load_device', 'show', 'change_value'])
   this.load_styles();
 }
