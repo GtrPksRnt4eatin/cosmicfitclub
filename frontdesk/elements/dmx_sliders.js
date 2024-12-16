@@ -17,7 +17,7 @@ DmxSliders.prototype = {
 
   load_device(index) {
     this.state.index = index;
-    $.get("/dmx/device/#{index}", function(resp) {
+    $.get(`/dmx/device/#{index}`, function(resp) {
       this.state.capabilities = resp;
     }.bind(this), 'json');
   },
