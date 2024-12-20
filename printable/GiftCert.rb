@@ -91,7 +91,7 @@ module GiftCert
     @@image.overlay(@@qrcode, 680, 680, 200, 710)
     @@image.draw_text(cert.code,12,0,1320,'north',"\#000000FF")
 
-    @@image.draw_footer(8)
+    @@image.draw_footer({ptsize: 8})
   end
 
 end
