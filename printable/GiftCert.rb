@@ -75,7 +75,7 @@ module GiftCert
     @@image.draw_box({x_offset: 0, y_offset: 430,width: 1080, height: 240})
     @@image.draw_box({x_offset: 0, y_offset: 1430, width: 1080, height: 280})
 
-    @@image.draw_paragraph({ text: "GIFT CERTIFICATE\r\nFOR #{cert.num_passes.humanize.upcase} CLASSES", ptsize: 23, x_offset: 0, y_offset:450, gravity: "north",color: "\#FFFFFFFF", spacing: 10})
+    @@image.draw_paragraph({ text: "GIFT CERTIFICATE\r\nFOR #{cert.num_passes.humanize.upcase} HOURS", ptsize: 23, x_offset: 0, y_offset:450, gravity: "north",color: "\#FFFFFFFF", spacing: 10})
     
     box_starty  = 1470
     box_spacing = 130
