@@ -84,8 +84,8 @@ module GiftCert
     @@image.draw_box({x_offset: 280, y_offset: box_starty + box_spacing, width: 725, height: 100, x_radius: 10, y_radius: 10, color: "\#FFFFFFDD"})
     @@image.draw_box({x_offset: 280, y_offset: box_starty + box_spacing*2, width: 725, height: 100, x_radius: 10, y_radius: 10, color: "\#FFFFFFDD"})
 
-    @@image.draw_paragraph({ text: "From:\r\nTo:\r\nFor:", ptsize: 12, x_offset: 840, y_offset: box_starty+22, gravity: "northeast", color: "\#FFFFFFFF", spacing: 75})
-    @@image.draw_paragraph({ text: "#{cert.from}\r\n#{cert.to}\r\n#{cert.occasion}", ptsize: 12, x_offset: 300, y_offset: box_starty+22, gravity: "northwest", color: "\#000000FF", spacing: 75})
+    @@image.draw_paragraph({ text: "From:\r\nTo:\r\nFor:", ptsize: 12, x_offset: 840, y_offset: box_starty+24, gravity: "northeast", color: "\#FFFFFFFF", spacing: 77})
+    @@image.draw_paragraph({ text: "#{cert.from}\r\n#{cert.to}\r\n#{cert.occasion}", ptsize: 12, x_offset: 300, y_offset: box_starty+24, gravity: "northwest", color: "\#000000FF", spacing: 77})
 
     @@qrcode.to_bubble(nil)
     @@image.overlay(@@qrcode, 680, 680, 200, 710)
