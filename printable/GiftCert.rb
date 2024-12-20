@@ -72,17 +72,17 @@ module GiftCert
 
     @@image.draw_logo(50,50,980)
 
-    @@image.draw_box(0,430,1080,240)
-    @@image.draw_box(0,1430,1080,280)
+    @@image.draw_box(x_offset: 0, y_offset: 430,width: 1080, height: 240)
+    @@image.draw_box(x_offset: 0, y_offset: 1430, width: 1080, height: 280)
 
     @@image.draw_paragraph("GIFT CERTIFICATE\r\nFOR #{cert.num_passes.humanize.upcase} CLASSES",23,0,450,"north","\#FFFFFFFF",10)
     
     box_starty  = 1470
     box_spacing = 130
 
-    @@image.draw_box(280, box_starty, 725, 100, 10, 10,"\#FFFFFFDD")
-    @@image.draw_box(280, box_starty + box_spacing, 725, 100, 10, 10,"\#FFFFFFDD")
-    @@image.draw_box(280, box_starty + box_spacing*2, 725, 100, 10, 10,"\#FFFFFFDD")
+    @@image.draw_box(x_offset: 280, y_offset: box_starty, width: 725, height: 100, x_radius: 10, y_radius: 10, color: "\#FFFFFFDD")
+    @@image.draw_box(x_offset: 280, y_offset: box_starty + box_spacing, width: 725, height: 100, x_radius: 10, y_radius: 10, color: "\#FFFFFFDD")
+    @@image.draw_box(x_offset: 280, y_offset: box_starty + box_spacing*2, width: 725, height: 100, x_radius: 10, y_radius: 10, color: "\#FFFFFFDD")
 
     @@image.draw_paragraph("From:\r\nTo:\r\nFor:",16,840,box_starty+18,"northeast","\#FFFFFFFF",62)
     @@image.draw_paragraph("#{cert.from}\r\n#{cert.to}\r\n#{cert.occasion}",16,300,box_starty+18,"northwest","\#000000FF",62)
