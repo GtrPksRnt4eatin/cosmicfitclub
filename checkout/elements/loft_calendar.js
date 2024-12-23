@@ -70,7 +70,7 @@ LoftCalendar.prototype = {
   },
 
   filter: function() {
-    this.state.daypilot.filter("");
+    this.state.daypilot.events.filter("");
   },
 
   get_reservations: function() {
