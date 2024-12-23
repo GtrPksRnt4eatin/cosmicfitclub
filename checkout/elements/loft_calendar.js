@@ -56,11 +56,17 @@ LoftCalendar.prototype = {
           case 'Loft-1F-Front (4)':
             if(!this.state.point) { args.visible = false; }
             break;
+          case 'Loft-1F-Back (8)':
+            if(!this.state.floor) { args.visible = false; }
+            break;
+          default:
+            args.visible = false;
         }
         console.log(args);
       },
     });
     this.state.daypilot.init();
+    this.filter();
   },
 
   filter: function() {
