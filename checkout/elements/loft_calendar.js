@@ -10,14 +10,17 @@ function LoftCalendar(parent,attr) {
     daypilot: null,
     reservations: null,
     gcal_events: null,
-    loading: false   
+    loading: false,
+    point: true,
+    floor: false,
+    rooms: false
   }
       
   this.start = (new Date).toISOString().split('T')[0];
   this.end = new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0];
   
   this.load_styles();
-  this.bind_handlers(['build_daypilot', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
+  this.bind_handlers(['build_daypilot', 'filter', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
   this.build_daypilot();
   this.refresh_data();
 }
@@ -48,8 +51,15 @@ LoftCalendar.prototype = {
       onBeforeEventRender:   function(args) {
         this.admin && ( args.data.html = args.data.text.split(',').join(',<br/>'));
       },
+      onEventFilter: function(args) {
+        console.log(args);
+      },
     });
     this.state.daypilot.init();
+  },
+
+  filter: function() {
+    this.state.daypilot.filter(null);
   },
 
   get_reservations: function() {
@@ -144,6 +154,9 @@ LoftCalendar.prototype.HTML = `
   <div class='loftcalendar'>
     <button rv-on-click='prev_wk'>Prev</button>
     <button rv-on-click='next_wk'>Next</button>
+    <input type="checkbox" rv-checked='state.point' />
+    <input type="checkbox" rv-checked='state.floor' />
+    <input type="checkbox" rv-checked='state.rooms' />
     <div id='daypilot'></div>
   </div>
 `.untab(2);
