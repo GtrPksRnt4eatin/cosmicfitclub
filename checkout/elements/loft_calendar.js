@@ -63,6 +63,7 @@ LoftCalendar.prototype = {
             if(!this.state.rooms) { args.visible = false; }
             break;
           default:
+            console.log(args.e.data.text);
             console.log(args.e.data.resource);
             args.visible = false;
         }
