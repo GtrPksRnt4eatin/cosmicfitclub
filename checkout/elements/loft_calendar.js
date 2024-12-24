@@ -106,6 +106,7 @@ LoftCalendar.prototype = {
             start: moment(event.start).subtract(dst_hrs,'hours').format(),
             end: moment(event.end).subtract(dst_hrs,'hours').format(),
             text: this.admin ? event.summary : "Reserved",
+            resource: event.location,
             data: { resource: event.location },
             allday: event.allday,
             backColor: '#EEEEFF'
