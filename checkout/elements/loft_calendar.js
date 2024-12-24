@@ -52,7 +52,7 @@ LoftCalendar.prototype = {
         this.admin && ( args.data.html = args.data.text.split(',').join(',<br/>'));
       },
       onEventFilter: function(args) {
-        switch(args.e.resource) {
+        switch(args.e.resource()) {
           case 'Loft-1F-Front (4)':
             if(!this.state.point) { args.visible = false; }
             break;
@@ -60,9 +60,9 @@ LoftCalendar.prototype = {
             if(!this.state.floor) { args.visible = false; }
             break;
           default:
+            console.log(args.e.resource);
             args.visible = false;
         }
-        console.log(args);
       },
     });
     this.state.daypilot.init();
@@ -70,7 +70,7 @@ LoftCalendar.prototype = {
   },
 
   filter: function() {
-    this.state.daypilot.events.filter("");
+    this.state.daypilot.events.filter("asdf");
   },
 
   get_reservations: function() {
