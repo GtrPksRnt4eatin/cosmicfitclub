@@ -61,6 +61,7 @@ LoftCalendar.prototype = {
             if(!this.state.floor) { args.visible = false; }
             break;
           case 'Loft-1F-Guest Rm1 (2)':
+          case 'Loft-1F-GuestRm2 (2)':
             if(!this.state.rooms) { args.visible = false; }
             break;
           default:
