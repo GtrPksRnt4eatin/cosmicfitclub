@@ -72,7 +72,7 @@ LoftCalendar.prototype = {
       }.bind(this),
     });
     this.state.daypilot.init();
-    //this.filter();
+    this.filter();
   },
 
   filter: function() {
