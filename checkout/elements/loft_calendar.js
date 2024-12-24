@@ -94,6 +94,7 @@ LoftCalendar.prototype = {
             this.state.daypilot.events.remove(gcal);
             res.data ||= {};
             res.data.resource = resource;
+            res.resource = resource;
           }
           this.state.daypilot.events.add(res);
         }.bind(this))
