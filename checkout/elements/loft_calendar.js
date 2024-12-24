@@ -49,7 +49,7 @@ LoftCalendar.prototype = {
       onTimeRangeSelected: this.on_timeslot_selected,
       onEventClick: this.on_reservation_selected,
       onBeforeEventRender:   function(args) {
-        this.admin && ( args.data.html = args.data.text.split(',').join(',<br/>'));
+        this.admin && ( args.data.html = args.data.text ? args.data.text.split(',').join(',<br/>') : "???" );
       }.bind(this),
       onEventFilter: function(args) {
         switch(args.e.resource()) {
