@@ -50,7 +50,7 @@ LoftCalendar.prototype = {
       onEventClick: this.on_reservation_selected,
       onBeforeEventRender:   function(args) {
         this.admin && ( args.data.html = args.data.text.split(',').join(',<br/>'));
-      },
+      }.bind(this),
       onEventFilter: function(args) {
         switch(args.e.resource()) {
           case 'Loft-1F-Front (4)':
@@ -63,7 +63,7 @@ LoftCalendar.prototype = {
             console.log(args.e.resource);
             args.visible = false;
         }
-      },
+      }.bind(this),
     });
     this.state.daypilot.init();
     this.filter();
