@@ -84,6 +84,7 @@ LoftCalendar.prototype = {
         this.state.reservations.for_each( function(res) {
           let gcal = this.state.daypilot.events.find(res.gcal);
           if(gcal) {
+            console.log(`replacing: ${gcal} with ${res}`)
             let resource = gcal.resource(); 
             this.state.daypilot.events.remove(gcal);
             res.data ||= {};
