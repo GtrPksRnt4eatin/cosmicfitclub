@@ -63,13 +63,13 @@ LoftCalendar.prototype = {
             if(!this.state.rooms) { args.visible = false; }
             break;
           default:
-            console.log(`hiding: ${args.e.data}`);
+            console.log(args.e.data.resource);
             args.visible = false;
         }
       }.bind(this),
     });
     this.state.daypilot.init();
-    this.filter();
+    //this.filter();
   },
 
   filter: function() {
