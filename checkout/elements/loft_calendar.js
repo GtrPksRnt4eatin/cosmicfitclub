@@ -60,7 +60,7 @@ LoftCalendar.prototype = {
             if(!this.state.floor) { args.visible = false; }
             break;
           default:
-            console.log(args.e.resource());
+            console.log(`${args.e.resource()}`);
             args.visible = false;
         }
       }.bind(this),
@@ -82,7 +82,7 @@ LoftCalendar.prototype = {
           let gcal = this.state.daypilot.events.find(res.gcal);
           if(gcal) {
             let resource_str = gcal.resource()
-            res.resource =  function() { return resource_str }; 
+            Object.assign(res, { resource: function() { return resource_str } });
             this.state.daypilot.events.remove(gcal);
           }
           this.state.daypilot.events.add(res);
