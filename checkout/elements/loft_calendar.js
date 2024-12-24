@@ -59,6 +59,9 @@ LoftCalendar.prototype = {
           case 'Loft-1F-Back (8)':
             if(!this.state.floor) { args.visible = false; }
             break;
+          case 'Loft-1F-Guest Rm1 (2)':
+            if(!this.state.rooms) { args.visible = false; }
+            break;
           default:
             console.log(args.e.data);
             args.visible = false;
@@ -81,8 +84,7 @@ LoftCalendar.prototype = {
         this.state.reservations.for_each( function(res) {
           let gcal = this.state.daypilot.events.find(res.gcal);
           if(gcal) {
-            let resource_str = gcal.resource()
-            Object.assign(res, { resource: function() { return resource_str } });
+            res.data.resource = gcal.resource();
             this.state.daypilot.events.remove(gcal);
           }
           this.state.daypilot.events.add(res);
