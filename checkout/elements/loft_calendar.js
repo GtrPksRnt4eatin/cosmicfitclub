@@ -170,9 +170,9 @@ LoftCalendar.prototype.HTML = `
   <div class='loftcalendar'>
     <button rv-on-click='prev_wk'>Prev</button>
     <button rv-on-click='next_wk'>Next</button>
-    <input type="checkbox" rv-checked='state.point' />
-    <input type="checkbox" rv-checked='state.floor' />
-    <input type="checkbox" rv-checked='state.rooms' />
+    <input type="checkbox" rv-checked='state.point' rv-on-change='filter'/>
+    <input type="checkbox" rv-checked='state.floor' rv-on-change='filter'/>
+    <input type="checkbox" rv-checked='state.rooms' rv-on-change='filter'/>
     <div id='daypilot'></div>
   </div>
 `.untab(2);
