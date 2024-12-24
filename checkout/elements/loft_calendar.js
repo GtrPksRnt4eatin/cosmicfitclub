@@ -52,7 +52,7 @@ LoftCalendar.prototype = {
         this.admin && ( args.data.html = args.data.text ? args.data.text.split(',').join(',<br/>') : "???" );
       }.bind(this),
       onEventFilter: function(args) {
-        switch(args.e.resource()) {
+        switch(args.e.data.resource) {
           case 'Loft-1F-Front (4)':
             if(!this.state.point) { args.visible = false; }
             break;
