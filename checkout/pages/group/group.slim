@@ -14,7 +14,7 @@ html
     script src='https://js.stripe.com/v3/'
     
     javascript:
-      reservation_id = #{{ params[:id] }};
+      reservation_id = "#{{ params[:id] }}";
       STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
