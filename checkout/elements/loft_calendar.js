@@ -52,7 +52,7 @@ LoftCalendar.prototype = {
         this.admin && ( args.data.html = args.data.text.split(',').join(',<br/>'));
       }.bind(this),
       onEventFilter: function(args) {
-        switch(args.e.resource() || args.e.resource) {
+        switch(args.e.resource()) {
           case 'Loft-1F-Front (4)':
             if(!this.state.point) { args.visible = false; }
             break;
@@ -81,7 +81,8 @@ LoftCalendar.prototype = {
         this.state.reservations.for_each( function(res) {
           let gcal = this.state.daypilot.events.find(res.gcal);
           if(gcal) {
-            res.resource = gcal.resource(); 
+            let resource_str = gcal.resource()
+            res.resource =  function() { return resource_str }; 
             this.state.daypilot.events.remove(gcal);
           }
           this.state.daypilot.events.add(res);
