@@ -55,6 +55,7 @@ td.minutes {
   display: inline-block;
   cursor: pointer;
   border: 1px solid white;
+  pointer-events: none;
 }
 
 :checked + span {
