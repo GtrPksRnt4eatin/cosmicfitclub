@@ -45,6 +45,7 @@ td.minutes {
 
 .light_selection label {
   display: inline-block;
+  cursor: pointer;
 }
 
 .light_selection span {
@@ -53,7 +54,6 @@ td.minutes {
   margin: 0.25em;
   font-weight: bold;
   display: inline-block;
-  cursor: pointer;
   border: 1px solid white;
   pointer-events: none;
 }
