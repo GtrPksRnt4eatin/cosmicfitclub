@@ -58,6 +58,7 @@ BusTimes.prototype.HTML = `
 
 BusTimes.prototype.CSS = `
 
+  bus_times            { font-family: 'nimbus_sans'; }
   bus_times td         { padding: 0.2em 1em; }
   bus_times td.minutes { background: rgba(0,255,0,0.3); }
 
