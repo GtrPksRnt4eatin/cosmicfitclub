@@ -31,9 +31,9 @@ BusTimes.prototype.HTML = `
       </td>
     <tr>
     <tr class="bluerow">
-      <th>Next Bus</th>
-      <th>Towards</th>
-      <th>Status</th>
+      <td>Next Bus</td>
+      <td>Towards</td>
+      <td>Status</td>
     </tr>
     <tr rv-each-bus="state.bus_times.south">
       <td>B24 @ {bus.arrival}</td>
@@ -83,16 +83,17 @@ BusTimes.prototype.CSS = `
     border-collapse: collapse;
     border: 1px solid white;
     color: white;
+    text-align: left;
   }
 
   bus_times .mta img {
-    height: 3em;
+    height: 1.5em;
   }
 
   bus_times .mta .heading {
-    font-size: 2.25em;
+    font-size: 2em;
     font-weight: bold;
-    padding: 1em 2em 3em;
+    padding: 0.5em 0.5em 2em;
   }
 
   bus_times .mta .bluerow {
