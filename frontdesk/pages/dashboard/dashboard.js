@@ -53,7 +53,7 @@ $(document).ready( function() {
   popupmenu   = new PopupMenu( id('popupmenu_container') );
   dmx_sliders.ev_sub('show', popupmenu.show );
   calendar = get_element(view, 'loft-calendar');
-  bus_times = get_element(view, 'bus-times');
+  bus_times = get_element(view, 'bus_times');
   setInterval(updateClock,     1000);
   setInterval(getBusTimes,    20000);
   setInterval(updateCalendar, 120000);
