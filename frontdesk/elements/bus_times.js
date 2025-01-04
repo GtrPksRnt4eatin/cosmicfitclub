@@ -37,7 +37,7 @@ BusTimes.prototype.HTML = `
     </tr>
     <tr rv-each-bus="state.bus_times.south">
       <td>B24 {bus.arrival}</td>
-      <td>Graham Av<svg viewBox="5 5 95 95" src="l.svg"/><svg viewBox="10 10 90 90" src="g2.svg"/></td>
+      <td>Graham Av<img src="l.svg"/><img src="g2.svg"/></td>
       <td>{bus.arrives_in} min</td>
     </tr>
   </table>
