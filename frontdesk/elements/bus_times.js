@@ -25,9 +25,9 @@ Object.assign( BusTimes.prototype, element );
 BusTimes.prototype.HTML = `
   <table class="mta" rv-if="state.mta">
     <tr>
-      <td colspan="3">
+      <td class="heading" colspan="3">
         <img src="mta_logo.png" />
-        <span class="heading">Welcome to MEEKER AV/KINGSLAND AV</span>
+        <span>Welcome to MEEKER AV/KINGSLAND AV</span>
       </td>
     <tr>
     <tr class="bluerow">
@@ -80,11 +80,19 @@ BusTimes.prototype.CSS = `
   bus_times .mta { 
     font-family: 'nimbus_sans';
     background: black;
+    border-collapse: collapse;
+    border: 1px solid white;
+    color: white;
+  }
+
+  bus_times .mta img {
+    height: 3em;
   }
 
   bus_times .mta .heading {
-    font-size: 2.5em;
+    font-size: 2.25em;
     font-weight: bold;
+    padding: 1em 2em 3em;
   }
 
   bus_times .mta .bluerow {
