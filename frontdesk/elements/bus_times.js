@@ -23,6 +23,23 @@ BusTimes.prototype = {
 Object.assign( BusTimes.prototype, element );
 
 BusTimes.prototype.HTML = `
+  <table class="mta" rv-if="state.mta">
+    <thead>
+      <tr>
+        <th>Next Bus</th>
+        <th>Towards</th>
+        <th>Status></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr rv-each-bus="state.bus_times.south">
+        <td>B24 @ {bus.arrival}</td>
+        <td>L & G Train</td>
+        <td>{bus.arrives_in} min</td>
+      </tr>
+    </tbody>
+  </table>
+
   <table>
     <tr class="tile">
       <td colspan="3"> Approaching B24 Busses </td>
@@ -58,7 +75,15 @@ BusTimes.prototype.HTML = `
 
 BusTimes.prototype.CSS = `
 
-  bus_times            { font-family: 'nimbus_sans'; }
+  bus_times .mta { 
+    font-family: 'nimbus_sans';
+    background: 'black';
+  }
+
+  bus_times .mta thead {
+    background: #4578ad; 
+  }
+
   bus_times td         { padding: 0.2em 1em; }
   bus_times td.minutes { background: rgba(0,255,0,0.3); }
 
