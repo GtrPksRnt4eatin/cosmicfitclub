@@ -100,6 +100,11 @@ BusTimes.prototype.CSS = `
     background: #4578ad; 
   }
 
+  bus_times .mta td { 
+    font-size: 1.5em; 
+    padding: 0.5em 1em; 
+  }
+
   bus_times td         { padding: 0.2em 1em; }
   bus_times td.minutes { background: rgba(0,255,0,0.3); }
 
