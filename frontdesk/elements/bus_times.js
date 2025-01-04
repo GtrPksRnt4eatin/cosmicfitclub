@@ -27,7 +27,7 @@ BusTimes.prototype.HTML = `
     <tr>
       <td class="heading" colspan="3">
         <img src="mta_logo.png" />
-        <span>Welcome to the Meeker Av/Kingsland Av B24 Stop</span>
+        <span>Welcome to Meeker Av/Kingsland Av</span>
       </td>
     <tr>
     <tr class="bluerow">
