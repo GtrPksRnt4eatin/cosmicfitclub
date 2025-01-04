@@ -37,7 +37,7 @@ BusTimes.prototype.HTML = `
     </tr>
     <tr rv-each-bus="state.bus_times.south">
       <td>B24 {bus.arrival}</td>
-      <td>Graham Av<img src="l.svg"/><img src="g2.svg"/></td>
+      <td>Graham Av&nbsp;<img class="subway" src="l.svg"/><img class="subway" src="g2.svg"/></td>
       <td>{bus.arrives_in} min</td>
     </tr>
   </table>
@@ -88,6 +88,11 @@ BusTimes.prototype.CSS = `
 
   bus_times .mta img {
     height: 1.5em;
+  }
+
+  bus_times .mta img.subway {
+    vertical-align: text-top;
+    padding: none;
   }
 
   bus_times .mta .heading {
