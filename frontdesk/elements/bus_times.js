@@ -26,7 +26,7 @@ BusTimes.prototype.HTML = `
   <table class="mta" rv-if="state.mta">
     <tr>
       <td>
-        <img src="MTA_NYC_Logo_Black.png" />
+        <img src="mta_logo.png" />
       </td>
       <td colspan="2">
         Welcome to MEEKER AV/KINGSLAND AV
