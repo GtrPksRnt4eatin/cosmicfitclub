@@ -24,20 +24,24 @@ Object.assign( BusTimes.prototype, element );
 
 BusTimes.prototype.HTML = `
   <table class="mta" rv-if="state.mta">
-    <thead>
-      <tr>
-        <th>Next Bus</th>
-        <th>Towards</th>
-        <th>Status></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr rv-each-bus="state.bus_times.south">
-        <td>B24 @ {bus.arrival}</td>
-        <td>L & G Train</td>
-        <td>{bus.arrives_in} min</td>
-      </tr>
-    </tbody>
+    <tr>
+      <td>
+        <img src="MTA_NYC_Logo_Black.png" />
+      </td>
+      <td colspan="2">
+        Welcome to MEEKER AV/KINGSLAND AV
+      </td>
+    <tr>
+    <tr>
+      <th>Next Bus</th>
+      <th>Towards</th>
+      <th>Status</th>
+    </tr>
+    <tr rv-each-bus="state.bus_times.south">
+      <td>B24 @ {bus.arrival}</td>
+      <td>L & G Train</td>
+      <td>{bus.arrives_in} min</td>
+    </tr>
   </table>
 
   <table>
@@ -77,7 +81,7 @@ BusTimes.prototype.CSS = `
 
   bus_times .mta { 
     font-family: 'nimbus_sans';
-    background: 'black';
+    background: black;
   }
 
   bus_times .mta thead {

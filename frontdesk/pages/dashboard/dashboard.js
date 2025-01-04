@@ -48,11 +48,12 @@ $(document).ready( function() {
   colorPicker = new iro.ColorPicker('#picker', { width: 200 });
   colorPicker.on('color:change', debounce(ctrl.color_change,1000));
 
-  var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+  view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
   dmx_sliders = new DmxSliders();
   popupmenu   = new PopupMenu( id('popupmenu_container') );
   dmx_sliders.ev_sub('show', popupmenu.show );
   calendar = get_element(view, 'loft-calendar');
+  bus_times = get_element(view, 'bus-times');
   setInterval(updateClock,     1000);
   setInterval(getBusTimes,    20000);
   setInterval(updateCalendar, 120000);
