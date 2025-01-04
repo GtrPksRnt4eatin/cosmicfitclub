@@ -44,7 +44,7 @@ BusTimes.prototype.HTML = `
     </tr>
   </table>
 
-  <table>
+  <table rv-unless="state.mta">
     <tr class="tile">
       <td colspan="3"> Approaching B24 Busses </td>
     </tr>
