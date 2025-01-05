@@ -1,7 +1,7 @@
 function BusTimes(el, attr) {
   this.state = {
     bus_times: {},
-    current_time: nil
+    current_time: ""
   }
 
   this.state.mta = !!attr['mta'];
