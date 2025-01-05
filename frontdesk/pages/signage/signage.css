@@ -2,3 +2,7 @@ bus-times table {
   font-size: 2vw;
   width: 100%
 }
+
+bus-times, promo-square {
+  display: block;
+}
