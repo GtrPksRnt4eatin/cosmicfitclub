@@ -26,6 +26,7 @@ class CFCFrontDesk < Sinatra::Base
   get( '/event_attendance/:id', :auth => "frontdesk" ) { render_page :event_attendance }
   get( '/customer_file',        :auth => "frontdesk" ) { render_page :customer_file    }
   get( '/dashboard',            :auth => "frontdesk" ) { render_page :dashboard        }
+  get( '/signage')                                     { render_page :signage          }
 
   get '/bus_times' do
     cache_control :no_store

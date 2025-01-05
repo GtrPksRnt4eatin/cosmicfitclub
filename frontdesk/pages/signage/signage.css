@@ -16,15 +16,13 @@ html
 
     #stars
 
-    == include_slim('slim/partials/slim_header')
-
     #clock
       | {data.current_time}
 
     .content
       
       div.first_row
-        bus-times
+        bus-times mta='true'
         promo-square
 
       .tile

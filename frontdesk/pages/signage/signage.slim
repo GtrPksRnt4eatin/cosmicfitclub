@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+    
+    == css [ 'fonts', 'site', 'header', 'menu_colors', 'dashboard' ]
+
+    == js_bundle( 'signage', ['jquery', 'rivets', 'lib', 'element', 'ev_channel', 'popupmenu', 'moment'])
+    == js_sync [ '/frontdesk/elements/bus_times' ]
+    == js_sync [ '/frontdesk/elements/promo_square', 'signage']
+
+  body
+
+    #stars
+
+    bus-times mta='true'
+    promo-square

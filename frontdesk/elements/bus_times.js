@@ -1,12 +1,16 @@
 function BusTimes(el, attr) {
   this.state = {
-    bus_times: {}
+    bus_times: {},
+    current_time: nil
   }
+
+  this.state.mta = !!attr['mta'];
 
   this.update();
   this.load_styles();
-  this.bind_handlers(['update']);
+  this.bind_handlers(['update', 'update_clock']);
   this.timer = setInterval(this.update, 20000);
+  this.clock = setInterval(this.update_clock, 1000);
 }
 
 BusTimes.prototype = {
@@ -16,6 +20,10 @@ BusTimes.prototype = {
     $.get('/frontdesk/bus_times', function(resp) { 
         this.state.bus_times = resp;
       }.bind(this), 'json')
+  },
+
+  update_clock() {
+    this.state.current_time = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   }
 
 }
@@ -28,6 +36,7 @@ BusTimes.prototype.HTML = `
       <td class="heading" colspan="3">
         <img src="mta_logo.png" />
         <span>Welcome to Meeker Av/Kingsland Av</span>
+        <span>{state.current_time}<span>
       </td>
     <tr>
     <tr class="bluerow">
@@ -115,7 +124,7 @@ BusTimes.prototype.CSS = `
 
 `.untab(2);
 
-rivets.components['bus_times'] = {
+rivets.components['bus-times'] = {
   template:   function()        { return BusTimes.prototype.HTML },
   initialize: function(el,attr) { return new BusTimes(el,attr);  }
 }
