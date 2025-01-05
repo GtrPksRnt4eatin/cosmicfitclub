@@ -111,6 +111,7 @@ BusTimes.prototype.CSS = `
     font-size: 2em;
     font-weight: bold;
     padding: 0.5em 0.5em 2em;
+    display: flex;
   }
 
   bus-times .mta .bluerow {
