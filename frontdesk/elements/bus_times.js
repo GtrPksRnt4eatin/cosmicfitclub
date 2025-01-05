@@ -50,7 +50,7 @@ BusTimes.prototype.HTML = `
       <td>{bus.arrives_in} min</td>
     </tr>
     <tr rv-unless="state.bus_times.south.0">
-      <td colspan="3">No Buses Currently En Route</td>
+      <td colspan="3">No Buses En Route To This Stop</td>
     </tr>
   </table>
 
