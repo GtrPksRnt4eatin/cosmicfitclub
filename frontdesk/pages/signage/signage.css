@@ -3,6 +3,11 @@ bus-times table {
   width: 100%
 }
 
+bus-times {
+  background: black;
+  padding-bottom: 5em;
+}
+
 bus-times, promo-square {
   display: block;
 }
