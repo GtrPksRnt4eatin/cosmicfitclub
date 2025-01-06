@@ -8,6 +8,7 @@ body {
   flex-direction: column;
   align-items: center;
   background: rgba(0,0,0,0.4);
+  height: 100vh;
 }
 
 bus-times {
@@ -23,7 +24,7 @@ bus-times {
 
 promo-square {
   font-size: 4vw;
-  line-height: 2em;
+  line-height: 1.8em;
   flex: 90vw;
   width: 90vw;
   height: 90vw;
