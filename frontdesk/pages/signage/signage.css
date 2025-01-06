@@ -25,10 +25,8 @@ bus-times {
 promo-square {
   font-size: 4vw;
   line-height: 1.8em;
-  flex: 90vw;
-  width: 90vw;
-  height: 90vw;
-  margin-bottom: 1em;
+  flex: 0 0 90vw;
+  margin: 1em 0;
 }
 
 promo-square img {
