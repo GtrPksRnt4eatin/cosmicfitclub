@@ -92,19 +92,8 @@ BusTimes.prototype.CSS = `
   bus-times .mta { 
     font-family: 'nimbus_sans';
     background: black;
-    border-collapse: collapse;
-    border: 1px solid white;
     color: white;
     text-align: left;
-  }
-
-  bus-times .mta img {
-    height: 1.25em;
-  }
-
-  bus-times .mta img.subway {
-    vertical-align: text-top;
-    padding: none;
   }
 
   bus-times .mta .heading {
@@ -114,8 +103,25 @@ BusTimes.prototype.CSS = `
     display: flex;
   }
 
-  bus-times .mta .bluerow {
+  bus-times .mta .heading .welcome{
+    flex: 1;
+  }
+
+  bus-times .mta table {
+    border-collapse: collapse;
+  }
+
+  bus-times .mta table .bluerow {
     background: #4578ad; 
+  }
+
+  bus-times .mta img {
+    height: 1.25em;
+  }
+
+  bus-times .mta img.subway {
+    vertical-align: text-top;
+    padding: none;
   }
 
   bus-times .mta td { 
