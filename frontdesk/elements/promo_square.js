@@ -71,6 +71,7 @@ PromoSquare.prototype.CSS = `
   promo-square {
     position: relative;
     box-sizing: border-box;
+    text-align: center;
   }
 
   promo-square img { 
