@@ -6,19 +6,15 @@ bus-times {
   font-size: 1.9vw;
 }
 
-bus-times, promo-square {
-  display: block;
-}
-
 promo-square {
   font-size: 4vw;
   line-height: 2em;
 }
 
 promo-square img {
-  border-radius: none;
+  border-radius: 0;
 }
 
 promo-square .poster_lines {
-  border-radius: none;
+  border-radius: 0;
 }
