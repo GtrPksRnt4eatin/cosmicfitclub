@@ -106,6 +106,7 @@ BusTimes.prototype.CSS = `
 
   bus-times .mta .heading .welcome{
     flex: 1;
+    padding-left: 0.5em;
   }
 
   bus-times .mta table {
