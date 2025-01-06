@@ -1,5 +1,6 @@
 body {
   text-align: center;
+  overflow-y: hidden;
 }
 
 .flex {
@@ -20,6 +21,8 @@ bus-times {
 promo-square {
   font-size: 4vw;
   line-height: 2em;
+  flex: 90vw;
+  width: 90vw;
 }
 
 promo-square img {
