@@ -31,28 +31,28 @@ BusTimes.prototype = {
 Object.assign( BusTimes.prototype, element );
 
 BusTimes.prototype.HTML = `
-  <table class="mta" rv-if="state.mta">
-    <tr>
-      <td class="heading" colspan="3">
-        <img src="mta_logo.png" />
-        <span>Welcome to Meeker Av/Kingsland Av</span>
-        <span>{state.current_time}<span>
-      </td>
-    <tr>
-    <tr class="bluerow">
-      <td>Next Bus</td>
-      <td>Towards</td>
-      <td>Status</td>
-    </tr>
-    <tr rv-each-bus="state.bus_times.south">
-      <td>B24 {bus.arrival}</td>
-      <td>Graham Av&nbsp;<img class="subway" src="l.svg"/><img class="subway" src="g2.svg"/></td>
-      <td>{bus.arrives_in} min</td>
-    </tr>
-    <tr rv-unless="state.bus_times.south.0">
-      <td colspan="3">No Buses En Route To This Stop</td>
-    </tr>
-  </table>
+  <div class="mta" rv-if="state.mta">
+    <div class="heading">
+      <img src="mta_logo.png" />
+      <span class='welcome'>Welcome to Meeker Av/Kingsland Av</span>
+      <span class='time'>{state.current_time}<span>
+    </div>
+    <table>
+      <tr class="bluerow">
+        <td>Next Bus</td>
+        <td>Towards</td>
+        <td>Status</td>
+      </tr>
+      <tr rv-each-bus="state.bus_times.south">
+        <td>B24 {bus.arrival}</td>
+        <td>Graham Av&nbsp;<img class="subway" src="l.svg"/><img class="subway" src="g2.svg"/></td>
+        <td>{bus.arrives_in} min</td>
+      </tr>
+      <tr rv-unless="state.bus_times.south.0">
+        <td colspan="3">No Buses En Route To This Stop</td>
+      </tr>
+    </table>
+  </div>
 
   <table rv-unless="state.mta">
     <tr class="tile">
@@ -99,7 +99,7 @@ BusTimes.prototype.CSS = `
   }
 
   bus-times .mta img {
-    height: 1.5em;
+    height: 1.25em;
   }
 
   bus-times .mta img.subway {
