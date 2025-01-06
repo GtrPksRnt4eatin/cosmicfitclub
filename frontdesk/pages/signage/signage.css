@@ -1,11 +1,5 @@
-bus-times table {
-  font-size: 2vw;
-  width: 100%
-}
-
 bus-times {
-  background: black;
-  padding-bottom: 5em;
+  font-size: 1.5vw;
 }
 
 bus-times, promo-square {

@@ -94,6 +94,7 @@ BusTimes.prototype.CSS = `
     background: black;
     color: white;
     text-align: left;
+    padding-bottom: 5em;
   }
 
   bus-times .mta .heading {
@@ -109,6 +110,7 @@ BusTimes.prototype.CSS = `
 
   bus-times .mta table {
     border-collapse: collapse;
+    width: 100%;
   }
 
   bus-times .mta table .bluerow {
