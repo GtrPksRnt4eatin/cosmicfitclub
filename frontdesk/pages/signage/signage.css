@@ -6,6 +6,8 @@ body {
 .flex {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  background: rgba(0,0,0,0.4);
 }
 
 bus-times {
@@ -14,8 +16,7 @@ bus-times {
 
 .logo {
   width: 60%;
-  background: rgba(0,0,0,0.4);
-  padding: 0 20%;
+  padding: 1em 20%;
 }
 
 promo-square {
