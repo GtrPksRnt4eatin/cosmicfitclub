@@ -13,11 +13,12 @@ function LoftCalendar(parent,attr) {
     loading: false,
     point: true,
     floor: false,
-    rooms: false
+    rooms: false,
+    num_days: this.viewType=="Resources" ? 1 : 7
   }
       
   this.start = (new Date).toISOString().split('T')[0];
-  this.end = new Date(Date.now() + (this.viewType=="Resources" ? 1 : 7)*24*60*60*1000).toISOString().split('T')[0];
+  this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toISOString().split('T')[0];
   
   this.load_styles();
   this.bind_handlers(['build_daypilot', 'filter', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
@@ -172,24 +173,26 @@ LoftCalendar.prototype = {
 
   next_wk: function() {
     let date = new Date(this.start+"T00:00:00")
-    date.setDate(date.getDate() + 7);
+    date.setDate(date.getDate() + this.state.num_days);
     this.start = date.toISOString().split('T')[0];
-    date.setDate(date.getDate() + 7);
+    date.setDate(date.getDate() + this.state.num_days);
     this.end = date.toISOString().split('T')[0];
     this.refresh_data().then( function() {
       this.state.daypilot.startDate = this.start;
+      this.state.daypilot.columns[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
       this.state.daypilot.update();
     }.bind(this) );
   },
 
   prev_wk: function() {
     let date = new Date(this.start+"T00:00:00")
-    date.setDate(date.getDate() - 7);
-    this.start = date.toISOString().split('T')[0];'daypilot-all.min'
-    date.setDate(date.getDate() - 7);
+    date.setDate(date.getDate() - this.state.num_days);
+    this.start = date.toISOString().split('T')[0];
+    date.setDate(date.getDate() - this.state.num_days);
     this.end = date.toISOString().split('T')[0];
     this.refresh_data().then( function() {
       this.state.daypilot.startDate = this.start;
+      this.state.daypilot.columns[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
       this.state.daypilot.update();
     }.bind(this) );
   }
