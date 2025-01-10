@@ -37,7 +37,7 @@ LoftCalendar.prototype = {
       headerDateFormat: "ddd MMM d",
       headerLevels: this.viewType=="Resources" ? 2 : 1,
       columns: [
-        { name: Date.parse(this.start).toString("ddd MMM d"), children: [
+        { name: new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }), children: [
           { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
           { name: "Back Room", id: 'Loft-1F-Back (8)' },
           { name: "Guest Rooms", children: [
