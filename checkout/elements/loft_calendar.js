@@ -35,14 +35,16 @@ LoftCalendar.prototype = {
       cellDuration: 30,
       cellHeight: 15,
       headerDateFormat: "ddd MMM d",
-      headerLevels: 2,
+      headerLevels: this.viewType=="Resources" ? 2 : 1,
       columns: [
-        { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
-        { name: "Back Room", id: 'Loft-1F-Back (8)' },
-        { name: "Guest Rooms", children: [
-          { name: "Rm 1", id: "Loft-1F-Guest Rm1 (2)" },
-          { name: "Rm 2", id: "Loft-1f-GuestRm2 (2)" }
-        ]}
+        { name: Date.parse(this.start).toString("ddd MMM d"), children: [
+          { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
+          { name: "Back Room", id: 'Loft-1F-Back (8)' },
+          { name: "Guest Rooms", children: [
+            { name: "Rm 1", id: "Loft-1F-Guest Rm1 (2)" },
+            { name: "Rm 2", id: "Loft-1f-GuestRm2 (2)" }
+          ]}
+        ]} 
       ],
       businessBeginsHour: 9,
       businessEndsHour: 24,
