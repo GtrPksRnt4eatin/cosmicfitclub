@@ -40,10 +40,10 @@ LoftCalendar.prototype = {
         { name: new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }), children: [
           { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
           { name: "Back Room", id: 'Loft-1F-Back (8)' },
-          { name: "Guest Rooms", children: [
-            { name: "Rm 1", id: "Loft-1F-Guest Rm1 (2)" },
-            { name: "Rm 2", id: "Loft-1f-GuestRm2 (2)" }
-          ]}
+          //{ name: "Guest Rooms", children: [
+          //  { name: "Rm 1", id: "Loft-1F-Guest Rm1 (2)" },
+          //  { name: "Rm 2", id: "Loft-1f-GuestRm2 (2)" }
+          //]}
         ]} 
       ],
       businessBeginsHour: 9,
@@ -88,6 +88,14 @@ LoftCalendar.prototype = {
 
   filter: function() {
     this.state.daypilot.events.filter("asdf");
+  },
+
+  get_classes: function() {
+    return $.get(`/models/schedule/${this.start}/${this.end}`)
+     .then(function(resp) {
+       console.log('Class Items:');
+       console.log(resp);
+     }.bind(this));
   },
 
   get_reservations: function() {
@@ -148,6 +156,7 @@ LoftCalendar.prototype = {
     this.state.daypilot.events.list = [];
     return this.get_gcal_events()
       .then(function() { return this.get_reservations()      }.bind(this))
+      .then(function() { return this.get_classes()           }.bind(this))
       .then(function() { return this.state.daypilot.update() }.bind(this))
       .then(function() { this.loading = false;               }.bind(this))
   },
