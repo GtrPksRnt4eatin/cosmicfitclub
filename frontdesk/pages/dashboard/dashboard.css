@@ -72,11 +72,14 @@ promo-square {
 }
 
 loft-calendar .calendar_default_event_inner {
-  font-size: 1em;
+  font-size: 1em !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 loft-calendar .calendar_default_main {
-  font-size: 1em;
+  font-size: 1em !important;
 }
 
 @media (max-width: 800px) {
