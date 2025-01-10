@@ -35,7 +35,7 @@ LoftCalendar.prototype = {
       cellDuration: 30,
       cellHeight: 15,
       headerDateFormat: "ddd MMM d",
-      headerLevels: this.viewType=="Resources" ? 2 : 1,
+      headerLevels: this.viewType=="Resources" ? 3 : 1,
       columns: [
         { name: new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }), children: [
           { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
