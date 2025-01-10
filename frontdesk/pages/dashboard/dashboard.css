@@ -76,6 +76,7 @@ loft-calendar .calendar_default_event_inner {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: none;
 }
 
 loft-calendar .calendar_default_main {
