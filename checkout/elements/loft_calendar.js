@@ -179,7 +179,7 @@ LoftCalendar.prototype = {
     this.end = date.toISOString().split('T')[0];
     this.refresh_data().then( function() {
       this.state.daypilot.startDate = this.start;
-      this.state.daypilot.columns[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
+      this.state.daypilot.columns.list[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
       this.state.daypilot.update();
     }.bind(this) );
   },
@@ -192,7 +192,7 @@ LoftCalendar.prototype = {
     this.end = date.toISOString().split('T')[0];
     this.refresh_data().then( function() {
       this.state.daypilot.startDate = this.start;
-      this.state.daypilot.columns[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
+      this.state.daypilot.columns.list[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
       this.state.daypilot.update();
     }.bind(this) );
   }
