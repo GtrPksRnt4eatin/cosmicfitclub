@@ -97,7 +97,7 @@ LoftCalendar.prototype = {
      .then(function(resp) {
        this.state.classes = resp;
        this.state.classes.for_each( function(day) {
-         day.for_each( function(occ) {
+         day.occurrences.for_each( function(occ) {
            if(occ.location.id != 2) { return; }
            let dst_hrs = moment(occ.starttime).isDST() ? 4 : 5; 
            this.state.daypilot.events.add({
