@@ -68,6 +68,7 @@ class ScheduleRoutes < Sinatra::Base
   end
 
   get '/:from/:to' do
+    content_type :json
     from = Time.parse(params[:from])
     to = Time.parse(params[:to])
     items = Scheduling::get_all_between(from,to)
