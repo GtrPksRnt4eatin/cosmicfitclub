@@ -33,19 +33,15 @@ html
       .tile
         .light_selection
           .row1
-            label
-              input type="checkbox" rv-checked="data.checked.2"
-              | Light 1
-            label
-              input type="checkbox" rv-checked="data.checked.1"
-              | Light 2
+            input id="l1" type="checkbox" rv-checked="data.checked.2"
+            label for="l1" Light 1
+            input id="l2" type="checkbox" rv-checked="data.checked.1"
+            label for="l2" Light 2
           .row2
-            label
-              input type="checkbox" rv-checked="data.checked.3"
-              | Light 3
-            label
-              input type="checkbox" rv-checked="data.checked.0"
-              | Light 4
+            input id="l3" type="checkbox" rv-checked="data.checked.3"
+            label for="l3" Light 3
+            input id="l4" type="checkbox" rv-checked="data.checked.0"
+            label for="l4" Light 4
           .row3
             span rv-on-click="ctrl.show_spider1" Spider1
             span rv-on-click="ctrl.show_spider2" Spider2

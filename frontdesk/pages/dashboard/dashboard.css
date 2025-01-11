@@ -79,6 +79,7 @@ td.minutes {
   font-weight: bold;
   display: inline-block;
   border: 1px solid white;
+  cursor: pointer;
 }
 
 :checked {
