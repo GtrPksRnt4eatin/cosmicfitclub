@@ -101,7 +101,7 @@ LoftCalendar.prototype = {
          let dst_hrs = moment(cls["starttime"]).isDST() ? 4 : 5; 
          location && this.state.daypilot.events.add({
            id: cls["sched_id"],
-           start: moment(cls["starttime"])).subtract(dst_hrs,'hours').format(),
+           start: moment(cls["starttime"]).subtract(dst_hrs,'hours').format(),
            end: moment(cls["endtime"]).subtract(dst_hrs,'hours').format(),
            text: cls["classdef"]["name"],
            resource: "Loft-1F-Back (8)",
