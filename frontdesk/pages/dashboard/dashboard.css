@@ -20,6 +20,8 @@
 bus-times {
   flex: 1;
   margin-right: 1em;
+  font-size: 0.9vw;
+  border-radius: 2em;
 }
 
 promo-square {

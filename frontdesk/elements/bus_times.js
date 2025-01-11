@@ -89,9 +89,13 @@ BusTimes.prototype.HTML = `
 
 BusTimes.prototype.CSS = `
 
+  bus-times {
+    background: black;
+    border-radius: 2em;
+  }
+  
   bus-times .mta { 
     font-family: 'nimbus_sans';
-    background: black;
     color: white;
     text-align: left;
     padding-bottom: 5em;
