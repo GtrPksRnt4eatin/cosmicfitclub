@@ -93,7 +93,7 @@ BusTimes.prototype.CSS = `
     background: black;
     border-radius: 2em;
   }
-  
+
   bus-times .mta { 
     font-family: 'nimbus_sans';
     color: white;
@@ -102,7 +102,7 @@ BusTimes.prototype.CSS = `
   }
 
   bus-times .mta .heading {
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bold;
     padding: 0.5em 0.5em 2em;
     display: flex;
@@ -129,7 +129,7 @@ BusTimes.prototype.CSS = `
   }
 
   bus-times .mta img {
-    height: 1.25em;
+    height: 1.5em;
   }
 
   bus-times .mta img.subway {
