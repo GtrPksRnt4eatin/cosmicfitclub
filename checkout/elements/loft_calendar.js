@@ -110,10 +110,8 @@ LoftCalendar.prototype = {
              allday: false,
              backColor: '#EEEEFF'
            })
-         })
-       })
-       console.log('Class Items:');
-       console.log(resp);
+         }.bind(this))
+       }.bind(this))
      }.bind(this));
   },
 
