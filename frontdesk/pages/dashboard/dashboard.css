@@ -81,7 +81,7 @@ td.minutes {
   border: 1px solid white;
 }
 
-:checked + span {
+:checked {
   background: rgba(116, 238, 116, 0.2);
 }
 
