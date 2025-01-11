@@ -44,8 +44,13 @@ BusTimes.prototype.HTML = `
         <td>Status</td>
       </tr>
       <tr rv-each-bus="state.bus_times.south">
-        <td>B24 {bus.arrival}</td>
+        <td>B24 South {bus.arrival}</td>
         <td>Graham Av&nbsp;<img class="subway" src="l.svg"/><img class="subway" src="g2.svg"/></td>
+        <td>{bus.arrives_in} min</td>
+      </tr>
+      <tr rv-each-bus="state.bus_times.north">
+        <td>B24 North {bus.arrival}</td>
+        <td>47 St&nbsp;7</td>
         <td>{bus.arrives_in} min</td>
       </tr>
       <tr rv-unless="state.bus_times.south.0">
