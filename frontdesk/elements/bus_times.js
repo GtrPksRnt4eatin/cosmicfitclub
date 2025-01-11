@@ -111,7 +111,7 @@ BusTimes.prototype.CSS = `
   bus-times .mta .heading {
     font-size: 1.5em;
     font-weight: bold;
-    padding: 0.5em 0.5em 2em;
+    padding: 1em 0.5em 2em;
     display: flex;
   }
 
