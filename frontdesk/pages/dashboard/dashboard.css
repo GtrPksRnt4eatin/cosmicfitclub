@@ -82,7 +82,7 @@ td.minutes {
   cursor: pointer;
 }
 
-:checked {
+input:checked + label {
   background: rgba(116, 238, 116, 0.2);
 }
 
