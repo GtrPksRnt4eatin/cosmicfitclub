@@ -13,7 +13,7 @@ function LoftCalendar(parent,attr) {
     classes: null,
     loading: false,
     point: true,
-    floor: false,
+    floor: true,
     rooms: false,
     num_days: this.viewType=="Resources" ? 1 : 7
   }
