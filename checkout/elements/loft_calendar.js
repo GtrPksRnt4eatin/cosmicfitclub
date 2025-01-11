@@ -10,6 +10,7 @@ function LoftCalendar(parent,attr) {
     daypilot: null,
     reservations: null,
     gcal_events: null,
+    classes: null,
     loading: false,
     point: true,
     floor: false,
@@ -94,6 +95,21 @@ LoftCalendar.prototype = {
   get_classes: function() {
     return $.get(`/models/schedule/${this.start}/${this.end}`)
      .then(function(resp) {
+       this.state.classes = resp;
+       this.state.classes.for_each( function(cls) {
+         if(cls["location_id"] != 2) { return; }
+         let dst_hrs = moment(cls["starttime"]).isDST() ? 4 : 5; 
+         location && this.state.daypilot.events.add({
+           id: cls["sched_id"],
+           start: moment(cls["starttime"])).subtract(dst_hrs,'hours').format(),
+           end: moment(cls["endtime"]).subtract(dst_hrs,'hours').format(),
+           text: cls["classdef"]["name"],
+           resource: "Loft-1F-Back (8)",
+           data: { resource: "Loft-1F-Back (8)" },
+           allday: false,
+           backColor: '#EEEEFF'
+         })
+       })
        console.log('Class Items:');
        console.log(resp);
      }.bind(this));
