@@ -34,7 +34,7 @@ LoftCalendar.prototype = {
       viewType: this.viewType,
       days: 7,
       cellDuration: 30,
-      cellHeight: 15,
+      cellHeight: 14,
       headerDateFormat: "ddd MMM d",
       headerLevels: this.viewType=="Resources" ? 3 : 1,
       columns: [
@@ -202,6 +202,7 @@ Object.assign( LoftCalendar.prototype, element);
 Object.assign( LoftCalendar.prototype, ev_channel);
 
 LoftCalendar.prototype.HTML = `
+
   <div class='loftcalendar'>
     <button rv-on-click='prev_wk'>Prev</button>
     <button rv-on-click='next_wk'>Next</button>
@@ -210,6 +211,7 @@ LoftCalendar.prototype.HTML = `
     <input type="checkbox" rv-checked='state.rooms' rv-on-change='filter'/>
     <div id='daypilot'></div>
   </div>
+
 `.untab(2);
 
 LoftCalendar.prototype.CSS = `
