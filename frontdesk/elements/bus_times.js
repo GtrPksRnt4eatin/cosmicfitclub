@@ -109,6 +109,12 @@ BusTimes.prototype.CSS = `
     padding-left: 0.5em;
   }
 
+  bus-times table {
+    display: table;
+    width: 100%;
+    font-size: 1em;
+  }
+
   bus-times .mta table {
     border-collapse: collapse;
     width: 100%;
