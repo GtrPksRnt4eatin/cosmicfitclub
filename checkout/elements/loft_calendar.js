@@ -98,7 +98,7 @@ LoftCalendar.prototype = {
        this.state.classes = resp;
        this.state.classes.for_each( function(day) {
          day.occurrences.for_each( function(occ) {
-           if(occ.location.id != 2) { return; }
+           if(occ.location?.id != 2) { return; }
            let dst_hrs = moment(occ.starttime).isDST() ? 4 : 5; 
            this.state.daypilot.events.add({
              id: occ.sched_id,
@@ -148,7 +148,7 @@ LoftCalendar.prototype = {
             id: event.gcal_id,
             start: moment(event.start).subtract(dst_hrs,'hours').format(),
             end: moment(event.end).subtract(dst_hrs,'hours').format(),
-            text: this.admin ? event.summary : "Reserved",
+            text:  this.admin ? event.summary : "Reserved",
             resource: event.location,
             data: { resource: event.location },
             allday: event.allday,
