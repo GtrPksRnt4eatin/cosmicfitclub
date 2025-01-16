@@ -24,10 +24,11 @@
   border: 1px solid black;
   padding: 0.2em 1em;
   justify-content: start;
+  text-align: left;
 }
 
 .transaction .timestamp     { flex: 0 0 10em; text-align: left; }
-.transaction .description   { flex: 1; white-space: pre; }
+.transaction .description   { flex: 1; }
 .transaction .delta         { flex: 0 0 4em; justify-content: end; }
 .transaction .running_total { flex: 0 0 4em; justify-content: end; }
 
