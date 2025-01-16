@@ -29,12 +29,12 @@ html
 
           - customer.wallet.history.each do |trans|
             - description = trans[:description].gsub(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}-\d{2}:\d{2}/) { |m| Date.parse(m).strftime("%a %b %-d %Y %-I:%M %p") }
-            - description = description.split(/(?=with )/).join("\r\n")
+            - description = description.split(/(?=with )/)
 
             .transaction title="#{trans[:id]}"
               span.timestamp     #{ trans[:timestamp].strftime("%Y/%m/%d %a\n%I:%M:%S %P") }
               span.description 
-                | #{description}
+                | #{description.join("<br/>")}
               span.delta         #{ "+" if trans[:delta] > 0 } #{ trans[:delta] }
               span.running_total #{ trans[:running_total] }
 

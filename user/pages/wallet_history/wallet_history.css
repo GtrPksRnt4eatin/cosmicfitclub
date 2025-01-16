@@ -19,7 +19,7 @@
   text-overflow: ellipsis;
   display: flex;
   align-items: center;
-  font-size: 1vw;
+  font-size: 1.3vw;
   background: rgba(255,255,255,0.1);
   border: 1px solid black;
   padding: 0.2em 1em;
