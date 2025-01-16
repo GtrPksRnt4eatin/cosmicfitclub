@@ -34,7 +34,7 @@ html
             .transaction title="#{trans[:id]}"
               span.timestamp     #{ trans[:timestamp].strftime("%Y/%m/%d %a\n%I:%M:%S %P") }
               span.description 
-                | #{description.join("<br/>")}
+                == description.join("<br/>")
               span.delta         #{ "+" if trans[:delta] > 0 } #{ trans[:delta] }
               span.running_total #{ trans[:running_total] }
 
