@@ -20,10 +20,10 @@
   font-size: 0.5em;
 }
 
-.transaction .timestamp     { width: 12em; text-align: left; }
-.transaction .description   { width: 50em; }
-.transaction .delta         { width: 5em; text-align: right; }
-.transaction .running_total { width: 5em; text-align: right; }
+.transaction .timestamp     { flex: 0 0 8em; text-align: left; }
+.transaction .description   { flex: 1; }
+.transaction .delta         { flex: 0 0 3em; text-align: right; }
+.transaction .running_total { flex: 0 0 3em; text-align: right; }
 
 .footer {
   margin-bottom: 0.5em;
