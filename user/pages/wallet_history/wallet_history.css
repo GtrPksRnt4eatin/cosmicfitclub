@@ -11,19 +11,21 @@
 .transaction {
   display: flex;
   font-family: monospace;
+  align-items: stretch;
 }
 
 .transaction span {
   overflow: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   font-size: 0.5em;
 }
 
-.transaction .timestamp     { flex: 0 0 8em; text-align: left; }
+.transaction .timestamp     { flex: 0 0 10em; text-align: left; }
 .transaction .description   { flex: 1; }
-.transaction .delta         { flex: 0 0 3em; text-align: right; }
-.transaction .running_total { flex: 0 0 3em; text-align: right; }
+.transaction .delta         { flex: 0 0 4em; text-align: right; }
+.transaction .running_total { flex: 0 0 4em; text-align: right; }
 
 .footer {
   margin-bottom: 0.5em;
