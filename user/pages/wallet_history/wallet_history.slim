@@ -28,7 +28,7 @@ html
             span.running_total Balance
 
           - customer.wallet.history.each do |trans|
-            - description = trans[:description].gsub(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}-\d{2}:\d{2}/) { |m| Date.parse(m).strftime("%a %b %-d %Y %-I:%M %p") }
+            - description = trans[:description].gsub(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?-\d{2}:\d{2}/) { |m| Date.parse(m).strftime("%a %b %-d %Y %-I:%M %p") }
             - description = description.split(/(?=with )/)
 
             .transaction title="#{trans[:id]}"
