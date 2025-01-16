@@ -8,12 +8,16 @@
   border: 1px solid white;
 }
 
+.transaction {
+  display: flex;
+  font-family: monospace;
+}
+
 .transaction span {
-  white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
-  font-size: 0.7em;
+  font-size: 0.5em;
 }
 
 .transaction .timestamp     { width: 12em; text-align: left; }
