@@ -3,6 +3,9 @@ function LoftCalendar(parent,attr) {
   this.selected_timeslot = attr['timeslot'];
   this.admin = attr['admin'];
   this.viewType = attr['view'] || "Days";
+  this.point = attr['point'] || false;
+  this.floor = attr['floor'] || false;
+  this.rooms = attr['rooms'] || false;
 
   this.state = {
     window_start: null,
@@ -12,9 +15,9 @@ function LoftCalendar(parent,attr) {
     gcal_events: null,
     classes: null,
     loading: false,
-    point: true,
-    floor: true,
-    rooms: false,
+    point: this.point,
+    floor: this.floor,
+    rooms: this.rooms,
     num_days: this.viewType=="Resources" ? 1 : 7
   }
       
@@ -106,7 +109,7 @@ LoftCalendar.prototype = {
              end: moment(occ.endtime).subtract(dst_hrs,'hours').format(),
              text: occ.classdef.name,
              resource: "Loft-1F-Back (8)",
-             data: { resource: "Loft-1F-Back (8)" },
+             data: { resource: "Loft-1F-Back (8)", source: "website schedule" },
              allday: false,
              backColor: '#EEEEFF'
            })
