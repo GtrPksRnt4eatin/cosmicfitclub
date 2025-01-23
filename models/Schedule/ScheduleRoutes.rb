@@ -130,7 +130,7 @@ class ScheduleRoutes < Sinatra::Base
         :location => "Loft-1F-Back (8)"
       }
     end
-    (gcal + groups + classes + events).sort_by { |x| x[:start] }.to_json
+    (gcal + groups + classes + events).to_json
   end
 
   def ScheduleRoutes::schedule_as_ical(from,to)
