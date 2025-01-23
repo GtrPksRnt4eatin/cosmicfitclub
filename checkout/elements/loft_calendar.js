@@ -128,7 +128,7 @@ LoftCalendar.prototype = {
             console.log(gcal);
             console.log(res);
             let resource = gcal.resource(); 
-            this.state.daypilot.events.remove(gcal);
+            this.state.daypilot.events.remove(gtttyucal);
             res.data ||= {};
             res.data.resource = resource;
             res.resource = resource;
@@ -223,9 +223,9 @@ LoftCalendar.prototype.HTML = `
   <div class='loftcalendar'>
     <button rv-on-click='prev_wk'>Prev</button>
     <button rv-on-click='next_wk'>Next</button>
-    <input type="checkbox" rv-checked='state.point' rv-on-change='filter'/>
-    <input type="checkbox" rv-checked='state.floor' rv-on-change='filter'/>
-    <input type="checkbox" rv-checked='state.rooms' rv-on-change='filter'/>
+    <input type="checkbox" rv-checked='point' rv-on-change='filter'/>
+    <input type="checkbox" rv-checked='floor' rv-on-change='filter'/>
+    <input type="checkbox" rv-checked='rooms' rv-on-change='filter'/>
     <div id='daypilot'></div>
   </div>
 
