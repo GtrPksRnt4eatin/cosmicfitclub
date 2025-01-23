@@ -107,11 +107,30 @@ class ScheduleRoutes < Sinatra::Base
     content_type :json
     from = Time.parse(params[:from])
     to = Time.parse(params[:to])
-    gcal = Calendar::get_loft_events(from,to)
     groups = GroupReservation.all_between(params[:from], params[:to]).map(&:to_admin_daypilot)
-    classes = new_get_classitems_between(from,to)
-    events = get_eventsessions_between(from,to)
-    { gcal: gcal, groups: groups, classes: classes, events: events }.to_json
+    gcal = Calendar::get_loft_events(from,to).reject { |x| groups.find { |y| y["gcal"] == x["gcal_id"] } }
+    gcal.each { |g| g["text"] = g["summary"]; g.delete("summary") }
+    classes = new_get_classitems_between(from,to).map do |cls|
+      { :sched_id => cls["sched_id"],
+        :occ_id   => cls["id"],
+        :classdef_id => cls["classdef_id"],
+        :start       => cls["starttime"],
+        :end         => cls["endtime"],
+        :text        => cls["title"],
+        :source      => "class_schedule",
+        :location    => cls["location"]["id"] == 2 ? "Loft-1F-Back (8)" : nil
+      }
+    end
+    events = get_eventsessions_between(from,to).map do |evt|
+      { :event_id => evt["event_id"],
+        :start    => evt["starttime"],
+        :end      => evt["endtime"],
+        :text     => "#{evt["event_title"]}\n#{evt["title"]}",
+        :source   => "event_session",
+        :location => "Loft-1F-Back (8)"
+      }
+    end
+    (gcal + groups + classes + events).sort_by { |x| x[:start] }.to_json
   end
 
   def ScheduleRoutes::schedule_as_ical(from,to)

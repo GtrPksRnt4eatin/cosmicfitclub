@@ -114,11 +114,12 @@ class GroupReservation < Sequel::Model
   end
 
   def to_admin_daypilot
-    { :start => self.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-      :end   => self.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
-      :text  => customer_string,
-      :id    => self.id,
-      :gcal  => self.gcal_event_id
+    { :start  => self.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+      :end    => self.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+      :text   => customer_string,
+      :id     => self.id,
+      :gcal   => self.gcal_event_id,
+      :source => "group_reservation"
     }
   end
 

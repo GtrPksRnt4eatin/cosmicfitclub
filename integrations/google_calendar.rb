@@ -40,7 +40,8 @@ module Calendar
           :end      => x.end.date || x.end.date_time,
           :summary  => x.summary,
           :location => x.location,
-          :allday   => x.start.date_time ? false : true
+          :allday   => x.start.date_time ? false : true,
+          :source   => "google_calendar"
         }
       end
     end
