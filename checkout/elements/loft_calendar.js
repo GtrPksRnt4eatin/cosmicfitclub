@@ -128,7 +128,7 @@ LoftCalendar.prototype = {
             console.log(gcal);
             console.log(res);
             let resource = gcal.resource(); 
-            this.state.daypilot.events.remove(gtttyucal);
+            this.state.daypilot.events.remove(gcal);
             res.data ||= {};
             res.data.resource = resource;
             res.resource = resource;

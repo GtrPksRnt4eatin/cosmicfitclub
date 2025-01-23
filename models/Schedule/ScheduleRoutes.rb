@@ -103,6 +103,17 @@ class ScheduleRoutes < Sinatra::Base
     Calendar::get_loft_events(from,to).to_json
   end
 
+  get '/loft_calendar/:from/:to' do
+    content_type :json
+    from = Time.parse(params[:from])
+    to = Time.parse(params[:to])
+    gcal = Calendar::get_loft_events(from,to)
+    groups = GroupReservation.all_between(params[:from], params[:to]).map(&:to_admin_daypilot)
+    classes = new_get_classitems_between(from,to)
+    events = get_eventsessions_between(from,to)
+    { gcal: gcal, groups: groups, classes: classes, events: events }.to_json
+  end
+
   def ScheduleRoutes::schedule_as_ical(from,to)
     ical = Icalendar::Calendar.new
     ical.add_timezone TZInfo::Timezone.get("America/New_York").ical_timezone(Time.now)
