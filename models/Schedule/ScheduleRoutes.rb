@@ -96,9 +96,11 @@ class ScheduleRoutes < Sinatra::Base
     Scheduling::get_sorted_virtual.to_json
   end
 
-  get '/loft_events' do
+  get '/loft_events/:from/:to' do
     content_type :json
-    Calendar::get_loft_events.to_json
+    from = Time.parse(params[:from])
+    to = Time.parse(params[:to])
+    Calendar::get_loft_events(from,to).to_json
   end
 
   def ScheduleRoutes::schedule_as_ical(from,to)

@@ -1,8 +1,8 @@
 function LoftCalendar(parent,attr) {
 
   this.selected_timeslot = attr['timeslot'];
-  this.admin = attr['admin'];
   this.viewType = attr['view'] || "Days";
+  this.admin = attr['admin'] || false;
   this.point = attr['point'] || false;
   this.floor = attr['floor'] || false;
   this.rooms = attr['rooms'] || false;
@@ -15,9 +15,6 @@ function LoftCalendar(parent,attr) {
     gcal_events: null,
     classes: null,
     loading: false,
-    point: this.point,
-    floor: this.floor,
-    rooms: this.rooms,
     num_days: this.viewType=="Resources" ? 1 : 7
   }
       
@@ -70,14 +67,14 @@ LoftCalendar.prototype = {
       onEventFilter: function(args) {
         switch(args.e.data.resource) {
           case 'Loft-1F-Front (4)':
-            if(!this.state.point) { args.visible = false; }
+            if(!this.point) { args.visible = false; }
             break;
           case 'Loft-1F-Back (8)':
-            if(!this.state.floor) { args.visible = false; }
+            if(!this.floor) { args.visible = false; }
             break;
           case 'Loft-1F-Guest Rm1 (2)':
           case 'Loft-1F-GuestRm2 (2)':
-            if(!this.state.rooms) { args.visible = false; }
+            if(!this.rooms) { args.visible = false; }
             break;
           default:
             console.log(args.e.data.text);
@@ -120,7 +117,7 @@ LoftCalendar.prototype = {
   },
 
   get_reservations: function() {
-    let path = this.admin ? `/models/groups/range-admin/${this.start}/${this.end}` : `/models/groups/range/${this.start}/${this.end}`
+    let path = `/models/groups/range${this.admin ? '-admin' : ''}/${this.start}/${this.end}`;
     return $.get( path )
      .then(function(resp) { 
         this.state.reservations = resp;
@@ -142,7 +139,7 @@ LoftCalendar.prototype = {
   },
 
   get_gcal_events: function() {
-    return $.get( '/models/schedule/loft_events')
+    return $.get( `/models/schedule/loft_events/${this.start}/${this.end}`)
      .then(function(resp) { 
         this.state.gcal_events = resp;
         this.state.gcal_events.for_each( function(event) {

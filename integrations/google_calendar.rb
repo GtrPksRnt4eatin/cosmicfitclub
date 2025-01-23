@@ -31,9 +31,9 @@ module Calendar
       end.reject { |x| x[:allday] || !x[:location] }
     end
 
-    def Calendar::get_loft_events
+    def Calendar::get_loft_events(from,to)
       service = self::get_service
-      events = service.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', time_min:  DateTime.now.prev_month(1).to_time.iso8601).items
+      events = service.list_events('sam@cosmicfitclub.com', single_events: true, order_by: 'startTime', time_min: from.iso8601, time_max: to.iso8601).items
       events.map do |x| 
         { :gcal_id  => x.id,
           :start    => x.start.date || x.start.date_time,
