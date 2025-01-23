@@ -111,6 +111,7 @@ class ScheduleRoutes < Sinatra::Base
     gcal = Calendar::get_loft_events(from,to).reject { |x| groups.find { |y| y["gcal"] == x["gcal_id"] } }
     gcal.each { |g| g["text"] = g["summary"]; g.delete("summary") }
     classes = new_get_classitems_between(from,to).map do |cls|
+      next nil if cls[:classdef_id] == 173
       { :sched_id    => cls[:sched_id],
         :occ_id      => cls[:id],
         :classdef_id => cls[:classdef_id],
@@ -120,7 +121,7 @@ class ScheduleRoutes < Sinatra::Base
         :source      => "class_schedule",
         :location    => cls.dig(:location,:id) == 2 ? "Loft-1F-Back (8)" : nil
       }
-    end
+    end.compact
     events = get_eventsessions_between(from,to).map do |evt|
       { :event_id => evt[:event_id],
         :start    => evt[:starttime],
@@ -130,7 +131,7 @@ class ScheduleRoutes < Sinatra::Base
         :location => "Loft-1F-Back (8)"
       }
     end
-    (gcal + groups + classes + events).to_json
+    (gcal + groups + classes + events).sort_by{ |x| x[:start] }.to_json
   end
 
   def ScheduleRoutes::schedule_as_ical(from,to)
