@@ -118,7 +118,7 @@ class ScheduleRoutes < Sinatra::Base
         :end         => cls["endtime"],
         :text        => cls["title"],
         :source      => "class_schedule",
-        :location    => cls["location"]["id"] == 2 ? "Loft-1F-Back (8)" : nil
+        :location    => cls.dig("location","id") == 2 ? "Loft-1F-Back (8)" : nil
       }
     end
     events = get_eventsessions_between(from,to).map do |evt|
