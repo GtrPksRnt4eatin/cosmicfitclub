@@ -111,21 +111,21 @@ class ScheduleRoutes < Sinatra::Base
     gcal = Calendar::get_loft_events(from,to).reject { |x| groups.find { |y| y["gcal"] == x["gcal_id"] } }
     gcal.each { |g| g["text"] = g["summary"]; g.delete("summary") }
     classes = new_get_classitems_between(from,to).map do |cls|
-      { :sched_id    => cls.sched_id,
-        :occ_id      => cls.id,
-        :classdef_id => cls.classdef_id,
-        :start       => cls.starttime,
-        :end         => cls.endtime,
-        :text        => cls.title,
+      { :sched_id    => cls[:sched_id],
+        :occ_id      => cls[:id],
+        :classdef_id => cls[:classdef_id],
+        :start       => cls[:starttime],
+        :end         => cls[:endtime],
+        :text        => cls[:title],
         :source      => "class_schedule",
-        :location    => cls.location.try(:id) == 2 ? "Loft-1F-Back (8)" : nil
+        :location    => cls.dig(:location,:id) == 2 ? "Loft-1F-Back (8)" : nil
       }
     end
     events = get_eventsessions_between(from,to).map do |evt|
-      { :event_id => evt.event_id,
-        :start    => evt.starttime,
-        :end      => evt.endtime,
-        :text     => "#{evt.event_title}\n#{evt.title}",
+      { :event_id => evt[:event_id],
+        :start    => evt[:starttime],
+        :end      => evt[:endtime],
+        :text     => "#{evt[:event_title]}\n#{evt[:title]}",
         :source   => "event_session",
         :location => "Loft-1F-Back (8)"
       }
