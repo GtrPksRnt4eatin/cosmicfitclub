@@ -115,8 +115,8 @@ class ScheduleRoutes < Sinatra::Base
       { :sched_id    => cls[:sched_id],
         :occ_id      => cls[:id],
         :classdef_id => cls[:classdef_id],
-        :start       => cls[:starttime].iso8601,
-        :end         => cls[:endtime].iso8601,
+        :start       => cls[:starttime].utc.iso8601,
+        :end         => cls[:endtime].utc.iso8601,
         :text        => cls[:title],
         :source      => "class_schedule",
         :resource    => cls.dig(:location,:id) == 2 ? "Loft-1F-Back (8)" : nil
@@ -124,8 +124,8 @@ class ScheduleRoutes < Sinatra::Base
     end.compact
     events = get_eventsessions_between(from,to).map do |evt|
       { :event_id => evt[:event_id],
-        :start    => evt[:starttime].iso8601,
-        :end      => evt[:endtime].iso8601,
+        :start    => evt[:starttime].utc.iso8601,
+        :end      => evt[:endtime].utc.iso8601,
         :text     => "#{evt[:event_title]}\n#{evt[:title]}",
         :source   => "event_session",
         :resource => "Loft-1F-Back (8)"
