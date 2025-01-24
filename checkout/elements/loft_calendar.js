@@ -164,7 +164,7 @@ LoftCalendar.prototype = {
      .then(function(resp) {
        this.state.events = resp;
        this.state.events.for_each( function(event) {
-         this.state.daypilot.events.add({ ...event, backColor: '#EEEEFF' })
+         this.state.daypilot.events.add({ ...event, backColor: event.resource == 'Loft-1F-Front (4)' ? '#EEEEFF' : '#FFEEEE' })
        }.bind(this))
      }.bind(this)); 
   },
