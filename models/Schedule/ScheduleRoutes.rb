@@ -110,6 +110,7 @@ class ScheduleRoutes < Sinatra::Base
     groups = GroupReservation.all_between(params[:from], params[:to]).map(& params[:admin] ? :to_admin_daypilot : :to_public_daypilot)
     gcal = Calendar::get_loft_events(from,to)#.reject { |x| groups.find { |y| y["gcal"] == x["gcal_id"] } }
     gcal.each { |g| g["text"] = g["summary"]; g.delete("summary") }
+    gcal.each { |g| g["resource"] = g["location"]; g.delete("location") }
     classes = new_get_classitems_between(from,to).map do |cls|
       next nil if cls[:classdef_id] == 173
       { :sched_id    => cls[:sched_id],
