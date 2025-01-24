@@ -250,6 +250,11 @@ LoftCalendar.prototype.CSS = `
 
   loft-calendar {
     line-height: 1em;
+    position: relative
+  }
+
+  .loftcalendar {
+    position: relative;
   }
   
   loft-calendar .calendar_default_event_inner {
@@ -259,8 +264,16 @@ LoftCalendar.prototype.CSS = `
   }
 
   loft-calendar .mask {
-    background: rgba(0,0,0,0.5);
-    content: "loading";
+    content: "Loading...";
+    background: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    left: 0; right: 0;
+    top: 0;  bottom: 0;
+    display: flex;
+    font-size: 4em;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 2em white inset;
   }
 
 `.untab(2);
