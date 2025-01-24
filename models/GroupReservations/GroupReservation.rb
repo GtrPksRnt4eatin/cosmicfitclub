@@ -120,7 +120,7 @@ class GroupReservation < Sequel::Model
       :text   => customer_string,
       :id     => self.id,
       :gcal   => self.gcal_event_id,
-      :source => "group_reservation"
+      :source => "group_reservation",
       :resource => "Loft-1F-Front (4)"
     }
   end
