@@ -160,7 +160,7 @@ LoftCalendar.prototype = {
   },
 
   get_presorted_events: function() {
-    return $.get( `/models/schedule/loft_calendar/${this.start}/${this.end}`)
+    return $.get( `/models/schedule/loft_calendar/${this.start}/${this.end}${this.admin ? '?admin=true' : ''}`)
      .then(function(resp) {
        this.state.events = resp;
        this.state.events.for_each( function(event) {
