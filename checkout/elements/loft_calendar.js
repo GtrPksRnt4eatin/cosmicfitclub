@@ -182,7 +182,7 @@ LoftCalendar.prototype = {
     if(this.loading) return;
     this.loading = true;
     this.state.daypilot.events.list = [];
-    this.get_presorted_events()
+    return this.get_presorted_events()
         .then(function() { return this.state.daypilot.update() }.bind(this))
         .then(function() { this.loading = false;               }.bind(this))
         
