@@ -241,7 +241,7 @@ LoftCalendar.prototype.HTML = `
     <input type="checkbox" rv-checked='floor' rv-on-change='filter'/>
     <input type="checkbox" rv-checked='rooms' rv-on-change='filter'/>
     <div id='daypilot'></div>
-    <div class='mask' rv-if='loading'></div>
+    <div class='mask' rv-if='loading'>Loading...</div>
   </div>
 
 `.untab(2);
@@ -264,7 +264,6 @@ LoftCalendar.prototype.CSS = `
   }
 
   loft-calendar .mask {
-    content: "Loading...";
     background: rgba(0, 0, 0, 0.8);
     position: absolute;
     left: 0; right: 0;
