@@ -137,11 +137,11 @@ LoftCalendar.prototype = {
   },
 
   prev_wk: function() {
-    let date = new Date(this.start+"T00:00:00")
-    date.setDate(date.getDate() - this.state.num_days);
-    this.start = date.toISOString().split('T')[0];
+    let date = new Date(this.end+"T00:00:00")
     date.setDate(date.getDate() - this.state.num_days);
     this.end = date.toISOString().split('T')[0];
+    date.setDate(date.getDate() - this.state.num_days);
+    this.start = date.toISOString().split('T')[0];
     this.refresh_data().then( function() {
       this.state.daypilot.startDate = this.start;
       this.state.daypilot.columns.list[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
@@ -198,13 +198,8 @@ LoftCalendar.prototype.CSS = `
   }
 
   @keyframes loading {
-    from {
-      box-shadow: 0 0 2em white inset;
-    }
-
-    to {
-      box-shadow: 0 0 1em white inset;
-    }
+    from { box-shadow: 0 0 1em white inset; }
+    to   { box-shadow: 0 0 2em white inset; }
   }
 
 `.untab(2);
