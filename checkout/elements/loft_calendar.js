@@ -22,7 +22,7 @@ function LoftCalendar(parent,attr) {
   this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toISOString().split('T')[0];
   
   this.load_styles();
-  this.bind_handlers(['build_daypilot', 'filter', 'on_timeslot_selected', 'get_reservations', 'get_gcal_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
+  this.bind_handlers(['build_daypilot', 'filter', 'on_timeslot_selected', 'get_presorted_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
   this.build_daypilot();
   this.refresh_data();
 }
@@ -66,16 +66,10 @@ LoftCalendar.prototype = {
       }.bind(this),
       onEventFilter: function(args) {
         switch(args.e.data.resource) {
-          case 'Loft-1F-Front (4)':
-            if(!this.point) { args.visible = false; }
-            break;
-          case 'Loft-1F-Back (8)':
-            if(!this.floor) { args.visible = false; }
-            break;
+          case 'Loft-1F-Front (4)':     if(!this.point) { args.visible = false; } break;
+          case 'Loft-1F-Back (8)':      if(!this.floor) { args.visible = false; } break;
           case 'Loft-1F-Guest Rm1 (2)':
-          case 'Loft-1F-GuestRm2 (2)':
-            if(!this.rooms) { args.visible = false; }
-            break;
+          case 'Loft-1F-GuestRm2 (2)':  if(!this.rooms) { args.visible = false; } break;
           default:
             console.log(args.e.data.text);
             console.log(args.e.data);
@@ -90,73 +84,6 @@ LoftCalendar.prototype = {
 
   filter: function() {
     this.state.daypilot.events.filter("asdf");
-  },
-
-  get_classes: function() {
-    return $.get(`/models/schedule/${this.start}/${this.end}`)
-     .then(function(resp) {
-       this.state.classes = resp;
-       this.state.classes.for_each( function(day) {
-         day.occurrences.for_each( function(occ) {
-           if(occ.location?.id != 2) { return; }
-           if(occ.classdef_id==173) { return; }
-           let dst_hrs = moment(occ.starttime).isDST() ? 4 : 5; 
-           this.state.daypilot.events.add({
-             id: occ.sched_id,
-             start: moment(occ.starttime).subtract(dst_hrs,'hours').format(),
-             end: moment(occ.endtime).subtract(dst_hrs,'hours').format(),
-             text: occ.classdef.name,
-             resource: "Loft-1F-Back (8)",
-             data: { resource: "Loft-1F-Back (8)", source: "website schedule" },
-             allday: false,
-             backColor: '#EEEEFF'
-           })
-         }.bind(this))
-       }.bind(this))
-     }.bind(this));
-  },
-
-  get_reservations: function() {
-    let path = `/models/groups/range${this.admin ? '-admin' : ''}/${this.start}/${this.end}`;
-    return $.get( path )
-     .then(function(resp) { 
-        this.state.reservations = resp;
-        this.state.reservations.for_each( function(res) {
-          let gcal = this.state.daypilot.events.find(res.gcal);
-          if(gcal) {
-            console.log('replacing:'); 
-            console.log(gcal);
-            console.log(res);
-            let resource = gcal.resource(); 
-            this.state.daypilot.events.remove(gcal);
-            res.data ||= {};
-            res.data.resource = resource;
-            res.resource = resource;
-          }
-          this.state.daypilot.events.add(res);
-        }.bind(this))
-      }.bind(this));
-  },
-
-  get_gcal_events: function() {
-    return $.get( `/models/schedule/loft_events/${this.start}/${this.end}`)
-     .then(function(resp) { 
-        this.state.gcal_events = resp;
-        this.state.gcal_events.for_each( function(event) {
-          //if(event.location != "Loft-1F-Front (4)") return;
-          let dst_hrs = moment(event.start).isDST() ? 4 : 5; 
-          location && this.state.daypilot.events.add({
-            id: event.gcal_id,
-            start: moment(event.start).subtract(dst_hrs,'hours').format(),
-            end: moment(event.end).subtract(dst_hrs,'hours').format(),
-            text:  this.admin ? event.summary : "Reserved",
-            resource: event.location,
-            data: { resource: event.location },
-            allday: event.allday,
-            backColor: '#EEEEFF'
-          })
-        }.bind(this)) 
-      }.bind(this));
   },
 
   get_presorted_events: function() {
@@ -183,14 +110,8 @@ LoftCalendar.prototype = {
     this.loading = true;
     this.state.daypilot.events.list = [];
     return this.get_presorted_events()
-        .then(function() { return this.state.daypilot.update() }.bind(this))
-        .then(function() { this.loading = false;               }.bind(this))
-        
-    //return this.get_gcal_events()
-    //  .then(function() { return this.get_reservations()      }.bind(this))
-    //  .then(function() { return this.get_classes()           }.bind(this))
-    //  .then(function() { return this.state.daypilot.update() }.bind(this))
-    //  .then(function() { this.loading = false;               }.bind(this))
+      .then(function() { return this.state.daypilot.update() }.bind(this))
+      .then(function() { this.loading = false;               }.bind(this))
   },
 
   full_refresh: function() {
@@ -269,10 +190,21 @@ LoftCalendar.prototype.CSS = `
     left: 0; right: 0;
     top: 0;  bottom: 0;
     display: flex;
-    font-size: 4em;
+    font-size: 3.5em;
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 2em white inset;
+    animation: 1s infinite alternate loading
+  }
+
+  @keyframes loading {
+    from {
+      box-shadow: 0 0 2em white inset;
+    }
+
+    to {
+      box-shadow: 0 0 1em white inset;
+    }
   }
 
 `.untab(2);
