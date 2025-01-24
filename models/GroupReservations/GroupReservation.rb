@@ -109,7 +109,8 @@ class GroupReservation < Sequel::Model
       :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :text  => show_text ? customer_string : "Reserved",
       :id    => self.id,
-      :gcal  => self.gcal_event_id
+      :gcal  => self.gcal_event_id,
+      :resource => "Loft-1F-Front (4)"
     }
   end
 
@@ -120,6 +121,7 @@ class GroupReservation < Sequel::Model
       :id     => self.id,
       :gcal   => self.gcal_event_id,
       :source => "group_reservation"
+      :resource => "Loft-1F-Front (4)"
     }
   end
 
