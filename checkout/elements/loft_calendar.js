@@ -241,7 +241,7 @@ LoftCalendar.prototype.HTML = `
     <input type="checkbox" rv-checked='floor' rv-on-change='filter'/>
     <input type="checkbox" rv-checked='rooms' rv-on-change='filter'/>
     <div id='daypilot'></div>
-    <div class='mask'></div>
+    <div class='mask' rv-if='loading'></div>
   </div>
 
 `.untab(2);
