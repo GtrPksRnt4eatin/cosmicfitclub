@@ -159,6 +159,16 @@ LoftCalendar.prototype = {
       }.bind(this));
   },
 
+  get_presorted_events: function() {
+    return $.get( `/models/schedule/loft_calendar/${this.start}/${this.end}`)
+     .then(function(resp) {
+       this.state.events = resp;
+       this.state.events.for_each( function(event) {
+         this.state.daypilot.events.add({ ...event, backColor: '#EEEEFF' })
+       }.bind(this))
+     }.bind(this)); 
+  },
+
   on_timeslot_selected: function(args) {
     this.ev_fire('on_timeslot_selected', args);
   },
@@ -172,11 +182,15 @@ LoftCalendar.prototype = {
     if(this.loading) return;
     this.loading = true;
     this.state.daypilot.events.list = [];
-    return this.get_gcal_events()
-      .then(function() { return this.get_reservations()      }.bind(this))
-      .then(function() { return this.get_classes()           }.bind(this))
-      .then(function() { return this.state.daypilot.update() }.bind(this))
-      .then(function() { this.loading = false;               }.bind(this))
+    this.get_presorted_events()
+        .then(function() { return this.state.daypilot.update() }.bind(this))
+        .then(function() { this.loading = false;               }.bind(this))
+        
+    //return this.get_gcal_events()
+    //  .then(function() { return this.get_reservations()      }.bind(this))
+    //  .then(function() { return this.get_classes()           }.bind(this))
+    //  .then(function() { return this.state.daypilot.update() }.bind(this))
+    //  .then(function() { this.loading = false;               }.bind(this))
   },
 
   full_refresh: function() {
