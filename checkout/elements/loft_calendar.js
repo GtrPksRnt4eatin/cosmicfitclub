@@ -246,6 +246,10 @@ LoftCalendar.prototype.HTML = `
 `.untab(2);
 
 LoftCalendar.prototype.CSS = `
+
+  loft-calendar {
+    line-height: 1em;
+  }
   
   loft-calendar .calendar_default_event_inner {
     font-size: 10px;
