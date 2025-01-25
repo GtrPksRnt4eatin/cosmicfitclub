@@ -105,14 +105,14 @@ class ScheduleRoutes < Sinatra::Base
 
   get '/loft_calendar/:from/:to' do
     content_type :json
-    from = Time.parse(params[:from])
-    to = Time.parse(params[:to])
+    from, to = Time.parse(params[:from]), Time.parse(params[:to])
     groups = GroupReservation.all_between(params[:from], params[:to]).map(& params[:admin] ? :to_admin_daypilot : :to_public_daypilot)
     gcal = Calendar::get_loft_events(from,to).reject { |x| groups.find { |y| y["gcal"] == x["gcal_id"] } }
-    gcal.each { |g| g[:text] = g[:summary]; g.delete(:summary) }
+    gcal.each { |g| g[:text]     = g[:summary]; g.delete(:summary) }
     gcal.each { |g| g[:resource] = g[:location]; g.delete(:location) }
-    gcal.each { |g| g[:start] = g[:start].strftime("%FT%T") }
-    gcal.each { |g| g[:end] = g[:end].strftime("%FT%T") }
+    gcal.each { |g| g[:start]    = g[:start].strftime("%FT%T") }
+    gcal.each { |g| g[:end]      = g[:end].strftime("%FT%T") }
+
     classes = new_get_classitems_between(from,to).map do |cls|
       next nil if cls[:classdef_id] == 173
       { :sched_id    => cls[:sched_id],
@@ -125,6 +125,7 @@ class ScheduleRoutes < Sinatra::Base
         :resource    => cls.dig(:location,:id) == 2 ? "Loft-1F-Back (8)" : nil
       }
     end.compact
+
     events = get_eventsessions_between(from,to).map do |evt|
       { :event_id => evt[:event_id],
         :start    => evt[:starttime].strftime("%FT%T"),
@@ -134,6 +135,7 @@ class ScheduleRoutes < Sinatra::Base
         :resource => "Loft-1F-Back (8)"
       }
     end
+
     (gcal + groups + classes + events).to_json
   end
 
