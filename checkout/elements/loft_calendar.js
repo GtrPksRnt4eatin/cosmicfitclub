@@ -17,10 +17,10 @@ function LoftCalendar(parent,attr) {
     loading: false,
     num_days: this.viewType=="Resources" ? 1 : 7
   }
-      
+
   this.start = (new Date).toISOString().split('T')[0];
   this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toISOString().split('T')[0];
-  
+
   this.load_styles();
   this.bind_handlers(['build_daypilot', 'rebuild_daypilot', 'filter', 'on_timeslot_selected', 'get_presorted_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
   this.build_daypilot();
@@ -69,7 +69,8 @@ LoftCalendar.prototype = {
           case 'Loft-1F-Front (4)':     if(!this.point) { args.visible = false; } break;
           case 'Loft-1F-Back (8)':      if(!this.floor) { args.visible = false; } break;
           case 'Loft-1F-Guest Rm1 (2)':
-          case 'Loft-1F-GuestRm2 (2)':  if(!this.rooms) { args.visible = false; } break;
+          case 'Loft-1F-GuestRm2 (2)': 
+          case 'Loft-1F-Futon (1)':     if(!this.rooms) { args.visible = false; } break;
           default:
             console.log(args.e.data.text);
             console.log(args.e.data);
@@ -93,7 +94,7 @@ LoftCalendar.prototype = {
        this.state.events.for_each( function(event) {
          this.state.daypilot.events.add({ ...event, backColor: event.resource == 'Loft-1F-Front (4)' ? '#EEEEFF' : '#FFEEEE' })
        }.bind(this))
-     }.bind(this)); 
+     }.bind(this));
   },
 
   on_timeslot_selected: function(args) {
@@ -190,7 +191,7 @@ LoftCalendar.prototype.CSS = `
     justify-content: center;
     box-shadow: 0 0 2em white inset;
     animation: 1s infinite alternate loading
-  }
+  }b
 
   @keyframes loading {
     from { box-shadow: 0 0 1em white inset; }
