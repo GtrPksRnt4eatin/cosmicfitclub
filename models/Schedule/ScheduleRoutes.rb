@@ -111,6 +111,8 @@ class ScheduleRoutes < Sinatra::Base
     gcal = Calendar::get_loft_events(from,to)#.reject { |x| groups.find { |y| y["gcal"] == x["gcal_id"] } }
     gcal.each { |g| g[:text] = g[:summary]; g.delete(:summary) }
     gcal.each { |g| g[:resource] = g[:location]; g.delete(:location) }
+    gcal.each { |g| g[:start] = g[:start].strftime("%FT%T") }
+    gcal.each { |g| g[:end] = g[:end].strftime("%FT%T") }
     classes = new_get_classitems_between(from,to).map do |cls|
       next nil if cls[:classdef_id] == 173
       { :sched_id    => cls[:sched_id],
