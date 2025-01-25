@@ -22,7 +22,7 @@ function LoftCalendar(parent,attr) {
   this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toISOString().split('T')[0];
   
   this.load_styles();
-  this.bind_handlers(['build_daypilot', 'filter', 'on_timeslot_selected', 'get_presorted_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
+  this.bind_handlers(['build_daypilot', 'rebuild_daypilot', 'filter', 'on_timeslot_selected', 'get_presorted_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
   this.build_daypilot();
   this.refresh_data();
 }
@@ -52,7 +52,7 @@ LoftCalendar.prototype = {
       businessEndsHour: 24,
       dayBeginsHour: 9,
       dayEndsHour: 24,
-      showAllDayEvents: false,
+      showAllDayEvents: true,
       eventDeleteHandling: "Disabled",
       eventMoveHandling:   "Disabled",
       eventResizeHandling: "Disabled",
@@ -80,6 +80,12 @@ LoftCalendar.prototype = {
     });
     this.state.daypilot.init();
     this.filter();
+  },
+
+  rebuild_daypilot: function() {
+    this.state.daypilot.startDate = this.start;
+    this.state.daypilot.columns.list[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
+    this.state.daypilot.update();
   },
 
   filter: function() {
@@ -117,10 +123,7 @@ LoftCalendar.prototype = {
   full_refresh: function() {
     this.start = (new Date).toLocaleDateString('en-CA');
     this.end = new Date(Date.now() + 7*24*60*60*1000).toLocaleDateString('en-CA');
-    this.refresh_data().then( function() {
-      this.state.daypilot.startDate = this.start;
-      this.state.daypilot.update();
-    }.bind(this) );
+    this.refresh_data().then( this.rebuild_daypilot );
   },
 
   next_wk: function() {
@@ -129,11 +132,7 @@ LoftCalendar.prototype = {
     this.start = date.toISOString().split('T')[0];
     date.setDate(date.getDate() + this.state.num_days);
     this.end = date.toISOString().split('T')[0];
-    this.refresh_data().then( function() {
-      this.state.daypilot.startDate = this.start;
-      this.state.daypilot.columns.list[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
-      this.state.daypilot.update();
-    }.bind(this) );
+    this.refresh_data().then( this.rebuild_daypilot );
   },
 
   prev_wk: function() {
@@ -142,11 +141,7 @@ LoftCalendar.prototype = {
     this.end = date.toISOString().split('T')[0];
     date.setDate(date.getDate() - this.state.num_days);
     this.start = date.toISOString().split('T')[0];
-    this.refresh_data().then( function() {
-      this.state.daypilot.startDate = this.start;
-      this.state.daypilot.columns.list[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
-      this.state.daypilot.update();
-    }.bind(this) );
+    this.refresh_data().then( this.rebuild_daypilot );
   }
 }
 
