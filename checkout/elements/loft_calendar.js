@@ -82,12 +82,6 @@ LoftCalendar.prototype = {
     this.filter();
   },
 
-  rebuild_daypilot: function() {
-    this.state.daypilot.startDate = this.start;
-    this.state.daypilot.columns.list[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
-    this.state.daypilot.update();
-  },
-
   filter: function() {
     this.state.daypilot.events.filter("asdf");
   },
@@ -116,14 +110,20 @@ LoftCalendar.prototype = {
     this.loading = true;
     this.state.daypilot.events.list = [];
     return this.get_presorted_events()
-      .then(function() { return this.state.daypilot.update() }.bind(this))
-      .then(function() { this.loading = false;               }.bind(this))
+      .then(this.rebuild_daypilot)
+      .then(function() { this.loading = false; }.bind(this))
+  },
+
+  rebuild_daypilot: function() {
+    this.state.daypilot.startDate = this.start;
+    this.state.daypilot.columns.list[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
+    this.state.daypilot.update();
   },
 
   full_refresh: function() {
     this.start = (new Date).toLocaleDateString('en-CA');
-    this.end = new Date(Date.now() + 7*24*60*60*1000).toLocaleDateString('en-CA');
-    this.refresh_data().then( this.rebuild_daypilot );
+    this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString('en-CA');
+    this.refresh_data()
   },
 
   next_wk: function() {
@@ -132,7 +132,7 @@ LoftCalendar.prototype = {
     this.start = date.toISOString().split('T')[0];
     date.setDate(date.getDate() + this.state.num_days);
     this.end = date.toISOString().split('T')[0];
-    this.refresh_data().then( this.rebuild_daypilot );
+    this.refresh_data();
   },
 
   prev_wk: function() {
@@ -141,7 +141,7 @@ LoftCalendar.prototype = {
     this.end = date.toISOString().split('T')[0];
     date.setDate(date.getDate() - this.state.num_days);
     this.start = date.toISOString().split('T')[0];
-    this.refresh_data().then( this.rebuild_daypilot );
+    this.refresh_data();
   }
 }
 
