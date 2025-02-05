@@ -6,7 +6,7 @@
       list = Scheduling::flat_list(date,date+1)
       list.reject! { |x| x[:classdef_id]==173 } # no point rentals on flier
       list.uniq!   { |x| [ x[:classdef_id], x[:starttime]] } # dont show two entries for hybrid video/live clsses
-      DailyPromo::generate4x5(date,list)
+      DailyPromo::generateStory(date,list)
     end
   
     def DailyPromo::generate_all(date)
@@ -127,4 +127,61 @@
       image.draw_elements(DailyPromo::build_list_header(0,offset,1080,130,30,date.strftime("%A %b %d %Y")))
       image.draw_elements(DailyPromo::build_list_items(0,offset+100,1080,220,30,list))
     end
+
+    def DailyPromo::generateStory(date,list)
+      image = MiniMagick::Image.open("printable/assets/1080x1920_bg.jpg")
+      image.draw_elements([
+        { :type => 'box', 
+          :width => 1079,
+          :height => 350,
+          :gravity => 'south',
+          :color => '#00000055',
+          :stroke => "#E0E0E0",
+        },
+        { :type     => 'logo',
+          :x_offset => 240,
+          :y_offset => 20,
+          :width    => 600
+        },
+        { :type     => "highlight_text",
+          :x_offset => 0,
+          :y_offset => 260,
+          :ptsize   => 15,
+          :kerning  => 8,
+          :gravity  => "North",
+          :strokewidth => 2,
+          :stroke   => "#FFFFFFDD",
+          :fill    => "#FFFFFFDD",
+          :text     => "Classes at the Cosmic Loft!"
+        },
+        { :type => 'box', 
+          :width => 1079,
+          :height => 100,
+          :gravity => 'south',
+          :y_offset => 1260,
+          :color => '#00000055',
+          :stroke => "#E0E0E0",
+        },
+        { :type     => "highlight_text",
+          :x_offset => 0,
+          :y_offset => 20,
+          :ptsize   => 10,
+          :strokewidth => 2,
+          :stroke   => "#FFFFFFDD",
+          :fill    => "#FFFFFFDD",
+          :gravity  => "South",
+          :kerning  => 5,
+          :text     => "669 Meeker Ave. #1F Brooklyn, NY 11222"
+        }
+      ])
+      offset = case list.count
+      when 1; 565 
+      when 2; 465
+      when 3; 365
+      else;   365
+      end
+      image.draw_elements(DailyPromo::build_list_header(0,offset,1080,130,30,date.strftime("%A %b %d %Y")))
+      image.draw_elements(DailyPromo::build_list_items(0,offset+100,1080,220,30,list))
+    end
+
   end
