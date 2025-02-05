@@ -154,25 +154,25 @@
           :fill    => "#FFFFFFDD",
           :text     => "Classes at the Cosmic Loft!"
         },
-        { :type => 'box', 
-          :width => 1079,
-          :height => 100,
-          :gravity => 'south',
-          :y_offset => 1260,
-          :color => '#00000055',
-          :stroke => "#E0E0E0",
-        },
-        { :type     => "highlight_text",
-          :x_offset => 0,
-          :y_offset => 20,
-          :ptsize   => 10,
-          :strokewidth => 2,
-          :stroke   => "#FFFFFFDD",
-          :fill    => "#FFFFFFDD",
-          :gravity  => "South",
-          :kerning  => 5,
-          :text     => "669 Meeker Ave. #1F Brooklyn, NY 11222"
-        }
+#        { :type => 'box', 
+#          :width => 1079,
+#          :height => 100,
+#          :gravity => 'south',
+#          :y_offset => 1260,
+#          :color => '#00000055',
+#          :stroke => "#E0E0E0",
+#        },
+#        { :type     => "highlight_text",
+#          :x_offset => 0,
+#          :y_offset => 20,
+#          :ptsize   => 10,
+#          :strokewidth => 2,
+#          :stroke   => "#FFFFFFDD",
+#          :fill    => "#FFFFFFDD",
+#          :gravity  => "South",
+#          :kerning  => 5,
+#          :text     => "669 Meeker Ave. #1F Brooklyn, NY 11222"
+#        }
       ])
       offset = case list.count
       when 1; 565 
@@ -182,6 +182,7 @@
       end
       image.draw_elements(DailyPromo::build_list_header(0,offset,1080,130,30,date.strftime("%A %b %d %Y")))
       image.draw_elements(DailyPromo::build_list_items(0,offset+100,1080,220,30,list))
+      image.draw_footer(18)
     end
 
   end
