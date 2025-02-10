@@ -115,13 +115,13 @@ LoftCalendar.prototype = {
 
   rebuild_daypilot: function() {
     this.state.daypilot.startDate = this.start;
-    this.state.daypilot.columns.list[0].name = new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
+    this.state.daypilot.columns.list[0].name = new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' });
     this.state.daypilot.update();
   },
 
   full_refresh: function() {
-    this.start = (new Date).toLocaleDateString('en-CA');
-    this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString('en-CA');
+    this.start = (new Date).toLocaleDateString("sv-SE");
+    new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
     this.refresh_data()
   },
 
