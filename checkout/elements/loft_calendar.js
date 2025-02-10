@@ -106,7 +106,7 @@ LoftCalendar.prototype = {
 
   refresh_data: function() {
     if(this.loading) return;
-    this.loading = true;
+    if(!this.silent) this.loading = true;
     return this.update().then(function() { this.loading = false; }.bind(this))
   },
 
@@ -116,7 +116,8 @@ LoftCalendar.prototype = {
     this.state.daypilot.update();
   },
 
-  full_refresh: function() {
+  full_refresh: function(silent=false) {
+    this.silent = silent;
     this.start = (new Date).toLocaleDateString("sv-SE");
     this.end = new Date(this.start + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
     this.refresh_data()

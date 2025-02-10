@@ -64,7 +64,7 @@ function updateClock() {
 }
 
 function updateCalendar() {
-  calendar.full_refresh();
+  calendar.full_refresh(true);
 }
 
 function getBusTimes() {
