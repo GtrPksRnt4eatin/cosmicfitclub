@@ -18,8 +18,8 @@ function LoftCalendar(parent,attr) {
     num_days: this.viewType=="Resources" ? 1 : 7
   }
 
-  this.start = (new Date).toISOString().split('T')[0];
-  this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toISOString().split('T')[0];
+  this.start = (new Date).toLocaleDateString("sv-SE");
+  this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
 
   this.load_styles();
   this.bind_handlers(['build_daypilot', 'rebuild_daypilot', 'filter', 'on_timeslot_selected', 'get_presorted_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
