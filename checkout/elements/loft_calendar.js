@@ -107,7 +107,7 @@ LoftCalendar.prototype = {
   refresh_data: function() {
     if(this.loading) return;
     if(!this.silent) this.loading = true;
-    return this.update().then(function() { this.loading = false; }.bind(this))
+    return this.get_presorted_events().then(this.rebuild_daypilot()).then(function() { this.loading = false; }.bind(this))
   },
 
   rebuild_daypilot: function() {
