@@ -18,9 +18,6 @@ function LoftCalendar(parent,attr) {
     num_days: this.viewType=="Resources" ? 1 : 7
   }
 
-  this.start = (new Date).toLocaleDateString("sv-SE");
-  this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
-
   this.load_styles();
   this.bind_handlers(['build_daypilot', 'rebuild_daypilot', 'filter', 'on_timeslot_selected', 'get_presorted_events', 'refresh_data', 'full_refresh', 'next_wk', 'prev_wk']);
   this.build_daypilot();
@@ -31,6 +28,8 @@ LoftCalendar.prototype = {
   constructor: LoftCalendar,
 
   build_daypilot: function() {
+    this.start = (new Date).toLocaleDateString("sv-SE");
+    this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
       viewType: this.viewType,
       days: 7,
@@ -89,6 +88,7 @@ LoftCalendar.prototype = {
     return $.get( `/models/schedule/loft_calendar/${this.start}/${this.end}${this.admin ? '?admin=true' : ''}`)
      .then(function(resp) {
        this.state.events = resp;
+       this.state.daypilot.events.list = [];
        this.state.events.for_each( function(event) {
          this.state.daypilot.events.add({ ...event, backColor: event.resource == 'Loft-1F-Front (4)' ? '#EEEEFF' : '#FFEEEE' })
        }.bind(this))
@@ -107,10 +107,7 @@ LoftCalendar.prototype = {
   refresh_data: function() {
     if(this.loading) return;
     this.loading = true;
-    this.state.daypilot.events.list = [];
-    return this.get_presorted_events()
-      .then(this.rebuild_daypilot)
-      .then(function() { this.loading = false; }.bind(this))
+    return this.update().then(function() { this.loading = false; }.bind(this))
   },
 
   rebuild_daypilot: function() {
@@ -121,7 +118,7 @@ LoftCalendar.prototype = {
 
   full_refresh: function() {
     this.start = (new Date).toLocaleDateString("sv-SE");
-    new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
+    this.end = new Date(this.start + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
     this.refresh_data()
   },
 
