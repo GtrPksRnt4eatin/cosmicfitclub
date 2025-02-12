@@ -118,26 +118,28 @@ LoftCalendar.prototype = {
 
   full_refresh: function(silent=false) {
     this.silent = silent;
-    this.start = (new Date).toLocaleDateString("sv-SE");
-    this.end = new Date(this.start + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
+    let date = new Date;
+    this.start = date.toLocaleDateString("sv-SE");
+    date.setDate(date.getDate() + this.state.num_days);
+    this.end = date.toLocaleDateString("sv-SE");
     this.refresh_data()
   },
 
   next_wk: function() {
     let date = new Date(this.start+"T00:00:00")
     date.setDate(date.getDate() + this.state.num_days);
-    this.start = date.toISOString().split('T')[0];
+    this.start = date.toLocaleDateString("sv-SE");
     date.setDate(date.getDate() + this.state.num_days);
-    this.end = date.toISOString().split('T')[0];
+    this.end = date.toLocaleDateString("sv-SE");
     this.refresh_data();
   },
 
   prev_wk: function() {
     let date = new Date(this.end+"T00:00:00")
     date.setDate(date.getDate() - this.state.num_days);
-    this.end = date.toISOString().split('T')[0];
+    this.end = date.toLocaleDateString("sv-SE");
     date.setDate(date.getDate() - this.state.num_days);
-    this.start = date.toISOString().split('T')[0];
+    this.start = date.toLocaleDateString("sv-SE");
     this.refresh_data();
   }
 }
