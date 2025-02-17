@@ -267,21 +267,25 @@ def Staff::payroll(from, to)
           occurrence_row[:cosmic]       = 0.5 * (net_income - default_split)
           occurrence_row[:loft_classes] = 0.5 * (net_income - default_split)
         #when 103 # Sam Defers to Loft
-        #  occurrence_row[:pay]          = 0
-        #  occurrence_row[:cosmic]       = 0
-        #  occurrence_row[:loft_classes] = net_income
+          #occurrence_row[:pay]          = 0
+          #occurrence_row[:cosmic]       = 0
+          #occurrence_row[:loft_classes] = net_income
         when 29 # Ara gets $75 minimum
-	  occurrence_row[:pay]          = default_split < 7500 ? 7500 : default_split
-	  occurrence_row[:cosmic]       = net_income - occurrence_row[:pay]
-	  occurrence_row[:loft]         = 0
-	when 157 # Mattew Cusick $100
-	  occurrence_row[:pay]          = default_split < 10000 ? 10000 : default_split
-	  occurrence_row[:cosmic]       = net_income - occurrence_row[:pay]
-	  occurrence_row[:loft]         = 0
+	        occurrence_row[:pay]          = default_split < 7500 ? 7500 : default_split
+	        occurrence_row[:cosmic]       = net_income - occurrence_row[:pay]
+	        occurrence_row[:loft]         = 0
+	      when 157 # Mattew Cusick $100
+	        occurrence_row[:pay]          = default_split < 10000 ? 10000 : default_split
+	        occurrence_row[:cosmic]       = net_income - occurrence_row[:pay]
+	        occurrence_row[:loft]         = 0
         when 106 # Cosmic Loft gets 100% of loft rentals
           occurrence_row[:pay]          = 0
           occurrence_row[:cosmic]       = 0
           occurrence_row[:loft_rentals] = net_income
+        when 92 # Aryn $100
+          occurrence_row[:pay]          = default_split < 10000 ? 10000 : default_split
+	        occurrence_row[:cosmic]       = net_income - occurrence_row[:pay]
+	        occurrence_row[:loft]         = 0
         else
           occurrence_row[:pay]          = default_split
           occurrence_row[:cosmic]       = net_income - default_split
