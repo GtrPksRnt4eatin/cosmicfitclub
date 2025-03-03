@@ -5,7 +5,7 @@ Stripe.api_key = ENV['STRIPE_SECRET']
 module StripeMethods
   
   def StripeMethods::PayoutVendor(amount, connected_acct_id, descriptor="Cosmic Fit Club")
-    transfer = Stripe::Transfer.create({ amount: amount, currency:"usd", destination: connected_acct_id }) unless connected_acct_id=="acct_19PkJECHwAcud5J9"
+    transfer = Stripe::Transfer.create({ amount: amount, currency:"usd", destination: connected_acct_id, description: descriptor }) unless connected_acct_id=="acct_19PkJECHwAcud5J9"
     payout = Stripe::Payout.create({ amount: amount, currency: "usd", statement_descriptor: descriptor }, {stripe_account: connected_acct_id })
     { transfer: transfer, payout: payout }
   end
