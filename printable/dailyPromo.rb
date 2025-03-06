@@ -182,7 +182,7 @@
       end
       image.draw_elements(DailyPromo::build_list_header(0,offset,1080,130,30,date.strftime("%A %b %d %Y")))
       image.draw_elements(DailyPromo::build_list_items(0,offset+100,1080,220,30,list))
-      image.draw_footer(18)
+      image.draw_footer(ptsize: 18)
     end
 
   end
