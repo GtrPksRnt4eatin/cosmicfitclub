@@ -60,6 +60,10 @@ html
             span rv-show='data.staff.subscription' 
               | { data.staff.subscription.began_on | datewyr } - { data.staff.subscription.cancelled_on | datewyr }
         .tuple
+          .attrib Stripe Connect:
+          .value.editable rv-on-click='ctrl.edit_stripe_id'
+            | data.staff.stripe_connect_id
+        .tuple
           .attrib Visibility:
           .value
             span

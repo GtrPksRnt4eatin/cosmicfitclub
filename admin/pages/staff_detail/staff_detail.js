@@ -14,6 +14,7 @@ var ctrl = {
   edit_name:          function(e,m) { edit_text.show("Edit Staff Name",  data.staff.name,   function(val) { data.staff.name = val;  post_staff_details({ name:  val }); } ) },
   edit_title:         function(e,m) { edit_text.show("Edit Staff Title", data.staff.title,  function(val) { data.staff.title = val; post_staff_details({ title: val }); } ) },
   edit_bio:           function(e,m) { edit_text.show_long("Edit Staff Bio", data.staff.bio, function(val) { data.staff.bio   = val; post_staff_details({ bio: val   }); } ) },
+  edit_stripe_id:     function(e,m) { edit_text.show("Edit Stripe Connect ID", data.staff.stripe_connect_id, function(val) { data.staff.stripe_connect_id = val; post_staff_details({ stripe_connect_id: val }); } )},
   edit_customer:      function(e,m) { custy_selector.show_modal( data.customer_id, function(val) { post_staff_details({ customer_id: val }); } ) },
   create_sub:         function(e,m) { $.post("/models/staff/" + data.staff.id + "/create_sub", function() { get_staff_details(); } ); },
   submit_hidden:      function(e,m) { post_staff_details({ hidden: data.staff.hidden }); },
