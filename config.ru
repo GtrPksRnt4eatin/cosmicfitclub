@@ -151,6 +151,10 @@ map '/models/nfc' do
   run NfcTagRoutes
 end
 
+map '/models/short_urls' do
+  run ShortUrlRoutes
+end
+
 map "/offers" do
   run CFCOffers
 end
