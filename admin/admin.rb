@@ -54,6 +54,7 @@ class CFCAdmin < Sinatra::Base
   get( '/group_timeslots',       :auth=> 'admin'      ) { render_page :group_timeslots     }
   get( '/vidpromos',             :auth=> 'admin'      ) { render_page :vidpromos           }
   get( '/nfc_tags',              :auth=> 'admin'      ) { render_page :nfc_tags            }
+  get( '/short_urls',            :auth=> 'admin'      ) { render_page :short_urls          }
 
   get( '/payroll',               :auth=> 'payroll'    ) { render_page :payroll             }
   get( '/payrolls',              :auth=> 'payroll'    ) { render_page :payrolls            }

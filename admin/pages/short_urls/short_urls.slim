@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    == css [ 'fonts', 'site', 'header', '/admin/short_urls' ]
+    == js  [ 'jquery', 'rivets', 'lib' ]
+    == js  [ '/auth/elements/userview', '/admin/short_urls' ]
+
+  body
+    #stars
+
+    == include_slim('slim/partials/slim_header')
+
+    #content
+
+      .tile
+
+        table
+          thead
+            tr: th colspan='3' Short URLs
+            tr
+              th short_url
+              th long_url
+              th
+          tbody
+            tr rv-each-url="data.short_urls"
+              td[] { url.short_path }
+              td[] { url.long_path }
+              td: button rv-on-click="ctrl.del_url" Delete
+          tfoot  
+            tr
+              td: input rv-value='data.short_path'
+              td: input rv-value='data.long_path'
+              td: button rv-on-click='ctrl.add_url' Add URL
+              
