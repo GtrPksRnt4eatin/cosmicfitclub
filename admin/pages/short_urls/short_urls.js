@@ -1,8 +1,7 @@
 data = {
   short_urls: [],
-    short_path: "",
-    long_path: ""
-  }
+  short_path: "",
+  long_path: ""
 }
 
 ctrl = {
