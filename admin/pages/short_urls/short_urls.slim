@@ -31,7 +31,7 @@ html
           tbody
             tr rv-each-url="data.short_urls"
               td[] { url.short_path }
-              td[] a rv-href="url.long_path" { url.long_path }
+              td: a rv-href="url.long_path" { url.long_path }
               td: button rv-on-click="ctrl.del_url" Delete
           tfoot  
             tr
