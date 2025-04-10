@@ -9,6 +9,7 @@ ul {
 
 .flex {
   display: flex;
+  position: relative;
 }
 
 .photo img {
@@ -53,12 +54,17 @@ ul {
     width: 100%;
   }
 
-  .content img {
-  	width: 80%;
-  }
-
   p {
   	padding: 0 5%;
   }
+
+  .flex {
+    flex-direction: column;
+  }
+
+  .photo {
+    height: 30em;
+  }
+  
 
 }
