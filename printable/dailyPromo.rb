@@ -11,7 +11,7 @@
       list.each do |x|
         data = { 
           img: x[:img_url], 
-          lines: [ x[:title], "w/ #{x[:instructors] && x[:instructors].map do |x| x[:name] end.join(', ')}} #{x[:exception] && x[:exception][:changes][:sub] && ' (sub)'}", x[:starttime].strftime("%a %b %e, %l:%M %p") ]
+          lines: [ x[:title], "w/ #{x[:instructors] && x[:instructors].map do |x| x[:name] end.join(', ')}} #{x[:exception] && x[:exception][:changes][:sub] && ' (sub)'}", x[:starttime].strftime("%a %b %e, %l:%M %p") ],
           location_id: x[:location_id] || 2
         }
         arr << SchedulePromo::generate4x5(data)
