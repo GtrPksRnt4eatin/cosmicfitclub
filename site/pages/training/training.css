@@ -75,7 +75,8 @@ ul {
   
   .info {
     position: absolute;
-    line-height: 3em;
+    line-height: 2.8em;
+    letter-spacing: 0.1em
     font-weight: bold;
     margin: 1em;
     top: 1em;
