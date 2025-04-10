@@ -76,7 +76,7 @@ ul {
     position: absolute;
     margin: 1em;
     bottom: 1em;
-    text-shadow: 0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black;
+    text-shadow: 0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black;
   }
 
   .info br {
