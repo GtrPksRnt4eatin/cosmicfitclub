@@ -29,7 +29,6 @@ ul {
   border-radius: 0.75em;
   cursor: pointer;
   display: inline-block;
-  font-size: 0.8em;
   text-decoration: none;
   margin: 0.5em;
   line-height: 1.5em
@@ -76,7 +75,8 @@ ul {
   
   .info {
     position: absolute;
-    line-height: 2.8em;
+    line-height: 3em;
+    font-weight: bold;
     margin: 1em;
     top: 1em;
     text-shadow: 0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black;
