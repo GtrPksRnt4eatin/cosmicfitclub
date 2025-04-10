@@ -83,7 +83,7 @@ html
           button#request rv-on-click='ctrl.request_slot'
             | Request this Timeslot
       
-      .tile rv-hide='data.selected_timeslot'
+      .tile rv-hide='data.selected_timeslot' rv-show='data.my_reservations'
         table
           tr
             td colspan="2" 
