@@ -65,6 +65,10 @@ ul {
     padding: 0;
   }
 
+  .tile a {
+    background: rgba(0,0,0,0.4)
+  }
+
   .photo img {
     width: 100%;
     margin: 0;
