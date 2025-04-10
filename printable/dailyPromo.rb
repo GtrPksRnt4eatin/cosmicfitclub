@@ -10,7 +10,7 @@
       arr << DailyPromo::generateStory(date,list)
       list.each do |x|
         data = { 
-          img: x[:img_url], 
+          img: x[:thumb_url], 
           lines: [ x[:title], "w/ #{x[:instructors] && x[:instructors].map do |x| x[:name] end.join(', ')}} #{x[:exception] && x[:exception][:changes][:sub] && ' (sub)'}", x[:starttime].strftime("%a %b %e, %l:%M %p") ],
           location_id: x[:location_id] || 2
         }
