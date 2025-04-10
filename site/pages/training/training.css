@@ -69,8 +69,14 @@ ul {
 
   .photo img {
     width: 100%;
-    margin: none;
+    margin: 0;
   }
   
+  .info {
+    text-shadow: 0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black;
+  }
 
+  .info br {
+    display: none;
+  }
 }
