@@ -25,13 +25,14 @@ ul {
 
 .tile a {
   box-shadow: 0 0 0.5em white inset, 0 0 0.5em rgb(50,50,50);
-  padding: 0.5em 1.5em;
+  padding: 0.5em 1em;
   border-radius: 0.75em;
   cursor: pointer;
   display: inline-block;
   font-size: 0.8em;
   text-decoration: none;
   margin: 0.5em;
+  line-height: 1.5em
 }
 
 .tile a:active {
@@ -71,7 +72,7 @@ ul {
   
   .info {
     position: absolute;
-    line-height: 3em;
+    line-height: 2.5em;
     margin: 1em;
     top: 1em;
     text-shadow: 0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black;
