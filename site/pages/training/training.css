@@ -60,10 +60,16 @@ ul {
 
   .flex {
     flex-direction: column;
+    border-radius: 1em;
   }
 
   .photo {
     height: 30em;
+  }
+
+  .photo img {
+    width: 100%;
+    margin: none;
   }
   
 
