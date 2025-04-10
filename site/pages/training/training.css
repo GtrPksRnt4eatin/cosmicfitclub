@@ -61,10 +61,7 @@ ul {
   .flex {
     flex-direction: column;
     border-radius: 1em;
-  }
-
-  .photo {
-    height: 30em;
+    padding: 0;
   }
 
   .photo img {
