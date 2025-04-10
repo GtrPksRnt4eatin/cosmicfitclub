@@ -8,15 +8,18 @@ ul {
 }
 
 .tile {
-	padding-bottom: 1em;
+  display: flex;
 }
 
-.content img {
-  width: 25em;
+.photo img {
+  width: 12em;
+  border-radius: 1em;
+  box-shadow: 0 0 0.5em white;
+  margin: 1em;
 }
 
-.content {
-  width: 80%;
+.info {
+  flex: 1;
 }
 
 .tile a {
