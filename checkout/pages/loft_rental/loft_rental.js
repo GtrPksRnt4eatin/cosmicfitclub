@@ -88,6 +88,6 @@ $(document).ready( function() {
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
   });
 
-  $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations = resp.length=0 ? null : resp; }, 'json');
+  $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations = resp.length==0 ? null : resp; }, 'json');
 
 });
