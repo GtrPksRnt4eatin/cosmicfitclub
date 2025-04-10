@@ -76,11 +76,11 @@ ul {
   
   .info {
     position: absolute;
-    line-height: 2.5em;
+    line-height: 2.8em;
     margin: 1em;
     top: 1em;
     background: rgba(0,0,0,0.1);
-    text-shadow: 0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black;
+    text-shadow: 0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black;
   }
 
   .info br {
