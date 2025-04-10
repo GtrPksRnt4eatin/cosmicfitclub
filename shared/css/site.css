@@ -16,12 +16,12 @@ input {
         -ms-user-select: text; /* Internet Explorer/Edge */
             user-select: text; /* Non-prefixed version, currently not supported by any browser */
 }
+
 body {
   margin: 0;
   padding: 0;
-  font-family: "Industry-Light";
+  font-family: "Industry";
   color: rgba(255,255,255,0.8);
-  font-weight: bold;
   overflow-x: hidden;
 }
 
