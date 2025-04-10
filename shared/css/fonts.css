@@ -189,16 +189,16 @@
 
 @font-face { 
   font-family: 'Industry';
-  src: url('webfonts/329F99_9_0.woff2') format('woff2'),
-       url('webfonts/329F99_9_0.woff')  format('woff');
+  src: url('webfonts/329F99_A_0.woff2') format('woff2'),
+       url('webfonts/329F99_A_0.woff')  format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Industry';
-  src: url('webfonts/329F99_8_0.woff2') format('woff2'),
-       url('webfonts/329F99_8_0.woff') format('woff');
+  src: url('webfonts/329F99_B_0.woff2') format('woff2'),
+       url('webfonts/329F99_B_0.woff') format('woff');
   font-weight: normal;
   font-style: italic;
 }
