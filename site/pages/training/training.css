@@ -79,7 +79,7 @@ ul {
     line-height: 2.8em;
     margin: 1em;
     top: 1em;
-    text-shadow: 0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black;
+    text-shadow: 0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black,0 0 2em black;
   }
 
   .info br {
