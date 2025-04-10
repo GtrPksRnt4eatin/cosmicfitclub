@@ -71,8 +71,9 @@ ul {
   
   .info {
     position: absolute;
+    line-height: 3em;
     margin: 1em;
-    bottom: 1em;
+    top: 1em;
     text-shadow: 0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 1em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black,0 0 0.5em black;
   }
 
@@ -81,6 +82,6 @@ ul {
   }
 
   .info.noabs {
-    position: relative;
+    position: static;
   }
 }
