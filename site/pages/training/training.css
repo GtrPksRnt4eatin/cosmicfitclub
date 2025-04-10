@@ -79,4 +79,8 @@ ul {
   .info br {
     display: none;
   }
+
+  .info.noabs {
+    position: relative;
+  }
 }
