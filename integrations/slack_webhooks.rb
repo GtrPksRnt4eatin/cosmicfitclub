@@ -233,16 +233,18 @@ end
 class PostDailyPromo
   include SuckerPunch::Job
   def perform(date)
-    promo = DailyPromo::generate_for_bot(date)
+    promos = DailyPromo::generate_for_bot(date)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
-    client.files_upload(
-      channels: '#promotional_materials',
-      as_user: false,
-      file: Faraday::UploadIO.new(promo.path, "image/jpeg"),
-      title: "#{date.to_s} Promo",
-      filetype: 'jpg',
-      filename: "#{date.to_s}_promo.jpg"
-    )
+    promos.each_with_index do |promo,i|
+      client.files_upload(
+        channels: '#promotional_materials',
+        as_user: false,
+        file: Faraday::UploadIO.new(promo.path, "image/jpeg"),
+        title: "#{date.to_s} Promo#{i}",
+        filetype: 'jpg',
+        filename: "#{date.to_s}_promo#{i}.jpg"
+      )
+    end
   rescue => err
     Slack.err("PostDailyPromo Error", err)
     p err

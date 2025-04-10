@@ -6,7 +6,17 @@
       list = Scheduling::flat_list(date,date+1)
       list.reject! { |x| x[:classdef_id]==173 } # no point rentals on flier
       list.uniq!   { |x| [ x[:classdef_id], x[:starttime]] } # dont show two entries for hybrid video/live clsses
-      DailyPromo::generateStory(date,list)
+      arr = []
+      arr << DailyPromo::generateStory(date,list)
+      list.each do |x|
+        data = { 
+          img: x[:img_url], 
+          lines: [ x[:title], "w/ #{x[:instructors] && x[:instructors].map do |x| x[:name] end.join(', ')}} #{x[:exception] && x[:exception][:changes][:sub] && ' (sub)'}", x[:starttime].strftime("%a %b %e, %l:%M %p") ]
+          location_id: x[:location_id] || 2
+        }
+        arr << SchedulePromo::generate4x5(data)
+      end
+      arr
     end
   
     def DailyPromo::generate_all(date)
