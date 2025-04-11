@@ -23,7 +23,7 @@ ctrl = {
   },
 
   use_teacher_pass: function(e,m) {
-    $.post('/model/classdefs/reservations/', { customer_id: data.selected_customer.id , occurrence_id: data.occurrence.id, transaction_type: 'teacher_pass'} )
+    $.post('/models/classdefs/reservations/', { customer_id: data.selected_customer.id , occurrence_id: data.occurrence.id, transaction_type: 'teacher_pass'} )
   },
 
   cancel: function(e,m) {
