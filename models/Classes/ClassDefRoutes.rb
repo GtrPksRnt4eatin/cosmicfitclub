@@ -267,6 +267,9 @@ class ClassDefRoutes < Sinatra::Base
     !params[:transaction_type].nil?                  or halt(400, "Transaction Type Must Be Specified")
 
     case params[:transaction_type]
+    when "teacher_pass"
+      msg = "1Hr Lesson with #{custy.to_list_string} on #{occurrence.starttime}"
+      occurrence.teacher.customer.use_class_pass(msg) { reservation = occurrence.nake_reservation( params[:customer_id] )} or halt 400
     when "class_pass"
       custy.use_class_pass(message, params[:pass_price] || 1) { reservation = occurrence.make_reservation( params[:customer_id] ) } or halt 400
     when "membership"
@@ -297,7 +300,7 @@ class ClassDefRoutes < Sinatra::Base
 
     case params[:transaction_type]
     when "teacher_pass"
-      msg = "1Hr Lesson with #{custy.to_list_string}"
+      msg = "1Hr Lesson with #{custy.to_list_string} on #{occurrence.starttime}"
       occurrence.teacher.customer.use_class_pass(msg) { reservation = occurrence.make_reservation( params[:customer_id] ) } or halt(400, "Trouble Using Teacher Pass")
     when "class_pass"
       custy.use_class_pass(message) { reservation = occurrence.make_reservation( params[:customer_id] ) } or halt(400, "Trouble Using Class Pass" )
