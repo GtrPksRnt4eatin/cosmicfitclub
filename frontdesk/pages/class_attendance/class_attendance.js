@@ -4,7 +4,8 @@ data = {
   frequent_flyers: [],
   staff_list: [],
   selected_customer: 0,
-  events: []
+  events: [],
+  lesson: false
 }
 
 ctrl = {
@@ -19,6 +20,10 @@ ctrl = {
 
   checkin: function(e,m) {
     $.post('/models/classdefs/reservations/' + m.reservation.id + '/checkin', get_reservations);
+  },
+
+  use_teacher_pass: function(e,m) {
+    $.post('/model/classdefs/reservations/', { customer_id: data.selected_customer.id , occurrence_id: data.occurrence.id, transaction_type: 'teacher_pass'} )
   },
 
   cancel: function(e,m) {
@@ -172,6 +177,7 @@ function get_occurrence_details() {
     data['occurrence'] = resp; 
     reservation_form.set_occurrence(data['occurrence']);
     get_calendar_events(data['occurrence'].starttime.substring(0,10));
+    data.lesson = data.occurrence.classdef_id==188;
   }, 'json'); 
 }
 
