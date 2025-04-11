@@ -23,7 +23,8 @@ ctrl = {
   },
 
   use_teacher_pass: function(e,m) {
-    $.post('/models/classdefs/reservations/', { customer_id: data.selected_customer.id , occurrence_id: data.occurrence.id, transaction_type: 'teacher_pass'} )
+    reservation_form.set_price(1200,1);
+    reservation_form.post_reservation("teacher_pass");
   },
 
   cancel: function(e,m) {
