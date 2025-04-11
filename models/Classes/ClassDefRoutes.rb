@@ -269,7 +269,7 @@ class ClassDefRoutes < Sinatra::Base
     case params[:transaction_type]
     when "teacher_pass"
       msg = "1Hr Lesson with #{custy.to_list_string} on #{occurrence.starttime}"
-      occurrence.teacher.customer.use_class_pass(msg) { reservation = occurrence.nake_reservation( params[:customer_id] )} or halt 400
+      occurrence.teacher.customer.use_class_pass(msg) { reservation = occurrence.make_reservation( params[:customer_id] )} or halt 400
     when "class_pass"
       custy.use_class_pass(message, params[:pass_price] || 1) { reservation = occurrence.make_reservation( params[:customer_id] ) } or halt 400
     when "membership"
