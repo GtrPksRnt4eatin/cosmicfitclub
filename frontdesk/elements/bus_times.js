@@ -50,7 +50,7 @@ BusTimes.prototype.HTML = `
       </tr>
       <tr rv-each-bus="state.bus_times.north">
         <td>B24 North {bus.arrival}</td>
-        <td>47 St&nbsp;7</td>
+        <td>47 St&nbsp;<img class="subway" src="72.svg"/></td>
         <td>{bus.arrives_in} min</td>
       </tr>
       <tr rv-unless="state.bus_times.north.0" rv-unless=
