@@ -26,6 +26,7 @@ class Wallet < Sequel::Model
   def add_passes(number, description, notes)
     transaction = add_transaction( PassTransaction.create( :delta => number, :description => description, :notes => notes ) )
     self.pass_balance = self.pass_balance + number
+    self.fractional_balance + number
     self.save
     return transaction
   end
@@ -35,6 +36,7 @@ class Wallet < Sequel::Model
     transaction = PassTransaction.create( :delta => - number, :description => description, :notes => notes )
     add_transaction( transaction )
     self.pass_balance = self.pass_balance - number
+    self.fractional_balance = self.fractional_balance - number
     self.save
     return transaction
   end
@@ -45,6 +47,7 @@ class Wallet < Sequel::Model
     transaction = PassTransaction.create( :delta=> - number, :description=>reason, :notes=>"" ) { |trans| trans.reservation = yield }
     add_transaction( transaction )
     self.pass_balance = self.pass_balance - number
+    self.fractional_balance = self.fractional_balance - number
     self.save
     return transaction
   end
@@ -60,6 +63,7 @@ class Wallet < Sequel::Model
   def <<(other)
     other.transactions.each { |t| t.update( :wallet_id => self.id ) }
     self.pass_balance = self.pass_balance + other.pass_balance
+    self.fractional_balance = self.fractional_balance + other.fractional_balance
     other.update( :pass_balance => 0 )
     other.delete
     self.save
