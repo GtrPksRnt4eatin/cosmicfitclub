@@ -25,29 +25,29 @@ class Wallet < Sequel::Model
 
   def add_passes(number, description, notes)
     transaction = add_transaction( PassTransaction.create( :delta => number, :description => description, :notes => notes ) )
-    self.pass_balance = self.pass_balance + number
-    self.fractional_balance + number
+    self.pass_balance = self.pass_balance + number.to_i
+    self.fractional_balance + number.to_f
     self.save
     return transaction
   end
 
   def rem_passes(number, description, notes)
-    return false if self.pass_balance < number
+    return false if self.pass_balance < number.to_f
     transaction = PassTransaction.create( :delta => - number, :description => description, :notes => notes )
     add_transaction( transaction )
-    self.pass_balance = self.pass_balance - number
-    self.fractional_balance = self.fractional_balance - number
+    self.pass_balance = self.pass_balance - number.to_i
+    self.fractional_balance = self.fractional_balance - number.to_f
     self.save
     return transaction
   end
 
   def use_pass(reason,number=1)
     return false if self.empty?
-    return false if self.pass_balance < number
+    return false if self.pass_balance < number.to_f
     transaction = PassTransaction.create( :delta=> - number, :description=>reason, :notes=>"" ) { |trans| trans.reservation = yield }
     add_transaction( transaction )
-    self.pass_balance = self.pass_balance - number
-    self.fractional_balance = self.fractional_balance - number
+    self.pass_balance = self.pass_balance - number.to_i
+    self.fractional_balance = self.fractional_balance - number.to_f
     self.save
     return transaction
   end
