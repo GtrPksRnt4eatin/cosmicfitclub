@@ -82,6 +82,8 @@ function setup_bindings() {
   include_rivets_select();
   rivets.formatters.count = function(val) { return empty(val) ? 0 : val.length; }
   rivets.formatters.no_students = function(val) { return empty(val) ? true : !val.length; }
+  rivets.formatters.money       = function(val) { return empty(val) ? "" : `($${(val/100).toFixed(2)})`; }
+  rivets.formatters.passes      = function(val) { return empty(val) ? "" : `(${parseFloat(val)})`; }
   var binding = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 }
 

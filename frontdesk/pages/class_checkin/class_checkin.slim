@@ -63,7 +63,7 @@ html
                 td.field.custy_name rv-on-click='ctrl.edit_customer'
                   | { res.customer_name }
                 td.field
-                  | { res.payment_type } { res.pass_amount }
+                  | { res.payment_type } { res.pass_amount | passes } { res.payment_amount | money }
 
       .tile
 
