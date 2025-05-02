@@ -23,8 +23,8 @@ class PassTransaction < Sequel::Model
 
   def to_token
     { :id => self.id,
-      :delta => self.delta,
-      :delta_f => self.delta_f,
+      :delta => self.delta.to_i,
+      :delta_f => self.delta_f.to_f,
       :timestamp => self.timestamp,
       :description => self.description
     }
