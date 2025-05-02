@@ -54,8 +54,9 @@ class Wallet < Sequel::Model
 
   def history
     self.transactions.sort_by{ |x| x[:timestamp] }.inject([]) do |tot,el|
+      el.delta_f = el.delta_f.to_f
       el = el.to_hash      
-      el[:running_total] = el[:delta_f].to_f + ( tot.last.nil? ? 0 : tot.last[:running_total] )
+      el[:running_total] = el[:delta_f] + ( tot.last.nil? ? 0 : tot.last[:running_total] )
       tot << el
     end
   end
