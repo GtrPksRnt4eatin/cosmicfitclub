@@ -147,7 +147,8 @@ class CustomerRoutes < Sinatra::Base
     hsh[:id] = wallet.id
     hsh[:shared] = wallet.shared?
     hsh[:shared_with] = wallet.customers.reject{ |x| x.id == custy.id }.map { |c| { :id => c.id, :name => c.name } }
-    hsh[:pass_balance] = wallet.fractional_balance.to_f
+    hsh[:pass_balance] = wallet.pass_balance.to_i
+    hsh[:fractional_balance] = wallet.fractional_balance.to_f
     hsh[:pass_transactions] = wallet.history 
     return hsh.to_json
   end
