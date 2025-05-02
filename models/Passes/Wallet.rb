@@ -24,7 +24,7 @@ class Wallet < Sequel::Model
   end
 
   def add_passes(number, description, notes)
-    transaction = add_transaction( PassTransaction.create( :delta => number, :description => description, :notes => notes ) )
+    transaction = add_transaction( PassTransaction.create( :delta => number, :delta_f => number, :description => description, :notes => notes ) )
     self.pass_balance = self.pass_balance + number.to_i
     self.fractional_balance + number.to_f
     self.save
@@ -33,7 +33,7 @@ class Wallet < Sequel::Model
 
   def rem_passes(number, description, notes)
     return false if self.pass_balance < number.to_f
-    transaction = PassTransaction.create( :delta => - number, :description => description, :notes => notes )
+    transaction = PassTransaction.create( :delta => - number, :delta_f => - number, :description => description, :notes => notes )
     add_transaction( transaction )
     self.pass_balance = self.pass_balance - number.to_i
     self.fractional_balance = self.fractional_balance - number.to_f
@@ -44,7 +44,7 @@ class Wallet < Sequel::Model
   def use_pass(reason,number=1)
     return false if self.empty?
     return false if self.pass_balance < number.to_f
-    transaction = PassTransaction.create( :delta=> - number, :description=>reason, :notes=>"" ) { |trans| trans.reservation = yield }
+    transaction = PassTransaction.create( :delta=> - number, :delta_f => - number, :description=>reason, :notes=>"" ) { |trans| trans.reservation = yield }
     add_transaction( transaction )
     self.pass_balance = self.pass_balance - number.to_i
     self.fractional_balance = self.fractional_balance - number.to_f
@@ -55,7 +55,7 @@ class Wallet < Sequel::Model
   def history
     hist = self.transactions.sort_by{ |x| x[:timestamp] }.inject([]) do |tot,el|
       el = el.to_hash      
-      el[:running_total] = el[:delta] + ( tot.last.nil? ? 0 : tot.last[:running_total] )
+      el[:running_total] = el[:delta_f] + ( tot.last.nil? ? 0 : tot.last[:running_total] )
       tot << el
     end
   end
@@ -64,13 +64,13 @@ class Wallet < Sequel::Model
     other.transactions.each { |t| t.update( :wallet_id => self.id ) }
     self.pass_balance = self.pass_balance + other.pass_balance
     self.fractional_balance = self.fractional_balance + other.fractional_balance
-    other.update( :pass_balance => 0 )
+    other.update( :pass_balance => 0, :fractional_balance => 0 )
     other.delete
     self.save
   end
 
   def ledger
-    history.map{ |x| "#{x[:timestamp].strftime('%d/%m/%Y %I:%M:%S %P')} - #{x[:description].ljust(120)} - #{x[:delta]} - #{x[:running_total]}" }.join("\r\n")
+    history.map{ |x| "#{x[:timestamp].strftime('%d/%m/%Y %I:%M:%S %P')} - #{x[:description].ljust(120)} - #{x[:delta_f]} - #{x[:running_total]}" }.join("\r\n")
   end
 
 end

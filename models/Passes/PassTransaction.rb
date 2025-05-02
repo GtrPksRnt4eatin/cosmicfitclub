@@ -12,6 +12,7 @@ class PassTransaction < Sequel::Model
 
   def undo
     self.wallet.update( :pass_balance => self.wallet.pass_balance - self.delta )
+    self.wallet.update( :fractional_balance => self.wallet.fractional_balance - self.delta_f )
     self.delete
   end
   
@@ -23,6 +24,7 @@ class PassTransaction < Sequel::Model
   def to_token
     { :id => self.id,
       :delta => self.delta,
+      :delta_f => self.delta_f,
       :timestamp => self.timestamp,
       :description => self.description
     }
