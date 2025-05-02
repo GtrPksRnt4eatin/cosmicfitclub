@@ -35,7 +35,7 @@ html
               span.timestamp     #{ trans[:timestamp].strftime("%Y/%m/%d %a\n%I:%M:%S %P") }
               span.description 
                 == description.join("<br/>")
-              span.delta         #{ "+" if trans[:delta] > 0 } #{ trans[:delta] }
+              span.delta         #{ "+" if trans[:delta_f] > 0 } #{ trans[:delta_f] }
               span.running_total #{ trans[:running_total] }
 
         .footer Passes Remaining: #{ customer.num_passes }
