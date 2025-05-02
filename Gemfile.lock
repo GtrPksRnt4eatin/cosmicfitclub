@@ -1625,6 +1625,9 @@ GEM
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     sequel (5.71.0)
+    sequel_pg (1.17.2)
+      pg (>= 0.18.0, != 1.2.0)
+      sequel (>= 4.38.0)
     shrine (3.5.0)
       content_disposition (~> 1.0)
       down (~> 5.1)
@@ -1729,6 +1732,7 @@ DEPENDENCIES
   rexml (>= 3.2.5)
   rqrcode
   sequel
+  sequel_pg
   shrine
   sinatra (>= 2.0.2)
   sinatra-contrib
