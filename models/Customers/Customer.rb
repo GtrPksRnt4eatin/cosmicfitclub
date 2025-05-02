@@ -226,7 +226,7 @@ class Customer < Sequel::Model
 
 ############################ Class Passes ##############################
 
-  def num_passes;    wallet.nil? ? 0 : wallet.pass_balance end
+  def num_passes;    wallet.nil? ? 0 : wallet.fractional_balance.to_f end
 
   def pass_transactions
     return [] if self.wallet.nil?

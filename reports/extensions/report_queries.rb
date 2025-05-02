@@ -12,8 +12,8 @@ module Sinatra
           pass_balance
         FROM customers
         LEFT JOIN wallets on wallet_id = wallets.id
-        WHERE pass_balance > 0
-        ORDER BY pass_balance DESC;
+        WHERE fractional_balance > 0
+        ORDER BY fractional_balance DESC;
       "].all
     end
 

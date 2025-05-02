@@ -3,8 +3,8 @@ class Wallet < Sequel::Model
   one_to_many :customers
   one_to_many :transactions, :class => :PassTransaction
 
-  def empty?;  self.pass_balance == 0   end
-  def shared?; self.customers.count > 1 end
+  def empty?;  self.pass_balance == 0 && self.fractional_balance == 0.0 end
+  def shared?; self.customers.count > 1     end
 
   def force_delete
     self.transactions.each { |t| t.undo }
@@ -26,13 +26,13 @@ class Wallet < Sequel::Model
   def add_passes(number, description, notes)
     transaction = add_transaction( PassTransaction.create( :delta => number, :delta_f => number, :description => description, :notes => notes ) )
     self.pass_balance = self.pass_balance + number.to_i
-    self.fractional_balance + number.to_f
+    self.fractional_balance = self.fractional_balance + number.to_f
     self.save
     return transaction
   end
 
   def rem_passes(number, description, notes)
-    return false if self.pass_balance < number.to_f
+    return false if self.fractional_balance < number.to_f
     transaction = PassTransaction.create( :delta => - number, :delta_f => - number, :description => description, :notes => notes )
     add_transaction( transaction )
     self.pass_balance = self.pass_balance - number.to_i
@@ -43,7 +43,7 @@ class Wallet < Sequel::Model
 
   def use_pass(reason,number=1)
     return false if self.empty?
-    return false if self.pass_balance < number.to_f
+    return false if self.fractional_balance < number.to_f
     transaction = PassTransaction.create( :delta=> - number, :delta_f => - number, :description=>reason, :notes=>"" ) { |trans| trans.reservation = yield }
     add_transaction( transaction )
     self.pass_balance = self.pass_balance - number.to_i
@@ -53,7 +53,7 @@ class Wallet < Sequel::Model
   end
 
   def history
-    hist = self.transactions.sort_by{ |x| x[:timestamp] }.inject([]) do |tot,el|
+    self.transactions.sort_by{ |x| x[:timestamp] }.inject([]) do |tot,el|
       el = el.to_hash      
       el[:running_total] = el[:delta_f].to_f + ( tot.last.nil? ? 0 : tot.last[:running_total] )
       tot << el
