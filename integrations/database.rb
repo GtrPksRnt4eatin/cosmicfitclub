@@ -18,6 +18,7 @@ $DB = Sequel.postgres(args[:dbname], args )
 Sequel.application_timezone = :local
 Sequel.database_timezone = :local
 
-$DB.extension :pg_array, :pg_json, :connection_validator
+$DB.extension :pg_array, :pg_json, :pg_numeric, :connection_validator
+$DB.typecast_numeric_to_float = true
 
 Sequel::Model.plugin :json_serializer
