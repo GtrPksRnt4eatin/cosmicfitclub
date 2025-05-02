@@ -127,7 +127,7 @@ html
                 th 
                   | Balance:
                 td
-                  | { data.customer.wallet.pass_balance } passes remaining
+                  | { data.customer.wallet.fractional_balance } passes remaining
               tr
                 th 
                   | Sharing:
@@ -233,7 +233,7 @@ html
                     span rv-on-click='ctrl.undo_transaction'
                       | undo
                   td
-                    | { trans.delta }
+                    | { trans.delta_f }
                   td
                     | { trans.running_total }
                   
