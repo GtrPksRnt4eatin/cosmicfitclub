@@ -90,6 +90,10 @@ ctrl = {
     reservation_form.set_price(2400,2);
   },
 
+  set_90min_price(e,m) {
+    reservation_form.set_price(1800,1.5);
+  },
+
   set_3x_price(e,m) {
     reservation_form.set_price(3600,3);
   },
