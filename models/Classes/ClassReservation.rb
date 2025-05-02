@@ -35,7 +35,7 @@ class ClassReservation < Sequel::Model
   end
 
   def summary
-    "#{self.customer.try(:to_list_string)} paid #{self.payment.try(:amount) || self.transaction.try(:amount)} #{self.payment_type} for #{self.occurrence.try(:summary)} on #{self.occurrence.try(:starttime)}"
+    "#{self.customer.try(:to_list_string)} paid #{self.payment.try(:amount) || self.transaction.try(:delta_f)} #{self.payment_type} for #{self.occurrence.try(:summary)} on #{self.occurrence.try(:starttime)}"
   end
  
   alias :to_list_string :summary
