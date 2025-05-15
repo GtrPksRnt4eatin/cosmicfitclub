@@ -27,6 +27,7 @@ class Wallet < Sequel::Model
   end
 
   def add_passes(number, description, notes)
+    number = number.to_f
     transaction = add_transaction( PassTransaction.create( :delta => number, :delta_f => number, :description => description, :notes => notes ) )
     self.pass_balance = self.pass_balance + number
     self.fractional_balance = self.fractional_balance + number
@@ -35,6 +36,7 @@ class Wallet < Sequel::Model
   end
 
   def rem_passes(number, description, notes)
+    number = number.to_f
     return false if self.fractional_balance < number
     transaction = PassTransaction.create( :delta => - number, :delta_f => - number, :description => description, :notes => notes )
     add_transaction( transaction )

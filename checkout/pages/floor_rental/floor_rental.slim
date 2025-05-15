@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+html
+
+  head
+    == no_scaling
+
+    == css ['fonts', 'site', 'header', 'menu_colors', 'flatpickr', 'selectize-ems', 'tuples', 'edit_page', 'loft_rental']
+    == js  ['jquery', 'lib', 'menu', 'element', 'ev_channel', 'rivets', 'moment', 'flatpickr', 'selectize.min', 'rv_dates', 'moment', 'daypilot-all.min' ]
+    == js  ['/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector']
+    == js  ['/checkout/elements/loft_calendar', 'loft_rental']
+
+  body
+
+    #stars
+
+    == include_slim('slim/partials/header')
+
+    .content
+
+      .tile          
+        
+        h2
+          | Floor Space Reservation
+
+        .tuple rv-if='data.rental.tag'
+          .attrib Reservation Tag:
+          .value { data.rental.tag }
+        
+        div rv-hide='data.selected_timeslot'
+          loft-calendar point='true' timeslot='data.selected_timeslot'
+        
+        div rv-show='data.selected_timeslot'
+          h3 Selected Timeslot
+          .tuple
+            .attrib
+              | Start:
+            .value.pointer rv-on-click='ctrl.clear_starttime'
+              | {data.rental.start_time | dateformat 'ddd MMM D @ h:mm A' }
+          .tuple
+            .attrib
+              | End:
+            .value 
+              input data-format='D M d @ h:i K' data-increment=30 rv-datefield='data.rental.end_time'
+
+          .tuple
+            .attrib Apparatus:
+            .value 
+              select rv-value='data.rental.activity'
+                option value="Straps" Straps
+                option value="Silks" Silks
+                option value="Lyra" Lyra
+                option value="Spotting Belt" Spotting Belt
+                option value="Other" Other/Bringing My Own
+        
+          .tuple
+            .attrib Rigging Notes: 
+            .value 
+              textarea rv-value='data.rental.note'
+
+          div.add rv-on-click='ctrl.add_slot'
+        
+          .tuple
+            .attrib # of People:
+            .value
+              select rv-value='data.num_slots' rv-on-change='ctrl.set_num_slots'
+                option value="0" 0
+                option value="1" 1
+                option value="2" 2
+                option value="3" 3
+                option value="4" 4
+
+          div rv-if='data.num_slots'
+            hr
+            .tuple rv-each-slot='data.rental.slots'
+              .attrib
+                | Slot \#{index | fix_index}
+              .value.pointer rv-on-click='ctrl.choose_custy'
+                | {slot.customer_string}
+        
+          hr
+        
+          button#request rv-on-click='ctrl.request_slot'
+            | Request this Timeslot
+      
+      .tile rv-hide='data.selected_timeslot' rv-show='data.my_reservations'
+        table
+          tr
+            td colspan="2" 
+              | My Upcoming Reservations:
+          tr rv-each-reservation='data.my_reservations'
+            td
+              | { reservation.summary }
+            td
+              button rv-on-click='ctrl.cancel' Cancel
+
+    #popupmenu_container

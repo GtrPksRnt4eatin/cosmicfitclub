@@ -1,0 +1,53 @@
+.tile {
+    padding: 1em;
+    width: 27em;
+    margin: 1em auto;
+  }
+  
+  .tuple .attrib {
+    width: 9em;
+  }
+  
+  .tuple .value {
+    font-size: 0.7em;
+  }
+  
+  .tuple .value input.flatpickr-input,
+  .tuple .value select,
+  .tuple .value textarea {
+    background: none;
+    border: 0;
+    font-weight: bold;
+    font-family: 'Industry-Light';
+    font-size: 12pt;
+  }
+  
+  .tuple .value input,
+  .tuple .value select,
+  .tuple .value textarea {
+    width: 100%;
+  }
+  
+  .custy_selector .add_custy, 
+  .custy_selector .edit_custy {
+    height: 4.37em;
+  }
+  
+  button#request {
+    font-size: 0.7em;
+    padding: 0.25em 1em;
+    cursor: pointer;
+    width: 100%;
+  } 
+  
+  .pointer {
+    cursor: pointer;
+  }
+  
+  @media (orientation: portrait) {
+    
+    .tile {
+      width: 95vw;
+    }
+  
+  }
