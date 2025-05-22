@@ -2,10 +2,9 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
 
   many_to_one :payroll
   many_to_one :staff
-  many_to_one :occurrence, :class => :ClassOccurrence
+
   one_to_many :lines, :class => :PayrollLine
   one_to_many :payouts
-
 
   def details_hash
     hsh = { 
