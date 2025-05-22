@@ -2,6 +2,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
 
   many_to_one :payroll
   many_to_one :staff
+  many_to_one :occurrence, :class => :ClassOccurrence
   one_to_many :lines, :class => :PayrollLine
   one_to_many :payouts
 
@@ -18,6 +19,12 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
     hsh
   end
 
+  def postmark_lines
+    self.lines.map do |line|
+      "#{line.start_time} - #{line.description} - #{line.occurrence.headcount} - #{line.value}"
+    end
+  end
+  
   def totals
     { :payout_total => self.lines.inject(0) { |sum,x| sum + (x.value        || 0) },
       :cosmic_total => self.lines.inject(0) { |sum,x| sum + (x.cosmic       || 0) },
