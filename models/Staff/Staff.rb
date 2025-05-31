@@ -11,8 +11,9 @@ class Staff < Sequel::Model(:staff)
   one_to_many :hourly_punches
   one_to_many :hourly_shifts
   one_to_many :class_occurrences
-  many_to_one :customer
+  one_to_many :payroll_slips, :class => :PayrollSlip
 
+  many_to_one :customer
   many_to_one :poster_bubble, :class => :StoredImage
 
   include ImageUploader[:image]
