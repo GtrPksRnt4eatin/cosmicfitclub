@@ -7,12 +7,11 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
   one_to_many :payouts
 
   def send_email
-    Mail.payout_slip(
-      self.staff.email,
-      { payout_total: self.totals[:payout_total],
-        payroll_lines: self.postmark_lines.to_json
-      }
-    )
+    model = {
+      :payout_total => self.totals[:payout_total],
+      :payroll_lines => self.postmark_lines
+    }
+    Mail.payout_slip( self.staff.email, model )
   end
 
   def details_hash
