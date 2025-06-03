@@ -3,6 +3,10 @@ class PayrollLine < Sequel::Model(:payroll_lines)
   many_to_one :payroll_slip
   many_to_one :occurrence, :class => :ClassOccurrence, :key => :class_occurrence_id
 
+  def staff
+    self.payroll_slip.staff      
+  end
+
   def to_hash
     hsh = { 
       id: self.id,
