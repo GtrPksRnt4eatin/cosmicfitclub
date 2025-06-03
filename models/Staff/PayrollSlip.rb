@@ -6,6 +6,15 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
   one_to_many :lines, :class => :PayrollLine
   one_to_many :payouts
 
+  def send_email
+    Mail.payout_slip(
+      self.staff.email,
+      { payout_total: self.totals[:payout_total],
+        payroll_lines: self.postmark_lines
+      }
+    )
+  end
+
   def details_hash
     hsh = { 
       id: self.id,
@@ -23,7 +32,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
       "#{line.start_time} - #{line.description} - #{line.occurrence.headcount} - #{line.value}"
     end
   end
-  
+ 
   def totals
     { :payout_total => self.lines.inject(0) { |sum,x| sum + (x.value        || 0) },
       :cosmic_total => self.lines.inject(0) { |sum,x| sum + (x.cosmic       || 0) },
