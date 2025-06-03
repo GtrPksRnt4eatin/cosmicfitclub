@@ -10,7 +10,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
     Mail.payout_slip(
       self.staff.email,
       { payout_total: self.totals[:payout_total],
-        payroll_lines: self.postmark_lines
+        payroll_lines: self.postmark_lines.join
       }
     )
   end
