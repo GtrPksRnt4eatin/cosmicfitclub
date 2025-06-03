@@ -23,6 +23,10 @@ class Staff < Sequel::Model(:staff)
   	super
   end
 
+  def email
+    return self.customer.email if self.customer
+  end
+
   ############################## LISTS ##############################
 
   def Staff::list
