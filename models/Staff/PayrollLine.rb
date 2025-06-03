@@ -8,7 +8,6 @@ class PayrollLine < Sequel::Model(:payroll_lines)
       id: self.id,
       description: self.description,
       start_time: self.start_time,
-      end_time: self.end_time || nil,
       value: self.value,
       cosmic: self.cosmic,
       loft: self.loft,
