@@ -10,7 +10,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
     Mail.payout_slip(
       self.staff.email,
       { payout_total: self.totals[:payout_total],
-        payroll_lines: self.postmark_lines.join
+        payroll_lines: self.postmark_lines.to_json
       }
     )
   end
@@ -29,7 +29,11 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
 
   def postmark_lines
     self.lines.map do |line|
-      "#{line.start_time} - #{line.description} - #{line.occurrence.headcount} - #{line.value}"
+      { start: line.start_time.strftime('%Y-%m-%d %H:%M'),
+        description: line.description,
+        headcount: line.occurrence ? line.occurrence.headcount : 0,
+        value: line.value
+      }
     end
   end
  
