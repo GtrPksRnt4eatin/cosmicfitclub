@@ -1,5 +1,5 @@
 body {
-  text-align: center;
+  text-align: left;
   overflow-y: hidden;
 }
 
@@ -13,6 +13,7 @@ body {
 
 bus-times {
   font-size: 1.9vw;
+  border-radius: none !important;
   width: 100%;
   flex: 1;
 }
