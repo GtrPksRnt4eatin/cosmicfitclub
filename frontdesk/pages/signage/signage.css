@@ -13,7 +13,7 @@ body {
 
 bus-times {
   font-size: 1.9vw;
-  border-radius: none !important;
+  border-radius: 0 !important;
   width: 100%;
   flex: 1;
 }
