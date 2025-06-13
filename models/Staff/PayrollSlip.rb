@@ -8,7 +8,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
 
   def send_email
     model = {
-      :payout_total => '$%.2f' % self.totals[:payout_total].to_i/100,
+      :payout_total => '$%.2f' % (self.totals[:payout_total].to_i/100),
       :payroll_lines => self.postmark_lines
     }
     Mail.payout_slip( self.staff.email, model )
@@ -31,7 +31,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
       { start: line.start_time.strftime('%m/%d %H:%I%P'),
         description: line.description,
         headcount: line.occurrence ? line.occurrence.headcount : 0,
-        value: '$%.2f' % line.value.to_i/100
+        value: '$%.2f' % (line.value.to_i/100)
       }
     end
   end
