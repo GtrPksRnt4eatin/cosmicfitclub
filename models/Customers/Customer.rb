@@ -280,7 +280,7 @@ class Customer < Sequel::Model
   end
 
   def transfer_passes_to(customer_id, number)
-    number = number.to_i
+    number = number.to_f
     customer = Customer[customer_id]
     return false if customer.nil?
     self.rem_passes(number, "Transferred to #{customer.name} \##{customer.id}", "") or return false
