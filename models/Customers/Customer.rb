@@ -1,3 +1,5 @@
+require_relative '../Staff/Staff'
+require_relative '../Staff/PayrollSlip'
 
 class Customer < Sequel::Model
   
