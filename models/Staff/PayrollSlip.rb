@@ -28,7 +28,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
 
   def postmark_lines
     self.lines.map do |line|
-      { start: line.start_time.strftime('%m/%d %H:%I%P'),
+      { start: line.start_time.strftime('%a %-m/%d %l:%M %P'),
         description: line.description,
         headcount: line.occurrence ? line.occurrence.headcount : 0,
         value: '$%.2f' % (line.value.to_i/100)
