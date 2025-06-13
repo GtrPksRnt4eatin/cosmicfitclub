@@ -25,7 +25,7 @@ class Customer < Sequel::Model
   one_to_many  :group_reservation_slots
 
   one_to_many  :payroll_slips, through: :staff, :class=>:PayrollSlip
-  one_to_many  :payouts
+  one_to_many  :payouts, through: :staff, :class=>:Payout
   
   many_to_one :wallet
   many_to_many :children, :class => :Customer, :join_table => :parents_children, :left_key => :parent_id, :right_key => :child_id
