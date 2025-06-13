@@ -21,4 +21,4 @@ Sequel.database_timezone = :local
 $DB.extension :pg_array, :pg_json, :connection_validator
 
 Sequel::Model.plugin :json_serializer
-Sequel::Model.plugin :cyclical_through_assiciations
+Sequel::Model.plugin :cyclical_through_associations
