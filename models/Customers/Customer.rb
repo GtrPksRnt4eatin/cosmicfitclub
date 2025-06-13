@@ -337,7 +337,7 @@ class Customer < Sequel::Model
   end
 
   def staff_info
-    { :id => id, :name => name, :email => email, :phone => phone, :staff => self.staff[0].try(:to_payout_token) }
+    { :id => id, :name => name, :email => email, :phone => phone, :staff => self.staff.try(:to_payout_token) }
   end
 
 end

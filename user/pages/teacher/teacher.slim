@@ -20,7 +20,7 @@ html
       .tile.tile_ib
         .title Currently Scheduled Classes
 
-        - customer.staff[0].schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
+        - customer.staff.schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
           div.schedule
             span.name  #{ sched.classdef.name   }
             span.rrule #{ sched.rrule_english   }
@@ -28,7 +28,7 @@ html
 
       br
       
-      - @class_history = customer.staff[0].class_history
+      - @class_history = customer.staff.class_history
 
       .tile.tile_ib.class_history
         .title Grand Total ( All Classes )
