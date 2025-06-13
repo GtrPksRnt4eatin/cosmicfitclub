@@ -1,6 +1,7 @@
 
 class Customer < Sequel::Model
   
+  one_to_one      :staff
   one_to_one      :login, :class=>:User
   one_through_one :plan, :join_table => :subscriptions
 
@@ -14,7 +15,6 @@ class Customer < Sequel::Model
   one_to_many  :reservations, :class=>:ClassReservation
   one_to_many  :comp_tickets
   one_to_many  :payments, :class=>:CustomerPayment
-  one_to_many  :staff
   one_to_many  :hourly_punches
   one_to_many  :event_passes
   one_to_many  :gift_certificates
