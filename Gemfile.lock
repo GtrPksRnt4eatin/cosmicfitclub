@@ -1625,6 +1625,8 @@ GEM
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     sequel (5.71.0)
+    sequel-through (0.4.0)
+      sequel (~> 5)
     sequel_pg (1.17.2)
       pg (>= 0.18.0, != 1.2.0)
       sequel (>= 4.38.0)
@@ -1732,6 +1734,7 @@ DEPENDENCIES
   rexml (>= 3.2.5)
   rqrcode
   sequel
+  sequel-through
   sequel_pg
   shrine
   sinatra (>= 2.0.2)
