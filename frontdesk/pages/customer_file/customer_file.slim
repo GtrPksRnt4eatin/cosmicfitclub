@@ -154,7 +154,7 @@ html
                       td Send
                       td  
                         select.num value='0' rv-value='data.transfer_to_amount'
-                          - (0..10).each do |i|
+                          - (0..10).to_a.insert(1,1.5).each do |i|
                             option value="#{i}" #{i}
                       td passes to
                       td
@@ -168,7 +168,7 @@ html
                       td Receive
                       td
                         select.num value='0' rv-value='data.transfer_from_amount'
-                          - (0..10).each do |i|
+                          - (0..10).to_a.insert(1,1.5).each do |i|
                             option value="#{i}" #{i}
                       td passes from
                       td
