@@ -77,7 +77,7 @@ class StaffRoutes < Sinatra::Base
   end
 
   get '/payroll_reports' do
-    Payroll.where(:start_date >= (Date.today-365)).order(:start_date).map(&:details_hash).to_json
+    Payroll.where { start_date >= (Date.today-365)}.order(:start_date).map(&:details_hash).to_json
   end
   
   get '/payroll2drive' do 
