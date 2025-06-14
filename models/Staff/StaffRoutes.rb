@@ -109,10 +109,8 @@ class StaffRoutes < Sinatra::Base
   end
 
   post '/payout' do  
-    puts params
-    puts params[:stripe_connected_acct]
     result = StripeMethods::PayoutVendor(params[:amount], params[:stripe_connected_acct], params[:descriptor])
-    Payout.create({
+    payout = Payout.create({
       :stripe_transfer_id => result[:transfer].try(:id),
       :stripe_payout_id   => result[:payout].id,
       :date               => Time.at(result[:payout]['created']),
@@ -121,7 +119,9 @@ class StaffRoutes < Sinatra::Base
       :payroll_slip_id    => params[:slip_id],
       :staff_id           => params[:staff_id],
       :tag                => params[:tag]
-    }).to_json
+    })
+    payout.payroll_slip.send_email if payout.payroll_slip
+    payout.to_json
   end
 
   get '/paypal' do
