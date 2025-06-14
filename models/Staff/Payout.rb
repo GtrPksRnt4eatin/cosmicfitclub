@@ -12,8 +12,10 @@ class Payout < Sequel::Model(:payouts)
   def stripe_destination
     return nil unless self.stripe_payout_id
     payout = Stripe::Payout.retrieve(self.stripe_payout_id, { stripe_account: stripe_connect_id })
-    return payout.destination if payout && payout.destination
-    nil
+    return nil unless payout && payout.destination
+    account = Stripe::Account.retrieve_external_account( stripe_connect_id, payout.destination )
+    return nil unless account
+    return "%s %s" % [account[:bank_name], account[:last4]]
   rescue Stripe::InvalidRequestError
     nil
   end

@@ -6,8 +6,17 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
   one_to_many :lines, :class => :PayrollLine
   one_to_many :payouts
 
+  def payout
+    return nil if self.payouts.empty?
+    self.payouts.first    
+  end
+
   def send_email
+    destination = self.payout ? self.payout.stripe_destination : nil
+    destination = 
     model = {
+      :destination => self.payout ? self.payout.stripe_destination : "",
+      :arrival_date => self.payout ? payout.stripe_arrival_date.strftime('%a %-m/%d %Y') : "",
       :payout_total => '$%.2f' % (self.totals[:payout_total].to_i/100),
       :payroll_lines => self.postmark_lines
     }
