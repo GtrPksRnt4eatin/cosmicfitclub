@@ -11,9 +11,7 @@ class PayrollSlip < Sequel::Model(:payroll_slips)
     self.payouts.first    
   end
 
-  def send_email
-    destination = self.payout ? self.payout.stripe_destination : nil
-    destination = 
+  def send_email 
     model = {
       :destination => self.payout ? self.payout.stripe_destination : "",
       :arrival_date => self.payout ? payout.stripe_arrival_date.strftime('%a %-m/%d %Y') : "",
