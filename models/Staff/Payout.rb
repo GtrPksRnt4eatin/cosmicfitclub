@@ -5,8 +5,8 @@ class Payout < Sequel::Model(:payouts)
   many_to_one :staff
 
   def stripe_account_id
-    return nil unless self.staff && self.staff.stripe_connected_acct
-    self.staff.stripe_connected_acct  
+    return nil unless self.staff && self.staff.stripe_account_id
+    self.staff.stripe_account_id  
   end
 
   def stripe_destination
