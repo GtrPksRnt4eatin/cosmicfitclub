@@ -23,7 +23,7 @@ class Payout < Sequel::Model(:payouts)
   def stripe_arrival_date
     return nil unless self.stripe_payout_id
     payout = Stripe::Payout.retrieve(self.stripe_payout_id, { stripe_account: stripe_connect_id })
-    return Time.at(payout['arrival_date']) if payout && payout['arrival_date']
+    return Time.at(payout['arrival_date']).utc if payout && payout['arrival_date']
     nil
   rescue Stripe::InvalidRequestError
     nil
