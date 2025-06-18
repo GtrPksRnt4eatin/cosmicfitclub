@@ -9,7 +9,7 @@ class EventCollaboration < Sequel::Model
   end
 
   def stripe_connect_id
-    self.customer.try(:staff)[0].try(:stripe_connect_id)
+    self.customer.try(:staff).try(:stripe_connect_id)
   end
 
   def details_view
