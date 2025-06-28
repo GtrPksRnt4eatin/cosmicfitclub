@@ -330,7 +330,7 @@ class Event < Sequel::Model
     arr = []
     val = self.attendance2
     val.each do |x|
-      arr << [ "[\##{x[:id]}] #{x[:title].upcase}" ] #{x[:starttime].strftime("%a %m/%d %I:%M %P")} - #{x[:endtime].strftime("%a %m/%d %I:%M %P")}" ]
+      arr << [ "[\##{x[:id]}] #{x[:title].try(:upcase)}" ] #{x[:starttime].strftime("%a %m/%d %I:%M %P")} - #{x[:endtime].strftime("%a %m/%d %I:%M %P")}" ]
       arr << ['','','','','']
       x[:passes].each { |y| arr << [ y[:id], "[\##{y[:ticket][:id]}] #{y[:ticket][:ticketclass].try(:[], :title)}", "[\##{y[:customer][:id]}] #{y[:customer][:name]}", y[:customer][:email], !!y[:checked_in] ? "X" : " " ] }
       arr << ['','','','','']
