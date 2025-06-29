@@ -23,6 +23,11 @@ bus-times {
   padding: 1em 20%;
 }
 
+bus-times {
+  max-height: 34vh;
+  overflow-y: hidden;
+}
+
 promo-square {
   font-size: 4vw;
   line-height: 1.8em;
