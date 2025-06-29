@@ -20,6 +20,6 @@ $(document).ready(function() {
 
 function get_saved_slides() {
   $.get('/models/slides', function(slides) {
-    data.slides = JSON.parse(slides);
+    data.slides = slides;
   })
 }
