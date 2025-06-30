@@ -128,6 +128,13 @@ class ClassDefRoutes < Sinatra::Base
     status 204; {}.to_json    
   end
 
+  post '/schedules/:id/video' do
+    sched = ClassdefSchedule[params[:id]] or halt(404,'schedule not found')
+    sched.video.update( :image => params[:video] ) if sched.video
+    sched.update( :video => StoredImage.create( :image => params[:video] ) ) unless sched.video
+    status 204; {}.to_json
+  end
+
   delete '/schedules/:id' do
     id = Integer(params[:id])         rescue halt(401, "ID Must Be Numeric" )
     sched = ClassdefSchedule[params[:id]] or halt(404, "Schedule Not Found" )
