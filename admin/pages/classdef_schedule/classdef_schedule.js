@@ -13,6 +13,18 @@ ctrl = {
       popupmenu.hide();
       post_image('/models/classdefs/schedules' + data.sched.id + '/image', val['filename'], val['blob']);
     }); 
+  },
+
+  upload_video: function(e,m) {
+    if (e.target.files && e.target.files[0]) {
+      var fd = new FormData();
+      fd.append('video', e.target.files[0], e.target.files[0].name);
+      var request = new XMLHttpRequest();
+      request.open("POST", "/models/classdefs/schedules/" + data.sched.id + "/video", true);
+      request.onload = function(e) { get_sched_details(); }
+      request.onerror = function(e) { alert("Failed to Upload Video"); }
+      request.send(fd);
+    }
   }
 
 }

@@ -33,6 +33,6 @@ html
             img.picpreview crossorigin='anonymous' rv-src='data.sched.image_url' rv-on-click='ctrl.edit_image'
             img.filler#nopic rv-unless='data.sched.image_url' rv-on-click='ctrl.edit_image'
           .attrib 1080x1080 Video:
-          input type='file' 
-   
+          input type='file' rv-onchange='ctrl.upload_video'
+ 
     #popupmenu_container
