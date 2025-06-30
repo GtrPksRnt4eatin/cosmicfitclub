@@ -211,7 +211,8 @@ class ClassdefSchedule < Sequel::Model
       :rrule      => rrule_english,
       :start_time => start_time_12hr,
       :capacity   => capacity,
-      :image_url  => self.image.try(:image_url)
+      :image_url  => self.image.try(:image_url),
+      :video_url  => self.video.try(:image_url),
     }
   end
 
