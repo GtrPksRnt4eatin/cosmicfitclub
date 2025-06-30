@@ -1,4 +1,4 @@
-.picpreview {
+.picpreview, video {
     width: 15em;
     height: 15em;
     border-radius: 1.5em;
