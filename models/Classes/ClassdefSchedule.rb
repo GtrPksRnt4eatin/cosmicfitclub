@@ -166,6 +166,10 @@ class ClassdefSchedule < Sequel::Model
     self.image.try(:image_url) || self.classdef.try(:image_url,:medium) || self.teachers[0].try(:image_url,:medium) 
   end
 
+  def video_url
+    self.video.try(:image_url)  
+  end
+
   def thumb_url
     self.img_url
   end

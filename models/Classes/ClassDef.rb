@@ -173,7 +173,12 @@ class ClassDef < Sequel::Model
     classpage_view.merge({
       :description  => self.description,
       :schedules    => self.schedules,
+      :video_urls   => self.video_urls
     })
+  end
+
+  def video_urls
+    self.schedules.map { |s| s.video_url }.compact.uniq
   end
 
   def meeting_times
