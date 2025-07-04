@@ -38,7 +38,12 @@ PromoSquare.prototype = {
        this.state['classes'].forEach(function(cls) {
         fetch(cls.image_url)
          .then(function(resp) { return resp.blob(); })
-         .then(function(blob) { cls.image_url = URL.createObjectURL(blob); })
+         .then(function(blob) { cls.image_url = URL.createObjectURL(blob); });
+        if(cls.video_urls.length) {
+          fetch(cls.video_urls[0])
+           .then(function(resp) { return resp.blob(); })
+           .then(function(blob) { cls.video_url = URL.createObjectURL(blob); });
+        }
       });
      }.bind(this) );
   },
@@ -61,7 +66,10 @@ PromoSquare.prototype = {
 Object.assign( PromoSquare.prototype, element);
 
 PromoSquare.prototype.HTML = `
-  <img rv-src="state.current.image_url"/>
+  <img rv-unless="state.current.video_url" rv-src="state.current.image_url"/>
+  <video rv-if="state.current.video_url" autoplay>
+    <source rv-src="state.current.video_url" type="video/mp4">
+  </video>
   <div class='poster_lines'>
     <div rv-each-line="state.current.poster_lines">{line}</div>
   </div>
