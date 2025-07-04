@@ -67,10 +67,10 @@ Object.assign( PromoSquare.prototype, element);
 
 PromoSquare.prototype.HTML = `
   <img rv-unless="state.current.video_url" rv-src="state.current.image_url"/>
-  <video rv-if="state.current.video_url" autoplay>
+  <video rv-if="state.current.video_url" controls autoplay loop muted>
     <source rv-src="state.current.video_url" type="video/mp4">
   </video>
-  <div class='poster_lines'>
+    <div class='poster_lines'>
     <div rv-each-line="state.current.poster_lines">{line}</div>
   </div>
   `.untab(2);
@@ -82,7 +82,7 @@ PromoSquare.prototype.CSS = `
     text-align: center;
   }
 
-  promo-square img { 
+  promo-square img, promo-square video { 
     border-radius: 2em;
     box-shadow: 0 0 8px white;
     background: rgba(0,0,0,0.2);
