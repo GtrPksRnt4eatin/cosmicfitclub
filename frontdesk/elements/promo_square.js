@@ -67,7 +67,7 @@ Object.assign( PromoSquare.prototype, element);
 
 PromoSquare.prototype.HTML = `
   <img rv-unless="state.current.video_url" rv-src="state.current.image_url"/>
-  <video rv-if="state.current.video_url" controls autoplay loop muted>
+  <video rv-if="state.current.video_url" playsinline controls autoplay loop muted>
     <source rv-src="state.current.video_url" type="video/mp4">
   </video>
     <div class='poster_lines'>
