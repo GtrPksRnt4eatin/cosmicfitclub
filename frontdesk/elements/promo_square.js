@@ -58,8 +58,11 @@ PromoSquare.prototype = {
     } 
     on_deck = isclass ? this.state.classes[index] : this.state.events[index];
     this.state.index++;
-    if(on_deck) { this.state.current = on_deck; } 
-    else        { this.next_promo(); } 
+    if(!on_deck) { this,next_promo(); }
+    else { 
+      this.state.current = on_deck; 
+      if(this.state.current.video_url) { document.getElementById('promo_vid').play(); }
+    }
   }
 }
 
@@ -67,7 +70,7 @@ Object.assign( PromoSquare.prototype, element);
 
 PromoSquare.prototype.HTML = `
   <img rv-unless="state.current.video_url" rv-src="state.current.image_url"/>
-  <video rv-if="state.current.video_url" playsinline controls autoplay loop muted>
+  <video id="promo_vid" rv-if="state.current.video_url" playsinline autoplay loop muted>
     <source rv-src="state.current.video_url" type="video/mp4">
   </video>
     <div class='poster_lines'>
