@@ -65,8 +65,8 @@ class GroupReservation < Sequel::Model
 
   def send_confirmation_emails
     model = {
-      :duration => "#{self.duration_sec/60} minute",
-      :start => self.start_time.strftime("%Y/%m/%d %H:%M"),
+      :duration => "#{self.duration_sec/60.to_i} minute",
+      :start => self.start_time.strftime("%a %b %d %Y @ %l:%M %P"),
       :participants => self.customer_string,
       :confirmation => self.tag
     }
