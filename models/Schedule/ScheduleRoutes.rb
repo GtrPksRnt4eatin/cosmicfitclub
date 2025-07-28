@@ -107,7 +107,7 @@ class ScheduleRoutes < Sinatra::Base
     content_type :json
     from, to = Time.parse(params[:from]), Time.parse(params[:to])
     groups = GroupReservation.all_between(params[:from], params[:to]).map do |res|
-      params[:admin] ? res.to_admin_daypilot(session[:customer_id]) : res.to_public_daypilot
+      params[:admin] ? res.to_admin_daypilot : res.to_public_daypilot(session[:customer_id])
     end
     gcal = Calendar::get_loft_events(from,to).reject { |x| groups.find { |y| y[:gcal] == x[:gcal_id] } }
     gcal.each { |g| g[:text]     = params[:admin] ? g[:summary] : "Reserved"; g.delete(:summary) }
