@@ -17,9 +17,8 @@
 .tuple .value textarea {
   background: none;
   border: 0;
-  font-weight: bold;
-  font-family: 'Industry-Light';
-  font-size: 12pt;
+  font-family: 'Industry';
+  font-size: 1em;
 }
 
 .tuple .value input,
