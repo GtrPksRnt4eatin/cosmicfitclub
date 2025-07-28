@@ -112,8 +112,8 @@ class GroupReservation < Sequel::Model
   end
 
   def to_public_daypilot(logged_in=nil)
-    show_text = self.customer_id == logged_in
-    STDERR.puts "to_public_daypilot: #{self.customer_id} logged_in: #{logged_in} show_text: #{show_text}"
+    participant_ids = (slots.map { |s| s.customer_id } << self.customer_id).uniq.compact
+    show_text = participant_ids.include?(logged_in) if logged_in  
     { :start => self.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
       :text  => show_text ? customer_string : "Reserved",
