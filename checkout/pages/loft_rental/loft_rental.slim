@@ -51,12 +51,6 @@ html
                 option value='210' 3.5 Hours
                 option value='240' 4 Hours    
           .tuple
-            .attrib
-              | End:
-            .value 
-              input data-format='D M d @ h:i K' data-increment=30 rv-datefield='data.rental.end_time'
-
-          .tuple
             .attrib Apparatus:
             .value 
               select rv-value='data.rental.activity'

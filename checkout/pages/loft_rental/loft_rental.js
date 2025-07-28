@@ -84,10 +84,11 @@ $(document).ready( function() {
     if(!userview.logged_in) { userview.onboard(); return;  }
     data.rental.customer_id = userview.id;
     let start = new Date(val.start.value);
-    let end   = new Date( Math.max( start.getTime() + 3600000, new Date(val.end.value).getTime()));
+    let end   = new Date( Math.min( Math.max( start.getTime() + 3600000, new Date(val.end.value).getTime()), start.getTime() + 14400000 ) );
     data.selected_timeslot = { start: start, end: end };
     data.rental.start_time = start;
     data.rental.end_time = end;
+    data.rental.duration = Math.round((end.getTime() - start.getTime()) / 60000);
     data.num_slots = 1;
     data.rental.slots = [];
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
