@@ -85,7 +85,15 @@ class GroupReservation < Sequel::Model
   def duration_sec
     self.end_time - self.start_time
   end
-  
+
+  def duration_min
+    (duration_sec / 60).to_i
+  end
+
+  def duration_hr
+    (duration_sec / 3600).to_i
+  end
+
   def duration_ical
     "P#{Time.at(duration_sec).utc.hour}H#{Time.at(duration_sec).utc.min}M#{Time.at(duration_sec).utc.sec}S"
   end
@@ -143,7 +151,8 @@ class GroupReservation < Sequel::Model
 
   def to_token
     { :id => self.id,
-      :summary => self.summary
+      :summary => self.summary,
+      :passes => self.duration_hr * self.slots.count
     }
   end
 

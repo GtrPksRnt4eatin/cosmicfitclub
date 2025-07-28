@@ -105,5 +105,9 @@ html
               | { reservation.summary }
             td
               button rv-on-click='ctrl.cancel' Cancel
+        div
+          These Reservations will require a total of {data.my_reservations | passes_total} passes
+          You currently have 
+          
 
     #popupmenu_container
