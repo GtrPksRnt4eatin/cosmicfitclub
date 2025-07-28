@@ -1,6 +1,7 @@
 data = {
   rental: {
     start_time: '',
+    duration: 60,
     end_time: '',
     activity: '',
     note: '',
@@ -49,6 +50,10 @@ ctrl = {
 
   clear_starttime: function(e,m) {
     data.selected_timeslot = null;
+  },
+
+  update_endtime: function(e,m) {
+    data.rental.end_time = new Date(data.rental.start_time.getTime() + data.rental.duration * 60000);
   },
 
   cancel: function(e,m) {

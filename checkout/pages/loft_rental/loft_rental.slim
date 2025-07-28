@@ -34,14 +34,15 @@ html
           h3 Selected Timeslot
           .tuple
             .attrib
-              | Start:
+              | Timeslot:
             .value.pointer rv-on-click='ctrl.clear_starttime'
-              | {data.rental.start_time | dateformat 'ddd MMM D @ h:mm A' }
+              | {data.rental.start_time | dateformat 'ddd MMM D @ h:mm A' } -
+              | {data.rental.end_time | dateformat 'h:mm A' }
           .tuple
             .attrib
               | Duration
             .value
-              select rv-value='data.rental.duration'
+              select rv-on-change='ctrl.update_endtime' rv-value='data.rental.duration'
                 option value='60'  1 Hour
                 option value='90'  1.5 Hours
                 option value='120' 2 Hours
