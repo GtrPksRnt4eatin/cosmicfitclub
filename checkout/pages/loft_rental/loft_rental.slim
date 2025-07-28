@@ -36,7 +36,7 @@ html
             .attrib
               | Timeslot:
             .value.pointer rv-on-click='ctrl.clear_starttime'
-              | {data.rental.start_time | dateformat 'ddd MMM D h:mm A' } -
+              | {data.rental.start_time | dateformat 'ddd MMM D h:mm A' } - 
               | {data.rental.end_time | dateformat 'h:mm A' }
           .tuple
             .attrib
@@ -59,6 +59,11 @@ html
                 option value="Lyra" Lyra
                 option value="Spotting Belt" Spotting Belt
                 option value="Other" Other/Bringing My Own
+          .tuple
+            .attrib Lesson:
+            .value
+               input.toggle#lesson type='checkbox' rv-checked='data.rental.lesson'
+               label.toggle for='lesson'
         
           .tuple
             .attrib Rigging Notes: 
