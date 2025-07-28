@@ -19,6 +19,7 @@
   border: 0;
   font-family: 'Industry';
   font-size: 1em;
+  padding: 0;
 }
 
 .tuple .value input,
