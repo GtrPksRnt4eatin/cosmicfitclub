@@ -72,7 +72,7 @@ class ClassDef < Sequel::Model
   def frequent_flyers
     all_reservations.group_by do |x| 
       x[:customer_id]
-    end.map do |k,v|
+    end.compact.map do |k,v|
       [Customer[k].to_list_hash, v.size]
     end.map do |k,v| 
       k.nil? ? { :count=>v } : { :count=>v }.merge(k)
