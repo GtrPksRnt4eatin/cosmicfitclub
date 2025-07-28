@@ -106,8 +106,13 @@ html
             td
               button rv-on-click='ctrl.cancel' Cancel
         div
-          These Reservations will require a total of {data.my_reservations | passes_total} passes
-          You currently have 
-          
+          | These Reservations will require a total of {data.my_reservations | passes_total} passes
+          br
+          | You currently have {data.class_passes}
+          br
+          a href='/checkout/pack/21' 1 Hr Pass
+          a href='/checkout/pack/34' 90 Min Pass
+          a href='/checkout/pack/17' 2 Hr Pass
+          a href='/checkout/pack/25' 20 Hr Package
 
     #popupmenu_container

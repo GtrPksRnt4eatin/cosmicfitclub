@@ -99,5 +99,5 @@ $(document).ready( function() {
   });
 
   $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations = resp.length==0 ? null : resp; }, 'json');
-
+  $.get(`/models/customers/${userview.id}/class_passes`, function(resp) { data.class_passes = resp.length==0 ? null : resp; }, 'json');
 });
