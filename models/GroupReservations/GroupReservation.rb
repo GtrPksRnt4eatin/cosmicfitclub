@@ -108,7 +108,7 @@ class GroupReservation < Sequel::Model
   end
 
   def summary
-    "#{(duration_sec / 60).to_i} Min on #{self.start_time.strftime("%a %b %d %Y @ %l:%M %P")} for #{customer_string}"
+    "#{duration_sec / 60 / 60} Hour#{duration_sec==3600 ? '' : 's'} on #{self.start_time.strftime("%a %b %d %Y @ %l:%M %P")} for #{customer_string}"
   end
 
   def to_public_daypilot(logged_in=nil)
