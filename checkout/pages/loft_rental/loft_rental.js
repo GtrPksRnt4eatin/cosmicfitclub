@@ -69,6 +69,10 @@ $(document).ready( function() {
 
   rivets.formatters.equals    = function(val, arg) { return val == arg; }
   rivets.formatters.fix_index = function(val, arg) { return val + 1; }
+  rivets.formatters.passes_total = function(reservations) {
+    if(!reservations) return 0;
+    return reservations.reduce( (total, reservation) => total + reservation.passes, 0 );
+  }
 
   var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 
