@@ -36,7 +36,7 @@ html
             .attrib
               | Timeslot:
             .value.pointer rv-on-click='ctrl.clear_starttime'
-              | {data.rental.start_time | dateformat 'ddd MMM D @ h:mm A' } -
+              | {data.rental.start_time | dateformat 'ddd MMM D h:mm A' } -
               | {data.rental.end_time | dateformat 'h:mm A' }
           .tuple
             .attrib
