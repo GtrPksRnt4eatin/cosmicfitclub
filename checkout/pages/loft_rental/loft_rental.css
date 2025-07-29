@@ -44,6 +44,29 @@ button#request {
   cursor: pointer;
 }
 
+table.upcoming {
+  border-spacing: 0.5em;
+  border-radius: 0.5em;
+  background: rgba(0,0,0,0.2);
+}
+
+table.upcoming td {
+  border-radius: 0.25em;
+  background: rgba(255,255,255,0.2);
+  padding: 0.25em 0.5em;
+}
+
+.buy_passes a {
+  box-shadow: 0 0 0.5em white inset, 0 0 0.5em rgb(50, 50, 50);
+  padding: 0.5em 1em;
+  border-radius: 0.75em;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  margin: 0.5em;
+  line-height: 1.5em;
+}
+
 @media (orientation: portrait) {
   
   .tile {

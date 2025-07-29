@@ -96,10 +96,10 @@ html
             | Request this Timeslot
       
       .tile rv-hide='data.selected_timeslot' rv-show='data.my_reservations'
-        table
+        table.upcoming
           tr
             td colspan="2" 
-              | My Upcoming Reservations:
+              | Your Upcoming Reservations:
           tr rv-each-reservation='data.my_reservations'
             td
               | { reservation.summary }
@@ -109,7 +109,7 @@ html
           | These Reservations will require a total of {data.my_reservations | passes_total} passes
           br
           | You currently have {data.class_passes}
-          br
+        div.buy_passes
           a href='/checkout/pack/21' 1 Hr Pass
           a href='/checkout/pack/34' 90 Min Pass
           a href='/checkout/pack/17' 2 Hr Pass
