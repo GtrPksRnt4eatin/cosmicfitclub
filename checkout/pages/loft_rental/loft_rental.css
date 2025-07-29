@@ -1,7 +1,11 @@
+.content {
+  display: flex;
+  justify-content: center;;
+}
+
 .tile {
   padding: 1em;
   width: 27em;
-  margin: 1em auto;
 }
 
 .tuple .attrib {
