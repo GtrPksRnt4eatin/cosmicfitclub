@@ -6,6 +6,7 @@ function LoftCalendar(parent,attr) {
   this.point = attr['point'] || false;
   this.floor = attr['floor'] || false;
   this.rooms = attr['rooms'] || false;
+  this.theme = attr['theme'] || false;
 
   this.state = {
     window_start: null,
@@ -32,6 +33,7 @@ LoftCalendar.prototype = {
     this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
       viewType: this.viewType,
+      theme: this.theme || null,
       days: 7,
       cellDuration: 30,
       cellHeight: 14,
