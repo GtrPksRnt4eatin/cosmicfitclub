@@ -201,7 +201,7 @@ LoftCalendar.prototype.CSS = `
 `.untab(2);
 
 rivets.components['loft-calendar'] = { 
-  static: ['admin','view'],
+  static: ['admin','view', 'theme', 'point', 'floor', 'rooms'],
   template:   function()        { return LoftCalendar.prototype.HTML; },
   initialize: function(el,attr) { return new LoftCalendar(el,attr);   }
 }
