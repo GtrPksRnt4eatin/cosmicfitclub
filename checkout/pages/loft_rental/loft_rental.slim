@@ -103,13 +103,14 @@ html
           tr rv-each-reservation='data.my_reservations'
             td
               | { reservation.summary }
-            td
-              button rv-on-click='ctrl.cancel' Cancel
-        div
+            td.cancel rv-on-click='ctrl.cancel
+              | Cancel
+        
+        div.buy_passes
           | These Reservations will require a total of {data.my_reservations | passes_total} passes
           br
-          | You currently have {data.class_passes}
-        div.buy_passes
+          | You currently have {data.class_passes} passes
+          br
           a href='/checkout/pack/21' 1 Hr Pass
           a href='/checkout/pack/34' 90 Min Pass
           a href='/checkout/pack/17' 2 Hr Pass

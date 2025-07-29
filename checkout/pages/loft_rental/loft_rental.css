@@ -44,6 +44,12 @@ button#request {
   cursor: pointer;
 }
 
+.cancel {
+  background: rgba(255,100,100,0.5);
+  color: white;
+  cursor: pointer;
+}
+
 table.upcoming {
   border-spacing: 0.5em;
   border-radius: 0.5em;
@@ -58,12 +64,12 @@ table.upcoming td {
 
 .buy_passes a {
   box-shadow: 0 0 0.5em white inset, 0 0 0.5em rgb(50, 50, 50);
-  padding: 0.5em 1em;
+  padding: 0.5em 0.75em;
   border-radius: 0.75em;
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
-  margin: 0.5em;
+  margin: 0.25em;
   line-height: 1.5em;
 }
 
