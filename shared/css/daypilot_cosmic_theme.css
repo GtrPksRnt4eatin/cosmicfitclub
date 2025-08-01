@@ -294,6 +294,11 @@ Theme Designer Version: 2025.06.18.39140
 	padding-top: 15px;
 }
 
+div:has( > .cosmic_theme_event) {
+  margin: 0 !important;
+  margin-right: 0 !important;
+}
+
 .cosmic_theme_event {
 	box-shadow: var(--dp-calendar-event-box-shadow);
 	border-radius: var(--dp-calendar-event-border-radius);
