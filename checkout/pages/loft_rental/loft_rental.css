@@ -80,6 +80,10 @@ table.upcoming td.cancel {
 
 @media (orientation: portrait) {
   
+  .content {
+    flex-direction: column;
+  }
+  
   .tile {
     width: 95vw;
   }
