@@ -38,8 +38,8 @@ Theme Designer Version: 2025.06.18.39140
 	--dp-calendar-message-bg-color: #ffa216;
 	--dp-calendar-message-color: #ffffff;
 	--dp-calendar-message-padding: 10px;
-	--dp-calendar-event-bg-top-color: rgba(0,0,0,0.4);
-	--dp-calendar-event-bg-bottom-color: rgba(0,0,0,0.2);
+	--dp-calendar-event-bg-top-color: rgba(100,100,255,0.8);
+	--dp-calendar-event-bg-bottom-color: rgba(0,0,200,0.8);
 	--dp-calendar-allday-event-bg-top-color: #ffffff;
 	--dp-calendar-allday-event-bg-bottom-color: #fafafa;
 }
