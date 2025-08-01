@@ -9,16 +9,16 @@ Theme Designer Version: 2025.06.18.39140
 	--dp-calendar-font-family: 'Industry Bold';
 	--dp-calendar-font-size: 0.5em;
 	--dp-calendar-header-bg-color: transparent;
-	--dp-calendar-header-color: white;
-	--dp-calendar-colheader-padding: 2px;
+	--dp-calendar-header-color: rgb(255,255,255,0.8);
+	--dp-calendar-colheader-padding: 0;
 	--dp-calendar-colheader-vertical-align: center;
 	--dp-calendar-colheader-horizontal-align: center;
-	--dp-calendar-rowheader-padding: 2px;
+	--dp-calendar-rowheader-padding: 0;
 	--dp-calendar-cell-bg-color: transparent;
 	--dp-calendar-cell-business-bg-color: transparent;
-	--dp-calendar-cell-border-color: #cccccc;
+	--dp-calendar-cell-border-color: #c0c0c0;
 	--dp-calendar-allday-event-color: #333333;
-	--dp-calendar-allday-event-border-color: #cccccc;
+	--dp-calendar-allday-event-border-color: #c0c0c0;
 	--dp-calendar-allday-event-border: 1px solid var(--dp-calendar-allday-event-border-color);
 	--dp-calendar-allday-event-border-radius: 0px;
 	--dp-calendar-allday-event-padding: 4px;
@@ -38,8 +38,8 @@ Theme Designer Version: 2025.06.18.39140
 	--dp-calendar-message-bg-color: #ffa216;
 	--dp-calendar-message-color: #ffffff;
 	--dp-calendar-message-padding: 10px;
-	--dp-calendar-event-bg-top-color: #ffffff;
-	--dp-calendar-event-bg-bottom-color: #f2f2f2;
+	--dp-calendar-event-bg-top-color: rgba(255,255,255,0.8);
+	--dp-calendar-event-bg-bottom-color: rgba(255,255,255,0.6);
 	--dp-calendar-allday-event-bg-top-color: #ffffff;
 	--dp-calendar-allday-event-bg-bottom-color: #fafafa;
 }
