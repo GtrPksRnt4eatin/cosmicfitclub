@@ -29,20 +29,32 @@ function LoftCalendar(parent,attr) {
 LoftCalendar.prototype = {
   constructor: LoftCalendar,
 
+  static_options: {
+    days: 7,
+    cellDuration: 30,
+    cellHeight: 14,
+    businessBeginsHour: 9,
+    businessEndsHour: 24,
+    dayBeginsHour: 9,
+    dayEndsHour: 24,      
+    eventDeleteHandling: "Disabled",
+    eventMoveHandling:   "Disabled",
+    eventResizeHandling: "Disabled",
+    eventHoverHandling:  "Disabled",
+  },
+
   build_daypilot: function() {
     this.start = (new Date).toLocaleDateString("sv-SE");
     this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
-    this.state.date_range = `${new Date(this.start+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })}`;
+    this.state.date_range = `${new Date(this.start+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })}`;
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
+      ...this.static_options,
       viewType: this.viewType,
       theme: this.theme || null,
-      days: 7,
-      cellDuration: 30,
-      cellHeight: 14,
       headerDateFormat: "ddd MMM d",
       headerLevels: this.viewType=="Resources" ? 2 : 1,
-      columns: this.viewType!="Resources" ? null : [
-        { name: new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }), 
+      ...(this.viewType=="Resources" && {columns: [
+        { name: new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }),
         children: [
           { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
           { name: "Back Room", id: 'Loft-1F-Back (8)' },
@@ -51,16 +63,8 @@ LoftCalendar.prototype = {
           //  { name: "Rm 2", id: "Loft-1f-GuestRm2 (2)" }
           //]}
         ]} 
-      ],
-      businessBeginsHour: 9,
-      businessEndsHour: 24,
-      dayBeginsHour: 9,
-      dayEndsHour: 24,
+      ]}),
       showAllDayEvents: true,
-      eventDeleteHandling: "Disabled",
-      eventMoveHandling:   "Disabled",
-      eventResizeHandling: "Disabled",
-      eventHoverHandling:  "Disabled",
       timeRangeSelectedHandling: (this.admin ? "Disabled" : "Enabled" ),
       eventClickHandling:        (this.admin ? "Enabled"  : "Disabled"),
       onTimeRangeSelected: this.on_timeslot_selected,
@@ -117,7 +121,7 @@ LoftCalendar.prototype = {
 
   rebuild_daypilot: function() {
     this.state.daypilot.startDate = this.start;
-    this.state.date_range = `${new Date(this.start+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })}`;
+    this.state.date_range = `${new Date(this.start+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })}`;
     this.viewType == "Resources" && (this.state.daypilot.columns.list[0].name = new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }));
     this.state.daypilot.update();
   },
