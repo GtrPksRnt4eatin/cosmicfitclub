@@ -11,6 +11,7 @@ function LoftCalendar(parent,attr) {
   this.state = {
     window_start: null,
     window_end: null,
+    date_range: "",    
     daypilot: null,
     reservations: null,
     gcal_events: null,
@@ -38,9 +39,10 @@ LoftCalendar.prototype = {
       cellDuration: 30,
       cellHeight: 14,
       headerDateFormat: "ddd MMM d",
-      headerLevels: this.viewType=="Resources" ? 2 : 0,
+      headerLevels: this.viewType=="Resources" ? 2 : 1,
       columns: [
-        { name: new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }), children: [
+        { name: new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }), 
+        children: this.viewType!="Resources" ? null : [
           { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
           { name: "Back Room", id: 'Loft-1F-Back (8)' },
           //{ name: "Guest Rooms", children: [
@@ -109,6 +111,7 @@ LoftCalendar.prototype = {
   refresh_data: function() {
     if(this.loading) return;
     if(!this.silent) this.loading = true;
+    this.state.date_range = `${new Date(this.start).toLocaleDateString("en-us", { month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { month: 'short', day: 'numeric' })}`;
     return this.get_presorted_events().then(this.rebuild_daypilot()).then(function() { this.loading = false; }.bind(this))
   },
 
@@ -154,7 +157,7 @@ LoftCalendar.prototype.HTML = `
   <div class='loftcalendar'>
     <div class='heading'>
       <button rv-on-click='prev_wk'>Prev</button>
-      <span>
+      <span>{state.date_range}</span>
       <button rv-on-click='next_wk'>Next</button>
     </div>
     <span style="display:none">
