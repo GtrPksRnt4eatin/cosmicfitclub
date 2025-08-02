@@ -32,6 +32,7 @@ LoftCalendar.prototype = {
   build_daypilot: function() {
     this.start = (new Date).toLocaleDateString("sv-SE");
     this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
+    this.state.date_range = `${new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { month: 'short', day: 'numeric' })}`;
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
       viewType: this.viewType,
       theme: this.theme || null,
@@ -111,7 +112,6 @@ LoftCalendar.prototype = {
   refresh_data: function() {
     if(this.loading) return;
     if(!this.silent) this.loading = true;
-    this.state.date_range = `${new Date(this.start).toLocaleDateString("en-us", { month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { month: 'short', day: 'numeric' })}`;
     return this.get_presorted_events().then(this.rebuild_daypilot()).then(function() { this.loading = false; }.bind(this))
   },
 
@@ -156,9 +156,9 @@ LoftCalendar.prototype.HTML = `
 
   <div class='loftcalendar'>
     <div class='heading'>
-      <button rv-on-click='prev_wk'>Prev</button>
+      <span rv-on-click='prev_wk'>Prev</span>
       <span>{state.date_range}</span>
-      <button rv-on-click='next_wk'>Next</button>
+      <span rv-on-click='next_wk'>Next</span>
     </div>
     <span style="display:none">
       <input type="checkbox" rv-checked='point' rv-on-change='filter'/>
@@ -176,6 +176,12 @@ LoftCalendar.prototype.CSS = `
   loft-calendar {
     line-height: 1em;
     position: relative
+  }
+
+  loft-calendar .heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em;
   }
 
   .loftcalendar {
