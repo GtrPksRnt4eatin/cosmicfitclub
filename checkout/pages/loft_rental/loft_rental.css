@@ -82,6 +82,12 @@ table.upcoming td.cancel {
   
   .content {
     flex-direction: column;
+    gap: 1em;
+    margin-bottom: 1em;
+  }
+
+  .upcoming {
+    width: 100%;
   }
   
   .tile {
