@@ -38,7 +38,7 @@ LoftCalendar.prototype = {
       cellDuration: 30,
       cellHeight: 14,
       headerDateFormat: "ddd MMM d",
-      headerLevels: this.viewType=="Resources" ? 2 : 1,
+      headerLevels: this.viewType=="Resources" ? 2 : 0,
       columns: [
         { name: new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }), children: [
           { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
@@ -152,11 +152,16 @@ Object.assign( LoftCalendar.prototype, ev_channel);
 LoftCalendar.prototype.HTML = `
 
   <div class='loftcalendar'>
-    <button rv-on-click='prev_wk'>Prev</button>
-    <button rv-on-click='next_wk'>Next</button>
-    <input type="checkbox" rv-checked='point' rv-on-change='filter'/>
-    <input type="checkbox" rv-checked='floor' rv-on-change='filter'/>
-    <input type="checkbox" rv-checked='rooms' rv-on-change='filter'/>
+    <div class='heading'>
+      <button rv-on-click='prev_wk'>Prev</button>
+      <span>
+      <button rv-on-click='next_wk'>Next</button>
+    </div>
+    <span style="display:none">
+      <input type="checkbox" rv-checked='point' rv-on-change='filter'/>
+      <input type="checkbox" rv-checked='floor' rv-on-change='filter'/>
+      <input type="checkbox" rv-checked='rooms' rv-on-change='filter'/>
+    </span>
     <div id='daypilot'></div>
     <div class='mask' rv-if='loading'>Loading...</div>
   </div>
