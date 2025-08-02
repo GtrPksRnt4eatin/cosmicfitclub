@@ -188,7 +188,6 @@ LoftCalendar.prototype.CSS = `
     justify-content: space-between;
     padding: 0.5em;
     border: 1px solid #ccc;
-    border-bottom: none;
   }
 
   .loftcalendar {

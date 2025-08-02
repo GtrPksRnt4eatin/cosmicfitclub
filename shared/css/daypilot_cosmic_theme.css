@@ -103,7 +103,7 @@ Theme Designer Version: 2025.06.18.39140
 }
 
 .cosmic_theme_main {
-	border:1px solid var(--dp-calendar-border-color);
+	border-left:1px solid var(--dp-calendar-border-color);
 	font-family:var(--dp-calendar-font-family);
 	font-size:var(--dp-calendar-font-size);
 }
