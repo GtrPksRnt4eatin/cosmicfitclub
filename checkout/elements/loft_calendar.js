@@ -51,7 +51,7 @@ LoftCalendar.prototype = {
       ...this.static_options,
       viewType: this.viewType,
       theme: this.theme || null,
-      headerDateFormat: "ddd MMM d",
+      headerDateFormat: "ddd<br/>MMM d",
       headerLevels: this.viewType=="Resources" ? 2 : 1,
       ...(this.viewType=="Resources" && {columns: [
         { name: new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }),
