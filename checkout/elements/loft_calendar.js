@@ -32,7 +32,7 @@ LoftCalendar.prototype = {
   build_daypilot: function() {
     this.start = (new Date).toLocaleDateString("sv-SE");
     this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
-    this.state.date_range = `${new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { month: 'short', day: 'numeric' })}`;
+    this.state.date_range = `${new Date(this.start+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })}`;
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
       viewType: this.viewType,
       theme: this.theme || null,
@@ -117,7 +117,7 @@ LoftCalendar.prototype = {
 
   rebuild_daypilot: function() {
     this.state.daypilot.startDate = this.start;
-    this.state.date_range = `${new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { month: 'short', day: 'numeric' })}`;
+    this.state.date_range = `${new Date(this.start+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })}`;
     this.viewType == "Resources" && (this.state.daypilot.columns.list[0].name = new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }));
     this.state.daypilot.update();
   },
@@ -183,6 +183,8 @@ LoftCalendar.prototype.CSS = `
     display: flex;
     justify-content: space-between;
     padding: 0.5em;
+    border: 1px solid #ccc;
+    border-bottom: none;
   }
 
   .loftcalendar {
