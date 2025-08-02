@@ -117,6 +117,7 @@ LoftCalendar.prototype = {
 
   rebuild_daypilot: function() {
     this.state.daypilot.startDate = this.start;
+    this.state.date_range = `${new Date(this.start).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { month: 'short', day: 'numeric' })}`;
     this.viewType == "Resources" && (this.state.daypilot.columns.list[0].name = new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }));
     this.state.daypilot.update();
   },
