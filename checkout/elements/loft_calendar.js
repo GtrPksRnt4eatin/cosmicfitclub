@@ -41,9 +41,9 @@ LoftCalendar.prototype = {
       cellHeight: 14,
       headerDateFormat: "ddd MMM d",
       headerLevels: this.viewType=="Resources" ? 2 : 1,
-      columns: [
+      columns: this.viewType!="Resources" ? null : [
         { name: new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }), 
-        children: this.viewType!="Resources" ? null : [
+        children: [
           { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
           { name: "Back Room", id: 'Loft-1F-Back (8)' },
           //{ name: "Guest Rooms", children: [
