@@ -64,7 +64,7 @@ LoftCalendar.prototype = {
           //]}
         ]} 
       ]}),
-      showAllDayEvents: true,
+      showAllDayEvents: this.viewType == "Resources" ? true : false,
       timeRangeSelectedHandling: (this.admin ? "Disabled" : "Enabled" ),
       eventClickHandling:        (this.admin ? "Enabled"  : "Disabled"),
       onTimeRangeSelected: this.on_timeslot_selected,
