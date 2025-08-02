@@ -193,7 +193,8 @@ Theme Designer Version: 2025.06.18.39140
 	border-right: 1px solid var(--dp-calendar-border-color);
 	border-bottom: 1px solid var(--dp-calendar-border-color);
 	display: flex;
-	font-size: 2em;
+	white-space: break-spaces;
+	font-size: 2.1em;
 	align-items: var(--dp-calendar-colheader-vertical-align);
 	justify-content: var(--dp-calendar-colheader-horizontal-align);
 }
