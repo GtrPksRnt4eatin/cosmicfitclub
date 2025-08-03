@@ -425,4 +425,13 @@ table.history .header {
     width: 8em;
   }
 
+  #gift_code {
+    width: 33vw;
+    margin-right: 2vw;
+  }
+
+  #comp_reason {
+    width: 10em;
+  }
+
 }
