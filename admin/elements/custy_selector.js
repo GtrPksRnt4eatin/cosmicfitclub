@@ -160,7 +160,7 @@ CustySelector.prototype = {
 Object.assign( CustySelector.prototype, element);
 Object.assign( CustySelector.prototype, ev_channel); 
 
-CustySelector.prototype.HTML =  ES5Template(function(){/**
+CustySelector.prototype.HTML =  `
   <div class='custy_selector'>
     <h3 rv-if='this.state.show_title'>Select an Existing Customer</h3>
     <div class='selector'>
@@ -175,9 +175,9 @@ CustySelector.prototype.HTML =  ES5Template(function(){/**
       <button rv-on-click='this.create_customer'>Register</button>
     </div>
   </div>
-**/}).untab(2);
+`.untab(2);
 
-CustySelector.prototype.CSS = ES5Template(function(){/**
+CustySelector.prototype.CSS = `
   .custy_selector .selector {
     display: flex;
   }
@@ -249,6 +249,11 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
     height: 100%;
   }
 
+  .custy_selector .selectize-input {
+    display: flex;
+    align-items: center;
+  }
+
   @media(max-width: 800px) {
   
     .custy_selector .add_custy,
@@ -262,7 +267,7 @@ CustySelector.prototype.CSS = ES5Template(function(){/**
     }
   }
 
-**/}).untab(2);
+`.untab(2);
 
 rivets.components['custy-selector'] = { 
   template:   function()        { return CustySelector.prototype.HTML; },
