@@ -252,6 +252,7 @@ CustySelector.prototype.CSS = `
   .custy_selector .selectize-input {
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   @media(max-width: 800px) {
