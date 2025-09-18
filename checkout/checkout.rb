@@ -47,6 +47,7 @@ class Checkout < Sinatra::Base
   get('/redeem_gift')                            { render_page :gift_cert         }
   get('/loft', :onboard => 'user')               { render_page :loft_rental       }
   get('/point', :onboard => 'user')              { render_page :loft_rental       }
+  get('/floor', :onboard => 'user')              { render_page :floor_rental       }
   get('/group/:id')                              { render_page :group             }
 
   get('/transactions')                           { render_page :transactions      }
