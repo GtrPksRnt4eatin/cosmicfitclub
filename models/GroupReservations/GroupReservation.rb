@@ -1,6 +1,7 @@
 class GroupReservation < Sequel::Model
 
   many_to_one :customer
+  many_to_one :resource, :class => :Resource
   one_to_many :slots, :class => :GroupReservationSlot
   one_to_many :payments, :class => :CustomerPayment
 
