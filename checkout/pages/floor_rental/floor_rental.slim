@@ -43,21 +43,6 @@ html
             .value 
               input data-format='D M d @ h:i K' data-increment=30 rv-datefield='data.rental.end_time'
 
-          .tuple
-            .attrib Apparatus:
-            .value 
-              select rv-value='data.rental.activity'
-                option value="Straps" Straps
-                option value="Silks" Silks
-                option value="Lyra" Lyra
-                option value="Spotting Belt" Spotting Belt
-                option value="Other" Other/Bringing My Own
-        
-          .tuple
-            .attrib Rigging Notes: 
-            .value 
-              textarea rv-value='data.rental.note'
-
           div.add rv-on-click='ctrl.add_slot'
         
           .tuple

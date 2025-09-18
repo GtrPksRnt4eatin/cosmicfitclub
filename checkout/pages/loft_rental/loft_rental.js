@@ -7,7 +7,8 @@ data = {
     note: '',
     customer_id: null,
     is_lesson: false,
-    slots: []
+    slots: [],
+    resource_id: 1 // Loft 1F Front
   },
   selected_timeslot: null,
   class_passes: 0,

@@ -20,7 +20,8 @@ class GroupReservationRoutes < Sinatra::Base
       :customer_id         => data['customer_id'],
       :activity            => data['activity'],
       :note                => data['note'],
-      :is_lesson           => data['is_lesson']
+      :is_lesson           => data['is_lesson'],
+      :resource_id         => data['resource_id'] || 1
     )
 
     data['slots'].each do |slot|
