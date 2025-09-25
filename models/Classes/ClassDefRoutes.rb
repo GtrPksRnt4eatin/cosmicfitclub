@@ -188,7 +188,7 @@ class ClassDefRoutes < Sinatra::Base
       ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0][:id], Time.parse(occ[:starttime].to_s, occ[:location_id]) )
     end
     Calendar::get_day_events(day.to_s).each do |evt|
-      res = GroupReservation.where( :gcal_event_id => evt[:id] ).first
+      res = GroupReservation.where( :gcal_event_id => evt[:gcal_id] ).first
       classdef_id = res && res.is_lesson ? 188 : nil
       instructor_id = res && res.customer.staff ? res.customer.staff.id : nil
       case evt[:location]
