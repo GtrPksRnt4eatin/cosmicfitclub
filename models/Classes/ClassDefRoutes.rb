@@ -188,11 +188,14 @@ class ClassDefRoutes < Sinatra::Base
       ClassOccurrence.get( occ[:classdef_id], occ[:instructors][0][:id], Time.parse(occ[:starttime].to_s, occ[:location_id]) )
     end
     Calendar::get_day_events(day.to_s).each do |evt|
+      res = GroupReservationSlot.where( :gcal_event_id => evt[:id] ).first
+      classdef_id = res && res.is_lesson ? 188 : nil
+      instructor_id = res && res.customer.staff ? res.customer.staff.id : nil
       case evt[:location]
         when 'Loft-1F-Front (4)'
-          ClassOccurrence.get( 173, 106, evt[:start].to_time, 2 )
+          ClassOccurrence.get( classdef_id || 173, instructor_id || 106, evt[:start].to_time, 2 )
         when 'Loft-1F-Back (8)'
-          ClassOccurrence.get( 178, 106, evt[:start].to_time, 2 )
+          ClassOccurrence.get( classdef_id || 178, instructor_id || 106, evt[:start].to_time, 2 )
       end
     end
     status 204
