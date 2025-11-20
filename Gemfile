@@ -47,11 +47,11 @@ gem "addressable", ">= 2.8.0"
 gem "nokogiri", ">= 1.12.5"
 gem "rexml", ">= 3.2.5"
 
-gem 'slack-ruby-client'
+gem 'slack-ruby-client', ">=2.7.0"
 gem 'twilio-ruby'
 
-gem 'google_drive', '>= 2.1.5'
 gem 'google-api-client'
 gem 'google-apis-calendar_v3'
+gem 'google-apis-drive_v3'
 gem 'google-apis-sheets_v4'
 gem 'googleauth'

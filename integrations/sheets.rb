@@ -1,9 +1,9 @@
 require 'google/apis/sheets_v4'
+require 'google/apis/drive_v3'
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
 require 'fileutils'
 require 'stringio'
-require 'google_drive'
 
 module Sheets
 
@@ -47,43 +47,128 @@ module Sheets
 
   def Sheets::get_service2
     io = StringIO.new ENV['GOOGLE_SERVICE']
-    GoogleDrive::Session.from_service_account_key(io)
+    scopes = [
+      Google::Apis::DriveV3::AUTH_DRIVE,
+      Google::Apis::SheetsV4::AUTH_SPREADSHEETS
+    ]
+    creds = Google::Auth::ServiceAccountCredentials.make_creds( json_key_io: io, scope: scopes )
+    creds.fetch_access_token! if creds.respond_to?(:fetch_access_token!)
+
+    sheets = Google::Apis::SheetsV4::SheetsService.new
+    sheets.client_options.application_name = APPLICATION_NAME
+    sheets.authorization = creds
+
+    drive = Google::Apis::DriveV3::DriveService.new
+    drive.client_options.application_name = APPLICATION_NAME
+    drive.authorization = creds
+
+    return sheets, drive
   end
 
   def Sheets::create_event_sheet(event_id)
     evt = Event[event_id] or return false
     title = evt.starttime.strftime("%Y-%m-%d [\##{evt.id}] #{evt.name}")
-    svc = Sheets::get_service2
-    folder = svc.file_by_id("1gEYA96NDJcToN_bJQ0_OpluI-ISYHyVg")
-    sheet = folder.file_by_title(title)
-    sheet ||= folder.create_spreadsheet(title)
+    sheets, drive = Sheets::get_service2
+    folder_id = "1gEYA96NDJcToN_bJQ0_OpluI-ISYHyVg"
 
-    wksht = sheet.worksheets[0]
-    wksht.update_cells(1,1,evt.accounting_arr)
-    wksht.title = "Accounting"
-    wksht.save
+    metadata = {
+      name: title,
+      mime_type: 'application/vnd.google-apps.spreadsheet',
+      parents: [folder_id]
+    }
+    
+    file = drive.create_file( metadata, fields: 'id, webViewLink, web_view_link' )
+    sheet_id = file.id
 
-    wksht2 = sheet.add_worksheet("Attendance") if sheet.worksheets.count == 1 
-    wksht2 = sheet.worksheets[1]           unless sheet.worksheets.count == 1 
-    wksht2.update_cells(1,1,evt.attendance_arr)
-    wksht2.save
+    # rename default sheet to 'Accounting' and populate
+    batch_req = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new(
+      requests: [
+        {
+          update_sheet_properties: {
+            properties: { sheet_id: 0, title: "Accounting" },
+            fields: "title"
+          },
+        }
+      ]
+    )
+    sheets.batch_update_spreadsheet(sheet_id, batch_req)
 
-    return sheet.human_url
+    values = Google::Apis::SheetsV4::ValueRange.new(values: evt.accounting_arr)
+    sheets.update_spreadsheet_value(sheet_id, "Accounting!A1", values, value_input_option: 'USER_ENTERED')
+
+    # add 'Attendance' sheet and populate
+    add_sheet_req = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new(
+      requests: [
+        {
+          add_sheet: { properties: { title: "Attendance" }
+        } }
+      ]
+    )
+    sheets.batch_update_spreadsheet(sheet_id, add_sheet_req)
+
+    values2 = Google::Apis::SheetsV4::ValueRange.new(values: evt.attendance_arr)
+    sheets.update_spreadsheet_value(sheet_id, "Attendance!A1", values2, value_input_option: 'USER_ENTERED')
+
+    return file.web_view_link || file.webViewLink
   end
+
+#    folder = svc.file_by_id("1gEYA96NDJcToN_bJQ0_OpluI-ISYHyVg")
+#    sheet = folder.file_by_title(title)
+#    sheet ||= folder.create_spreadsheet(title)
+#
+#    wksht = sheet.worksheets[0]
+#    wksht.update_cells(1,1,evt.accounting_arr)
+#    wksht.title = "Accounting"
+#    wksht.save
+#
+#    wksht2 = sheet.add_worksheet("Attendance") if sheet.worksheets.count == 1 
+#    wksht2 = sheet.worksheets[1]           unless sheet.worksheets.count == 1 
+#    wksht2.update_cells(1,1,evt.attendance_arr)
+#    wksht2.save
+#
+#    return sheet.human_url
+#  end
   
   def Sheets::create_payroll_sheet(from,to)
     title = "#{from} to #{to}"
-    svc = Sheets::get_service2
-    folder = svc.folder_by_id("1xFj5h7TuijiksYvmvu2rqjgtOqaHnyeJ")
-    sheet = folder.file_by_name(title)
-    sheet ||= folder.create_spreadsheet(title)
-    
-    wksht = sheet.worksheets[0]
-    wksht.update_cells(1,1,Staff::payroll_csv(from,to).to_a)
-    wksht.title = "Payroll"
-    wksht.save
-    
-    return sheet.human_url
+    sheets, drive = Sheets::get_service2
+    folder_id = "1xFj5h7TuijiksYvmvu2rqjgtOqaHnyeJ"
+
+    metadata = {
+      name: title,
+      mime_type: 'application/vnd.google-apps.spreadsheet',
+      parents: [folder_id]
+    }
+
+    file = drive.create_file( metadata, fields: 'id, webViewLink, web_view_link' )
+    sheet_id = file.id
+
+    batch_req = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new(
+      requests: [
+        {
+          update_sheet_properties: { properties: { sheet_id: 0, title: "Payroll" },
+            fields: "title"
+          },
+        }
+      ]
+    )
+    sheets.batch_update_spreadsheet(sheet_id, batch_req)
+
+    values = Google::Apis::SheetsV4::ValueRange.new(values: Staff::payroll_csv(from,to).to_a)
+    sheets.update_spreadsheet_value(sheet_id, "Payroll!A1", values, value_input_option: 'USER_ENTERED')
+    return file.web_view_link || file.webViewLink
   end
+
+  #  folder = svc.folder_by_id("1xFj5h7TuijiksYvmvu2rqjgtOqaHnyeJ")
+  #  sheet = folder.file_by_name(title)
+  #  sheet ||= folder.create_spreadsheet(title)
+    
+  #  wksht = sheet.worksheets[0]
+  #  wksht.update_cells(1,1,Staff::payroll_csv(from,to).to_a)
+  #  wksht.title = "Payroll"
+  #  wksht.save
+    
+  #  return sheet.human_url
+  #end
 
 end
