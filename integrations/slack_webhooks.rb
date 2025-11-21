@@ -30,16 +30,18 @@ def slack_files_upload_v2_client(client:, channels:, file_io:, title:, filetype:
 
   filename ||= File.basename(path)
   file_handle = File.open(path, 'rb')
+  file_handle.rewind if file_handle.respond_to?(:rewind)
 
   params = {
     channels: channels,
-    file: {
-      content: file_handle,
-      filename: filename,
-      filetype: filetype || 'application/octet-stream'
-    },
-    title: title,
-    filename: filename
+    files: [
+      {
+        content: file_handle,
+        filename: filename,
+        filetype: filetype || 'application/octet-stream'
+      }
+    ],
+    title: title
   }
   params[:initial_comment] = initial_comment if initial_comment
   params[:as_user] = as_user
