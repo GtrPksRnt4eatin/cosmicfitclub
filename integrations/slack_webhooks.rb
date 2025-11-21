@@ -1,8 +1,46 @@
 require 'sucker_punch'
 require 'slack-ruby-client'
+require 'faraday'
+require 'tempfile'
+require 'json'
 
 Slack.configure do |config|
   config.token = ENV['SLACK_TOKEN']
+end
+
+# helper that wraps Slack::Web::Client#files_upload_v2 and accepts IO/StringIO/Path
+def slack_files_upload_v2_client(client:, channels:, file_io:, title:, filetype:, filename: nil, initial_comment: nil, as_user: false)
+  tmp = nil
+  io = file_io
+
+  # ensure disk-backed file for multipart upload
+  unless io.respond_to?(:path) && io.path && File.exist?(io.path)
+    tmp = Tempfile.new(['slack_upload', File.extname(filename.to_s)])
+    tmp.binmode
+    io.rewind if io.respond_to?(:rewind)
+    tmp.write(io.read)
+    tmp.rewind
+    io = tmp
+  end
+
+  filename ||= File.basename(io.path || filename.to_s)
+  uploadio = Faraday::UploadIO.new(io.path, filetype || 'application/octet-stream', filename)
+
+  params = {
+    channels: channels,
+    file: uploadio,
+    title: title,
+    filetype: filetype,
+    filename: filename
+  }
+  params[:initial_comment] = initial_comment if initial_comment
+  params[:as_user] = as_user
+
+  begin
+    client.files_upload_v2(params)
+  ensure
+    tmp.close! if tmp
+  end
 end
 
 def slackbot_static_select(title, opts, action_id)
@@ -144,13 +182,14 @@ class GeneratePayrollReport
   def perform(start,finish)
     csv = Staff::payroll_csv(start,finish)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
-    client.files_upload(
+    slack_files_upload_v2_client(
+      client: client,
       channels: 'payroll',
-      as_user: true,
-      file: Faraday::UploadIO.new(csv.to_io, 'text/csv', "Payroll Report #{start} #{finish}.csv"),
+      file_io: csv.to_io,
       title: "Payroll Report",
-      filetype: 'csv',
-      filename: "Payroll Report #{start} #{finish}.csv"
+      filetype: 'text/csv',
+      filename: "Payroll Report #{start} #{finish}.csv",
+      as_user: true
     )
   rescue => err
     Slack.err("GeneratePayrollReport Error", err)
@@ -162,13 +201,14 @@ class SlackUploader
   def upload(promos)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
-      client.files_upload(
+      slack_files_upload_v2_client(
+        client: client,
         channels: '#promotional_materials',
-        as_user: false,
-        file: Faraday::UploadIO.new(p[:io], p[:mime] ),
-        title: "#{p[:title]}",
-        filetype: p[:ext],
-        filename: "#{p[:title]}.#{p[:ext]}"
+        file_io: p[:io],
+        title: p[:title],
+        filetype: p[:mime],
+        filename: p[:filename] || "#{p[:title]}.#{p[:ext]}",
+        as_user: false
       )
     end
   end
@@ -179,13 +219,14 @@ class GeneratePayPalReport
   def perform(start,finish)
     csv = PayPalSDK::list_transactions_csv(start,finish)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
-    client.files_upload(
+    slack_files_upload_v2_client(
+      client: client,
       channels: 'payroll',
-      as_user: true,
-      file: Faraday::UploadIO.new(csv.to_io, 'text/csv', "Paypal Report #{start} #{finish}.csv"),
+      file_io: csv.to_io,
       title: "Paypal Report",
-      filetype: 'csv',
-      filename: "Paypal Report #{start} #{finish}.csv"
+      filetype: 'text/csv',
+      filename: "Paypal Report #{start} #{finish}.csv",
+      as_user: true
     )
   rescue => err
     Slack.err("GeneratePaypalReport Error", err)
@@ -197,13 +238,14 @@ class PostCustomPromo
   def perform(elements, options)
     promo = BubblePoster::generate_a4(elements, options)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
-    client.files_upload(
+    slack_files_upload_v2_client(
+      client: client,
       channels: '#promotional_materials',
-      as_user: false,
-      file: Faraday::UploadIO.new(promo.path, "image/jpeg"),
-      title: "#{date.to_s} Promo",
-      filetype: 'jpg',
-      filename: "#{date.to_s}_promo.jpg"
+      file_io: promo.path,
+      title: "#{Date.today.to_s} Promo",
+      filetype: 'image/jpeg',
+      filename: "#{Date.today.to_s}_promo.jpg",
+      as_user: false
     )
   rescue => err
     Slack.err("PostCustomPromo Error", err)
@@ -215,7 +257,7 @@ class PostWeeklySchedule < SlackUploader
   def perform(date)
     date ||= Date.today
     promo = SchedulePoster4x6::generate(date)
-    upload([{:title=> "SchedulePoster_#{date}", :io=>promo.path, :mime=>"image/jpeg"}])
+    upload([{:title=> "SchedulePoster_#{date}", :io=>promo.path, :mime=>"image/jpeg", :ext=>'jpg'}])
   rescue => err
     Slack.err("PostCustomPromo Error", err)
   end
@@ -236,13 +278,14 @@ class PostDailyPromo
     promos = DailyPromo::generate_for_bot(date)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each_with_index do |promo,i|
-      client.files_upload(
+      slack_files_upload_v2_client(
+        client: client,
         channels: '#promotional_materials',
-        as_user: false,
-        file: Faraday::UploadIO.new(promo.path, "image/jpeg"),
+        file_io: promo.path,
         title: "#{date.to_s} Promo#{i}",
-        filetype: 'jpg',
-        filename: "#{date.to_s}_promo#{i}.jpg"
+        filetype: 'image/jpeg',
+        filename: "#{date.to_s}_promo#{i}.jpg",
+        as_user: false
       )
     end
   rescue => err
@@ -254,7 +297,7 @@ end
 class PostEventPromo < SlackUploader
   def perform(event)
     promos = EventPoster.generate_for_bot(event)
-    upload( promos.map { |p| { :title=>p[:title], :io=>p[:img].path, :mime=>"image/jpeg", :ext=>'jpg'} })
+    upload( promos.map { |p| { :title=>p[:title], :io=>p[:img].path, :mime=>"image/jpeg", :ext=>'jpg', :filename=> "#{p[:title]}.jpg'"} })
   rescue => err
     Slack.err("PostEventPromo Error", err)
   end
@@ -266,13 +309,14 @@ class PostUpcomingEventsPromo
     promos = UpcomingEvents.generate_for_bot
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
-      client.files_upload(
+      slack_files_upload_v2_client(
+        client: client,
         channels: '#promotional_materials',
-        as_user: false,
-        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        file_io: p[:img].path,
         title: "#{p[:title]}",
-        filetype: 'jpg',
-        filename: "#{p[:title]}.jpg"
+        filetype: 'image/jpeg',
+        filename: "#{p[:title]}.jpg",
+        as_user: false
       )
     end
   rescue => err
@@ -286,13 +330,14 @@ class PostClassPromo
     promos = ClassPromo.generate_for_bot(classdef)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
-      client.files_upload(
+      slack_files_upload_v2_client(
+        client: client,
         channels: '#promotional_materials',
-        as_user: false,
-        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        file_io: p[:img].path,
         title: "#{p[:title]}",
-        filetype: 'jpg',
-        filename: "#{p[:title]}.jpg"
+        filetype: 'image/jpeg',
+        filename: "#{p[:title]}.jpg",
+        as_user: false
       )
     end
   rescue => err
@@ -306,13 +351,14 @@ class PostStaffPromo
     promos = StaffPoster.generate_for_bot(staff)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
-      client.files_upload(
+      slack_files_upload_v2_client(
+        client: client,
         channels: '#promotional_materials',
-        as_user: false,
-        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        file_io: p[:img].path,
         title: "#{p[:title]}",
-        filetype: 'jpg',
-        filename: "#{p[:title]}.jpg"
+        filetype: 'image/jpeg',
+        filename: "#{p[:title]}.jpg",
+        as_user: false
       )
     end
   rescue => err
@@ -326,13 +372,14 @@ class PostTimeslotPromo
     promos = SchedulePromo.generate_for_bot(sched)
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
-      client.files_upload(
+      slack_files_upload_v2_client(
+        client: client,
         channels: '#promotional_materials',
-        as_user: false,
-        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        file_io: p[:img].path,
         title: "#{p[:title]}",
-        filetype: 'jpg',
-        filename: "#{p[:title]}.jpg"
+        filetype: 'image/jpeg',
+        filename: "#{p[:title]}.jpg",
+        as_user: false
       )
     end
   rescue => err
@@ -346,13 +393,14 @@ class PostSchedPromos
     promos = SchedulePromo.generate_all_for_bot
     client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
     promos.each do |p|
-      client.files_upload(
+      slack_files_upload_v2_client(
+        client: client,
         channels: '#promotional_materials',
-        as_user: false,
-        file: Faraday::UploadIO.new(p[:img].path, "image/jpeg"),
+        file_io: p[:img].path,
         title: "#{p[:title]}",
-        filetype: 'jpg',
-        filename: "#{p[:title]}.jpg"
+        filetype: 'image/jpeg',
+        filename: "#{p[:title]}.jpg",
+        as_user: false
       )
     end
   rescue => err
