@@ -11,20 +11,25 @@ end
 # helper that wraps Slack::Web::Client#files_upload_v2 and accepts IO/StringIO/Path
 def slack_files_upload_v2_client(client:, channels:, file_io:, title:, filetype:, filename: nil, initial_comment: nil, as_user: false)
   tmp = nil
-  io = file_io
+  provided = file_io
 
-  # ensure disk-backed file for multipart upload
-  unless io.respond_to?(:path) && io.path && File.exist?(io.path)
+  # determine a real filesystem path to upload
+  if provided.is_a?(String) && File.exist?(provided)
+    path = provided
+  elsif provided.respond_to?(:path) && provided.path && File.exist?(provided.path)
+    path = provided.path
+  else
+    # stage in-memory IO (StringIO, Tempfile-like w/o real path) to disk
     tmp = Tempfile.new(['slack_upload', File.extname(filename.to_s)])
     tmp.binmode
-    io.rewind if io.respond_to?(:rewind)
-    tmp.write(io.read)
+    provided.rewind if provided.respond_to?(:rewind)
+    tmp.write(provided.read)
     tmp.rewind
-    io = tmp
+    path = tmp.path
   end
 
-  filename ||= File.basename(io.path || filename.to_s)
-  uploadio = Faraday::UploadIO.new(io.path, filetype || 'application/octet-stream', filename)
+  filename ||= File.basename(path)
+  uploadio = Faraday::UploadIO.new(path, filetype || 'application/octet-stream', filename)
 
   params = {
     channels: channels,
