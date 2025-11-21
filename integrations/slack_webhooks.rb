@@ -29,13 +29,16 @@ def slack_files_upload_v2_client(client:, channels:, file_io:, title:, filetype:
   end
 
   filename ||= File.basename(path)
-  uploadio = Faraday::UploadIO.new(path, filetype || 'application/octet-stream', filename)
+  file_handle = File.open(path, 'rb')
 
   params = {
     channels: channels,
-    file: uploadio,
+    file: {
+      content: file_handle,
+      filename: filename,
+      filetype: filetype || 'application/octet-stream'
+    },
     title: title,
-    filetype: filetype,
     filename: filename
   }
   params[:initial_comment] = initial_comment if initial_comment
@@ -44,6 +47,7 @@ def slack_files_upload_v2_client(client:, channels:, file_io:, title:, filetype:
   begin
     client.files_upload_v2(params)
   ensure
+    file_handle.close rescue nil
     tmp.close! if tmp
   end
 end
