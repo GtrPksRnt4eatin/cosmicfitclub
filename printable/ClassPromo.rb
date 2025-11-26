@@ -6,7 +6,8 @@ module ClassPromo
 
   def ClassPromo::generate_for_bot(classdef)
     arr = []
-    arr.push({ :img => ClassPromo::generate4x5({ :img=> classdef.thumbnail_image(size=:original), :lines=>classdef.footer_lines_teachers }), :title => "#{classdef.name.truncate(12)}_fbpost"  })
+    remote = classdef.schedules.first.location_id == 3
+    arr.push({ :img => ClassPromo::generate4x5({ :img=> classdef.thumbnail_image(size=:original), :lines=>classdef.footer_lines_teachers }), :title => "#{classdef.name.truncate(12)}_fbpost", :remote =>  remote })
     ##arr.push({ :img => ClassPromo::generate1080x1080(staff.id), :title => "#{staff.name.truncate(12)}_square"  })
     #arr.push({ :img => ClassPromo::generate1080x1920(staff.id), :title => "#{staff.name.truncate(12)}_story"   })
   end
@@ -28,7 +29,7 @@ module ClassPromo
         :gravity  => "North",
         :fill     => "#E0E0E0",
         :stroke   => "#B0B0B0",
-        :text     => "video.cosmicfitclub.com"
+        :text     => x[:remote] ? "video.cosmicfitclub.com" : "Live classes at the Cosmic Loft!"
       },
       { :type     => 'image_bubble',
         :x_offset => 50,
@@ -58,7 +59,7 @@ module ClassPromo
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => "Live Video Fitness Classes Everyday!"
+        :text     => x[:remote] ? "Live Video Fitness Classes Everyday!" : "669 Meeker Ave. #1F Brooklyn, NY 11222"
       }
     ])
   end
