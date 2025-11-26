@@ -314,7 +314,7 @@ end
 class PostEventPromo < SlackUploader
   def perform(event)
     promos = EventPoster.generate_for_bot(event)
-    upload( promos.map { |p| { :title=>p[:title], :io=>p[:img].path, :mime=>"image/jpeg", :ext=>'jpg', :filename=> "#{p[:title]}.jpg'"} })
+    upload( promos.map { |p| { :title=>p[:title], :io=>p[:img].path, :mime=>"image/jpeg", :ext=>'jpg', :filename=> "#{p[:title]}.jpg"} })
   rescue => err
     Slack.err("PostEventPromo Error", err)
   end
