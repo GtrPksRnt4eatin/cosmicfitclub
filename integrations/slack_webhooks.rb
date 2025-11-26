@@ -29,14 +29,13 @@ def slack_files_upload_v2_client(client:, channels:, file_io:, title:, filetype:
   end
 
   filename ||= File.basename(path)
-  file_handle = File.open(path, 'rb')
-  file_handle.rewind if file_handle.respond_to?(:rewind)
+  file_content = File.binread(path)
 
   params = {
     channels: channels,
     files: [
       {
-        content: file_handle,
+        content: file_content,
         filename: filename,
         filetype: filetype || 'application/octet-stream'
       }
@@ -49,7 +48,6 @@ def slack_files_upload_v2_client(client:, channels:, file_io:, title:, filetype:
   begin
     client.files_upload_v2(params)
   ensure
-    file_handle.close rescue nil
     tmp.close! if tmp
   end
 end
