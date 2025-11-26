@@ -58,19 +58,26 @@ def slackbot_static_select(title, opts, action_id)
     text: title,
     blocks: [
       {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: title
+        }
+      },
+      {
         type: "actions",
         elements: [
           {
             type: "static_select",
             placeholder: {
               type: "plain_text",
-              text: title
+              text: "Select an option"
             },
             options: opts.map { |opt|
               {
                 text: {
                   type: "plain_text",
-                  text: opt[1]
+                  text: opt[1].to_s.slice(0, 75) # Slack text limit is 75 chars
                 },
                 value: opt[0].to_s
               }
