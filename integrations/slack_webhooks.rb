@@ -54,27 +54,28 @@ end
 
 def slackbot_static_select(title, opts, action_id)
   {
-    :channel => "promotional_materials",
-    :blocks => [
+    channel: "promotional_materials",
+    text: title,
+    blocks: [
       {
-        :type => "actions",
-        :elements => [
+        type: "actions",
+        elements: [
           {
-            :type => "static_select",
-            :placeholder => {
-              :type => "plain_text",
-              :text => title
+            type: "static_select",
+            placeholder: {
+              type: "plain_text",
+              text: title
             },
-            :options => opts.map { |opt|
+            options: opts.map { |opt|
               {
-                :text => {
-                  :type => "plain_text",
-                  :text => opt[1]
+                text: {
+                  type: "plain_text",
+                  text: opt[1]
                 },
-                :value => opt[0].to_s
+                value: opt[0].to_s
               }
             },
-            :action_id => action_id
+            action_id: action_id
           }
         ]
       }
