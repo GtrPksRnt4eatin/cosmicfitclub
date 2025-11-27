@@ -43,7 +43,16 @@
   .pointer {
     cursor: pointer;
   }
-  
+ 
+  h2 {
+    margin-bottom: 0;
+  }
+
+  .point_link {
+    font-size: 0.7em;
+    margin-bottom: 1em;
+  }
+
   @media (orientation: portrait) {
     
     .tile {

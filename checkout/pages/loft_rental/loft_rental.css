@@ -78,6 +78,15 @@ table.upcoming td.cancel {
   line-height: 1.5em;
 }
 
+h2 {
+  margin-bottom: 0;
+}
+
+.floor_link {
+  font-size: 0.7em;
+  margin-bottom: 1em;
+}
+
 @media (orientation: portrait) {
   
   .content {
