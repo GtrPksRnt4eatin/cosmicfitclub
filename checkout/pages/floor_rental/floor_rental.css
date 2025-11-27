@@ -50,7 +50,9 @@
 
   .point_link {
     font-size: 0.7em;
+    margin-top: -0.5em;
     margin-bottom: 1em;
+    display: inline-block;
   }
 
   @media (orientation: portrait) {
