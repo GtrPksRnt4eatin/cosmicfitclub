@@ -112,7 +112,8 @@ class GroupReservation < Sequel::Model
     duration_hrs = duration_sec / 60 / 60
     duration_hrs = duration_hrs.to_i == duration_hrs ? duration_hrs.to_i : duration_hrs
     duration_str = duration_hrs == 1 ? "1 Hr" : "#{duration_hrs} Hrs"
-    "#{start_time.strftime("%a %b %d @ %l:%M %P")} #{duration_str} for #{customer_string}"
+    resource_str = self.resource_id == 1 ? "Aerial" : "Floorwork"
+    "#{start_time.strftime("%a %b %d @ %l:%M %P")} #{duration_str} #{resource_str} for #{customer_string}"
   end
 
   def to_public_daypilot(logged_in=nil)
