@@ -80,11 +80,11 @@ table.upcoming td.cancel {
 
 h2 {
   margin-bottom: 0;
+  line-height: 0.5em;
 }
 
 .floor_link {
   font-size: 0.7em;
-  margin-top: -0.5em;
   margin-bottom: 1em;
   display: inline-block;
 }
