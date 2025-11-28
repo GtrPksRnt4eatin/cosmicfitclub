@@ -46,7 +46,7 @@ module Calendar
       end
     end
 
-    def Calendar::create_point_rental(start,finish,title)
+    def Calendar::create_rental(start,finish,title,resource_id)
       service = self::get_service
       event = Google::Apis::CalendarV3::Event.new( 
         summary: title,
@@ -60,7 +60,7 @@ module Calendar
           time_zone: 'America/New_York'
         ),
         attendees: [
-          { email: "c_1886mhe5itnkig8ekabujeden03cm@resource.calendar.google.com" }
+          { email: resource_id }
         ]
       )
       service.insert_event('sam@cosmicfitclub.com', event).id

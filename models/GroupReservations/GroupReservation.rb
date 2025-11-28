@@ -59,7 +59,7 @@ class GroupReservation < Sequel::Model
         event
       end
     else
-      event_id = Calendar::create_point_rental(start_time, end_time, customer_string)
+      event_id = Calendar::create_rental(start_time, end_time, customer_string, resource.gcal_resource_id)
       self.update( :gcal_event_id => event_id )
     end
   end
