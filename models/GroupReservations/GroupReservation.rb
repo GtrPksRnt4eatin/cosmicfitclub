@@ -5,10 +5,13 @@ class GroupReservation < Sequel::Model
   one_to_many :slots, :class => :GroupReservationSlot
   one_to_many :payments, :class => :CustomerPayment
 
+
+  ###################### QUERIES ######################
+
   def GroupReservation.check_for_conflict(from,to)
     from = Time.parse(from) if from.is_a? String
     to   = Time.parse(to)   if   to.is_a? String
-    self.where( start_time: from..to, end_time: from..to ).first
+    self.where( start_time: from..to, end_time: from..to, resource_id: self.resource_id ).first
   end
 
   def GroupReservation.all_between(from,to) 
@@ -25,6 +28,8 @@ class GroupReservation < Sequel::Model
   def GroupReservation.upcoming_for(customer_id)
     GroupReservationSlot.where(:customer_id=>customer_id).where(:start_time => Date.today..nil).all.map(&:reservation).map(&:to_token)
   end
+
+  ###################### QUERIES ######################
 
   def GroupReservation.update_from_gcal(change)
     res = GroupReservation.where(:gcal_event_id => change[:id]).first or return
