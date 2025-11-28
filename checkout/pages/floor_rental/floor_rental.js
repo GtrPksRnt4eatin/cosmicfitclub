@@ -45,7 +45,7 @@ data = {
     request_slot: function(e,m) {
       $.post('/models/groups', JSON.stringify( data.rental ) )
        .done(function()  { window.location.reload(); })
-       .fail(function(e) { alert(e.status);          });
+       .fail(function(e) { alert(`${e.status} - ${e.responseText}`); });
     },
   
     clear_starttime: function(e,m) {
