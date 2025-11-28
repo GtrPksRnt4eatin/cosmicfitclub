@@ -73,7 +73,8 @@ class GroupReservation < Sequel::Model
     }
     slots.each do |s|
       next if s.customer.nil?
-      Mail.point_reservation(s.customer.email, model)
+      Mail.point_reservation(s.customer.email, model) if self.resource.id == 2
+      Mail.floor_reservation(s.customer.email, model) if self.resource.id == 1  
     end
   end
 
