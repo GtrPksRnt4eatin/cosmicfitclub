@@ -49,7 +49,7 @@
     cursor: pointer;
   }
  
-  h2 {
+  h2.heading {
     margin-bottom: 0;
     line-height: 0.5em;
   }
