@@ -6,7 +6,7 @@
 .tile {
     padding: 1em;
     width: 27em;
-    margin: 1em auto;
+    margin: 1em;
   }
   
   .tuple .attrib {
@@ -61,7 +61,16 @@
   }
 
   @media (orientation: portrait) {
-    
+    .content {
+      flex-direction: column;
+      gap: 1em;
+      margin-bottom: 1em;
+    }
+
+    .upcoming {
+      width: 100%;
+    }
+
     .tile {
       width: 95vw;
     }
