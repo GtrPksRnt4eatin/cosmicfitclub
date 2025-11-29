@@ -1,4 +1,4 @@
-function ReservationsList(attr) {
+function ReservationsList(parent,attr) {
 	this.state = {
       my_reservations: attr['reservations'] || []
 	}
