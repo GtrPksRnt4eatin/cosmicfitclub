@@ -15,7 +15,7 @@ Object.assign( ReservationsList.prototype, element);
 Object.assign( ReservationsList.prototype, ev_channel);
 
 ReservationsList.prototype.HTML = `
-  <div class='tile' rv-show='state.my_reservations'>
+  <div rv-show='state.my_reservations'>
     <table class='upcoming'>
       <tr>
         <td colspan='2'>Your Upcoming Reservations:</td>
@@ -41,6 +41,10 @@ ReservationsList.prototype.HTML = `
 `.untab(2);
 
 ReservationsList.prototype.CSS = `
+  reservations-list {
+    display: inline-block;
+  }
+
   reservations-list table.upcoming {
     border-spacing: 0.5em; 
     border-radius: 0.5em;
