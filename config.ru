@@ -179,10 +179,10 @@ map '/integrations/slackbot' do
   run SlackBot
 end
 
-Calendar::subscribe_to_changes
-
 # Send notification when app loads/restarts on Heroku
 if ENV['DYNO']
   dyno_name = ENV['DYNO'] || 'unknown'
   Slack.custom("🚀 App started on Heroku - Dyno: #{dyno_name}", 'website_notifications')
 end
+
+Calendar::subscribe_to_changes
