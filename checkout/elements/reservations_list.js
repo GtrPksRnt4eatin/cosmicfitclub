@@ -9,6 +9,10 @@ function ReservationsList(parent,attr) {
       return reservations.reduce( (total, reservation) => total + reservation.passes, 0 );
     }
 
+    rivets.formatters.empty = function(reservations) { 
+      return reservations.length == 0;
+    }
+
     this.load_styles();
 }
 
@@ -20,7 +24,7 @@ Object.assign( ReservationsList.prototype, element);
 Object.assign( ReservationsList.prototype, ev_channel);
 
 ReservationsList.prototype.HTML = `
-  <div rv-show='state.my_reservations'>
+  <div rv-hide='state.my_reservations | empty'>
     <table class='upcoming'>
       <tr>
         <td colspan='2'>Your Upcoming Reservations:</td>
