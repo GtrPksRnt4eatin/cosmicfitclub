@@ -40,6 +40,7 @@ class GroupReservationRoutes < Sinatra::Base
 
   get '/my_upcoming' do
     content_type :json
+    halt 401, "Not Logged In" unless session[:customer_id]
     owned = GroupReservation.where(:customer_id=>session[:customer_id]).where(:start_time => Date.today..nil).all
     participating = GroupReservationSlot.where(:customer_id=>session[:customer_id]).where(:start_time => Date.today..nil).all.map(&:reservation)
     (owned+participating).uniq.map(&:to_token).to_json
