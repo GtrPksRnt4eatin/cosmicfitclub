@@ -15,7 +15,7 @@ Object.assign( ReservationsList.prototype, element);
 Object.assign( ReservationsList.prototype, ev_channel);
 
 ReservationsList.prototype.HTML = `
-  <div class='tile' rv-show='state.my_reservations>
+  <div class='tile' rv-show='state.my_reservations'>
     <table class='upcoming'>
       <tr>
         <td colspan='2'>Your Upcoming Reservations:</td>
