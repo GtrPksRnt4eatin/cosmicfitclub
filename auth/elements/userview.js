@@ -14,7 +14,7 @@ function UserView(parent) {
 UserView.prototype = {
 	constructor: UserView,
 
-  login()    { document.cookie = "loc=" + window.location.pathname; window.location = '/auth/login?page=' + window.location.pathname; },
+  login()    { document.cookie = "loc=" + window.location.pathname; window.location = '/auth/login'; },
   onboard()  { document.cookie = "loc=" + window.location.pathname; window.location = '/auth/onboard?page=' + window.location.pathname; },
   logout()   { $.post('/auth/logout', function() { window.location.reload(); } ); },
   userpage() { window.location = '/user'; },
