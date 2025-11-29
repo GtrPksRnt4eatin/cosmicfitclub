@@ -8,7 +8,7 @@ html
     == css ['fonts', 'site', 'header', 'menu_colors', 'flatpickr', 'selectize-ems', 'tuples', 'edit_page', 'daypilot_cosmic_theme', 'floor_rental']
     == js  ['jquery', 'lib', 'menu', 'element', 'ev_channel', 'rivets', 'moment', 'flatpickr', 'selectize.min', 'rv_dates', 'moment', 'daypilot-all.min' ]
     == js  ['/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector']
-    == js  ['/checkout/elements/loft_calendar', 'floor_rental']
+    == js  ['/checkout/elements/loft_calendar', '/checkout/elements/reservations_list', 'floor_rental']
 
   body
 
@@ -67,7 +67,11 @@ html
         
           button#request rv-on-click='ctrl.request_slot'
             | Request this Timeslot
-      
+
+      .tile rv-hide='data.selected_timeslot'
+        reservations-list reservations=data.my_reservations' 
+
+
       .tile rv-hide='data.selected_timeslot' rv-show='data.my_reservations'
         table
           tr

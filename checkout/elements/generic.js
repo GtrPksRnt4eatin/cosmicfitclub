@@ -25,3 +25,8 @@ Generic.prototype.HTML = `
 Generic.prototype.CSS = `
 
 `.untab(2);
+
+rivets.components['generic-element'] = {
+  template:  function()         { return Generic.prototype.HTML; },
+  initialize: function(el,attr) { return new Generic(el,attr);   }
+}
