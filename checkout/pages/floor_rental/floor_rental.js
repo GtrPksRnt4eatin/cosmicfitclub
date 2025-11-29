@@ -11,7 +11,7 @@ data = {
     },
     selected_timeslot: null,
     num_slots: 0,
-    my_reservations: null
+    my_reservations: []
   };
   
   var daypilot;
