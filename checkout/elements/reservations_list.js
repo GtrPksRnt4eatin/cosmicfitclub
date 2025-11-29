@@ -17,7 +17,12 @@ function ReservationsList(parent,attr) {
 }
 
 ReservationsList.prototype = {
-	constructor: ReservationsList
+  constructor: ReservationsList,
+  cancel: function(e,m) {
+    if(!confirm("Are you sure you want to cancel?")) { return; }
+    $.del(`/models/groups/${m.reservation.id}`)
+    .done(function() { window.location.reload(); });
+  }
 }
 
 Object.assign( ReservationsList.prototype, element);
