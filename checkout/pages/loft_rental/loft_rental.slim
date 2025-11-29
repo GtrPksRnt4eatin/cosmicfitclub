@@ -95,7 +95,7 @@ html
           button#request rv-on-click='ctrl.request_slot'
             | Request this Timeslot
       
-      .tile rv-unless='data.my_reservations | empty'
+      .tile rv-if='data.my_reservations.0'
         reservations-list reservations='data.my_reservations' passes='data.class_passes'
 
     #popupmenu_container
