@@ -47,7 +47,12 @@ class Checkout < Sinatra::Base
   get('/redeem_gift')                            { render_page :gift_cert         }
   get('/loft', :onboard => 'user')               { render_page :loft_rental       }
   get('/point', :onboard => 'user')              { render_page :loft_rental       }
-  get('/floor', :onboard => 'user')              { render_page :floor_rental       }
+  get('/floor', :onboard => 'user') do
+    customer = session["customer_id"] ? Customer[session["customer_id"]] : nil
+    user_info = customer ? "#{customer.name} (ID: #{customer.id})" : "Unknown User"
+    Slack.custom("Floor Rental page accessed by: #{user_info}", 'website_access')
+    render_page :floor_rental
+  end
   get('/group/:id')                              { render_page :group             }
 
   get('/transactions')                           { render_page :transactions      }
