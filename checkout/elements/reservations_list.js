@@ -1,7 +1,7 @@
 function ReservationsList(parent,attr) {
 	this.state = {
-      my_reservations: attr['reservations'] || [];
-      class_passes:   attr['passes'] || 0;
+      my_reservations: attr['reservations'] || [],
+      class_passes:   attr['passes'] || 0
 	}
 
     rivets.formatters.passes_total = function(reservations) {
