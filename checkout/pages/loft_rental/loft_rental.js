@@ -13,7 +13,7 @@ data = {
   selected_timeslot: null,
   class_passes: 0,
   num_slots: 0,
-  my_reservations: null
+  my_reservations: []
 };
 
 var daypilot;
@@ -71,17 +71,14 @@ $(document).ready( function() {
 
   rivets.formatters.equals    = function(val, arg) { return val == arg; }
   rivets.formatters.fix_index = function(val, arg) { return val + 1; }
-  rivets.formatters.passes_total = function(reservations) {
-    if(!reservations) return 0;
-    return reservations.reduce( (total, reservation) => total + reservation.passes, 0 );
-  }
 
   var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 
-  userview       = new UserView(id('userview_container'));
-  popupmenu      = new PopupMenu( id('popupmenu_container') );
-  loft_calendar  = get_element(view,'loft-calendar');
-  custy_selector = new CustySelector();
+  userview          = new UserView(id('userview_container'));
+  popupmenu         = new PopupMenu( id('popupmenu_container') );
+  loft_calendar     = get_element(view,'loft-calendar');
+  reservations_list = get_element(view,'reservations-list');
+  custy_selector    = new CustySelector();
 
   userview.ev_sub('on_user', function() {
     $.get(`/models/customers/${userview.id}/class_passes`, function(resp) { data.class_passes = resp.length==0 ? 0 : resp; }, 'json');
