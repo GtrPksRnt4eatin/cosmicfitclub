@@ -8,10 +8,10 @@ class GroupReservation < Sequel::Model
 
   ###################### QUERIES ######################
 
-  def GroupReservation.check_for_conflict(from,to)
+  def GroupReservation.check_for_conflict(from,to,resource_id=1)
     from = Time.parse(from) if from.is_a? String
     to   = Time.parse(to)   if   to.is_a? String
-    self.where( start_time: from..to, end_time: from..to, resource_id: self.resource_id ).first
+    self.where( start_time: from..to, end_time: from..to, resource_id: resource_id ).first
   end
 
   def GroupReservation.all_between(from,to) 
