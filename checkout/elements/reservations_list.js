@@ -1,10 +1,15 @@
 function ReservationsList(parent,attr) {
 	this.state = {
-      my_reservations: attr['reservations'] || []
+      my_reservations: attr['reservations'] || [];
+      class_passes:   attr['passes'] || 0;
 	}
-	//this.bind_handlers([]);
-	//this.build_dom();
-	this.load_styles();
+
+    rivets.formatters.passes_total = function(reservations) {
+      if(!reservations) return 0;
+      return reservations.reduce( (total, reservation) => total + reservation.passes, 0 );
+    }
+
+    this.load_styles();
 }
 
 ReservationsList.prototype = {

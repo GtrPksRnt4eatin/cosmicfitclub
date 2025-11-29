@@ -11,7 +11,8 @@ data = {
     },
     selected_timeslot: null,
     num_slots: 0,
-    my_reservations: []
+    my_reservations: [],
+    class_passes: 0
   };
   
   var daypilot;
@@ -73,7 +74,7 @@ data = {
     loft_calendar     = get_element(view,'loft-calendar');
     reservations_list = get_element(view,'reservations-list');
     custy_selector    = new CustySelector();
-  
+
     custy_selector.ev_sub('show'       , popupmenu.show );
     custy_selector.ev_sub('close_modal', popupmenu.hide );
   
@@ -88,6 +89,10 @@ data = {
       data.num_slots = 1;
       data.rental.slots = [];
       data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
+    });  
+    
+    userview.ev_sub('on_user', function() {
+      $.get(`/models/customers/${userview.id}/class_passes`, function(resp) { data.class_passes = resp.length==0 ? 0 : resp; }, 'json');
     });
   
     $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations.splice(0, data.my_reservations.length, ...resp); }, 'json');
