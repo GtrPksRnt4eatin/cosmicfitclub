@@ -66,7 +66,7 @@ data = {
     rivets.formatters.equals    = function(val, arg) { return val == arg; }
     rivets.formatters.fix_index = function(val, arg) { return val + 1; }
   
-    var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+    view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
   
     userview       = new UserView(id('userview_container'));
     popupmenu      = new PopupMenu( id('popupmenu_container') );
