@@ -95,29 +95,7 @@ html
           button#request rv-on-click='ctrl.request_slot'
             | Request this Timeslot
       
-      .tile rv-hide='data.selected_timeslot'
-        reservations-list reservations='data.my_reservations'
-      
-      .tile rv-hide='data.selected_timeslot' rv-show='data.my_reservations'
-        table.upcoming
-          tr
-            td colspan="2" 
-              | Your Upcoming Reservations:
-          tr rv-each-reservation='data.my_reservations'
-            td
-              | { reservation.summary }
-            td.cancel rv-on-click='ctrl.cancel'
-              | Cancel
-        
-        div.buy_passes
-          | These Reservations will require a total of {data.my_reservations | passes_total} passes
-          br
-          | You currently have {data.class_passes} passes
-          div
-            h2 Would you like to buy more?
-            a href='/checkout/pack/21' 1 Hr Pass
-            a href='/checkout/pack/34' 90 Min Pass
-            a href='/checkout/pack/17' 2 Hr Pass
-            a href='/checkout/pack/25' 20 Hr Package
+      .tile rv-show='data.my_reservations' rv-hide='data.selected_timeslot'
+        reservations-list reservations='data.my_reservations' passes='data.class_passes'
 
     #popupmenu_container
