@@ -68,10 +68,11 @@ data = {
   
     view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
   
-    userview       = new UserView(id('userview_container'));
-    popupmenu      = new PopupMenu( id('popupmenu_container') );
-    loft_calendar  = get_element(view,'loft-calendar');
-    custy_selector = new CustySelector();
+    userview          = new UserView(id('userview_container'));
+    popupmenu         = new PopupMenu( id('popupmenu_container') );
+    loft_calendar     = get_element(view,'loft-calendar');
+    reservations_list = get_element(view,'reservations-list');
+    custy_selector    = new CustySelector();
   
     custy_selector.ev_sub('show'       , popupmenu.show );
     custy_selector.ev_sub('close_modal', popupmenu.hide );
