@@ -77,6 +77,10 @@ data = {
 
     custy_selector.ev_sub('show'       , popupmenu.show );
     custy_selector.ev_sub('close_modal', popupmenu.hide );
+
+    rivets.formatters.empty = function(reservations) { 
+      return reservations.length == 0;
+    }
   
     loft_calendar.ev_sub('on_timeslot_selected', function(val) {
       if(!userview.logged_in) { userview.onboard(); return;  }
