@@ -78,8 +78,11 @@ table.upcoming td.cancel {
   line-height: 1.5em;
 }
 
-h2.heading {
+h2 {
   margin-bottom: 0;
+}
+
+.heading {
   line-height: 0.5em;
 }
 
