@@ -1,14 +1,10 @@
-function ReservationsList() {
-
+function ReservationsList(attr) {
 	this.state = {
-
+      my_reservations: attr['reservations'] || []
 	}
-
-	this.bind_handlers([]);
-	this.build_dom();
+	//this.bind_handlers([]);
+	//this.build_dom();
 	this.load_styles();
-	this.bind_dom();
-
 }
 
 ReservationsList.prototype = {
