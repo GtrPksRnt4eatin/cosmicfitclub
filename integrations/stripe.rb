@@ -6,7 +6,7 @@ class StripeRoutes < Sinatra::Base
   post '/create_vendor_account' do
 
     staff_id = params['staff_id']
-    staff = Staff.find_by_id(staff_id) or halt(404, "Staff member not found")
+    staff = Staff[staff_id] or halt(404, "Staff member not found")
     
     result = StripeMethods::create_new_vendor_account(staff.email)
     staff.update( stripe_account_id: result[:id] )
