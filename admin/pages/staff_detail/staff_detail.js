@@ -23,6 +23,7 @@ var ctrl = {
     $.post( "/stripe/create_vendor_account", { email: data.staff.email } )
      .done( function(resp) {  alert(resp.onboarding_url); } )
      .fail( function(xhr, status) { alert("Failed To Create Stripe Vendor Account"); } )
+  }
 }
 
 $(document).ready(function() {
