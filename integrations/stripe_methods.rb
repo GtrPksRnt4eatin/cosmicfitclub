@@ -3,13 +3,37 @@ require 'stripe'
 Stripe.api_key = ENV['STRIPE_SECRET']
 
 module StripeMethods
-  
+
+  ############### Vendor Accounts ############### 
+
+  def StripeMethods::create_new_vendor_account(email)
+    account = Stripe::Account.create({
+      country: "US",
+      email: email,
+      controller: {
+        fees: { payer: 'application'},
+        losses: { payer: 'application'},
+        stripe_dashoard: { type: 'express' }
+      }
+    })
+    
+    account_link = Stripe::AccountLink.create({
+      account: account.id,
+      refresh_url: "https://cosmicfitclub.com/stripe/vendor_refresh",
+      return_url: "https://cosmicfitclub.com/stripe/vendor_return",
+      type: 'account_onboarding'
+    })
+    
+    { id: account.id, onboarding_url: account_link.url }
+  end
+
   def StripeMethods::PayoutVendor(amount, connected_acct_id, descriptor="Cosmic Fit Club")
     transfer = Stripe::Transfer.create({ amount: amount, currency:"usd", destination: connected_acct_id, description: descriptor }) unless connected_acct_id=="acct_19PkJECHwAcud5J9"
     payout = Stripe::Payout.create({ amount: amount, currency: "usd", statement_descriptor: descriptor }, {stripe_account: connected_acct_id })
     { transfer: transfer, payout: payout }
   end
 
+  ############### Vendor Accounts ############### 
   def StripeMethods::get_payment_intent(amount,description,custy)
     intent = Stripe::PaymentIntent.create({
       amount: amount,

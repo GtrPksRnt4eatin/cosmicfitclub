@@ -2,6 +2,33 @@ require 'stripe'
 
 class StripeRoutes < Sinatra::Base
 
+  # Create a new Stripe Connect vendor account and return onboarding link
+  post '/create_vendor_account' do
+
+    staff_id = params['staff_id']
+    staff = Staff.find_by_id(staff_id) or halt(404, "Staff member not found")
+    
+    result = StripeMethods::create_new_vendor_account(staff.email)
+    staff.update( stripe_account_id: result[:id] )
+
+    return result[:onboarding_url]
+
+  rescue => e
+    Slack.err("Stripe Vendor Creation Error", e)
+    status 500
+    { success: false, error: e.message }.to_json
+  end
+
+  # Refresh URL - regenerate link if original expires
+  get '/vendor_refresh' do
+    "The onboarding link has expired. Please contact support for a new link."
+  end
+
+  # Return URL - vendor completes onboarding
+  get '/vendor_complete' do
+    "Thank you! Your account setup is complete. We'll be in touch shortly."
+  end
+
   post '/webhook' do
 
     event = JSON.parse request.body.read
