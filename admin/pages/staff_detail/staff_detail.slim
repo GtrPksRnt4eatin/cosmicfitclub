@@ -59,7 +59,7 @@ html
           .value
             span rv-show='data.staff.subscription' 
               | { data.staff.subscription.began_on | datewyr } - { data.staff.subscription.cancelled_on | datewyr }
-        .tuple rv-if='data.staff.stripe_connect_id
+        .tuple rv-if='data.staff.stripe_connect_id'
           .attrib Stripe Connect:
           .value.editable rv-on-click='ctrl.edit_stripe_id'
             | {data.staff.stripe_connect_id}
