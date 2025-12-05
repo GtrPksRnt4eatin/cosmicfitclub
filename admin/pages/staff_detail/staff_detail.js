@@ -20,7 +20,7 @@ var ctrl = {
   submit_hidden:      function(e,m) { post_staff_details({ hidden: data.staff.hidden }); },
   submit_deactivated: function(e,m) { post_staff_details({ deactivated: data.staff.deactivated }); },
   stripe_onboard:    function(e,m)  { 
-    $.post( "/stripe/create_vendor_account", { email: data.staff.email } )
+    $.post( "/stripe/create_vendor_account", { staff_id: data.staff.id } )
      .done( function(resp) {  alert(resp.onboarding_url); } )
      .fail( function(xhr, status) { alert("Failed To Create Stripe Vendor Account"); } )
   }
