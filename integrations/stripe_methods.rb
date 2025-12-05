@@ -10,10 +10,10 @@ module StripeMethods
     account = Stripe::Account.create({
       country: "US",
       email: email,
+      stripe_dashoard: { type: 'express' },
       controller: {
         fees: { payer: 'application'},
         losses: { payer: 'application'},
-        stripe_dashoard: { type: 'express' }
       }
     })
     
