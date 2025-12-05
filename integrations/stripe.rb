@@ -9,7 +9,7 @@ class StripeRoutes < Sinatra::Base
     staff = Staff[staff_id] or halt(404, "Staff member not found")
     
     result = StripeMethods::create_new_vendor_account(staff.email)
-    staff.update( stripe_account_id: result[:id] )
+    staff.update( stripe_connect_id: result[:id] )
 
     return result[:onboarding_url]
 
