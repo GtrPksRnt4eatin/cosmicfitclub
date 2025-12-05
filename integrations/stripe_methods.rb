@@ -12,7 +12,7 @@ module StripeMethods
       email: email,
       controller: {
         fees: { payer: 'application'},
-        losses: { payer: 'application'},
+        losses: { payments: 'application'},
         stripe_dashboard: { type: 'express' }
       }
     })
