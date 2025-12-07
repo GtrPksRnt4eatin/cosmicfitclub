@@ -24,7 +24,7 @@ module StripeMethods
       type: 'account_onboarding'
     })
     
-    { id: account.id, onboarding_url: account_link.url }
+    { id: account.id, onboarding_url: account_link['url'] }
   end
 
   def StripeMethods::PayoutVendor(amount, connected_acct_id, descriptor="Cosmic Fit Club")
