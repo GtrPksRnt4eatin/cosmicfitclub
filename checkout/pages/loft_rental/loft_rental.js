@@ -107,10 +107,10 @@ $(document).ready( function() {
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
   });
 
-  group_timeslot.ev_sub('choose_customer', function(slot, selected_id, callback) {
-    custy_selector.show_modal( selected_id, function(custy_id) {
+  group_timeslot.ev_sub('choose_customer', function(args) {
+    custy_selector.show_modal( args['customer_id'], function(custy_id) {
       let customer_string = custy_selector.selected_customer.list_string;
-      if(callback) { callback(custy_id, customer_string, slot); }
+      if(args.callback) { args.callback(custy_id, customer_string, args.index); }
     } );
   });
 

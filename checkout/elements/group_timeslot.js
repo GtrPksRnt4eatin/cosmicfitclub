@@ -47,7 +47,7 @@ GroupTimeslot.prototype = {
   },
 
   choose_custy: function(e,m) {
-    this.ev_fire('choose_customer', [ m.index, m.slot.customer_id, this.customer_selected ] ); 
+    this.ev_fire('choose_customer', { index: m.index, customer_id: m.slot.customer_id, callback: this.customer_selected } ); 
   },
   
   customer_selected: function(custy_id, custy_string, slot) {
