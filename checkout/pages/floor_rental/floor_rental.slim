@@ -23,13 +23,9 @@ html
         h2.heading Floor Space Calendar
         a.point_link href='/checkout/point' view aerial calendar
 
-        .tuple rv-if='data.rental.tag'
-          .attrib Reservation Tag:
-          .value { data.rental.tag }
-        
         div rv-hide='data.selected_timeslot'
           loft-calendar floor='true' theme='cosmic_theme' timeslot='data.selected_timeslot'
-        
+
         div rv-show='data.selected_timeslot'
           h3 Selected Timeslot
           .tuple

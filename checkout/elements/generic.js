@@ -1,4 +1,4 @@
-function Generic() {
+function GroupTimeslot() {
 
 	this.state = {
 
@@ -11,22 +11,22 @@ function Generic() {
 
 }
 
-Generic.prototype = {
-	constructor: Generic
+GroupTimeslot.prototype = {
+	constructor: GroupTimeslot
 }
 
-Object.assign( Generic.prototype, element);
-Object.assign( Generic.prototype, ev_channel);
+Object.assign( GroupTimeslot.prototype, element);
+Object.assign( GroupTimeslot.prototype, ev_channel);
 
-Generic.prototype.HTML = `
+GroupTimeslot.prototype.HTML = `
 
 `.untab(2);
 
-Generic.prototype.CSS = `
+GroupTimeslot.prototype.CSS = `
 
 `.untab(2);
 
 rivets.components['generic-element'] = {
-  template:  function()         { return Generic.prototype.HTML; },
-  initialize: function(el,attr) { return new Generic(el,attr);   }
+  template:  function()         { return GroupTimeslot.prototype.HTML; },
+  initialize: function(el,attr) { return new GroupTimeslot(el,attr);   }
 }

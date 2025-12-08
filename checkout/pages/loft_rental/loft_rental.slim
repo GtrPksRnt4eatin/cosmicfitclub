@@ -8,7 +8,7 @@ html
     == css ['fonts', 'site', 'header', 'menu_colors', 'flatpickr', 'selectize-ems', 'tuples', 'edit_page', 'daypilot_cosmic_theme', 'loft_rental']
     == js  ['jquery', 'lib', 'menu', 'element', 'ev_channel', 'rivets', 'moment', 'flatpickr', 'selectize.min', 'rv_dates', 'moment', 'daypilot-all.min' ]
     == js  ['/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector']
-    == js  ['/checkout/elements/loft_calendar', '/checkout/elements/reservations_list', 'loft_rental']
+    == js  ['/checkout/elements/loft_calendar', '/checkout/elements/reservations_list', 'checkout/elements/group_timeslot', 'loft_rental']
 
   body
 
@@ -23,10 +23,6 @@ html
         h2.heading Aerial Point Calendar
         a.floor_link href='/checkout/floor' view floor calendar
 
-        .tuple rv-if='data.rental.tag'
-          .attrib Reservation Tag:
-          .value { data.rental.tag }
-        
         div rv-hide='data.selected_timeslot'
           loft-calendar point='true' theme='cosmic_theme' timeslot='data.selected_timeslot'
         
@@ -94,7 +90,9 @@ html
         
           button#request rv-on-click='ctrl.request_slot'
             | Request this Timeslot
-      
+
+      group-timeslot reservation='data.rental'
+
       .tile rv-if='data.my_reservations.0'
         reservations-list reservations='data.my_reservations' passes='data.class_passes'
 
