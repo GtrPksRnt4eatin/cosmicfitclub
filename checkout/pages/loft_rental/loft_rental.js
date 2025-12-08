@@ -112,7 +112,7 @@ $(document).ready( function() {
       let customer_string = custy_selector.selected_customer.list_string;
       if(callback) { callback(custy_id, customer_string, slot); }
     } );
-  }
+  });
 
   $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations.splice(0, data.my_reservations.length, ...resp); }, 'json');
 });
