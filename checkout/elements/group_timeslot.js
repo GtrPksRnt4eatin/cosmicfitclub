@@ -25,7 +25,7 @@ function GroupTimeslot(el,attr) {
 
   rivets.formatters.fix_index = function(val, arg) { return val + 1; }
 
-	this.bind_handlers(['set_num_slots','update_endtime']);
+	this.bind_handlers(['set_num_slots','update_endtime','choose_custy','customer_selected']);
 	this.load_styles();
 
 }
