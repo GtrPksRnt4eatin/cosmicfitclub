@@ -19,54 +19,6 @@ data = {
 
 var daypilot;
 
-ctrl = {
-  set_num_slots: function(e,m) {
-    data.rental.num_slots = parseInt(e.target.value);
-    data.rental.num_slots = isNaN(data.rental.num_slots) ? 0 : data.rental.num_slots;
-    while(data.rental.slots.length<data.rental.num_slots) {
-      data.rental.slots.push({ customer_id: 0, customer_string: '' }); 
-    }
-    while(data.rental.slots.length>data.rental.num_slots){
-      data.rental.slots.pop();
-    }
-  },
-
-  add_slot: function(e,m) {
-    if(data.num_slots == 4) { return; }
-    if(isNaN(data.num_slots)) { return; }
-    data.num_slots = data.num_slots + 1;
-    data.rental.slots.push({ customer_id: 0, customer_string: '' });
-  },
-
-  choose_custy: function(e,m) {
-    custy_selector.show_modal(m.slot.customer_id, function(custy_id) {
-      m.slot.customer_id = custy_id;
-      m.slot.customer_string = custy_selector.selected_customer.list_string;
-    } );
-  },
-  
-  request_slot: function(e,m) {
-    $.post('/models/groups', JSON.stringify( data.rental ) )
-     .done(function()  { window.location.reload(); })
-     .fail(function(e) { alert(`${e.status} - ${e.responseText}`); });
-  },
-
-  clear_starttime: function(e,m) {
-    data.selected_timeslot = null;
-  },
-
-  update_endtime: function(e,m) {
-    data.rental.end_time = new Date(data.rental.start_time.getTime() + data.rental.duration * 60000);
-  },
-
-  cancel: function(e,m) {
-    if(!confirm("Are you sure you want to cancel?")) { return; }
-    $.del(`/models/groups/${m.reservation.id}`)
-     .done(function() { window.location.reload(); });
-  }
-
-}
-
 $(document).ready( function() {
   include_rivets_dates();
 
