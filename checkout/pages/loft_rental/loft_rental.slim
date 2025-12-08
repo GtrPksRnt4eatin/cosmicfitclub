@@ -71,14 +71,14 @@ html
           .tuple
             .attrib # of People:
             .value
-              select rv-value='data.num_slots' rv-on-change='ctrl.set_num_slots'
+              select rv-value='data.rental.num_slots' rv-on-change='ctrl.set_num_slots'
                 option value="0" 0
                 option value="1" 1
                 option value="2" 2
                 option value="3" 3
                 option value="4" 4
 
-          div rv-if='data.num_slots'
+          div rv-if='data.rental.num_slots'
             hr
             .tuple rv-each-slot='data.rental.slots'
               .attrib

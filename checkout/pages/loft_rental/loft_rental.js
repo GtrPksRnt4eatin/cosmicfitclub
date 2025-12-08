@@ -7,6 +7,7 @@ data = {
     note: '',
     customer_id: null,
     is_lesson: false,
+    num_slots: 1,
     slots: [],
     resource_id: 1 // Loft 1F Front
   },
@@ -20,12 +21,12 @@ var daypilot;
 
 ctrl = {
   set_num_slots: function(e,m) {
-    data.num_slots = parseInt(e.target.value);
-    data.num_slots = isNaN(data.num_slots) ? 0 : data.num_slots;
+    data.rental.num_slots = parseInt(e.target.value);
+    data.rental.num_slots = isNaN(data.rental.num_slots) ? 0 : data.rental.num_slots;
     while(data.rental.slots.length<data.num_slots) {
       data.rental.slots.push({ customer_id: 0, customer_string: '' }); 
     }
-    while(data.rental.slots.length>data.num_slots){
+    while(data.rental.slots.length>data.rental.num_slots){
       data.rental.slots.pop();
     }
   },
@@ -72,12 +73,13 @@ $(document).ready( function() {
   rivets.formatters.equals    = function(val, arg) { return val == arg; }
   rivets.formatters.fix_index = function(val, arg) { return val + 1; }
 
-  var view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+  view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
 
   userview          = new UserView(id('userview_container'));
   popupmenu         = new PopupMenu( id('popupmenu_container') );
   loft_calendar     = get_element(view,'loft-calendar');
   reservations_list = get_element(view,'reservations-list');
+  group_timeslot    = get_element(view,'group-timeslot');
   custy_selector    = new CustySelector();
 
   userview.ev_sub('on_user', function() {
@@ -104,6 +106,13 @@ $(document).ready( function() {
     data.rental.slots = [];
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
   });
+
+  group_timeslot.ev_sub('choose_customer', function(slot, selected_id, callback) {
+    custy_selector.show_modal( selected_id, function(custy_id) {
+      let customer_string = custy_selector.selected_customer.list_string;
+      if(callback) { callback(custy_id, customer_string, slot); }
+    } );
+  }
 
   $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations.splice(0, data.my_reservations.length, ...resp); }, 'json');
 });
