@@ -132,6 +132,10 @@ GroupTimeslot.prototype.CSS = `
     cursor: pointer;
     width: 100%;
   }
+
+  group-timeslot select {
+    cursor: pointer;
+  }
 `.untab(2);
 
 rivets.components['group-timeslot'] = {
