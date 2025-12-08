@@ -92,7 +92,7 @@ $(document).ready( function() {
   custy_selector.ev_sub('close_modal', popupmenu.hide );
 
   rivets.formatters.empty = function(reservations) { 
-    return reservations.length == 0;
+    return reservations ? reservations.length == 0 : false;
   }
 
   loft_calendar.ev_sub('on_timeslot_selected', function(val) {
