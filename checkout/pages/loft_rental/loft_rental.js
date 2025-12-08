@@ -23,7 +23,7 @@ ctrl = {
   set_num_slots: function(e,m) {
     data.rental.num_slots = parseInt(e.target.value);
     data.rental.num_slots = isNaN(data.rental.num_slots) ? 0 : data.rental.num_slots;
-    while(data.rental.slots.length<data.num_slots) {
+    while(data.rental.slots.length<data.rental.num_slots) {
       data.rental.slots.push({ customer_id: 0, customer_string: '' }); 
     }
     while(data.rental.slots.length>data.rental.num_slots){
