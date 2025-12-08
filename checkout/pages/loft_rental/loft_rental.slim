@@ -91,7 +91,7 @@ html
           button#request rv-on-click='ctrl.request_slot'
             | Request this Timeslot
 
-      group-timeslot reservation='data.rental'
+      /! group-timeslot reservation='data.rental'
 
       .tile rv-if='data.my_reservations.0'
         reservations-list reservations='data.my_reservations' passes='data.class_passes'
