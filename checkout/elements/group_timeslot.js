@@ -13,13 +13,14 @@ function GroupTimeslot(el,attr) {
       { label: '4 hours',   value:240 }
     ],
     apparatuses: [
-      { label: 'Bringing My Own', value: 'none' },
+      { label: 'Bringing My Own', value: 'other' },
       { label: 'Straps',          value: 'Straps' },
       { label: 'Silks',           value: 'Silks' },
       { label: 'Hammock',         value: 'Hammock' },
       { label: 'Lyra',            value: 'Lyra' },
       { label: 'Spotting Belt',   value: 'Spotting Belt' }
-    ]     
+    ],
+    numbers: [1,2,3,4]    
   }
 
   rivets.formatters.fix_index = function(val, arg) { return val + 1; }
@@ -97,7 +98,9 @@ GroupTimeslot.prototype.HTML = `
   <div class='tuple'>
     <div class='attrib'># of People</div>
     <div class='value'>
-      <input type='number' rv-value='res.num_people' min='1' />
+      <select rv-on-change='set_num_slots' rv-value='res.num_slots' >
+        <option rv-each-number='opts.numbers' rv-value='number'> {number} </option>
+      </select> 
     </div>
   </div>
   <div>
