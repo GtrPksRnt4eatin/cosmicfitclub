@@ -47,13 +47,12 @@ GroupTimeslot.prototype = {
   },
 
   choose_custy: function(e,m) {
-    ev_fire('show_custy_selector', {
-      selected_id: m.slot.customer_id,
-      callback:    (custy_id, custy_string) => {
-        m.slot.customer_id = custy_id;
-        m.slot.customer_string = custy_string;
-      }
-    });   
+    ev_fire('choose_customer', [ m.index, m.slot.customer_id, this.customer_selected ] ); 
+  },
+  
+  customer_selected: function(custy_id, custy_string, slot) {
+    this.res.slots[slot].customer_id = custy_id;
+    this.res.slots[slot].customer_string = custy_string;
   }
 
 }
