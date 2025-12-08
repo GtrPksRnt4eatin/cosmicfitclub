@@ -85,7 +85,7 @@ $(document).ready( function() {
   custy_selector    = new CustySelector();
 
   userview.ev_sub('on_user', function() {
-    $.get(`/models/customers/${userview.id}/class_passes`, function(resp) { data.class_passes = resp.length==0 ? 0 : resp; }, 'json');
+    $.get(`/models/customers/${userview.id}/class_passes`, function(resp) { data.class_passes = isNaN(resp) ? 0 : resp; }, 'json');
   });
 
   custy_selector.ev_sub('show'       , popupmenu.show );
