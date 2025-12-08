@@ -1,4 +1,4 @@
-function GroupTimeslot() {
+function GroupTimeslot(el,attr) {
 
   this.reservation = attr['reservation'];
 
