@@ -50,14 +50,14 @@ GroupTimeslot.prototype.HTML = `
     <div class='attrib'>Duration</div>
     <div class='value'>
       <select rv-on-change='update_endtime' rv-value='rental.duration' >
-        <option rv-each-duration='state.durations' value='duration.minutes'> {duration.label} </option>
+        <option rv-each-duration='state.durations' value='reservation.duration'> {duration.label} </option>
       </select>
     </div>
   </div>
   <div class='tuple'>
     <div class='attrib'>Apparatus</div>
     <div class='value'>
-      <select rv-value='rental.activity' >
+      <select rv-value='reservation.activity' >
         <option rv-each-apparatus='state.apparatuses' value='apparatus.value'> {apparatus.label} </option>
       </select>
     </div>
@@ -65,18 +65,18 @@ GroupTimeslot.prototype.HTML = `
   <div class='tuple'>
     <div class='attrib'>Rigging Notes</div>
     <div class='value'>
-      <textarea rv-value='rental.rigging_notes' ></textarea>
+      <textarea rv-value='reservation.rigging_notes' ></textarea>
     </div>
   </div>
   <div class='tuple'>
     <div class='attrib'># of People</div>
     <div class='value'>
-      <input type='number' rv-value='rental.num_people' min='1' />
+      <input type='number' rv-value='reservation.num_people' min='1' />
     </div>
   </div>
   <div>
     <hr>
-    <div class='tuple' rv-each-slot='rental.slots' >
+    <div class='tuple' rv-each-slot='reservation.slots' >
         <div class='attrib'>Slot \#{ $index | fix_index }</div>
         <div class='value pointer' rv-on-click='choose_custy'>
             { slot.customer_string }
