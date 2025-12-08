@@ -18,14 +18,14 @@ html
 
     .content
 
-      .tile rv-hide='data.selected_timeslot'
+      .tile rv-hide='data.rental.start_time'
         
         h2.heading Aerial Point Calendar
         a.floor_link href='/checkout/floor' view floor calendar
 
         loft-calendar point='true' theme='cosmic_theme' timeslot='data.selected_timeslot'
         
-        div rv-show='data.selected_timeslot'
+        div rv-show='data.rental.start_time'
           h3 Selected Timeslot
           .tuple
             .attrib

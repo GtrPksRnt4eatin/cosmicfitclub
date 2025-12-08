@@ -1,19 +1,19 @@
 data = {
   rental: {
-    start_time: '',
+    start_time: null,
+    end_time: null,
     duration: 60,
-    end_time: '',
-    activity: '',
+    activity: 'other',
     note: '',
     customer_id: null,
     is_lesson: false,
     num_slots: 1,
-    slots: [],
+    slots: [{ customer_id: null, customer_string: 'Click to Add Someone' }],
     resource_id: 1 // Loft 1F Front
   },
   selected_timeslot: null,
   class_passes: 0,
-  num_slots: 0,
+  num_slots: 1,
   my_reservations: []
 };
 
