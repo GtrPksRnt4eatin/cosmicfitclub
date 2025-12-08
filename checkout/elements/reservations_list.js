@@ -1,7 +1,7 @@
 function ReservationsList(parent,attr) {
 	this.state = {
-      my_reservations: attr['reservations'] || [],
-      class_passes:   attr['passes'] || 0
+      my_reservations: attr['reservations'],
+      class_passes:   attr['passes']
 	}
 
     rivets.formatters.passes_total = function(reservations) {
@@ -34,15 +34,15 @@ ReservationsList.prototype.HTML = `
       <tr>
         <td colspan='2'>Your Upcoming Reservations:</td>
       </tr>
-      <tr rv-each-reservation='state.my_reservations'>
+      <tr rv-each-reservation='reservations'>
         <td>{ reservation.summary }</td>
         <td class='cancel' rv-on-click='cancel'>Cancel</td>
       </tr>
     </table>
 
     <div class='buy_passes'>
-      These Reservations will require a total of { state.my_reservations | passes_total } passes </br>
-      You currently have { state.class_passes } passes
+      These Reservations will require a total of { reservations | passes_total } passes </br>
+      You currently have { passes } passes
       <div>
         <h2>Would you like to buy more?</h2>
         <a href='/checkout/pack/21'>1 Hr Pass</a>
