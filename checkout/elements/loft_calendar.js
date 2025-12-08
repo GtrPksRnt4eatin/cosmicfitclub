@@ -80,7 +80,7 @@ LoftCalendar.prototype = {
           case 'Loft-1F-GuestRm2 (2)': 
           case 'Loft-1F-Futon (1)':     if(!this.rooms) { args.visible = false; } break;
           default:
-            console.log(args.e.data);
+            //console.log(args.e.data);
             args.visible = false;
         }
       }.bind(this),
