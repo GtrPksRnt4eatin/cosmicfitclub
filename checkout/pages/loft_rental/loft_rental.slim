@@ -18,13 +18,12 @@ html
 
     .content
 
-      .tile          
+      .tile rv-hide='data.selected_timeslot       
         
         h2.heading Aerial Point Calendar
         a.floor_link href='/checkout/floor' view floor calendar
 
-        div rv-hide='data.selected_timeslot'
-          loft-calendar point='true' theme='cosmic_theme' timeslot='data.selected_timeslot'
+        loft-calendar point='true' theme='cosmic_theme' timeslot='data.selected_timeslot'
         
         div rv-show='data.selected_timeslot'
           h3 Selected Timeslot
