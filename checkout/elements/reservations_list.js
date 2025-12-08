@@ -1,18 +1,10 @@
 function ReservationsList(parent,attr) {
-	this.state = {
-      my_reservations: attr['reservations'],
-      class_passes:   attr['passes']
-	}
-
+    rivets.formatters.empty = function(reservations) { return reservations.length == 0; }
+    
     rivets.formatters.passes_total = function(reservations) {
-      if(!reservations) return 0;
-      return reservations.reduce( (total, reservation) => total + reservation.passes, 0 );
+      return reservations ? reservations.reduce( (total, reservation) => total + reservation.passes, 0 ) : 0;
     }
-
-    rivets.formatters.empty = function(reservations) { 
-      return reservations.length == 0;
-    }
-
+    
     this.load_styles();
 }
 
@@ -29,7 +21,7 @@ Object.assign( ReservationsList.prototype, element);
 Object.assign( ReservationsList.prototype, ev_channel);
 
 ReservationsList.prototype.HTML = `
-  <div rv-hide='state.my_reservations | empty'>
+  <div rv-hide='reservations | empty'>
     <table class='upcoming'>
       <tr>
         <td colspan='2'>Your Upcoming Reservations:</td>
