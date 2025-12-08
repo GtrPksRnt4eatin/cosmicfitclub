@@ -79,7 +79,7 @@ $(document).ready( function() {
   popupmenu         = new PopupMenu( id('popupmenu_container') );
   loft_calendar     = get_element(view,'loft-calendar');
   reservations_list = get_element(view,'reservations-list');
-  group_timeslot    = get_element(view,'group-timeslot');
+  //group_timeslot    = get_element(view,'group-timeslot');
   custy_selector    = new CustySelector();
 
   userview.ev_sub('on_user', function() {
@@ -107,12 +107,12 @@ $(document).ready( function() {
     data.rental.slots.push( { customer_id: userview.id, customer_string: userview.custy_string } );
   });
 
-  group_timeslot.ev_sub('choose_customer', function(args) {
-    custy_selector.show_modal( args['customer_id'], function(custy_id) {
-      let customer_string = custy_selector.selected_customer.list_string;
-      if(args.callback) { args.callback(custy_id, customer_string, args.index); }
-    } );
-  });
+  //group_timeslot.ev_sub('choose_customer', function(args) {
+  //  custy_selector.show_modal( args['customer_id'], function(custy_id) {
+  //    let customer_string = custy_selector.selected_customer.list_string;
+  //    if(args.callback) { args.callback(custy_id, customer_string, args.index); }
+  //  } );
+  //});
 
   $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations.splice(0, data.my_reservations.length, ...resp); }, 'json');
 });
