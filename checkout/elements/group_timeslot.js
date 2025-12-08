@@ -25,7 +25,7 @@ function GroupTimeslot(el,attr) {
 
   rivets.formatters.fix_index = function(val, arg) { return val + 1; }
 
-	this.bind_handlers(['set_num_slots','update_endtime','choose_custy','customer_selected','confirm_reservation']);
+	this.bind_handlers(['clear_starttime','set_num_slots','update_endtime','choose_custy','customer_selected','confirm_reservation']);
 	this.load_styles();
 
 }
@@ -33,10 +33,15 @@ function GroupTimeslot(el,attr) {
 GroupTimeslot.prototype = {
 	constructor: GroupTimeslot,
 
+  clear_starttime: function(e,m) {
+    this.res.start_time = null;
+    this.res.end_time = null;
+  },
+
   set_num_slots: function(e,m) {
     let num_slots = parseInt(e.target.value);
     this.res.num_slots = isNaN(num_slots) ? 0 : num_slots;
-    while( this.res.slots.length < num_slots ) { this.res.slots.push({ customer_id: 0, customer_string: '' }); }
+    while( this.res.slots.length < num_slots ) { this.res.slots.push({ customer_id: 0, customer_string: 'Click to Add Someone' }); }
     while( this.res.slots.length > num_slots ) { this.res.slots.pop(); }
   },
 
