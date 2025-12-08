@@ -1,6 +1,6 @@
 function LoftCalendar(parent,attr) {
 
-  this.selected_timeslot = attr['timeslot'];
+  this.selected_timeslot = attr['timeslot'] || null;
   this.viewType = attr['view'] || "Days";
   this.admin = attr['admin'] || false;
   this.point = attr['point'] || false;
