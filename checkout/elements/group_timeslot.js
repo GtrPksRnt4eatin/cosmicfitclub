@@ -4,8 +4,8 @@ function GroupTimeslot(el,attr) {
 
   this.opts = {
     durations: [
-      { label: '1 hour',    value:60 },
-      { label: '1.5 hours', value:90 },
+      { label: '1 hour',    value:60  },
+      { label: '1.5 hours', value:90  },
       { label: '2 hours',   value:120 },
       { label: '2.5 hours', value:150 },
       { label: '3 hours',   value:180 },
@@ -13,11 +13,11 @@ function GroupTimeslot(el,attr) {
       { label: '4 hours',   value:240 }
     ],
     apparatuses: [
-      { label: 'Bringing My Own', value: 'other' },
-      { label: 'Straps',          value: 'Straps' },
-      { label: 'Silks',           value: 'Silks' },
-      { label: 'Hammock',         value: 'Hammock' },
-      { label: 'Lyra',            value: 'Lyra' },
+      { label: 'Bringing My Own', value: 'other'         },
+      { label: 'Straps',          value: 'Straps'        },
+      { label: 'Silks',           value: 'Silks'         },
+      { label: 'Hammock',         value: 'Hammock'       },
+      { label: 'Lyra',            value: 'Lyra'          },
       { label: 'Spotting Belt',   value: 'Spotting Belt' }
     ],
     numbers: [1,2,3,4]    
@@ -25,7 +25,7 @@ function GroupTimeslot(el,attr) {
 
   rivets.formatters.fix_index = function(val, arg) { return val + 1; }
 
-	this.bind_handlers(['set_num_slots','update_endtime','choose_custy','customer_selected']);
+	this.bind_handlers(['set_num_slots','update_endtime','choose_custy','customer_selected','confirm_reservation']);
 	this.load_styles();
 
 }
@@ -121,7 +121,12 @@ GroupTimeslot.prototype.HTML = `
 `.untab(2);
 
 GroupTimeslot.prototype.CSS = `
-
+  group-timeslot button {
+    font-size: 0.7em;
+    padding: 0.25em 1em;
+    cursor: pointer;
+    width: 100%;
+  }
 `.untab(2);
 
 rivets.components['group-timeslot'] = {
