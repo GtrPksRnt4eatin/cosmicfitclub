@@ -27,7 +27,7 @@ $(document).ready( function() {
 
   $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations.splice(0, data.my_reservations.length, ...resp); }, 'json');
 
-  view = rivets.bind( $('body'), { data: data, ctrl: ctrl } );
+  view = rivets.bind( $('body'), { data: data } );
 
   userview          = new UserView(id('userview_container'));
   popupmenu         = new PopupMenu( id('popupmenu_container') );
