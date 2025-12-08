@@ -45,7 +45,15 @@ GroupTimeslot.prototype = {
     this.res.end_time = new Date( start + duration_ms );
   },
 
-  choose_custy: function(e,m) {  
+  choose_custy: function(e,m) {
+    ev_fire('show_custy_selector', {
+      selected_id: m.slot.customer_id,
+      callback:    (custy_id, custy_string) => {
+        m.slot.customer_id = custy_id;
+        m.slot.customer_string = custy_string;
+      }
+    });   
+  }
 
 }
 
