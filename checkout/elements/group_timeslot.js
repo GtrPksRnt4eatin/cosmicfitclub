@@ -53,8 +53,13 @@ GroupTimeslot.prototype = {
   customer_selected: function(custy_id, custy_string, slot) {
     this.res.slots[slot].customer_id = custy_id;
     this.res.slots[slot].customer_string = custy_string;
+  },
+  
+  confirm_reservation: function(e,m) {
+    $.post('/models/groups', JSON.stringify( this.res ) )
+     .done(function()  { window.location.reload(); })
+     .fail(function(e) { alert(`${e.status} - ${e.responseText}`); });
   }
-
 }
 
 Object.assign( GroupTimeslot.prototype, element);
@@ -91,7 +96,7 @@ GroupTimeslot.prototype.HTML = `
   <div class='tuple'>
     <div class='attrib'>Rigging Notes</div>
     <div class='value'>
-      <textarea rv-value='res.rigging_notes'></textarea>
+      <textarea rv-value='res.note'></textarea>
     </div>
   </div>
   <div class='tuple'>
