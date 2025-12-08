@@ -106,7 +106,7 @@ GroupTimeslot.prototype.HTML = `
   <div>
     <hr>
     <div class='tuple' rv-each-slot='res.slots' >
-        <div class='attrib'>Slot \#{ $index | fix_index }</div>
+        <div class='attrib'>Slot \#{ index | fix_index }</div>
         <div class='value pointer' rv-on-click='choose_custy'>
             { slot.customer_string }
         </div>
