@@ -31,7 +31,10 @@ $(document).ready(function() {
 
 function completePurchase(type, id, payment_id) {
   let endpoint;
-  let data = { payment_id: payment_id };
+  let data = { 
+    payment_id: payment_id,
+    customer_id: userview.id
+  };
   
   if      (type === 'pack') { endpoint = '/checkout/pack/buy';    data.pack_id = id; } 
   else if (type === 'plan') { endpoint = '/checkout/plan/charge'; data.plan_id = id; }
