@@ -38,6 +38,13 @@ GroupTimeslot.prototype = {
     this.res.end_time = null;
   },
 
+  set_timeslot: function(start, end) {
+    const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+    this.res.start_time = start;
+    this.duration = clamp( (end.getTime() - start.getTime()) / 60000, 60, 240 );
+    this.update_endtime();
+  },
+
   set_num_slots: function(e,m) {
     let num_slots = parseInt(e.target.value);
     this.res.num_slots = isNaN(num_slots) ? 0 : num_slots;
