@@ -283,8 +283,7 @@ PaymentForm.prototype.HTML = `
         </td>
       </tr>
       <tr rv-if='this.apple_pay_available'>
-        <th>Apple Pay</th>
-        <td colspan='2'>
+        <td colspan='3'>
           <div id='payment-request-button'></div>
         </td>
       </tr>
