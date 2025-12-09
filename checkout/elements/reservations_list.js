@@ -1,5 +1,5 @@
 function ReservationsList(parent,attr) {
-    rivets.formatters.empty = function(reservations) { return reservations.length == 0; }
+    rivets.formatters.empty = function(reservations) { return reservations ? reservations.length == 0 : true; }
     
     rivets.formatters.passes_total = function(reservations) {
       return reservations ? reservations.reduce( (total, reservation) => total + reservation.passes, 0 ) : 0;
