@@ -46,7 +46,7 @@ module Sinatra
       
       CustomerPayment.create(
         customer: custy, 
-        stripe_id: intent.charges.data.first.id, 
+        stripe_id: intent.latest_charge, 
         amount: params[:amount], 
         reason: params[:description], 
         type: 'apple_pay'

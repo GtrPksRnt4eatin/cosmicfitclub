@@ -49,42 +49,27 @@ PaymentForm.prototype = {
   },
 
   init_apple_pay: function() {
-    // Create Payment Request for Apple Pay / Google Pay
     this.paymentRequest = stripe.paymentRequest({
       country: 'US',
       currency: 'usd',
-      total: {
-        label: 'Cosmic Fit Club',
-        amount: 0, // Will be updated in checkout()
-      },
+      total: { label: 'Cosmic Fit Club', amount: 0},
       requestPayerName: true,
       requestPayerEmail: true,
     });
 
-    // Check if Apple Pay / Google Pay is available
     this.paymentRequest.canMakePayment().then((result) => {
-      if (result) {
-        this.apple_pay_available = true;
-        // Create the Payment Request Button element
-        this.prButton = elements.create('paymentRequestButton', {
-          paymentRequest: this.paymentRequest,
-        });
-      }
+      if (!result) return;
+      this.prButton = elements.create('paymentRequestButton', { paymentRequest: this.paymentRequest });
+      this.apple_pay_available = true;
     });
 
-    // Handle the payment method
     this.paymentRequest.on('paymentmethod', this.on_payment_method);
   },
 
   on_payment_method: function(ev) {
-    if (this.state.busy) {
-      ev.complete('fail');
-      return;
-    }
-    
+    if (this.state.busy) { ev.complete('fail'); return; }
     this.state.busy = true;
     
-    // Create payment using the payment method
     const body = {
       customer: this.state.customer_id,
       payment_method_id: ev.paymentMethod.id,
@@ -109,14 +94,8 @@ PaymentForm.prototype = {
     this.state.callback    = callback;
     this.state.swipe       = null;
     
-    // Update Apple Pay payment request with new amount
     if (this.paymentRequest) {
-      this.paymentRequest.update({
-        total: {
-          label: reason || 'Cosmic Fit Club',
-          amount: price,
-        },
-      });
+      this.paymentRequest.update({ total: { label: reason || 'Cosmic Fit Club', amount: price } });
     }
     
     if(customer_id) { this.get_customer(customer_id).done(this.show).fail( function() { this.clear_customer(); this.show(); }.bind(this) ) }
