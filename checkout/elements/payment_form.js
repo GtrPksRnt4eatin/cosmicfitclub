@@ -306,7 +306,7 @@ PaymentForm.prototype.HTML = `
       </tr>
     </table>
   </div>
-`}).untab(2);
+`.untab(2);
 
 PaymentForm.prototype.CSS = `
 
@@ -390,4 +390,4 @@ PaymentForm.prototype.CSS = `
     }
   }
 
-`).untab(2);
+`.untab(2);
