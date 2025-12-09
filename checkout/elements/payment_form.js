@@ -382,6 +382,15 @@ PaymentForm.prototype.CSS = `
     display: initial;
   }
 
+  .PaymentForm #payment-request-button {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    min-height: 0px;
+  }
+
   @media(max-width: 800px) {
     .PaymentForm.custy_facing {
       width: 90vw;
