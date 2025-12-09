@@ -7,8 +7,14 @@ html
 
     title Cosmic Fit Club
 
+    script src='https://js.stripe.com/v3/'
+    javascript:
+      var STRIPE_PUBLIC_KEY = '#{ ENV['STRIPE_PUBLIC'] }';
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+
     ==css [ 'fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'pricing' ]
-    ==js  [ 'jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'pricing' ]
+    ==js  [ 'jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', '/admin/elements/popup_menu', '/checkout/elements/payment_form', 'menu', 'pricing' ]
 
   body.p5
     #stars
@@ -25,8 +31,7 @@ html
               th #{ plan[:name] }
               td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
               td
-                a href="https://cosmicfitclub.com/checkout/plan/#{plan[:id]}"
-                  button Buy Now
+                button data-type='plan' data-id='#{plan[:id]}' data-name='#{plan[:name]}' data-amount='#{plan[:month_price]}' class='buy-button' Buy Now
       .tile
         .heading Class Packages       
         table
@@ -35,11 +40,12 @@ html
               th #{ pack[:name] }
               td $ #{ pack[:pass_price].to_i * pack[:num_passes] / 100 }.00
               td
-                a href="https://cosmicfitclub.com/checkout/pack/#{pack[:id]}"
-                  button Buy Now
+                button data-type='pack' data-id='#{pack[:id]}' data-name='#{pack[:name]}' data-amount='#{pack[:pass_price] * pack[:num_passes]}' class='buy-button' Buy Now
         
       br
       br
+
+    #popupmenu_container
 
     == include_slim('slim/partials/footer')
 
