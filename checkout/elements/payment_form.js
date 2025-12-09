@@ -15,11 +15,12 @@ function PaymentForm() {
     custy_facing: false
   }
 
-  this.bind_handlers(['init_stripe', 'checkout', 'pay_cash', 'charge_saved', 'clear_customer', 'failed_charge', 'charge_token', 'charge_swiped', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge']);
+  this.bind_handlers(['init_stripe', 'checkout', 'pay_cash', 'charge_saved', 'clear_customer', 'failed_charge', 'charge_token', 'charge_swiped', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge', 'init_apple_pay', 'on_payment_method']);
   this.build_dom();
   this.load_styles();
   this.bind_dom();
   this.init_stripe();
+  this.apple_pay_available = false;
 }
 
 PaymentForm.prototype = {
@@ -44,6 +45,60 @@ PaymentForm.prototype = {
       }
     });
     this.card.addEventListener('change', this.on_card_change);
+    this.init_apple_pay();
+  },
+
+  init_apple_pay: function() {
+    // Create Payment Request for Apple Pay / Google Pay
+    this.paymentRequest = stripe.paymentRequest({
+      country: 'US',
+      currency: 'usd',
+      total: {
+        label: 'Cosmic Fit Club',
+        amount: 0, // Will be updated in checkout()
+      },
+      requestPayerName: true,
+      requestPayerEmail: true,
+    });
+
+    // Check if Apple Pay / Google Pay is available
+    this.paymentRequest.canMakePayment().then((result) => {
+      if (result) {
+        this.apple_pay_available = true;
+        // Create the Payment Request Button element
+        this.prButton = elements.create('paymentRequestButton', {
+          paymentRequest: this.paymentRequest,
+        });
+      }
+    });
+
+    // Handle the payment method
+    this.paymentRequest.on('paymentmethod', this.on_payment_method);
+  },
+
+  on_payment_method: function(ev) {
+    if (this.state.busy) {
+      ev.complete('fail');
+      return;
+    }
+    
+    this.state.busy = true;
+    
+    // Create payment using the payment method
+    const body = {
+      customer: this.state.customer_id,
+      payment_method_id: ev.paymentMethod.id,
+      amount: this.state.price,
+      description: this.state.reason
+    };
+
+    $.post('/checkout/charge_payment_method', body, (payment) => {
+      ev.complete('success');
+      this.after_charge(payment);
+    }, 'json').fail((e) => {
+      ev.complete('fail');
+      this.failed_charge(e);
+    });
   },
 
   checkout: function(customer_id, price, reason, metadata, callback)  {
@@ -53,6 +108,17 @@ PaymentForm.prototype = {
     this.state.metadata    = metadata;
     this.state.callback    = callback;
     this.state.swipe       = null;
+    
+    // Update Apple Pay payment request with new amount
+    if (this.paymentRequest) {
+      this.paymentRequest.update({
+        total: {
+          label: reason || 'Cosmic Fit Club',
+          amount: price,
+        },
+      });
+    }
+    
     if(customer_id) { this.get_customer(customer_id).done(this.show).fail( function() { this.clear_customer(); this.show(); }.bind(this) ) }
     else            { this.clear_customer(); this.show(); }
     this.show_err(null);
@@ -113,6 +179,11 @@ PaymentForm.prototype = {
   show: function() {
     this.ev_fire('show', { 'dom': this.dom, 'position': 'modal'} );
     this.card.mount('#card-element');
+    
+    // Mount Apple Pay button if available
+    if (this.apple_pay_available && this.prButton) {
+      this.prButton.mount('#payment-request-button');
+    }
   },
 
   charge_saved: function(e,m) {
@@ -168,14 +239,14 @@ PaymentForm.prototype = {
 Object.assign( PaymentForm.prototype, element);
 Object.assign( PaymentForm.prototype, ev_channel); 
 
-PaymentForm.prototype.HTML = ES5Template(function(){/**
-
+PaymentForm.prototype.HTML = `
   <div class='PaymentForm form' rv-data-busy='state.busy'>
     <h2 class='nocusty'>Charging { state.customer.name } { state.price | money }</h2>
     <h2 class='custy'>Pay { state.price | money } now.</h2>
     <h3 rv-if='state.reason'>{ state.reason }</h3>
     <img rv-if="state.busy" src='loading.svg'/>
     <table>
+
       <tr rv-if='state.swipe' >
         <th>Swiped Card</th>
         <td>
@@ -211,6 +282,12 @@ PaymentForm.prototype.HTML = ES5Template(function(){/**
           <button rv-on-click='this.charge_new' rv-disabled='state.busy'> Pay Now </button>
         </td>
       </tr>
+      <tr rv-if='this.apple_pay_available'>
+        <th>Apple Pay</th>
+        <td colspan='2'>
+          <div id='payment-request-button'></div>
+        </td>
+      </tr>
       <tr>
         <td.nopadding colspan='2'>
           <div id='card-errors'></div>
@@ -229,10 +306,9 @@ PaymentForm.prototype.HTML = ES5Template(function(){/**
       </tr>
     </table>
   </div>
+`}).untab(2);
 
-**/}).untab(2);
-
-PaymentForm.prototype.CSS = ES5Template(function(){/**
+PaymentForm.prototype.CSS = `
 
   .PaymentForm { 
     display: inline-block;
@@ -291,6 +367,10 @@ PaymentForm.prototype.CSS = ES5Template(function(){/**
     text-shadow: 0 0 0.5em black;
   }
 
+  .PaymentForm #payment-request-button {
+    min-height: 40px;
+  }
+
   .PaymentForm:not(.custy_facing) .custy {
     display: none;
   }
@@ -310,4 +390,4 @@ PaymentForm.prototype.CSS = ES5Template(function(){/**
     }
   }
 
-**/}).untab(2);
+`).untab(2);

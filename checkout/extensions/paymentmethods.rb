@@ -26,6 +26,37 @@ module Sinatra
       halt( 400, e.message )
     end
 
+    def charge_payment_method
+      custy = Customer[params[:customer]]
+      params[:email] = custy.email if params[:email].nil?
+      params[:metadata] ||= {}
+      description = "#{custy.name} purchased #{params[:description]}"
+      
+      # Create a PaymentIntent with the payment method
+      intent = Stripe::PaymentIntent.create({
+        amount: params[:amount],
+        currency: 'usd',
+        payment_method: params[:payment_method_id],
+        customer: custy.stripe_id,
+        description: description,
+        metadata: params[:metadata],
+        confirm: true,
+        return_url: "#{request.base_url}/checkout/complete"
+      })
+      
+      CustomerPayment.create(
+        customer: custy, 
+        stripe_id: intent.charges.data.first.id, 
+        amount: params[:amount], 
+        reason: params[:description], 
+        type: 'apple_pay'
+      ).to_json
+    rescue Stripe::CardError => e
+      halt(402, e.message)
+    rescue Exception => e
+      halt(400, e.message)
+    end
+
     def pay_cash
       custy = Customer[params[:customer]]
       CustomerPayment.create(:customer => custy, :stripe_id => nil, :amount => params[:amount], :reason => params[:description], :type => 'cash').to_json

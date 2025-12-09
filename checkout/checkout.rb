@@ -80,6 +80,7 @@ class Checkout < Sinatra::Base
 
   post('/charge_card')       { charge_card         }
   post('/charge_saved_card') { charge_saved_card   }
+  post('/charge_payment_method') { charge_payment_method }
   post('/pay_cash')          { pay_cash            }
 
   post('/swipe')             { card_swipe          }
