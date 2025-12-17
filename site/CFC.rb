@@ -30,7 +30,6 @@ class CFC < Sinatra::Base
   get( '/media')             { render_page :media    }
   get( '/faq')               { render_page :faq      }
   get( '/privacy')           { render_page :privacy  }
-  get( '/sms/opt-in')        { render_page :sms_opt_in }
 
   get( '/class/:id')         { render_page :class    } 
 
