@@ -43,6 +43,9 @@ end
 
 class TwilioRoutes < Sinatra::Base
 
+  register Sinatra::Auth
+  use JwtAuth
+
   configure do
     enable :cross_origin
   end
