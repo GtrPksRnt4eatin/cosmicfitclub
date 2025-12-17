@@ -1,12 +1,18 @@
 require 'twilio-ruby'
 
-def send_sms_to(msg,numbers)
+def send_sms_to(msg, numbers, include_optout = true)
   client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_AUTH_TOKEN'])
+  
+  # Append opt-out language if not already present (required for A2P compliance)
+  if include_optout && !msg.downcase.include?('stop')
+    msg += " Reply STOP to opt out."
+  end
+  
   numbers.each do |num|
     client.messages.create(
-      :from => '+13476700019',
-      :to   => num,
-      :body => msg
+      from: '+13476700019',
+      to: num,
+      body: msg
     )
   end
 rescue Exception => e
@@ -46,6 +52,101 @@ class TwilioRoutes < Sinatra::Base
     response.headers['Access-Control-Allow-Credentials'] = 'true'
   end
 
+  # SMS Opt-In/Out Management
+  
+  get '/status', :jwt_logged_in => true do
+    content_type :json
+    custy = customer
+    {
+      opted_in: custy.sms_opted_in?,
+      opt_in_date: custy.sms_opt_in_date,
+      phone: custy.phone
+    }.to_json
+  end
+  
+  post '/opt-in', :jwt_logged_in => true do
+    content_type :json
+    custy = customer
+    phone = params[:phone]
+    
+    halt(400, { error: 'Phone number required' }.to_json) unless phone
+    
+    custy.opt_in_to_sms(phone)
+    Slack.post("#{custy.name} (#{custy.email}) opted in to SMS notifications")
+    
+    {
+      success: true,
+      opted_in: true,
+      opt_in_date: custy.sms_opt_in_date
+    }.to_json
+  rescue => e
+    Slack.err("SMS Opt-In Error", e)
+    halt(500, { error: 'Failed to opt in' }.to_json)
+  end
+  
+  post '/opt-out', :jwt_logged_in => true do
+    content_type :json
+    custy = customer
+    
+    custy.opt_out_of_sms
+    Slack.post("#{custy.name} (#{custy.email}) opted out of SMS notifications")
+    
+    {
+      success: true,
+      opted_in: false
+    }.to_json
+  rescue => e
+    Slack.err("SMS Opt-Out Error", e)
+    halt(500, { error: 'Failed to opt out' }.to_json)
+  end
+  
+  # Handle incoming SMS messages (for STOP/START/HELP keywords)
+  post '/incoming_sms' do
+    content_type 'text/xml'
+    
+    from_number = params['From']
+    message_body = params['Body'].to_s.strip.upcase
+    
+    customer = Customer.find_by_phone(from_number)
+    
+    response = Twilio::TwiML::MessagingResponse.new
+    
+    if message_body =~ /^(STOP|UNSUBSCRIBE|CANCEL|END|QUIT)$/
+      if customer
+        customer.opt_out_of_sms
+        Slack.post("#{customer.name} opted out via SMS keyword")
+      end
+      # Twilio handles STOP automatically, but we can add custom response
+      
+    elsif message_body =~ /^(START|UNSTOP|SUBSCRIBE|YES)$/
+      if customer
+        customer.opt_in_to_sms(from_number)
+        response.message("You're subscribed to Cosmic Fit Club SMS! Reply STOP to unsubscribe.")
+        Slack.post("#{customer.name} opted in via SMS keyword")
+      else
+        response.message("Visit cosmicfitclub.com/sms/opt-in to subscribe to our notifications.")
+      end
+      
+    elsif message_body =~ /^HELP$/
+      response.message("Cosmic Fit Club SMS: Reply STOP to unsubscribe. For support, call (347) 670-0019 or email info@cosmicfitclub.com")
+      
+    else
+      # Forward unknown messages to Slack
+      custy_name = customer ? customer.name : "Unknown"
+      Slack.custom("SMS from #{custy_name}: #{message_body}", 'text_messages', "From: #{from_number}")
+      response.message("Thanks for your message! We'll get back to you soon. For immediate assistance, call (347) 670-0019.")
+    end
+    
+    response.to_s
+  rescue => e
+    Slack.err("Incoming SMS Error", e)
+    response = Twilio::TwiML::MessagingResponse.new
+    response.message("We're experiencing technical difficulties. Please call (347) 670-0019 for assistance.")
+    response.to_s
+  end
+
+  # Voice call routes
+  
   post '/incoming' do
     num = /\+(\d)(\d\d\d)(\d\d\d)(\d\d\d\d)/.match(params[:From])
     num = num ? num[1..4].join('-') : params[:From]

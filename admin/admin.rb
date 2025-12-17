@@ -55,6 +55,68 @@ class CFCAdmin < Sinatra::Base
   get( '/vidpromos',             :auth=> 'admin'      ) { render_page :vidpromos           }
   get( '/nfc_tags',              :auth=> 'admin'      ) { render_page :nfc_tags            }
   get( '/short_urls',            :auth=> 'admin'      ) { render_page :short_urls          }
+  get( '/sms',                   :auth=> 'admin'      ) { render_page :sms_admin           }
+
+  # SMS Admin Routes
+  get '/sms/subscribers', :auth=> 'admin' do
+    content_type :json
+    subscribers = Customer.sms_opted_in_list.map do |c|
+      {
+        id: c.id,
+        name: c.name,
+        email: c.email,
+        phone: c.phone,
+        opted_in: c.sms_opted_in?,
+        opt_in_date: c.sms_opt_in_date
+      }
+    end
+    {
+      subscribers: subscribers,
+      total_count: subscribers.count
+    }.to_json
+  end
+
+  post '/sms/send_test', :auth=> 'admin' do
+    content_type :json
+    custy = customer
+    custy.send_sms(params[:message])
+    { success: true }.to_json
+  rescue => e
+    Slack.err("SMS Send Test Error", e)
+    halt(500, { error: e.message }.to_json)
+  end
+
+  post '/sms/send_individual', :auth=> 'admin' do
+    content_type :json
+    custy = Customer[params[:customer_id]]
+    halt(404, { error: 'Customer not found' }.to_json) unless custy
+    
+    custy.send_sms(params[:message])
+    Slack.post("SMS sent to #{custy.name}: #{params[:message]}")
+    { success: true }.to_json
+  rescue => e
+    Slack.err("SMS Send Individual Error", e)
+    halt(500, { error: e.message }.to_json)
+  end
+
+  post '/sms/send_bulk', :auth=> 'admin' do
+    content_type :json
+    message = params[:message]
+    halt(400, { error: 'Message required' }.to_json) unless message
+    
+    sent_count = 0
+    Customer.sms_opted_in_list.each do |custy|
+      if custy.send_sms(message)
+        sent_count += 1
+      end
+    end
+    
+    Slack.post("Bulk SMS sent to #{sent_count} customers: #{message}")
+    { success: true, sent_count: sent_count }.to_json
+  rescue => e
+    Slack.err("SMS Bulk Send Error", e)
+    halt(500, { error: e.message }.to_json)
+  end
 
   get( '/payroll',               :auth=> 'payroll'    ) { render_page :payroll             }
   get( '/payrolls',              :auth=> 'payroll'    ) { render_page :payrolls            }

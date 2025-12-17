@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+html
+  head
+    == no_scaling
+    title SMS Subscribers - Admin
+    
+    ==css ['fonts', 'site', 'admin', 'header', 'menu_colors', 'tuples']
+    ==js  ['jquery', 'lib', 'menu', 'rivets', 'element', 'ev_channel', '/auth/elements/userview', 'sms_admin']
+
+  body
+    #stars
+    
+    == include_slim('slim/partials/header')
+    
+    .content
+      
+      .tile
+        .heading SMS Subscribers
+        
+        .stats
+          h3 Total Opted-In: { data.total_count }
+        
+        button rv-on-click='ctrl.refresh' Refresh List
+        button rv-on-click='ctrl.send_test' Send Test Message
+        
+        table.subscribers
+          thead
+            tr
+              th Name
+              th Email
+              th Phone
+              th Opted In Date
+              th Status
+              th Actions
+          tbody
+            tr rv-each-subscriber='data.subscribers'
+              td { subscriber.name }
+              td { subscriber.email }
+              td { subscriber.phone }
+              td { subscriber.opt_in_date | dateformat 'MMM D, YYYY' }
+              td 
+                span.status.active rv-if='subscriber.opted_in' Active
+                span.status.inactive rv-hide='subscriber.opted_in' Inactive
+              td
+                button.small rv-on-click='ctrl.send_individual' rv-data-id='subscriber.id' Send SMS
+      
+      .tile
+        .heading Send Bulk SMS
+        
+        .form-group
+          label Message
+          textarea rv-value='data.bulk_message' rows='4' placeholder='Type your message here...'
+        
+        .character-count { data.bulk_message.length } / 160 characters
+        
+        p Will send to { data.total_count } subscribers
+        
+        button.primary rv-on-click='ctrl.send_bulk' rv-disabled='!data.bulk_message' Send Bulk SMS
+    
+    == include_slim('slim/partials/footer')

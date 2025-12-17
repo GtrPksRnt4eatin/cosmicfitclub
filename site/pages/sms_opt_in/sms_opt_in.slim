@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+html
+  head
+    == no_scaling
+    title SMS Notifications - Cosmic Fit Club
+    
+    ==css ['fonts', 'site', 'header', 'menu_colors', 'sms_opt_in']
+    ==js  ['jquery', 'lib', 'menu', 'rivets', 'element', 'ev_channel', '/auth/elements/userview', 'sms_opt_in']
+
+  body
+    #stars
+    
+    == include_slim('slim/partials/header')
+    
+    .content
+      
+      .tile
+        .heading SMS Notifications
+        
+        div rv-if='data.opted_in'
+          .success-message
+            h3 ✓ You're subscribed to SMS notifications
+            p You opted in on { data.opt_in_date | dateformat 'MMM D, YYYY' }
+            p You will receive text messages about:
+            ul
+              li Class reminders and cancellations
+              li Special events and promotions
+              li Important studio updates
+            
+            button.opt-out-btn rv-on-click='ctrl.opt_out' Unsubscribe from SMS
+        
+        div rv-hide='data.opted_in'
+          .opt-in-form
+            h3 Stay Connected with Text Messages
+            
+            p.description
+              | Get timely updates about your classes, special events, and studio news sent directly to your phone.
+            
+            .form-group
+              label Phone Number
+              input type='tel' rv-value='data.phone' placeholder='(123) 456-7890' maxlength='14'
+            
+            .terms
+              h4 Terms & Conditions
+              p By opting in, you agree to receive SMS messages from Cosmic Fit Club.
+              
+              ul
+                li Message frequency varies
+                li Message and data rates may apply
+                li Reply STOP to opt out at any time
+                li Reply HELP for assistance
+                li See our 
+                  a href='/privacy' Privacy Policy
+              
+              label.checkbox
+                input type='checkbox' rv-checked='data.agreed_to_terms'
+                span I agree to receive SMS messages
+            
+            button.opt-in-btn rv-on-click='ctrl.opt_in' rv-disabled='!data.agreed_to_terms || !data.phone' 
+              | Subscribe to SMS Notifications
+            
+            .error-message rv-if='data.error' { data.error }
+      
+      .tile
+        .heading Manage Your Preferences
+        
+        p
+          | Want to change your notification preferences? Contact us at 
+          a href='mailto:info@cosmicfitclub.com' info@cosmicfitclub.com
+          |  or call (347) 670-0019.
+    
+    == include_slim('slim/partials/footer')
+    == analytics
