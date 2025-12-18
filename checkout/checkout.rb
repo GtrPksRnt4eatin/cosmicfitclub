@@ -40,7 +40,6 @@ class Checkout < Sinatra::Base
   get('/pack/:id')                               { render_page :pack              }
   get('/training/:id')                           { render_page :training          }
   get('/event/:id')                              { render_page :event             }
-  get('/event2/:id')                             { render_page :event2            }  
   get('/complete')                               { render_page :complete          }
   get('/misc')                                   { render_page :misc              }
   get('/front_desk')                             { render_page :front_desk        }

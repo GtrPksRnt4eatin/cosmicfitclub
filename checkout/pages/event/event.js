@@ -1,6 +1,5 @@
 /////////////////////////////////////// INITIALIZATION //////////////////////////////////////////////////
 
-var STRIPE_HANDLER;
 var daypilot;
 
 var data = {
@@ -42,7 +41,6 @@ $(document).ready( function() {
   view = initialize_rivets();
 
   get_event_data();
-  initialize_stripe();
 
   userview       = new UserView( id('userview_container') );
   popupmenu      = new PopupMenu( id('popupmenu_container') );
@@ -80,16 +78,6 @@ $(document).ready( function() {
   });
   
 });
-
-function initialize_stripe() {
-
-  STRIPE_HANDLER = StripeCheckout.configure({
-    locale:         'auto',
-    key:            STRIPE_PUBLIC_KEY,
-    token:          on_token_received
-  });
-
-}
 
 function initialize_rivets() {
 
@@ -287,9 +275,6 @@ var ctrl = {
     set_included_sessions(m.price.included_sessions);
     calculate_total();
   },
-  //checkout(e,m) {
-  //  checkout();
-  //},
   checkout_new(e,m) {
     checkout_new();
   },
@@ -391,21 +376,6 @@ function checkout_new() {
   });
 }
 
-//function checkout() {
-//
-//  calculate_total()
-//  
-//  if(data.total_price==0) { register(); return; }
-//
-//  STRIPE_HANDLER.open({
-//    name: 'Cosmic Fit Club',
-//    description: data.event_data.name + ( data.multiplier > 1 ? ' (x' + data.multiplier + ')' : "" ),
-//    image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
-//    amount: data.total_price
-//  });
-//
-//}
-
 function register() {
   if( data.mode == 'a_la_carte' ) {
     if(data.included_sessions==[]) { alert("Select the sessions which you will be attending!"); return; }
@@ -422,29 +392,6 @@ function register() {
    .fail( on_failed_charge     );
 
 }
-
-//function on_token_received(token) {
-//
-//  body = JSON.stringify({ 
-//    "type":  "event", 
-//    "event_id": data.event_data['id'], 
-//    "total_price": data.total_price,
-//    "included_sessions": data.included_sessions,
-//    "multiplier": data.multiplier,
-//    "metadata": {
-//      "event_id": data.event_data['id'], 
-//      "included_sessions": data.included_sessions.join(','),
-//      "selected_price": empty(data.selected_price) ? 0 : data.selected_price.id
-//    },
-//    "token": token,
-//    "selected_price": data.selected_price
-//  });
-//
-//  $.post( 'charge', body )
-//   .done( on_successful_charge )
-//   .fail( on_failed_charge     );
-//
-//}
 
 function on_successful_charge(e) { 
   window.location.href = '/checkout/complete'; 
