@@ -287,9 +287,9 @@ var ctrl = {
     set_included_sessions(m.price.included_sessions);
     calculate_total();
   },
-  checkout(e,m) {
-    checkout();
-  },
+  //checkout(e,m) {
+  //  checkout();
+  //},
   checkout_new(e,m) {
     checkout_new();
   },
@@ -368,6 +368,8 @@ function checkout_new() {
   if(!userview.logged_in) { userview.onboard(); return;  }
   calculate_total();
 
+  if(data.total_price==0) { register(); return; }
+
   let desc = data.event_data.name;
 
   pay_form.checkout(userview.id, data.total_price, desc ,null, function(payment_id) {
@@ -389,20 +391,20 @@ function checkout_new() {
   });
 }
 
-function checkout() {
-
-  calculate_total()
-  
-  if(data.total_price==0) { register(); return; }
-
-  STRIPE_HANDLER.open({
-    name: 'Cosmic Fit Club',
-    description: data.event_data.name + ( data.multiplier > 1 ? ' (x' + data.multiplier + ')' : "" ),
-    image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
-    amount: data.total_price
-  });
-
-}
+//function checkout() {
+//
+//  calculate_total()
+//  
+//  if(data.total_price==0) { register(); return; }
+//
+//  STRIPE_HANDLER.open({
+//    name: 'Cosmic Fit Club',
+//    description: data.event_data.name + ( data.multiplier > 1 ? ' (x' + data.multiplier + ')' : "" ),
+//    image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
+//    amount: data.total_price
+//  });
+//
+//}
 
 function register() {
   if( data.mode == 'a_la_carte' ) {
@@ -421,28 +423,28 @@ function register() {
 
 }
 
-function on_token_received(token) {
-
-  body = JSON.stringify({ 
-    "type":  "event", 
-    "event_id": data.event_data['id'], 
-    "total_price": data.total_price,
-    "included_sessions": data.included_sessions,
-    "multiplier": data.multiplier,
-    "metadata": {
-      "event_id": data.event_data['id'], 
-      "included_sessions": data.included_sessions.join(','),
-      "selected_price": empty(data.selected_price) ? 0 : data.selected_price.id
-    },
-    "token": token,
-    "selected_price": data.selected_price
-  });
-
-  $.post( 'charge', body )
-   .done( on_successful_charge )
-   .fail( on_failed_charge     );
-
-}
+//function on_token_received(token) {
+//
+//  body = JSON.stringify({ 
+//    "type":  "event", 
+//    "event_id": data.event_data['id'], 
+//    "total_price": data.total_price,
+//    "included_sessions": data.included_sessions,
+//    "multiplier": data.multiplier,
+//    "metadata": {
+//      "event_id": data.event_data['id'], 
+//      "included_sessions": data.included_sessions.join(','),
+//      "selected_price": empty(data.selected_price) ? 0 : data.selected_price.id
+//    },
+//    "token": token,
+//    "selected_price": data.selected_price
+//  });
+//
+//  $.post( 'charge', body )
+//   .done( on_successful_charge )
+//   .fail( on_failed_charge     );
+//
+//}
 
 function on_successful_charge(e) { 
   window.location.href = '/checkout/complete'; 
