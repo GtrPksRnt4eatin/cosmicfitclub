@@ -135,10 +135,6 @@ map "/twilio" do
   run TwilioRoutes
 end
 
-map "/sms" do
-  run TwilioRoutes
-end
-
 map "/models/schedule" do
   run ScheduleRoutes
 end
