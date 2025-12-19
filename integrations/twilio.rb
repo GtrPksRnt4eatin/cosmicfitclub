@@ -43,13 +43,8 @@ end
 
 class TwilioRoutes < Sinatra::Base
 
-  helpers  Sinatra::ViewHelpers
-  register Sinatra::PageFolders
-  register Sinatra::SharedResources
   register Sinatra::Auth
   use JwtAuth
-
-  set :root, File.expand_path('../../site', __FILE__)
 
   configure do
     enable :cross_origin
@@ -61,10 +56,6 @@ class TwilioRoutes < Sinatra::Base
   end
 
   # SMS Opt-In/Out Management
-  
-  get '/opt-in' do
-    render_page :sms_opt_in
-  end
   
   get '/status', :jwt_logged_in => true do
     content_type :json
