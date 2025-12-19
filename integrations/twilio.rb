@@ -49,7 +49,7 @@ class TwilioRoutes < Sinatra::Base
   register Sinatra::Auth
   use JwtAuth
 
-  set :root, File.join(File.dirname(__FILE__), '..', 'site')
+  set :root, File.expand_path('../../site', __FILE__)
 
   configure do
     enable :cross_origin
