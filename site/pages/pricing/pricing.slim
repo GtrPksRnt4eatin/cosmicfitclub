@@ -38,9 +38,9 @@ html
           - for pack in Package.where(:available=>true).reverse_order(:num_passes).order_prepend(:category).order_append(:presale).all
             tr
               th #{ pack[:name] }
-              td $ #{ pack[:pass_price].to_i * pack[:num_passes] / 100 }.00
+              td #{ "$%.2f" % (pack[:pass_price].to_f * pack[:num_passes].to_f / 100) }
               td
-                button data-type='pack' data-id='#{pack[:id]}' data-name='#{pack[:name]}' data-amount='#{pack[:pass_price] * pack[:num_passes]}' class='buy-button' Buy Now
+                button data-type='pack' data-id='#{pack[:id]}' data-name='#{pack[:name]}' data-amount='#{(pack[:pass_price] * pack[:num_passes]).to_i}' class='buy-button' Buy Now
         
       br
       br
