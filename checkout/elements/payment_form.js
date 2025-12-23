@@ -15,6 +15,8 @@ function PaymentForm() {
     custy_facing: false
   }
 
+  rivets.formatters.money   = function(val) { return "$ " + (val/100).toFixed(2) };
+
   this.bind_handlers(['init_stripe', 'checkout', 'pay_cash', 'charge_saved', 'clear_customer', 'failed_charge', 'charge_token', 'charge_swiped', 'on_cardswipe', 'start_listen_cardswipe','stop_listen_cardswipe', 'on_customer', 'on_card_change', 'show', 'show_err', 'on_card_token', 'charge_new', 'after_charge', 'init_apple_pay', 'on_payment_method']);
   this.build_dom();
   this.load_styles();
@@ -106,8 +108,6 @@ PaymentForm.prototype = {
     //this.start_listen_cardswipe(); 
   },
 
-  //////////////////////////// CARDSWIPE EVENT STREAM ///////////////////////////////
-  
   start_listen_cardswipe: function() {
     if(this.state.swipe_source) return;  
     this.state.swipe_source = new EventSource('/checkout/wait_for_swipe');
@@ -222,7 +222,7 @@ Object.assign( PaymentForm.prototype, ev_channel);
 PaymentForm.prototype.HTML = `
   <div class='PaymentForm form' rv-data-busy='state.busy'>
     <h2 class='nocusty'>Charging { state.customer.name } { state.price | money }</h2>
-    <h2 class='custy'>Pay { state.price | money } now.</h2>
+    <h2 class='custy'>Pay { state.price | money } now</h2>
     <h3 rv-if='state.reason'>{ state.reason }</h3>
     <img rv-if="state.busy" src='loading.svg'/>
     <table>
