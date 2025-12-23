@@ -34,11 +34,9 @@ data = {
     payment_form.ev_sub('show', popupmenu.show);
     payment_form.ev_sub('hide', popupmenu.hide);
 
-    reservations_list && reservations_list.ev_sub('buy_passes', function(data) {
+    reservations_list.ev_sub('buy_passes', function(data) {
       payment_form.checkout(userview.id, data.amount, data.name, { type: 'pack', id: data.pack_id }, 
-        function(payment_id) { 
-          completePurchase('pack', data.pack_id, payment_id);
-        }
+        function(payment_id) { completePurchase('pack', data.pack_id, payment_id); }
       );
     });
 
