@@ -48,28 +48,6 @@ button#request {
   cursor: pointer;
 }
 
-button.buy-button {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: inherit;
-  font-family: inherit;
-  font-size: 0.8em;
-  padding: 0.75em 1em;
-  margin: 0.5em;
-  border-radius: 0.5em;
-  cursor: pointer;
-  display: inline-block;
-  transition: background 0.2s;
-}
-
-button.buy-button:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-button.buy-button:active {
-  background: rgba(255,255,255,0.3);
-}
-
 table.upcoming {
   border-spacing: 0.5em;
   border-radius: 0.5em;

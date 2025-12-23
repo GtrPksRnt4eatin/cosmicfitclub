@@ -34,19 +34,10 @@ $(document).ready( function() {
   payment_form.ev_sub('show', popupmenu.show);
   payment_form.ev_sub('hide', popupmenu.hide);
 
-  $('.buy-button').on('click', function(e) {
-    e.preventDefault();
-    if (!userview.logged_in) { userview.onboard(); return; }
-    
-    const button = $(this);
-    const type = button.data('type');
-    const id = button.data('id');
-    const name = button.data('name');
-    const amount = button.data('amount');
-    
-    payment_form.checkout(userview.id, amount, name, { type: type, id: id }, 
+  reservations_list && reservations_list.ev_sub('buy_passes', function(data) {
+    payment_form.checkout(userview.id, data.amount, data.name, { type: 'pack', id: data.pack_id }, 
       function(payment_id) { 
-        completePurchase(type, id, payment_id);
+        completePurchase('pack', data.pack_id, payment_id);
       }
     );
   });

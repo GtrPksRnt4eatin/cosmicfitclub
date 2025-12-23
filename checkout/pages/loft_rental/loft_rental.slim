@@ -35,11 +35,4 @@ html
 
       reservations-list.tile rv-if='data.my_reservations.0' reservations='data.my_reservations' passes='data.class_passes'
 
-      .tile rv-if='data.class_passes < 1'
-        h3 Need More Passes?
-        p You have { data.class_passes } class pass(es). Purchase more to reserve your spot:
-        button.buy-button data-type='pack' data-id='21' data-name='1 Hr Pass' data-amount='1200' Buy 1 Hr Pass ($12)
-        button.buy-button data-type='pack' data-id='17' data-name='2 Hr Pass' data-amount='2400' Buy 2 Hr Pass ($24)
-        button.buy-button data-type='pack' data-id='25' data-name='20 Hr Package' data-amount='20000' Buy 20 Hr Package ($200)
-
     #popupmenu_container

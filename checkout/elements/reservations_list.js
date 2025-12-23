@@ -5,6 +5,7 @@ function ReservationsList(parent,attr) {
       return reservations ? reservations.reduce( (total, reservation) => total + reservation.passes, 0 ) : 0;
     }
     
+    this.bind_handlers(['cancel', 'buy_passes']);
     this.load_styles();
 }
 
@@ -14,6 +15,14 @@ ReservationsList.prototype = {
     if(!confirm("Are you sure you want to cancel?")) { return; }
     $.del(`/models/groups/${m.reservation.id}`)
     .done(function() { window.location.reload(); });
+  },
+  buy_passes: function(e,m) {
+    const button = e.target;
+    const pack_id = button.getAttribute('data-id');
+    const name = button.getAttribute('data-name');
+    const amount = parseInt(button.getAttribute('data-amount'));
+    
+    this.ev_fire('buy_passes', { pack_id: pack_id, name: name, amount: amount });
   }
 }
 
@@ -37,10 +46,10 @@ ReservationsList.prototype.HTML = `
       You currently have { passes } passes
       <div>
         <h2>Would you like to buy more?</h2>
-        <a href='/checkout/pack/21'>1 Hr Pass</a>
-        <a href='/checkout/pack/34'>90 Min Pass</a>
-        <a href='/checkout/pack/17'>2 Hr Pass</a>
-        <a href='/checkout/pack/25'>20 Hr Package</a>
+        <button class='buy-button' data-id='21' data-name='1 Hr Pass' data-amount='1200' rv-on-click='buy_passes'>1 Hr Pass</button>
+        <button class='buy-button' data-id='34' data-name='90 Min Pass' data-amount='1800' rv-on-click='buy_passes'>90 Min Pass</button>
+        <button class='buy-button' data-id='17' data-name='2 Hr Pass' data-amount='2400' rv-on-click='buy_passes'>2 Hr Pass</button>
+        <button class='buy-button' data-id='25' data-name='20 Hr Package' data-amount='20000' rv-on-click='buy_passes'>20 Hr Package</button>
       </div>
     </div>
   </div>
@@ -69,16 +78,27 @@ ReservationsList.prototype.CSS = `
     cursor: pointer;
   }
 
-  reservations-list .buy_passes a {
+  reservations-list .buy_passes button.buy-button {
     font-size: 0.8em;
     box-shadow: 0 0 0.5em white inset, 0 0 0.5em rgb(50, 50, 50);
     padding: 0.5em 0.75em;
     border-radius: 0.75em;
     cursor: pointer;
     display: inline-block;
-    text-decoration: none;
     margin: 0.25em;
     line-height: 1.5em;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+  }
+
+  reservations-list .buy_passes button.buy-button:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  reservations-list .buy_passes button.buy-button:active {
+    background: rgba(255,255,255,0.2);
   }
 `.untab(2);
 
