@@ -5,8 +5,14 @@ html
     == no_scaling
     title Cosmic Fit Club
 
+    script src='https://js.stripe.com/v3/'
+    javascript:
+      var STRIPE_PUBLIC_KEY = '#{ ENV['STRIPE_PUBLIC'] }';
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+
     ==css ['fonts', 'site', 'slick', 'slick-theme', 'header', 'footer', 'training']
-    ==js  ['jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'training']
+    ==js  ['jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', '/admin/elements/popup_menu', '/checkout/elements/payment_form', 'menu', 'training']
 
   body.p4
     #stars
@@ -26,10 +32,10 @@ html
             | You can pay as you go or get a discount by purchasing a bulk package. 
             br
             | The Passes from the package never expire and are transferrable. 
-          a href='/checkout/pack/21' 1 Hr Pass
-          a href='/checkout/pack/34' 90 Min Pass
-          a href='/checkout/pack/17' 2 Hr Pass
-          a href='/checkout/pack/25' 20 Hr Package
+          button.buy-button data-type='pack' data-id='21' data-name='1 Hr Pass' data-amount='1200' 1 Hr Pass
+          button.buy-button data-type='pack' data-id='34' data-name='90 Min Pass' data-amount='1800' 90 Min Pass
+          button.buy-button data-type='pack' data-id='17' data-name='2 Hr Pass' data-amount='2400' 2 Hr Pass
+          button.buy-button data-type='pack' data-id='25' data-name='20 Hr Package' data-amount='20000' 20 Hr Package
           br
           br
           br
@@ -56,9 +62,9 @@ html
             | You can pay as you go or get a discount by purchasing a bulk package here. 
             br
             | The Passes from the package never expire and are transferrable. 
-          a href='/checkout/pack/21' 1 Hr Pass
-          a href='/checkout/pack/17' Day Pass
-          a href='/checkout/pack/25' 20 Hr / 10 Day Package
+          button.buy-button data-type='pack' data-id='21' data-name='1 Hr Pass' data-amount='1200' 1 Hr Pass
+          button.buy-button data-type='pack' data-id='17' data-name='Day Pass' data-amount='2400' Day Pass
+          button.buy-button data-type='pack' data-id='25' data-name='20 Hr / 10 Day Package' data-amount='20000' 20 Hr / 10 Day Package
 
           br
           div 
@@ -97,6 +103,8 @@ html
             | To inquire about availability or book a slot, Send an email to 
           a href='mailto:donut@cosmicfitclub.com' donut@cosmicfitclub.com 
           
+    #popupmenu_container
+
     == include_slim('slim/partials/footer')
 
     == analytics
