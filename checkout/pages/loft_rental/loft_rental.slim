@@ -5,9 +5,15 @@ html
   head
     == no_scaling
 
+    script src='https://js.stripe.com/v3/'
+    javascript:
+      var STRIPE_PUBLIC_KEY = '#{ ENV['STRIPE_PUBLIC'] }';
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+
     == css ['fonts', 'site', 'header', 'menu_colors', 'flatpickr', 'selectize-ems', 'tuples', 'edit_page', 'daypilot_cosmic_theme', 'loft_rental']
     == js  ['jquery', 'lib', 'menu', 'element', 'ev_channel', 'rivets', 'moment', 'flatpickr', 'selectize.min', 'rv_dates', 'moment', 'daypilot-all.min' ]
-    == js  ['/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector']
+    == js  ['/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector', '/checkout/elements/payment_form']
     == js  ['/checkout/elements/loft_calendar', '/checkout/elements/reservations_list', 'checkout/elements/group_timeslot', 'loft_rental']
 
   body
@@ -28,5 +34,12 @@ html
       group-timeslot.tile rv-show='data.rental.start_time' reservation='data.rental'
 
       reservations-list.tile rv-if='data.my_reservations.0' reservations='data.my_reservations' passes='data.class_passes'
+
+      .tile rv-if='data.class_passes < 1'
+        h3 Need More Passes?
+        p You have { data.class_passes } class pass(es). Purchase more to reserve your spot:
+        button.buy-button data-type='pack' data-id='21' data-name='1 Hr Pass' data-amount='1200' Buy 1 Hr Pass ($12)
+        button.buy-button data-type='pack' data-id='17' data-name='2 Hr Pass' data-amount='2400' Buy 2 Hr Pass ($24)
+        button.buy-button data-type='pack' data-id='25' data-name='20 Hr Package' data-amount='20000' Buy 20 Hr Package ($200)
 
     #popupmenu_container
