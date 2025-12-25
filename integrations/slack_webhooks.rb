@@ -92,9 +92,11 @@ end
 
 def slackbot_assign_nfc_tag(nfc_tag)
   customer_list = Customer.all.map { |c| [c.id, c.to_list_string] }
+  puts "DEBUG: customer_list has #{customer_list.length} customers"
+  message_payload = slackbot_static_select("Assign NFC to", customer_list, "assign_nfc_tag_#{nfc_tag}")
+  puts "DEBUG: message_payload = #{message_payload.to_json}"
   client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
-  client.chat_postMessage(slackbot_static_select("Assign NFC to", customer_list, "assign_nfc_tag_#{nfc_tag}"))
-  status 204
+  client.chat_postMessage(message_payload)
 end
 
 class SlackBot < Sinatra::Base
