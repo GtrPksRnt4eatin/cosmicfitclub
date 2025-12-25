@@ -91,12 +91,34 @@ def slackbot_static_select(title, opts, action_id)
 end
 
 def slackbot_assign_nfc_tag(nfc_tag)
-  customer_list = Customer.all.map { |c| [c.id, c.to_list_string] }
-  puts "DEBUG: customer_list has #{customer_list.length} customers"
-  message_payload = slackbot_static_select("Assign NFC to", customer_list, "assign_nfc_tag_#{nfc_tag}")
-  puts "DEBUG: message_payload = #{message_payload.to_json}"
   client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
-  client.chat_postMessage(message_payload)
+  client.chat_postMessage(
+    channel: "promotional_materials",
+    text: "Assign NFC Tag #{nfc_tag}",
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "Assign NFC Tag `#{nfc_tag}` to a customer:"
+        }
+      },
+      {
+        type: "actions",
+        elements: [
+          {
+            type: "external_select",
+            placeholder: {
+              type: "plain_text",
+              text: "Search for a customer"
+            },
+            action_id: "assign_nfc_tag_#{nfc_tag}",
+            min_query_length: 0
+          }
+        ]
+      }
+    ]
+  )
 end
 
 class SlackBot < Sinatra::Base
@@ -116,12 +138,42 @@ class SlackBot < Sinatra::Base
     when "event_promo"
       event = Event[data["actions"][0]["selected_option"]["value"]] or halt(404, "event not found");
       PostEventPromo.perform_async(event)
-    when /assign_nfc_tag_(.+)}/
+    when /assign_nfc_tag_(.+)/
       nfc_tag_value = $1
       nfc_tag = NfcTag[ :value => nfc_tag_value ] or halt(404, "NFC Tag not found")
       customer = Customer[data["actions"][0]["selected_option"]["value"]] or halt(404, "customer not found")
       nfc_tag.update( customer_id: customer.id )
     end
+  end
+
+  post '/options' do
+    data = JSON.parse params[:payload]
+    action_id = data["action_id"]
+    query = data["value"] || ""
+    
+    # Handle NFC tag assignment customer search
+    if action_id =~ /assign_nfc_tag_(.+)/
+      customers = if query.empty?
+        Customer.limit(100).all
+      else
+        Customer.where(Sequel.ilike(:fname, "%#{query}%") | Sequel.ilike(:lname, "%#{query}%")).limit(100).all
+      end
+      
+      options = customers.map { |c|
+        {
+          text: {
+            type: "plain_text",
+            text: c.to_list_string.slice(0, 75)
+          },
+          value: c.id.to_s
+        }
+      }
+      
+      content_type :json
+      return { options: options }.to_json
+    end
+    
+    halt 404, "Unknown action"
   end
 
   post '/weeklySchedule' do
