@@ -187,7 +187,7 @@ class SlackBot < Sinatra::Base
       customers = if query.empty?
         Customer.limit(100).all
       else
-        Customer.where(Sequel.ilike(:fname, "%#{query}%") | Sequel.ilike(:lname, "%#{query}%")).limit(100).all
+        Customer.where(Sequel.ilike(:name, "%#{query}%")).limit(100).all
       end
       
       options = customers.map { |c|
