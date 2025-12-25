@@ -90,6 +90,13 @@ def slackbot_static_select(title, opts, action_id)
   }
 end
 
+def slackbot_assign_nfc_tag(nfc_tag)
+  customer_list = Customer.all.map { |c| [c.id, c.to_list_string] }
+  client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
+  client.chat_postMessage(slackbot_static_select("Assign NFC to", customer_list, "assign_nfc_tag_#{nfc_tag}}"))
+  status 204
+end
+
 class SlackBot < Sinatra::Base
 
   post '/interactivity' do
@@ -107,6 +114,11 @@ class SlackBot < Sinatra::Base
     when "event_promo"
       event = Event[data["actions"][0]["selected_option"]["value"]] or halt(404, "event not found");
       PostEventPromo.perform_async(event)
+    when /assign_nfc_tag_(.+)}/
+      nfc_tag_value = $1
+      nfc_tag = NfcTag[ :value => nfc_tag_value ] or halt(404, "NFC Tag not found")
+      customer = Customer[data["actions"][0]["selected_option"]["value"]] or halt(404, "customer not found")
+      nfc_tag.update( customer_id: customer.id )
     end
   end
 
