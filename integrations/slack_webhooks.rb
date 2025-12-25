@@ -93,7 +93,7 @@ end
 def slackbot_assign_nfc_tag(nfc_tag)
   customer_list = Customer.all.map { |c| [c.id, c.to_list_string] }
   client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
-  client.chat_postMessage(slackbot_static_select("Assign NFC to", customer_list, "assign_nfc_tag_#{nfc_tag}}"))
+  client.chat_postMessage(slackbot_static_select("Assign NFC to", customer_list, "assign_nfc_tag_#{nfc_tag}"))
   status 204
 end
 
