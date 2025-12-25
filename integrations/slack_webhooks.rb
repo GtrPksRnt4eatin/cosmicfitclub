@@ -148,9 +148,27 @@ class SlackBot < Sinatra::Base
         if NfcTag[ :value => nfc_tag_value ] then halt(409, "NFC Tag already assigned") end
         customer = Customer[data["actions"][0]["selected_option"]["value"]] or halt(404, "customer not found")
         NfcTag.create(value: nfc_tag_value, customer_id: customer.id)
+        
+        # Update the message to show confirmation instead of select box
+        client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
+        client.chat_update(
+          channel: data["container"]["channel_id"],
+          ts: data["container"]["message_ts"],
+          text: "✓ NFC Tag #{nfc_tag_value} assigned to #{customer.to_list_string}",
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: "✓ NFC Tag `#{nfc_tag_value}` assigned to *#{customer.to_list_string}*"
+              }
+            }
+          ]
+        )
+        
         Slack.website_access "NFC Tag #{nfc_tag_value} assigned to #{customer.to_list_string}"
         puts "DEBUG /interactivity: Successfully assigned"
-        status 204
+        status 200
       end
     rescue => e
       puts "ERROR /interactivity: #{e.class}: #{e.message}"
