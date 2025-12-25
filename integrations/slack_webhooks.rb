@@ -147,33 +147,52 @@ class SlackBot < Sinatra::Base
   end
 
   post '/options' do
-    data = JSON.parse params[:payload]
-    action_id = data["action_id"]
-    query = data["value"] || ""
-    
-    # Handle NFC tag assignment customer search
-    if action_id =~ /assign_nfc_tag_(.+)/
-      customers = if query.empty?
-        Customer.limit(100).all
-      else
-        Customer.where(Sequel.ilike(:fname, "%#{query}%") | Sequel.ilike(:lname, "%#{query}%")).limit(100).all
+    begin
+      puts "DEBUG /options: Received request"
+      puts "DEBUG /options: params = #{params.inspect}"
+      
+      data = JSON.parse params[:payload]
+      puts "DEBUG /options: data = #{data.inspect}"
+      
+      action_id = data["action_id"]
+      query = data["value"] || ""
+      
+      puts "DEBUG /options: action_id = #{action_id}, query = #{query}"
+      
+      # Handle NFC tag assignment customer search
+      if action_id =~ /assign_nfc_tag_(.+)/
+        customers = if query.empty?
+          Customer.limit(100).all
+        else
+          Customer.where(Sequel.ilike(:fname, "%#{query}%") | Sequel.ilike(:lname, "%#{query}%")).limit(100).all
+        end
+        
+        puts "DEBUG /options: Found #{customers.length} customers"
+        
+        options = customers.map { |c|
+          {
+            text: {
+              type: "plain_text",
+              text: c.to_list_string.slice(0, 75)
+            },
+            value: c.id.to_s
+          }
+        }
+        
+        response = { options: options }
+        puts "DEBUG /options: Returning #{options.length} options"
+        
+        content_type :json
+        return response.to_json
       end
       
-      options = customers.map { |c|
-        {
-          text: {
-            type: "plain_text",
-            text: c.to_list_string.slice(0, 75)
-          },
-          value: c.id.to_s
-        }
-      }
-      
-      content_type :json
-      return { options: options }.to_json
+      puts "DEBUG /options: No matching action_id"
+      halt 404, "Unknown action"
+    rescue => e
+      puts "ERROR /options: #{e.class}: #{e.message}"
+      puts e.backtrace.join("\n")
+      halt 500, "Internal error"
     end
-    
-    halt 404, "Unknown action"
   end
 
   post '/weeklySchedule' do
