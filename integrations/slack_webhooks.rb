@@ -93,7 +93,7 @@ end
 def slackbot_assign_nfc_tag(nfc_tag)
   client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
   client.chat_postMessage(
-    channel: "promotional_materials",
+    channel: "website_access",
     text: "Assign NFC Tag #{nfc_tag}",
     blocks: [
       {
@@ -124,75 +124,69 @@ end
 class SlackBot < Sinatra::Base
 
   post '/interactivity' do
-    data = JSON.parse params[:payload]
-    case data["actions"][0]["action_id"]
-    when "teacher_promo"
-      staff = Staff[data["actions"][0]["selected_option"]["value"]] or halt(404, "staff not found");
-      PostStaffPromo.perform_async(staff)
-    when "class_promo"
-      classdef = ClassDef[data["actions"][0]["selected_option"]["value"]] or halt(404, "class not found");
-      PostClassPromo.perform_async(classdef)
-    when "timeslot_promo"
-      timeslot = ClassdefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
-      PostTimeslotPromo.perform_async(timeslot)
-    when "event_promo"
-      event = Event[data["actions"][0]["selected_option"]["value"]] or halt(404, "event not found");
-      PostEventPromo.perform_async(event)
-    when /assign_nfc_tag_(.+)/
-      nfc_tag_value = $1
-      nfc_tag = NfcTag[ :value => nfc_tag_value ] or halt(404, "NFC Tag not found")
-      customer = Customer[data["actions"][0]["selected_option"]["value"]] or halt(404, "customer not found")
-      nfc_tag.update( customer_id: customer.id )
+    begin
+      puts "DEBUG /interactivity: Received request"
+      data = JSON.parse params[:payload]
+      puts "DEBUG /interactivity: action_id = #{data["actions"][0]["action_id"]}"
+      
+      case data["actions"][0]["action_id"]
+      when "teacher_promo"
+        staff = Staff[data["actions"][0]["selected_option"]["value"]] or halt(404, "staff not found");
+        PostStaffPromo.perform_async(staff)
+      when "class_promo"
+        classdef = ClassDef[data["actions"][0]["selected_option"]["value"]] or halt(404, "class not found");
+        PostClassPromo.perform_async(classdef)
+      when "timeslot_promo"
+        timeslot = ClassdefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
+        PostTimeslotPromo.perform_async(timeslot)
+      when "event_promo"
+        event = Event[data["actions"][0]["selected_option"]["value"]] or halt(404, "event not found");
+        PostEventPromo.perform_async(event)
+      when /assign_nfc_tag_(.+)/
+        nfc_tag_value = $1
+        puts "DEBUG /interactivity: Assigning NFC tag #{nfc_tag_value}"
+        nfc_tag = NfcTag[ :value => nfc_tag_value ] or halt(404, "NFC Tag not found")
+        customer = Customer[data["actions"][0]["selected_option"]["value"]] or halt(404, "customer not found")
+        nfc_tag.update( customer_id: customer.id )
+        Slack.website_access "NFC Tag #{nfc_tag_value} assigned to #{customer.to_list_string}"
+        puts "DEBUG /interactivity: Successfully assigned"
+        status 200
+      end
+    rescue => e
+      puts "ERROR /interactivity: #{e.class}: #{e.message}"
+      puts e.backtrace.join("\n")
+      halt 500, "Internal error"
     end
   end
 
   post '/options' do
-    begin
-      puts "DEBUG /options: Received request"
-      puts "DEBUG /options: params = #{params.inspect}"
-      
-      data = JSON.parse params[:payload]
-      puts "DEBUG /options: data = #{data.inspect}"
-      
-      action_id = data["action_id"]
-      query = data["value"] || ""
-      
-      puts "DEBUG /options: action_id = #{action_id}, query = #{query}"
-      
-      # Handle NFC tag assignment customer search
-      if action_id =~ /assign_nfc_tag_(.+)/
-        customers = if query.empty?
-          Customer.limit(100).all
-        else
-          Customer.where(Sequel.ilike(:fname, "%#{query}%") | Sequel.ilike(:lname, "%#{query}%")).limit(100).all
-        end
-        
-        puts "DEBUG /options: Found #{customers.length} customers"
-        
-        options = customers.map { |c|
-          {
-            text: {
-              type: "plain_text",
-              text: c.to_list_string.slice(0, 75)
-            },
-            value: c.id.to_s
-          }
-        }
-        
-        response = { options: options }
-        puts "DEBUG /options: Returning #{options.length} options"
-        
-        content_type :json
-        return response.to_json
+    data = JSON.parse params[:payload]
+    action_id = data["action_id"]
+    query = data["value"] || ""
+    
+    # Handle NFC tag assignment customer search
+    if action_id =~ /assign_nfc_tag_(.+)/
+      customers = if query.empty?
+        Customer.limit(100).all
+      else
+        Customer.where(Sequel.ilike(:fname, "%#{query}%") | Sequel.ilike(:lname, "%#{query}%")).limit(100).all
       end
       
-      puts "DEBUG /options: No matching action_id"
-      halt 404, "Unknown action"
-    rescue => e
-      puts "ERROR /options: #{e.class}: #{e.message}"
-      puts e.backtrace.join("\n")
-      halt 500, "Internal error"
+      options = customers.map { |c|
+        {
+          text: {
+            type: "plain_text",
+            text: c.to_list_string.slice(0, 75)
+          },
+          value: c.id.to_s
+        }
+      }
+      
+      content_type :json
+      return { options: options }.to_json
     end
+    
+    halt 404, "Unknown action"
   end
 
   post '/weeklySchedule' do
