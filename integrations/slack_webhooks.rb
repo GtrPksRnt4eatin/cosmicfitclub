@@ -145,12 +145,12 @@ class SlackBot < Sinatra::Base
       when /assign_nfc_tag_(.+)/
         nfc_tag_value = $1
         puts "DEBUG /interactivity: Assigning NFC tag #{nfc_tag_value}"
-        nfc_tag = NfcTag[ :value => nfc_tag_value ] or halt(404, "NFC Tag not found")
+        if NfcTag[ :value => nfc_tag_value ] then halt(409, "NFC Tag already assigned") end
         customer = Customer[data["actions"][0]["selected_option"]["value"]] or halt(404, "customer not found")
-        nfc_tag.update( customer_id: customer.id )
+        NfcTag.create(value: nfc_tag_value, customer_id: customer.id)
         Slack.website_access "NFC Tag #{nfc_tag_value} assigned to #{customer.to_list_string}"
         puts "DEBUG /interactivity: Successfully assigned"
-        status 200
+        status 204
       end
     rescue => e
       puts "ERROR /interactivity: #{e.class}: #{e.message}"
@@ -160,51 +160,33 @@ class SlackBot < Sinatra::Base
   end
 
   post '/options' do
-    begin
-      puts "DEBUG /options: Received request"
-      data = JSON.parse params[:payload]
-      action_id = data["action_id"]
-      query = data["value"] || ""
-      
-      puts "DEBUG /options: action_id = #{action_id}, query = #{query}"
-      
-      # Handle NFC tag assignment customer search
-      if action_id =~ /assign_nfc_tag_(.+)/
-        customers = if query.empty?
-          Customer.limit(100).all
-        else
-          Customer.where(Sequel.ilike(:fname, "%#{query}%") | Sequel.ilike(:lname, "%#{query}%")).limit(100).all
-        end
-        
-        puts "DEBUG /options: Found #{customers.length} customers"
-        
-        options = customers.map { |c|
-          {
-            text: {
-              type: "plain_text",
-              text: c.to_list_string.to_s.slice(0, 75)
-            },
-            value: c.id.to_s
-          }
-        }
-        
-        response = { options: options }
-        puts "DEBUG /options: Returning #{options.length} options"
-        puts "DEBUG /options: First option = #{options.first.inspect}"
-        
-        content_type :json
-        json_response = response.to_json
-        puts "DEBUG /options: Response length = #{json_response.length} bytes"
-        return json_response
+    data = JSON.parse params[:payload]
+    action_id = data["action_id"]
+    query = data["value"] || ""
+    
+    # Handle NFC tag assignment customer search
+    if action_id =~ /assign_nfc_tag_(.+)/
+      customers = if query.empty?
+        Customer.limit(100).all
+      else
+        Customer.where(Sequel.ilike(:fname, "%#{query}%") | Sequel.ilike(:lname, "%#{query}%")).limit(100).all
       end
       
-      puts "DEBUG /options: No matching action_id"
-      halt 404, "Unknown action"
-    rescue => e
-      puts "ERROR /options: #{e.class}: #{e.message}"
-      puts e.backtrace.join("\n")
-      halt 500, "Internal error"
+      options = customers.map { |c|
+        {
+          text: {
+            type: "plain_text",
+            text: c.to_list_string.slice(0, 75)
+          },
+          value: c.id.to_s
+        }
+      }
+      
+      content_type :json
+      return { options: options }.to_json
     end
+    
+    halt 404, "Unknown action"
   end
 
   post '/weeklySchedule' do
