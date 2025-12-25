@@ -16,7 +16,7 @@ class NfcTagRoutes < Sinatra::Base
 
   post '/validate' do
     tag = NfcTag[ :value => params[:value] ] 
-    tag or ( slackbot_assign_nfc_tag(tag); halt 401 ) #Slack.website_access "Tag Scanned: #{params[:value]}"; halt 401 )
+    tag or ( slackbot_assign_nfc_tag(params[:value]); halt 401 ) #Slack.website_access "Tag Scanned: #{params[:value]}"; halt 401 )
     Slack.website_access "#{Time.now.strftime("%m/%d/%Y %I:%M:%S %p")} Door Tagged By #{tag.customer.name}"
     status 204
   end
