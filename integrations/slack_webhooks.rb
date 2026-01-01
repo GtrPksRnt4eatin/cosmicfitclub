@@ -124,57 +124,37 @@ end
 class SlackBot < Sinatra::Base
 
   post '/interactivity' do
-    begin
-      puts "DEBUG /interactivity: Received request"
-      data = JSON.parse params[:payload]
-      puts "DEBUG /interactivity: action_id = #{data["actions"][0]["action_id"]}"
-      
-      case data["actions"][0]["action_id"]
-      when "teacher_promo"
-        staff = Staff[data["actions"][0]["selected_option"]["value"]] or halt(404, "staff not found");
-        PostStaffPromo.perform_async(staff)
-      when "class_promo"
-        classdef = ClassDef[data["actions"][0]["selected_option"]["value"]] or halt(404, "class not found");
-        PostClassPromo.perform_async(classdef)
-      when "timeslot_promo"
-        timeslot = ClassdefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
-        PostTimeslotPromo.perform_async(timeslot)
-      when "event_promo"
-        event = Event[data["actions"][0]["selected_option"]["value"]] or halt(404, "event not found");
-        PostEventPromo.perform_async(event)
-      when /assign_nfc_tag_(.+)/
-        nfc_tag_value = $1
-        puts "DEBUG /interactivity: Assigning NFC tag #{nfc_tag_value}"
-        if NfcTag[ :value => nfc_tag_value ] then halt(409, "NFC Tag already assigned") end
-        customer = Customer[data["actions"][0]["selected_option"]["value"]] or halt(404, "customer not found")
-        NfcTag.create(value: nfc_tag_value, customer_id: customer.id)
+    data = JSON.parse params[:payload]
+    
+    case data["actions"][0]["action_id"]
+    when "teacher_promo"
+      staff = Staff[data["actions"][0]["selected_option"]["value"]] or halt(404, "staff not found");
+      PostStaffPromo.perform_async(staff)
+    when "class_promo"
+      classdef = ClassDef[data["actions"][0]["selected_option"]["value"]] or halt(404, "class not found");
+      PostClassPromo.perform_async(classdef)
+    when "timeslot_promo"
+      timeslot = ClassdefSchedule[data["actions"][0]["selected_option"]["value"]] or halt(404, "timeslot not found");
+      PostTimeslotPromo.perform_async(timeslot)
+    when "event_promo"
+      event = Event[data["actions"][0]["selected_option"]["value"]] or halt(404, "event not found");
+      PostEventPromo.perform_async(event)
+    when /assign_nfc_tag_(.+)/
+      nfc_tag_value = $1
+      if NfcTag[ :value => nfc_tag_value ] then halt(409, "NFC Tag already assigned") end
+      customer = Customer[data["actions"][0]["selected_option"]["value"]] or halt(404, "customer not found")
+      NfcTag.create(value: nfc_tag_value, customer_id: customer.id)
         
-        # Update the message to show confirmation instead of select box
-        client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
-        client.chat_update(
-          channel: data["container"]["channel_id"],
-          ts: data["container"]["message_ts"],
-          text: "✓ NFC Tag #{nfc_tag_value} assigned to #{customer.to_list_string}",
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: "✓ NFC Tag `#{nfc_tag_value}` assigned to *#{customer.to_list_string}*"
-              }
-            }
-          ]
-        )
-        
-        Slack.website_access "NFC Tag #{nfc_tag_value} assigned to #{customer.to_list_string}"
-        puts "DEBUG /interactivity: Successfully assigned"
-        status 200
-      end
-    rescue => e
-      puts "ERROR /interactivity: #{e.class}: #{e.message}"
-      puts e.backtrace.join("\n")
-      halt 500, "Internal error"
+      # Update the message to show confirmation instead of select box
+      client = Slack::Web::Client.new({:ca_file=>ENV["SSL_CERT_FILE"]})
+      client.chat_update(
+        channel: data["container"]["channel_id"],
+        ts: data["container"]["message_ts"],
+        text: "✓ NFC Tag #{nfc_tag_value} assigned to #{customer.to_list_string}",
+        blocks: [ { type: "section", text: { type: "mrkdwn", text: "✓ NFC Tag `#{nfc_tag_value}` assigned to *#{customer.to_list_string}*" }} ]        
+      )
     end
+    status 204
   end
 
   post '/options' do
@@ -184,23 +164,9 @@ class SlackBot < Sinatra::Base
     
     # Handle NFC tag assignment customer search
     if action_id =~ /assign_nfc_tag_(.+)/
-      customers = if query.empty?
-        Customer.limit(100).all
-      else
-        Customer.where(Sequel.ilike(:name, "%#{query}%")).limit(100).all
-      end
-      
-      options = customers.map { |c|
-        {
-          text: {
-            type: "plain_text",
-            text: c.to_list_string.slice(0, 75)
-          },
-          value: c.id.to_s
-        }
-      }
-      
       content_type :json
+      customers = query.empty? ? Customer.limit(100).all : Customer.where(Sequel.ilike(:name, "%#{query}%")).limit(100).all 
+      options = customers.map { |c| { text: { type: "plain_text", text: c.to_list_string.slice(0, 75) }, value: c.id.to_s } }
       return { options: options }.to_json
     end
     

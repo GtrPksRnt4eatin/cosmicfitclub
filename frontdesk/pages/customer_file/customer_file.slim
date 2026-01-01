@@ -188,7 +188,7 @@ html
                         select#packages rv-idselect='data.package_id'
                           option value='0' data-price='0' None
                           - Package.where(:available_at_desk => true).all.each do |pack|
-                            option value='#{ pack.id }' data-price='#{ pack.price }' data-name='#{ pack.name }'
+                            option value='#{ pack.id }' data-price='#{ pack.price.to_i }' data-name='#{ pack.name }'
                               | #{ pack.formatted_price } #{ pack.name }
                       td
                         button#buy_pack rv-on-click='ctrl.buy_package'
