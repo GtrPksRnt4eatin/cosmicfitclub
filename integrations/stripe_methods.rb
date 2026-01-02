@@ -206,7 +206,7 @@ module StripeMethods
   end
 
   def StripeMethods::get_transactions(from, to)
-    transactions = [["Time", "Type", "Description", "Amount", "Fee", "Net", "ID", "Source", "Payment Type"]]
+    transactions = []
     Stripe::BalanceTransaction.list({
       created: { gte: Time.parse(from).to_i, lt: Time.parse(to).to_i },
       limit: 100
@@ -224,7 +224,7 @@ module StripeMethods
         payment && payment.class_reservation_id ? 'class_payment' : nil
       ]
     end
-    transactions
+    transactions = [["Time", "Type", "Description", "Amount", "Fee", "Net", "ID", "Source", "Payment Type"]] + transactions.sort_by { |row| [row[1], Time.parse(row[0])] }
   end
 
   ##########################################################################
