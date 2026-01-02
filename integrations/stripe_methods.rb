@@ -218,7 +218,7 @@ module StripeMethods
         payment_type = payment && payment.tickets.count > 0 ? 'event_ticket' : payment_type
       end
 
-      if(x.type=="transfer" && x.source)
+      if(x.type=="transfer" && !!x.source)
         transfer = Stripe::Transfer.retrieve( :stripe_id => x.source )
         x.description = transfer.description
       end
