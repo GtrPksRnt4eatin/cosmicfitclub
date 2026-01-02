@@ -206,11 +206,12 @@ module StripeMethods
   end
 
   def StripeMethods::get_transactions(from, to)
-    transactions = [["Time", "Type", "Description", "Amount", "Fee", "Net", "ID"]]
+    transactions = [["Time", "Type", "Description", "Amount", "Fee", "Net", "ID", "Source", "Payment Type"]]
     Stripe::BalanceTransaction.list({
       created: { gte: Time.parse(from).to_i, lt: Time.parse(to).to_i },
       limit: 100
     }).auto_paging_each do |x|
+      payment = CustomerPayment.find( :stripe_id => x.source ) unless x.source.nil?
       transactions << [
         Time.at(x.created).to_s,
         x.type.to_s,
@@ -218,7 +219,9 @@ module StripeMethods
         (x.amount / 100.0),
         (x.fee / 100.0),
         (x.net / 100.0),
-        x.id.to_s
+        x.id.to_s,
+        x.source.to_s,
+        payment && payment.class_reservation_id ? 'class_payment' : nil
       ]
     end
     transactions
