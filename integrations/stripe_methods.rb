@@ -210,7 +210,17 @@ module StripeMethods
     Stripe::BalanceTransaction.list({
       created: { gte: Time.parse(from).to_i, lt: Time.parse(to).to_i },
       limit: 100
-    }).auto_paging_each { |x| transactions << [Time.at(x.created).to_s, x.type, x.description, (x.amount/100.0), (x.fee/100.0), (x.net/100.0), x.id] }
+    }).auto_paging_each do |x|
+      transactions << [
+        Time.at(x.created).to_s,
+        x.type.to_s,
+        x.description.to_s,
+        (x.amount / 100.0),
+        (x.fee / 100.0),
+        (x.net / 100.0),
+        x.id.to_s
+      ]
+    end
     transactions
   end
 

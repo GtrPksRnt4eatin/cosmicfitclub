@@ -197,8 +197,16 @@ module Sheets
     sheets.batch_update_spreadsheet(sheet_id, batch_req)
 
     arr = StripeMethods::get_transactions(start_date, end_date)
+    puts "DEBUG: Transactions array has #{arr.length} rows"
+    puts "DEBUG: First row: #{arr.first.inspect}"
     values = Google::Apis::SheetsV4::ValueRange.new(values: arr)
-    sheets.update_spreadsheet_value(sheet_id, "Profit and Loss!A1", values, value_input_option: 'USER_ENTERED')
+    begin
+      sheets.update_spreadsheet_value(sheet_id, "Profit and Loss!A1", values, value_input_option: 'USER_ENTERED')
+    rescue => e
+      puts "ERROR updating spreadsheet: #{e.class}: #{e.message}"
+      puts e.backtrace.first(5).join("\n")
+      raise
+    end
     return file.web_view_link || file.webViewLink
   end
 end
