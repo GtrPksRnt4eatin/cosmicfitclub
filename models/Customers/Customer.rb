@@ -268,9 +268,8 @@ class Customer < Sequel::Model
     pack = Package[pack_id]               or raise "Can't find Pack"
     payment = CustomerPayment[payment_id] or raise "Can't find Payment"
     payment.customer_id == self.id        or raise "Payment doesn't match Customer"
-    #payment.amount == pack.price          or raise "Payment doesn't match amount"
-    self.add_passes( pack.num_passes, "Bought #{pack.name}", "" ) 
-    #self.send_pack_email(pack)
+    transaction = self.add_passes( pack.num_passes, "Bought #{pack.name}", "" )
+    transaction.update(payment: payment)
   end
 
   def send_pack_email(pack)
