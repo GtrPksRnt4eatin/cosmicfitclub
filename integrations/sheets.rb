@@ -193,9 +193,11 @@ module Sheets
     (1..12).each do |month|
       start = Date.new(year, month, 1)
       finish = start.next_month.prev_day
-      Sheets::add_sheet(sheets, file.id, start.strftime("%b")) unless month == 1
-      values = StripeMethods::get_transactions(start.to_s, finish.to_s)  
-      Sheets::fill_sheet(sheets, file.id, start.strftime("%b"), values)
+      sheet_name = start.strftime("%b")
+      
+      Sheets::add_sheet(sheets, file.id, sheet_name) unless month == 1
+      values = StripeMethods::get_transactions(start.to_s, finish.to_s)
+      Sheets::fill_sheet(sheets, file.id, sheet_name, values)
     end
 
     return file.web_view_link || file.webViewLink
