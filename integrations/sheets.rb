@@ -174,7 +174,7 @@ module Sheets
   def Sheets::create_PNL_sheet(start_date, end_date)
     title = "PNL #{start_date} to #{end_date}"
     sheets, drive = Sheets::get_service2
-    folder_id = "1xFj5h7TuijiksYvmvu2rqjgtOqaHnyeJ"
+    folder_id = "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n"
 
     metadata = {
       name: title,
@@ -201,7 +201,10 @@ module Sheets
     puts "DEBUG: First row: #{arr.first.inspect}"
     values = Google::Apis::SheetsV4::ValueRange.new(values: arr)
     begin
-      sheets.update_spreadsheet_value(sheet_id, "Profit and Loss!A1", values, value_input_option: 'USER_ENTERED')
+      # Use the sheet title that was set in batch_update_spreadsheet
+      range = "#{title}!A1"
+      puts "DEBUG: Writing to range: #{range}"
+      sheets.update_spreadsheet_value(sheet_id, range, values, value_input_option: 'USER_ENTERED')
     rescue => e
       puts "ERROR updating spreadsheet: #{e.class}: #{e.message}"
       puts e.backtrace.first(5).join("\n")
