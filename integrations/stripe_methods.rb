@@ -212,7 +212,9 @@ module StripeMethods
       limit: 100
     }).auto_paging_each do |x|
       payment_type = nil
-      if(x.type=="charge" && x.source)
+      alt_description = nil
+
+      if(x.type=="charge" && !!x.source)
         payment = CustomerPayment.find( :stripe_id => x.source)
         payment_type = payment && payment.class_reservation_id ? 'class_payment' : payment_type
         payment_type = payment && payment.tickets.count > 0 ? 'event_ticket' : payment_type
@@ -220,14 +222,13 @@ module StripeMethods
 
       if(x.type=="transfer" && !!x.source)
         transfer = Stripe::Transfer.retrieve( x.source )
-        x.description = transfer.description
+        alt_description = transfer.description
       end
       
-
       transactions << [
         Time.at(x.created).to_s,
         x.type.to_s,
-        x.description.to_s,
+        alt_description || x.description.to_s,
         (x.amount / 100.0),
         (x.fee / 100.0),
         (x.net / 100.0),
