@@ -205,6 +205,15 @@ module StripeMethods
     return { :gross => trans.try(:amount), :fees =>  trans.try(:fee), :refunds => refunds, :net => refunds + trans.try(:net),   }
   end
 
+  def StripeMethods::get_transactions(from, to)
+    transactions = [[Time, Type, Description, Amount, Fee, Net, ID]]
+    Stripe::BalanceTransaction.list({
+      created: { gte: Time.parse(from).to_i, lt: Time.parse(to).to_i },
+      limit: 100
+    }).auto_paging_each { |x| transactions << [Time.at(x.created).to_s, x.type, x.description, (x.amount/100.0), (x.fee/100.0), (x.net/100.0), x.id,  ] << transactions }
+    transactions
+  end
+
   ##########################################################################
 
   def StripeMethods::generateToken; @token = rand(36**8).to_s(36) end

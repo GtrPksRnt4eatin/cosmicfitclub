@@ -170,5 +170,35 @@ module Sheets
     
   #  return sheet.human_url
   #end
+  
+  def Sheets::create_PNL_sheet(start_date, end_date)
+    title = "PNL #{start_date} to #{end_date}"
+    sheets, drive = Sheets::get_service2
+    folder_id = "1xFj5h7TuijiksYvmvu2rqjgtOqaHnyeJ"
 
+    metadata = {
+      name: title,
+      mime_type: 'application/vnd.google-apps.spreadsheet',
+      parents: [folder_id]
+    }
+
+    file = drive.create_file( metadata, fields: 'id, webViewLink, web_view_link' )
+    sheet_id = file.id
+
+    batch_req = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new(
+      requests: [
+        {
+          update_sheet_properties: { properties: { sheet_id: 0, title: title },
+            fields: "title"
+          },
+        }
+      ]
+    )
+    sheets.batch_update_spreadsheet(sheet_id, batch_req)
+
+    arr = StripeMethods::get_transactions(start_date, end_date)
+    values = Google::Apis::SheetsV4::ValueRange.new(values: arr)
+    sheets.update_spreadsheet_value(sheet_id, "Profit and Loss!A1", values, value_input_option: 'USER_ENTERED')
+    return file.web_view_link || file.webViewLink
+  end
 end
