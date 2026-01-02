@@ -207,8 +207,8 @@ module StripeMethods
 
   def StripeMethods::get_transactions(from, to)
     transactions = []
-    Stripe::BalanceTransaction.list({
-      created: { gte: Time.parse(from).to_i, lt: Time.parse(to).to_i },
+    Stripe::BalanceTransaction.list({ 
+      created: { gte: Time.parse(from).to_i, lt: Time.parse(to).to_i }, 
       limit: 100
     }).auto_paging_each do |x|
       payment_type = nil
@@ -222,7 +222,7 @@ module StripeMethods
 
       if(x.type=="transfer" && !!x.source)
         transfer = Stripe::Transfer.retrieve( x.source )
-        alt_description = transfer.description
+        alt_description = transfer && transfer.description
       end
       
       transactions << [
@@ -237,7 +237,26 @@ module StripeMethods
         payment_type
       ]
     end
-    transactions = [["Time", "Type", "Description", "Amount", "Fee", "Net", "ID", "Source", "Payment Type"]] + transactions.sort_by { |row| [row[1], Time.parse(row[0])] }
+
+    groups = transactions.group_by { |row| row[1] }
+    result = [["Time", "Type", "Description", "Amount", "Fee", "Net", "ID", "Source", "Payment Type"]]
+    result << []
+    result << groups['charge'].sort_by { |row| Time.parse(row[0]) } if groups['charge']
+    result << []
+    result << groups['refund'].sort_by { |row| Time.parse(row[0]) } if groups['refund']
+    result << []
+    result << groups['adjustment'].sort_by { |row| Time.parse(row[0]) } if groups['adjustment']
+    result << []
+    result << groups['stripe_fee'].sort_by { |row| Time.parse(row[0]) } if groups['stripe_fee']
+    result << []
+    result << groups['payment'].sort_by { |row| Time.parse(row[0]) } if groups['payment']
+    result << []
+    result << groups['payout'].sort_by { |row| Time.parse(row[0]) } if groups['payout']
+    result << []
+    result << groups['transfer'].sort_by { |row| Time.parse(row[0]) } if groups['transfer']
+    result << []
+    result << groups['reserve_transaction'].sort_by { |row| Time.parse(row[0]) } if groups['reserve_transaction']
+    result
   end
 
   ##########################################################################
