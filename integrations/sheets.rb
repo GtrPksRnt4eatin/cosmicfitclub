@@ -197,17 +197,13 @@ module Sheets
     sheets.batch_update_spreadsheet(sheet_id, batch_req)
 
     arr = StripeMethods::get_transactions(start_date, end_date)
-    puts "DEBUG: Transactions array has #{arr.length} rows"
-    puts "DEBUG: First row: #{arr.first.inspect}"
     values = Google::Apis::SheetsV4::ValueRange.new(values: arr)
     begin
       # Use the sheet title that was set in batch_update_spreadsheet
       range = "#{title}!A1"
-      puts "DEBUG: Writing to range: #{range}"
       sheets.update_spreadsheet_value(sheet_id, range, values, value_input_option: 'USER_ENTERED')
     rescue => e
-      puts "ERROR updating spreadsheet: #{e.class}: #{e.message}"
-      puts e.backtrace.first(5).join("\n")
+      Slack.err("ERROR updating spreadsheet", e)
       raise
     end
     return file.web_view_link || file.webViewLink
