@@ -208,7 +208,7 @@ module StripeMethods
   def StripeMethods::get_transactions(from, to)
     transactions = []
     Stripe::BalanceTransaction.list({ 
-      created: { gte: Time.parse(from).to_i, lt: Time.parse(to).to_i }, 
+      created: { gte: Time.parse(from).to_i, lte: Time.parse(to).to_i }, 
       limit: 100
     }).auto_paging_each do |x|
       payment_type = nil

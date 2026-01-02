@@ -111,23 +111,6 @@ module Sheets
 
     return file.web_view_link || file.webViewLink
   end
-
-#    folder = svc.file_by_id("1gEYA96NDJcToN_bJQ0_OpluI-ISYHyVg")
-#    sheet = folder.file_by_title(title)
-#    sheet ||= folder.create_spreadsheet(title)
-#
-#    wksht = sheet.worksheets[0]
-#    wksht.update_cells(1,1,evt.accounting_arr)
-#    wksht.title = "Accounting"
-#    wksht.save
-#
-#    wksht2 = sheet.add_worksheet("Attendance") if sheet.worksheets.count == 1 
-#    wksht2 = sheet.worksheets[1]           unless sheet.worksheets.count == 1 
-#    wksht2.update_cells(1,1,evt.attendance_arr)
-#    wksht2.save
-#
-#    return sheet.human_url
-#  end
   
   def Sheets::create_payroll_sheet(from,to)
     title = "#{from} to #{to}"
@@ -158,54 +141,64 @@ module Sheets
     sheets.update_spreadsheet_value(sheet_id, "Payroll!A1", values, value_input_option: 'USER_ENTERED')
     return file.web_view_link || file.webViewLink
   end
-
-  #  folder = svc.folder_by_id("1xFj5h7TuijiksYvmvu2rqjgtOqaHnyeJ")
-  #  sheet = folder.file_by_name(title)
-  #  sheet ||= folder.create_spreadsheet(title)
-    
-  #  wksht = sheet.worksheets[0]
-  #  wksht.update_cells(1,1,Staff::payroll_csv(from,to).to_a)
-  #  wksht.title = "Payroll"
-  #  wksht.save
-    
-  #  return sheet.human_url
-  #end
   
-  def Sheets::create_PNL_sheet(start_date, end_date)
-    title = "PNL #{start_date} to #{end_date}"
-    sheets, drive = Sheets::get_service2
-    folder_id = "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n"
-
+  def Sheets::create_sheet(drive, title, folder_id)
     metadata = {
       name: title,
       mime_type: 'application/vnd.google-apps.spreadsheet',
       parents: [folder_id]
     }
-
     file = drive.create_file( metadata, fields: 'id, webViewLink, web_view_link' )
-    sheet_id = file.id
+    return file
+  end
 
+  def Sheets::add_sheet(sheets, sheet_id, sheet_name)
     batch_req = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new(
       requests: [
         {
-          update_sheet_properties: { properties: { sheet_id: 0, title: title },
+          add_sheet: { properties: { title: sheet_name }
+        } }
+      ]
+    )
+    sheets.batch_update_spreadsheet(sheet_id, batch_req)
+  end
+
+  def Sheets::rename_sheet(sheets, sheet_id, index, new_title)
+    batch_req = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new(
+      requests: [
+        {
+          update_sheet_properties: {
+            properties: { sheet_id: index, title: new_title },
             fields: "title"
           },
         }
       ]
     )
     sheets.batch_update_spreadsheet(sheet_id, batch_req)
+  end
 
-    arr = StripeMethods::get_transactions(start_date, end_date)
+  def Sheets::fill_sheet(sheets, sheet_id, sheet_name, arr)
     values = Google::Apis::SheetsV4::ValueRange.new(values: arr)
-    begin
-      # Use the sheet title that was set in batch_update_spreadsheet
-      range = "#{title}!A1"
-      sheets.update_spreadsheet_value(sheet_id, range, values, value_input_option: 'USER_ENTERED')
-    rescue => e
-      Slack.err("ERROR updating spreadsheet", e)
-      raise
+    range = "#{sheet_name}!A1"
+    sheets.update_spreadsheet_value(sheet_id, range, values, value_input_option: 'USER_ENTERED')
+  end
+
+  def Sheets::create_PNL_sheet(year)
+    sheets, drive = Sheets::get_service2
+
+    title = "#{year} Stripe Transactions"
+    file = Sheets::create_sheet(drive, title, "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n")
+    Sheets::rename_sheet(sheets, file.id, 0, "Jan")
+    
+    (1..12).each do |month|
+      start = Date.new(year, month, 1)
+      finish = start.next_month.prev_day
+      Sheets::add_sheet(sheets, file.id, start.strftime("%b")) unless month == 1
+      values = StripeMethods::get_transactions(start.to_s, finish.to_s)  
+      Sheets::fill_sheet(sheets, file.id, start.strftime("%b"), values)
     end
+
     return file.web_view_link || file.webViewLink
   end
+
 end
