@@ -206,7 +206,7 @@ module StripeMethods
   end
 
   def StripeMethods::get_transactions(from, to)
-    transactions = [[Time, Type, Description, Amount, Fee, Net, ID]]
+    transactions = [["Time", "Type", "Description", "Amount", "Fee", "Net", "ID"]]
     Stripe::BalanceTransaction.list({
       created: { gte: Time.parse(from).to_i, lt: Time.parse(to).to_i },
       limit: 100
