@@ -220,8 +220,8 @@ module StripeMethods
 
       if(x.type=="transfer" && x.source)
         transfer = Stripe::Transfer.retrieve( :stripe_id => x.source )
-        x.description = transfer && transfer.description
-      end)
+        x.description = transfer.description
+      end
       
 
       transactions << [
