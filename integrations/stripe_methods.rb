@@ -222,7 +222,7 @@ module StripeMethods
 
       if(x.type=="transfer" && !!x.source)
         transfer = Stripe::Transfer.retrieve( x.source )
-        alt_description = transfer && transfer.description
+        alt_description = transfer && ( transfer.description || "" ) 
         account = Stripe::Account.retrieve( transfer.destination )
         alt_description += " to #{account.business_profile.name}" if account
       end
