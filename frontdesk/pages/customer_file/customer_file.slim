@@ -223,7 +223,7 @@ html
                 th.header
                   | Transaction History
               tbody#trans_hist
-                tr rv-each-trans='data.customer.wallet.pass_transactions'
+                tr rv-title='trans.id' rv-each-trans='data.customer.wallet.pass_transactions'
                   td
                     | { trans.timestamp | eventstart }
                   td 
