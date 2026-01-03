@@ -224,8 +224,8 @@ module StripeMethods
         transfer = Stripe::Transfer.retrieve( x.source )
         alt_description = transfer && ( transfer.description || "" ) 
         account = Stripe::Account.retrieve( transfer.destination )
-        name = account.business_profile.name if account.business_profile
-        name ||= account.individual.first_name + " " + account.individual.last_name if account && account.individual
+        name = account['business_profile']['name'] if account['business_profile']
+        (name ||= account['individual']['first_name'] + " " + account['individual']['last_name']) if account && account['individual']
         alt_description += " to #{name}"
       end
 
