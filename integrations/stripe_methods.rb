@@ -238,18 +238,18 @@ module StripeMethods
       transactions << [
         Time.at(x.created).to_s,
         x.type.to_s,
+        payment_type,
         alt_description || x.description.to_s,
         (x.amount / 100.0),
         (x.fee / 100.0),
         (x.net / 100.0),
         x.id.to_s,
-        x.source.to_s,
-        payment_type
+        x.source.to_s
       ]
     end
 
     groups = transactions.group_by { |row| row[1] }
-    result = [["Time", "Type", "Description", "Amount", "Fee", "Net", "ID", "Source", "Payment Type"]]
+    result = [["Time", "Type", "Payment Type", "Description", "Amount", "Fee", "Net", "ID", "Source"]]
     result << []
     result.concat(groups['charge'].sort_by { |row| Time.parse(row[0]) }) if groups['charge']
     result << []
