@@ -223,6 +223,14 @@ module StripeMethods
       if(x.type=="transfer" && !!x.source)
         transfer = Stripe::Transfer.retrieve( x.source )
         alt_description = transfer && transfer.description
+        account = Stripe::Account.retrieve( transfer.destination )
+        alt_description += " to #{account.business_profile.name}" if account
+      end
+
+      if(x.type=="payout" && !!x.source)
+        payout = Stripe::Payout.retrieve( x.source )
+        alt_description = payout && payout.statement_descriptor
+        alt_description += " to Cosmic Fit Club"
       end
       
       transactions << [
@@ -252,7 +260,6 @@ module StripeMethods
     result.concat(groups['payment'].sort_by { |row| Time.parse(row[0]) }) if groups['payment']
     result << []
     result.concat(groups['payout'].sort_by { |row| Time.parse(row[0]) }) if groups['payout']
-    result << []
     result.concat(groups['transfer'].sort_by { |row| Time.parse(row[0]) }) if groups['transfer']
     result << []
     result.concat(groups['reserve_transaction'].sort_by { |row| Time.parse(row[0]) }) if groups['reserve_transaction']
