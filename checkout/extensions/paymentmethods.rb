@@ -9,7 +9,7 @@ module Sinatra
       params[:metadata] ||= {}
       description = "#{custy.name} purchased #{params[:description]}"  
       charge = StripeMethods::charge_card(params[:token], params[:amount], params[:email], description, params[:metadata])
-      CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => params[:amount], :reason => params[:description], :type => 'new card').to_json
+      CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => params[:amount], :reason => params[:description], :type => 'new card', :tag => params[:tag] || 'general').to_json
     rescue Exception => e
       halt( 400, e.message )
     end
@@ -21,7 +21,7 @@ module Sinatra
       description = "#{custy.name} purchased #{params[:description]}"
       charge = StripeMethods::charge_saved(custy.stripe_id, params[:card], params[:amount], description, params[:metadata])
       ( status 402; return charge.message ) if charge.is_a? Stripe::CardError
-      CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => params[:amount], :reason => params[:description], :type => 'saved card').to_json
+      CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => params[:amount], :reason => params[:description], :type => 'saved card', :tag => params[:tag] || 'general').to_json
     rescue Exception => e
       halt( 400, e.message )
     end
@@ -49,7 +49,8 @@ module Sinatra
         stripe_id: intent.latest_charge, 
         amount: params[:amount], 
         reason: params[:description], 
-        type: 'apple_pay'
+        type: 'apple_pay',
+        tag: params[:tag] || 'general'
       ).to_json
     rescue Stripe::CardError => e
       halt(402, e.message)
@@ -59,7 +60,7 @@ module Sinatra
 
     def pay_cash
       custy = Customer[params[:customer]]
-      CustomerPayment.create(:customer => custy, :stripe_id => nil, :amount => params[:amount], :reason => params[:description], :type => 'cash').to_json
+      CustomerPayment.create(:customer => custy, :stripe_id => nil, :amount => params[:amount], :reason => params[:description], :type => 'cash', :tag => params[:tag] || 'general').to_json
     end
 
     def card_swipe

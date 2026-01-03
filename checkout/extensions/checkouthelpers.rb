@@ -33,7 +33,7 @@ module Sinatra
     def buy_pack_intent
       custy = customer or halt 403
       intent = StripeMethods.retreive_intent(params[:intent_id])
-      payment = CustomerPayment.create(:customer => custy, :stripe_id => intent.id, :amount => intent.amount, :reason => intent.description, :type => 'intent')
+      payment = CustomerPayment.create(:customer => custy, :stripe_id => intent.id, :amount => intent.amount, :reason => intent.description, :type => 'intent', :tag => 'package')
       custy.buy_pack_precharged(params[:pack_id], payment.id)
       Slack.website_purchases("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a #{Package[params[:pack_id]].name} with a PaymentIntent.")
       { status: 'complete' }.to_json
@@ -42,7 +42,7 @@ module Sinatra
     def donate_intent
       custy = customer or halt 403
       intent = StripeMethods.retreive_intent(params[:intent_id])
-      payment = CustomerPayment.create(:customer => custy, :stripe_id => intent.id, :amount => intent.amount, :reason => intent.description, :type => 'intent')
+      payment = CustomerPayment.create(:customer => custy, :stripe_id => intent.id, :amount => intent.amount, :reason => intent.description, :type => 'intent', :tag => 'class')
       occurrence = ClassOccurrence.get(params[:classdef_id], params[:staff_id], params[:starttime], params[:location_id]) or halt(404) 
       reservation = occurrence.make_reservation( custy.id ) or halt 400
       payment.update( :class_reservation_id => reservation.id )
@@ -76,7 +76,7 @@ module Sinatra
 
       charge = StripeMethods::charge_card(data['token']['id'], data['total_price'], data['token']['email'], description, data['metadata']);
 
-      payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card')
+      payment = CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => data['total_price'], :reason => description, :type => 'new card', :tag => 'event')
       
       data['multiplier'].to_i.times do 
         EventTicket.create( 

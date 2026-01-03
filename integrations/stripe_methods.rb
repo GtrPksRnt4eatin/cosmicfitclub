@@ -216,8 +216,11 @@ module StripeMethods
 
       if(x.type=="charge" && !!x.source)
         payment = CustomerPayment.find( :stripe_id => x.source)
-        payment_type = payment && payment.class_reservation_id ? 'class_payment' : payment_type
-        payment_type = payment && payment.tickets.count > 0 ? 'event_ticket' : payment_type
+        if(payment)
+          payment_type = payment.tag
+          payment_type ||= payment.class_reservation_id && 'class_payment'
+          payment_type ||= payment.tickets.count > 0 && 'event_ticket'
+        end
       end
 
       if(x.type=="transfer" && !!x.source)
