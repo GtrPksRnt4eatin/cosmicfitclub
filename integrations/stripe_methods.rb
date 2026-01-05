@@ -216,10 +216,21 @@ module StripeMethods
 
       if(x.type=="charge" && !!x.source)
         payment = CustomerPayment.find( :stripe_id => x.source)
+        
         if(payment)
-          payment_type = payment.tag     if payment.tag
-          payment_type = 'class_payment' if payment.class_reservation_id
-          payment_type = 'event_ticket'  if payment.tickets.count > 0
+          if payment.tickets.count > 0
+            payment_type = 'event_ticket'
+          elsif payment.class_reservation_id
+            payment_type = 'class_payment'
+          elsif payment.tag && !payment.tag.empty?
+            payment_type = payment.tag
+          elsif payment.description =~ /donation/i
+            payment_type = 'donation'
+          elsif payment.description =~ /hour/i
+            payment_type = 'package'
+          else
+            payment_type = ''
+          end
         end
       end
 
