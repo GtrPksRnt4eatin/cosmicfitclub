@@ -224,9 +224,9 @@ module StripeMethods
             payment_type = 'class_payment'
           elsif payment.tag && !payment.tag.empty?
             payment_type = payment.tag
-          elsif payment.description =~ /donation/i
+          elsif x.description =~ /donation/i
             payment_type = 'donation'
-          elsif payment.description =~ /hour/i
+          elsif x.description =~ /hour/i
             payment_type = 'package'
           else
             payment_type = ''
