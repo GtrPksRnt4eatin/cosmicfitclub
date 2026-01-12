@@ -101,15 +101,17 @@ class Customer < Sequel::Model
 
     other = Customer[customer_id] or return false
 
-    self.reservations.each      { |res| res.customer = other; res.save }
-    self.payments.each          { |pay| pay.customer = other; pay.save }
-    self.tickets.each           { |tic| tic.customer = other; tic.save }
-    self.event_checkins.each    { |chk| chk.customer = other; chk.save }
-    self.comp_tickets.each      { |tik| tik.customer = other; tik.save }
-    self.waivers.each           { |wav| wav.customer = other; wav.save }
-    self.event_passes.each      { |pas| pas.customer = other; pas.save }
-    self.gift_certificates.each { |crt| crt.customer = other; crt.save }
-    self.subscriptions.each     { |sub| sub.customer = other; sub.save }
+    self.reservations.each            { |res| res.customer = other; res.save }
+    self.payments.each                { |pay| pay.customer = other; pay.save }
+    self.tickets.each                 { |tic| tic.customer = other; tic.save }
+    self.event_checkins.each          { |chk| chk.customer = other; chk.save }
+    self.comp_tickets.each            { |tik| tik.customer = other; tik.save }
+    self.waivers.each                 { |wav| wav.customer = other; wav.save }
+    self.event_passes.each            { |pas| pas.customer = other; pas.save }
+    self.gift_certificates.each       { |crt| crt.customer = other; crt.save }
+    self.subscriptions.each           { |sub| sub.customer = other; sub.save }
+    self.group_reservations.each      { |grr| grr.customer = other; grr.save }
+    self.group_reservation_slots.each { |grs| grs.customer = other; grs.save }
     
     other.update( :stripe_id => self.stripe_id ) unless other.stripe_id
 
@@ -128,18 +130,20 @@ class Customer < Sequel::Model
 
   def linked_objects
     objects = []
-    objects << "Customer Has Subscription" if self.subscriptions.count > 0
-    objects << "Customer Has Passes"       if self.passes.count > 0
-    objects << "Customer Has Event Tics"   if self.tickets.count > 0
-    objects << "Customer Has Trainings"    if self.training_passes.count > 0
-    objects << "Customer Has A Wallet"     if self.wallet != nil
-    objects << "Customer Has Reservations" if self.reservations.count > 0
-    objects << "Customer Has Comps"        if self.comp_tickets.count > 0
-    objects << "Customer Has Payments"     if self.payments.count > 0
-    objects << "Customer Has Checkins"     if self.event_checkins.count > 0
-    objects << "Customer Has Event Passes" if self.event_passes.count > 0
-    objects << "Customer Has Waivers"      if self.waivers.count > 0
-    opjects << "Customer Has Gift Certs"   if self.gift_certificates.count > 0
+    objects << "Customer Has Subscription"       if self.subscriptions.count > 0
+    objects << "Customer Has Passes"             if self.passes.count > 0
+    objects << "Customer Has Event Tics"         if self.tickets.count > 0
+    objects << "Customer Has Trainings"          if self.training_passes.count > 0
+    objects << "Customer Has A Wallet"           if self.wallet != nil
+    objects << "Customer Has Reservations"       if self.reservations.count > 0
+    objects << "Customer Has Comps"              if self.comp_tickets.count > 0
+    objects << "Customer Has Payments"           if self.payments.count > 0
+    objects << "Customer Has Checkins"           if self.event_checkins.count > 0
+    objects << "Customer Has Event Passes"       if self.event_passes.count > 0
+    objects << "Customer Has Waivers"            if self.waivers.count > 0
+    objects << "Customer Has Gift Certs"         if self.gift_certificates.count > 0
+    objects << "Customer Has Group Reservations" if self.group_reservations.count > 0
+    objects << "Customer Has Group Slots"        if self.group_reservation_slots.count > 0
     objects
   end
 
