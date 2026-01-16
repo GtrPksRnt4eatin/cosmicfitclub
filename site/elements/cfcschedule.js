@@ -87,6 +87,8 @@ Schedule.prototype = {
     this.prev_day = this.prev_day.bind(this);
     this.next_day = this.next_day.bind(this);
     this.get_occurrences = this.get_occurrences.bind(this);
+    this.details = this.details.bind(this);
+    this.event_register = this.event_register.bind(this);
   },
 
   prev_day() { this.state.current_date.subtract(7, 'days'); this.set_formatted_date(); this.get_occurrences(); },
@@ -119,6 +121,10 @@ Schedule.prototype = {
     }
   },
 
+  details(e,m) {
+    window.location = '/classes/details/' + m.occ.classdef.id;
+  },
+
   event_register(e,m) {
     window.location = '/checkout/event/' + m.occ.event_id;
   }
@@ -148,7 +154,7 @@ Schedule.prototype.HTML = `
 
         <div class='classitem' rv-if="occ | show_classitem" rv-data-cancelled='occ | class_cancelled' >
           <img rv-src='occ.thumb_url'/>
-          <div class='classinfo'>
+          <div class='classinfo' rv-on-click='this.details'>
             <span class='classtime'>
               <span class='start'> { occ.starttime | unmilitary } </span> - 
               <span class='end'>   { occ.endtime | unmilitary } </span>
