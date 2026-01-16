@@ -122,7 +122,7 @@ Schedule.prototype = {
   },
 
   details(e,m) {
-    window.location = '/classes/details/' + m.occ.classdef.id;
+    window.location = '/class/' + m.occ.classdef.id;
   },
 
   event_register(e,m) {
