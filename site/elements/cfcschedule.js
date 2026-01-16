@@ -310,6 +310,7 @@ Schedule.prototype.CSS = `
     flex-direction: column;
     margin-left: 2em;
     text-align: left;
+    cursor: pointer;
   }
 
   #Schedule .eventtitle {
