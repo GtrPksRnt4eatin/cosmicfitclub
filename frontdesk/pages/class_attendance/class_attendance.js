@@ -82,6 +82,9 @@ ctrl = {
       });
   },
 
+  set_30m_price(e,m) {
+    reservation_form.set_price(600,0.5);
+  },
   set_1x_price(e,m) {
     reservation_form.set_price(1200,1);
   },
