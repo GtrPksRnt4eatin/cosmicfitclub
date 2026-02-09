@@ -296,6 +296,10 @@
     margin: 2vw;
   }
 
+  #gcal_events table td {
+    font-size: 2vw;
+  }
+
 }
 
 

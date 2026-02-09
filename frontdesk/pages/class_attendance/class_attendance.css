@@ -247,4 +247,8 @@ td.checkin:hover {
     font-size: 3vw;
   }
 
+  #gcal_events table td {
+    font-size: 2vw;
+  }
+
 }
