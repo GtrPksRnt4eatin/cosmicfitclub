@@ -39,9 +39,7 @@ class Door < Sinatra::Base
   post('/tag') do
     tag = NfcTag[ :value => params[:value] ] 
     tag or ( Slack.website_access "Tag Scanned: #{params[:value]}"; halt 401 )
-    status = RestClient.get( 'http://loft.cosmicfitclub.com:86/cm?cmnd=Power', :content_type=>'application/json', :timeout=>1)
-    status = JSON.parse(status)
-    DoorUnlockMomentary.perform_async(15, status["POWER"].capitalize)
+    DoorUnlockMomentary.perform_async(15)
     Slack.website_access "#{Time.now.strftime("%m/%d/%Y %I:%M:%S %p")} Door Tagged By #{tag.customer.name}"
     status 204
   end
@@ -51,8 +49,12 @@ end
 class DoorUnlockMomentary
   include SuckerPunch::Job
 
-  def perform(num_seconds, return_to="Off")
+  def perform(num_seconds)
+    status = RestClient.get( 'http://loft.cosmicfitclub.com:86/cm?cmnd=Power', :content_type=>'application/json', :timeout => 1 )
+    status = JSON.parse(status)
+    return_to = status["POWER"].capitalize
     RestClient.get( 'http://loft.cosmicfitclub.com:86/cm?cmnd=Power%20On', :content_type => 'application/json', :timeout => 3 )
+    return if return_to == "On"
     sleep(num_seconds)
     RestClient.get( "http://loft.cosmicfitclub.com:86/cm?cmnd=Power%20#{return_to}", :content_type => 'application/json', :timeout => 3 )
   end
