@@ -113,11 +113,12 @@ Schedule.prototype = {
   },
 
   register(e,m) {
+    e.stopPropagation();
     if(m.occ.location.id == 3) { window.location = "https://video.cosmicfitclub.com"; }
     else {
       $.post(`/models/classdefs/occurrences`, { "classdef_id": m.occ.classdef.id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime, "location_id": m.occ.location.id }, 'json')
        .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
-       .success( function(data)           { window.location = `https://cosmicfitclub.com/checkout/class_reg/${data['id']}` } ); 
+       .done( function(data)           { window.location = `https://cosmicfitclub.com/checkout/class_reg/${data['id']}` } ); 
     }
   },
 

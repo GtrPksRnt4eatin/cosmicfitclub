@@ -6,9 +6,10 @@ data = {
 ctrl = {
  
   register: function(e,m) {
+    e.stopPropagation();
     $.post(`/models/classdefs/occurrences`, { "classdef_id": data.class.id, "staff_id": m.occ.instructors[0].id, "starttime": m.occ.starttime, "location_id": m.occ.location.id, "classdef_schedule_id": m.occ.sched_id }, 'json')
      .fail(    function(req,msg,status) { alert('failed to get occurrence');                    } )
-     .success( function(data)           { window.location = "/checkout/class_reg/" + data['id'] } ); 
+     .done( function(data)           { window.location = "/checkout/class_reg/" + data['id'] } ); 
   } 
 
 }
@@ -46,12 +47,12 @@ $(document).ready(function() {
 
 function get_class() {
   $.get('/models/classdefs/' + CLASSDEF_ID )
-   .success( function(resp) { data.class = resp; } )
+   .done( function(resp) { data.class = resp; } )
    .fail( function() { alert("Couldn't Get Class"); } )
 }
 
 function get_occurrences() {
   $.get('/models/classdefs/' + CLASSDEF_ID + '/next_occurrences/5')
-   .success( function(resp) { data.sessions = resp; } )
+   .done( function(resp) { data.sessions = resp; } )
    .fail( function() { alert("Couldn't Get Sessions!"); } )
 }
