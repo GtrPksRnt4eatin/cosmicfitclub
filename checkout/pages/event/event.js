@@ -128,7 +128,7 @@ function get_attendance() {
 ///////////////////////////////////////// DERIVATIONS ///////////////////////////////////////////////////
 
 function set_event_mode() {
-  if( data.event_data.id == 1668) ( data.show_discount = true; )
+  if( data.event_data.id == 1668) { data.show_discount = true; }
   if( data.event_data.mode && data.event_data.mode != "null"                         ) { data.mode = data.event_data.mode; return; }                  
   if( data.event_data.registration_url && data.event_data.registration_url != "null" ) { data.mode = 'external';   return; }
   if( data.event_data.a_la_carte                                                     ) { data.mode = 'a_la_carte'; return; }
