@@ -244,7 +244,7 @@ html
 
               hr width='75%'
 
-              #discount_code
+              #discount_code rv-if='data.show_discount'
                 div Enter Code
                 input#code rv-value='data.discount_code' rv-on-input='ctrl.calc_total'
 

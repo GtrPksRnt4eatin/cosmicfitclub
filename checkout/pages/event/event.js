@@ -34,7 +34,8 @@ var data = {
   selected_session: null,
   included_session_passes: [],
   loaded: false,
-  discount_code: ""
+  discount_code: "",
+  show_discount: false
 }
 
 $(document).ready( function() {
@@ -127,6 +128,7 @@ function get_attendance() {
 ///////////////////////////////////////// DERIVATIONS ///////////////////////////////////////////////////
 
 function set_event_mode() {
+  if( data.event_data.id == 1668) ( data.show_discount = true; )
   if( data.event_data.mode && data.event_data.mode != "null"                         ) { data.mode = data.event_data.mode; return; }                  
   if( data.event_data.registration_url && data.event_data.registration_url != "null" ) { data.mode = 'external';   return; }
   if( data.event_data.a_la_carte                                                     ) { data.mode = 'a_la_carte'; return; }
@@ -159,8 +161,9 @@ function calculate_total() {
     case 'single':
       price = 
       data.total_price = ( member() ? data.event_data.prices[0].member_price : data.event_data.prices[0].full_price ) * data.multiplier;
-      if(data.discount_code=="scholarship") { data.total_price = 27500 * data.multiplier; }
+      if(data.discount_code=="scholarship")   { data.total_price = 27500 * data.multiplier; }
       if(data.discount_code=="discountedtix") { data.total_price = 20000 * data.multiplier; }
+      if(data.discount_code=="freepalestine") { data.total_price = 1750  * data.multiplier; }
       break;
 
     case 'multi':
