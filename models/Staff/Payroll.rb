@@ -1,6 +1,7 @@
 class Payroll < Sequel::Model(:payrolls)
 
   one_to_many :slips, :class => :PayrollSlip
+  one_to_many :payouts
 
   PAY_PERIODS_ICAL = "DTSTART;TZID=EST:20170105T000000\nRRULE:FREQ=WEEKLY;INTERVAL=2"
 
@@ -45,10 +46,10 @@ class Payroll < Sequel::Model(:payrolls)
   def details_hash
     hsh = self.to_hash
     hsh[:slips]                 = slips.map(&:details_hash)
-    hsh[:payouts]               = Payout.where(payroll_id: self.id).all.map(&:to_hash)
-    hsh[:cosmic_classes_payout] = Payout.where(payroll_id: self.id, tag: "cosmic_classes").first.try(&:to_hash)
-    hsh[:loft_trainings_payout] = Payout.where(payroll_id: self.id, tag: "loft_trainings").first.try(&:to_hash)
-    hsh[:loft_classes_payout]   = Payout.where(payroll_id: self.id, tag: "loft_classes").first.try(&:to_hash)
+    hsh[:payouts]               = payouts.map(&:to_hash)
+    hsh[:cosmic_classes_payout] = payouts.find { |p| p.tag == "cosmic_classes" }.try(&:to_hash)
+    hsh[:loft_trainings_payout] = payouts.find { |p| p.tag == "loft_trainings" }.try(&:to_hash)
+    hsh[:loft_classes_payout]   = payouts.find { |p| p.tag == "loft_classes" }.try(&:to_hash)
     hsh[:totals]                = self.totals
     hsh
   end
