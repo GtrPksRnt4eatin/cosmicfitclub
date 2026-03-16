@@ -79,7 +79,7 @@ class StaffRoutes < Sinatra::Base
   get '/payroll_reports' do
     Payroll
       .where { start_date >= (Date.today-365) }
-      .eager(:payouts, slips: [:staff, :payouts, { lines: :occurrence }])
+      .eager(:payouts, slips: [:staff, :payouts, { lines: { occurrence: [:classdef, :teacher] } }])
       .order(:start_date)
       .map(&:details_hash)
       .to_json
