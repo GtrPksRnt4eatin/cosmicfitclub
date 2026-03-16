@@ -79,8 +79,7 @@ class StaffRoutes < Sinatra::Base
   get '/payroll_reports' do
     Payroll
       .where { start_date >= (Date.today-365) }
-      .eager(slips: [:staff, :lines, :payouts])
-      .eager(:payouts)
+      .eager(:payouts, slips: [:staff, :payouts, { lines: :occurrence }])
       .order(:start_date)
       .map(&:details_hash)
       .to_json
@@ -162,6 +161,12 @@ class StaffRoutes < Sinatra::Base
     attachment "Payouts #{params[:from]}-#{params[:to]}.csv"
     csv = Staff::payouts_csv(params[:from],params[:to])
     csv.string
+  end
+
+  error do
+    Slack.err( 'Staff Routes Error', env['sinatra.error'] )
+    status 500
+    { error: 'An error occurred' }.to_json
   end
 
 end
