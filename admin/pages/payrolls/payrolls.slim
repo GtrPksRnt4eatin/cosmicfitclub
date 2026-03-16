@@ -40,15 +40,15 @@ html
         table 
           tbody rv-each-slip='data.selected_proll.slips'
             tr.spacer
-            tr
+            tr rv-title='slip.id'
               th colspan="100%"
-                | {slip.staff.name} - {slip.id}
+                | {slip.staff.name}
             tr
               td colspan='2'
               td[] payout
               td[] cosmic
               td[] loft
-            tr rv-each-line='slip.lines'
+            tr rv-each-line='slip.lines' rv-title='line.id'
               td[] {line.start_time | classtime }
               td[] {line.description}
               td.pay[] {line.value  | money }
