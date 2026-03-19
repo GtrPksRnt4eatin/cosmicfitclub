@@ -1,3 +1,9 @@
+// Override DayPilot.Date.now so the current-time red line uses Eastern Time
+// regardless of the user's browser timezone
+DayPilot.Date.now = function() {
+  return new DayPilot.Date(moment.tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss'));
+};
+
 function LoftCalendar(parent,attr) {
 
   this.selected_timeslot = attr['timeslot'] || null;
@@ -46,11 +52,6 @@ LoftCalendar.prototype = {
   build_daypilot: function() {
     // Use Eastern Time for all calendar operations
     const TZ = 'America/New_York';
-    // Override DayPilot.Date.now so the current-time red line uses Eastern Time
-    // regardless of the user's browser timezone
-    DayPilot.Date.now = function() {
-      return new DayPilot.Date(moment.tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss'));
-    };
     this.start = moment.tz(TZ).format('YYYY-MM-DD');
     this.end = moment.tz(TZ).add(this.state.num_days, 'days').format('YYYY-MM-DD');
     const startDisplay = moment.tz(this.start, TZ).format('ddd MMM D');
