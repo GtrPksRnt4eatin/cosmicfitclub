@@ -53,6 +53,7 @@ LoftCalendar.prototype = {
     this.state.date_range = `${startDisplay} - ${endDisplay}`;
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
       ...this.static_options,
+      currentTime: new DayPilot.Date(moment.tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss')),
       viewType: this.viewType,
       theme: this.theme || null,
       headerDateFormat: "ddd<br/>MMM d",
@@ -91,6 +92,10 @@ LoftCalendar.prototype = {
     });
     this.state.daypilot.init();
     this.filter();
+    // Update current time indicator every minute using Eastern Time
+    setInterval(function() {
+      this.state.daypilot.update({ currentTime: new DayPilot.Date(moment.tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss')) });
+    }.bind(this), 60000);
   },
 
   filter: function() {
