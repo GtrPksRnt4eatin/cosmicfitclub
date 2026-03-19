@@ -33,7 +33,8 @@ require_relative 'user/user'
 require_relative 'frontdesk/frontdesk'
 require_relative 'offers/offers'
 
-use Rack::SslEnforcer 
+# Only enforce SSL in production (Heroku sets PORT, local dev typically doesn't)
+use Rack::SslEnforcer unless ENV['RACK_ENV'] == 'development' || ENV['DISABLE_SSL']
 use Rack::Deflater
 
 use Rack::Session::Cookie, :key => '_rack_session',

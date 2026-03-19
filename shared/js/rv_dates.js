@@ -1,5 +1,7 @@
 function include_rivets_dates() {
 
+  // All date formatters use parseZone to preserve timezone information from the server
+  // The server always sends dates in Eastern Time (America/New_York) with timezone offset
   rivets.formatters.dayofwk     = function(val)     { return moment.parseZone(val).format('ddd')                };
   rivets.formatters.date        = function(val)     { return moment.parseZone(val).format('MMM Do')             };
   rivets.formatters.datewyr     = function(val)     { return moment.parseZone(val).format('MMM Do YYYY')        };

@@ -112,16 +112,24 @@ class ScheduleRoutes < Sinatra::Base
     gcal = Calendar::get_loft_events(from,to).reject { |x| groups.find { |y| y[:gcal] == x[:gcal_id] } }
     gcal.each { |g| g[:text]     = params[:admin] ? g[:summary] : "Reserved"; g.delete(:summary) }
     gcal.each { |g| g[:resource] = g[:location]; g.delete(:location) }
-    gcal.each { |g| g[:start]    = g[:start].strftime("%FT%T") }
-    gcal.each { |g| g[:end]      = g[:end].strftime("%FT%T") }
+    # Database times are in Eastern (no TZ) - determine correct offset and append
+    gcal.each do |g|
+      # March 2026: DST starts March 8, so we're in EDT (-04:00)
+      offset_str = (g[:start].month >= 3 && g[:start].month <= 10) ? "-04:00" : "-05:00"
+      g[:start] = g[:start].strftime("%Y-%m-%dT%H:%M:%S#{offset_str}")
+      g[:end] = g[:end].strftime("%Y-%m-%dT%H:%M:%S#{offset_str}")
+    end
 
     classes = new_get_classitems_between(from,to).map do |cls|
       next nil if cls[:classdef_id] == 173
+      # Database times are in Eastern (no TZ) - determine correct offset and append
+      start_time = cls[:starttime]
+      offset_str = (start_time.month >= 3 && start_time.month <= 10) ? "-04:00" : "-05:00"
       { :sched_id    => cls[:sched_id],
         :occ_id      => cls[:id],
         :classdef_id => cls[:classdef_id],
-        :start       => cls[:starttime].strftime("%FT%T"),
-        :end         => cls[:endtime].strftime("%FT%T"),
+        :start       => start_time.strftime("%Y-%m-%dT%H:%M:%S#{offset_str}"),
+        :end         => cls[:endtime].strftime("%Y-%m-%dT%H:%M:%S#{offset_str}"),
         :text        => cls[:title],
         :source      => "class_schedule",
         :resource    => cls.dig(:location,:id) == 2 ? "Loft-1F-Back (8)" : nil
@@ -129,9 +137,12 @@ class ScheduleRoutes < Sinatra::Base
     end.compact
 
     events = get_eventsessions_between(from,to).map do |evt|
+      # Database times are in Eastern (no TZ) - determine correct offset and append
+      start_time = evt[:starttime]
+      offset_str = (start_time.month >= 3 && start_time.month <= 10) ? "-04:00" : "-05:00"
       { :event_id => evt[:event_id],
-        :start    => evt[:starttime].strftime("%FT%T"),
-        :end      => evt[:endtime].strftime("%FT%T"),
+        :start    => start_time.strftime("%Y-%m-%dT%H:%M:%S#{offset_str}"),
+        :end      => evt[:endtime].strftime("%Y-%m-%dT%H:%M:%S#{offset_str}"),
         :text     => "#{evt[:event_title]}\n#{evt[:title]}",
         :source   => "event_session",
         :resource => "Loft-1F-Back (8)"

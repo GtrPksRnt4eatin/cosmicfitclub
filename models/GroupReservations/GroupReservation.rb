@@ -124,9 +124,11 @@ class GroupReservation < Sequel::Model
 
   def to_public_daypilot(logged_in=nil)
     participant_ids = (slots.map { |s| s.customer_id } << self.customer_id).uniq.compact
-    show_text = participant_ids.include?(logged_in) if logged_in  
-    { :start => self.start_time.strftime("%Y/%m/%dT%H:%M:%S"),
-      :end   => self.end_time.strftime("%Y/%m/%dT%H:%M:%S"),
+    show_text = participant_ids.include?(logged_in) if logged_in
+    # Database times are in Eastern (no TZ) - determine correct offset and append
+    offset_str = (self.start_time.month >= 3 && self.start_time.month <= 10) ? "-04:00" : "-05:00"
+    { :start => self.start_time.strftime("%Y-%m-%dT%H:%M:%S#{offset_str}"),
+      :end   => self.end_time.strftime("%Y-%m-%dT%H:%M:%S#{offset_str}"),
       :text  => show_text ? customer_string : "Reserved",
       :id    => self.id,
       :gcal  => self.gcal_event_id,
@@ -135,8 +137,10 @@ class GroupReservation < Sequel::Model
   end
 
   def to_admin_daypilot
-    { :start  => self.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-      :end    => self.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+    # Database times are in Eastern (no TZ) - determine correct offset and append
+    offset_str = (self.start_time.month >= 3 && self.start_time.month <= 10) ? "-04:00" : "-05:00"
+    { :start  => self.start_time.strftime("%Y-%m-%dT%H:%M:%S#{offset_str}"),
+      :end    => self.end_time.strftime("%Y-%m-%dT%H:%M:%S#{offset_str}"),
       :text   => customer_string,
       :id     => self.id,
       :gcal   => self.gcal_event_id,

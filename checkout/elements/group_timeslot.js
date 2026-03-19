@@ -68,7 +68,14 @@ GroupTimeslot.prototype = {
   },
   
   confirm_reservation: function(e,m) {
-    $.post('/models/groups', JSON.stringify( this.res ) )
+    // Ensure dates are sent in Eastern Time format to prevent timezone conversion issues
+    const TZ = 'America/New_York';
+    const payload = {
+      ...this.res,
+      start_time: moment.tz(this.res.start_time, TZ).format(),
+      end_time: moment.tz(this.res.end_time, TZ).format()
+    };
+    $.post('/models/groups', JSON.stringify( payload ) )
      .done(function()  { window.location.reload(); })
      .fail(function(e) { alert(`${e.status} - ${e.responseText}`); });
   }

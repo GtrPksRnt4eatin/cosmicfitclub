@@ -18,7 +18,10 @@ data = {
   $(document).ready( function() {
     include_rivets_dates();
   
-    $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations.splice(0, data.my_reservations.length, ...resp); }, 'json');
+    $.get('/models/groups/my_upcoming', function(resp) { 
+      data.my_reservations.length = 0;
+      resp.forEach(function(r) { data.my_reservations.push(r); });
+    }, 'json');
 
     view = rivets.bind( $('body'), { data: data } );
   
@@ -51,7 +54,11 @@ data = {
   
     loft_calendar.ev_sub('on_timeslot_selected', function(val) {
       if(!userview.logged_in) { userview.onboard(); return;  }
-      group_timeslot.set_timeslot(new Date(val.start.value), new Date(val.end.value));
+      // Parse dates in Eastern Time to prevent timezone conversion issues
+      const TZ = 'America/New_York';
+      const start = moment.tz(val.start.value, TZ).toDate();
+      const end = moment.tz(val.end.value, TZ).toDate();
+      group_timeslot.set_timeslot(start, end);
     });  
     
     group_timeslot.ev_sub('choose_customer', function(args) {

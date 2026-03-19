@@ -44,9 +44,13 @@ LoftCalendar.prototype = {
   },
 
   build_daypilot: function() {
-    this.start = (new Date).toLocaleDateString("sv-SE");
-    this.end = new Date(Date.now() + this.state.num_days*24*60*60*1000).toLocaleDateString("sv-SE");
-    this.state.date_range = `${new Date(this.start+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })}`;
+    // Use Eastern Time for all calendar operations
+    const TZ = 'America/New_York';
+    this.start = moment.tz(TZ).format('YYYY-MM-DD');
+    this.end = moment.tz(TZ).add(this.state.num_days, 'days').format('YYYY-MM-DD');
+    const startDisplay = moment.tz(this.start, TZ).format('ddd MMM D');
+    const endDisplay = moment.tz(this.end, TZ).format('ddd MMM D');
+    this.state.date_range = `${startDisplay} - ${endDisplay}`;
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
       ...this.static_options,
       viewType: this.viewType,
@@ -54,7 +58,7 @@ LoftCalendar.prototype = {
       headerDateFormat: "ddd<br/>MMM d",
       headerLevels: this.viewType=="Resources" ? 2 : 1,
       ...(this.viewType=="Resources" && {columns: [
-        { name: new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }),
+        { name: moment.tz(this.start, 'America/New_York').format('ddd MMM D'),
         children: [
           { name: "Aerial Point", id: 'Loft-1F-Front (4)' },
           { name: "Back Room", id: 'Loft-1F-Back (8)' },
@@ -99,7 +103,15 @@ LoftCalendar.prototype = {
        this.state.events = resp;
        this.state.daypilot.events.list = [];
        this.state.events.for_each( function(event) {
-         this.state.daypilot.events.add({ ...event, backColor: event.resource == 'Loft-1F-Front (4)' ? '#EEEEFF' : '#FFEEEE' })
+         // Parse times in Eastern timezone and convert to ISO string without offset for DayPilot
+         const start = moment.parseZone(event.start).format('YYYY-MM-DDTHH:mm:ss');
+         const end = moment.parseZone(event.end).format('YYYY-MM-DDTHH:mm:ss');
+         this.state.daypilot.events.add({ 
+           ...event, 
+           start: start,
+           end: end,
+           backColor: event.resource == 'Loft-1F-Front (4)' ? '#EEEEFF' : '#FFEEEE' 
+         })
        }.bind(this))
      }.bind(this));
   },
@@ -120,36 +132,34 @@ LoftCalendar.prototype = {
   },
 
   rebuild_daypilot: function() {
+    const TZ = 'America/New_York';
     this.state.daypilot.startDate = this.start;
-    this.state.date_range = `${new Date(this.start+'T00:00:00').toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })} - ${new Date(this.end).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' })}`;
-    this.viewType == "Resources" && (this.state.daypilot.columns.list[0].name = new Date(`${this.start}T00:00:00`).toLocaleDateString("en-us", { weekday: 'short', month: 'short', day: 'numeric' }));
+    const startDisplay = moment.tz(this.start, TZ).format('ddd MMM D');
+    const endDisplay = moment.tz(this.end, TZ).format('ddd MMM D');
+    this.state.date_range = `${startDisplay} - ${endDisplay}`;
+    this.viewType == "Resources" && (this.state.daypilot.columns.list[0].name = moment.tz(this.start, TZ).format('ddd MMM D'));
     this.state.daypilot.update();
   },
 
   full_refresh: function(silent=false) {
     this.silent = silent;
-    let date = new Date;
-    this.start = date.toLocaleDateString("sv-SE");
-    date.setDate(date.getDate() + this.state.num_days);
-    this.end = date.toLocaleDateString("sv-SE");
+    const TZ = 'America/New_York';
+    this.start = moment.tz(TZ).format('YYYY-MM-DD');
+    this.end = moment.tz(TZ).add(this.state.num_days, 'days').format('YYYY-MM-DD');
     this.refresh_data()
   },
 
   next_wk: function() {
-    let date = new Date(this.start+"T00:00:00")
-    date.setDate(date.getDate() + this.state.num_days);
-    this.start = date.toLocaleDateString("sv-SE");
-    date.setDate(date.getDate() + this.state.num_days);
-    this.end = date.toLocaleDateString("sv-SE");
+    const TZ = 'America/New_York';
+    this.start = moment.tz(this.start, TZ).add(this.state.num_days, 'days').format('YYYY-MM-DD');
+    this.end = moment.tz(this.start, TZ).add(this.state.num_days, 'days').format('YYYY-MM-DD');
     this.refresh_data();
   },
 
   prev_wk: function() {
-    let date = new Date(this.end+"T00:00:00")
-    date.setDate(date.getDate() - this.state.num_days);
-    this.end = date.toLocaleDateString("sv-SE");
-    date.setDate(date.getDate() - this.state.num_days);
-    this.start = date.toLocaleDateString("sv-SE");
+    const TZ = 'America/New_York';
+    this.end = moment.tz(this.end, TZ).subtract(this.state.num_days, 'days').format('YYYY-MM-DD');
+    this.start = moment.tz(this.end, TZ).subtract(this.state.num_days, 'days').format('YYYY-MM-DD');
     this.refresh_data();
   }
 }
