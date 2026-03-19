@@ -46,6 +46,11 @@ LoftCalendar.prototype = {
   build_daypilot: function() {
     // Use Eastern Time for all calendar operations
     const TZ = 'America/New_York';
+    // Override DayPilot.Date.now so the current-time red line uses Eastern Time
+    // regardless of the user's browser timezone
+    DayPilot.Date.now = function() {
+      return new DayPilot.Date(moment.tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss'));
+    };
     this.start = moment.tz(TZ).format('YYYY-MM-DD');
     this.end = moment.tz(TZ).add(this.state.num_days, 'days').format('YYYY-MM-DD');
     const startDisplay = moment.tz(this.start, TZ).format('ddd MMM D');
@@ -53,7 +58,6 @@ LoftCalendar.prototype = {
     this.state.date_range = `${startDisplay} - ${endDisplay}`;
     this.state.daypilot = new DayPilot.Calendar('daypilot', {
       ...this.static_options,
-      currentTime: new DayPilot.Date(moment.tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss')),
       viewType: this.viewType,
       theme: this.theme || null,
       headerDateFormat: "ddd<br/>MMM d",
@@ -92,10 +96,6 @@ LoftCalendar.prototype = {
     });
     this.state.daypilot.init();
     this.filter();
-    // Update current time indicator every minute using Eastern Time
-    setInterval(function() {
-      this.state.daypilot.update({ currentTime: new DayPilot.Date(moment.tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss')) });
-    }.bind(this), 60000);
   },
 
   filter: function() {
