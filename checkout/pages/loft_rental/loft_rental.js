@@ -18,7 +18,7 @@ data = {
 $(document).ready( function() {
   include_rivets_dates();
 
-  $.get('/models/groups/my_upcoming', function(resp) { data.my_reservations.splice(0, data.my_reservations.length, ...resp); }, 'json');
+  $.get('/models/groups/my_upcoming', function(resp) { resp.forEach(function(item) { data.my_reservations.push(item); }); }, 'json');
 
   view = rivets.bind( $('body'), { data: data } );
 
@@ -43,7 +43,8 @@ $(document).ready( function() {
   userview.ev_sub('on_user', function() {
     $.get(`/models/customers/${userview.id}/class_passes`, function(resp) { data.class_passes = isNaN(resp) ? 0 : resp; }, 'json');
     data.rental.customer_id = userview.id;
-    data.rental.slots.splice(0, data.rental.slots.length, { customer_id: userview.id, customer_string: userview.custy_string } );
+      while (data.rental.slots.length) data.rental.slots.pop();
+      data.rental.slots.push({ customer_id: userview.id, customer_string: userview.custy_string });
   });
 
   custy_selector.ev_sub('show'       , popupmenu.show );

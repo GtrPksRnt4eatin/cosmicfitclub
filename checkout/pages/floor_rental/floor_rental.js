@@ -46,7 +46,8 @@ data = {
     userview.ev_sub('on_user', function() {
       $.get(`/models/customers/${userview.id}/class_passes`, function(resp) { data.class_passes = isNaN(resp) ? 0 : resp; }, 'json');
       data.rental.customer_id = userview.id;
-      data.rental.slots.splice(0, data.rental.slots.length, { customer_id: userview.id, customer_string: userview.custy_string } );
+      while (data.rental.slots.length) data.rental.slots.pop();
+      data.rental.slots.push({ customer_id: userview.id, customer_string: userview.custy_string });
     });
 
     custy_selector.ev_sub('show'       , popupmenu.show );
