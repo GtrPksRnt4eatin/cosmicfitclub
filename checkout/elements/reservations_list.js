@@ -2,7 +2,7 @@ function ReservationsList(parent,attr) {
     rivets.formatters.empty = function(reservations) { return reservations ? reservations.length == 0 : true; }
     
     rivets.formatters.passes_total = function(reservations) {
-      return reservations ? reservations.reduce( (total, reservation) => total + reservation.passes, 0 ) : 0;
+      return reservations ? reservations.reduce( (total, reservation) => total + (reservation ? reservation.passes || 0 : 0), 0 ) : 0;
     }
     
     this.bind_handlers(['cancel', 'buy_passes']);
