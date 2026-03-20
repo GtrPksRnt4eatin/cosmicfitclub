@@ -1,8 +1,24 @@
-// Override DayPilot.Date.now so the current-time red line uses Eastern Time
-// regardless of the user's browser timezone
-DayPilot.Date.now = function() {
-  return new DayPilot.Date(moment.tz('America/New_York').format('YYYY-MM-DDTHH:mm:ss'));
-};
+// Patch DayPilot.DateUtil.fromLocal so the current-time red line uses Eastern
+// wall-clock time regardless of the user's browser timezone.
+// DayPilot positions the red line by calling new DayPilot.Date() with no args,
+// which internally calls fromLocal() with no args to get the current local time.
+// We intercept that zero-arg call and substitute Eastern time instead.
+(function() {
+  var _orig = DayPilot.DateUtil.fromLocal;
+  DayPilot.DateUtil.fromLocal = function(e) {
+    if (!e) {
+      var eastern = moment.tz('America/New_York');
+      var t = new Date(0);
+      t.setUTCFullYear(eastern.year(), eastern.month(), eastern.date());
+      t.setUTCHours(eastern.hours());
+      t.setUTCMinutes(eastern.minutes());
+      t.setUTCSeconds(eastern.seconds());
+      t.setUTCMilliseconds(eastern.milliseconds());
+      return t;
+    }
+    return _orig(e);
+  };
+})();
 
 function LoftCalendar(parent,attr) {
 
