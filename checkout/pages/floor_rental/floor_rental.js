@@ -19,8 +19,7 @@ data = {
     include_rivets_dates();
   
     $.get('/models/groups/my_upcoming', function(resp) { 
-      data.my_reservations.length = 0;
-      resp.forEach(function(r) { data.my_reservations.push(r); });
+      resp && resp.length && Array.prototype.splice.apply(data.my_reservations, [0, 0].concat(resp));
     }, 'json');
 
     view = rivets.bind( $('body'), { data: data } );
