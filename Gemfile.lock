@@ -1590,7 +1590,7 @@ GEM
       json
     public_suffix (5.0.3)
     racc (1.7.1)
-    rack (2.2.8)
+    rack (2.2.8.1)
     rack-contrib (2.3.0)
       rack (~> 2.0)
     rack-protection (3.1.0)
