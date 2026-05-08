@@ -25,7 +25,7 @@ class EventTicket < Sequel::Model
     self.generate_passes
     self.send_notification
   rescue => e
-    Slack.error("EventTicket After Create Error: #{e.message}")
+    Slack.raw_err("EventTicket After Create Error", e.message)
   end
 
   ####################### LIFE CYCLE ######################
