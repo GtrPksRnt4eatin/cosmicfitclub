@@ -4,6 +4,8 @@
 	margin-top: 1em;
 	padding: .5em;
 	font-size: 1.2em;
+	display: block;
+	width: fit-content;
 }
 
 td, th {

@@ -37,7 +37,7 @@ class Checkout < Sinatra::Base
   helpers  Sinatra::ViewHelpers
 
   get('/plan/:id')                               { render_page :plan              }
-  get('/pack/:id')                               { render_page :pack              }
+  get('/pack/:id',           :onboard => 'user') { render_page :pack              }
   get('/training/:id')                           { render_page :training          }
   get('/event/:id')                              { render_page :event             }
   get('/complete')                               { render_page :complete          }
