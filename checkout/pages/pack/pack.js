@@ -1,38 +1,32 @@
-$(document).ready( function() {
-  
-  var handler = StripeCheckout.configure({
-    locale: 'auto',
-    key: STRIPE_PUBLIC_KEY,
+var payment_form;
+var popupmenu;
+var userview;
 
-    token: function(token) {
-      data = {
-        "type":  "package",
-        "pack_id": PACKAGE['id'],
-        "token": token
+$(document).ready(function() {
+
+  userview     = new UserView(id('userview_container'));
+  popupmenu    = new PopupMenu(id('popupmenu_container'));
+  payment_form = new PaymentForm();
+
+  payment_form.customer_facing();
+  payment_form.ev_sub('show', popupmenu.show);
+  payment_form.ev_sub('hide', popupmenu.hide);
+
+  $('.buy-button').on('click', function(e) {
+    e.preventDefault();
+    if (!userview.logged_in) { userview.onboard(); return; }
+
+    payment_form.checkout(
+      userview.id,
+      PACKAGE['pass_price'] * PACKAGE['num_passes'],
+      PACKAGE['name'],
+      { type: 'pack', id: PACKAGE['id'] },
+      function(payment_id) {
+        $.post('/checkout/pack/buy', { payment_id: payment_id, customer_id: userview.id, pack_id: PACKAGE['id'] }, 'json')
+         .done(function()  { window.location = '/checkout/complete'; })
+         .fail(function(e) { alert('There was an error completing your purchase. Please contact support.'); console.error(e); });
       }
-
-      $.post('charge', JSON.stringify( data ) )
-        .done(function() {
-          window.location = '/checkout/complete';
-        })
-        .fail(function(e) {
-          switch (e.status) {
-            case 400: alert('There was an error processing the payment. Your Card Has not been charged.'); break;
-            case 500: alert('An Error Occurred!'); break;
-            default: alert('huh???'); break;        
-          }
-        });
-    }
-
-  });
-
-  id('checkout').addEventListener('click', function(e) {
-    handler.open({
-      name: 'Cosmic Fit Club',
-      description: PACKAGE['name'],
-      image: 'https://cosmicfit.herokuapp.com/background-blu.jpg',
-      amount: PACKAGE['pass_price'] * PACKAGE['num_passes']
-    })
+    );
   });
 
 });

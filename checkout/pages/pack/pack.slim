@@ -6,14 +6,18 @@ html
 
   head
     == no_scaling
-    
-    == css ['fonts', 'site', 'menu_colors', 'pack']
-    == js  [ 'jquery', 'lib', 'pack' ]
 
+    title Cosmic Fit Club
+
+    script src='https://js.stripe.com/v3/'
     javascript:
+      var STRIPE_PUBLIC_KEY = '#{ ENV['STRIPE_PUBLIC'] }';
+      var stripe   = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+      var PACKAGE  = #{{ pack.to_json }};
 
-      PACKAGE           = #{{ pack.to_json }};
-      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+    == css ['fonts', 'site', 'menu_colors', 'pack']
+    == js  [ 'jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', '/admin/elements/popup_menu', '/checkout/elements/payment_form', 'pack' ]
 
   body
 
@@ -23,17 +27,19 @@ html
 
       .tile
 
-          h1 Class Package
+        h1 Class Package
 
-          table
-            tr
-              th Package
-              td #{ pack.name }
-            tr
-              th Price
-              td #{ pack.formatted_price }
-              
-          div
-            button#checkout Checkout
-      
+        table
+          tr
+            th Package
+            td #{ pack.name }
+          tr
+            th Price
+            td #{ pack.formatted_price }
+
+        button.buy-button data-id='#{pack.id}' data-name='#{pack.name}' data-amount='#{pack.price.to_i}'
+          | Checkout
+
+    #popupmenu_container
+
     == analytics
