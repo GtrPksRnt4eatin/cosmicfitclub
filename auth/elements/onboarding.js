@@ -118,12 +118,12 @@ Onboarding.prototype.HTML = `
 
       <div class='section'>
         <label>Email:</label>
-        <input class='email' rv-value='state.email' rv-on-input='check_email'></input>
+        <input class='email' rv-value='state.email' rv-on-input='check_email' rv-on-change='check_email' autocomplete='email'></input>
       </div>
 
       <div class='section'>
         <label>Password:</label>
-        <input class='password' type='password' rv-value='state.password'></input>
+        <input class='password' type='password' rv-value='state.password' autocomplete='current-password'></input>
       </div>
 
       <div class='section' rv-hide='state.acct_found'>

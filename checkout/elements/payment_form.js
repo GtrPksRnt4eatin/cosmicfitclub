@@ -12,7 +12,8 @@ function PaymentForm() {
     swipe: null,
     swipe_source: null,
     busy: false,
-    custy_facing: false
+    custy_facing: false,
+    save_card: false
   }
 
   rivets.formatters.money   = function(val) { return "$ " + (val/100).toFixed(2) };
@@ -187,7 +188,7 @@ PaymentForm.prototype = {
     this.state.busy = true;
     //this.stop_listen_cardswipe();
     if(!token_id) return;
-    body = { customer: this.state.customer_id, token: token_id, amount: this.state.price, description: this.state.reason };
+    body = { customer: this.state.customer_id, token: token_id, amount: this.state.price, description: this.state.reason, save_card: this.state.save_card };
     $.post('/checkout/charge_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
@@ -260,6 +261,15 @@ PaymentForm.prototype.HTML = `
         </td>
         <td>
           <button rv-on-click='this.charge_new' rv-disabled='state.busy'> Pay Now </button>
+        </td>
+      </tr>
+      <tr class='custy'>
+        <th>Save Card</th>
+        <td colspan='2'>
+          <label class='save-card-label'>
+            <input type='checkbox' rv-checked='state.save_card' />
+            Save card for future purchases
+          </label>
         </td>
       </tr>
       <tr rv-if='this.apple_pay_available'>
@@ -369,6 +379,19 @@ PaymentForm.prototype.CSS = `
     border: none;
     box-shadow: none;
     min-height: 0px;
+  }
+
+  .PaymentForm .save-card-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #ccc;
+  }
+
+  .PaymentForm .save-card-label input {
+    cursor: pointer;
   }
 
   @media(max-width: 800px) {

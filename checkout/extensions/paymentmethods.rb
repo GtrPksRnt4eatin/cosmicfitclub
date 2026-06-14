@@ -9,6 +9,14 @@ module Sinatra
       params[:metadata] ||= {}
       description = "#{custy.name} purchased #{params[:description]}"  
       charge = StripeMethods::charge_card(params[:token], params[:amount], params[:email], description, params[:metadata])
+      if params[:save_card].to_s == 'true'
+        if custy.stripe_id.nil?
+          stripe_custy = Stripe::Customer.create(source: params[:token], name: custy.name, email: custy.email)
+          custy.update(stripe_id: stripe_custy.id)
+        else
+          StripeMethods::add_card(params[:token], custy.stripe_id)
+        end
+      end
       CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => params[:amount], :reason => params[:description], :type => 'new card', :tag => params[:tag] || 'general').to_json
     rescue Exception => e
       halt( 400, e.message )
