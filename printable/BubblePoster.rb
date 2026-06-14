@@ -24,28 +24,46 @@ module BubblePoster
   def BubblePoster::generate_4x6(data=[[:class,40],[:class,36],[:class,32],[:class,42]],opts={})
     @@image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
     @@image.draw_elements([
-      { :type     => 'logo',
-        :x_offset => 75,
-        :y_offset => 75,
-        :width    => 1050
-      },
+        { :type     => 'bubble_shadow',
+          :width    => 525,
+          :height   => 516,
+          :x_offset => 50,
+          :y_offset => 50,
+          :margin   => 900*0.008
+        },
+        { :type      => 'box',
+          :x_offset  => 50,
+          :y_offset  => 50,
+          :width     => 525,
+          :height    => 516,
+          :radius    => 45,
+        },
+        { :type     => 'logo',
+          :x_offset => 75,
+          :y_offset => 160,
+          :width    => 480
+        },
+        { :type        => 'highlight_text',
+          :text        => 'Weekly Classes!',
+          :ptsize      => 12.5,
+          :x_offset    => 95,
+          :y_offset    => 420,
+          :fill        => "\#BBBBFFFF",
+          :stroke      => "\#DDDDFFDD",
+          :strokewidth => 1
+        },
+
       { :type     => 'img_array',
         :x_offset => 0,
-        :y_offset => 447,
+        :y_offset => 0,
         :width    => 1200,
-        :margin   => 75,
+        :height   => 1760,
+        :margin_x => 50,
+        :margin_y => 50,
         :rowsize  => 2,
-        :ptscale  => opts[:ptscale]  || 0.083,
-        :ptscale2 => opts[:ptscale2] || 0.9,
-        :images   => data.map { |x| SchedulePoster4x6_front::get_bubble_data(x) }
-      },
-      { :type        => 'highlight_text',
-        :text        => 'First Class Free! Come In Today!',
-        :ptsize      => 17,
-        :x_offset    => 0,
-        :y_offset    => 110,
-        :gravity     => 'South',
-        :strokewidth => 3 
+        :ptscale  => opts[:ptscale]  || 0.045,
+        :ptscale2 => opts[:ptscale2] || 1,
+        :images   => [ { :img => 'blank'} ] + data.map { |x| BubblePoster::get_bubble_data(x) }
       },
       { :type => 'footer' }
     ])

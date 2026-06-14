@@ -10,6 +10,15 @@ class ClassdefSchedule < Sequel::Model
   many_to_one :video, :key => :video_id, :class=>:StoredImage
   many_to_one :location
 
+  DOW_ORDER = { 'MO' => 0, 'TU' => 1, 'WE' => 2, 'TH' => 3, 'FR' => 4, 'SA' => 5, 'SU' => 6 }
+
+  def ClassdefSchedule.by_week_order
+    all.sort_by { |sch|
+      byday = sch.rrule.to_s[/BYDAY=([A-Z]+)/i, 1] || 'SU'
+      [DOW_ORDER[byday] || 7, sch.start_time.to_s]
+    }
+  end
+
   def ClassdefSchedule.find_matching_schedule(occurrence)
     ClassdefSchedule.where(classdef_id: occurrence.classdef_id).each do |sched|
       return sched if sched.matches_occurrence? occurrence

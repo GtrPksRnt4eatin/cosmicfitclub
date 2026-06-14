@@ -63,7 +63,7 @@ module EventPoster
   end
  
   def EventPoster::generate4x6(event_id)
-    @@image = MiniMagickd::Image.open("printable/assets/4x6_bg.jpg")
+    @@image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
     @@image.draw_elements([
       { :type     => 'logo',
         :x_offset => 50,

@@ -1,3 +1,4 @@
 # SSL certificates for local development
 shared/.ssl/server.crt
 shared/.ssl/server.key
+utilities/certs/

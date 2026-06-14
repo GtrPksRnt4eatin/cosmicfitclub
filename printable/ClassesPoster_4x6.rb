@@ -31,7 +31,7 @@ module ClassesPoster_4x6
       i.gravity "South"
       i.stroke "white"
       i.strokewidth 6
-      i.draw "text 0,150 \"First Class Free! Come In Today!\""
+      i.draw "text 0,150 \"Come In Today!\""
     end
   end
 

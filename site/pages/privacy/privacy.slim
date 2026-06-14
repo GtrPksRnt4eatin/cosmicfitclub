@@ -5,21 +5,116 @@ html
 
     == no_scaling
 
-    title Cosmic Fit Club
+    title Privacy Policy – Cosmic Fit Club
 
-    ==css [ 'fonts', 'site', 'slick', 'slick-theme', 'header', 'footer' ]
-    ==js  [ 'jquery', 'slick', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview' ]
+    ==css [ 'fonts', 'site', 'header', 'footer', 'privacy' ]
+    ==js  [ 'jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview' ]
 
   body
     #stars
-    
+
     == include_slim('slim/partials/slim_header')
-      
+
     .content
-      .tile
-        img style='width: 90vw; margin: auto; display: block;' src='privacy1.png'
-        img style='width: 90vw; margin: auto; display: block;' src='privacy2.png'
-        img style='width: 90vw; margin: auto; display: block;' src='privacy3.png'
+      .tile.privacy_page
+
+        h1 Privacy Policy
+
+        p.updated Last updated: June 14, 2026
+
+        p
+          | Cosmic Fit Club ("we," "us," or "our") operates cosmicfitclub.com and related services. This Privacy Policy explains what information we collect, how we use it, and your rights regarding that information. By using our services you agree to the practices described here.
+
+        h2 1. Information We Collect
+        h3 Information you provide directly
+        ul
+          li Name, email address, and phone number when you create an account or register for a class or event
+          li Payment information (processed securely by our payment processors; we do not store card numbers)
+          li Digital waiver signatures
+          li SMS opt-in consent and preference data
+
+        h3 Information collected automatically
+        ul
+          li Browser type, IP address, and pages visited via standard web server logs
+          li Session and authentication tokens stored in cookies
+
+        h2 2. How We Use Your Information
+        ul
+          li To process class registrations, event bookings, memberships, and payments
+          li To send transactional communications (booking confirmations, reminders, schedule changes)
+          li To send SMS messages to customers who have explicitly opted in
+          li To administer your account and provide customer support
+          li To post promotional content to our official social media pages (Facebook, Instagram) — we do not use your personal data for this purpose
+          li To comply with legal obligations
+
+        h2 3. Social Media and Third-Party Integrations
+        p
+          | Our application uses the Facebook and Instagram APIs solely to publish promotional content (event images, class schedules) to our own official Cosmic Fit Club pages. We do not collect, store, or share any personal data belonging to Facebook or Instagram users through these integrations. We do not access your Facebook or Instagram account or data.
+        p
+          | We use the following third-party services, each governed by their own privacy policies:
+        ul
+          li
+            strong Facebook / Meta
+            |  — cosmicfitclub.com/terms
+          li
+            strong Stripe / Braintree / PayPal
+            |  — payment processing
+          li
+            strong Twilio
+            |  — SMS delivery
+          li
+            strong Postmark
+            |  — transactional email
+          li
+            strong Amazon Web Services (S3)
+            |  — file and image storage
+
+        h2 4. Data Sharing and Disclosure
+        p We do not sell or rent your personal information. We may share information:
+        ul
+          li With service providers listed above, only as necessary to operate our services
+          li If required by law, court order, or to protect the rights and safety of Cosmic Fit Club or others
+          li In connection with a merger or acquisition, with notice provided to affected users
+
+        h2 5. SMS Communications
+        p
+          | If you opt in to SMS notifications, we will send you messages related to your bookings and studio updates. Message and data rates may apply. You can opt out at any time by replying STOP or visiting
+          a href='/sms/opt-in'  cosmicfitclub.com/sms/opt-in
+          | .
+
+        h2 6. Data Retention
+        p
+          | We retain your account information for as long as your account is active or as needed to provide services. You may request deletion of your account and associated data by contacting us.
+
+        h2 7. Your Rights
+        p Depending on your location, you may have the right to:
+        ul
+          li Access the personal data we hold about you
+          li Request correction of inaccurate data
+          li Request deletion of your data
+          li Opt out of marketing communications at any time
+        p To exercise these rights, contact us at info@cosmicfitclub.com.
+
+        h2 8. Cookies
+        p
+          | We use session cookies strictly for authentication and site functionality. We do not use advertising or tracking cookies.
+
+        h2 9. Children's Privacy
+        p
+          | Our services are not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us personal information, please contact us and we will delete it.
+
+        h2 10. Changes to This Policy
+        p
+          | We may update this Privacy Policy from time to time. We will post the revised policy on this page with an updated date. Continued use of our services after changes are posted constitutes acceptance.
+
+        h2 11. Contact Us
+        p If you have any questions about this Privacy Policy, please contact:
+        p
+          strong Cosmic Fit Club
+          br
+          | cosmicfitclub.com
+          br
+          | info@cosmicfitclub.com
 
     == include_slim('slim/partials/footer')
 
