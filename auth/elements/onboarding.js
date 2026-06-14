@@ -23,7 +23,18 @@ function Onboarding(el,attr) {
     else                      { this.register(); }
   }.bind(this));
 
-  setInterval(this.check_email,1000);
+  setInterval(this.check_email, 1000);
+
+  // Detect Chrome autofill via animationstart (value is readable at this point)
+  var self = this;
+  setTimeout(function() {
+    var emailEl = $(self.dom).find('.email')[0];
+    if (emailEl) {
+      emailEl.addEventListener('animationstart', function(e) {
+        if (e.animationName === 'onboarding-autofill') { self.check_email(e); }
+      });
+    }
+  }, 0);
 }
 
 Onboarding.prototype = {
@@ -36,6 +47,7 @@ Onboarding.prototype = {
 
   check_email: function(e,m) { 
     let val = e && e.target ? e.target.value : $(this.dom).find(".email")[0].value;
+    if (!val) return;
     $.get('/auth/email_search', { email: val }, 'json' )
      .fail(    this.show_http_error )
      .success( this.email_match     )
@@ -206,6 +218,15 @@ Onboarding.prototype.CSS = `
   #Onboarding input {
   	float: right;
     margin-left: 1em;
+    animation-duration: 0.001s;
+  }
+
+  @keyframes onboarding-autofill {
+    from {}
+  }
+
+  #Onboarding input:-webkit-autofill {
+    animation-name: onboarding-autofill;
   }
 
   #Onboarding .submit {
