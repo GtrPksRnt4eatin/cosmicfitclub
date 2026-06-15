@@ -25,16 +25,18 @@ function Onboarding(el,attr) {
 
   setInterval(this.check_email, 1000);
 
-  // Detect Chrome autofill via animationstart (value is readable at this point)
+  // Chrome withholds autofilled values until first user interaction.
+  // Fire check_email once on the first interaction so the form updates immediately.
   var self = this;
-  setTimeout(function() {
-    var emailEl = $(self.dom).find('.email')[0];
-    if (emailEl) {
-      emailEl.addEventListener('animationstart', function(e) {
-        if (e.animationName === 'onboarding-autofill') { self.check_email(e); }
-      });
-    }
-  }, 0);
+  function onFirstInteraction() {
+    document.removeEventListener('click',    onFirstInteraction, true);
+    document.removeEventListener('keydown',  onFirstInteraction, true);
+    document.removeEventListener('touchstart', onFirstInteraction, true);
+    self.check_email();
+  }
+  document.addEventListener('click',     onFirstInteraction, true);
+  document.addEventListener('keydown',   onFirstInteraction, true);
+  document.addEventListener('touchstart', onFirstInteraction, true);
 }
 
 Onboarding.prototype = {
@@ -218,15 +220,6 @@ Onboarding.prototype.CSS = `
   #Onboarding input {
   	float: right;
     margin-left: 1em;
-    animation-duration: 0.001s;
-  }
-
-  @keyframes onboarding-autofill {
-    from {}
-  }
-
-  #Onboarding input:-webkit-autofill {
-    animation-name: onboarding-autofill;
   }
 
   #Onboarding .submit {
