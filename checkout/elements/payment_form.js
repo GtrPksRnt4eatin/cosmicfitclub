@@ -58,6 +58,7 @@ PaymentForm.prototype = {
       total: { label: 'Cosmic Fit Club', amount: 0},
       requestPayerName: true,
       requestPayerEmail: true,
+      disableLink: true
     });
 
     this.paymentRequest.canMakePayment().then((result) => {
