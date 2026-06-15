@@ -9,7 +9,7 @@ function Onboarding(el,attr) {
     "password"     : "",
     "confirmation" : "",
     "mode"         : "login",
-    "acct_found"   : false,
+    "acct_found"   : true,
     "errors"       : [] 
   }
 
