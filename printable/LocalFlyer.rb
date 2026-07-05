@@ -104,7 +104,7 @@ module LocalFlyer
         :text        => 'Open Training (Floor Space) Day Passes Available for $24',
         :ptsize      => 14,
         :x_offset    => 0,
-        :y_offset    => 100,
+        :y_offset    => 110,
         :gravity     => 'south',
         :fill        => "\#BBBBFFFF",
         :stroke      => "\#DDDDFFDD",
@@ -178,7 +178,7 @@ module LocalFlyer
         :text        => 'Our Upcoming Events:',
         :ptsize      => 8,
         :x_offset    => 25,
-        :y_offset    => 13,
+        :y_offset    => 1335,
         :fill        => "\#BBBBFFFF",
         :stroke      => "\#DDDDFFDD",
         :strokewidth => 1

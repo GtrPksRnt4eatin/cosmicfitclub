@@ -82,9 +82,12 @@ module EventPoster
       { :type     => 'highlight_text',
         :text     => "cosmicfitclub.com/#{Event[event_id].short_path}",
         :x_offset => 0,
-        :y_offset => 100,
+        :y_offset => 70,
+        :fill        => "\#BBBBFFFF",
+        :stroke      => "\#DDDDFFDD",
+        :strokewidth => 0,
         :gravity  => 'south',
-        :ptsize   => 18
+        :ptsize   => 16
       },
       { :type     => 'footer' }
     ])

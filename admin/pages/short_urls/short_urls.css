@@ -2,7 +2,19 @@
 
 .tile { display: inline-block; }
 
-td:first-child { width: 22em; }
+table { border-collapse: collapse; }
+
+th, td {
+  padding: 0.4em 0.6em;
+  vertical-align: middle;
+}
+
+tbody tr:nth-child(odd)  { background: rgba(255,255,255,0.04); }
+tbody tr:nth-child(even) { background: rgba(255,255,255,0.08); }
+
+td:first-child { width: 18em; }
+td:nth-child(2) { width: 34em; }
+td:nth-child(3), td:nth-child(4) { width: 7em; }
 
 thead, tfoot {
   padding: 0.5em 0;
@@ -10,16 +22,22 @@ thead, tfoot {
 
 input {
   border-radius: 0.3em;
-  padding: 0.94em;
-  text-align: center;
-  width: 8em;
+  padding: 0.6em 0.8em;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+input.long-input { width: 100%; }
+input.edit-input  { width: 100%; }
+
 button {
-  width: 7em;
+  width: 6.5em;
   cursor: pointer;
+  margin: 0.1em;
 }
 
 tfoot button {
-  height: 3.15em;
+  height: 2.6em;
+  width: 100%;
 }

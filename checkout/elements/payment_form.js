@@ -63,7 +63,8 @@ PaymentForm.prototype = {
 
     this.paymentRequest.canMakePayment().then((result) => {
       if (!result) return;
-      if (this.state.custy_facing == false) return;      
+      if (this.state.custy_facing == false) return;
+      if (!result.applePay && !result.googlePay) return;
       this.prButton = elements.create('paymentRequestButton', { paymentRequest: this.paymentRequest });
       this.apple_pay_available = true;
     });

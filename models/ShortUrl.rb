@@ -15,6 +15,12 @@ class ShortUrlRoutes < Sinatra::Base
     ShortUrl.create( long_path: params[:long_path], short_path: params[:short_path] )
   end
 
+  put '/:id' do
+    halt 404 if ShortUrl[params[:id]].nil?
+    ShortUrl[params[:id]].update( short_path: params[:short_path], long_path: params[:long_path] )
+    status 200
+  end
+
   delete '/:id' do
     halt 404 if ShortUrl[params[:id]].nil?
     ShortUrl[params[:id]].destroy

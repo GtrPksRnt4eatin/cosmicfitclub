@@ -102,10 +102,23 @@ class EventRoutes < Sinatra::Base
   end
 
   post '/:id/short_url' do
-    event = Event[params[:id]] or halt(404,'event not found')
-    ShortUrl.where( :short_path => params[:short_url]).delete
-    event.short_url.update( :short_path => params[:short_url] ) if event.short_url
-    event.update( :short_url => ShortUrl.create( :short_path => params[:short_url], :long_path => "/checkout/event/" + params[:id] ) ) unless event.short_url
+    event     = Event[params[:id]] or halt(404, 'event not found')
+    new_path  = params[:short_url].to_s.strip
+
+    # Remove any *other* short_url record that already uses this path,
+    # and unlink the event(s) that referenced it so they don't hold a dangling FK.
+    conflict = ShortUrl.where(short_path: new_path).first
+    if conflict && conflict.id != event.short_url_id
+      Event.where(short_url_id: conflict.id).update(short_url_id: nil)
+      conflict.delete
+    end
+
+    if event.short_url
+      event.short_url.update(short_path: new_path)
+    else
+      event.update(short_url: ShortUrl.create(short_path: new_path, long_path: "/checkout/event/#{params[:id]}"))
+    end
+
     status 204; {}.to_json
   end
 
