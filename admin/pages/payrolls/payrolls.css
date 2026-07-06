@@ -35,6 +35,90 @@
   text-align: right;
 }
 
+.proll .edit-col {
+  width: 2em;
+  text-align: center;
+}
+
+.edit-line-btn {
+  font-size: 0.8em;
+  padding: 0.1em 0.35em;
+  cursor: pointer;
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.edit-line-btn:hover {
+  opacity: 1;
+}
+
+#line-edit-overlay {
+  display: flex;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.55);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.line-edit-popup {
+  background: white;
+  color: black;
+  padding: 1.5em 2em;
+  border-radius: 0.4em;
+  min-width: 280px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+.popup-title {
+  font-weight: bold;
+  font-size: 1.05em;
+  margin-bottom: 0.2em;
+}
+
+.popup-date {
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 0.9em;
+}
+
+.line-edit-popup table {
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+
+.line-edit-popup td:first-child {
+  padding-right: 1.2em;
+  white-space: nowrap;
+}
+
+.line-edit-popup td.amt {
+  text-align: right;
+  font-weight: bold;
+  padding: 0.25em 0;
+}
+
+.line-edit-popup input[type=number] {
+  width: 8em;
+  text-align: right;
+  border: 1px solid #ccc;
+  border-radius: 0.25em;
+  padding: 0.2em 0.4em;
+}
+
+.popup-actions {
+  margin-top: 1em;
+  display: flex;
+  gap: 0.6em;
+  justify-content: flex-end;
+}
+
+.popup-actions button {
+  padding: 0.35em 1em;
+  cursor: pointer;
+}
+
 @media(max-width: 800px) {
   .tile {
     font-size: 2vw;

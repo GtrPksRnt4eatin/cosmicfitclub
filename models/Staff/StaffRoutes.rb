@@ -113,6 +113,17 @@ class StaffRoutes < Sinatra::Base
     JSON.generate proll
   end
 
+  put '/payroll_line/:id' do
+    line   = PayrollLine[params[:id]] or halt 404
+    value  = params[:value].to_i
+    cosmic = params[:cosmic].to_i
+    loft   = params[:loft].to_i
+    loft_classes = loft - (line.loft_rentals || 0)
+    line.update(value: value, cosmic: cosmic, loft: loft, loft_classes: loft_classes)
+    status 200
+    line.to_hash.to_json
+  end
+
   post '/payout' do  
     result = StripeMethods::PayoutVendor(params[:amount], params[:stripe_connected_acct], params[:descriptor])
     payout = Payout.create({
