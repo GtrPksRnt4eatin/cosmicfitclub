@@ -51,7 +51,7 @@ html
               td: input type='number' step='0.01' rv-value='data.edit_line.loft_d' rv-on-input='ctrl.line_loft_changed'
             tr
               td Cosmic
-              td.amt { data.edit_line.cosmic_d }
+              td.amt[] { data.edit_line.cosmic_d }
           .popup-actions
             button rv-on-click='ctrl.save_line_edit' Save
             button rv-on-click='ctrl.cancel_line_edit' Cancel
