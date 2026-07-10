@@ -52,7 +52,8 @@ class CFC < Sinatra::Base
   get( '/robots.txt') { "User-agent: * \r\nDisallow:" }
 
   get( '/:tag' ) do
-    url = ShortUrl.where(:short_path => params[:tag]).first or pass
+    tag = params[:tag].to_s.encode('UTF-8', invalid: :replace, undef: :replace, replace: '').delete("\x00")
+    url = ShortUrl.where(:short_path => tag).first or pass
     redirect url.long_path
   end
 
