@@ -144,8 +144,7 @@ PaymentForm.prototype = {
 
   on_card_change(e) {
     this.show_err( e.error );
-    if( !e.complete ) { return; }
-    stripe.createToken(this.card).then(this.on_card_token);
+    this.state.card_complete = e.complete;
   },
 
   on_card_token: function(result) {
@@ -178,7 +177,11 @@ PaymentForm.prototype = {
   },
 
   charge_new: function() {
-    this.charge_token(this.state.token.id)
+    if(this.state.busy) return;
+    stripe.createToken(this.card).then((result) => {
+      if(result.error) { this.show_err(result.error); return; }
+      this.charge_token(result.token.id);
+    });
   },
 
   charge_swiped: function() {
