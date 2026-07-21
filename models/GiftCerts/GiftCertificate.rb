@@ -70,7 +70,8 @@ class GiftCertificate < Sequel::Model
   end
 
   def purchase_description
-    "[#{customer.id}] #{customer.name} (#{customer.email}) bought a $#{payment.amount.to_f/100} #{num_passes} class Gift Certificate for #{to} \"#{occasion}\""
+    amount = self.payment ? payment.amount.to_f/100 : 0
+    "[#{customer.id}] #{customer.name} (#{customer.email}) bought a $#{amount} #{num_passes} class Gift Certificate for #{to} \"#{occasion}\""
   end
 
 end
