@@ -17,7 +17,7 @@ class CFCOffers < Sinatra::Base
   get( '/redeem_gift' )  { render_page :gift_cert       }
   get( '/survey'      )  { render_page :survey          }
   get( '/giftcard'    )  { render_page :holiday_sale    }
-  get( '/sale'        )  { render_page :gift_cert_sale  }
+  get( '/buygift'     )  { render_page :gift_cert_sale  }
 
   not_found do
     @err="Sorry, This Offer Is No Longer Available."
