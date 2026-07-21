@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title
+      | Gift Certificate Sale
+
+    script src='https://js.stripe.com/v3/'
+
+    javascript:
+      data = {};
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+
+    == css [ 'fonts', 'site', 'header', 'footer', 'gift_cert_sale' ]
+    == js  [ 'jquery' ]
+    == js  [ 'rivets', 'moment', 'rv_dates', 'rv_money' ]
+    == js  [ 'lib', 'element', 'ev_channel', '/checkout/elements/payment_form', '/auth/elements/userview', 'popupmenu']
+    == js  [ 'gift_cert_sale' ]
+
+  body
+
+    #stars
+
+    #banner_photo
+
+    == include_slim('slim/partials/header')
+
+    .content
+
+      .tile
+        .name_container
+          .name
+            | Gift a Class Pack!
+
+        .description
+          span
+            | Give the gift of skill and fitness.
+            br
+            | 5 classes (10 hours of flight time) for just $100.
+
+        .upcoming
+          #login rv-hide='data.logged_in'
+            .heading 
+              | Enter Your Information
+            .section 
+              .tuple
+                span.label
+                  | E-Mail:
+                span.value
+                  input#email rv-value='data.email' rv-on-input='ctrl.check_email'
+              .tuple rv-hide='data.id'
+                span.label
+                  | Full Name:
+                span.value
+                  input#fullname rv-value='data.full_name'
+              .tuple rv-if='data.id | not_if_loggedin' 
+                span.label 
+                  | Password:
+                span.value
+                  input#password type='password' rv-value='data.password'
+            .small rv-if='data.id | not_if_loggedin'
+              | Email Has Account.. Enter or 
+              span#reset rv-on-click='ctrl.reset_password'
+                | Reset Password
+            .errors
+              .err rv-each-err='data.errors'
+                | {err}
+
+            button#login_button rv-on-click='ctrl.login' Continue
+
+          #offer_form rv-show='data.logged_in'
+            .heading
+              | Personalize your Certificate:
+            .section#personalize
+              .tuple
+                span.label
+                  | A Gift From:
+                span.value
+                  input rv-value='data.gift_cert.from'
+              .tuple
+                span.label
+                  | Occasion:
+                span.value
+                  input rv-value='data.gift_cert.occasion'
+              .tuple
+                span.label
+                  | A Gift For:
+                span.value
+                  input rv-value='data.gift_cert.to'
+
+            .heading
+              | Delivery Method
+            #delivery
+              div
+                | After purchase, a copy of the certificate will be emailed to you. 
+                | Nicely printed copies can be picked up anytime at the front desk. 
+                | We can also send a copy directly if you fill in the recipients email below. 
+                | Scan the code, follow the link, or present at the front desk to redeem.
+              input#recipient placeholder="Recipient Email (optional)" rv-value='data.gift_cert.recipient'
+
+            button#checkout_button rv-on-click='ctrl.checkout' Buy Now — $100
+
+
+    == include_slim('slim/partials/footer')
+
+    #popupmenu_container
+
+    == analytics

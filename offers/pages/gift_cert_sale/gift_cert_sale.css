@@ -1,0 +1,192 @@
+#banner_photo {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.tile {
+  padding: 0;
+  letter-spacing: 0.05em;
+  position: relative;
+}
+
+.tile .name_container {
+  font-size: 1.8em;
+  padding: 0.5em;
+  font-family: "Industry";
+  background: rgba(255,255,255,0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header,
+footer {
+  position: relative;
+}
+
+#login .section {
+  margin-bottom: 0.5em;
+}
+
+#delivery {
+  text-align: center;
+}
+
+#delivery div {
+  margin: 0.5em 0;
+  width: 30em;
+  font-size: 0.8em;
+  line-height: 1.4em;
+}
+
+#delivery input {
+  vertical-align: middle;
+}
+
+.section {
+  display: table;
+  margin: 1em 0;
+}
+
+.section .tuple {
+  display: table-row;
+}
+
+.section .tuple .label,
+.section .tuple .value {
+  display: table-cell;
+}
+
+.section .tuple .label {
+  text-align: right;
+  padding-right: 1em;
+}
+
+.section .tuple .value input,
+.section .tuple .value textarea,
+#recipient {
+  font-family: 'Industry';
+  padding: 0.3em;
+  margin: 0.3em;
+  font-size: 0.8em;
+  letter-spacing: 0.03em;
+  border-radius: 0.5em;
+}
+
+#recipient {
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+#personalize input {
+  width: 20em;
+}
+
+#recipient {
+  width: 25em;
+}
+
+.tile .name_container .name {
+  animation: glow 2s alternate infinite, shrink 2s ease-in 1 forwards;
+  white-space: nowrap;
+  display: inline;
+}
+
+.tile .description span {
+  max-width: 50em;
+  display: inline-block;
+  padding: 1em;
+}
+
+.upcoming {
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  margin-bottom: 2em;
+  box-shadow: 0 0 0.1em white;
+  position: relative;
+  padding: 1em;
+}
+
+.upcoming .heading {
+  padding: 0.3em;
+  background: rgba(255,255,255,0.1);
+}
+
+button#checkout_button,
+button#login_button {
+  width: 100%;
+  margin: 0.5em 0;
+  padding: 0.5em;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  font-family: "Industry";
+  font-weight: bold;
+  font-size: 1em;
+  color: white;
+  cursor: pointer;
+}
+
+button#checkout_button:hover,
+button#login_button:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.errors .err {
+  font-size: 0.5em;
+  color: red;
+}
+
+.small {
+  font-size: 0.5em;
+}
+
+#reset {
+  font-weight: bold;
+  color: rgba(150,150,255,0.8);
+  cursor: pointer;
+}
+
+#reset:hover {
+  text-shadow: 0 0 0.1em white;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 0.2em rgba(255,255,255,0.3);
+  }
+  to {
+    text-shadow: 0 0 0.2em rgba(255,255,255,0.7);
+  }
+}
+
+@keyframes shrink {
+  from {
+    letter-spacing: 0.5em;
+  }
+  to {
+    letter-spacing: 0.05em;
+  }
+}
+
+@media(max-width: 800px) {
+
+  .tile {
+    font-size: 4vw;
+    line-height: 1.5em;
+  }
+
+  .tile .name_container {
+    font-size: inherit;
+  }
+
+  .upcoming {
+    font-size: 3vw;
+  }
+
+}

@@ -13,10 +13,11 @@ class CFCOffers < Sinatra::Base
     cache_control :no_store
   end
 
-  get( '/newstudent'  )  { render_page :new_student  }
-  get( '/redeem_gift' )  { render_page :gift_cert    }
-  get( '/survey'      )  { render_page :survey       }
-  get( '/giftcard'    )  { render_page :holiday_sale }
+  get( '/newstudent'  )  { render_page :new_student     }
+  get( '/redeem_gift' )  { render_page :gift_cert       }
+  get( '/survey'      )  { render_page :survey          }
+  get( '/giftcard'    )  { render_page :holiday_sale    }
+  get( '/sale'        )  { render_page :gift_cert_sale  }
 
   not_found do
     @err="Sorry, This Offer Is No Longer Available."
