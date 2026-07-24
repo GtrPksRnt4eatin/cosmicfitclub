@@ -7,6 +7,8 @@ module Facebook
   PAGE_TOKEN  = ENV['FB_PROMO_TOKEN']
   PAGE_ID     = ENV['FB_PAGE_ID']
   IG_USER_ID  = ENV['IG_USER_ID']
+  APP_ID      = ENV['FB_PROMO_ID']
+  APP_SECRET  = ENV['FB_PROMO_SECRET']
 
   def self.get(path, params = {})
     response = RestClient.get("#{BASE_URL}/#{path}", params: params.merge(access_token: PAGE_TOKEN))
@@ -106,7 +108,16 @@ module Facebook
   end
 
   def self.token_permissions
-    get("me/permissions")
+    response = RestClient.get(
+      "https://graph.facebook.com/debug_token",
+      params: {
+        input_token:  PAGE_TOKEN,
+        access_token: "#{APP_ID}|#{APP_SECRET}"
+      }
+    )
+    JSON.parse(response.body)["data"]
+  rescue RestClient::ExceptionWithResponse => e
+    JSON.parse(e.response.body)
   end
 end
 
