@@ -35,6 +35,10 @@ html
           .attrib 1080x1080 Video:
           video autoplay=true loop=true rv-if='data.sched.video_url' rv-src='data.sched.video_url'
           br
-          input type='file' rv-on-change='ctrl.upload_video' 
+          input type='file' rv-on-change='ctrl.upload_video'
+          .story_actions rv-if='data.sched.video_url'
+            button rv-on-click='ctrl.post_ig_video_story' Post Video to IG Story
+            button rv-on-click='ctrl.post_fb_video_story' Post Video to FB Story
+            span.story_status { data.story_status }
  
     #popupmenu_container

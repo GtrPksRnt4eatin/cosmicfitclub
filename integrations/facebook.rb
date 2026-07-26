@@ -49,6 +49,23 @@ module Facebook
     post("#{page_id}/photo_stories", { url: image_url })
   end
 
+  # Post a video story to the Facebook page.
+  # video_url must be a publicly accessible URL.
+  # Two-step: upload as unpublished video, then publish to stories.
+  def self.post_fb_video_story(video_url)
+    page_id = PAGE_ID || "me"
+    # Step 1: upload video as unpublished
+    upload = post("#{page_id}/videos", {
+      file_url:    video_url,
+      published:   false,
+      description: ""
+    })
+    video_id = upload["id"]
+    raise "Failed to upload FB video: #{upload.inspect}" unless video_id
+    # Step 2: publish to story
+    post("#{page_id}/video_stories", { video_id: video_id })
+  end
+
   # Keep old name as alias
   def self.post_story(image_url)
     post_fb_story(image_url)
@@ -166,6 +183,32 @@ class FacebookRoutes < Sinatra::Base
     content_type :json
     data = JSON.parse(request.body.read)
     result = Facebook.post_ig_video_story(data['video_url'])
+    result.to_json
+  rescue => e
+    status 500
+    { error: e.message }.to_json
+  end
+
+  # POST /integrations/facebook/ig_video_story_for_sched/:id
+  # Posts the schedule's stored video to the IG connected account as a story
+  post '/ig_video_story_for_sched/:id' do
+    content_type :json
+    sched = ClassdefSchedule[params[:id]]  or halt(404, { error: 'Schedule not found' }.to_json)
+    halt(422, { error: 'No video on this schedule' }.to_json) unless sched.video_url
+    result = Facebook.post_ig_video_story(sched.video_url)
+    result.to_json
+  rescue => e
+    status 500
+    { error: e.message }.to_json
+  end
+
+  # POST /integrations/facebook/fb_video_story_for_sched/:id
+  # Posts the schedule's stored video to the Facebook page as a story
+  post '/fb_video_story_for_sched/:id' do
+    content_type :json
+    sched = ClassdefSchedule[params[:id]]  or halt(404, { error: 'Schedule not found' }.to_json)
+    halt(422, { error: 'No video on this schedule' }.to_json) unless sched.video_url
+    result = Facebook.post_fb_video_story(sched.video_url)
     result.to_json
   rescue => e
     status 500

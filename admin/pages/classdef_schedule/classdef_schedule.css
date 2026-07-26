@@ -1,3 +1,32 @@
+.story_actions {
+  margin-top: 0.5em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
+}
+
+.story_actions button {
+  padding: 0.3em 0.8em;
+  font-family: 'Industry';
+  font-size: 0.8em;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  border-radius: 0.4em;
+  cursor: pointer;
+}
+
+.story_actions button:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+.story_status {
+  font-size: 0.75em;
+  opacity: 0.7;
+  font-style: italic;
+}
+
 .picpreview, video {
     width: 15em;
     height: 15em;

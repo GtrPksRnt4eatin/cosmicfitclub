@@ -1,5 +1,6 @@
 data = {
-  sched: {}
+  sched: {},
+  story_status: ''
 }
 
 ctrl = {
@@ -25,6 +26,20 @@ ctrl = {
       request.onerror = function(e) { alert("Failed to Upload Video"); }
       request.send(fd);
     }
+  },
+
+  post_ig_video_story: function(e,m) {
+    data.story_status = 'Posting to IG...';
+    $.post('/integrations/facebook/ig_video_story_for_sched/' + data.sched.id)
+     .success(function(resp) { data.story_status = 'Posted to Instagram!'; })
+     .fail(function(req)     { data.story_status = 'Failed: ' + req.responseText; });
+  },
+
+  post_fb_video_story: function(e,m) {
+    data.story_status = 'Posting to FB...';
+    $.post('/integrations/facebook/fb_video_story_for_sched/' + data.sched.id)
+     .success(function(resp) { data.story_status = 'Posted to Facebook!'; })
+     .fail(function(req)     { data.story_status = 'Failed: ' + req.responseText; });
   }
 
 }
