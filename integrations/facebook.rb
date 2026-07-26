@@ -60,11 +60,12 @@ module Facebook
     file_size  = video_data.bytesize
 
     # Phase 1: start
-    start_resp = post("#{page_id}/videos", {
+    start_resp        = post("#{page_id}/videos", {
       upload_phase: "start",
       file_size:    file_size
     })
     upload_session_id = start_resp["upload_session_id"]
+    video_id          = start_resp["video_id"]
     raise "FB video upload start failed: #{start_resp.inspect}" unless upload_session_id
 
     # Phase 2: transfer (single chunk — whole file)
@@ -92,8 +93,7 @@ module Facebook
       upload_session_id: upload_session_id,
       published:         false
     })
-    video_id = finish_resp["video_id"]
-    raise "FB video finish failed: #{finish_resp.inspect}" unless video_id
+    raise "FB video finish failed: #{finish_resp.inspect}" unless finish_resp["success"]
 
     # Publish to story
     post("#{page_id}/video_stories", { video_id: video_id })
