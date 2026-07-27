@@ -60,28 +60,28 @@ module Facebook
     file_size  = video_data.bytesize
 
     # Phase 1: start — using video_stories endpoint directly
-    start_resp        = post("#{page_id}/video_stories", {
+    start_resp = post("#{page_id}/video_stories", {
       upload_phase: "start",
       file_size:    file_size
     })
-    upload_session_id = start_resp["upload_session_id"]
-    video_id          = start_resp["video_id"]
-    raise "FB video_stories start failed: #{start_resp.inspect}" unless upload_session_id
+    video_id   = start_resp["video_id"]
+    upload_url = start_resp["upload_url"]
+    raise "FB video_stories start failed: #{start_resp.inspect}" unless video_id && upload_url
 
-    # Phase 2: transfer video bytes to the dedicated video upload endpoint
+    # Phase 2: transfer video bytes to the upload URL returned by start
     tmpfile = Tempfile.new(["fb_story", ".mp4"])
     tmpfile.binmode
     tmpfile.write(video_data)
     tmpfile.rewind
 
     transfer_resp = RestClient.post(
-      "https://rupload.facebook.com/video-upload/#{API_VERSION}/#{video_id}",
+      upload_url,
       tmpfile.read,
       {
-        "Authorization"          => "OAuth #{PAGE_TOKEN}",
-        "offset"                 => "0",
-        "file_size"              => file_size.to_s,
-        "Content-Type"           => "application/octet-stream"
+        "Authorization" => "OAuth #{PAGE_TOKEN}",
+        "offset"        => "0",
+        "file_size"     => file_size.to_s,
+        "Content-Type"  => "application/octet-stream"
       }
     )
     transfer_json = JSON.parse(transfer_resp.body)
@@ -90,8 +90,8 @@ module Facebook
     # Phase 3: finish and publish
     finish_resp = post("#{page_id}/video_stories", {
       upload_phase: "finish",
-      upload_session_id: upload_session_id,
-      video_state: "PUBLISHED"
+      video_id:     video_id,
+      video_state:  "PUBLISHED"
     })
     raise "FB video_stories finish failed: #{finish_resp.inspect}" if finish_resp["error"]
 
