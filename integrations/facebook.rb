@@ -101,7 +101,7 @@ module Facebook
       status = get(video_id, { fields: "status" })
       processing_status = status.dig("status", "processing_progress")
       video_status      = status.dig("status", "video_status")
-      Slack.err("FB video status poll #{i}", "#{status.inspect}") if i == 0
+      Slack.custom("FB video status poll #{i}: #{status.inspect}", 'website_errors') if i == 0
       case video_status
       when "ready"
         break
@@ -114,7 +114,7 @@ module Facebook
 
     # Publish to story
     story_resp = post("#{page_id}/video_stories", { video_id: video_id })
-    Slack.err("FB video_stories response", story_resp.inspect)
+    Slack.custom("FB video_stories response: #{story_resp.inspect}", 'website_errors')
     story_resp
   ensure
     tmpfile&.close
