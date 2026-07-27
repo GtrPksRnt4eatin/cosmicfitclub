@@ -95,8 +95,27 @@ module Facebook
     })
     raise "FB video finish failed: #{finish_resp.inspect}" unless finish_resp["success"]
 
+    # Wait for FB to finish processing the video before publishing to story
+    max_attempts = 20
+    max_attempts.times do |i|
+      status = get(video_id, { fields: "status" })
+      processing_status = status.dig("status", "processing_progress")
+      video_status      = status.dig("status", "video_status")
+      Slack.err("FB video status poll #{i}", "#{status.inspect}") if i == 0
+      case video_status
+      when "ready"
+        break
+      when "error"
+        raise "FB video processing error: #{status.inspect}"
+      else
+        sleep(i < 5 ? 3 : 6)
+      end
+    end
+
     # Publish to story
-    post("#{page_id}/video_stories", { video_id: video_id })
+    story_resp = post("#{page_id}/video_stories", { video_id: video_id })
+    Slack.err("FB video_stories response", story_resp.inspect)
+    story_resp
   ensure
     tmpfile&.close
     tmpfile&.unlink
