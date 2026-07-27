@@ -51,7 +51,7 @@ module Facebook
 
   # Post a video story to the Facebook page.
   # video_url must be a publicly accessible URL.
-  # Uses the 3-phase resumable upload: start -> transfer -> finish, then publish to stories.
+  # Uses the video_stories-specific 3-phase upload flow.
   def self.post_fb_video_story(video_url)
     page_id = PAGE_ID || "me"
 
@@ -59,63 +59,44 @@ module Facebook
     video_data = RestClient.get(video_url).body
     file_size  = video_data.bytesize
 
-    # Phase 1: start
-    start_resp        = post("#{page_id}/videos", {
+    # Phase 1: start — using video_stories endpoint directly
+    start_resp        = post("#{page_id}/video_stories", {
       upload_phase: "start",
       file_size:    file_size
     })
     upload_session_id = start_resp["upload_session_id"]
     video_id          = start_resp["video_id"]
-    raise "FB video upload start failed: #{start_resp.inspect}" unless upload_session_id
+    raise "FB video_stories start failed: #{start_resp.inspect}" unless upload_session_id
 
-    # Phase 2: transfer (single chunk — whole file)
-    tmpfile = Tempfile.new(["fb_video", ".mp4"])
+    # Phase 2: transfer video bytes to the dedicated video upload endpoint
+    tmpfile = Tempfile.new(["fb_story", ".mp4"])
     tmpfile.binmode
     tmpfile.write(video_data)
     tmpfile.rewind
 
     transfer_resp = RestClient.post(
-      "https://graph-video.facebook.com/#{API_VERSION}/#{page_id}/videos",
+      "https://rupload.facebook.com/video-upload/#{API_VERSION}/#{video_id}",
+      tmpfile.read,
       {
-        access_token:      PAGE_TOKEN,
-        upload_phase:      "transfer",
-        upload_session_id: upload_session_id,
-        start_offset:      0,
-        video_file_chunk:  tmpfile
+        "Authorization"          => "OAuth #{PAGE_TOKEN}",
+        "offset"                 => "0",
+        "file_size"              => file_size.to_s,
+        "Content-Type"           => "application/octet-stream"
       }
     )
     transfer_json = JSON.parse(transfer_resp.body)
-    raise "FB video transfer failed: #{transfer_json.inspect}" if transfer_json["error"]
+    raise "FB video_stories transfer failed: #{transfer_json.inspect}" if transfer_json["error"]
 
-    # Phase 3: finish (unpublished)
-    finish_resp = post("#{page_id}/videos", {
-      upload_phase:      "finish",
+    # Phase 3: finish and publish
+    finish_resp = post("#{page_id}/video_stories", {
+      upload_phase: "finish",
       upload_session_id: upload_session_id,
-      published:         false
+      video_state: "PUBLISHED"
     })
-    raise "FB video finish failed: #{finish_resp.inspect}" unless finish_resp["success"]
+    raise "FB video_stories finish failed: #{finish_resp.inspect}" if finish_resp["error"]
 
-    # Wait for FB to finish processing the video before publishing to story
-    max_attempts = 20
-    max_attempts.times do |i|
-      status = get(video_id, { fields: "status" })
-      processing_status = status.dig("status", "processing_progress")
-      video_status      = status.dig("status", "video_status")
-      Slack.custom("FB video status poll #{i}: #{status.inspect}", 'website_errors') if i == 0
-      case video_status
-      when "ready"
-        break
-      when "error"
-        raise "FB video processing error: #{status.inspect}"
-      else
-        sleep(i < 5 ? 3 : 6)
-      end
-    end
-
-    # Publish to story
-    story_resp = post("#{page_id}/video_stories", { video_id: video_id })
-    Slack.custom("FB video_stories response: #{story_resp.inspect}", 'website_errors')
-    story_resp
+    Slack.custom("FB video_stories finish: #{finish_resp.inspect}", 'website_errors')
+    finish_resp
   ensure
     tmpfile&.close
     tmpfile&.unlink
