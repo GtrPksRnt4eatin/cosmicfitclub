@@ -109,8 +109,12 @@ class ClassDefRoutes < Sinatra::Base
     data = JSON.parse(request.body.read)
     id = data['id']
     data.delete('id')
-    schedule = ClassDef[params[:id]].create_schedule(data) if id == 0 
-    schedule = ClassdefSchedule[id].update(data)       unless id == 0
+    if id == 0
+      schedule = ClassDef[params[:id]].create_schedule(data)
+    else
+      schedule = ClassdefSchedule[id]
+      schedule.update(data)
+    end
     Slack.website_scheduling("#{Customer[session[:customer_id]].name} changed the class schedule: \r\n#{schedule.description_line}")
     schedule.to_json
   end 
