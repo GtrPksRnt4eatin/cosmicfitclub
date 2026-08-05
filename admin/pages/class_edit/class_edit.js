@@ -77,9 +77,8 @@ $(document).ready(function() {
   });
 
   get_staff(); //.then(function() { scheduleform.instructors = data['instructors']; } );
-  get_locations();
   get_classdef();
-  get_schedules();
+  get_locations().then(get_schedules);
 
 });
 
