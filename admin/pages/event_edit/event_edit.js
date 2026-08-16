@@ -293,8 +293,8 @@ function show_duplicate_date_picker(callback) {
   overlay.appendChild(box);
   document.body.appendChild(overlay);
 
-  // Init flatpickr
-  var fp = flatpickr(input, {
+  // Init flatpickr — pass selector string, not element reference
+  var fp = flatpickr('#dup_date_input', {
     dateFormat: 'Y-m-d',
     defaultDate: null
   });
