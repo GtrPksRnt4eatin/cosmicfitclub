@@ -36,15 +36,49 @@ class Event < Sequel::Model
 
   end
   
-  def Event::duplicate(event_id)
+  def Event::duplicate(event_id, new_date: nil)
     original = Event[event_id] or return false
-    clone = Event.create(original.to_hash.except(:id))
+
+    # Compute day offset if a new_date is provided
+    offset_days = 0
+    if new_date
+      original_date = original.starttime ? original.starttime.to_date : nil
+      if original_date
+        target_date  = Date.parse(new_date)
+        offset_days  = (target_date - original_date).to_i
+      end
+    end
+
+    # Shift the event's own starttime
+    new_hash = original.to_hash.except(:id)
+    if offset_days != 0 && new_hash[:starttime]
+      new_hash[:starttime] = new_hash[:starttime] + offset_days
+    end
+
+    clone = Event.create(new_hash)
+
+    # Build a mapping from original session IDs to new session IDs
+    session_id_map = {}
     original.sessions.each do |sess|
-      clone.add_session(EventSession.create(sess.to_hash.except(:id)))
+      sess_hash = sess.to_hash.except(:id, :event_id)
+      if offset_days != 0
+        sess_hash[:start_time] = Time.parse(sess.start_time) + (offset_days * 86400) if sess.start_time
+        sess_hash[:end_time]   = Time.parse(sess.end_time)   + (offset_days * 86400) if sess.end_time
+      end
+      new_sess = EventSession.create(sess_hash)
+      clone.add_session(new_sess)
+      session_id_map[sess.id] = new_sess.id
     end
+
+    # Duplicate prices, remapping included_sessions to the new session IDs
     original.prices.each do |price|
-      clone.add_price(EventPrice.create(price.to_hash.except(:id)))
+      price_hash = price.to_hash.except(:id, :event_id)
+      if price_hash[:included_sessions].is_a?(Array)
+        price_hash[:included_sessions] = price_hash[:included_sessions].map { |sid| session_id_map[sid] || sid }
+      end
+      clone.add_price(EventPrice.create(price_hash))
     end
+
     clone
   end
 

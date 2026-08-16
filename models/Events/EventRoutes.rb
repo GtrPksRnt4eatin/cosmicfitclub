@@ -76,7 +76,10 @@ class EventRoutes < Sinatra::Base
   end
   
   post '/:id/duplicate' do
-    Event::duplicate(params[:id])
+    content_type :json
+    new_event = Event::duplicate(params[:id], new_date: params[:new_date])
+    halt(500, 'Duplicate failed') unless new_event
+    { id: new_event.id }.to_json
   end
 
   ###################################### EVENTS #################################
