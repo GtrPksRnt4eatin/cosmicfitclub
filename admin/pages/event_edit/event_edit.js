@@ -233,55 +233,33 @@ function fetch_event() {
 }
 
 function show_duplicate_date_picker(callback) {
-  // Build modal overlay
-  var overlay = document.createElement('div');
-  overlay.id = 'dup_date_overlay';
-  overlay.style.cssText = [
-    'position:fixed','top:0','left:0','width:100%','height:100%',
-    'background:rgba(0,0,0,0.65)','z-index:9999',
-    'display:flex','align-items:center','justify-content:center'
-  ].join(';');
-
   var box = document.createElement('div');
-  box.style.cssText = [
-    'background:#1e1e2e','border-radius:1em','padding:2em',
-    'min-width:320px','box-shadow:0 8px 32px rgba(0,0,0,0.6)',
-    'display:flex','flex-direction:column','gap:1em',
-    'color:#eee','font-family:inherit'
-  ].join(';');
+  box.className = 'dup_date_picker form';
 
   var title = document.createElement('h3');
   title.textContent = 'Duplicate Workshop';
-  title.style.cssText = 'margin:0;font-size:1.2em;';
 
   var label = document.createElement('label');
   label.textContent = 'Select new start date:';
-  label.style.cssText = 'font-size:0.9em;opacity:0.8;';
 
   var input = document.createElement('input');
   input.type = 'text';
   input.id   = 'dup_date_input';
   input.placeholder = 'Pick a date';
-  input.style.cssText = [
-    'padding:0.5em','border-radius:0.5em','border:none',
-    'font-size:1em','width:100%','box-sizing:border-box',
-    'background:#2e2e3e','color:#eee'
-  ].join(';');
 
   var note = document.createElement('p');
-  note.style.cssText = 'margin:0;font-size:0.8em;opacity:0.65;';
+  note.className = 'dup_date_note';
   note.textContent = 'Sessions will be shifted by the same number of days as the date difference from the original event.';
 
   var btnRow = document.createElement('div');
-  btnRow.style.cssText = 'display:flex;gap:0.75em;justify-content:flex-end;';
+  btnRow.className = 'dup_date_btns';
 
   var cancelBtn = document.createElement('button');
   cancelBtn.textContent = 'Cancel';
-  cancelBtn.style.cssText = 'padding:0.5em 1.2em;border-radius:0.5em;border:none;cursor:pointer;background:#444;color:#eee;';
 
   var confirmBtn = document.createElement('button');
+  confirmBtn.className = 'primary';
   confirmBtn.textContent = 'Duplicate';
-  confirmBtn.style.cssText = 'padding:0.5em 1.2em;border-radius:0.5em;border:none;cursor:pointer;background:#6c63ff;color:#fff;font-weight:bold;';
 
   btnRow.appendChild(cancelBtn);
   btnRow.appendChild(confirmBtn);
@@ -290,8 +268,6 @@ function show_duplicate_date_picker(callback) {
   box.appendChild(input);
   box.appendChild(note);
   box.appendChild(btnRow);
-  overlay.appendChild(box);
-  document.body.appendChild(overlay);
 
   // Init flatpickr — pass selector string, not element reference
   var fp = flatpickr('#dup_date_input', {
@@ -301,21 +277,16 @@ function show_duplicate_date_picker(callback) {
 
   cancelBtn.addEventListener('click', function() {
     fp.destroy();
-    document.body.removeChild(overlay);
-  });
-
-  overlay.addEventListener('click', function(ev) {
-    if(ev.target === overlay) {
-      fp.destroy();
-      document.body.removeChild(overlay);
-    }
+    popupmenu.hide();
   });
 
   confirmBtn.addEventListener('click', function() {
     var val = input.value;
     if(!val) { alert('Please select a date first.'); return; }
     fp.destroy();
-    document.body.removeChild(overlay);
+    popupmenu.hide();
     callback(val);
   });
+
+  popupmenu.show({ dom: box, position: 'modal' });
 }

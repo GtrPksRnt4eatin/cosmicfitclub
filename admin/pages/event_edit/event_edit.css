@@ -162,3 +162,47 @@ table.reflections td.nobg {
   }
 
 }
+
+.dup_date_picker h3 {
+  margin: 0 0 1em 0;
+}
+
+.dup_date_picker label {
+  font-size: 0.9em;
+  opacity: 0.8;
+  display: block;
+  margin-bottom: 0.4em;
+}
+
+.dup_date_picker input {
+  background: rgba(255,255,255,0.5);
+  color: black;
+  font-size: 1em;
+  padding: 0.25em 1em;
+  border-radius: 0.5em;
+  width: 20em;
+}
+
+.dup_date_note {
+  margin: 0;
+  font-size: 0.8em;
+  opacity: 0.65;
+}
+
+.dup_date_btns {
+  display: flex;
+  gap: 0.75em;
+  justify-content: flex-end;
+  margin-top: 0.5em;
+}
+
+.dup_date_btns button {
+  font-size: 1em;
+  border-radius: 0.5em;
+  padding: 0.4em 1.2em;
+  width: auto;
+}
+
+.dup_date_btns button.primary {
+  font-weight: bold;
+}
