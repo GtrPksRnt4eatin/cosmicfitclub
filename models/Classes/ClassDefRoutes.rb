@@ -50,7 +50,11 @@ class ClassDefRoutes < Sinatra::Base
   get '/:id' do
     id       = Integer(params[:id]) rescue pass
     classdef = ClassDef[ id ]           or halt(404, "ClassDef Doesn't Exist")
-    classdef.to_json
+    occ_count = classdef.occurrences.count
+    JSON.parse(classdef.to_json).merge(
+      'occurrence_count' => occ_count,
+      'safe_to_delete'   => classdef.deactivated && occ_count == 0
+    ).to_json
   end
 
   post '/' do

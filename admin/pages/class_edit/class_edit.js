@@ -54,6 +54,12 @@ ctrl = {
     if(!confirm('really delete this schedule?')) return;
     $.del(`/models/classdefs/schedules/${m.sched.id}`)
      .done( function() { data['schedules'].splice(m.index,1); } ); 
+  },
+
+  force_del(e,m) {
+    if (!confirm(`Permanently delete "${m.data.class.name}"? This cannot be undone.`)) return;
+    $.del(`/models/classdefs/${m.data.class.id}/force`)
+     .done( function() { window.location = '/admin/classes'; });
   }
 
 }

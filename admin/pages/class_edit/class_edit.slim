@@ -68,6 +68,13 @@ html
 
         button#submit rv-on-click='ctrl.save_changes' Save Class
 
+        .class-danger-zone rv-if='data.class.deactivated'
+          .occurrence-count rv-if='data.class.occurrence_count'
+            | { data.class.occurrence_count } historical meetings — class cannot be fully deleted
+          .occurrence-count rv-unless='data.class.occurrence_count'
+            | No historical meetings
+          button.hard-delete-btn rv-if='data.class.safe_to_delete' rv-on-click='ctrl.force_del' Permanently Delete Class
+
     #popupmenu_container
 
     == analytics
