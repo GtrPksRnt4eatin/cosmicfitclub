@@ -85,9 +85,10 @@ textarea,
   display: flex;
   align-items: center;
   position: relative;
-  padding: 0.4em 1em 0.4em 0.5em;
+  padding: 0.4em 1em 0.4em 0.75em;
   margin: 0.25em auto;
   max-width: 600px;
+  background: rgba(0,0,0,0.35);
   border-bottom: 1px solid rgba(255,255,255,0.08);
   text-align: left;
 }
@@ -120,11 +121,13 @@ textarea,
 .cancelled-row {
   display: flex;
   align-items: center;
-  padding: 0.3em 1em;
+  padding: 0.3em 1em 0.3em 0.75em;
   margin: 0.1em auto;
   max-width: 600px;
+  background: rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   text-align: left;
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 .cancelled-row .classlist-name {

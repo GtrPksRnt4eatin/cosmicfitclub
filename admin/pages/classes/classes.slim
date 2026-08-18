@@ -19,8 +19,6 @@ html
 
     #content
 
-      .section-header Active Classes
-
       .tile.classdef rv-each-class='data.active'
         img rv-src='class.image_url'
         .classnfo
@@ -39,14 +37,16 @@ html
 
       .classlist-row rv-each-class='data.inactive'
         img.list-thumb rv-src='class.image_url'
-        .classlist-name { class.name }
+        .classlist-name
+          | { class.name }
         .edit rv-on-click='ctrl.edit'
         .delete rv-on-click='ctrl.del'
 
       .section-header.cancelled-header Cancelled Classes
 
       .cancelled-row rv-each-class='data.cancelled'
-        .classlist-name { class.name }
+        .classlist-name
+          | { class.name }
         .edit rv-on-click='ctrl.edit'
 
       footer
