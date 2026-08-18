@@ -44,7 +44,8 @@ html
 
       .section-header.cancelled-header Cancelled Classes
 
-      .cancelled-row rv-each-class='data.cancelled'
+      .classlist-row rv-each-class='data.cancelled'
+        img.list-thumb rv-src='class.image_url'
         .classlist-name
           | { class.name }
         .cancelled-count rv-show='class.occurrence_count'

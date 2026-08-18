@@ -118,39 +118,11 @@ textarea,
   flex-shrink: 0;
 }
 
-.cancelled-row {
-  display: flex;
-  align-items: center;
-  padding: 0.3em 1em 0.3em 0.75em;
-  margin: 0.1em auto;
-  max-width: 600px;
-  background: rgba(0,0,0,0.25);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  text-align: left;
-  opacity: 0.5;
-}
-
-.cancelled-row .classlist-name {
-  flex: 1;
-  font-size: 0.9em;
-  font-style: italic;
-}
-
 .cancelled-count {
   font-size: 0.75em;
   color: rgba(255,255,255,0.5);
   margin-right: 0.75em;
   white-space: nowrap;
-}
-
-.cancelled-row .edit {
-  position: static;
-  display: inline-block;
-  font-size: 1.2em;
-  width: 1.5em;
-  height: 1.5em;
-  margin-left: 0.5em;
-  flex-shrink: 0;
 }
 
 .hard-delete {
