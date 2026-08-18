@@ -19,7 +19,9 @@ html
 
     #content
 
-      .tile.classdef rv-each-class='data.classes'
+      .section-header Active Classes
+
+      .tile.classdef rv-each-class='data.active'
         img rv-src='class.image_url'
         .classnfo
           .classname 
@@ -31,6 +33,20 @@ html
           span rv-on-click='ctrl.moveup' <
           span rv-on-click='ctrl.movedn' >
         .delete rv-on-click='ctrl.del'
+        .edit rv-on-click='ctrl.edit'
+
+      .section-header.inactive-header Inactive Classes
+
+      .classlist-row rv-each-class='data.inactive'
+        img.list-thumb rv-src='class.image_url'
+        .classlist-name { class.name }
+        .edit rv-on-click='ctrl.edit'
+        .delete rv-on-click='ctrl.del'
+
+      .section-header.cancelled-header Cancelled Classes
+
+      .cancelled-row rv-each-class='data.cancelled'
+        .classlist-name { class.name }
         .edit rv-on-click='ctrl.edit'
 
       footer

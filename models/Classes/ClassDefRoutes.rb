@@ -29,6 +29,16 @@ class ClassDefRoutes < Sinatra::Base
     ClassdefSchedule.get_class_page_rankings.map { |x| ClassDef[x].adminpage_view }.to_json
   end
 
+  get '/admin_grouped' do
+    active_all = ClassDef.list_active
+    active     = active_all.select { |c| c.schedules.count > 0 }.map(&:adminpage_view)
+    inactive   = active_all.select { |c| c.schedules.count == 0 }.map(&:adminpage_view)
+    cancelled  = ClassDef.where(:deactivated => true).order(:name).all.map { |c|
+      { :id => c.id, :name => c.name, :image_url => c.thumbnail_image }
+    }
+    { :active => active, :inactive => inactive, :cancelled => cancelled }.to_json
+  end
+
   ####################################### LISTS #####################################################
 
   ################################## CLASSDEF CRUD ##################################################

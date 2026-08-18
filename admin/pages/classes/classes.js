@@ -1,13 +1,15 @@
 var data = {
-  classes: [],
-  newclass: {}
+  active: [],
+  inactive: [],
+  cancelled: []
 }
 
 var ctrl = {
 
   del: function(e,m) {
+    if (!confirm(`Deactivate "${m.class.name}"?`)) return;
     $.del(`/models/classdefs/${m.class.id}`, function() {
-      data.classes.splice(data.classes.indexOf(m.class),1);
+      get_saved_classes();
     });
   },
 
@@ -41,9 +43,11 @@ $(document).ready(function() {
 });
 
 function get_saved_classes() {
-  $.get('/models/classdefs', function(classes) {
-    data.classes = classes;
-  })
+  $.get('/models/classdefs/admin_grouped', function(resp) {
+    data.active   = resp.active;
+    data.inactive = resp.inactive;
+    data.cancelled = resp.cancelled;
+  });
 } 
 
 function post_new_class(e){

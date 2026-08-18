@@ -60,6 +60,89 @@ textarea,
   text-align: center;
 }
 
+.section-header {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.6em 1em;
+  margin: 1.5em 0 0.5em 0;
+  font-size: 1.1em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.85);
+}
+
+.inactive-header {
+  color: rgba(255,255,255,0.55);
+}
+
+.cancelled-header {
+  color: rgba(255,255,255,0.3);
+}
+
+.classlist-row {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.4em 1em 0.4em 0.5em;
+  margin: 0.25em auto;
+  max-width: 600px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-align: left;
+}
+
+.classlist-row .list-thumb {
+  width: 3em;
+  height: 3em;
+  object-fit: cover;
+  border-radius: 3px;
+  margin-right: 0.75em;
+  flex-shrink: 0;
+}
+
+.classlist-row .classlist-name {
+  flex: 1;
+  font-size: 0.95em;
+}
+
+.classlist-row .edit,
+.classlist-row .delete {
+  position: static;
+  display: inline-block;
+  font-size: 1.4em;
+  width: 1.5em;
+  height: 1.5em;
+  margin-left: 0.5em;
+  flex-shrink: 0;
+}
+
+.cancelled-row {
+  display: flex;
+  align-items: center;
+  padding: 0.3em 1em;
+  margin: 0.1em auto;
+  max-width: 600px;
+  text-align: left;
+  opacity: 0.45;
+}
+
+.cancelled-row .classlist-name {
+  flex: 1;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.cancelled-row .edit {
+  position: static;
+  display: inline-block;
+  font-size: 1.2em;
+  width: 1.5em;
+  height: 1.5em;
+  margin-left: 0.5em;
+  flex-shrink: 0;
+}
+
 footer {
   position: fixed;
   bottom: 0;
