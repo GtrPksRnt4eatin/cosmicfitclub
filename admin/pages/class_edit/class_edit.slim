@@ -11,7 +11,7 @@ html
     == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'chosen', 'selectize', 'croppie', 'jquery.timepicker', '/admin/class_edit' ]
     == js  [ 'jquery', 'rivets', 'rv_rrule', 'lib', 'rv_select', 'moment','selectize.min', 'flatpickr', 'rv_dates']
     == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min', 'croppie.min','/auth/elements/userview',]
-    == js  [ 'elements/schedule_form', 'elements/popup_menu', '/admin/elements/aspect_img_chooser', '/admin/class_edit' ]
+    == js  [ '/admin/elements/edit_text', 'elements/schedule_form', 'elements/popup_menu', '/admin/elements/aspect_img_chooser', '/admin/class_edit' ]
 
   html
     #stars
@@ -24,7 +24,8 @@ html
 
         .tuplet
           label Class Name: 
-          textarea#name rv-value='data.class.name'
+          .value.editable rv-on-click='ctrl.edit_name'
+            | { data.class.name }
 
         .tuplet
           label Image:
@@ -34,7 +35,8 @@ html
 
         .tuplet
           label Details:
-          textarea#details rv-value='data.class.description'
+          .value.editable rv-on-click='ctrl.edit_description'
+            | { data.class.description }
 
         .tuplet
           label Schedules:
@@ -65,8 +67,6 @@ html
                   .delete rv-on-click='ctrl.del_schedule'
                   .open   rv-on-click='ctrl.open_schedule'
                     | Open
-
-        button#submit rv-on-click='ctrl.save_changes' Save Class
 
         .class-danger-zone rv-if='data.class.deactivated'
           .occurrence-count rv-if='data.class.occurrence_count'

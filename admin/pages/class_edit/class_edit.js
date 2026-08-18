@@ -9,12 +9,26 @@ ctrl = {
 
   save_changes(e,m) {
     let payload = {
-      id: m.data.class.id,
-      name: m.data.class.name,
-      description: m.data.class.description,
-      location_id: m.data.class.location_id
+      id: data.class.id,
+      name: data.class.name,
+      description: data.class.description,
+      location_id: data.class.location_id
     }
-    $.post('/models/classdefs', payload).then( function() { get_schedules(); } );
+    $.post('/models/classdefs', payload);
+  },
+
+  edit_name(e,m) {
+    edit_text.show('Edit Class Name', data.class.name, function(val) {
+      data.class.name = val;
+      ctrl.save_changes();
+    });
+  },
+
+  edit_description(e,m) {
+    edit_text.show_long('Edit Class Description', data.class.description, function(val) {
+      data.class.description = val;
+      ctrl.save_changes();
+    });
   },
 
 /*
