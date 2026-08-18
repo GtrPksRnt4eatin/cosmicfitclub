@@ -20,23 +20,23 @@ html
 
     #content
 
+      .tile.class_tile
+
+        .img.editable rv-on-click='ctrl.edit_image'
+          img.picpreview rv-if='data.class.image_url' crossorigin='anonymous' rv-src='data.class.image_url'
+          img.picpreview.filler#nopic rv-unless='data.class.image_url'
+
+        .class_nfo
+          .tuple
+            .attrib Name:
+            .value.editable rv-on-click='ctrl.edit_name'
+              | { data.class.name }
+          .tuple
+            .attrib Details:
+            .value.editable rv-on-click='ctrl.edit_description'
+              | { data.class.description }
+
       .tile
-
-        .tuplet
-          label Class Name: 
-          .value.editable rv-on-click='ctrl.edit_name'
-            | { data.class.name }
-
-        .tuplet
-          label Image:
-          .img.editable
-            img.picpreview rv-if='data.class.image_url' crossorigin='anonymous' rv-src='data.class.image_url' rv-on-click='ctrl.edit_image'
-            img.picpreview.filler#nopic rv-unless='data.class.image_url' rv-on-click='ctrl.edit_image'
-
-        .tuplet
-          label Details:
-          .value.editable rv-on-click='ctrl.edit_description'
-            | { data.class.description }
 
         .tuplet
           label Schedules:

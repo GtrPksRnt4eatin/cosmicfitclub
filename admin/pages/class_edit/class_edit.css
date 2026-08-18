@@ -1,3 +1,54 @@
+/* CLASS TILE */
+
+.class_tile {
+  display: flex;
+  text-align: left;
+  padding: 0.25em;
+}
+
+.class_tile .img {
+  flex: 0 0 auto;
+  padding: 0.25em;
+  cursor: pointer;
+}
+
+.class_tile .img img.picpreview {
+  height: 15em;
+  width: 15em;
+  object-fit: cover;
+  display: block;
+}
+
+.class_tile .class_nfo {
+  flex: 1 1 auto;
+  padding: 0.25em 0.5em;
+}
+
+.class_tile .class_nfo .tuple {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5em;
+}
+
+.class_tile .class_nfo .attrib {
+  width: 5em;
+  flex-shrink: 0;
+  padding-top: 0.3em;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.class_tile .class_nfo .value {
+  background: rgba(255,255,255,0.5);
+  color: black;
+  padding: 0.25em 1em;
+  border-radius: 0.5em;
+  flex: 1;
+  min-height: 2em;
+}
+
+/* CLASS TILE */
+
 .tuplet .value {
   background: rgba(255,255,255,0.5);
   color: black;
@@ -6,6 +57,57 @@
   flex: 1 0 0;
   min-height: 2em;
 }
+
+/* CLASS TILE */
+
+.class_tile {
+  display: flex;
+  text-align: left;
+  padding: 0.25em;
+}
+
+.class_tile .img {
+  flex: 0 0 auto;
+  padding: 0.25em;
+  cursor: pointer;
+}
+
+.class_tile .img img.picpreview {
+  height: 15em;
+  width: 15em;
+  object-fit: cover;
+  display: block;
+}
+
+.class_tile .class_nfo {
+  flex: 1 1 auto;
+  padding: 0.25em 0.5em;
+}
+
+.class_tile .class_nfo .tuple {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5em;
+}
+
+.class_tile .class_nfo .attrib {
+  width: 5em;
+  flex-shrink: 0;
+  padding-top: 0.3em;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.class_tile .class_nfo .value {
+  background: rgba(255,255,255,0.5);
+  color: black;
+  padding: 0.25em 1em;
+  border-radius: 0.5em;
+  flex: 1;
+  min-height: 2em;
+}
+
+/* CLASS TILE */
 
 .editable {
   position: relative;
