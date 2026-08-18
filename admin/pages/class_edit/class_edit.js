@@ -86,6 +86,10 @@ $(document).ready(function() {
   
   popupmenu   = new PopupMenu( id('popupmenu_container') );
 
+  edit_text = new EditText();
+  edit_text.ev_sub('show', popupmenu.show);
+  edit_text.ev_sub('done', function() { popupmenu.hide(); });
+
   img_chooser = new AspectImageChooser();
   img_chooser.ev_sub('show', popupmenu.show );
 
