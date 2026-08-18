@@ -34,7 +34,7 @@ class ClassDefRoutes < Sinatra::Base
     active     = active_all.select { |c| c.schedules.count > 0 }.map(&:adminpage_view)
     inactive   = active_all.select { |c| c.schedules.count == 0 }.map(&:adminpage_view)
     cancelled  = ClassDef.where(:deactivated => true).order(:name).all.map { |c|
-      { :id => c.id, :name => c.name, :image_url => c.thumbnail_image }
+      { :id => c.id, :name => c.name, :image_url => c.thumbnail_image, :occurrence_count => c.occurrences.count }
     }
     { :active => active, :inactive => inactive, :cancelled => cancelled }.to_json
   end

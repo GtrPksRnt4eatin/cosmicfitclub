@@ -136,6 +136,13 @@ textarea,
   font-style: italic;
 }
 
+.cancelled-count {
+  font-size: 0.75em;
+  color: rgba(255,255,255,0.5);
+  margin-right: 0.75em;
+  white-space: nowrap;
+}
+
 .cancelled-row .edit {
   position: static;
   display: inline-block;

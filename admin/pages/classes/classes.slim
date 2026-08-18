@@ -47,6 +47,8 @@ html
       .cancelled-row rv-each-class='data.cancelled'
         .classlist-name
           | { class.name }
+        .cancelled-count rv-show='class.occurrence_count'
+          | { class.occurrence_count } meetings
         .edit rv-on-click='ctrl.edit'
 
       footer
