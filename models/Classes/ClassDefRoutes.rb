@@ -34,7 +34,11 @@ class ClassDefRoutes < Sinatra::Base
     active     = active_all.select { |c| c.schedules.count > 0 }.map(&:adminpage_view)
     inactive   = active_all.select { |c| c.schedules.count == 0 }.map(&:adminpage_view)
     cancelled  = ClassDef.where(:deactivated => true).order(:name).all.map { |c|
-      { :id => c.id, :name => c.name, :image_url => c.thumbnail_image, :occurrence_count => c.occurrences.count }
+      occ_count = c.occurrences.count
+      exc_count = c.exceptions.count
+      { :id => c.id, :name => c.name, :image_url => c.thumbnail_image,
+        :occurrence_count => occ_count,
+        :safe_to_delete   => (occ_count == 0) }
     }
     { :active => active, :inactive => inactive, :cancelled => cancelled }.to_json
   end
@@ -64,6 +68,16 @@ class ClassDefRoutes < Sinatra::Base
     id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
     classdef = ClassDef[ id ]           or halt(404, "Class Definition not found.")
     classdef.deactivate                 or halt(403, "Class Couldn't be deactivated")
+    {}.to_json
+  end
+
+  delete '/:id/force' do
+    id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
+    classdef = ClassDef[ id ]           or halt(404, "Class Definition not found.")
+    halt(403, "Class must be deactivated first")    unless classdef.deactivated
+    halt(403, "Class has occurrence records")        if classdef.occurrences.count > 0
+    classdef.exceptions.each(&:destroy)
+    classdef.destroy
     {}.to_json
   end
 
