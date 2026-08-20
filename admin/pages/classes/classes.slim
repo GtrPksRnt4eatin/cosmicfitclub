@@ -21,10 +21,8 @@ html
 
       .tile.classdef rv-each-class='data.active'
         img rv-src='class.image_url'
-        .classnfo
-          .classname 
-            | { class.name }
-        .delete rv-on-click='ctrl.del'
+        .classname
+          span { class.name }
         .edit rv-on-click='ctrl.edit'
 
       .section-header.inactive-header Unscheduled Classes
