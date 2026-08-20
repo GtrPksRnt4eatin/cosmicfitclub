@@ -21,21 +21,32 @@ ctrl = {
   },
 
   save_changes: function(e,m) {
-    if (!data.sched.id) return;
     var sel = $('#instructor_select')[0].selectize;
+    var classdef_id = data.sched.classdef_id || getUrlParameter('classdef_id');
+    if (!classdef_id) return;
+    var instructors = sel ? sel.getValue() : data.sched.instructors;
+    var rrule       = data.sched.rrule_raw;
+    var start_time  = $('#start_time').val() || data.sched.start_time;
+    var end_time    = $('#end_time').val()   || data.sched.end_time;
+    if (!rrule || !start_time || !end_time || !instructors || instructors.length === 0) return;
     var payload = {
-      id:          data.sched.id,
-      instructors: sel ? sel.getValue() : data.sched.instructors,
-      rrule:       data.sched.rrule_raw,
-      start_time:  $('#start_time').val() || data.sched.start_time,
-      end_time:    $('#end_time').val()   || data.sched.end_time,
+      id:          data.sched.id || 0,
+      instructors: instructors,
+      rrule:       rrule,
+      start_time:  start_time,
+      end_time:    end_time,
       location_id: data.sched.location_id,
       capacity:    data.sched.capacity
     };
     if (original && JSON.stringify(payload) === JSON.stringify(original)) return;
     original = Object.assign({}, payload);
-    $.post('/models/classdefs/' + data.sched.classdef_id + '/schedules', JSON.stringify(payload))
-     .done(function(resp) { get_sched_details(); });
+    $.post('/models/classdefs/' + classdef_id + '/schedules', JSON.stringify(payload))
+     .done(function(resp) {
+       if (!data.sched.id) {
+         history.replaceState(null, '', '/admin/classdef_schedule?id=' + resp.id);
+       }
+       get_sched_details();
+     });
   },
 
   upload_video: function(e,m) {
@@ -98,6 +109,9 @@ $(document).ready(function() {
       onChange: function() { ctrl.save_changes(); }
     });
     $('#start_time, #end_time').timepicker({ timeFormat: 'h:i A', step: 15, scrollDefault: 'now' });
+    if (getUrlParameter('classdef_id') && !getUrlParameter('id')) {
+      apply_new_schedule_defaults();
+    }
   });
 
 });
@@ -122,6 +136,14 @@ function get_staff() {
 
 function get_locations() {
   return $.get('/models/classdefs/locations', function(resp) { data.locations = resp; });
+}
+
+function apply_new_schedule_defaults() {
+  data.sched.rrule_raw = 'FREQ=WEEKLY;BYDAY=MO;INTERVAL=1';
+  $('#start_time').timepicker('setTime', '9:00 AM');
+  $('#end_time').timepicker('setTime', '10:00 AM');
+  data.sched.start_time = '9:00:00';
+  data.sched.end_time   = '10:00:00';
 }
 
 function populate_instructor_select() {

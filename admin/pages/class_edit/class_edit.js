@@ -66,8 +66,7 @@ ctrl = {
   open_schedule(e,m) { window.location = '/admin/classdef_schedule?id=' + m.sched.id; },
 
   new_schedule(e,m) {
-    $.post('/models/classdefs/' + data.class.id + '/schedules', JSON.stringify({ id: 0, silent: true }))
-     .done(function(sched) { window.location = '/admin/classdef_schedule?id=' + sched.id; });
+    window.location = '/admin/classdef_schedule?classdef_id=' + data.class.id;
   },
   del_schedule(e,m)  {
     if(!confirm('really delete this schedule?')) return;
