@@ -63,7 +63,30 @@
 
 /* CLASS TILE */
 
+.class_tile .class_nfo .tuplet {
+  display: flex;
+  align-items: center;
+  margin: 0.4em 0;
+}
+
+.class_tile .class_nfo .tuplet label {
+  width: 7em;
+  flex-shrink: 0;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.class_tile .class_nfo .tuplet .control {
+  flex: 1;
+}
+
 /* FORM TILE */
+
+.tuplet .control {
+  box-shadow: none;
+  padding: 0;
+  width: auto;
+}
 
 .tuplet {
   display: flex;
@@ -87,7 +110,7 @@
 .tuplet .control input[type='number'],
 .tuplet .control input[type='text'] {
   background: rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: none;
   color: white;
   padding: 0.3em 0.5em;
   border-radius: 0.4em;
@@ -108,7 +131,7 @@
 
 .tuplet .control input.time {
   background: rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: none;
   color: white;
   padding: 0.3em 0.5em;
   border-radius: 0.4em;
@@ -122,8 +145,8 @@
 }
 
 .tuplet .control .selectize-input {
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.4);
+  border: none;
   border-radius: 0.4em;
   color: white;
 }
