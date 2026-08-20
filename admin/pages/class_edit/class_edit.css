@@ -313,15 +313,16 @@ img.filler {
   }
 
   .class_tile .img {
-    width: 70%;
+    width: calc(100% - 2em);
     align-self: center;
-    padding: 0.5em;
+    padding: 0;
+    margin: 1em;
   }
 
   .class_tile .img img.picpreview {
     width: 100%;
     height: auto;
-    border-radius: 0.5em;
+    border-radius: 1.5em;
   }
 
   .class_tile .class_nfo {
@@ -330,12 +331,37 @@ img.filler {
   }
 
   .class_tile .class_nfo .tuple {
-    flex-direction: row;
+    flex-direction: column;
+  }
+
+  .class_tile .class_nfo .attrib {
+    width: auto;
+    padding-top: 0.5em;
   }
 
   .class_tile .class_nfo .value {
     flex: 1;
     width: 100%;
+  }
+
+  .sched-cards {
+    gap: 0.5em;
+  }
+
+  .sched-card {
+    width: calc(50% - 0.25em);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+  }
+
+  .sched-card .sched-card-label {
+    font-size: 0.6em;
+    height: auto;
+    min-height: 3em;
+    white-space: normal;
+    word-break: break-word;
+    padding: 0.4em 0.5em;
   }
 
   .tuplet {
