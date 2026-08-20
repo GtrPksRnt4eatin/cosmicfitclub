@@ -339,6 +339,11 @@ textarea {
 }
 
 @media(max-width: 800px) {
+  .classdef {
+    width: calc(50% - 1em);
+    height: calc(50vw - 1em);
+  }
+
   #newclass {
   	font-size: 2.5vw;
     line-height: 3em;
