@@ -25,6 +25,10 @@ html
         .classname
           span rv-text='class.name'
 
+      .tile.classdef.classdef-new rv-on-click='ctrl.new_class'
+        .classdef-new-plus +
+        .classdef-new-label Create New Class
+
       .section-header.inactive-header Unscheduled Classes
 
       .classlist-row rv-each-class='data.inactive'
@@ -50,7 +54,5 @@ html
             .edit rv-on-click='ctrl.edit'
             .hard-delete rv-show='class.safe_to_delete' rv-on-click='ctrl.force_del'
 
-      footer
-        #new2 Create New Class
 
     == analytics

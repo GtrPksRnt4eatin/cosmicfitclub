@@ -103,6 +103,40 @@ textarea,
 }
 
 
+.classdef-new {
+  background: linear-gradient(145deg, #1a3a1a, #2d6e2d);
+  box-shadow:
+    4px 4px 8px rgba(0,0,0,0.5),
+    -2px -2px 6px rgba(255,255,255,0.08),
+    0 0 0 2px rgba(100,200,100,0.15) inset;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+}
+
+.classdef-new:hover {
+  box-shadow:
+    6px 6px 12px rgba(0,0,0,0.6),
+    -2px -2px 8px rgba(255,255,255,0.12),
+    0 0 0 2px rgba(100,200,100,0.25) inset;
+}
+
+.classdef-new-plus {
+  font-size: 2.5em;
+  line-height: 1;
+  color: rgba(255,255,255,0.8);
+}
+
+.classdef-new-label {
+  font-size: 0.85em;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.04em;
+  text-align: center;
+  padding: 0 1em;
+}
+
 #content {
   text-align: center;
 }

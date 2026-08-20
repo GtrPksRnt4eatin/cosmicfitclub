@@ -18,6 +18,11 @@ var ctrl = {
     }
   },
 
+  new_class: function(e,m) {
+    $.post('/models/classdefs', JSON.stringify( { id: 0 } ))
+      .done( function(resp) { window.location = `edit_class?id=${resp.id}`; });
+  },
+
   del: function(e,m) {
     if (!confirm(`Deactivate "${m.class.name}"?`)) return;
     $.del(`/models/classdefs/${m.class.id}`, function() {
@@ -43,13 +48,6 @@ $(document).ready(function() {
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 
   get_saved_classes();
-
-  id('new2').onclick = function(e) {
-    $.post('/models/classdefs', JSON.stringify( { id: 0 } ) )
-      .done( function(resp) { 
-        window.location = `edit_class?id=${resp.id}` 
-      }) 
-  };
   
 });
 
