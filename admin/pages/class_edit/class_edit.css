@@ -20,14 +20,15 @@
 }
 
 .class_tile .img {
-  flex: 0 0 auto;
+  flex: 0 0 15em;
   padding: 0.25em;
+  margin-right: 1em;
   cursor: pointer;
 }
 
 .class_tile .img img.picpreview {
-  height: 15em;
   width: 15em;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
@@ -156,6 +157,8 @@ img.filler {
   gap: 0.5em;
   padding: 0.5em 0 1em;
   justify-content: flex-start;
+  flex: 1;
+  min-width: 0;
 }
 
 .sched-card {
