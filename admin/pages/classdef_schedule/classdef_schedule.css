@@ -109,7 +109,7 @@
 .tuplet .control select,
 .tuplet .control input[type='number'],
 .tuplet .control input[type='text'] {
-  background: rgba(0,0,0,0.4);
+  background: rgba(255,255,255,0.15);
   border: none;
   color: white;
   padding: 0.3em 0.5em;
@@ -130,7 +130,7 @@
 }
 
 .tuplet .control input.time {
-  background: rgba(0,0,0,0.4);
+  background: rgba(255,255,255,0.15);
   border: none;
   color: white;
   padding: 0.3em 0.5em;
@@ -145,7 +145,7 @@
 }
 
 .tuplet .control .selectize-input {
-  background: rgba(0,0,0,0.4);
+  background: rgba(255,255,255,0.15);
   border: none;
   border-radius: 0.4em;
   color: white;
