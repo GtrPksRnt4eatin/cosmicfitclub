@@ -1,3 +1,118 @@
+#content {
+  text-align: center;
+  margin-bottom: 8em;
+  font-size: 1rem;
+}
+
+.tile {
+  margin: 0 auto 1em;
+  max-width: 70em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* CLASS TILE */
+
+.class_tile {
+  display: flex;
+  text-align: left;
+  padding: 0.25em;
+}
+
+.class_tile .img {
+  flex: 0 0 auto;
+  padding: 0.25em;
+  cursor: pointer;
+}
+
+.class_tile .img img.picpreview {
+  height: 15em;
+  width: 15em;
+  object-fit: cover;
+  display: block;
+  border-radius: 1.5em;
+  box-shadow: 0 0 0.5em white;
+}
+
+.class_tile .class_nfo {
+  flex: 1 1 auto;
+  padding: 0.25em 0.5em;
+}
+
+.class_tile .class_nfo .tuple {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5em;
+}
+
+.class_tile .class_nfo .attrib {
+  width: 5.5em;
+  flex-shrink: 0;
+  padding-top: 0.3em;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.class_tile .class_nfo .value {
+  background: rgba(255,255,255,0.15);
+  padding: 0.25em 0.75em;
+  border-radius: 0.5em;
+  flex: 1;
+  min-height: 1.8em;
+}
+
+/* CLASS TILE */
+
+/* FORM TILE */
+
+.tuplet {
+  display: flex;
+  align-items: center;
+  margin: 0.5em 0;
+  text-align: left;
+}
+
+.tuplet label {
+  width: 8em;
+  flex-shrink: 0;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.tuplet .control {
+  flex: 1;
+}
+
+.tuplet .control select,
+.tuplet .control input[type='number'] {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  padding: 0.3em 0.5em;
+  border-radius: 0.4em;
+  font-size: 1em;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tuplet .control input.time {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  padding: 0.3em 0.5em;
+  border-radius: 0.4em;
+  font-size: 1em;
+  font-family: inherit;
+  width: 12em;
+}
+
+.tuplet .control .selectize-control {
+  width: 100%;
+}
+
+/* FORM TILE */
+
 .story_actions {
   margin-top: 0.5em;
   display: flex;
@@ -8,7 +123,7 @@
 
 .story_actions button {
   padding: 0.3em 0.8em;
-  font-family: 'Industry';
+  font-family: inherit;
   font-size: 0.8em;
   background: rgba(255,255,255,0.2);
   border: none;
@@ -27,27 +142,50 @@
   font-style: italic;
 }
 
-.picpreview, video {
-    width: 15em;
-    height: 15em;
-    border-radius: 1.5em;
-    box-shadow: 0 0 0.5em white;
+video.picpreview {
+  width: 15em;
+  height: 15em;
+  border-radius: 1.5em;
+  box-shadow: 0 0 0.5em white;
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+img.filler {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
+}
+
+@media (max-width: 700px) {
+
+  .tile {
+    padding: 0.5em;
   }
-  
-  img.filler {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=);
+
+  .class_tile {
+    flex-direction: column;
   }
-  
-  .imgbox img {
-    max-width: 100%;
-    max-height: 20em;
+
+  .class_tile .img img.picpreview {
+    width: 100%;
+    height: auto;
   }
-  
-  #pic {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
+
+  .class_tile .class_nfo .tuple {
+    flex-direction: column;
   }
+
+  .tuplet {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tuplet label {
+    width: auto;
+    margin-bottom: 0.25em;
+  }
+
+  .tuplet .control {
+    width: 100%;
+  }
+
+}

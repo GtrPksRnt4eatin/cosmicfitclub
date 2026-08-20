@@ -1,5 +1,7 @@
 data = {
   sched: {},
+  instructors: [],
+  locations: [],
   story_status: ''
 }
 
@@ -12,8 +14,22 @@ ctrl = {
     }
     img_chooser.show_modal(null,null,function(val) {
       popupmenu.hide();
-      post_image('/models/classdefs/schedules' + data.sched.id + '/image', val['filename'], val['blob']);
+      post_image('/models/classdefs/schedules/' + data.sched.id + '/image', val['filename'], val['blob'], get_sched_details);
     }); 
+  },
+
+  save_changes: function(e,m) {
+    var payload = {
+      id:          data.sched.id,
+      instructors: data.sched.instructors,
+      rrule:       data.sched.rrule_raw,
+      start_time:  data.sched.start_time,
+      end_time:    data.sched.end_time,
+      location_id: data.sched.location_id,
+      capacity:    data.sched.capacity
+    };
+    $.post('/models/classdefs/' + data.sched.classdef_id + '/schedules', JSON.stringify(payload))
+     .done(function(resp) { get_sched_details(); });
   },
 
   upload_video: function(e,m) {
@@ -46,6 +62,7 @@ ctrl = {
 
 $(document).ready(function() {
 
+  userview       = new UserView( id('userview_container') );
   popupmenu      = new PopupMenu( id('popupmenu_container') );
   edit_text      = new EditText();
   img_chooser    = new AspectImageChooser();
@@ -64,20 +81,29 @@ $(document).ready(function() {
 
   edit_text.ev_sub('show', popupmenu.show );
   edit_text.ev_sub('done', popupmenu.hide );
-
   popupmenu.ev_sub('close', edit_text.cancel);
 
   init_rivets();
-  get_sched_details();
+
+  get_locations().then(get_staff).then(get_sched_details);
 
 });
 
 function init_rivets() {
   include_rivets_dates();
+  include_rivets_select();
   rivets.formatters.teachernames = function(val) { return val ? val.map(function(x) { return x.name }).join(', ') : ''; }
   rivets.bind(document.body, { data: data, ctrl: ctrl } );
 }
 
 function get_sched_details() {
-  $.get( "/models/classdefs/schedules/" +  getUrlParameter('id'), function(resp) { data.sched = resp; });
+  $.get( "/models/classdefs/schedules/" + getUrlParameter('id'), function(resp) { data.sched = resp; });
+}
+
+function get_staff() {
+  return $.get('/models/staff', function(resp) { data.instructors = resp; });
+}
+
+function get_locations() {
+  return $.get('/models/classdefs/locations', function(resp) { data.locations = resp; });
 }

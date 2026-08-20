@@ -8,8 +8,8 @@ html
 
     title Cosmicfit Admin
 
-    == css ['fonts', 'site', 'header', '/admin/classdef_schedule', 'selectize', 'croppie' ]
-    == js  ['jquery', 'moment', 'selectize.min', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel', 'popupmenu','croppie.min' ]
+    == css ['fonts', 'site', 'flatpickr', 'header', 'edit_page', 'selectize', 'croppie', 'jquery.timepicker', '/admin/classdef_schedule']
+    == js  ['jquery', 'moment', 'selectize.min', 'rivets', 'rv_rrule', 'rv_select', 'rv_dates', 'lib', 'element', 'ev_channel', 'popupmenu', 'flatpickr', 'jquery.timepicker.min', 'croppie.min']
     == js  [ '/auth/elements/userview', '/admin/elements/aspect_img_chooser', '/admin/elements/edit_text', 'classdef_schedule' ]
 
   body.p4
@@ -20,25 +20,87 @@ html
 
     #content
 
-      .tile.schedule_tile
+      .tile.class_tile
+
+        .img.editable rv-on-click='ctrl.edit_image'
+          img.picpreview rv-if='data.sched.image_url' crossorigin='anonymous' rv-src='data.sched.image_url'
+          img.picpreview.filler#nopic rv-unless='data.sched.image_url'
+
+        .class_nfo
+          .tuple
+            .attrib Class:
+            .value
+              | { data.sched.classdef.name }
+          .tuple
+            .attrib Teachers:
+            .value
+              | { data.sched.teachers | teachernames }
+          .tuple
+            .attrib Location:
+            .value
+              | { data.sched.location_name }
+          .tuple
+            .attrib Schedule:
+            .value
+              | { data.sched.rrule }
+
+      .tile
+
         .tuplet
-          .attrib Classdef:
-          .value 
-            | { data.sched.classdef.name }
-          .attrib Teachers:
-          .value
-            | { data.sched.teachers | teachernames }
-          .attrib Image:
-          .img_square.editable
-            img.picpreview crossorigin='anonymous' rv-src='data.sched.image_url' rv-on-click='ctrl.edit_image'
-            img.filler#nopic rv-unless='data.sched.image_url' rv-on-click='ctrl.edit_image'
-          .attrib 1080x1080 Video:
-          video autoplay=true loop=true rv-if='data.sched.video_url' rv-src='data.sched.video_url'
-          br
-          input type='file' rv-on-change='ctrl.upload_video'
-          .story_actions rv-if='data.sched.video_url'
-            button rv-on-click='ctrl.post_ig_video_story' Post Video to IG Story
-            button rv-on-click='ctrl.post_fb_video_story' Post Video to FB Story
-            span.story_status { data.story_status }
- 
+          label Instructors:
+          .control
+            select multiple='multiple' rv-multiselectize='data.sched.instructors' rv-on-change='ctrl.save_changes'
+              option rv-each-inst='data.instructors' rv-value='inst.id'
+                | { inst.name }
+
+        .tuplet
+          label Weekday:
+          .control
+            select rv-value='data.sched.rrule_raw' rv-on-change='ctrl.save_changes'
+              option value='FREQ=WEEKLY;BYDAY=MO;INTERVAL=1' Mondays
+              option value='FREQ=WEEKLY;BYDAY=TU;INTERVAL=1' Tuesdays
+              option value='FREQ=WEEKLY;BYDAY=WE;INTERVAL=1' Wednesdays
+              option value='FREQ=WEEKLY;BYDAY=TH;INTERVAL=1' Thursdays
+              option value='FREQ=WEEKLY;BYDAY=FR;INTERVAL=1' Fridays
+              option value='FREQ=WEEKLY;BYDAY=SA;INTERVAL=1' Saturdays
+              option value='FREQ=WEEKLY;BYDAY=SU;INTERVAL=1' Sundays
+
+        .tuplet
+          label Start Time:
+          .control
+            input.time rv-timefield='data.sched.start_time' rv-on-change='ctrl.save_changes'
+
+        .tuplet
+          label End Time:
+          .control
+            input.time rv-timefield='data.sched.end_time' rv-on-change='ctrl.save_changes'
+
+        .tuplet
+          label Location:
+          .control
+            select rv-value='data.sched.location_id' rv-on-change='ctrl.save_changes'
+              option value='' None
+              option rv-each-loc='data.locations' rv-value='loc.id'
+                | { loc.name }
+
+        .tuplet
+          label Capacity:
+          .control
+            input type='number' rv-value='data.sched.capacity' rv-on-change='ctrl.save_changes'
+
+      .tile
+
+        .tuplet
+          label 1080x1080 Video:
+          .control
+            video.picpreview autoplay=true loop=true rv-if='data.sched.video_url' rv-src='data.sched.video_url'
+            input type='file' rv-on-change='ctrl.upload_video'
+            .story_actions rv-if='data.sched.video_url'
+              button rv-on-click='ctrl.post_ig_video_story' Post Video to IG Story
+              button rv-on-click='ctrl.post_fb_video_story' Post Video to FB Story
+              span.story_status
+                | { data.story_status }
+
     #popupmenu_container
+
+    == analytics

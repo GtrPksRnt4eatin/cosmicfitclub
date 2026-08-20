@@ -157,7 +157,16 @@ class ClassDefRoutes < Sinatra::Base
   get '/schedules/:id' do
     id    = Integer(params[:id])      rescue halt(401, "ID Must Be Numeric" )
     sched = ClassdefSchedule[params[:id]] or halt(404, 'Class Schedule not found.')
-    sched.details_hash.to_json
+    sched.details_hash.merge(
+      :classdef_id  => sched.classdef_id,
+      :rrule_raw    => sched.rrule,
+      :start_time   => sched.start_time.to_s,
+      :end_time     => sched.end_time.to_s,
+      :location_id  => sched.location_id,
+      :location_name => sched.location.try(:name),
+      :instructors  => sched.teachers.map(&:id),
+      :capacity     => sched.capacity
+    ).to_json
   end
 
   post '/schedules/:id/image' do
