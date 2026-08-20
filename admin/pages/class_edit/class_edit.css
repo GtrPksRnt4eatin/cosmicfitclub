@@ -226,6 +226,20 @@ img.filler {
   color: white;
 }
 
+.sched-card-new {
+  background: rgba(40,160,80,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sched-card-plus {
+  font-size: 3em;
+  color: rgba(255,255,255,0.85);
+  line-height: 1;
+  user-select: none;
+}
+
 /* SCHED CARDS */
 
 .class-danger-zone {

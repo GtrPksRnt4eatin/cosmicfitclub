@@ -46,6 +46,8 @@ html
                 | { sched.location_name }
             .sched-card-label
               | { sched.meeting_time }
+          .sched-card.sched-card-new rv-on-click='ctrl.new_schedule'
+            .sched-card-plus +
 
         .tuplet
           label Schedules:

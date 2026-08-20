@@ -64,6 +64,11 @@ ctrl = {
   add_schedule(e,m)  { scheduleform.show_new();         cancelEvent(e); },
   edit_schedule(e,m) { scheduleform.show_edit(m.sched); cancelEvent(e); },
   open_schedule(e,m) { window.location = '/admin/classdef_schedule?id=' + m.sched.id; },
+
+  new_schedule(e,m) {
+    $.post('/models/classdefs/' + data.class.id + '/schedules', JSON.stringify({ id: 0, silent: true }))
+     .done(function(sched) { window.location = '/admin/classdef_schedule?id=' + sched.id; });
+  },
   del_schedule(e,m)  {
     if(!confirm('really delete this schedule?')) return;
     $.del(`/models/classdefs/schedules/${m.sched.id}`)

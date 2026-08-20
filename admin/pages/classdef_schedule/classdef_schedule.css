@@ -16,7 +16,7 @@
 .class_tile {
   display: flex;
   text-align: left;
-  padding: 0.25em;
+  padding: 1em;
 }
 
 .class_tile .img {
