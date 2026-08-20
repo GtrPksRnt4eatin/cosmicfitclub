@@ -19,11 +19,11 @@ html
 
     #content
 
-      .tile.classdef rv-each-class='data.active'
+      .tile.classdef rv-each-class='data.active' rv-on-click='ctrl.edit'
         img rv-src='class.image_url'
+        img.class-edit-btn src='/edit.svg'
         .classname
           span rv-text='class.name'
-        img.class-edit-btn src='/edit.svg' rv-on-click='ctrl.edit'
 
       .section-header.inactive-header Unscheduled Classes
 
