@@ -313,8 +313,9 @@ img.filler {
   }
 
   .class_tile .img {
-    width: 100%;
-    padding: 0;
+    width: 70%;
+    align-self: center;
+    padding: 0.5em;
   }
 
   .class_tile .img img.picpreview {
@@ -325,15 +326,16 @@ img.filler {
 
   .class_tile .class_nfo {
     padding: 0.5em 0;
+    width: 100%;
   }
 
   .class_tile .class_nfo .tuple {
-    flex-direction: column;
+    flex-direction: row;
   }
 
-  .class_tile .class_nfo .attrib {
-    width: auto;
-    padding-top: 0.5em;
+  .class_tile .class_nfo .value {
+    flex: 1;
+    width: 100%;
   }
 
   .tuplet {

@@ -343,13 +343,13 @@ textarea {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.5em;
+    gap: 1em;
     padding: 0.5em;
   }
 
   .classdef {
-    width: calc(50% - 0.5em);
-    height: calc(50vw - 0.5em);
+    width: calc(50% - 1em);
+    height: calc(50vw - 1em);
     margin: 0;
     font-size: 0.8em;
   }
