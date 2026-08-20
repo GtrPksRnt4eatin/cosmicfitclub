@@ -84,8 +84,9 @@
 }
 
 .tuplet .control select,
-.tuplet .control input[type='number'] {
-  background: rgba(255,255,255,0.15);
+.tuplet .control input[type='number'],
+.tuplet .control input[type='text'] {
+  background: rgba(0,0,0,0.4);
   border: 1px solid rgba(255,255,255,0.2);
   color: white;
   padding: 0.3em 0.5em;
@@ -96,15 +97,24 @@
   box-sizing: border-box;
 }
 
+.tuplet .control input[type='text'] {
+  width: 10em;
+}
+
+.tuplet .control select option {
+  background: #1a1a2e;
+  color: white;
+}
+
 .tuplet .control input.time {
-  background: rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.4);
   border: 1px solid rgba(255,255,255,0.2);
   color: white;
   padding: 0.3em 0.5em;
   border-radius: 0.4em;
   font-size: 1em;
   font-family: inherit;
-  width: 12em;
+  width: 10em;
 }
 
 .tuplet .control .selectize-control {

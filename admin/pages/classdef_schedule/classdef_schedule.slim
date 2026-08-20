@@ -66,12 +66,12 @@ html
         .tuplet
           label Start Time:
           .control
-            input.time rv-timefield='data.sched.start_time' rv-on-change='ctrl.save_changes'
+            input#start_time.time type='text'
 
         .tuplet
           label End Time:
           .control
-            input.time rv-timefield='data.sched.end_time' rv-on-change='ctrl.save_changes'
+            input#end_time.time type='text'
 
         .tuplet
           label Location:

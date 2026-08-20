@@ -25,8 +25,8 @@ ctrl = {
       id:          data.sched.id,
       instructors: sel ? sel.getValue() : data.sched.instructors,
       rrule:       data.sched.rrule_raw,
-      start_time:  data.sched.start_time,
-      end_time:    data.sched.end_time,
+      start_time:  $('#start_time').val() || data.sched.start_time,
+      end_time:    $('#end_time').val()   || data.sched.end_time,
       location_id: data.sched.location_id,
       capacity:    data.sched.capacity
     };
@@ -93,6 +93,15 @@ $(document).ready(function() {
       plugins: ['remove_button'],
       onChange: function() { ctrl.save_changes(); }
     });
+    $('#start_time, #end_time').timepicker({
+      timeFormat: 'h:i A',
+      step: 15,
+      scrollDefault: 'now'
+    }).on('changeTime', function() {
+      var field = this.id === 'start_time' ? 'start_time' : 'end_time';
+      data.sched[field] = $(this).val();
+      ctrl.save_changes();
+    });
   });
 
 });
@@ -128,4 +137,6 @@ function populate_instructor_select() {
     sel.addOption({ value: inst.id, text: inst.name });
   });
   sel.setValue(data.sched.instructors || [], true);
+  if (data.sched.start_time) { $('#start_time').timepicker('setTime', data.sched.start_time); }
+  if (data.sched.end_time)   { $('#end_time').timepicker('setTime', data.sched.end_time); }
 }
