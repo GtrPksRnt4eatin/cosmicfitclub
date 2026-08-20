@@ -41,7 +41,6 @@ textarea,
   box-sizing: border-box;
   letter-spacing: 0.05em;
   cursor: pointer;
-  overflow: hidden;
 }
 
 .classdef .class-edit-btn {
@@ -66,12 +65,13 @@ textarea,
   pointer-events: none;
 }
 
-.classdef img {
+.classdef img:first-child {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 2em;
+  overflow: hidden;
 }
 
 .classdef .classnfo {
