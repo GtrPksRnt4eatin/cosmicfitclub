@@ -73,6 +73,12 @@ ctrl = {
     $.post('/integrations/facebook/fb_video_story_for_sched/' + data.sched.id)
      .success(function(resp) { data.story_status = 'Posted to Facebook!'; })
      .fail(function(req)     { data.story_status = 'Failed: ' + req.responseText; });
+  },
+
+  delete_schedule: function(e,m) {
+    if (!confirm('Delete this schedule? This cannot be undone.')) return;
+    $.del('/models/classdefs/schedules/' + data.sched.id)
+     .done(function() { window.location = '/admin/edit_class?id=' + data.sched.classdef_id; });
   }
 
 }

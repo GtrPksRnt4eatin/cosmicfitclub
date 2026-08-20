@@ -16,7 +16,7 @@
 .class_tile {
   display: flex;
   text-align: left;
-  padding: 0.25em;
+  padding: 1em;
 }
 
 .class_tile .img {
@@ -227,10 +227,24 @@ img.filler {
 }
 
 .sched-card-new {
-  background: rgba(40,160,80,0.5);
+  background: linear-gradient(160deg, rgba(60,190,100,0.7) 0%, rgba(30,130,60,0.7) 100%);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.25em;
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.4),
+    0 1px 0 rgba(255,255,255,0.25) inset,
+    0 -2px 0 rgba(0,0,0,0.2) inset;
+}
+
+.sched-card-new:hover {
+  background: linear-gradient(160deg, rgba(70,210,115,0.75) 0%, rgba(35,150,70,0.75) 100%);
+  box-shadow:
+    0 6px 12px rgba(0,0,0,0.5),
+    0 1px 0 rgba(255,255,255,0.3) inset,
+    0 -2px 0 rgba(0,0,0,0.2) inset;
 }
 
 .sched-card-plus {
@@ -238,6 +252,14 @@ img.filler {
   color: rgba(255,255,255,0.85);
   line-height: 1;
   user-select: none;
+}
+
+.sched-card-new-label {
+  font-size: 0.6em;
+  color: rgba(255,255,255,0.85);
+  text-align: center;
+  padding: 0 0.5em;
+  line-height: 1.3;
 }
 
 /* SCHED CARDS */

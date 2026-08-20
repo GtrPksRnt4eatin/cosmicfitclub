@@ -85,6 +85,9 @@ html
               span.story_status
                 | { data.story_status }
 
+      .tile
+        button.delete-btn rv-if='data.sched.id' rv-on-click='ctrl.delete_schedule' Delete Schedule
+
     #popupmenu_container
 
     == analytics
