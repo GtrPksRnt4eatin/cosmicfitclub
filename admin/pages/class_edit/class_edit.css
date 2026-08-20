@@ -148,6 +148,54 @@ img.filler {
   height: 1em;
 }
 
+/* SCHED CARDS */
+
+.sched-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75em;
+  padding: 0.75em 0 1em;
+  justify-content: center;
+}
+
+.sched-card {
+  position: relative;
+  width: 9em;
+  height: 9em;
+  border-radius: 1em;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 0 0.4em rgba(0,0,0,0.6);
+  flex-shrink: 0;
+  transition: transform 0.15s ease-in-out;
+}
+
+.sched-card:hover {
+  transform: scale(1.04);
+}
+
+.sched-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sched-card-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 0.62em;
+  padding: 0.35em 0.5em;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* SCHED CARDS */
+
 .class-danger-zone {
   margin-top: 1.5em;
   padding: 0.75em 1em;

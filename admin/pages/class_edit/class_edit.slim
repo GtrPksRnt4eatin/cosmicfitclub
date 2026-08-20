@@ -38,6 +38,12 @@ html
 
       .tile
 
+        .sched-cards
+          .sched-card rv-each-sched='data.schedules' rv-on-click='ctrl.open_schedule'
+            img rv-src='sched.image_url'
+            .sched-card-label
+              | { sched.meeting_time }
+
         .tuplet
           label Schedules:
           .control

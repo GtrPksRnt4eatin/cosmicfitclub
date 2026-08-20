@@ -130,7 +130,13 @@ class ClassDefRoutes < Sinatra::Base
   get '/:id/schedules' do
     id   = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
     cdef = ClassDef[params[:id]]    or halt(404, 'Class Definition not found.')
-    cdef.schedules.to_json
+    cdef.schedules.map { |s|
+      JSON.parse(s.to_json).merge(
+        'image_url'   => s.img_url,
+        'meeting_time' => s.simple_meeting_time_description_with_staff(false),
+        'teacher_names' => s.teacher_names
+      )
+    }.to_json
   end
 
   post '/:id/schedules' do
