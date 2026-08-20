@@ -351,6 +351,7 @@ textarea {
     width: calc(50% - 0.5em);
     height: calc(50vw - 0.5em);
     margin: 0;
+    font-size: 0.8em;
   }
 
   .section-header,
