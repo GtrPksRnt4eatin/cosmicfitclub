@@ -132,9 +132,10 @@ class ClassDefRoutes < Sinatra::Base
     cdef = ClassDef[params[:id]]    or halt(404, 'Class Definition not found.')
     cdef.schedules.map { |s|
       JSON.parse(s.to_json).merge(
-        'image_url'   => s.img_url,
+        'image_url'    => s.img_url,
         'meeting_time' => s.simple_meeting_time_description_with_staff(false),
-        'teacher_names' => s.teacher_names
+        'teacher_names' => s.teacher_names,
+        'location_name' => s.location.try(:name)
       )
     }.to_json
   end
