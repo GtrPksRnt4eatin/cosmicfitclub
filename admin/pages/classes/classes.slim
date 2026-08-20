@@ -22,7 +22,7 @@ html
       .tile.classdef rv-each-class='data.active'
         img rv-src='class.image_url'
         .classname
-          span { class.name }
+          span rv-text='class.name'
         .edit rv-on-click='ctrl.edit'
 
       .section-header.inactive-header Unscheduled Classes
