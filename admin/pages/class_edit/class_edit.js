@@ -83,7 +83,8 @@ $(document).ready(function() {
   initialize_rivets();
 
   rivets.bind($('#content'), { data: data, ctrl: ctrl } );
-  
+
+  userview    = new UserView( id('userview_container') );
   popupmenu   = new PopupMenu( id('popupmenu_container') );
 
   edit_text = new EditText();
