@@ -31,7 +31,15 @@ class ClassDefRoutes < Sinatra::Base
 
   get '/admin_grouped' do
     active_all = ClassDef.list_active
-    active     = active_all.select { |c| c.schedules.count > 0 }.map(&:adminpage_view)
+    active     = active_all.select { |c| c.schedules.count > 0 }
+                           .sort_by { |c|
+                             earliest = c.schedules.map { |s|
+                               byday = s.rrule.to_s[/BYDAY=([A-Z]+)/i, 1] || 'SU'
+                               [ClassdefSchedule::DOW_ORDER[byday] || 7, s.start_time.to_s]
+                             }.min || [7, '']
+                             earliest
+                           }
+                           .map(&:adminpage_view)
     inactive   = active_all.select { |c| c.schedules.count == 0 }.map { |c| c.adminpage_view.merge(:occurrence_count => c.occurrences.count) }
     cancelled  = ClassDef.where(:deactivated => true).order(:name).all.map { |c|
       occ_count = c.occurrences.count

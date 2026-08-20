@@ -17,14 +17,6 @@ var ctrl = {
     location.href = `edit_class?id=${m.class.id}`;
   },
 
-  moveup: function(e,m) {
-    $.post(`/models/classdefs/${m.class.id}/moveup`, function() { get_saved_classes(); });
-  },
-
-  movedn: function(e,m) {
-    $.post(`/models/classdefs/${m.class.id}/movedn`, function() { get_saved_classes(); });
-  },
-
   force_del: function(e,m) {
     if (!confirm(`Permanently delete "${m.class.name}"? This cannot be undone.`)) return;
     $.del(`/models/classdefs/${m.class.id}/force`, function() {
