@@ -15,6 +15,7 @@
 
 .class_tile {
   display: flex;
+  align-self: flex-start;
   text-align: left;
   padding: 1em;
 }
