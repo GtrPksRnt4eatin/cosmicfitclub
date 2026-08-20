@@ -37,16 +37,16 @@ html
           .tuple
             .attrib Meeting Times:
             .sched-cards
-            .sched-card rv-each-sched='data.schedules' rv-on-click='ctrl.open_schedule'
-              img rv-src='sched.image_url'
-              .locations rv-if='sched.location_name'
-                .location
-                  | { sched.location_name }
-              .sched-card-label
-                | { sched.meeting_time }
-            .sched-card.sched-card-new rv-on-click='ctrl.new_schedule'
-              .sched-card-plus +
-              .sched-card-new-label Add a scheduled meeting time
+              .sched-card rv-each-sched='data.schedules' rv-on-click='ctrl.open_schedule'
+                img rv-src='sched.image_url'
+                .locations rv-if='sched.location_name'
+                  .location
+                    | { sched.location_name }
+                .sched-card-label
+                  | { sched.meeting_time }
+              .sched-card.sched-card-new rv-on-click='ctrl.new_schedule'
+                .sched-card-plus +
+                .sched-card-new-label Add a scheduled meeting time
 
       .tile rv-if='data.class.deactivated'
 
