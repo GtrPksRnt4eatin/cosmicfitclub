@@ -38,20 +38,17 @@ html
           | { class.occurrence_count } meetings
         .edit rv-on-click='ctrl.edit'
         .delete rv-on-click='ctrl.del'
-
-      #cancelled-section
-        .classlist-row.cancelled-toggle rv-on-click='ctrl.toggle_cancelled'
-          .classlist-name.cancelled-toggle-label Cancelled Classes
-          .cancelled-toggle-btn +
-
-        #cancelled-list
-          .classlist-row rv-each-class='data.cancelled'
-            .classlist-name
-              | { class.name }
-            .cancelled-count rv-show='class.occurrence_count'
-              | { class.occurrence_count } meetings
-            .edit rv-on-click='ctrl.edit'
-            .hard-delete rv-show='class.safe_to_delete' rv-on-click='ctrl.force_del'
+      .classlist-row.cancelled-toggle rv-on-click='ctrl.toggle_cancelled'
+        .classlist-name.cancelled-toggle-label Cancelled Classes
+        .cancelled-toggle-btn +
+      #cancelled-list.classlist-row
+        .classlist-row rv-each-class='data.cancelled'
+          .classlist-name
+            | { class.name }
+          .cancelled-count rv-show='class.occurrence_count'
+            | { class.occurrence_count } meetings
+          .edit rv-on-click='ctrl.edit'
+          .hard-delete rv-show='class.safe_to_delete' rv-on-click='ctrl.force_del'
 
 
     == analytics
