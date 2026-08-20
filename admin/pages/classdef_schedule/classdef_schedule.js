@@ -109,14 +109,16 @@ $(document).ready(function() {
   init_rivets();
 
   get_locations().then(get_staff).then(function() {
-    get_sched_details();
     $('#instructor_select').selectize({
       plugins: ['remove_button'],
       onChange: function() { ctrl.save_changes(); }
     });
     $('#start_time, #end_time').timepicker({ timeFormat: 'h:i A', step: 15, scrollDefault: 'now' });
-    if (getUrlParameter('classdef_id') && !getUrlParameter('id')) {
+    if (getUrlParameter('id')) {
+      get_sched_details();
+    } else {
       apply_new_schedule_defaults();
+      populate_instructor_select();
     }
   });
 
@@ -130,7 +132,9 @@ function init_rivets() {
 }
 
 function get_sched_details() {
-  $.get( "/models/classdefs/schedules/" + getUrlParameter('id'), function(resp) {
+  var id = getUrlParameter('id');
+  if (!id) return;
+  $.get( "/models/classdefs/schedules/" + id, function(resp) {
     data.sched = resp;
     populate_instructor_select();
   });
