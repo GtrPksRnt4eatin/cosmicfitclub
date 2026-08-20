@@ -8,10 +8,9 @@ html
 
     title Cosmicfit Admin
 
-    == css [ 'fonts', 'site', 'flatpickr',  'header', 'edit_page', 'chosen', 'selectize', 'croppie', 'jquery.timepicker', '/admin/class_edit' ]
-    == js  [ 'jquery', 'rivets', 'rv_rrule', 'lib', 'rv_select', 'moment','selectize.min', 'flatpickr', 'rv_dates']
-    == js  [ 'element', 'ev_channel', 'jquery.chosen.min', 'jquery.timepicker.min', 'croppie.min','/auth/elements/userview',]
-    == js  [ '/admin/elements/edit_text', 'elements/schedule_form', 'elements/popup_menu', '/admin/elements/aspect_img_chooser', '/admin/class_edit' ]
+    == css [ 'fonts', 'site', 'header', 'edit_page', 'croppie', '/admin/class_edit' ]
+    == js  [ 'jquery', 'rivets', 'lib', 'croppie.min','/auth/elements/userview',]
+    == js  [ 'element', 'ev_channel', '/admin/elements/edit_text', 'elements/popup_menu', '/admin/elements/aspect_img_chooser', '/admin/class_edit' ]
 
   html
     #stars
@@ -35,52 +34,22 @@ html
             .attrib Details:
             .value.editable rv-on-click='ctrl.edit_description'
               | { data.class.description }
+          .meeting-times-label Meeting Times:
+          .sched-cards
+            .sched-card rv-each-sched='data.schedules' rv-on-click='ctrl.open_schedule'
+              img rv-src='sched.image_url'
+              .locations rv-if='sched.location_name'
+                .location
+                  | { sched.location_name }
+              .sched-card-label
+                | { sched.meeting_time }
+            .sched-card.sched-card-new rv-on-click='ctrl.new_schedule'
+              .sched-card-plus +
+              .sched-card-new-label Add a scheduled meeting time
 
-      .tile
+      .tile rv-if='data.class.deactivated'
 
-        .sched-cards
-          .sched-card rv-each-sched='data.schedules' rv-on-click='ctrl.open_schedule'
-            img rv-src='sched.image_url'
-            .locations rv-if='sched.location_name'
-              .location
-                | { sched.location_name }
-            .sched-card-label
-              | { sched.meeting_time }
-          .sched-card.sched-card-new rv-on-click='ctrl.new_schedule'
-            .sched-card-plus +
-            .sched-card-new-label Add a scheduled meeting time
-
-        .tuplet
-          label Schedules:
-          .control
-            table.reflections
-              tr
-                th instructors
-                th rrule
-                th start_time
-                th end_time
-                th location
-                th
-                  .add rv-on-click='ctrl.add_schedule'
-                    .plus +
-              tr rv-each-sched='data.schedules'
-                td
-                  | { sched.instructors | instructors }
-                td
-                  | { sched.rrule | rrule }
-                td
-                  | { sched.start_time | onlytime }
-                td 
-                  | { sched.end_time | onlytime } 
-                td
-                  | { sched.location_id | location }
-                td
-                  .edit   rv-on-click='ctrl.edit_schedule'
-                  .delete rv-on-click='ctrl.del_schedule'
-                  .open   rv-on-click='ctrl.open_schedule'
-                    | Open
-
-        .class-danger-zone rv-if='data.class.deactivated'
+        .class-danger-zone
           .occurrence-count rv-if='data.class.occurrence_count'
             | { data.class.occurrence_count } historical meetings — class cannot be fully deleted
           .occurrence-count rv-unless='data.class.occurrence_count'
