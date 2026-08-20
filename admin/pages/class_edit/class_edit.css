@@ -328,6 +328,8 @@ img.filler {
   .class_tile .class_nfo {
     padding: 0.5em 0;
     width: 100%;
+    min-width: 0;
+    overflow: hidden;
   }
 
   .class_tile .class_nfo .tuple {
@@ -342,6 +344,9 @@ img.filler {
   .class_tile .class_nfo .value {
     flex: 1;
     width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    word-break: break-word;
   }
 
   .sched-cards {
