@@ -34,8 +34,9 @@ html
             .attrib Details:
             .value.editable rv-on-click='ctrl.edit_description'
               | { data.class.description }
-          .meeting-times-label Meeting Times:
-          .sched-cards
+          .tuple
+            .attrib Meeting Times:
+            .sched-cards
             .sched-card rv-each-sched='data.schedules' rv-on-click='ctrl.open_schedule'
               img rv-src='sched.image_url'
               .locations rv-if='sched.location_name'
