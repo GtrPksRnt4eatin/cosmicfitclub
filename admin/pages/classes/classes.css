@@ -177,10 +177,6 @@ textarea,
   border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 
-.cancelled-toggle:hover {
-  background: rgba(255,255,255,0.06);
-}
-
 .cancelled-toggle-label {
   font-size: 0.85em;
   letter-spacing: 0.08em;
