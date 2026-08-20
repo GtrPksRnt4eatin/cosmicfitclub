@@ -149,11 +149,23 @@ function get_locations() {
 }
 
 function apply_new_schedule_defaults() {
-  data.sched.rrule_raw = 'FREQ=WEEKLY;BYDAY=MO;INTERVAL=1';
+  var classdef_id = getUrlParameter('classdef_id');
+  data.sched = {
+    rrule_raw:   'FREQ=WEEKLY;BYDAY=MO;INTERVAL=1',
+    location_id: 2,
+    start_time:  '9:00:00',
+    end_time:    '10:00:00',
+    capacity:    20,
+    classdef_id: parseInt(classdef_id)
+  };
   $('#start_time').timepicker('setTime', '9:00 AM');
   $('#end_time').timepicker('setTime', '10:00 AM');
-  data.sched.start_time = '9:00:00';
-  data.sched.end_time   = '10:00:00';
+  if (classdef_id) {
+    $.get('/models/classdefs/' + classdef_id, function(resp) {
+      data.sched.classdef    = resp;
+      data.sched.classdef_id = resp.id;
+    });
+  }
 }
 
 function populate_instructor_select() {

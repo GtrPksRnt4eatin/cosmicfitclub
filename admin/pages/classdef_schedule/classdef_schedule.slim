@@ -24,7 +24,9 @@ html
 
         .img.editable rv-on-click='ctrl.edit_image'
           img.picpreview rv-if='data.sched.image_url' crossorigin='anonymous' rv-src='data.sched.image_url'
-          img.picpreview.filler#nopic rv-unless='data.sched.image_url'
+          .img-placeholder rv-unless='data.sched.image_url'
+            .img-placeholder-plus +
+            .img-placeholder-label Upload a photo
 
         .class_nfo
           .tuplet
