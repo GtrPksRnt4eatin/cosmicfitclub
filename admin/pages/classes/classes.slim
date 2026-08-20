@@ -23,7 +23,7 @@ html
         img rv-src='class.image_url'
         .classname
           span rv-text='class.name'
-        .edit rv-on-click='ctrl.edit'
+        img.class-edit-btn src='/edit.svg' rv-on-click='ctrl.edit'
 
       .section-header.inactive-header Unscheduled Classes
 
@@ -36,15 +36,19 @@ html
         .edit rv-on-click='ctrl.edit'
         .delete rv-on-click='ctrl.del'
 
-      .section-header.cancelled-header Cancelled Classes
+      #cancelled-section
+        .classlist-row.cancelled-toggle rv-on-click='ctrl.toggle_cancelled'
+          .classlist-name.cancelled-toggle-label Cancelled Classes
+          .cancelled-toggle-btn +
 
-      .classlist-row rv-each-class='data.cancelled'
-        .classlist-name
-          | { class.name }
-        .cancelled-count rv-show='class.occurrence_count'
-          | { class.occurrence_count } meetings
-        .edit rv-on-click='ctrl.edit'
-        .hard-delete rv-show='class.safe_to_delete' rv-on-click='ctrl.force_del'
+        #cancelled-list
+          .classlist-row rv-each-class='data.cancelled'
+            .classlist-name
+              | { class.name }
+            .cancelled-count rv-show='class.occurrence_count'
+              | { class.occurrence_count } meetings
+            .edit rv-on-click='ctrl.edit'
+            .hard-delete rv-show='class.safe_to_delete' rv-on-click='ctrl.force_del'
 
       footer
         #new2 Create New Class

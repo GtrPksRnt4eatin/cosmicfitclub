@@ -6,6 +6,18 @@ var data = {
 
 var ctrl = {
 
+  toggle_cancelled: function(e,m) {
+    var list = document.getElementById('cancelled-list');
+    var btn  = document.querySelector('.cancelled-toggle-btn');
+    if (list.style.display === 'block') {
+      list.style.display = 'none';
+      btn.textContent = '+';
+    } else {
+      list.style.display = 'block';
+      btn.textContent = '−';
+    }
+  },
+
   del: function(e,m) {
     if (!confirm(`Deactivate "${m.class.name}"?`)) return;
     $.del(`/models/classdefs/${m.class.id}`, function() {

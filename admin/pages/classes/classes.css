@@ -41,6 +41,7 @@ textarea,
   box-sizing: border-box;
   letter-spacing: 0.05em;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .classdef:hover:after {
@@ -71,11 +72,13 @@ textarea,
   position: absolute;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   bottom: 0;
   left: 0;
   right: 0;
   height: 4em;
-  padding: 0 0.75em;
+  padding: 0 0.5em;
   border-top: 1px solid rgba(255,255,255,0.2);
 }
 
@@ -87,23 +90,19 @@ textarea,
   display: block;
 }
 
-.classdef .edit {
+.classdef .class-edit-btn {
   position: absolute;
   top: 0.5em;
   right: 0.5em;
   width: 1.25em;
   height: 1.25em;
-  background-image: url('/edit.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   opacity: 0.85;
   cursor: pointer;
   filter: drop-shadow(0 0 3px black);
   z-index: 2;
 }
 
-.classdef .edit:hover {
+.classdef .class-edit-btn:hover {
   opacity: 1;
   transform: scale(1.1);
 }
@@ -131,6 +130,49 @@ textarea,
 
 .cancelled-header {
   color: rgba(255,255,255,0.3);
+}
+
+#cancelled-section {
+  max-width: 600px;
+  margin: 1.5em auto 0;
+}
+
+.cancelled-toggle {
+  cursor: pointer;
+  margin: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.cancelled-toggle:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.cancelled-toggle-label {
+  font-size: 0.85em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+.cancelled-toggle-btn {
+  font-size: 1.3em;
+  line-height: 1;
+  color: rgba(255,255,255,0.4);
+  width: 1.5em;
+  text-align: center;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+#cancelled-list {
+  display: none;
+  max-height: 18em;
+  overflow-y: auto;
+}
+
+#cancelled-list .classlist-row {
+  max-width: 100%;
+  margin: 0;
 }
 
 .classlist-row {
