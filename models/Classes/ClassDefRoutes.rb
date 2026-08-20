@@ -147,7 +147,7 @@ class ClassDefRoutes < Sinatra::Base
     if id == 0
       schedule = ClassDef[params[:id]].create_schedule(data)
     else
-      schedule = ClassdefSchedule[id]
+      schedule = ClassdefSchedule[id]           or halt(404, 'Schedule not found')
       schedule.update(data)
     end
     Slack.website_scheduling("#{Customer[session[:customer_id]].name} changed the class schedule: \r\n#{schedule.description_line}")

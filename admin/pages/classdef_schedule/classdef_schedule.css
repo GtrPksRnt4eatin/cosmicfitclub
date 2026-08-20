@@ -111,6 +111,20 @@
   width: 100%;
 }
 
+.tuplet .control .selectize-input {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 0.4em;
+  color: white;
+}
+
+.tuplet .control .selectize-input .item {
+  background: rgba(255,255,255,0.25);
+  border: none;
+  color: white;
+  border-radius: 0.3em;
+}
+
 /* FORM TILE */
 
 .story_actions {

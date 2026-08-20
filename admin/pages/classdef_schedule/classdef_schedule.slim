@@ -49,9 +49,7 @@ html
         .tuplet
           label Instructors:
           .control
-            select multiple='multiple' rv-multiselectize='data.sched.instructors' rv-on-change='ctrl.save_changes'
-              option rv-each-inst='data.instructors' rv-value='inst.id'
-                | { inst.name }
+            select#instructor_select multiple='multiple'
 
         .tuplet
           label Weekday:

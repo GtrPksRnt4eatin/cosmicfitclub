@@ -19,9 +19,11 @@ ctrl = {
   },
 
   save_changes: function(e,m) {
+    if (!data.sched.id) return;
+    var sel = $('#instructor_select')[0].selectize;
     var payload = {
       id:          data.sched.id,
-      instructors: data.sched.instructors,
+      instructors: sel ? sel.getValue() : data.sched.instructors,
       rrule:       data.sched.rrule_raw,
       start_time:  data.sched.start_time,
       end_time:    data.sched.end_time,
@@ -85,7 +87,13 @@ $(document).ready(function() {
 
   init_rivets();
 
-  get_locations().then(get_staff).then(get_sched_details);
+  get_locations().then(get_staff).then(function() {
+    get_sched_details();
+    $('#instructor_select').selectize({
+      plugins: ['remove_button'],
+      onChange: function() { ctrl.save_changes(); }
+    });
+  });
 
 });
 
@@ -97,7 +105,10 @@ function init_rivets() {
 }
 
 function get_sched_details() {
-  $.get( "/models/classdefs/schedules/" + getUrlParameter('id'), function(resp) { data.sched = resp; });
+  $.get( "/models/classdefs/schedules/" + getUrlParameter('id'), function(resp) {
+    data.sched = resp;
+    populate_instructor_select();
+  });
 }
 
 function get_staff() {
@@ -106,4 +117,15 @@ function get_staff() {
 
 function get_locations() {
   return $.get('/models/classdefs/locations', function(resp) { data.locations = resp; });
+}
+
+function populate_instructor_select() {
+  var $el = $('#instructor_select')[0];
+  if (!$el || !$el.selectize) return;
+  var sel = $el.selectize;
+  sel.clearOptions();
+  (data.instructors || []).forEach(function(inst) {
+    sel.addOption({ value: inst.id, text: inst.name });
+  });
+  sel.setValue(data.sched.instructors || [], true);
 }
