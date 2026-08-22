@@ -178,8 +178,9 @@ PaymentForm.prototype = {
 
   charge_new: function() {
     if(this.state.busy) return;
+    this.state.busy = true;
     stripe.createToken(this.card).then((result) => {
-      if(result.error) { this.show_err(result.error); return; }
+      if(result.error) { this.state.busy = false; this.show_err(result.error); return; }
       this.charge_token(result.token.id);
     });
   },
