@@ -261,21 +261,27 @@ class CustomerRoutes < Sinatra::Base
   end
 
   post('/:customer_id/cards', :self_or => 'frontdesk') do
+    content_type :json
     custy = Customer[params[:customer_id]] or halt(404, "Cant Find Customer")
-    StripeMethods::create_stripe_customer(custy, params[:token])      if custy.stripe_id.nil?
+    StripeMethods::create_stripe_customer(custy, params[:token]) if custy.stripe_id.nil?
     StripeMethods::add_card(params[:token][:id], custy.stripe_id) unless custy.stripe_id.nil?
+    {}.to_json
   end
 
   post('/:customer_id/cards/set_default', :self_or => 'frontdesk') do
+    content_type :json
     custy = Customer[params[:customer_id]] or halt( 404, 'Customer Not Found')
     custy.stripe_id                        or halt( 404, 'Customer Has No Stripe Account')
-    StripeMethods::set_default_card( custy.stripe_id, params[:source_id] ) 
+    StripeMethods::set_default_card( custy.stripe_id, params[:source_id] )
+    {}.to_json
   end
 
   delete('/:customer_id/cards/:source_id', :self_or=> 'frontdesk') do
+    content_type :json
     custy = Customer[params[:customer_id]] or halt( 404, 'Customer Not Found')
     custy.stripe_id                        or halt( 404, 'Customer Has No Stripe Account')
     StripeMethods::remove_card( custy.stripe_id, params[:source_id] )
+    {}.to_json
   end
 
   ################################## PAYMENT SOURCES ###################################
