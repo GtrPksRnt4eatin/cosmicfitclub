@@ -70,6 +70,7 @@ PaymentSources.prototype = {
     if (!this._stripe_card) {
       var elements = this._stripe.elements();
       this._stripe_card = elements.create('card', {
+        hidePostalCode: true,
         style: { base: { color: '#fff', '::placeholder': { color: '#aaa' } } }
       });
     }
