@@ -126,7 +126,7 @@ PaymentSources.prototype.HTML = ES5Template(function(){/**
 
     <div class='source' rv-each-source='state.sources.list'>
       <span class='brand'>{ source.brand }</span>
-      <span class='number'>**** **** **** { source.last4 }</span>
+      <span class='number'>{ source.last4 }</span>
       <span class='expiry'>{ source.exp_month }/{ source.exp_year }</span>
       <span class='badge default_badge' rv-show='source.default'>Default</span>
       <span class='actions'>
