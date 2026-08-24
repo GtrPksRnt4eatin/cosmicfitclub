@@ -7,16 +7,24 @@ module Sinatra
       custy = Customer[params[:customer]]
       params[:email] = custy.email if params[:email].nil?
       params[:metadata] ||= {}
-      description = "#{custy.name} purchased #{params[:description]}"  
-      charge = StripeMethods::charge_card(params[:token], params[:amount], params[:email], description, params[:metadata])
+      description = "#{custy.name} purchased #{params[:description]}"
+
       if params[:save_card].to_s == 'true'
+        # Attach the token to the customer first — tokens are single-use so we
+        # must save before charging, then charge the resulting source.
         if custy.stripe_id.nil?
           stripe_custy = Stripe::Customer.create(source: params[:token], name: custy.name, email: custy.email)
           custy.update(stripe_id: stripe_custy.id)
+          source_id = stripe_custy['default_source']
         else
-          StripeMethods::add_card(params[:token], custy.stripe_id)
+          saved_source = StripeMethods::add_card(params[:token], custy.stripe_id)
+          source_id    = saved_source['id']
         end
+        charge = StripeMethods::charge_saved(custy.stripe_id, source_id, params[:amount], description, params[:metadata])
+      else
+        charge = StripeMethods::charge_card(params[:token], params[:amount], params[:email], description, params[:metadata])
       end
+
       CustomerPayment.create(:customer => custy, :stripe_id => charge.id, :amount => params[:amount], :reason => params[:description], :type => 'new card', :tag => params[:tag] || 'general').to_json
     rescue Exception => e
       halt( 400, e.message )
