@@ -269,9 +269,8 @@ PaymentForm.prototype.HTML = `
           <button rv-on-click='this.charge_new' rv-disabled='state.busy'> Pay Now </button>
         </td>
       </tr>
-      <tr class='custy'>
-        <th>Save Card</th>
-        <td colspan='2'>
+      <tr class='custy save-card-row'>
+        <td colspan='3'>
           <label class='save-card-label'>
             <input type='checkbox' rv-checked='state.save_card' />
             Save card for future purchases
@@ -315,6 +314,11 @@ PaymentForm.prototype.CSS = `
 
   .PaymentForm table td:nth-child(2) {
     width: 30em;
+  }
+
+  .PaymentForm .save-card-row td {
+    width: 100%;
+    display: block;
   }
 
   .PaymentForm td.nopadding {
