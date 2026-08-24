@@ -269,7 +269,7 @@ PaymentForm.prototype.HTML = `
           <button rv-on-click='this.charge_new' rv-disabled='state.busy'> Pay Now </button>
         </td>
       </tr>
-      <tr class='custy save-card-row'>
+      <tr class='custy save-card-row' rv-show='state.card_complete'>
         <td colspan='3'>
           <label class='save-card-label'>
             <input type='checkbox' rv-checked='state.save_card' />
