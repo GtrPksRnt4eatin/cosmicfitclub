@@ -30,7 +30,8 @@ PaymentForm.prototype = {
   constructor: PaymentForm,
 
   init_stripe: function() {
-    this.card = elements.create('card', { 
+    var local_elements = stripe.elements({ disableLink: true });
+    this.card = local_elements.create('card', { 
       hidePostalCode: true,
       style: {
         base: {
