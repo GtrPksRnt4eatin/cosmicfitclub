@@ -2,7 +2,7 @@ function PaymentSources(el, attr) {
 
   this.state = {
     attrib:   attr,
-    sources:  [],
+    sources:  { list: [], count: 0 },
     adding:   false,
     working:  false,
     error:    ''
@@ -32,12 +32,14 @@ PaymentSources.prototype = {
   refresh: function() {
     var self = this;
     $.get('/customers/' + this.state.attrib.customer.id + '/payment_sources', function(data) {
-      self.state.sources = data;
+      self.state.sources.list  = data;
+      self.state.sources.count = data.length;
     }, 'json');
   },
 
   on_payment_sources: function(val) {
-    this.state.sources = val;
+    this.state.sources.list  = val;
+    this.state.sources.count = val.length;
   },
 
   set_default: function(e, m) {
@@ -122,7 +124,7 @@ Object.assign( PaymentSources.prototype, ev_channel);
 PaymentSources.prototype.HTML = ES5Template(function(){/**
   <div class='payment_sources'>
 
-    <div class='source' rv-each-source='state.sources'>
+    <div class='source' rv-each-source='state.sources.list'>
       <span class='brand'>{ source.brand }</span>
       <span class='number'>**** **** **** { source.last4 }</span>
       <span class='expiry'>{ source.exp_month }/{ source.exp_year }</span>
@@ -133,7 +135,7 @@ PaymentSources.prototype.HTML = ES5Template(function(){/**
       </span>
     </div>
 
-    <div class='no_cards' rv-unless='state.sources.length'>
+    <div class='no_cards' rv-unless='state.sources.count'>
       No saved cards.
     </div>
 
