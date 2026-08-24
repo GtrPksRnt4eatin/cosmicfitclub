@@ -31,7 +31,7 @@ PaymentSources.prototype = {
 
   refresh: function() {
     var self = this;
-    $.get('/customers/' + this.state.attrib.customer.id + '/payment_sources', function(data) {
+    $.get('/models/customers/' + this.state.attrib.customer.id + '/payment_sources', function(data) {
       self.state.sources.list  = data;
       self.state.sources.count = data.length;
     }, 'json');
@@ -44,7 +44,7 @@ PaymentSources.prototype = {
 
   set_default: function(e, m) {
     var self = this;
-    $.post('/customers/' + this.state.attrib.customer.id + '/cards/set_default',
+    $.post('/models/customers/' + this.state.attrib.customer.id + '/cards/set_default',
       { source_id: m.source.id },
       function() { self.refresh(); },
       'json'
@@ -54,7 +54,7 @@ PaymentSources.prototype = {
   remove_source: function(e, m) {
     if (!confirm('Remove this card?')) return;
     var self = this;
-    $.del('/customers/' + this.state.attrib.customer.id + '/cards/' + m.source.id,
+    $.del('/models/customers/' + this.state.attrib.customer.id + '/cards/' + m.source.id,
       function() { self.refresh(); }
     );
   },
@@ -98,7 +98,7 @@ PaymentSources.prototype = {
         return;
       }
       $.post(
-        '/customers/' + self.state.attrib.customer.id + '/cards',
+        '/models/customers/' + self.state.attrib.customer.id + '/cards',
         { 'token[id]': result.token.id, 'token[email]': self.state.attrib.customer.email },
         function() { self.on_card_added(); },
         'json'

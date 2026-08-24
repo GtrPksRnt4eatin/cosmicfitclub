@@ -15,6 +15,6 @@ $(document).ready(function() {
      .success( function() { location.reload(); } );
   } );
 
-  rivets.bind({ data: data })
+  rivets.bind(document.body, { data: data })
 
 });
