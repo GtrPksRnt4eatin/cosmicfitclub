@@ -17,8 +17,10 @@ html
     javascript:
       data = {}
       data['customer'] = #{{ customer.to_json }}
+      STRIPE_PUBLIC_KEY = "#{{ ENV['STRIPE_PUBLIC'] }}";
 
     ==css ['fonts', 'site', 'header', 'footer', 'user/user']
+    script src='https://js.stripe.com/v3/'
     ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel']
     ==js  ['/checkout/elements/payment_sources', '/auth/elements/userview', 'menu', 'user/user']
 
@@ -46,7 +48,7 @@ html
           .header Security
           hr
           div
-            a href='http://loft.cosmicfitclub.com:90/mjpg/video.mjpg' Loft Camera
+            a href='https://loft.cosmicfitclub.com:90/mjpg/video.mjpg' Loft Camera
           div
             a href='http://66.108.37.62:85' Loft Cam 2
           div
@@ -199,13 +201,7 @@ html
       .tile
         .header Stored Cards
         hr
-        table
-          - customer.payment_sources.each do |source|
-            tr
-              td #{ source['brand'] }
-              td 
-                | **** **** **** #{ source['last4'] }
-              td #{source['exp_month']} / #{source['exp_year']}
+        #payment_sources_container
 
       .tile
         .header Waiver

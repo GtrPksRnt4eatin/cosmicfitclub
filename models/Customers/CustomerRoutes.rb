@@ -244,7 +244,13 @@ class CustomerRoutes < Sinatra::Base
 
   get '/:id/payment_sources' do
     custy = Customer[params[:id]] or halt 404
-    JSON.generate custy.payment_sources
+    return '[]' if custy.stripe_id.nil?
+    stripe_custy   = StripeMethods.get_customer(custy.stripe_id)
+    default_source = stripe_custy['default_source']
+    sources = (stripe_custy['sources']['data'] || []).map do |s|
+      s.to_hash.merge('default' => s['id'] == default_source)
+    end
+    JSON.generate sources
   end
 
   get '/:id/stripe_details' do
