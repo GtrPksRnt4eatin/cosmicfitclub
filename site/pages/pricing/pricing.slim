@@ -33,14 +33,32 @@ html
               td
                 button data-type='plan' data-id='#{plan[:id]}' data-name='#{plan[:name]}' data-amount='#{plan[:month_price]}' class='buy-button' Buy Now
       .tile
-        .heading Class Packages       
+        .heading Passes
+        p Passes never expire and are transferrable. Use them for aerial training, floor training, or classes.
         table
-          - for pack in Package.where(:available=>true).reverse_order(:num_passes).order_prepend(:category).order_append(:presale).all
-            tr
-              th #{ pack[:name] }
-              td #{ "$%.2f" % (pack[:pass_price].to_f * pack[:num_passes].to_f / 100) }
-              td
-                button data-type='pack' data-id='#{pack[:id]}' data-name='#{pack[:name]}' data-amount='#{(pack[:pass_price] * pack[:num_passes]).to_i}' class='buy-button' Buy Now
+          tr
+            th Single Passes
+            td
+              input#pass-qty type='number' min='1' max='19' value='1'
+              |  × $12.00 = 
+              span#pass-total $12.00
+            td
+              button#buy-passes-btn.buy-button Buy Now
+          tr
+            th 90 Min Aerial Pass
+            td $18.00
+            td
+              button.buy-button data-type='pack' data-id='34' data-name='90 Min Aerial Pass' data-amount='1800' Buy Now
+          tr
+            th Day Pass — Floor Training
+            td $24.00
+            td
+              button.buy-button data-type='pack' data-id='17' data-name='Day Pass' data-amount='2400' Buy Now
+          tr
+            th 20-Pass Pack
+            td $200.00
+            td
+              button.buy-button data-type='pack' data-id='25' data-name='20-Pass Pack' data-amount='20000' Buy Now
         
       br
       br

@@ -24,6 +24,21 @@ button {
   cursor: pointer;
 }
 
+#pass-qty {
+  width: 2.8em;
+  text-align: center;
+  font-size: 1em;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  color: inherit;
+  padding: 0.1em 0.2em;
+}
+
+#pass-qty::-webkit-inner-spin-button,
+#pass-qty::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+#pass-qty { -moz-appearance: textfield; }
+
 .heading {
   font-size: 1.2em;
   padding: .5em;
