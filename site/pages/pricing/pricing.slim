@@ -34,28 +34,35 @@ html
                 button data-type='plan' data-id='#{plan[:id]}' data-name='#{plan[:name]}' data-amount='#{plan[:month_price]}' class='buy-button' Buy Now
       .tile
         .heading Passes
-        p Passes never expire and are transferrable. Use them for aerial training, floor training, or classes.
+        p Passes can be used for an hour of aerial or floor training for a single person. 
+        p Two passes can be used to pay for a class for one person. Two passes also can be used as a day pass for floor training.
+        p Passes never expire and are transferrable.
         table
           tr
             th Single Passes
-            td
+            td 
+              | $12.00 x
               input#pass-qty type='number' min='1' max='19' value='1'
-              |  × $12.00 = 
+              | =
+            td
               span#pass-total $12.00
             td
               button#buy-passes-btn.buy-button Buy Now
           tr
             th 90 Min Aerial Pass
+            td
             td $18.00
             td
               button.buy-button data-type='pack' data-id='34' data-name='90 Min Aerial Pass' data-amount='1800' Buy Now
           tr
             th Day Pass — Floor Training
+            td
             td $24.00
             td
               button.buy-button data-type='pack' data-id='17' data-name='Day Pass' data-amount='2400' Buy Now
           tr
             th 20-Pass Pack
+            td
             td $200.00
             td
               button.buy-button data-type='pack' data-id='25' data-name='20-Pass Pack' data-amount='20000' Buy Now
