@@ -34,14 +34,14 @@ html
                 button data-type='plan' data-id='#{plan[:id]}' data-name='#{plan[:name]}' data-amount='#{plan[:month_price]}' class='buy-button' Buy Now
       .tile
         .heading Passes
-        p Passes can be used for an hour of aerial or floor training for a single person. 
-        p Two passes can be used to pay for a class for one person. Two passes also can be used as a day pass for floor training.
-        p Passes never expire and are transferrable.
+        div Passes can be used for an hour of aerial or floor training for a single person. 
+        div Two passes can be used to pay for a class for one person. Two passes also can be used as a day pass for floor training.
+        div Passes never expire and are transferrable.
         table
           tr
             th Single Passes
             td 
-              | $12.00 x
+              | $12 x
               input#pass-qty type='number' min='1' max='19' value='1'
               | =
             td

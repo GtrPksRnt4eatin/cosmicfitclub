@@ -10,7 +10,7 @@ table {
 }
 
 th, td {
-  width: 7em;
+  width: 8em;
   padding: 0.2em; 
   height: 1.8em;
 }
@@ -33,6 +33,7 @@ button {
   border-radius: 4px;
   color: inherit;
   padding: 0.1em 0.2em;
+  margin-left: 1em;
 }
 
 #pass-qty::-webkit-inner-spin-button,
