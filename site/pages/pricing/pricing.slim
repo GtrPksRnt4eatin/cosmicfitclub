@@ -22,43 +22,26 @@ html
     == include_slim('slim/partials/header')
       
     .content
-
-      .tile.passes-tile
-        .heading Class Passes
-
-        p.passes-intro
-          | Passes are our all-purpose currency — buy a bundle and use them however you like. They never expire and are transferrable.
-
-        .pass-uses-grid
-          .pass-use-card
-            .pass-use-icon ①
-            .pass-use-title 1 Pass
-            .pass-use-desc 1 hour on the aerial point for one person
-          .pass-use-card
-            .pass-use-icon ②
-            .pass-use-title 2 Passes
-            .pass-use-desc 2 person-hours on the aerial point, <em>or</em> a full-day open floor session, <em>or</em> one person in any class
-
-        hr
-
-        .pass-picker-section
-          label.picker-label for='pass-qty' How many passes would you like?
-          .picker-row
-            button#qty-minus.qty-btn − 
-            input#pass-qty type='number' min='1' max='20' value='1'
-            button#qty-plus.qty-btn +
-          .deal-badge#deal-badge style='display:none;'
-            | 🎉 20-Pass Deal — Save $40!
-          .price-summary
-            .price-line
-              span#qty-display 1
-              |  pass
-              span#plural-s
-              |  — 
-              strong#price-display $12.00
-            .price-note#price-note $12.00 each
-          button#buy-passes-btn.buy-passes-button Buy Now
-
+      
+      .tile style='display:none;'
+        .heading Subscription Plans
+        table
+          - for plan in Plan.where(:hidden => false).order(:month_price).all
+            tr
+              th #{ plan[:name] }
+              td $ #{ plan[:month_price].to_i / 100 }.00 Per Month
+              td
+                button data-type='plan' data-id='#{plan[:id]}' data-name='#{plan[:name]}' data-amount='#{plan[:month_price]}' class='buy-button' Buy Now
+      .tile
+        .heading Class Packages       
+        table
+          - for pack in Package.where(:available=>true).reverse_order(:num_passes).order_prepend(:category).order_append(:presale).all
+            tr
+              th #{ pack[:name] }
+              td #{ "$%.2f" % (pack[:pass_price].to_f * pack[:num_passes].to_f / 100) }
+              td
+                button data-type='pack' data-id='#{pack[:id]}' data-name='#{pack[:name]}' data-amount='#{(pack[:pass_price] * pack[:num_passes]).to_i}' class='buy-button' Buy Now
+        
       br
       br
 
