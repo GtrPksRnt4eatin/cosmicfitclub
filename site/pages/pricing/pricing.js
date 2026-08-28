@@ -13,11 +13,13 @@ $(document).ready(function() {
   payment_form.ev_sub('hide', popupmenu.hide);
   
   // quantity display for single pass row
-  $('#pass-qty').on('input', function() {
-    var qty = Math.max(1, Math.min(19, parseInt($(this).val()) || 1));
-    $(this).val(qty);
+  function updatePassQty(qty) {
+    qty = Math.max(1, Math.min(19, qty));
+    $('#pass-qty').val(qty);
     $('#pass-total').text('$' + (qty * 12).toFixed(2));
-  });
+  }
+
+  $('#pass-qty').on('input', function() { updatePassQty(parseInt($(this).val()) || 1); });
 
   $('#buy-passes-btn').on('click', function(e) {
     e.preventDefault();

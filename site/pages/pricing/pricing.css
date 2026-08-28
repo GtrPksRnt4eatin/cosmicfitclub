@@ -36,9 +36,7 @@ button {
   margin-left: 1em;
 }
 
-#pass-qty::-webkit-inner-spin-button,
-#pass-qty::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-#pass-qty { -moz-appearance: textfield; }
+
 
 .heading {
   font-size: 1.2em;
