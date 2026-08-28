@@ -30,6 +30,18 @@ module Sinatra
       Slack.website_purchases("[\##{custy.id}] #{custy.name} (#{custy.email}) bought a #{Package[params[:pack_id]].name} precharged.")
     end
 
+    def buy_passes_quantity
+      custy    = Customer[params[:customer_id]] or halt 403
+      num      = params[:num_passes].to_i
+      payment  = CustomerPayment[params[:payment_id]] or halt 403
+      halt 422 unless num >= 1 && num <= 20
+      payment.customer_id == custy.id or halt 403
+      transaction = custy.add_passes(num, "Bought #{num} pass#{ num == 1 ? '' : 'es' }", "")
+      transaction.update(payment: payment)
+      Slack.website_purchases("[\##{custy.id}] #{custy.name} (#{custy.email}) bought #{num} pass#{ num == 1 ? '' : 'es' }.")
+      status 204
+    end
+
     def buy_pack_intent
       custy = customer or halt 403
       intent = StripeMethods.retreive_intent(params[:intent_id])

@@ -312,13 +312,19 @@ PaymentForm.prototype.CSS = `
     max-width: 40em;
   }
 
-  .PaymentForm table td:nth-child(2) {
-    width: 30em;
+  .PaymentForm table {
+    width: 100%;
+    table-layout: fixed;
   }
 
-  .PaymentForm .save-card-row td {
-    width: 100%;
-    display: block;
+  .PaymentForm table td:nth-child(2) {
+    width: auto;
+  }
+
+  .PaymentForm .save-card-row {
+    display: table-row;
+    padding: .5em .5em 0;
+    box-sizing: border-box;
   }
 
   .PaymentForm td.nopadding {
