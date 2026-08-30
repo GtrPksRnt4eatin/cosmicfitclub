@@ -22,12 +22,26 @@ module Sheets
   end
 
   def Sheets.read_sheet
-    sheets = Sheets::get_service or return
     spreadsheet_id = '1XckfZT_IRPZ43VCadw8yiQzUN4Xv5eh8IWbFI01ZLKE'
     range = 'A2:B30'
-    response = sheets.get_spreadsheet_values(spreadsheet_id, range)
-    response.values.map! { |val| { :question => val[0], :answer => val[1] } }
-    response.values
+    retries = 0
+    begin
+      sheets, _drive = Sheets::get_service2
+      response = sheets.get_spreadsheet_values(spreadsheet_id, range)
+      response.values.map! { |val| { :question => val[0], :answer => val[1] } }
+      response.values
+    rescue Google::Apis::ServerError => e
+      retries += 1
+      if retries <= 3
+        sleep(retries * 2)
+        retry
+      end
+      Slack.err('FAQ Sheets Error', e)
+      []
+    rescue => e
+      Slack.err('FAQ Sheets Error', e)
+      []
+    end
   end
 
   def Sheets.create(name)
