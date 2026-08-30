@@ -35,6 +35,17 @@ module StripeMethods
 
   ############### Vendor Accounts ############### 
   def StripeMethods::get_payment_intent(amount,description,custy)
+    amount = amount.to_i
+    if amount == 0
+      # $0 charge — create a SetupIntent to save the payment method without charging
+      intent = Stripe::SetupIntent.create({
+        description: description,
+        customer: custy ? custy.stripe_id : nil,
+        payment_method_types: ['card']
+      })
+      return { id: intent.id, client_secret: intent.client_secret, setup_only: true }.to_json
+    end
+    raise ArgumentError, "Amount #{amount} is below Stripe's minimum charge of 50 cents" if amount < 50
     intent = Stripe::PaymentIntent.create({
       amount: amount,
       description: description,
