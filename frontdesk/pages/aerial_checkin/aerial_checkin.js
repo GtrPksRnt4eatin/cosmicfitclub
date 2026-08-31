@@ -107,7 +107,7 @@ function load_reservations() {
 }
 
 function splice_into(arr, items) {
-  arr.splice(0, arr.length);
+  while (arr.length) arr.pop();
   items.forEach(function (item) { arr.push(item); });
 }
 
