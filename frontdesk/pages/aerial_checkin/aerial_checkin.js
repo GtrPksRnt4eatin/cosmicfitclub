@@ -97,16 +97,15 @@ function load_reservations() {
     });
 
     // Replace array references — rivets observes the keypath and re-renders
+    // Tag back-references on the plain arrays before handing to rivets
+    var all = prev.concat(curr).concat(next);
+    all.forEach(function (res) {
+      (res.slots || []).forEach(function (slot) { slot._res = res; });
+    });
+
     data.prev = prev.slice(-1);
     data.curr = curr;
     data.next = next.slice(0, 3);
-
-    // Re-tag back-references after array swap
-    [data.prev, data.curr, data.next].forEach(function (list) {
-      list.forEach(function (res) {
-        (res.slots || []).forEach(function (slot) { slot._res = res; });
-      });
-    });
   }, 'json');
 }
 
