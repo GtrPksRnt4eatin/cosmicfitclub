@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Point Reservation
+
+    script src='https://js.stripe.com/v3/'
+    javascript:
+      var STRIPE_PUBLIC_KEY = '#{ ENV["STRIPE_PUBLIC"] }';
+      var stripe   = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
+      var RES_ID   = #{ params[:id].to_i };
+
+    == css  ['fonts', 'site', 'header', 'menu_colors', 'flatpickr', 'point_reservation']
+    == js   ['jquery', 'moment', 'moment-timezone-with-data-10-year-range.min', 'flatpickr', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel']
+    == js   ['/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector', '/checkout/elements/payment_form']
+    == js   ['/frontdesk/point_reservation']
+
+  body
+
+    #stars
+
+    == include_slim('slim/partials/slim_header')
+
+    .content
+
+      .tile#reservation-tile
+
+        .res-header
+          a.back-link href='/frontdesk/aerial_checkin' ← Aerial Check-In
+          h2 Aerial Point Reservation
+
+        #res-details
+          .loading Loading reservation…
+
+      .tile#slots-tile.hidden
+        h3 Participants
+        table#slots-table
+          thead
+            tr
+              th Name
+              th Payment
+              th Check-In
+              th
+          tbody
+        .add-slot onclick='ctrl.add_slot()' + Add Participant
+
+      .tile#actions-tile.hidden
+        button#btn-save   onclick='ctrl.save()'               Save Changes
+        button#btn-cancel onclick='ctrl.cancel_reservation()' Cancel Reservation
+
+    #popupmenu_container

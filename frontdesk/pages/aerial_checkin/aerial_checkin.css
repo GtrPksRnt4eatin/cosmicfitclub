@@ -95,7 +95,22 @@ body {
   padding: 1.25em;
   margin-bottom: 1em;
   border: 1px solid rgba(255,255,255,0.1);
+  position: relative;
 }
+
+.res-edit-link {
+  position: absolute;
+  top: 0.9em;
+  right: 0.9em;
+  font-size: 0.75em;
+  color: rgba(160,160,255,0.6);
+  text-decoration: none;
+  padding: 0.2em 0.5em;
+  border: 1px solid rgba(160,160,255,0.2);
+  border-radius: 0.3em;
+}
+
+.res-edit-link:hover { background: rgba(160,160,255,0.1); color: #a0a0ff; }
 
 .res-card.past {
   opacity: 0.45;

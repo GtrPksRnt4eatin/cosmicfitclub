@@ -100,6 +100,13 @@ function make_res_card(res, is_past) {
   card.className = 'res-card' + (is_past ? ' past' : '');
   card.dataset.id = res.id;
 
+  // Edit link (top right)
+  var edit_a = document.createElement('a');
+  edit_a.className = 'res-edit-link';
+  edit_a.href = '/frontdesk/point_reservation/' + res.id;
+  edit_a.textContent = 'Edit';
+  card.appendChild(edit_a);
+
   // Time header
   var time_el = document.createElement('div');
   time_el.className = 'res-time';

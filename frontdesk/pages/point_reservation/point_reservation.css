@@ -1,0 +1,276 @@
+/* ============================================================
+   Point Reservation Edit Page
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+.content {
+  padding: 1.5em;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ---- Tiles ----------------------------------------------- */
+
+.tile {
+  background: rgba(255,255,255,0.05);
+  border-radius: 0.75em;
+  padding: 1.5em 2em;
+  margin-bottom: 1.5em;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.tile.hidden { display: none; }
+
+/* ---- Header ---------------------------------------------- */
+
+.res-header {
+  margin-bottom: 1.25em;
+}
+
+.back-link {
+  display: inline-block;
+  color: #a0a0ff;
+  text-decoration: none;
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
+}
+
+.back-link:hover { text-decoration: underline; }
+
+.res-header h2 {
+  margin: 0;
+  font-size: 1.6em;
+  color: #fff;
+}
+
+/* ---- Field Grid ------------------------------------------ */
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em 2em;
+}
+
+.field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+.field-row label {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.45);
+}
+
+.field-row:last-child {
+  grid-column: span 2;
+}
+
+.edit-input {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 0.45em;
+  color: #fff;
+  font-size: 1em;
+  padding: 0.5em 0.75em;
+  font-family: inherit;
+  width: 100%;
+  outline: none;
+}
+
+.edit-input:focus {
+  border-color: #a0a0ff;
+  box-shadow: 0 0 0 2px rgba(160,160,255,0.2);
+}
+
+textarea.edit-input {
+  resize: vertical;
+  min-height: 4em;
+}
+
+input[type="checkbox"] {
+  width: 1.4em;
+  height: 1.4em;
+  accent-color: #a0a0ff;
+  cursor: pointer;
+  margin-top: 0.25em;
+}
+
+.conf-tag {
+  margin-top: 1.25em;
+  font-size: 0.85em;
+  color: rgba(255,255,255,0.4);
+}
+
+.loading, .error {
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+.error { color: #ff8050; }
+
+/* ---- Slots Table ----------------------------------------- */
+
+#slots-tile h3 {
+  margin: 0 0 0.9em 0;
+  font-size: 1.1em;
+  color: rgba(255,255,255,0.7);
+}
+
+#slots-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+#slots-table th {
+  text-align: left;
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+  padding: 0.4em 0.75em;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+#slots-table td {
+  padding: 0.6em 0.75em;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: middle;
+}
+
+.slot-name {
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.slot-name:hover { color: #a0a0ff; }
+
+.slot-payment .paid {
+  font-size: 0.85em;
+  color: #50c864;
+}
+
+.checked-in {
+  font-size: 0.85em;
+  color: #50c864;
+}
+
+/* ---- Slot Buttons ---------------------------------------- */
+
+.slot-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  border-radius: 0.4em;
+  padding: 0.3em 0.75em;
+  font-size: 0.82em;
+  font-family: inherit;
+  cursor: pointer;
+  margin-right: 0.3em;
+  transition: background 0.15s;
+}
+
+.slot-btn:hover { background: rgba(255,255,255,0.16); }
+.slot-btn:active { background: rgba(255,255,255,0.22); }
+
+.pay-passes-btn { border-color: rgba(80,200,100,0.4);  color: #7de89a; }
+.pay-card-btn   { border-color: rgba(100,100,255,0.4); color: #a0a0ff; }
+.checkin-btn    { border-color: rgba(160,160,255,0.3); }
+.del-btn        { border-color: rgba(255,80,80,0.35);  color: #ff9090; }
+
+.add-slot {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 0.9em;
+  color: #a0a0ff;
+  padding: 0.35em 0.75em;
+  border: 1px dashed rgba(160,160,255,0.35);
+  border-radius: 0.45em;
+  transition: background 0.15s;
+}
+
+.add-slot:hover { background: rgba(160,160,255,0.08); }
+
+/* ---- Actions --------------------------------------------- */
+
+#actions-tile {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+#btn-save {
+  background: linear-gradient(135deg, #5050dd, #8040cc);
+  color: #fff;
+  border: none;
+  border-radius: 0.5em;
+  padding: 0.7em 2em;
+  font-size: 1em;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+#btn-save:hover  { opacity: 0.88; }
+#btn-save:active { opacity: 0.75; }
+
+#btn-cancel {
+  background: transparent;
+  border: 1px solid rgba(255,80,80,0.4);
+  color: #ff9090;
+  border-radius: 0.5em;
+  padding: 0.7em 1.5em;
+  font-size: 1em;
+  font-family: inherit;
+  cursor: pointer;
+  margin-left: auto;
+  transition: background 0.2s;
+}
+
+#btn-cancel:hover { background: rgba(255,80,80,0.1); }
+
+/* ---- Flash ----------------------------------------------- */
+
+.flash-success {
+  position: fixed;
+  bottom: 2em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #50c864;
+  color: #fff;
+  font-size: 1em;
+  padding: 0.7em 2em;
+  border-radius: 2em;
+  box-shadow: 0 0.25em 1em rgba(0,0,0,0.4);
+  z-index: 9999;
+  animation: fadein 0.2s ease;
+  cursor: pointer;
+}
+
+.flash-error {
+  position: fixed;
+  bottom: 2em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #c04040;
+  color: #fff;
+  font-size: 1em;
+  padding: 0.9em 2em;
+  border-radius: 0.75em;
+  box-shadow: 0 0.25em 1.5em rgba(0,0,0,0.5);
+  z-index: 9999;
+  animation: fadein 0.2s ease;
+  max-width: min(90vw, 500px);
+  text-align: center;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateX(-50%) translateY(0.5em); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}

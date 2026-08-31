@@ -111,6 +111,63 @@ class GroupReservationRoutes < Sinatra::Base
     res.details_view.to_json
   end
 
+  put '/:id' do
+    res  = GroupReservation[params[:id]] or halt(404, "Reservation Not Found")
+    data = JSON.parse(request.body.read)
+
+    new_start = Time.parse(data['start_time']) if data['start_time']
+    new_end   = Time.parse(data['end_time'])   if data['end_time']
+
+    if new_start && new_end
+      conflict = GroupReservation.check_for_conflict(new_start, new_end, res.resource_id)
+      halt(409, "Conflicting Reservation Found") if conflict && conflict.id != res.id
+    end
+
+    res.update(
+      start_time: new_start || res.start_time,
+      end_time:   new_end   || res.end_time,
+      activity:   data['activity'] || res.activity,
+      note:       data.key?('note') ? data['note'] : res.note,
+      is_lesson:  data.key?('is_lesson') ? data['is_lesson'] : res.is_lesson
+    )
+
+    # Update slot times to match
+    res.slots.each { |s| s.update(start_time: res.start_time, duration_mins: res.duration_min) }
+
+    res.details_view.to_json
+  end
+
+  post '/:id/slots' do
+    res  = GroupReservation[params[:id]] or halt(404, "Reservation Not Found")
+    data = JSON.parse(request.body.read)
+    custy_id = data['customer_id'].to_i
+    custy_id = nil if custy_id == 0
+    slot = res.add_slot(
+      customer_id:   custy_id,
+      start_time:    res.start_time,
+      duration_mins: res.duration_min
+    )
+    slot.details_view.to_json
+  end
+
+  patch '/slots/:slot_id' do
+    slot = GroupReservationSlot[params[:slot_id].to_i] or halt(404, "Slot Not Found")
+    data = JSON.parse(request.body.read)
+    custy_id = data['customer_id'].to_i
+    slot.update(customer_id: custy_id == 0 ? nil : custy_id)
+    slot.details_view.to_json
+  end
+
+  delete '/:id/slots/:slot_id' do
+    res  = GroupReservation[params[:id]]      or halt(404, "Reservation Not Found")
+    slot = GroupReservationSlot[params[:slot_id].to_i] or halt(404, "Slot Not Found")
+    halt(403, "Slot does not belong to this reservation") unless slot.group_reservation_id == res.id
+    slot.checkin.delete if slot.checkin
+    slot.delete
+    res.publish_gcal_event
+    {}.to_json
+  end
+
   delete '/:id' do
     res = GroupReservation[params[:id]] or halt(404, "Reservation Not Found")
     res.full_delete

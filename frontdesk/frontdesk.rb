@@ -27,7 +27,8 @@ class CFCFrontDesk < Sinatra::Base
   get( '/customer_file',        :auth => "frontdesk" ) { render_page :customer_file    }
   get( '/dashboard' )                                  { render_page :dashboard        }
   get( '/signage')                                     { render_page :signage          }
-  get( '/aerial_checkin',       :auth => "frontdesk" ) { render_page :aerial_checkin   }
+  get( '/aerial_checkin',          :auth => "frontdesk" ) { render_page :aerial_checkin        }
+  get( '/point_reservation/:id',   :auth => "frontdesk" ) { render_page :point_reservation     }
 
   get '/bus_times' do
     cache_control :no_store
