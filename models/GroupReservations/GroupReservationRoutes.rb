@@ -14,8 +14,12 @@ class GroupReservationRoutes < Sinatra::Base
     now  = Time.now
     from = now - 2 * 3600
     to   = now + 8 * 3600
-    reservations = GroupReservation.all_between(from, to)
-                     .select { |r| r.resource_id == 1 }
+    # Use overlap condition: reservation overlaps window if it starts before `to` AND ends after `from`
+    reservations = GroupReservation
+                     .where(resource_id: 1)
+                     .where { start_time < to }
+                     .where { end_time   > from }
+                     .order(:start_time)
                      .map(&:details_view)
     reservations.to_json
   end
