@@ -59,7 +59,8 @@ function setup_bindings() {
     var h = Math.round((new Date(res.end_time) - new Date(res.start_time)) / 3600000);
     return h + ' hr' + (h !== 1 ? 's' : '');
   };
-  rivets.formatters.slot_name    = function (slot)  { return slot ? (slot.customer_string || 'Guest') : ''; };
+  rivets.formatters.slot_name    = function (slot)  { if (!slot) return ''; var s = slot.customer_string || 'Guest'; return s.replace(/^\[\d+\]\s*/, ''); };
+  rivets.formatters.slot_id_title = function (slot)  { return slot && slot.customer_id ? 'Customer ID: ' + slot.customer_id : ''; };
   rivets.formatters.modal_time   = function (modal) {
     if (!modal.res) return '';
     var dur = Math.round((new Date(modal.res.end_time) - new Date(modal.res.start_time)) / 3600000);

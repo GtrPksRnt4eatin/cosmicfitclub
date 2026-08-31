@@ -28,7 +28,7 @@ AerialTimeline.prototype.HTML = `
       <div class='res-duration'>{ res | res_dur }</div>
       <div class='res-slots'>
         <div class='slot-row checked-in' rv-each-slot='res.slots'>
-          <span class='slot-name'>{ slot.customer_string }</span>
+          <span class='slot-name' rv-title='slot | slot_id_title'>{ slot | slot_name }</span>
           <span class='checkin-badge' rv-if='slot.checkin'>✓ Checked In</span>
         </div>
       </div>
@@ -44,7 +44,7 @@ AerialTimeline.prototype.HTML = `
       <div class='res-duration'>{ res | res_dur }</div>
       <div class='res-slots'>
         <div rv-class-checked-in='slot.checkin' class='slot-row' rv-each-slot='res.slots'>
-          <span class='slot-name'>{ slot.customer_string }</span>
+          <span class='slot-name' rv-title='slot | slot_id_title'>{ slot | slot_name }</span>
           <span class='checkin-badge' rv-if='slot.checkin'>✓ Checked In</span>
           <button class='checkin-btn' rv-unless='slot.checkin' rv-on-click='ctrl.open_modal'>Check In</button>
         </div>
@@ -61,7 +61,7 @@ AerialTimeline.prototype.HTML = `
       <div class='res-duration'>{ res | res_dur }</div>
       <div class='res-slots'>
         <div rv-class-checked-in='slot.checkin' class='slot-row' rv-each-slot='res.slots'>
-          <span class='slot-name'>{ slot.customer_string }</span>
+          <span class='slot-name' rv-title='slot | slot_id_title'>{ slot | slot_name }</span>
           <span class='checkin-badge' rv-if='slot.checkin'>✓ Checked In</span>
           <button class='checkin-btn' rv-unless='slot.checkin' rv-on-click='ctrl.open_modal'>Check In</button>
         </div>
