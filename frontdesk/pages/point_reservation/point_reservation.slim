@@ -15,8 +15,8 @@ html
       var elements = stripe.elements();
       var RES_ID   = #{ params[:id].to_i };
 
-    == css  ['fonts', 'site', 'header', 'menu_colors', 'flatpickr', 'point_reservation']
-    == js   ['jquery', 'moment', 'moment-timezone-with-data-10-year-range.min', 'flatpickr', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel']
+    == css  ['fonts', 'site', 'header', 'menu_colors', 'selectize', 'flatpickr', 'point_reservation']
+    == js   ['jquery', 'selectize.min', 'moment', 'moment-timezone-with-data-10-year-range.min', 'flatpickr', 'rivets', 'rv_dates', 'rv_select', 'lib', 'element', 'ev_channel']
     == js   ['/auth/elements/userview', '/admin/elements/popup_menu', '/admin/elements/custy_selector', '/checkout/elements/payment_form']
     == js   ['/frontdesk/point_reservation']
 

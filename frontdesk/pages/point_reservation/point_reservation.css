@@ -13,11 +13,11 @@
 /* ---- Tiles ----------------------------------------------- */
 
 .tile {
-  background: rgba(255,255,255,0.05);
+  background: rgba(20,20,35,0.88);
+  box-shadow: 0 0 8px rgba(255,255,255,0.15);
   border-radius: 0.75em;
   padding: 1.5em 2em;
   margin-bottom: 1.5em;
-  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .tile.hidden { display: none; }
