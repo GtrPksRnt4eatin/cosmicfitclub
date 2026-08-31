@@ -89,9 +89,6 @@ function load_reservations() {
     var prev = [], curr = [], next = [];
 
     resp.forEach(function (res) {
-      // Tag each slot with back-reference so rv-on-click can find the parent res
-      (res.slots || []).forEach(function (slot) { slot._res = res; });
-
       var start = new Date(res.start_time);
       var end   = new Date(res.end_time);
       if      (end   <= now) { prev.push(res); }
@@ -99,16 +96,18 @@ function load_reservations() {
       else                   { next.push(res); }
     });
 
-    // Mutate in place so rivets observes the changes
-    splice_into(data.prev, prev.slice(-1));
-    splice_into(data.curr, curr);
-    splice_into(data.next, next.slice(0, 3));
-  }, 'json');
-}
+    // Replace array references — rivets observes the keypath and re-renders
+    data.prev = prev.slice(-1);
+    data.curr = curr;
+    data.next = next.slice(0, 3);
 
-function splice_into(arr, items) {
-  while (arr.length) arr.pop();
-  items.forEach(function (item) { arr.push(item); });
+    // Re-tag back-references after array swap
+    [data.prev, data.curr, data.next].forEach(function (list) {
+      list.forEach(function (res) {
+        (res.slots || []).forEach(function (slot) { slot._res = res; });
+      });
+    });
+  }, 'json');
 }
 
 // ---- Modal -------------------------------------------------
