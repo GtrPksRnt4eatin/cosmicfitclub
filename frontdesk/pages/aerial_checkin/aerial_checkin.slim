@@ -11,12 +11,13 @@ html
     script src='https://js.stripe.com/v3/'
     javascript:
       var STRIPE_PUBLIC_KEY = '#{ ENV["STRIPE_PUBLIC"] }';
-      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var stripe   = Stripe(STRIPE_PUBLIC_KEY);
       var elements = stripe.elements();
 
     == css  ['fonts', 'site', 'aerial_checkin']
     == js   ['jquery', 'moment', 'moment-timezone-with-data-10-year-range.min', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel']
-    == js   ['/admin/elements/popup_menu', '/checkout/elements/payment_form', '/frontdesk/aerial_checkin']
+    == js   ['/admin/elements/popup_menu', '/checkout/elements/payment_form']
+    == js   ['/frontdesk/elements/aerial_timeline', '/frontdesk/elements/aerial_checkin_modal', '/frontdesk/aerial_checkin']
 
   body
 
@@ -28,22 +29,10 @@ html
       #clock
 
     #timeline
-      .section#prev-section
-        h3 Previous
-        #prev-slots
-      .section.current-section#curr-section
-        h3 Now
-        #curr-slots
-      .section#next-section
-        h3 Up Next
-        #next-slots
+      aerial-timeline prev='data.prev' curr='data.curr' next='data.next' ctrl='ctrl'
 
-    #cta
-      | Tap your appointment to check in
+    #cta Tap your appointment to check in
 
-    #checkin-modal.hidden
-      .modal-overlay rv-on-click='ctrl.close_modal'
-      .modal-box
-        #modal-content
+    aerial-checkin-modal rv-show='data.modal.open' modal='data.modal' ctrl='ctrl'
 
     #popupmenu_container

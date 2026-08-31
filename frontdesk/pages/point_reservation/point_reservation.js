@@ -27,7 +27,7 @@ $(document).ready(function () {
   payment_form.ev_sub('show', popupmenu.show);
   payment_form.ev_sub('hide', popupmenu.hide);
 
-  custy_selector.ev_sub('show',        popupmenu.show_modal);
+  custy_selector.ev_sub('show',        popupmenu.show);
   custy_selector.ev_sub('close_modal', popupmenu.hide);
 
   ctrl = {
