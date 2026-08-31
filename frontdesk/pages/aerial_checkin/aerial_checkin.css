@@ -1,0 +1,360 @@
+/* ============================================================
+   Aerial Point Kiosk Check-In
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+body {
+  background: #0d0d1a;
+  color: #fff;
+  font-family: 'Industry-Light', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ---- Header -------------------------------------------- */
+
+#kiosk-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75em 2em;
+  background: rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#kiosk-header .logo {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #a0a0ff;
+  letter-spacing: 0.05em;
+}
+
+#kiosk-header .room {
+  font-size: 1.6em;
+  color: #fff;
+  letter-spacing: 0.1em;
+}
+
+#clock {
+  font-size: 1.3em;
+  color: #a0a0ff;
+  text-align: right;
+}
+
+/* ---- Timeline ------------------------------------------ */
+
+#timeline {
+  display: flex;
+  gap: 1.5em;
+  padding: 2em;
+  min-height: 60vh;
+}
+
+.section {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border-radius: 1em;
+  padding: 1.5em;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.current-section {
+  flex: 1.4;
+  background: rgba(100,100,255,0.08);
+  border-color: rgba(150,150,255,0.25);
+  box-shadow: 0 0 2em rgba(100,100,255,0.15);
+}
+
+.section h3 {
+  margin: 0 0 1em 0;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.4);
+}
+
+.current-section h3 {
+  color: #a0a0ff;
+}
+
+.empty-slot {
+  color: rgba(255,255,255,0.2);
+  font-size: 2em;
+  text-align: center;
+  padding: 2em 0;
+}
+
+/* ---- Reservation Card ---------------------------------- */
+
+.res-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 0.75em;
+  padding: 1.25em;
+  margin-bottom: 1em;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.res-card.past {
+  opacity: 0.45;
+}
+
+.res-time {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 0.15em;
+}
+
+.res-duration {
+  font-size: 0.85em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0.9em;
+}
+
+/* ---- Slots --------------------------------------------- */
+
+.res-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.slot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.06);
+  border-radius: 0.5em;
+  padding: 0.6em 0.9em;
+  gap: 0.75em;
+}
+
+.slot-row.checked-in {
+  background: rgba(50,200,100,0.15);
+  border: 1px solid rgba(50,200,100,0.3);
+}
+
+.slot-name {
+  font-size: 1.05em;
+  flex: 1;
+}
+
+.checkin-badge {
+  font-size: 0.8em;
+  color: #50c864;
+  white-space: nowrap;
+}
+
+.checkin-btn {
+  background: linear-gradient(135deg, #6060ff, #a050ff);
+  color: #fff;
+  border: none;
+  border-radius: 0.5em;
+  padding: 0.5em 1em;
+  font-size: 0.9em;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.checkin-btn:hover  { opacity: 0.85; }
+.checkin-btn:active { opacity: 0.7;  }
+
+/* ---- CTA ----------------------------------------------- */
+
+#cta {
+  text-align: center;
+  padding: 1em;
+  font-size: 1.1em;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.08em;
+}
+
+/* ---- Modal --------------------------------------------- */
+
+#checkin-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#checkin-modal.hidden {
+  display: none;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  cursor: pointer;
+}
+
+.modal-box {
+  position: relative;
+  z-index: 1;
+  background: #1a1a2e;
+  border: 1px solid rgba(150,150,255,0.3);
+  border-radius: 1.25em;
+  padding: 2.5em;
+  width: min(90vw, 480px);
+  box-shadow: 0 0 4em rgba(80,80,200,0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-inner h2 {
+  margin: 0 0 0.5em 0;
+  font-size: 1.6em;
+  color: #a0a0ff;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  font-size: 1.2em;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1;
+}
+
+.modal-name {
+  font-size: 1.3em;
+  margin-bottom: 0.25em;
+}
+
+.modal-time {
+  font-size: 1em;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.25em;
+}
+
+.modal-cost {
+  font-size: 1em;
+  color: #a0a0ff;
+  margin-bottom: 0.5em;
+}
+
+.modal-box hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin: 1.25em 0;
+}
+
+/* ---- Pass Section -------------------------------------- */
+
+.pass-loading {
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+.pass-balance {
+  margin-bottom: 0.75em;
+  font-size: 1em;
+}
+
+.pass-balance.ok  { color: #50c864; }
+.pass-balance.low { color: #ff8050; }
+
+.pass-error {
+  color: #ff8050;
+  font-size: 0.95em;
+  margin-bottom: 0.5em;
+}
+
+.pass-email-prompt p {
+  margin: 0 0 0.5em 0;
+  color: rgba(255,255,255,0.7);
+}
+
+.pass-email-prompt input[type="email"] {
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 0.5em;
+  color: #fff;
+  font-size: 1em;
+  padding: 0.6em 0.9em;
+  font-family: inherit;
+  margin-bottom: 0.75em;
+  outline: none;
+}
+
+.pass-email-prompt input[type="email"]:focus {
+  border-color: #a0a0ff;
+}
+
+/* ---- Pay Buttons --------------------------------------- */
+
+.pay-btn {
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 1em;
+  padding: 0.75em 1em;
+  border-radius: 0.6em;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+  margin-bottom: 0.5em;
+}
+
+.pay-btn:hover   { background: rgba(255,255,255,0.18); }
+.pay-btn:active  { background: rgba(255,255,255,0.25); }
+.pay-btn.busy, .pay-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.passes-pay-btn {
+  background: rgba(80,200,100,0.2);
+  border-color: rgba(80,200,100,0.4);
+}
+.passes-pay-btn:hover { background: rgba(80,200,100,0.3); }
+
+.card-pay-btn {
+  background: rgba(100,100,255,0.2);
+  border-color: rgba(100,100,255,0.4);
+}
+.card-pay-btn:hover { background: rgba(100,100,255,0.3); }
+
+.card-section p {
+  margin: 0 0 0.75em 0;
+  color: rgba(255,255,255,0.7);
+}
+
+/* ---- Success ------------------------------------------- */
+
+.success-message {
+  text-align: center;
+  padding: 1em 0;
+}
+
+.success-check {
+  font-size: 4em;
+  color: #50c864;
+  margin-bottom: 0.25em;
+}
+
+.success-text {
+  font-size: 1.8em;
+  margin-bottom: 0.25em;
+}
+
+.success-sub {
+  color: rgba(255,255,255,0.55);
+  font-size: 1em;
+}

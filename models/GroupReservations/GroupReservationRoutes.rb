@@ -9,6 +9,66 @@ class GroupReservationRoutes < Sinatra::Base
     Calendar::get_day_events(params[:day]).to_json
   end
 
+  # Kiosk: returns all aerial point reservations in a window around now
+  get '/aerial_window' do
+    now  = Time.now
+    from = now - 2 * 3600
+    to   = now + 8 * 3600
+    reservations = GroupReservation.all_between(from, to)
+                     .select { |r| r.resource_id == 1 }
+                     .map(&:details_view)
+    reservations.to_json
+  end
+
+  # Kiosk: look up a customer by email (for pass payment identification)
+  get '/customer_lookup' do
+    halt 400, "Email required" unless params[:email]
+    custy = Customer.find_by_email(params[:email]) or halt 404, "No account found"
+    { id: custy.id, name: custy.name, num_passes: custy.num_passes }.to_json
+  end
+
+  # Kiosk: check in a slot and record payment
+  post '/slots/:id/checkin' do
+    slot = GroupReservationSlot[params[:id].to_i] or halt 404, "Slot not found"
+    res  = slot.reservation
+
+    passes_per_hour = 1
+    passes_needed   = (res.duration_hr * passes_per_hour).to_i
+    cents_per_hour  = 1200
+    amount_cents    = passes_needed * cents_per_hour
+
+    if params[:payment_type] == 'passes'
+      custy = slot.customer || (params[:customer_id] && Customer[params[:customer_id].to_i])
+      halt 404, "No customer identified for pass payment" unless custy
+      halt 402, "Insufficient passes (need #{passes_needed}, have #{custy.num_passes.to_i})" if custy.num_passes < passes_needed
+
+      custy.rem_passes(passes_needed, "Aerial Point: #{res.summary}", "")
+      payment = CustomerPayment.create(
+        :customer  => custy,
+        :stripe_id => nil,
+        :amount    => amount_cents,
+        :reason    => "Aerial Point: #{res.summary}",
+        :type      => 'passes',
+        :tag       => 'rental'
+      )
+      slot.update(payment_id: payment.id, customer_id: custy.id)
+
+    elsif params[:payment_id]
+      payment = CustomerPayment[params[:payment_id].to_i] or halt 404, "Payment not found"
+      slot.update(payment_id: payment.id)
+
+    else
+      halt 400, "payment_type 'passes' or payment_id required"
+    end
+
+    # Record checkin
+    existing = GroupReservationCheckin.where(slot_id: slot.id).first
+    GroupReservationCheckin.create(slot_id: slot.id) unless existing
+
+    Slack.website_purchases("Aerial Kiosk Checkin: #{slot.customer.try(:name) || 'Guest'} — #{res.summary}")
+    slot.details_view.to_json
+  end
+
   post '/' do
     data = JSON.parse(request.body.read)
     resource_id = data['resource_id'] || 1

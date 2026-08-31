@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+html
+
+  head
+
+    == no_scaling
+
+    title Aerial Point Check-In
+
+    script src='https://js.stripe.com/v3/'
+    javascript:
+      var STRIPE_PUBLIC_KEY = '#{ ENV["STRIPE_PUBLIC"] }';
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
+
+    == css  ['fonts', 'site', 'aerial_checkin']
+    == js   ['jquery', 'moment', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel']
+    == js   ['elements/popup_menu', 'elements/payment_form', '/frontdesk/aerial_checkin']
+
+  body
+
+    #stars
+
+    #kiosk-header
+      .logo Cosmic Fit Club
+      .room ✦ Aerial Point ✦
+      #clock
+
+    #timeline
+      .section#prev-section
+        h3 Previous
+        #prev-slots
+      .section.current-section#curr-section
+        h3 Now
+        #curr-slots
+      .section#next-section
+        h3 Up Next
+        #next-slots
+
+    #cta
+      | Tap your appointment to check in
+
+    #checkin-modal.hidden
+      .modal-overlay rv-on-click='ctrl.close_modal'
+      .modal-box
+        #modal-content
+
+    #popupmenu_container
