@@ -12,10 +12,11 @@ html
     javascript:
       var STRIPE_PUBLIC_KEY = '#{ ENV["STRIPE_PUBLIC"] }';
       var stripe = Stripe(STRIPE_PUBLIC_KEY);
+      var elements = stripe.elements();
 
     == css  ['fonts', 'site', 'aerial_checkin']
-    == js   ['jquery', 'moment', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel']
-    == js   ['elements/popup_menu', 'elements/payment_form', '/frontdesk/aerial_checkin']
+    == js   ['jquery', 'moment', 'moment-timezone-with-data-10-year-range.min', 'rivets', 'rv_dates', 'lib', 'element', 'ev_channel']
+    == js   ['/admin/elements/popup_menu', '/checkout/elements/payment_form', '/frontdesk/aerial_checkin']
 
   body
 
