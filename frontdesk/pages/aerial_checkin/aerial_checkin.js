@@ -52,7 +52,7 @@ $(document).ready(function () {
 });
 
 function setup_bindings() {
-  rivets.formatters.edit_href    = function (res)   { return '/frontdesk/point_reservation/' + res.id; };
+  rivets.formatters.edit_href    = function (res)   { return res ? '/frontdesk/point_reservation/' + res.id : '#'; };
   rivets.formatters.res_time     = function (res)   { return moment(res.start_time).format('h:mm') + ' – ' + moment(res.end_time).format('h:mm A'); };
   rivets.formatters.res_dur      = function (res)   {
     var h = Math.round((new Date(res.end_time) - new Date(res.start_time)) / 3600000);

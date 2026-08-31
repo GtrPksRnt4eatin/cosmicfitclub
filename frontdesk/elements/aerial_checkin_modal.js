@@ -26,7 +26,7 @@ AerialCheckinModal.prototype.HTML = `
       <div class='modal-name'>{ modal.slot | slot_name }</div>
       <div class='modal-time'>{ modal | modal_time }</div>
       <div class='modal-cost'>
-        Cost: { modal.passes_needed } pass(es) or ${ modal.amount_cents | dollars }
+        Cost: { modal.passes_needed } pass(es) or \${ modal.amount_cents | dollars }
       </div>
       <hr>
 
@@ -60,7 +60,7 @@ AerialCheckinModal.prototype.HTML = `
       <div class='card-section'>
         <p>Or pay by card:</p>
         <button class='pay-btn card-pay-btn' rv-unless='modal.busy' rv-on-click='ctrl.pay_card'>
-          Pay ${ modal.amount_cents | dollars } by Card
+          Pay \${ modal.amount_cents | dollars } by Card
         </button>
         <div class='busy-msg' rv-if='modal.busy'>Processing…</div>
       </div>
