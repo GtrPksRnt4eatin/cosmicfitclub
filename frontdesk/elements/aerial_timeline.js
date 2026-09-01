@@ -21,7 +21,7 @@ Object.assign(AerialTimeline.prototype, element);
 AerialTimeline.prototype.HTML = `
   <div class='section'>
     <h3>Previous</h3>
-    <div class='empty-slot' rv-unless='prev.0'>—</div>
+    <div class='empty-slot' rv-hide='prev.0'>—</div>
     <div class='res-card past' rv-each-res='prev'>
       <a class='res-edit-link' rv-href='res | edit_href'>Edit</a>
       <div class='res-time'>{ res | res_time }</div>
@@ -29,7 +29,7 @@ AerialTimeline.prototype.HTML = `
       <div class='res-slots'>
         <div class='slot-row checked-in' rv-each-slot='res.slots'>
           <span class='slot-name' rv-title='slot | slot_id_title'>{ slot | slot_name }</span>
-          <span class='checkin-badge' rv-if='slot.checkin'>✓ Checked In</span>
+          <span class='checkin-badge' rv-show='slot.checkin'>✓ Checked In</span>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@ AerialTimeline.prototype.HTML = `
 
   <div class='section current-section'>
     <h3>Now</h3>
-    <div class='empty-slot' rv-unless='curr.0'>—</div>
+    <div class='empty-slot' rv-hide='curr.0'>—</div>
     <div class='res-card' rv-each-res='curr'>
       <a class='res-edit-link' rv-href='res | edit_href'>Edit</a>
       <div class='res-time'>{ res | res_time }</div>
@@ -45,8 +45,8 @@ AerialTimeline.prototype.HTML = `
       <div class='res-slots'>
         <div rv-class-checked-in='slot.checkin' class='slot-row' rv-each-slot='res.slots'>
           <span class='slot-name' rv-title='slot | slot_id_title'>{ slot | slot_name }</span>
-          <span class='checkin-badge' rv-if='slot.checkin'>✓ Checked In</span>
-          <button class='checkin-btn' rv-unless='slot.checkin' rv-on-click='ctrl.open_modal'>Check In</button>
+          <span class='checkin-badge' rv-show='slot.checkin'>✓ Checked In</span>
+          <button class='checkin-btn' rv-hide='slot.checkin' rv-on-click='ctrl.open_modal'>Check In</button>
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@ AerialTimeline.prototype.HTML = `
 
   <div class='section'>
     <h3>Up Next</h3>
-    <div class='empty-slot' rv-unless='next.0'>—</div>
+    <div class='empty-slot' rv-hide='next.0'>—</div>
     <div class='res-card' rv-each-res='next'>
       <a class='res-edit-link' rv-href='res | edit_href'>Edit</a>
       <div class='res-time'>{ res | res_time }</div>
@@ -62,8 +62,8 @@ AerialTimeline.prototype.HTML = `
       <div class='res-slots'>
         <div rv-class-checked-in='slot.checkin' class='slot-row' rv-each-slot='res.slots'>
           <span class='slot-name' rv-title='slot | slot_id_title'>{ slot | slot_name }</span>
-          <span class='checkin-badge' rv-if='slot.checkin'>✓ Checked In</span>
-          <button class='checkin-btn' rv-unless='slot.checkin' rv-on-click='ctrl.open_modal'>Check In</button>
+          <span class='checkin-badge' rv-show='slot.checkin'>✓ Checked In</span>
+          <button class='checkin-btn' rv-hide='slot.checkin' rv-on-click='ctrl.open_modal'>Check In</button>
         </div>
       </div>
     </div>

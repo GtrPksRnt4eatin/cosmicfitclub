@@ -20,7 +20,7 @@ AerialCheckinModal.prototype.HTML = `
   <div class='modal-overlay' rv-on-click='ctrl.close_modal'></div>
   <div class='modal-box'>
 
-    <div class='modal-inner' rv-unless='modal.success'>
+    <div class='modal-inner' rv-hide='modal.success'>
       <button class='modal-close' rv-on-click='ctrl.close_modal'>✕</button>
       <h2>Check In</h2>
       <div class='modal-name'>{ modal.slot | slot_name }</div>
@@ -30,26 +30,26 @@ AerialCheckinModal.prototype.HTML = `
       </div>
       <hr>
 
-      <div rv-if='modal.customer'>
+      <div rv-show='modal.customer'>
         <div class='pass-balance' rv-class-ok='modal | has_passes' rv-class-low='modal | lacks_passes'>
           { modal.customer.name } has { modal.customer.num_passes | passes_label } passes
         </div>
         <button class='pay-btn passes-pay-btn'
-                rv-if='modal | has_passes'
-                rv-unless='modal.busy'
+                rv-show='modal | has_passes'
+                rv-hide='modal.busy'
                 rv-on-click='ctrl.pay_passes'>
           Pay with { modal.passes_needed } Pass(es)
         </button>
-        <div class='pass-error' rv-if='modal | lacks_passes'>
+        <div class='pass-error' rv-show='modal | lacks_passes'>
           Not enough passes (need { modal.passes_needed })
         </div>
       </div>
 
-      <div rv-unless='modal.customer'>
+      <div rv-hide='modal.customer'>
         <div class='pass-email-prompt'>
           <p>Enter your email to pay with passes:</p>
           <input type='email' rv-value='modal.lookup_email' placeholder='your@email.com' />
-          <button class='pay-btn' rv-unless='modal.busy' rv-on-click='ctrl.lookup_passes'>
+          <button class='pay-btn' rv-hide='modal.busy' rv-on-click='ctrl.lookup_passes'>
             Look Up Account
           </button>
         </div>
@@ -59,14 +59,14 @@ AerialCheckinModal.prototype.HTML = `
 
       <div class='card-section'>
         <p>Or pay by card:</p>
-        <button class='pay-btn card-pay-btn' rv-unless='modal.busy' rv-on-click='ctrl.pay_card'>
+        <button class='pay-btn card-pay-btn' rv-hide='modal.busy' rv-on-click='ctrl.pay_card'>
           Pay \${ modal.amount_cents | dollars } by Card
         </button>
-        <div class='busy-msg' rv-if='modal.busy'>Processing…</div>
+        <div class='busy-msg' rv-show='modal.busy'>Processing…</div>
       </div>
     </div>
 
-    <div class='success-message' rv-if='modal.success'>
+    <div class='success-message' rv-show='modal.success'>
       <div class='success-check'>✓</div>
       <div class='success-text'>Welcome, { modal.success_name }!</div>
       <div class='success-sub'>You're all set. Enjoy your session!</div>
