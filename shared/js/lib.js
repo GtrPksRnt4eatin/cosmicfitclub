@@ -121,6 +121,21 @@ jQuery.extend({
     del: function(url, data, callback, type) {
         return _ajax_request(url, data, callback, type, 'DELETE');
     }
+  ,postjson: function(url, data, callback, type) {
+    if (jQuery.isFunction(data)) {
+      callback = data;
+      data = {};
+    }
+    var payload = (typeof data === 'string') ? data : JSON.stringify(data || {});
+    return jQuery.ajax({
+      type: 'POST',
+      url: url,
+      data: payload,
+      contentType: 'application/json; charset=UTF-8',
+      dataType: type,
+      success: callback
+    });
+  }
 });
 
 function _ajax_request(url, data, callback, type, method) {

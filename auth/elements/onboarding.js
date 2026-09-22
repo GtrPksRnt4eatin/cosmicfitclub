@@ -64,9 +64,10 @@ Onboarding.prototype = {
   },
 
   login(e,m) {
-    $.post('login', JSON.stringify(this.state))
-     .fail(    this.show_http_error )
-     .success( this.after_login     )
+    $.postjson('login', this.state)
+      .fail(    this.show_http_error )
+      .done( function() { this.after_login(); }.bind(this) )
+    }
   },
 
   register() {
@@ -78,9 +79,9 @@ Onboarding.prototype = {
   },
  
   reset() {
-    $.post('reset', JSON.stringify( { "email": this.state.email } ) )
-     .fail(    this.show_http_error )
-     .success( function() { this.state.mode = 'email'; }.bind(this) )
+    $.postjson('reset', { "email": this.state.email })
+      .fail(    this.show_http_error )
+      .done( function() { this.state.mode = 'email'; }.bind(this) )
   },
 
   validate_registration() {

@@ -164,12 +164,24 @@ class Event < Sequel::Model
 
   def starttime
     return DateTime.now if self.sessions.empty?
-    return DateTime.parse(self.sessions.first.start_time)
+    val = self.sessions.first.start_time
+    return DateTime.now if val.nil?
+    begin
+      DateTime.parse(val)
+    rescue ArgumentError, TypeError
+      DateTime.now
+    end
   end
 
   def endtime
     return DateTime.now if self.sessions.empty?
-    return DateTime.parse(self.sessions.last.end_time)
+    val = self.sessions.last.end_time
+    return DateTime.now if val.nil?
+    begin
+      DateTime.parse(val)
+    rescue ArgumentError, TypeError
+      DateTime.now
+    end
   end
 
   def multisession?
@@ -195,8 +207,8 @@ class Event < Sequel::Model
   end
 
   def daterange
-    start  = DateTime.parse(self.sessions.first.start_time)
-    finish = DateTime.parse(self.sessions.last.end_time)
+    start = self.starttime rescue DateTime.now
+    finish = self.endtime rescue DateTime.now
     return "#{start.strftime("%a %b %-m %l:%M %p")}-#{finish.strftime("%l:%M %p")}" if start.to_date == finish.to_date
     return "#{start.strftime("%a %b %-m %l:%M %p")}-#{finish.strftime("%a %b %-m %l:%M %p")}" 
   end

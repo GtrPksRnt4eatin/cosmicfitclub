@@ -37,34 +37,32 @@ LoginForm.prototype = {
   },
 
   login() {
-    $.post('login', JSON.stringify(this.state))
+    $.postjson('login', this.state)
       .fail( function(req,msg,status) { $(this.dom).shake();  this.state.failed=true; }.bind(this) )
-      .success( function() { 
+      .done( function() { 
         var page = getUrlParameter('page');
         window.location.replace( empty(page) ? '/user' : page );
-      });
+      }.bind(this));
   },
 
   register() {
     if(this.validate_registration()) {
-      $.post('register_and_login', JSON.stringify(this.state))
+      $.postjson('register_and_login', this.state)
         .fail( function(req,msg,status) { 
           $(this.dom).shake(); 
           this.state.errors=[req.responseText];
         }.bind(this) )
-        .success( 
-          function() { window.location.replace('/user'); }
-        );
+        .done( function() { window.location.replace('/user'); }.bind(this) );
     }
   },
 
   reset() {
-    $.post('reset', JSON.stringify(this.state))
+    $.postjson('reset', this.state)
       .fail( function(req,msg,status) {
         $(this.dom).shake();
         this.state.errors=["Account Not Found!"]
       }.bind(this) )
-      .success( this.email_mode );
+      .done( this.email_mode );
   },
 
   login_mode()    { this.state.mode = "login";    },

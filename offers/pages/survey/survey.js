@@ -31,9 +31,9 @@ ctrl = {
   },
 
   reset_password: function(e,m) {
-    $.post( '/auth/reset', JSON.stringify( { "email" : data.email } ) )
-     .fail(    function(req,msg,status) { ('#offer_form').shake(); data.errors=["Account Not Found!"] } )
-     .success( function() { alert("Check Your Email"); } )
+    $.postjson('/auth/reset', { "email" : data.email })
+      .fail(    function(req,msg,status) { ('#offer_form').shake(); data.errors=["Account Not Found!"] } )
+      .done( function() { alert("Check Your Email"); } )
   }
 
 }
@@ -76,15 +76,15 @@ function on_user(user) {
 }
 
 function create_account() {
-  $.post('/auth/register_and_login', JSON.stringify( { "name": data.full_name, "email": data.email } ), 'json')
-   .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors = ['failed to create account']; } )
-   .success( function() { userview.get_user( function(user) { checkout(user.id); } ); } );
+  $.postjson('/auth/register_and_login', { "name": data.full_name, "email": data.email })
+    .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors = ['failed to create account']; } )
+    .done( function() { userview.get_user( function(user) { checkout(user.id); } ); } );
 }
 
 function login() {
-  $.post('/auth/login', JSON.stringify({ "email" : data.email, "password" : data.password } ))
-  .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors=["Login Failed"] } )
-  .success( function() { userview.get_user( function(user) { checkout(user.id); } ); } );
+  $.postjson('/auth/login', { "email" : data.email, "password" : data.password })
+    .fail( function(req,msg,status) { $('#offer_form').shake(); data.errors=["Login Failed"] } )
+    .done( function() { userview.get_user( function(user) { checkout(user.id); } ); } );
 }
 
 function validate_noid() {
