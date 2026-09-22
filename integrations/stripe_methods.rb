@@ -150,41 +150,41 @@ module StripeMethods
     opts = {}
     key = (metadata && (metadata[:client_txn] || metadata['client_txn'] || metadata[:idempotency_key] || metadata['idempotency_key']))
     opts[:idempotency_key] = key if key
-    Stripe::Charge.create(
+    Stripe::Charge.create({
       :amount      => amount,
       :currency    => 'usd',
       :customer    => customer_id,
       :description => description,
       :metadata    => metadata
-    , opts)
+    }, opts)
   end
 
   def StripeMethods::charge_card(token_id, amount, email, description, metadata)
     opts = {}
     key = (metadata && (metadata[:client_txn] || metadata['client_txn'] || metadata[:idempotency_key] || metadata['idempotency_key']))
     opts[:idempotency_key] = key if key
-    Stripe::Charge.create(
+    Stripe::Charge.create({
       :amount        => amount,
       :currency      => 'usd',
       :source        => token_id,
       :receipt_email => email,
       :description   => description, 
       :metadata      => metadata
-    , opts)
+    }, opts)
   end
 
   def StripeMethods::charge_saved(customer_id, card_id, amount, description, metadata)
     opts = {}
     key = (metadata && (metadata[:client_txn] || metadata['client_txn'] || metadata[:idempotency_key] || metadata['idempotency_key']))
     opts[:idempotency_key] = key if key
-    Stripe::Charge.create(
+    Stripe::Charge.create({
       :amount      => amount,
       :currency    => 'usd',  
       :customer    => customer_id,
       :card        => card_id,
       :description => description,
       :metadata    => metadata
-    , opts)
+    }, opts)
   end
 
   def StripeMethods::find_customer_by_card(token)
