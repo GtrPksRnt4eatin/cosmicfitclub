@@ -67,7 +67,6 @@ Onboarding.prototype = {
     $.postjson('login', this.state)
       .fail(    this.show_http_error )
       .done( function() { this.after_login(); }.bind(this) )
-    }
   },
 
   register() {
