@@ -16,7 +16,12 @@ module Sinatra
     
     def js_bundle(tag,arr) 
       params = arr.map{ |x| "file[]=#{x}" }.join('&')
-      "\n<script src='bundledjs/#{tag}?#{params}'></script>"
+      version = begin
+        arr.map{ |x| File.mtime("shared/js/#{x}.js").to_i }.max
+      rescue
+        Time.now.to_i
+      end
+      "\n<script src='bundledjs/#{tag}?#{params}&v=#{version}'></script>"
     end
 
     def handleArray(arg)

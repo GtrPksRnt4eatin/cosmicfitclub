@@ -52,11 +52,6 @@ PaymentForm.prototype = {
     this.init_apple_pay();
   },
 
-  _ensure_client_txn: function() {
-    if(!this.state.client_txn) this.state.client_txn = (new Date()).toISOString() + '-' + Math.random().toString(36).slice(2);
-    return this.state.client_txn;
-  },
-
   init_apple_pay: function() {
     this.paymentRequest = stripe.paymentRequest({
       country: 'US',
@@ -87,7 +82,6 @@ PaymentForm.prototype = {
       payment_method_id: ev.paymentMethod.id,
       amount: this.state.price,
       description: this.state.reason
-      , client_txn: this._ensure_client_txn()
     };
 
     $.post('/checkout/charge_payment_method', body, (payment) => {
@@ -179,7 +173,7 @@ PaymentForm.prototype = {
     if(this.state.busy) return;
     this.state.busy = true;
     //this.stop_listen_cardswipe();
-    body = { customer: this.state.customer_id, card: m.card.id, amount: this.state.price, description: this.state.reason, client_txn: this._ensure_client_txn() };
+    body = { customer: this.state.customer_id, card: m.card.id, amount: this.state.price, description: this.state.reason };
     $.post('/checkout/charge_saved_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
@@ -200,7 +194,7 @@ PaymentForm.prototype = {
     this.state.busy = true;
     //this.stop_listen_cardswipe();
     if(!token_id) return;
-    body = { customer: this.state.customer_id, token: token_id, amount: this.state.price, description: this.state.reason, save_card: this.state.save_card, client_txn: this._ensure_client_txn() };
+    body = { customer: this.state.customer_id, token: token_id, amount: this.state.price, description: this.state.reason, save_card: this.state.save_card };
     $.post('/checkout/charge_card', body, this.after_charge, 'json').fail( this.failed_charge );
   },
 
@@ -220,7 +214,6 @@ PaymentForm.prototype = {
   after_charge: function(payment) {
     this.state.busy = false;
     this.state.callback(payment.id);
-    this.state.client_txn = null;
     this.ev_fire('hide');
   },
 
