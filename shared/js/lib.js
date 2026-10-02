@@ -131,6 +131,8 @@ jQuery.extend({
       type: 'POST',
       url: url,
       data: payload,
+      crossDomain: true,
+      xhrFields: { withCredentials: true },
       contentType: 'application/json; charset=UTF-8',
       dataType: type,
       success: callback

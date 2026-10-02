@@ -179,6 +179,10 @@ map '/integrations/slackbot' do
   run SlackBot
 end
 
+map "/qrcode" do
+  run QrCodeRoutes
+end
+
 # Send notification when app loads/restarts on Heroku
 if ENV['DYNO']
   dyno_name = ENV['DYNO'] || 'unknown'
