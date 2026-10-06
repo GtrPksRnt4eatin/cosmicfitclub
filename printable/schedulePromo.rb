@@ -205,7 +205,7 @@ module SchedulePromo
       },
       { :type     => 'image_bubble',
         :x_offset => 55,
-        :y_offset => 360,
+        :y_offset => 350,
         :width    => 1083,
         :height   => 1083,
         :margin   => 6,
@@ -223,7 +223,7 @@ module SchedulePromo
         :stroke => "#E0E0E0",
       },
       { :type     => "highlight_text",
-        :x_offset => 180,
+        :x_offset => 160,
         :y_offset => 140,
         :ptsize   => 10,
         :strokewidth => 2,
@@ -234,7 +234,7 @@ module SchedulePromo
         :text     => "cosmicfitclub.com/class/#{classdef_id}"
      },
      {  :type     => "highlight_text",
-        :x_offset => 180,
+        :x_offset => 160,
         :y_offset => 210,
         :ptsize   => 10,
         :strokewidth => 2,
@@ -248,15 +248,18 @@ module SchedulePromo
 
     # add QR (only difference from 4x5)
     begin
-      if classdef_id
-        url = "https://cosmicfitclub.com/class/#{classdef_id}"
-        q = RQRCode::QRCode.new(url)
-        qimg = MiniMagick::Image.read q.as_png.to_blob
-        qimg.to_bubble(nil) if qimg.respond_to?(:to_bubble)
-        qr_w = 240
-        qr_h = 240
-        image.overlay(qimg, qr_w, qr_h, 70, 1470)
-      end
+        if classdef_id
+          url = "https://cosmicfitclub.com/class/#{classdef_id}"
+          q = RQRCode::QRCode.new(url)
+          # fixed QR: larger and no white border so it fills the bubble
+          qr_w = 300
+          qr_h = 300
+          q_blob = q.as_png(size: qr_w, border_modules: 0).to_blob
+          qimg = MiniMagick::Image.read(q_blob)
+          qimg.to_bubble(nil) if qimg.respond_to?(:to_bubble)
+          # fixed placement (adjust these constants if you want different offsets)
+          image.overlay(qimg, qr_w, qr_h, 70, 1470)
+        end
 
     rescue StandardError => e
       # continue without QR
