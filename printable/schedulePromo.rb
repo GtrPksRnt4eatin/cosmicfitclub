@@ -194,7 +194,7 @@ module SchedulePromo
       },
       { :type     => "highlight_text",
         :x_offset => 0,
-        :y_offset => 210,
+        :y_offset => 220,
         :ptsize   => 13,
         :strokewidth => 1,
         :kerning  => 5,
@@ -224,7 +224,7 @@ module SchedulePromo
       },
       { :type     => "highlight_text",
         :x_offset => 0,
-        :y_offset => 20,
+        :y_offset => 100,
         :ptsize   => 11,
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
@@ -254,7 +254,7 @@ module SchedulePromo
       # continue without QR
     end
     # compact footer
-    image.draw_footer({ :ptsize => 8.5, :nobottom => true })
+    image.draw_footer({ :ptsize => 8, :nobottom => true })
 
     image
   end
