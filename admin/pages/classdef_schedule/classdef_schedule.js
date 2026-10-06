@@ -115,7 +115,7 @@ ctrl = {
 
   download_flyer: function(e,m) {
     e.preventDefault();
-    this.generate_flyer(e,m);
+    ctrl.generate_flyer(e,m);
   },
 
 }

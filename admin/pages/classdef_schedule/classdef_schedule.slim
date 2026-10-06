@@ -92,10 +92,9 @@ html
           label Promo Flyer:
           .control
             p Small, printable 4x6" borderless promo flyer for this class.
-            button.generate-flyer-btn rv-on-click='ctrl.generate_flyer' Generate 4x6 Flyer (PNG)
+            button.generate-flyer-btn rv-on-click='ctrl.generate_flyer' Download 4x6 Flyer (JPG)
             button.preview-flyer-btn rv-on-click='ctrl.preview_flyer' Preview
             canvas#flyer_preview width='300' height='450' style='width:300px;height:450px;border:1px solid rgba(255,255,255,0.08);margin-top:0.5em;display:block;'
-            a#flyer_download href='#' rv-on-click='ctrl.download_flyer' style='display:inline-block;margin-top:0.5em;color:#fff;' Download PNG
 
       .tile
         button.delete-btn rv-if='data.sched.id' rv-on-click='ctrl.delete_schedule' Delete Schedule
