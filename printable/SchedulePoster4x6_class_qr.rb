@@ -41,7 +41,7 @@ module SchedulePoster4x6_class_qr
     end
 
     # small promotional highlight
-    @@image.draw_highlight_text("First Class Free! Come In Today!",18,0,75,"South")
+    @@image.draw_highlight_text("First Class Free! Come In Today!",18,0,75,{ :gravity => 'South' })
 
     # Generate QR linking to the public class page and add it as a bubbled image
     begin
