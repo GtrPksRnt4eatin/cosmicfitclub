@@ -244,10 +244,8 @@ module SchedulePromo
         qimg.to_bubble(nil) if qimg.respond_to?(:to_bubble)
         qr_w = 240
         qr_h = 240
-        margin = 20
-        x_coord = image.width - qr_w - margin
-        y_coord = image.height - qr_h - margin
-        image.overlay(qimg, qr_w, qr_h, 50, 1000)
+        margin = 10
+        image.overlay(qimg, qr_w, qr_h, 50, 1500)
       end
 
     rescue StandardError => e

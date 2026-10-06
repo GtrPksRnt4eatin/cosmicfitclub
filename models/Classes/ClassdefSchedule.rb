@@ -208,7 +208,7 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def teacher_names
-    teachers.map(&:name).join("& ")
+    teachers.map(&:name).join(" & ")
   end
 
   def poster_lines(spaced=false)
@@ -216,7 +216,7 @@ class ClassdefSchedule < Sequel::Model
     arr << classdef.name
     arr << "#{simple_meeting_time_description} #{spaced ? '  ' : ''} w/ #{teacher_names}" if teachers.count==1
     arr << "#{simple_meeting_time_description}" if teachers.count>1
-    arr << "#{teacher_names}" if teachers.count>1
+    arr << "w/ #{teacher_names}" if teachers.count>1
     arr
   end
 
