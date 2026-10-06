@@ -252,14 +252,14 @@ module SchedulePromo
           url = "https://cosmicfitclub.com/class/#{classdef_id}"
           q = RQRCode::QRCode.new(url)
           # fixed QR: larger and no white border so it fills the bubble
-          qr_w = 270
-          qr_h = 270
+          qr_w = 260
+          qr_h = 260
           # add a small white border so the QR doesn't touch the bubble edge
           q_blob = q.as_png(size: qr_w, border_modules: 2).to_blob
           qimg = MiniMagick::Image.read(q_blob)
           qimg.to_bubble(nil) if qimg.respond_to?(:to_bubble)
           # fixed placement (adjust these constants if you want different offsets)
-          image.overlay(qimg, qr_w, qr_h, 70, 1470)
+          image.overlay(qimg, qr_w, qr_h, 80, 1465)
         end
 
     rescue StandardError => e
