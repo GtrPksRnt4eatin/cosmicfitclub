@@ -214,7 +214,7 @@ class ClassdefSchedule < Sequel::Model
   def poster_lines(spaced=false)
     arr = []
     arr << classdef.name
-    arr << simple_meeting_time_description_with_staff(spaced)
+    arr << "#{simple_meeting_time_description} #{spaced ? '  ' : ''} w/ #{teacher_names}"
   end
 
   def details_hash
