@@ -214,14 +214,6 @@ module SchedulePromo
         :img      => x[:img],
         :lines    => x[:lines]
       },
-      { :type => 'box', 
-        :width => 1180,
-        :height => 111,
-        :gravity => 'south',
-        :y_offset => 1700,
-        :color => '#00000055',
-        :stroke => "#E0E0E0",
-      },
       { :type     => "highlight_text",
         :x_offset => 160,
         :y_offset => 140,
@@ -266,7 +258,7 @@ module SchedulePromo
       # continue without QR
     end
     # compact footer
-    image.draw_footer({ :ptsize => 8, :nobottom => true })
+    image.draw_footer({ :ptsize => 8 })
 
     image
   end
