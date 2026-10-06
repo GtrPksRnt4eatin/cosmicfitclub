@@ -62,7 +62,7 @@ module SchedulePoster4x6_class_qr
     end
 
     # footer and finish
-    @@image.draw_footer(9)
+    @@image.draw_footer({ :ptsize => 9 })
 
     @@image
   end
