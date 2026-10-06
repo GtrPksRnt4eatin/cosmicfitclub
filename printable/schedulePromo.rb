@@ -224,25 +224,25 @@ module SchedulePromo
       },
       { :type     => "highlight_text",
         :x_offset => 200,
-        :y_offset => 100,
-        :ptsize   => 11,
+        :y_offset => 150,
+        :ptsize   => 10,
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => "Visit https://cosmicfitclub.com/class/#{classdef_id}"
+        :text     => "https://cosmicfitclub.com/class/#{classdef_id}"
      },
      {  :type     => "highlight_text",
         :x_offset => 200,
-        :y_offset => 150,
-        :ptsize   => 11,
+        :y_offset => 200,
+        :ptsize   => 10,
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => "or use the QR Code to Sign Up!"
+        :text     => "Use the QR Code to Sign Up!"
      }
     ])
 
