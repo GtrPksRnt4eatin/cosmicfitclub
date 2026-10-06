@@ -13,12 +13,26 @@ module SchedulePoster4x6_class_qr
 
     # draw logo and class image bubble similar to SchedulePoster4x6_class
     @@image.draw_logo(75,50,1050,nil)
-    @@image.draw_iphone_bubble2(classdef_id, 75, 460, 1050, (1050*1.1).to_i) if classdef_id
+    # Only draw the iphone bubble when the class exists and has an image
+    if classdef_id
+      cls = ClassDef[classdef_id]
+      begin
+        img_obj = cls && cls.image(:original)
+      rescue StandardError => e
+        img_obj = nil
+      end
+      if img_obj && img_obj.respond_to?(:url) && img_obj.url
+        @@image.draw_iphone_bubble2(classdef_id, 75, 460, 1050, (1050*1.1).to_i)
+      end
+    end
 
     # if a class image is specified or available, open it
     if classdef_id
+      cls ||= ClassDef[classdef_id]
       begin
-        @@bubble = MiniMagick::Image.open(ClassDef[classdef_id].image(:original).url)
+        img_obj = cls && cls.image(:original)
+        img_url = img_obj && img_obj.respond_to?(:url) ? img_obj.url : nil
+        @@bubble = MiniMagick::Image.open(img_url) if img_url
       rescue StandardError => e
         @@bubble = nil
       end
