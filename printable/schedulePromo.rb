@@ -185,17 +185,17 @@ module SchedulePromo
   def SchedulePromo::generate4x6(x)
     classdef_id = x[:classdef_id] || x[:id]
     image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
-
+    # adjusted constants for 1200x1800 canvas (no inline math)
     image.draw_elements([
       { :type     => 'logo',
-        :x_offset => 320,
-        :y_offset => 20,
-        :width    => 400
+        :x_offset => 355,
+        :y_offset => 22,
+        :width    => 444
       },
       { :type     => "highlight_text",
         :x_offset => 0,
-        :y_offset => 182,
-        :ptsize   => 12,
+        :y_offset => 202,
+        :ptsize   => 13,
         :strokewidth => 1,
         :kerning  => 5,
         :gravity  => "North",
@@ -204,28 +204,28 @@ module SchedulePromo
         :text     => ["Class at Hunters Point South Park!", "Live classes at the Cosmic Loft!","video.cosmicfitclub.com"][(x[:location_id] || 2).to_i - 1]
       },
       { :type     => 'image_bubble',
-        :x_offset => 50,
-        :y_offset => 260,
-        :width    => 975,
-        :height   => 975,
-        :margin   => 5,
+        :x_offset => 55,
+        :y_offset => 289,
+        :width    => 1083,
+        :height   => 1083,
+        :margin   => 6,
         :ptscale  => 0.05,
         :ptscale2 => 0.9,
         :img      => x[:img],
         :lines    => x[:lines]
       },
       { :type => 'box', 
-        :width => 1130,
-        :height => 100,
+        :width => 1180,
+        :height => 111,
         :gravity => 'south',
-        :y_offset => 1610,
+        :y_offset => 1700,
         :color => '#00000055',
         :stroke => "#E0E0E0",
       },
       { :type     => "highlight_text",
         :x_offset => 0,
         :y_offset => 20,
-        :ptsize   => 10,
+        :ptsize   => 11,
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
         :fill    => "#FFFFFFDD",
