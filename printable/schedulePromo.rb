@@ -190,6 +190,14 @@ module SchedulePromo
 
     image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
 
+    # compute safe location index for text selection
+    loc_idx = begin
+      (x[:location_id] || 2).to_i - 1
+    rescue StandardError
+      2
+    end
+    loc_idx = 2 if loc_idx < 0 || loc_idx > 2
+
     # Mirror the 4x5 elements but scaled/positioned for 4x6 background
     image.draw_elements([
       { :type     => 'logo',
@@ -206,7 +214,7 @@ module SchedulePromo
         :gravity  => "North",
         :fill     => "#E0E0E0",
         :stroke   => "#B0B0B0",
-        :text     => ["Class at Hunters Point South Park!", "Live classes at the Cosmic Loft!","video.cosmicfitclub.com"][(x[:location_id].to_i) - 1 rescue 2]
+        :text     => ["Class at Hunters Point South Park!", "Live classes at the Cosmic Loft!","video.cosmicfitclub.com"][loc_idx]
       },
       { :type     => 'image_bubble',
         :x_offset => 50,
@@ -236,7 +244,7 @@ module SchedulePromo
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][(x[:location_id].to_i) -1 rescue 2]
+        :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][loc_idx]
       }
     ])
 
