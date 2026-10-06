@@ -121,7 +121,10 @@ class ClassDefRoutes < Sinatra::Base
       content_type 'image/jpeg'
       body img.to_blob
     rescue StandardError => e
-      halt 500, "Failed to generate poster: #{e.message}"
+      STDERR.puts "SchedulePoster4x6_class_qr error: #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}" rescue nil
+      content_type 'text/plain'
+      status 500
+      body "Failed to generate poster: #{e.class}: #{e.message}\n\nBacktrace:\n#{e.backtrace.join("\n")}"
     end
   end
 
