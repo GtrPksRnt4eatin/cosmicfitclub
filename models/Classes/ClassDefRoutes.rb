@@ -116,12 +116,12 @@ class ClassDefRoutes < Sinatra::Base
     id = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
     classdef = ClassDef[id] or halt(404, 'Class Definition not found.')
     begin
-      img = SchedulePoster4x6_class_qr.generate(id)
+      img = SchedulePromo::generate4x6({ :classdef_id => id })
       img.format 'jpg'
       content_type 'image/jpeg'
       body img.to_blob
     rescue StandardError => e
-      STDERR.puts "SchedulePoster4x6_class_qr error: #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}" rescue nil
+      STDERR.puts "SchedulePromo::generate4x6 error: #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}" rescue nil
       content_type 'text/plain'
       status 500
       body "Failed to generate poster: #{e.class}: #{e.message}\n\nBacktrace:\n#{e.backtrace.join("\n")}"

@@ -1,4 +1,6 @@
 module SchedulePromo
+  require 'mini_magick'
+  require 'rqrcode'
 
   def SchedulePromo::generate_for_bot(sched)
     promo_img = SchedulePromo::generate4x5({:img=> sched.img_url, :lines=> [sched.classdef.name, "w/ " + sched.teachers.map(&:name).join(', '), sched.simple_meeting_time_description ], :location_id=>sched.location_id || 2 })
@@ -178,6 +180,88 @@ module SchedulePromo
         :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][(x[:location_id].to_i) -1]
       }
     ])
+  end
+
+  # generate a 4x6 poster for a class — compose from scratch (beside generate4x5 for comparison)
+  def SchedulePromo::generate4x6(x)
+    classdef_id = x[:classdef_id] || x[:id]
+    img = x[:img]
+    lines = x[:lines]
+
+    image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
+
+    # Mirror the 4x5 elements but scaled/positioned for 4x6 background
+    image.draw_elements([
+      { :type     => 'logo',
+        :x_offset => 320,
+        :y_offset => 20,
+        :width    => 400
+      },
+      { :type     => "highlight_text",
+        :x_offset => 0,
+        :y_offset => 182,
+        :ptsize   => 12,
+        :strokewidth => 1,
+        :kerning  => 5,
+        :gravity  => "North",
+        :fill     => "#E0E0E0",
+        :stroke   => "#B0B0B0",
+        :text     => ["Class at Hunters Point South Park!", "Live classes at the Cosmic Loft!","video.cosmicfitclub.com"][(x[:location_id].to_i) - 1 rescue 2]
+      },
+      { :type     => 'image_bubble',
+        :x_offset => 50,
+        :y_offset => 260,
+        :width    => 975,
+        :height   => 975,
+        :margin   => 5,
+        :ptscale  => 0.05,
+        :ptscale2 => 0.9,
+        :img      => (classdef_id ? (ClassDef[classdef_id] && (ClassDef[classdef_id].image_url || ClassDef[classdef_id].image(:original).url) ) : img),
+        :lines    => lines
+      },
+      { :type => 'box', 
+        :width => 1130,
+        :height => 100,
+        :gravity => 'south',
+        :y_offset => 1610,
+        :color => '#00000055',
+        :stroke => "#E0E0E0",
+      },
+      { :type     => "highlight_text",
+        :x_offset => 0,
+        :y_offset => 20,
+        :ptsize   => 10,
+        :strokewidth => 2,
+        :stroke   => "#FFFFFFDD",
+        :fill    => "#FFFFFFDD",
+        :kerning  => 5,
+        :gravity  => "South",
+        :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][(x[:location_id].to_i) -1 rescue 2]
+      }
+    ])
+
+    # add QR (only difference from 4x5)
+    begin
+      if classdef_id
+        url = "https://cosmicfitclub.com/class/#{classdef_id}"
+        q = RQRCode::QRCode.new(url)
+        qimg = MiniMagick::Image.read q.as_png.to_blob
+        qimg.to_bubble(nil) if qimg.respond_to?(:to_bubble)
+        qr_w = 240
+        qr_h = 240
+        margin = 20
+        x_coord = image.width - qr_w - margin
+        y_coord = image.height - qr_h - margin
+        image.overlay(qimg, qr_w, qr_h, x_coord, y_coord)
+      end
+    rescue StandardError => e
+      # continue without QR
+    end
+
+    # compact footer
+    image.draw_footer({ :ptsize => 9, :nobottom => true })
+
+    image
   end
 
   def SchedulePromo::generate_fbevent(x)
