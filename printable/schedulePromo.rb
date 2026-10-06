@@ -182,23 +182,10 @@ module SchedulePromo
     ])
   end
 
-  # generate a 4x6 poster for a class — compose from scratch (beside generate4x5 for comparison)
   def SchedulePromo::generate4x6(x)
     classdef_id = x[:classdef_id] || x[:id]
-    img = x[:img]
-    lines = x[:lines]
-
     image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
 
-    # compute safe location index for text selection
-    loc_idx = begin
-      (x[:location_id] || 2).to_i - 1
-    rescue StandardError
-      2
-    end
-    loc_idx = 2 if loc_idx < 0 || loc_idx > 2
-
-    # Mirror the 4x5 elements but scaled/positioned for 4x6 background
     image.draw_elements([
       { :type     => 'logo',
         :x_offset => 320,
@@ -214,7 +201,7 @@ module SchedulePromo
         :gravity  => "North",
         :fill     => "#E0E0E0",
         :stroke   => "#B0B0B0",
-        :text     => ["Class at Hunters Point South Park!", "Live classes at the Cosmic Loft!","video.cosmicfitclub.com"][loc_idx]
+        :text     => ["Class at Hunters Point South Park!", "Live classes at the Cosmic Loft!","video.cosmicfitclub.com"][(x[:location_id] || 2).to_i - 1]
       },
       { :type     => 'image_bubble',
         :x_offset => 50,
@@ -224,8 +211,8 @@ module SchedulePromo
         :margin   => 5,
         :ptscale  => 0.05,
         :ptscale2 => 0.9,
-        :img      => (classdef_id ? (ClassDef[classdef_id] && (ClassDef[classdef_id].image_url || ClassDef[classdef_id].image(:original).url) ) : img),
-        :lines    => lines
+        :img      => x[:img],
+        :lines    => x[:lines]
       },
       { :type => 'box', 
         :width => 1130,
@@ -244,7 +231,7 @@ module SchedulePromo
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][loc_idx]
+        :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][(x[:location_id] || 2).to_i - 1]
       }
     ])
 

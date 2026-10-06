@@ -116,7 +116,13 @@ class ClassDefRoutes < Sinatra::Base
     id = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
     classdef = ClassDef[id] or halt(404, 'Class Definition not found.')
     begin
-      img = SchedulePromo::generate4x6({ :classdef_id => id })
+      x = {
+        :classdef_id => id,
+        :img => (classdef.image(:original).url rescue nil),
+        :lines => classdef.footer_lines_teachers,
+        :location_id => classdef.location_id || 2
+      }
+      img = SchedulePromo::generate4x6(x)
       img.format 'jpg'
       content_type 'image/jpeg'
       body img.to_blob
