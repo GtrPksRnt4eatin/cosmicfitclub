@@ -223,7 +223,7 @@ module SchedulePromo
         :stroke => "#E0E0E0",
       },
       { :type     => "highlight_text",
-        :x_offset => 0,
+        :x_offset => 200,
         :y_offset => 100,
         :ptsize   => 11,
         :strokewidth => 2,
@@ -244,8 +244,7 @@ module SchedulePromo
         qimg.to_bubble(nil) if qimg.respond_to?(:to_bubble)
         qr_w = 240
         qr_h = 240
-        margin = 10
-        image.overlay(qimg, qr_w, qr_h, 50, 1500)
+        image.overlay(qimg, qr_w, qr_h, 50, 1450)
       end
 
     rescue StandardError => e
