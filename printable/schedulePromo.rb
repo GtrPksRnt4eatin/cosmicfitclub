@@ -231,7 +231,7 @@ module SchedulePromo
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => ["Center Blvd & Borden Ave. LIC, NY 11101", "669 Meeker Ave. #1F Brooklyn, NY 11222","Live Video Fitness Classes Everyday!"][(x[:location_id] || 2).to_i - 1]
+        :text     => "Use the QR Code to Sign up today!"
       }
     ])
 
@@ -249,12 +249,12 @@ module SchedulePromo
         y_coord = image.height - qr_h - margin
         image.overlay(qimg, qr_w, qr_h, x_coord, y_coord)
       end
+
     rescue StandardError => e
       # continue without QR
     end
-
     # compact footer
-    image.draw_footer({ :ptsize => 9, :nobottom => true })
+    image.draw_footer({ :ptsize => 8.5, :nobottom => true })
 
     image
   end
