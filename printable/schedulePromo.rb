@@ -190,11 +190,11 @@ module SchedulePromo
       { :type     => 'logo',
         :x_offset => 355,
         :y_offset => 22,
-        :width    => 444
+        :width    => 500
       },
       { :type     => "highlight_text",
         :x_offset => 0,
-        :y_offset => 202,
+        :y_offset => 210,
         :ptsize   => 13,
         :strokewidth => 1,
         :kerning  => 5,
@@ -205,7 +205,7 @@ module SchedulePromo
       },
       { :type     => 'image_bubble',
         :x_offset => 55,
-        :y_offset => 289,
+        :y_offset => 300,
         :width    => 1083,
         :height   => 1083,
         :margin   => 6,
