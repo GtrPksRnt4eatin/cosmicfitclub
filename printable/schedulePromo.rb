@@ -224,18 +224,18 @@ module SchedulePromo
       },
       { :type     => "highlight_text",
         :x_offset => 200,
-        :y_offset => 150,
+        :y_offset => 140,
         :ptsize   => 10,
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
         :fill    => "#FFFFFFDD",
         :kerning  => 5,
         :gravity  => "South",
-        :text     => "https://cosmicfitclub.com/class/#{classdef_id}"
+        :text     => "cosmicfitclub.com/class/#{classdef_id}"
      },
      {  :type     => "highlight_text",
         :x_offset => 200,
-        :y_offset => 200,
+        :y_offset => 210,
         :ptsize   => 10,
         :strokewidth => 2,
         :stroke   => "#FFFFFFDD",
@@ -255,7 +255,7 @@ module SchedulePromo
         qimg.to_bubble(nil) if qimg.respond_to?(:to_bubble)
         qr_w = 240
         qr_h = 240
-        image.overlay(qimg, qr_w, qr_h, 50, 1460)
+        image.overlay(qimg, qr_w, qr_h, 50, 1470)
       end
 
     rescue StandardError => e
