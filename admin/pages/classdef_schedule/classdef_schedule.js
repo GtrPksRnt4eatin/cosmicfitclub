@@ -83,9 +83,9 @@ ctrl = {
 
   ,
   generate_flyer: function(e,m) {
-    var classId = data.sched.classdef_id || (data.sched.classdef && data.sched.classdef.id);
-    if (!classId) { alert('No class selected'); return; }
-    var url = '/models/classdefs/' + classId + '/print_4x6_qr';
+    var schedId = data.sched.id;
+    if (!schedId) { alert('No schedule selected'); return; }
+    var url = '/models/classdefs/schedules/' + schedId + '/generate_flyer';
     var a = document.createElement('a');
     a.href = url;
     a.download = (data.sched.classdef && data.sched.classdef.name ? data.sched.classdef.name.replace(/[^a-z0-9\-\_ ]/gi,'') + '_4x6.jpg' : 'class_4x6.jpg');
@@ -95,9 +95,9 @@ ctrl = {
   },
 
   preview_flyer: function(e,m) {
-    var classId = data.sched.classdef_id || (data.sched.classdef && data.sched.classdef.id);
-    if (!classId) { alert('No class selected'); return; }
-    var url = '/models/classdefs/' + classId + '/print_4x6_qr';
+    var schedId = data.sched.id;
+    if (!schedId) { alert('No schedule selected'); return; }
+    var url = '/models/classdefs/schedules/' + schedId + '/generate_flyer';
     fetch(url).then(function(resp){ return resp.blob(); }).then(function(blob){
       var img = new Image();
       var urlObj = URL.createObjectURL(blob);

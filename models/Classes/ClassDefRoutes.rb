@@ -112,27 +112,7 @@ class ClassDefRoutes < Sinatra::Base
   end
 
   # Generate a 4x6 printable poster with QR for public class page
-  get '/:id/print_4x6_qr' do
-    id = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
-    classdef = ClassDef[id] or halt(404, 'Class Definition not found.')
-    begin
-      x = {
-        :classdef_id => id,
-        :img => (classdef.image(:original).url rescue nil),
-        :lines => classdef.footer_lines_teachers,
-        :location_id => classdef.location_id || 2
-      }
-      img = SchedulePromo::generate4x6(x)
-      img.format 'jpg'
-      content_type 'image/jpeg'
-      body img.to_blob
-    rescue StandardError => e
-      STDERR.puts "SchedulePromo::generate4x6 error: #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}" rescue nil
-      content_type 'text/plain'
-      status 500
-      body "Failed to generate poster: #{e.class}: #{e.message}\n\nBacktrace:\n#{e.backtrace.join("\n")}"
-    end
-  end
+  ## route '/:id/print_4x6_qr' removed; use schedule-level generator instead
 
   post '/:id/moveup' do
     id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
@@ -199,6 +179,30 @@ class ClassDefRoutes < Sinatra::Base
       :instructors  => sched.teachers.map(&:id),
       :capacity     => sched.capacity
     ).to_json
+  end
+
+  # Generate a 4x6 flyer for a specific schedule (timeslot)
+  get '/schedules/:id/generate_flyer' do
+    id    = Integer(params[:id])      rescue halt(401, "ID Must Be Numeric" )
+    sched = ClassdefSchedule[id] or halt(404, 'Schedule not found')
+    begin
+      img_url = sched.img_url rescue nil
+      x = {
+        :classdef_id => sched.classdef_id,
+        :img => img_url,
+        :lines => sched.poster_lines,
+        :location_id => sched.location_id || sched.classdef.try(:location_id) || 2
+      }
+      img = SchedulePromo::generate4x6(x)
+      img.format 'jpg'
+      content_type 'image/jpeg'
+      body img.to_blob
+    rescue StandardError => e
+      STDERR.puts "SchedulePromo::generate4x6(sched) error: #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}" rescue nil
+      content_type 'text/plain'
+      status 500
+      body "Failed to generate schedule flyer: #{e.class}: #{e.message}\n\nBacktrace:\n#{e.backtrace.join("\n")}"
+    end
   end
 
   post '/schedules/:id/image' do
