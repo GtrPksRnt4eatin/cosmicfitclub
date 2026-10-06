@@ -259,7 +259,7 @@ module SchedulePromo
           qimg = MiniMagick::Image.read(q_blob)
           qimg.to_bubble(nil) if qimg.respond_to?(:to_bubble)
           # fixed placement (adjust these constants if you want different offsets)
-          image.overlay(qimg, qr_w, qr_h, 80, 1465)
+          image.overlay(qimg, qr_w, qr_h, 100, 1465)
         end
 
     rescue StandardError => e
