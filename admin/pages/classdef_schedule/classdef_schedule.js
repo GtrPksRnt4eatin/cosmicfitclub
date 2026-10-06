@@ -81,6 +81,43 @@ ctrl = {
      .done(function() { window.location = '/admin/edit_class?id=' + data.sched.classdef_id; });
   }
 
+  ,
+  generate_flyer: function(e,m) {
+    var classId = data.sched.classdef_id || (data.sched.classdef && data.sched.classdef.id);
+    if (!classId) { alert('No class selected'); return; }
+    var url = '/models/classdefs/' + classId + '/print_4x6_qr';
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = (data.sched.classdef && data.sched.classdef.name ? data.sched.classdef.name.replace(/[^a-z0-9\-\_ ]/gi,'') + '_4x6.jpg' : 'class_4x6.jpg');
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  },
+
+  preview_flyer: function(e,m) {
+    var classId = data.sched.classdef_id || (data.sched.classdef && data.sched.classdef.id);
+    if (!classId) { alert('No class selected'); return; }
+    var url = '/models/classdefs/' + classId + '/print_4x6_qr';
+    fetch(url).then(function(resp){ return resp.blob(); }).then(function(blob){
+      var img = new Image();
+      var urlObj = URL.createObjectURL(blob);
+      img.onload = function(){
+        var preview = document.getElementById('flyer_preview');
+        if (!preview) { URL.revokeObjectURL(urlObj); return; }
+        var ctx = preview.getContext('2d');
+        ctx.clearRect(0,0,preview.width,preview.height);
+        ctx.drawImage(img, 0,0, preview.width, preview.height);
+        URL.revokeObjectURL(urlObj);
+      };
+      img.src = urlObj;
+    }).catch(function(err){ alert('Failed to load preview: ' + err); });
+  },
+
+  download_flyer: function(e,m) {
+    e.preventDefault();
+    this.generate_flyer(e,m);
+  },
+
 }
 
 $(document).ready(function() {

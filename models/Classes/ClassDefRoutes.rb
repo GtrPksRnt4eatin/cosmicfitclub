@@ -111,6 +111,20 @@ class ClassDefRoutes < Sinatra::Base
     send_file classdef.thumb(:small).try(:download).try(:path)
   end
 
+  # Generate a 4x6 printable poster with QR for public class page
+  get '/:id/print_4x6_qr' do
+    id = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric")
+    classdef = ClassDef[id] or halt(404, 'Class Definition not found.')
+    begin
+      img = SchedulePoster4x6_class_qr.generate(id)
+      img.format 'jpg'
+      content_type 'image/jpeg'
+      body img.to_blob
+    rescue StandardError => e
+      halt 500, "Failed to generate poster: #{e.message}"
+    end
+  end
+
   post '/:id/moveup' do
     id       = Integer(params[:id]) rescue halt(401, "ID Must Be Numeric" )
     classdef = ClassDef[ id ]           or halt(404, 'Class Definition not found.')
