@@ -189,12 +189,12 @@ module SchedulePromo
     image.draw_elements([
       { :type     => 'logo',
         :x_offset => 355,
-        :y_offset => 22,
+        :y_offset => 30,
         :width    => 500
       },
       { :type     => "highlight_text",
         :x_offset => 0,
-        :y_offset => 240,
+        :y_offset => 250,
         :ptsize   => 13,
         :strokewidth => 1,
         :kerning  => 5,
