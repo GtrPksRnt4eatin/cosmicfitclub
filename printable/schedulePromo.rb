@@ -344,7 +344,7 @@ module SchedulePromo
       elements << {
         :type     => 'logo',
         :x_offset => text_x + margin,
-        :y_offset => y-1 + margin * 2,
+        :y_offset => y0 + margin + margin,
         :width    => 269
       }
 
