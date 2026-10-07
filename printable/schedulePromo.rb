@@ -345,7 +345,7 @@ module SchedulePromo
         :type     => 'logo',
         :x_offset => text_x + margin,
         :y_offset => y0 + margin + margin,
-        :width    => 269
+        :width    => 260
       }
 
       # middle: text block (stacked)
