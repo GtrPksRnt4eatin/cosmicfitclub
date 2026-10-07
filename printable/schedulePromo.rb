@@ -336,19 +336,19 @@ module SchedulePromo
                     :x_offset => text_x,
                     :y_offset => y0 + margin,
                     :ptsize   => 12,
-                    :gravity  => "West",
+                    :gravity  => "NorthWest",
                     :text     => title }
       elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y0 + margin + 140,
                     :ptsize   => 10,
-                    :gravity  => "West",
+                    :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y0 + margin + 190,
                     :ptsize   => 10,
-                    :gravity  => "West",
+                    :gravity  => "NorthWest",
                     :text     => extra }
 
       # right: prepare QR overlay to apply after drawing
