@@ -94,6 +94,37 @@ ctrl = {
     a.remove();
   },
 
+  generate_flyer_3up: function(e,m) {
+    var schedId = data.sched.id;
+    if (!schedId) { alert('No schedule selected'); return; }
+    var url = '/models/classdefs/schedules/' + schedId + '/generate_3up_2x4';
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = (data.sched.classdef && data.sched.classdef.name ? data.sched.classdef.name.replace(/[^a-z0-9\-\_ ]/gi,'') + '_3up_4x6.jpg' : 'class_3up_4x6.jpg');
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  },
+
+  preview_flyer_3up: function(e,m) {
+    var schedId = data.sched.id;
+    if (!schedId) { alert('No schedule selected'); return; }
+    var url = '/models/classdefs/schedules/' + schedId + '/generate_3up_2x4';
+    fetch(url).then(function(resp){ return resp.blob(); }).then(function(blob){
+      var img = new Image();
+      var urlObj = URL.createObjectURL(blob);
+      img.onload = function(){
+        var preview = document.getElementById('flyer_preview');
+        if (!preview) { URL.revokeObjectURL(urlObj); return; }
+        var ctx = preview.getContext('2d');
+        ctx.clearRect(0,0,preview.width,preview.height);
+        ctx.drawImage(img, 0,0, preview.width, preview.height);
+        URL.revokeObjectURL(urlObj);
+      };
+      img.src = urlObj;
+    }).catch(function(err){ alert('Failed to load preview: ' + err); });
+  },
+
   preview_flyer: function(e,m) {
     var schedId = data.sched.id;
     if (!schedId) { alert('No schedule selected'); return; }

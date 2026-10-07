@@ -205,6 +205,30 @@ class ClassDefRoutes < Sinatra::Base
     end
   end
 
+  # Generate a 4x6 sheet with three 2x4 flyers (3-up) for a specific schedule
+  get '/schedules/:id/generate_3up_2x4' do
+    id    = Integer(params[:id])      rescue halt(401, "ID Must Be Numeric" )
+    sched = ClassdefSchedule[id] or halt(404, 'Schedule not found')
+    begin
+      img_url = sched.img_url rescue nil
+      x = {
+        :classdef_id => sched.classdef_id,
+        :img => img_url,
+        :lines => sched.poster_lines,
+        :location_id => sched.location_id || sched.classdef.try(:location_id) || 2
+      }
+      img = SchedulePromo::generate4x6_3up_2x4(x)
+      img.format 'jpg'
+      content_type 'image/jpeg'
+      body img.to_blob
+    rescue StandardError => e
+      STDERR.puts "SchedulePromo::generate4x6_3up_2x4(sched) error: #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}" rescue nil
+      content_type 'text/plain'
+      status 500
+      body "Failed to generate 3-up flyer: #{e.class}: #{e.message}\n\nBacktrace:\n#{e.backtrace.join("\n") }"
+    end
+  end
+
   post '/schedules/:id/image' do
     sched = ClassdefSchedule[params[:id]] or halt(404,'schedule not found')
     sched.image.update( :image => params[:image] ) if sched.image
