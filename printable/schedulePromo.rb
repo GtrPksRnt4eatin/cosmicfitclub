@@ -316,62 +316,62 @@ module SchedulePromo
     qr_w = 180
     text_x_offset = bubble_w + (margin * 2)
 
+    elements = []
+    qr_overlays = []
+
     0.upto(2) do |i|
       x0 = i * col_w
-      # image bubble
-      image.draw_elements([
-        { :type     => 'image_bubble',
-          :x_offset => x0 + margin,
-          :y_offset => margin + 20,
-          :width    => bubble_w,
-          :height   => bubble_h,
-          :margin   => 6,
-          :ptscale  => 0.05,
-          :ptscale2 => 0.9,
-          :img      => x[:img],
-          :lines    => x[:lines]
-        }
-      ])
-
-      # title + subtitle text to the right of bubble
       title = (x[:lines] && x[:lines][0]) || ''
       subtitle = (x[:lines] && x[:lines][1]) || ''
-      image.draw_elements([
-        { :type     => "highlight_text",
-          :x_offset => x0 + text_x_offset,
-          :y_offset => margin + 40,
-          :ptsize   => 16,
-          :gravity  => "North",
-          :text     => title
-        },
-        { :type     => "highlight_text",
-          :x_offset => x0 + text_x_offset,
-          :y_offset => margin + 90,
-          :ptsize   => 12,
-          :gravity  => "North",
-          :text     => subtitle
-        }
-      ])
 
-      # QR for this panel (use classdef_id if present)
+      elements << { :type     => 'image_bubble',
+                    :x_offset => x0 + margin,
+                    :y_offset => margin + 20,
+                    :width    => bubble_w,
+                    :height   => bubble_h,
+                    :margin   => 6,
+                    :ptscale  => 0.05,
+                    :ptscale2 => 0.9,
+                    :img      => x[:img],
+                    :lines    => x[:lines] }
+
+      elements << { :type     => "highlight_text",
+                    :x_offset => x0 + text_x_offset,
+                    :y_offset => margin + 40,
+                    :ptsize   => 16,
+                    :gravity  => "North",
+                    :text     => title }
+
+      elements << { :type     => "highlight_text",
+                    :x_offset => x0 + text_x_offset,
+                    :y_offset => margin + 90,
+                    :ptsize   => 12,
+                    :gravity  => "North",
+                    :text     => subtitle }
+
+      # prepare QR overlay info to apply after draw_elements
       begin
         classdef_id = x[:classdef_id] || x[:id]
         if classdef_id
           url = "https://cosmicfitclub.com/class/#{classdef_id}"
           q = RQRCode::QRCode.new(url)
           q_blob = q.as_png(size: qr_w, border_modules: 2).to_blob
-          qimg = MiniMagick::Image.read(q_blob)
-          # position QR at bottom-right of panel
-          qr_x = x0 + col_w - qr_w - margin
-          qr_y = h - qr_w - margin
-          image.overlay(qimg, qr_w, qr_w, qr_x, qr_y)
+          qr_overlays << { :blob => q_blob, :x => (x0 + col_w - qr_w - margin), :y => (h - qr_w - margin), :w => qr_w }
         end
       rescue StandardError
-        # continue without QR
+        # ignore
       end
     end
 
-    # return landscape image (1800x1200) so it can be printed landscape
+    # draw all elements in one pass to avoid temp-file races
+    image.draw_elements(elements)
+
+    # apply QR overlays
+    qr_overlays.each do |qinfo|
+      qimg = MiniMagick::Image.read(qinfo[:blob])
+      image.overlay(qimg, qinfo[:w], qinfo[:w], qinfo[:x], qinfo[:y])
+    end
+
     image
   end
 
