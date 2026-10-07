@@ -303,27 +303,25 @@ module SchedulePromo
     image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
     w = image.width
     h = image.height
-    row_height = (h / 3).to_i
-    margin = 10
+    num_rows = 5
+    row_height = (h / num_rows).to_i
+    margin = 20
+
     # sizes for elements inside each column (portrait columns)
     bubble_w = row_height - (margin * 2)
-    bubble_h = bubble_w
-
-    qr_w = bubble_w
-
-    text_x_offset = bubble_w + (margin * 2)
+    text_x = bubble_w + (margin * 2)
 
     elements = []
     qr_overlays = []
 
-    0.upto(2) do |i|
+    (0..num_rows - 1).each do |i|
       y0 = i * row_height
       # left: photo bubble (no overlay text on the bubble)
       elements << { :type     => 'image_bubble',
                     :x_offset => margin,
                     :y_offset => y0 + margin,
                     :width    => bubble_w,
-                    :height   => bubble_h,
+                    :height   => bubble_w,
                     :margin   => 6,
                     :ptscale  => 0.05,
                     :ptscale2 => 0.9,
@@ -335,19 +333,19 @@ module SchedulePromo
       subtitle = (x[:lines] && x[:lines][1]) || ''
       extra = (x[:lines] && x[:lines][2]) || ''
       elements << { :type     => "highlight_text",
-                    :x_offset => margin * 2 + bubble_w,
+                    :x_offset => text_x,
                     :y_offset => y0 + margin,
                     :ptsize   => 18,
                     :gravity  => "North",
                     :text     => title }
       elements << { :type     => "highlight_text",
-                    :x_offset => margin * 2 + bubble_w,
+                    :x_offset => text_x,
                     :y_offset => y0 + margin + 140,
                     :ptsize   => 14,
                     :gravity  => "North",
                     :text     => subtitle }
       elements << { :type     => "highlight_text",
-                    :x_offset => margin * 2 + bubble_w,
+                    :x_offset => text_x,
                     :y_offset => y0 + margin + 190,
                     :ptsize   => 12,
                     :gravity  => "North",
@@ -361,7 +359,7 @@ module SchedulePromo
           q = RQRCode::QRCode.new(url)
           q_blob = q.as_png(size: bubble_w, border_modules: 2).to_blob
           qr_x = w - margin - bubble_w
-          qr_y = margin + y0
+          qr_y = y0 + margin
           qr_overlays << { :blob => q_blob, :x => qr_x, :y => qr_y, :w => bubble_w }
         end
       rescue StandardError
