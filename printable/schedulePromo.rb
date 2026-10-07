@@ -303,67 +303,74 @@ module SchedulePromo
   # Each panel: photo bubble, text, QR
   def SchedulePromo::generate4x6_3up_2x4(x)
     image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
-    # rotate to landscape so we have 1800x1200 canvas
-    image.rotate 90
+    # keep portrait orientation (1200 x 1800)
     w = image.width
     h = image.height
     col_w = (w / 3).to_i
     margin = 24
-
-    # sizes for elements inside each column
+    # sizes for elements inside each column (portrait columns)
     bubble_w = (col_w * 0.38).to_i
     bubble_h = bubble_w
-    qr_w = 180
-    text_x_offset = bubble_w + (margin * 2)
+    qr_w = (col_w * 0.28).to_i
+    text_x_offset = (col_w * 0.42).to_i
 
     elements = []
     qr_overlays = []
 
     0.upto(2) do |i|
       x0 = i * col_w
-      title = (x[:lines] && x[:lines][0]) || ''
-      subtitle = (x[:lines] && x[:lines][1]) || ''
-
+      # left: photo bubble (no overlay text on the bubble)
       elements << { :type     => 'image_bubble',
                     :x_offset => x0 + margin,
-                    :y_offset => margin + 20,
+                    :y_offset => margin + 40,
                     :width    => bubble_w,
                     :height   => bubble_h,
                     :margin   => 6,
                     :ptscale  => 0.05,
                     :ptscale2 => 0.9,
                     :img      => x[:img],
-                    :lines    => x[:lines] }
+                    :lines    => nil }
 
+      # middle: text block (stacked)
+      title = (x[:lines] && x[:lines][0]) || ''
+      subtitle = (x[:lines] && x[:lines][1]) || ''
+      extra = (x[:lines] && x[:lines][2]) || ''
       elements << { :type     => "highlight_text",
                     :x_offset => x0 + text_x_offset,
-                    :y_offset => margin + 40,
-                    :ptsize   => 16,
+                    :y_offset => margin + 80,
+                    :ptsize   => 18,
                     :gravity  => "North",
                     :text     => title }
-
       elements << { :type     => "highlight_text",
                     :x_offset => x0 + text_x_offset,
-                    :y_offset => margin + 90,
-                    :ptsize   => 12,
+                    :y_offset => margin + 140,
+                    :ptsize   => 14,
                     :gravity  => "North",
                     :text     => subtitle }
+      elements << { :type     => "highlight_text",
+                    :x_offset => x0 + text_x_offset,
+                    :y_offset => margin + 190,
+                    :ptsize   => 12,
+                    :gravity  => "North",
+                    :text     => extra }
 
-      # prepare QR overlay info to apply after draw_elements
+      # right: prepare QR overlay to apply after drawing
       begin
         classdef_id = x[:classdef_id] || x[:id]
         if classdef_id
           url = "https://cosmicfitclub.com/class/#{classdef_id}"
           q = RQRCode::QRCode.new(url)
           q_blob = q.as_png(size: qr_w, border_modules: 2).to_blob
-          qr_overlays << { :blob => q_blob, :x => (x0 + col_w - qr_w - margin), :y => (h - qr_w - margin), :w => qr_w }
+          qr_x = x0 + col_w - qr_w - margin
+          qr_y = (h - qr_w) / 2
+          qr_overlays << { :blob => q_blob, :x => qr_x, :y => qr_y, :w => qr_w }
         end
       rescue StandardError
         # ignore
       end
     end
 
-    # draw all elements in one pass to avoid temp-file races
+    # draw all elements in one pass
     image.draw_elements(elements)
 
     # apply QR overlays
