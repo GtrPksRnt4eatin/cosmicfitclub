@@ -333,8 +333,6 @@ module SchedulePromo
         :x_offset => text_x,
         :y_offset => y0 + margin,
         :width    => 50
-      },
-        
       }
 
       # middle: text block (stacked)
