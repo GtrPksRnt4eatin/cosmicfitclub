@@ -341,13 +341,13 @@ module SchedulePromo
       elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y0 + margin + 100,
-                    :ptsize   => 10,
+                    :ptsize   => 9,
                     :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y0 + margin + 150,
-                    :ptsize   => 10,
+                    :ptsize   => 9,
                     :gravity  => "NorthWest",
                     :text     => extra }
 
