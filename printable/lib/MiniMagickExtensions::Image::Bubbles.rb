@@ -192,6 +192,31 @@ module MiniMagickExtensions
         self.clone_img(result)
       end
 
+      # Apply rounded corners to a MiniMagick::Image while preserving dimensions
+      # radius: corner radius in pixels
+      def rounded_corners(radius=nil)
+        radius ||= [self.dimensions[0], self.dimensions[1]].min / 10
+        require 'securerandom'
+        mask_path = "printable/assets/tmp/qr_mask_#{SecureRandom.hex(6)}.png"
+        begin
+          MiniMagick::Tool::Convert.new do |c|
+            c.size "#{self.width}x#{self.height}"
+            c.xc "transparent"
+            c.fill "white"
+            c.draw "roundRectangle 0,0 #{self.width - 1},#{self.height - 1} #{radius},#{radius}"
+            c << mask_path
+          end
+          mask = MiniMagick::Image.open(mask_path)
+          result = self.composite(mask) do |c|
+            c.compose "DstIn"
+            c.geometry "+0+0"
+          end
+          result
+        ensure
+          File.delete(mask_path) if File.exist?(mask_path)
+        end
+      end
+
     end
 
   end
