@@ -334,20 +334,20 @@ module SchedulePromo
       extra = (x[:lines] && x[:lines][2]) || ''
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y0 + margin,
+                    :y_offset => y0 + margin + 10,
                     :ptsize   => 12,
                     :gravity  => "NorthWest",
                     :text     => title }
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y0 + margin + 80,
+                    :y_offset => y0 + margin + 70,
                     :ptsize   => 9,
                     :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y0 + margin + 130,
-                    :ptsize   => 9,
+                    :y_offset => y0 + margin + 120,
+                    :ptsize   => 8,
                     :gravity  => "NorthWest",
                     :text     => extra }
 
