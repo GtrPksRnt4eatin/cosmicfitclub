@@ -338,7 +338,7 @@ module SchedulePromo
                     :color    => "#00000055",
                     :stroke   => "#E0E0E0",
                     :strokewidth => 5,
-                    :corner_radius => 10 
+                    :radius => 10 
                   }
 
       elements << {
