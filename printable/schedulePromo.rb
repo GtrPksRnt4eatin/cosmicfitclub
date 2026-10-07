@@ -309,7 +309,7 @@ module SchedulePromo
 
     # sizes for elements inside each column (portrait columns)
     bubble_w = row_height - (margin * 2)
-    text_x = bubble_w + (margin * 2)
+    text_x = bubble_w + (margin * 2) 
 
     elements = []
     qr_overlays = []
@@ -330,18 +330,20 @@ module SchedulePromo
 
       elements << {
         :type     => 'logo',
-        :x_offset => text_x,
-        :y_offset => y0 + margin,
+        :x_offset => text_x + margin,
+        :y_offset => y0 + margin * 2,
         :width    => 270
       }
 
       elements << { :type     => "box",
                     :x_offset => text_x,
                     :y_offset => y0 + margin,
-                    :width    => w - (2 * (margin + bubble_w)),
+                    :width    => w - (2 * (margin + bubble_w + margin)),
                     :height   => bubble_w,
                     :color    => "#00000055",
-                    :stroke   => "#E0E0E0"
+                    :stroke   => "#E0E0E0",
+                    :strokewidth => 3,
+                    :corner_radius => 5 
                   }
 
       # middle: text block (stacked)
@@ -350,19 +352,19 @@ module SchedulePromo
       extra = (x[:lines] && x[:lines][2]) || ''
       y1 = y0 + margin + 110
       elements << { :type     => "text",
-                    :x_offset => text_x,
+                    :x_offset => text_x + margin,
                     :y_offset => y1,
                     :ptsize   => 10.5,
                     :gravity  => "NorthWest",
                     :text     => title }
       elements << { :type     => "text",
-                    :x_offset => text_x,
+                    :x_offset => text_x + margin,
                     :y_offset => y1 + 50,
                     :ptsize   => 8.5,
                     :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
-                    :x_offset => text_x,
+                    :x_offset => text_x + margin,
                     :y_offset => y1 + 100,
                     :ptsize   => 8,
                     :gravity  => "NorthWest",
