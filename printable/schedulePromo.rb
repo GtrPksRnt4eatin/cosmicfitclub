@@ -328,6 +328,15 @@ module SchedulePromo
                     :img      => x[:img],
                     :lines    => nil }
 
+      elements << {
+        :type     => 'logo',
+        :x_offset => text_x,
+        :y_offset => y0 + margin,
+        :width    => 50
+      },
+        
+      }
+
       # middle: text block (stacked)
       title = (x[:lines] && x[:lines][0]) || ''
       subtitle = (x[:lines] && x[:lines][1]) || ''
