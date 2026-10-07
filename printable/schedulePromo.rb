@@ -332,28 +332,29 @@ module SchedulePromo
         :type     => 'logo',
         :x_offset => text_x,
         :y_offset => y0 + margin,
-        :width    => 50
+        :width    => 200
       }
 
       # middle: text block (stacked)
       title = (x[:lines] && x[:lines][0]) || ''
       subtitle = (x[:lines] && x[:lines][1]) || ''
       extra = (x[:lines] && x[:lines][2]) || ''
+      y1 = y0 + margin + 50
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y0 + margin + 10,
+                    :y_offset => y1,
                     :ptsize   => 12,
                     :gravity  => "NorthWest",
                     :text     => title }
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y0 + margin + 70,
+                    :y_offset => y1 + 20,
                     :ptsize   => 9,
                     :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y0 + margin + 120,
+                    :y_offset => y1 + 40,
                     :ptsize   => 8,
                     :gravity  => "NorthWest",
                     :text     => extra }
