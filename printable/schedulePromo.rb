@@ -368,7 +368,7 @@ module SchedulePromo
       elements << { :type     => "text",
                     :x_offset => text_x + margin,
                     :y_offset => y1 + 100,
-                    :ptsize   => 8,
+                    :ptsize   => 7.8,
                     :gravity  => "NorthWest",
                     :text     => extra }
 
