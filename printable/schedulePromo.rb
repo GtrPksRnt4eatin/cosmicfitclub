@@ -339,7 +339,7 @@ module SchedulePromo
       title = (x[:lines] && x[:lines][0]) || ''
       subtitle = (x[:lines] && x[:lines][1]) || ''
       extra = (x[:lines] && x[:lines][2]) || ''
-      y1 = y0 + margin + 50
+      y1 = y0 + margin + 100
       elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y1,
@@ -348,13 +348,13 @@ module SchedulePromo
                     :text     => title }
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y1 + 20,
+                    :y_offset => y1 + 40,
                     :ptsize   => 9,
                     :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y1 + 40,
+                    :y_offset => y1 + 80,
                     :ptsize   => 8,
                     :gravity  => "NorthWest",
                     :text     => extra }
