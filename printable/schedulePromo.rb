@@ -338,7 +338,10 @@ module SchedulePromo
       elements << { :type     => "box",
                     :x_offset => text_x,
                     :y_offset => y0 + margin,
-                    :width    => w - (2 * (margin + bubble_w))
+                    :width    => w - (2 * (margin + bubble_w)),
+                    :height   => bubble_w,
+                    :color    => "#00000055",
+                    :stroke   => "#E0E0E0"
                   }
 
       # middle: text block (stacked)
@@ -349,19 +352,19 @@ module SchedulePromo
       elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y1,
-                    :ptsize   => 11,
+                    :ptsize   => 10.5,
                     :gravity  => "NorthWest",
                     :text     => title }
       elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y1 + 50,
-                    :ptsize   => 9,
+                    :ptsize   => 8.5,
                     :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y1 + 100,
-                    :ptsize   => 8.5,
+                    :ptsize   => 8,
                     :gravity  => "NorthWest",
                     :text     => extra }
 
