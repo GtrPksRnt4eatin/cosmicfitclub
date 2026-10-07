@@ -337,7 +337,7 @@ module SchedulePromo
                     :height   => bubble_w,
                     :color    => "#00000055",
                     :stroke   => "#FFFFFF55",
-                    :strokewidth => 5,
+                    :strokewidth => 10,
                     :radius => 15 
                   }
 
@@ -378,12 +378,10 @@ module SchedulePromo
         if classdef_id
           url = "https://cosmicfitclub.com/class/#{classdef_id}"
           q = RQRCode::QRCode.new(url)
-          q_blob = q.as_png(size: bubble_w, border_modules: 2).to_blob
+          # generate QR with semi-transparent white fill so white modules are translucent
+          q_blob = q.as_png(size: bubble_w, border_modules: 2, color: 'black', fill: '#FFFFFFCC').to_blob
           qr_x = w - margin - bubble_w
           qr_y = y0 + margin
-          # semi-transparent white background behind QR
-          pad = 10
-          elements << { :type => 'box', :x_offset => qr_x - pad, :y_offset => qr_y - pad, :width => bubble_w + pad*2, :height => bubble_w + pad*2, :radius => 12, :color => '#FFFFFFCC' }
           qr_overlays << { :blob => q_blob, :x => qr_x, :y => qr_y, :w => bubble_w }
         end
       rescue StandardError
