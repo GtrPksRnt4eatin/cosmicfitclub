@@ -299,30 +299,29 @@ module SchedulePromo
     ])
   end
 
-  # Generate a 4x6 sheet containing three 2"x4" flyers laid out horizontally (landscape)
-  # Each panel: photo bubble, text, QR
   def SchedulePromo::generate4x6_3up_2x4(x)
     image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
-    # keep portrait orientation (1200 x 1800)
     w = image.width
     h = image.height
-    col_w = (w / 3).to_i
-    margin = 24
+    row_height = (h / 3).to_i
+    margin = 10
     # sizes for elements inside each column (portrait columns)
-    bubble_w = (col_w * 0.38).to_i
+    bubble_w = row_height - (margin * 2)
     bubble_h = bubble_w
-    qr_w = (col_w * 0.28).to_i
-    text_x_offset = (col_w * 0.42).to_i
+
+    qr_w = bubble_w
+
+    text_x_offset = bubble_w + (margin * 2)
 
     elements = []
     qr_overlays = []
 
     0.upto(2) do |i|
-      x0 = i * col_w
+      y0 = i * row_height
       # left: photo bubble (no overlay text on the bubble)
       elements << { :type     => 'image_bubble',
-                    :x_offset => x0 + margin,
-                    :y_offset => margin + 40,
+                    :x_offset => margin,
+                    :y_offset => y0 + margin,
                     :width    => bubble_w,
                     :height   => bubble_h,
                     :margin   => 6,
@@ -336,20 +335,20 @@ module SchedulePromo
       subtitle = (x[:lines] && x[:lines][1]) || ''
       extra = (x[:lines] && x[:lines][2]) || ''
       elements << { :type     => "highlight_text",
-                    :x_offset => x0 + text_x_offset,
-                    :y_offset => margin + 80,
+                    :x_offset => margin * 2 + bubble_w,
+                    :y_offset => y0 + margin,
                     :ptsize   => 18,
                     :gravity  => "North",
                     :text     => title }
       elements << { :type     => "highlight_text",
-                    :x_offset => x0 + text_x_offset,
-                    :y_offset => margin + 140,
+                    :x_offset => margin * 2 + bubble_w,
+                    :y_offset => y0 + margin + 140,
                     :ptsize   => 14,
                     :gravity  => "North",
                     :text     => subtitle }
       elements << { :type     => "highlight_text",
-                    :x_offset => x0 + text_x_offset,
-                    :y_offset => margin + 190,
+                    :x_offset => margin * 2 + bubble_w,
+                    :y_offset => y0 + margin + 190,
                     :ptsize   => 12,
                     :gravity  => "North",
                     :text     => extra }
@@ -360,10 +359,10 @@ module SchedulePromo
         if classdef_id
           url = "https://cosmicfitclub.com/class/#{classdef_id}"
           q = RQRCode::QRCode.new(url)
-          q_blob = q.as_png(size: qr_w, border_modules: 2).to_blob
-          qr_x = x0 + col_w - qr_w - margin
-          qr_y = (h - qr_w) / 2
-          qr_overlays << { :blob => q_blob, :x => qr_x, :y => qr_y, :w => qr_w }
+          q_blob = q.as_png(size: bubble_w, border_modules: 2).to_blob
+          qr_x = w - margin - bubble_w
+          qr_y = margin + y0
+          qr_overlays << { :blob => q_blob, :x => qr_x, :y => qr_y, :w => bubble_w }
         end
       rescue StandardError
         # ignore
