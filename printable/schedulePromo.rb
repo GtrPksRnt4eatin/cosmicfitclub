@@ -395,7 +395,7 @@ module SchedulePromo
     # apply QR overlays
     qr_overlays.each do |qinfo|
       qimg = MiniMagick::Image.read(qinfo[:blob])
-      qimg.rounded_corners(15) if qimg.respond_to?(:rounded_corners)
+      qimg = qimg.rounded_corners(15) if qimg.respond_to?(:rounded_corners)
       image.overlay(qimg, qinfo[:w], qinfo[:w], qinfo[:x], qinfo[:y])
     end
 
