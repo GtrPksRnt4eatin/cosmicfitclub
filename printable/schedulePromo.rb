@@ -332,23 +332,23 @@ module SchedulePromo
       title = (x[:lines] && x[:lines][0]) || ''
       subtitle = (x[:lines] && x[:lines][1]) || ''
       extra = (x[:lines] && x[:lines][2]) || ''
-      elements << { :type     => "highlight_text",
+      elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y0 + margin,
-                    :ptsize   => 18,
-                    :gravity  => "North",
+                    :ptsize   => 12,
+                    :gravity  => "West",
                     :text     => title }
-      elements << { :type     => "highlight_text",
+      elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y0 + margin + 140,
-                    :ptsize   => 14,
-                    :gravity  => "North",
+                    :ptsize   => 10,
+                    :gravity  => "West",
                     :text     => subtitle }
-      elements << { :type     => "highlight_text",
+      elements << { :type     => "text",
                     :x_offset => text_x,
                     :y_offset => y0 + margin + 190,
-                    :ptsize   => 12,
-                    :gravity  => "North",
+                    :ptsize   => 10,
+                    :gravity  => "West",
                     :text     => extra }
 
       # right: prepare QR overlay to apply after drawing
