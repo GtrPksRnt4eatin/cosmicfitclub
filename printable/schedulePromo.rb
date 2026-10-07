@@ -303,7 +303,7 @@ module SchedulePromo
     image = MiniMagick::Image.open("printable/assets/4x6_bg.jpg")
     w = image.width
     h = image.height
-    num_rows = 5
+    num_rows = 6
     row_height = (h / num_rows).to_i
     margin = 20
 
@@ -340,13 +340,13 @@ module SchedulePromo
                     :text     => title }
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y0 + margin + 140,
+                    :y_offset => y0 + margin + 100,
                     :ptsize   => 10,
                     :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
                     :x_offset => text_x,
-                    :y_offset => y0 + margin + 190,
+                    :y_offset => y0 + margin + 150,
                     :ptsize   => 10,
                     :gravity  => "NorthWest",
                     :text     => extra }
