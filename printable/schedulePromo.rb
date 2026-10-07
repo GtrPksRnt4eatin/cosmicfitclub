@@ -337,8 +337,8 @@ module SchedulePromo
                     :height   => bubble_w,
                     :color    => "#00000055",
                     :stroke   => "#E0E0E0",
-                    :strokewidth => 3,
-                    :corner_radius => 5 
+                    :strokewidth => 5,
+                    :corner_radius => 10 
                   }
 
       elements << {
@@ -352,17 +352,17 @@ module SchedulePromo
       title = (x[:lines] && x[:lines][0]) || ''
       subtitle = (x[:lines] && x[:lines][1]) || ''
       extra = (x[:lines] && x[:lines][2]) || ''
-      y1 = y0 + margin + 110
+      y1 = y0 + margin + 120
       elements << { :type     => "text",
                     :x_offset => text_x + margin,
                     :y_offset => y1,
-                    :ptsize   => 10.5,
+                    :ptsize   => 10,
                     :gravity  => "NorthWest",
                     :text     => title }
       elements << { :type     => "text",
                     :x_offset => text_x + margin,
                     :y_offset => y1 + 50,
-                    :ptsize   => 8.5,
+                    :ptsize   => 8,
                     :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
