@@ -362,7 +362,7 @@ module SchedulePromo
       elements << { :type     => "text",
                     :x_offset => text_x + margin,
                     :y_offset => y1 + 50,
-                    :ptsize   => 8,
+                    :ptsize   => 7.8,
                     :gravity  => "NorthWest",
                     :text     => subtitle }
       elements << { :type     => "text",
@@ -379,7 +379,7 @@ module SchedulePromo
           url = "https://cosmicfitclub.com/class/#{classdef_id}"
           q = RQRCode::QRCode.new(url)
           # generate QR with semi-transparent white fill so white modules are translucent
-          q_blob = q.as_png(size: bubble_w, border_modules: 2, color: 'black', fill: '#FFFFFF55').to_blob
+          q_blob = q.as_png(size: bubble_w, border_modules: 2, color: 'black', fill: '#FFFFFF88').to_blob
           qr_x = w - margin - bubble_w
           qr_y = y0 + margin
           qr_overlays << { :blob => q_blob, :x => qr_x, :y => qr_y, :w => bubble_w }
