@@ -336,16 +336,16 @@ module SchedulePromo
                     :width    => w - (2 * (margin + bubble_w + margin)),
                     :height   => bubble_w,
                     :color    => "#00000055",
-                    :stroke   => "#E0E0E0",
+                    :stroke   => "#FFFFFF55",
                     :strokewidth => 5,
-                    :radius => 10 
+                    :radius => 15 
                   }
 
       elements << {
         :type     => 'logo',
         :x_offset => text_x + margin,
         :y_offset => y0 + margin + margin,
-        :width    => 260
+        :width    => 250
       }
 
       # middle: text block (stacked)
@@ -367,7 +367,7 @@ module SchedulePromo
                     :text     => subtitle }
       elements << { :type     => "text",
                     :x_offset => text_x + margin,
-                    :y_offset => y1 + 100,
+                    :y_offset => y1 + 90,
                     :ptsize   => 7.8,
                     :gravity  => "NorthWest",
                     :text     => extra }
