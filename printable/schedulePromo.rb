@@ -249,9 +249,7 @@ module SchedulePromo
           # add a small white border so the QR doesn't touch the bubble edge
             q_blob = q.as_png(size: qr_w, border_modules: 2).to_blob
             qimg = MiniMagick::Image.read(q_blob)
-            # apply rounded corners if requested (x[:qr_radius]) or default to 12px
-            radius = (x[:qr_radius] || 12).to_i
-            qimg = qimg.rounded_corners(radius) if qimg.respond_to?(:rounded_corners)
+
             # fixed placement (adjust these constants if you want different offsets)
             image.overlay(qimg, qr_w, qr_h, 100, 1465)
         end
@@ -397,6 +395,7 @@ module SchedulePromo
     # apply QR overlays
     qr_overlays.each do |qinfo|
       qimg = MiniMagick::Image.read(qinfo[:blob])
+      qimg.rounded_corners(15) if qimg.respond_to?(:rounded_corners)
       image.overlay(qimg, qinfo[:w], qinfo[:w], qinfo[:x], qinfo[:y])
     end
 
