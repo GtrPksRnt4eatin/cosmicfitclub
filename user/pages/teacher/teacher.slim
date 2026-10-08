@@ -43,7 +43,6 @@ html
         - if occ && headcount > 0
           - occ.reservation_list.each do |r|
             - reservations << { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] }
-        - end
         - upcoming << { sched_id: sched.id, classdef_id: sched.classdef.id, classdef_name: sched.classdef.name, starttime: next_time.to_time.iso8601, headcount: headcount, reservations: reservations }
 
       .tile.tile_ib.upcoming
