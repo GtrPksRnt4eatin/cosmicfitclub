@@ -133,7 +133,7 @@ module SchedulePromo
   def SchedulePromo::generate4x5(x)
     image = MiniMagick::Image.open("printable/assets/4x5_bg.jpg")
     image.draw_elements([
-      { :type     => 'logo_long',
+      { :type     => 'logo',
         :x_offset => 320,
         :y_offset => 20,
         :width    => 400
@@ -342,7 +342,7 @@ module SchedulePromo
                   }
 
       elements << {
-        :type     => 'logo',
+        :type     => 'logo_long',
         :x_offset => text_x + margin,
         :y_offset => y0 + margin + margin,
         :width    => 250
