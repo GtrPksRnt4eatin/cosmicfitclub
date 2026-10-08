@@ -10,7 +10,9 @@ module MiniMagickExtensions
         elements.each do |el|
           case el[:type]
           when "logo"
-            self.draw_logo(el[:x_offset],el[:y_offset],el[:width])
+            self.draw_logo(el[:x_offset],el[:y_offset],el[:width] )
+          when "logo_long"
+            self.draw_logo_long(el[:x_offset],el[:y_offset],el[:width] )
           when "box"            
             self.draw_box(el)
           when "text"           

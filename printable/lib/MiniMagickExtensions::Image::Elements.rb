@@ -28,6 +28,14 @@ module MiniMagickExtensions
         self.overlay(logo, width, height, x, y)	
       end
 
+      def draw_logo_long(x,y,width,height=nil,invert=false)	
+      	width  ||= (height * 2.8).to_i	
+      	height ||= (width  / 2.8).to_i	
+      	logo = MiniMagick::Image.open("printable/assets/logo_long.png") unless invert	
+        logo = MiniMagick::Image.open("printable/assets/logo_long_black.png") if invert	
+        self.overlay(logo, width, height, x, y)	
+      end
+
     end
 
   end
