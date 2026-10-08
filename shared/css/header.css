@@ -14,6 +14,10 @@ header {
   margin: 1em;
 }
 
+#slim_header #logo {
+  max-width: 13em;
+}
+
 #menu {
   text-align: center;
   display: inline-block;
