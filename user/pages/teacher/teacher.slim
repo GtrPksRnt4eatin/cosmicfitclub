@@ -27,7 +27,24 @@ html
             span.time  #{ sched.start_time_12hr }
 
       br
-      
+
+      .tile.tile_ib.upcoming
+        .title Upcoming Classes
+        hr
+        - upcoming = customer.staff.class_occurrences.select{ |o| o.starttime > Time.now }.sort_by{ |o| o.starttime }
+        - upcoming.first(10).each do |occ|
+          .occurrence
+            span.name  #{ occ.classdef.name }
+            span.time  #{ occ.starttime.strftime("%a %b %e %l:%M %P") }
+            .attendees
+              - occ.reservation_list.each do |res|
+                div.attendee
+                  span #{ res[:customer_name] }
+                  - if res[:checked_in]
+                    span.checkin  ✓ Checked In
+                  - else
+                    button.checkin-btn data-reservation='#{ res[:id] }' Check In
+
       - @class_history = customer.staff.class_history
 
       .tile.tile_ib.class_history
