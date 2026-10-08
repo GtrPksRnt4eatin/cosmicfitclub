@@ -167,6 +167,46 @@ class StaffRoutes < Sinatra::Base
     csv.string
   end
 
+  # Upcoming classes for a teacher: returns each schedule's next scheduled time,
+  # matching ClassOccurrence if present. If a ClassOccurrence exists, only include
+  # it in the reservations list when headcount > 0. Always include a schedule
+  # entry even if no ClassOccurrence exists for that next time.
+  get '/:id/upcoming_classes' do
+    staff = Staff[params[:id].to_i] or halt(404,'Staff Not Found')
+    out = []
+    staff.schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
+      next_time = nil
+      begin
+        next_time = sched.next_occurrence(Time.now)
+      rescue => e
+        next_time = nil
+      end
+      next if next_time.nil?
+      occ = nil
+      begin
+        occ = ClassOccurrence.find( :classdef_id => sched.classdef.id, :staff_id => staff.id, :starttime => next_time.to_time.iso8601 )
+      rescue
+        occ = nil
+      end
+      headcount = occ ? occ.headcount : 0
+      reservations = []
+      if occ && headcount > 0
+        reservations = occ.reservation_list.map do |r|
+          { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] }
+        end
+      end
+      out << {
+        sched_id: sched.id,
+        classdef_id: sched.classdef.id,
+        classdef_name: sched.classdef.name,
+        starttime: next_time.to_time.iso8601,
+        headcount: headcount,
+        reservations: reservations
+      }
+    end
+    out.to_json
+  end
+
   get '/payouts.csv' do
     content_type 'application/csv'
     attachment "Payouts #{params[:from]}-#{params[:to]}.csv"

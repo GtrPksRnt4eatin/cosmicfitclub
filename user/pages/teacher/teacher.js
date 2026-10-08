@@ -1,8 +1,14 @@
-// Simple teacher check-in handler for upcoming classes
+// Bind preloaded `data` to the page using Rivets
+include_rivets_dates();
+$(function(){
+  rivets.bind(document.body, { data: data });
+});
+
+// delegated checkin handler
 $(document).on('click', '.tile.tile_ib.upcoming .checkin-btn', function(e){
 	e.preventDefault();
 	var $btn = $(this);
-	var res_id = $btn.attr('data-reservation') || $btn.data('reservation');
+	var res_id = $btn.attr('data-reservation');
 	if(!res_id) return alert('Reservation id missing');
 	$btn.prop('disabled', true).text('Checking in...');
 	$.post('/models/classdefs/reservations/' + res_id + '/checkin')
@@ -14,3 +20,5 @@ $(document).on('click', '.tile.tile_ib.upcoming .checkin-btn', function(e){
 			$btn.prop('disabled', false).text('Check In');
 		});
 });
+
+// no-op: data is preloaded and bound via Rivets

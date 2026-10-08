@@ -9,7 +9,7 @@ html
     title Cosmic Fit Club
 
     ==css ['fonts', 'site', 'header', 'footer', 'user/teacher']
-    ==js  ['jquery', 'rivets', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user/teacher']
+    ==js  ['jquery', 'rivets', 'moment', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user/teacher']
 
   body
   
@@ -28,22 +28,39 @@ html
 
       br
 
+      - staff = customer.staff
+      - upcoming = []
+      - staff.schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
+        - begin
+          - next_time = sched.next_occurrence(Time.now) rescue nil
+        - end
+        - next if next_time.nil?
+        - occ = ClassOccurrence.find(:classdef_id => sched.classdef.id, :staff_id => staff.id, :starttime => next_time.to_time.iso8601) rescue nil
+        - headcount = occ ? occ.headcount : 0
+        - reservations = []
+        - if occ && headcount > 0
+          - occ.reservation_list.each do |r|
+            - reservations << { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] }
+        - end
+        - upcoming << { sched_id: sched.id, classdef_id: sched.classdef.id, classdef_name: sched.classdef.name, starttime: next_time.to_time.iso8601, headcount: headcount, reservations: reservations }
+
+      javascript:
+        data = {}
+        data['upcoming'] = #{{ upcoming.to_json }};
+
       .tile.tile_ib.upcoming
         .title Upcoming Classes
         hr
-        - upcoming = customer.staff.class_occurrences.select{ |o| o.starttime > Time.now }.sort_by{ |o| o.starttime }
-        - upcoming.first(10).each do |occ|
-          .occurrence
-            span.name  #{ occ.classdef.name }
-            span.time  #{ occ.starttime.strftime("%a %b %e %l:%M %P") }
-            .attendees
-              - occ.reservation_list.each do |res|
-                div.attendee
-                  span #{ res[:customer_name] }
-                  - if res[:checked_in]
-                    span.checkin  ✓ Checked In
-                  - else
-                    button.checkin-btn data-reservation='#{ res[:id] }' Check In
+        .upcoming-list
+          .occurrence rv-each-occ='data.upcoming'
+            span.name { occ.classdef_name }
+            span.time { occ.starttime | shortdt }
+            span.headcount Headcount: { occ.headcount }
+            .attendees rv-if='occ.headcount'
+              div.attendee rv-each-res='occ.reservations'
+                span { res.customer_name }
+                span.checkin rv-if='res.checked_in' ✓ Checked In
+                button.checkin-btn rv-unless='res.checked_in' rv-attr-data-reservation='res.id' Check In
 
       - @class_history = customer.staff.class_history
 
