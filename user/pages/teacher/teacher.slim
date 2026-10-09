@@ -10,10 +10,6 @@ html
 
     ==css ['fonts', 'site', 'header', 'footer', 'user/teacher']
     ==js  ['jquery', 'rivets', 'moment', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user/teacher']
-      
-    javascript:
-      data = {}
-      data['upcoming'] = #{{ upcoming.to_json }};
 
   body
   
@@ -21,29 +17,25 @@ html
       
     .content
 
+      - staff = customer.staff unless defined?(staff)
+      - schedules = staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| { id: sched.id, classdef_name: sched.classdef.name, rrule: sched.rrule_english, start_time: sched.start_time_12hr } }
+
       .tile.tile_ib
         .title Currently Scheduled Classes
-
-        - customer.staff.schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
-          div.schedule
-            span.name  #{ sched.classdef.name   }
-            span.rrule #{ sched.rrule_english   }
-            span.time  #{ sched.start_time_12hr }
+        .schedules
+          .schedule rv-each-s='data.schedules'
+            span.name { s.classdef_name }
+            span.rrule { s.rrule }
+            span.time { s.start_time }
 
       br
 
-      - staff = customer.staff
-      - upcoming = []
-      - staff.schedules.select{ |x| x[:classdef_id] != 78 }.each do |sched|
-        - next_time = sched.next_occurrence(Time.now) rescue nil
-        - next if next_time.nil?
-        - occ = (ClassOccurrence.find(:classdef_id => sched.classdef.id, :staff_id => staff.id, :starttime => next_time.to_time.iso8601) rescue nil)
-        - headcount = occ ? occ.headcount : 0
-        - reservations = []
-        - if occ && headcount > 0
-          - occ.reservation_list.each do |r|
-            - reservations << { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] }
-        - upcoming << { sched_id: sched.id, classdef_id: sched.classdef.id, classdef_name: sched.classdef.name, starttime: next_time.to_time.iso8601, headcount: headcount, reservations: reservations }
+      - upcoming = staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| next_time = (sched.next_occurrence(Time.now) rescue nil); next nil if next_time.nil?; occ = (ClassOccurrence.find(:classdef_id => sched.classdef.id, :staff_id => staff.id, :starttime => next_time.to_time.iso8601) rescue nil); headcount = occ ? occ.headcount : 0; reservations = (occ && headcount > 0) ? occ.reservation_list.map { |r| { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] } } : []; { sched_id: sched.id, classdef_id: sched.classdef.id, classdef_name: sched.classdef.name, starttime: next_time.to_time.iso8601, headcount: headcount, reservations: reservations } }.compact
+
+      javascript:
+        data = {}
+        data['schedules'] = #{{ schedules.to_json }};
+        data['upcoming'] = #{{ upcoming.to_json }};
 
       .tile.tile_ib.upcoming
         .title Upcoming Classes
