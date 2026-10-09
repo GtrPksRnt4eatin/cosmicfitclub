@@ -18,6 +18,7 @@ html
     .content
 
       - staff = (customer && (customer.staff || Staff.where(customer_id: customer.id).first)) unless defined?(staff)
+      - @staff = staff
       - schedules = staff ? staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| { id: sched.id, classdef_name: sched.classdef.name, rrule: sched.rrule_english, start_time: sched.start_time_12hr } } : []
 
       .tile.tile_ib
@@ -37,7 +38,7 @@ html
         data['schedules'] = #{{ schedules.to_json }};
         data['upcoming'] = #{{ upcoming.to_json }};
         data['customer'] = #{{ (customer ? customer.to_list_hash : {}).to_json }};
-        data['staff'] = #{{ (staff ? staff.to_list_hash : {}).to_json }};
+        data['staff'] = #{{ (customer.staff ? customer.staff.to_list_hash : {}).to_json }};
 
       - if params[:debug] || (customer && customer.id == 1)
         .tile.debug
