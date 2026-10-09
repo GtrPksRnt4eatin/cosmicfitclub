@@ -28,21 +28,21 @@ html
       .tile.tile_ib
         .title Currently Scheduled Classes
         .schedules
-          .schedule rv-each-s='data.schedules'
+          .schedule rv-each-sched='data.schedules'
             span.name 
-              | { s.classdef.name }
+              | { sched.classdef.name }
             span.rrule 
-              | { s.rrule }
+              | { sched.rrule }
             span.time 
-              | { s.start_time }
+              | { sched.start_time }
             .upcoming
-              .occurrence rv-each-occ='s.upcoming'
+              .occurrence
                 span.time 
-                  | { occ.starttime | shortdt }
+                  | { sched.upcoming.starttime | shortdt }
                 span.headcount
-                  | Headcount: { occ.headcount }
-                .attendees rv-if='occ.headcount'
-                  div.attendee rv-each-res='occ.reservations'
+                  | Headcount: { sched.upcoming.headcount }
+                .attendees rv-if='sched.upcoming.headcount'
+                  div.attendee rv-each-res='sched.upcoming.reservations'
                     span
                       | { res.customer_name }
                     span.checkin rv-if='res.checked_in'
