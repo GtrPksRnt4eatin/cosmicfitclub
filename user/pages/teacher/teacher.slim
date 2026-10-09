@@ -17,8 +17,8 @@ html
       
     .content
 
-      - staff = customer.staff unless defined?(staff)
-      - schedules = staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| { id: sched.id, classdef_name: sched.classdef.name, rrule: sched.rrule_english, start_time: sched.start_time_12hr } }
+      - staff = (customer && customer.staff) unless defined?(staff)
+      - schedules = staff ? staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| { id: sched.id, classdef_name: sched.classdef.name, rrule: sched.rrule_english, start_time: sched.start_time_12hr } } : []
 
       .tile.tile_ib
         .title Currently Scheduled Classes
@@ -30,7 +30,7 @@ html
 
       br
 
-      - upcoming = staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| next_time = (sched.next_occurrence(Time.now) rescue nil); next nil if next_time.nil?; occ = (ClassOccurrence.find(:classdef_id => sched.classdef.id, :staff_id => staff.id, :starttime => next_time.to_time.iso8601) rescue nil); headcount = occ ? occ.headcount : 0; reservations = (occ && headcount > 0) ? occ.reservation_list.map { |r| { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] } } : []; { sched_id: sched.id, classdef_id: sched.classdef.id, classdef_name: sched.classdef.name, starttime: next_time.to_time.iso8601, headcount: headcount, reservations: reservations } }.compact
+      - upcoming = staff ? staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| next_time = (sched.next_occurrence(Time.now) rescue nil); next nil if next_time.nil?; occ = (ClassOccurrence.find(:classdef_id => sched.classdef.id, :staff_id => staff.id, :starttime => next_time.to_time.iso8601) rescue nil); headcount = occ ? occ.headcount : 0; reservations = (occ && headcount > 0) ? occ.reservation_list.map { |r| { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] } } : []; { sched_id: sched.id, classdef_id: sched.classdef.id, classdef_name: sched.classdef.name, starttime: next_time.to_time.iso8601, headcount: headcount, reservations: reservations } }.compact : []
 
       javascript:
         data = {}
@@ -51,7 +51,10 @@ html
                 span.checkin rv-if='res.checked_in' ✓ Checked In
                 button.checkin-btn rv-unless='res.checked_in' rv-attr-data-reservation='res.id' Check In
 
-      - @class_history = customer.staff.class_history
+      - if staff
+        - @class_history = staff.class_history
+      - else
+        - @class_history = { :total_classes => 0, :avr_headcount => 0, :mvp_list => [], :hist_list => [], :grouped_list => [] }
 
       .tile.tile_ib.class_history
         .title Grand Total ( All Classes )
