@@ -4,8 +4,8 @@ $(function(){
   rivets.bind(document.body, { data: data });
 });
 
-// delegated checkin handler
-$(document).on('click', '.tile.tile_ib.upcoming .checkin-btn', function(e){
+// delegated checkin handler (works anywhere a .checkin-btn appears)
+$(document).on('click', '.checkin-btn', function(e){
 	e.preventDefault();
 	var $btn = $(this);
 	var res_id = $btn.attr('data-reservation');
@@ -13,7 +13,25 @@ $(document).on('click', '.tile.tile_ib.upcoming .checkin-btn', function(e){
 	$btn.prop('disabled', true).text('Checking in...');
 	$.post('/models/classdefs/reservations/' + res_id + '/checkin')
 		.done(function(resp){
-			$btn.replaceWith('<span class="checkin">✓ Checked In</span>');
+			// update the preloaded data model so Rivets updates the UI
+			try{
+				if(window.data && data.upcoming){
+					data.upcoming.forEach(function(occ){
+						if(occ.reservations){
+							occ.reservations.forEach(function(r){
+								if(r.id == res_id || String(r.id) == String(res_id)){
+									r.checked_in = true;
+								}
+							});
+						}
+					});
+				}
+			}catch(err){
+				// fallback: replace button with static check mark
+				$btn.replaceWith('<span class="checkin">✓ Checked In</span>');
+				return;
+			}
+			// no DOM manipulation here; Rivets will re-render based on data change
 		})
 		.fail(function(){
 			alert('Checkin failed');

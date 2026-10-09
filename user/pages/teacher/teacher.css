@@ -1,5 +1,5 @@
 /* Teacher page thumb + layout */
-.schedules .schedule { padding: 0.5em 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+.schedules .schedule { padding: 0.5em 0; border-bottom: 1px solid rgba(0,0,0,0.04); display: inline-block; }
 .schedules .schedule .media { display:flex; align-items:flex-start; }
 .schedules .schedule img.thumb { width:54px; height:54px; border-radius:8px; object-fit:cover; flex:0 0 54px; margin-right:12px; }
 .schedules .schedule .meta { display:flex; flex-direction:column; justify-content:center; gap:4px; }
