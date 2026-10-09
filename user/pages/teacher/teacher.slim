@@ -29,9 +29,12 @@ html
         .title Currently Scheduled Classes
         .schedules
           .schedule rv-each-s='data.schedules'
-            span.name { s.classdef_name }
-            span.rrule { s.rrule }
-            span.time { s.start_time }
+            span.name 
+              | { s.classdef.name }
+            span.rrule 
+              | { s.rrule }
+            span.time 
+              | { s.start_time }
 
       br
 
