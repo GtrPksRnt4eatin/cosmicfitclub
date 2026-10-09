@@ -13,7 +13,7 @@ html
 
     javascript:
       data = {}
-      data['schedules'] = #{{ customer.staff.schedules.details_hash.to_json }};
+      data['schedules'] = #{{ customer.staff.schedules.map(&:details_hash).to_json }};
       data['upcoming'] = #{{ customer.staff.upcoming_classes.to_json }};
       data['customer'] = #{{ (customer ? customer.to_list_hash : {}).to_json }};
       data['staff'] = #{{ (customer.staff ? customer.staff.to_list_hash : {}).to_json }};
