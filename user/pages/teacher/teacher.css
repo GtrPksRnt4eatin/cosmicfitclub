@@ -1,3 +1,11 @@
+/* Teacher page thumb + layout */
+.schedules .schedule { padding: 0.5em 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+.schedules .schedule .media { display:flex; align-items:flex-start; }
+.schedules .schedule img.thumb { width:54px; height:54px; border-radius:8px; object-fit:cover; flex:0 0 54px; margin-right:12px; }
+.schedules .schedule .meta { display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.schedules .schedule .meta span.title { font-weight:600; }
+.schedules .schedule .meta span.rrule, .schedules .schedule .meta span.time { color:#666; font-size:0.95em; }
+.schedules .schedule .checkin-block { margin-top:8px; margin-left:66px; }
 .tile_ib {
   display: inline-block;
 }
