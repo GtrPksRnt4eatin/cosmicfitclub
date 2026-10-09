@@ -40,7 +40,8 @@ html
                   span.time
                     | { occ.starttime | shortdt }
                   div.headcount
-                    span(rv-text='"Headcount: " + occ.headcount')
+                    span
+                      | Headcount: { occ.headcount }
                   .attendees rv-if='occ.headcount'
                     div.attendee(rv-each-res='occ.reservations')
                       span.name(rv-text='res.customer_name')
