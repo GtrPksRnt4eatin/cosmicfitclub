@@ -4,8 +4,9 @@
 .schedules .schedule img.thumb { width:54px; height:54px; border-radius:8px; object-fit:cover; flex:0 0 54px; margin-right:12px; }
 .schedules .schedule .meta { display:flex; flex-direction:column; justify-content:center; gap:4px; }
 .schedules .schedule .meta span.title { font-weight:600; }
-.schedules .schedule .meta span.rrule, .schedules .schedule .meta span.time { color:#666; font-size:0.95em; }
+.schedules .schedule .meta span.rrule, .schedules .schedule .meta span.time { font-size:0.95em; }
 .schedules .schedule .checkin-block { margin-top:8px; margin-left:66px; }
+
 .tile_ib {
   display: inline-block;
 }
@@ -22,10 +23,6 @@
   padding: 0 .5em;
   text-align: left;
 }
-
-.schedule .name  { width: 25em; }
-.schedule .rrule { width: 10em; }
-.schedule .time  { width: 4em;  }
 
 .history_list {
   height: 15em;
