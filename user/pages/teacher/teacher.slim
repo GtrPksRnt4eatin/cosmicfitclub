@@ -36,6 +36,8 @@ html
         data = {}
         data['schedules'] = #{{ schedules.to_json }};
         data['upcoming'] = #{{ upcoming.to_json }};
+        data['customer'] = #{{ (customer ? customer.to_list_hash : {}).to_json }};
+        data['staff'] = #{{ (staff ? staff.to_list_hash : {}).to_json }};
 
       .tile.tile_ib.upcoming
         .title Upcoming Classes
