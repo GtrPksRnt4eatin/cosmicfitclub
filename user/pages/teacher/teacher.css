@@ -6,7 +6,7 @@
 .schedules .schedule .meta span.title { font-weight:600; }
 .schedules .schedule .meta span.rrule, .schedules .schedule .meta span.time { font-size:0.95em; }
 .schedules .schedule .checkin-block { margin-top:8px; } 
-.schedules .schedule .attendees { margin-left: 5em; }
+.schedules .schedule .attendee { margin: 0.5em; box-shadow: 0 0 2px white; padding: 0.5em; background: rgba(255,255,255,0.1); }
 
 .schedules .schedule .occurrence { 
   margin: 1em;
