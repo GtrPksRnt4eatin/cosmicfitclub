@@ -13,25 +13,27 @@ $(document).on('click', '.checkin-btn', function(e){
 	$btn.prop('disabled', true).text('Checking in...');
 	$.post('/models/classdefs/reservations/' + res_id + '/checkin')
 		.done(function(resp){
-			// update the preloaded data model so Rivets updates the UI
+			var updated = false;
 			try{
 				if(window.data && data.upcoming){
 					data.upcoming.forEach(function(occ){
 						if(occ.reservations){
 							occ.reservations.forEach(function(r){
-								if(r.id == res_id || String(r.id) == String(res_id)){
-									r.checked_in = true;
+								if(String(r.id) == String(res_id)){
+									r.checked_in = !r.checked_in;
+									updated = true;
 								}
 							});
 						}
 					});
 				}
-			}catch(err){
-				// fallback: replace button with static check mark
-				$btn.replaceWith('<span class="checkin">✓ Checked In</span>');
-				return;
+			}catch(err){ updated = false }
+			// update DOM immediately for snappy feedback
+			if(updated){
+				$btn.replaceWith('<span class="checkin" data-reservation="'+res_id+'">✓ Checked In</span>');
+			} else {
+				$btn.replaceWith('<span class="checkin" data-reservation="'+res_id+'">✓ Checked In</span>');
 			}
-			// no DOM manipulation here; Rivets will re-render based on data change
 		})
 		.fail(function(){
 			alert('Checkin failed');
