@@ -5,7 +5,8 @@
 .schedules .schedule .meta { display:flex; flex-direction:column; justify-content:center; gap:4px; }
 .schedules .schedule .meta span.title { font-weight:600; }
 .schedules .schedule .meta span.rrule, .schedules .schedule .meta span.time { font-size:0.95em; }
-.schedules .schedule .checkin-block { margin-top:8px; margin-left:66px; }
+.schedules .schedule .checkin-block { margin-top:8px; } 
+.schedules .schedule .attendees { margin-left: 5em; }
 
 .tile_ib {
   display: inline-block;
