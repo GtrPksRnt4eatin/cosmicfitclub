@@ -28,27 +28,24 @@ html
       .tile.tile_ib
         .title Currently Scheduled Classes
         .schedules
-          .schedule rv-each-sched='data.schedules'
-            span.name 
-              | { sched.classdef.name }
-            span.rrule 
-              | { sched.rrule }
-            span.time 
-              | { sched.start_time }
-            .upcoming
-              .occurrence
-                span.time 
-                  | { sched.upcoming.starttime | shortdt }
-                span.headcount
-                  | Headcount: { sched.upcoming.headcount }
-                .attendees rv-if='sched.upcoming.headcount'
-                  div.attendee rv-each-res='sched.upcoming.reservations'
-                    span
-                      | { res.customer_name }
-                    span.checkin rv-if='res.checked_in'
-                      | ✓ Checked In
-                    button.checkin-btn(rv-unless='res.checked_in' rv-attr-data-reservation='res.id')
-                      | Check In
+            .schedule(rv-each-sched='data.schedules')
+              .media
+                img.thumb(rv-attr-src='sched.image_url' rv-attr-alt='sched.classdef.name')
+                .meta
+                  span.title(rv-text='sched.classdef.name')
+                  span.rrule(rv-text='sched.rrule')
+                  span.time(rv-text='sched.start_time')
+              .checkin-block
+                .occurrence(rv-each-occ='sched.upcoming')
+                  span.time
+                    | { occ.upcoming.starttime | shortdt }
+                  div.headcount
+                    span(rv-text='"Headcount: " + occ.headcount')
+                  .attendees rv-if='occ.headcount'
+                    div.attendee(rv-each-res='occ.reservations')
+                      span.name(rv-text='res.customer_name')
+                      span.checkin(rv-if='res.checked_in' rv-text='"✓ Checked In"')
+                      button.checkin-btn(rv-unless='res.checked_in' rv-attr-data-reservation='res.id') Check In
 
       br
 

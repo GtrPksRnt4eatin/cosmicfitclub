@@ -100,6 +100,79 @@ class ClassdefSchedule < Sequel::Model
     self.icecube_schedule.next_occurrence(from)
   end
 
+  # Return the next `count` planned occurrences for this schedule, starting at `from_time`.
+  # This respects `ClassException` entries: cancelled occurrences are skipped and changed
+  # starttimes are applied. Each returned entry is a hash similar to `get_occurrences_with_exceptions` items,
+  # but focused on the next planned times and includes reservation/headcount info when present.
+  def next_occurrences(count = 5, from_time = Time.now)
+    out = []
+    cur = from_time
+    while out.length < count
+      begin
+        next_time = self.next_occurrence(cur)
+      rescue => _e
+        break
+      end
+      break if next_time.nil?
+
+      # Look for an exception tied to this original starttime
+      exception = nil
+      begin
+        exception = ClassException.find( :classdef_id => self.classdef.id, :original_starttime => next_time.to_time.iso8601 )
+      rescue
+        exception = nil
+      end
+
+      # Skip cancelled exceptions
+      if exception && exception.try(:changes)
+        cancelled = exception.changes[:cancelled] || exception.changes['cancelled']
+        if cancelled
+          cur = next_time + 1
+          next
+        end
+      end
+
+      # Apply any starttime change from the exception
+      planned_start = next_time
+      if exception && exception.try(:changes)
+        new_start = exception.changes[:starttime] || exception.changes['starttime']
+        if new_start
+          begin
+            planned_start = Time.parse(new_start.to_s)
+          rescue
+          end
+        end
+      end
+
+      # Try to find an occurrence record for the planned start
+      occ = nil
+      begin
+        occ = ClassOccurrence.find( :classdef_id => self.classdef.id, :starttime => planned_start.to_time.iso8601 )
+      rescue
+        occ = nil
+      end
+
+      headcount = occ ? occ.headcount : 0
+      reservations = []
+      if occ && headcount > 0
+        reservations = occ.reservation_list.map { |r| { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] } }
+      end
+
+      out << {
+        :sched_id => self.id,
+        :classdef_id => self.classdef.id,
+        :classdef_name => self.classdef.name,
+        :starttime => planned_start.to_time.iso8601,
+        :headcount => headcount,
+        :reservations => reservations,
+        :exception => exception ? exception.full_details : nil
+      }
+
+      cur = next_time + 1
+    end
+    out
+  end
+
   def get_occurrences(from,to)
     return [] if rrule.nil?
     return [] if start_time.nil?
@@ -242,7 +315,7 @@ class ClassdefSchedule < Sequel::Model
       :capacity   => capacity,
       :image_url  => self.image.try(:image_url),
       :video_url  => self.video.try(:image_url),
-      :upcoming   => self.upcoming_occurrences
+      :upcoming   => self.next_occurrences(3)
     }
   end
 
