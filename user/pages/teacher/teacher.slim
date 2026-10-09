@@ -17,7 +17,7 @@ html
       
     .content
 
-      - staff = (customer && customer.staff) unless defined?(staff)
+      - staff = (customer && (customer.staff || Staff.where(customer_id: customer.id).first)) unless defined?(staff)
       - schedules = staff ? staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| { id: sched.id, classdef_name: sched.classdef.name, rrule: sched.rrule_english, start_time: sched.start_time_12hr } } : []
 
       .tile.tile_ib
