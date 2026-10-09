@@ -30,15 +30,15 @@ html
         .schedules
             .schedule(rv-each-sched='data.schedules')
               .media
-                img.thumb(rv-attr-src='sched.image_url' rv-attr-alt='sched.classdef.name')
+                img.thumb rv-src='sched.image_url'
                 .meta
-                  span.title(rv-text='sched.classdef.name')
-                  span.rrule(rv-text='sched.rrule')
-                  span.time(rv-text='sched.start_time')
+                  span.title rv-text='sched.classdef.name'
+                  span.rrule rv-text='sched.rrule'
+                  span.time rv-text='sched.start_time'
               .checkin-block
                 .occurrence(rv-each-occ='sched.upcoming')
                   span.time
-                    | { occ.upcoming.starttime | shortdt }
+                    | { occ.upcoming.start_time | shortdt }
                   div.headcount
                     span(rv-text='"Headcount: " + occ.headcount')
                   .attendees rv-if='occ.headcount'
