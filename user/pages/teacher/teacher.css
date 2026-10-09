@@ -8,6 +8,13 @@
 .schedules .schedule .checkin-block { margin-top:8px; } 
 .schedules .schedule .attendees { margin-left: 5em; }
 
+.schedules .schedule .occurrence { 
+  margin: 1em;
+  background: rgba(255,255,255,0.1);
+  padding: 0.5em;
+  box-shadow: 0 0 2px white;
+}
+
 .tile_ib {
   display: inline-block;
 }
