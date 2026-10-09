@@ -42,7 +42,7 @@ html
                   .attendees rv-if='occ.headcount'
                     div.attendee(rv-each-res='occ.reservations')
                       span.name(rv-text='res.customer_name')
-                      span.checkin(rv-if='res.checked_in' rv-text='"✓ Checked In"')
+                      span.checkin(rv-if='res.checked_in' rv-data-reservation='res.id' rv-text='"✓ Checked In"')
                       button.checkin-btn(rv-unless='res.checked_in' rv-data-reservation='res.id') Check In
 
       br
