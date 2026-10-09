@@ -43,14 +43,20 @@ html
         hr
         .upcoming-list
           .occurrence rv-each-occ='data.upcoming'
-            span.name { occ.classdef_name }
-            span.time { occ.starttime | shortdt }
-            span.headcount Headcount: { occ.headcount }
+            span.name
+              | { occ.classdef_name }
+            span.time
+              | { occ.starttime | shortdt }
+            span.headcount
+              | Headcount: { occ.headcount }
             .attendees rv-if='occ.headcount'
               div.attendee rv-each-res='occ.reservations'
-                span { res.customer_name }
-                span.checkin rv-if='res.checked_in' ✓ Checked In
-                button.checkin-btn rv-unless='res.checked_in' rv-attr-data-reservation='res.id' Check In
+                span
+                  | { res.customer_name }
+                span.checkin rv-if='res.checked_in'
+                  | ✓ Checked In
+                button.checkin-btn(rv-unless='res.checked_in' rv-attr-data-reservation='res.id')
+                  | Check In
 
       .tile.tile_ib.class_history
         .title Grand Total ( All Classes )
@@ -63,37 +69,50 @@ html
           | MVP List: 
           .mvp_list
             .mvp rv-each-m='data.class_history.mvp_list'
-              span { m.count }
-              span { m.customer_name }
+              span
+                | { m.count }
+              span
+                | { m.customer_name }
         hr
         div 
           | History:
           .history_list
             .class_occ rv-each-h='data.class_history.hist_list'
-              span { h.starttime | shortdt }
-              span { h.classdef_name }
-              span { h.count }
+              span
+                | { h.starttime | shortdt }
+              span
+                | { h.classdef_name }
+              span
+                | { h.count }
 
       .grouped-list rv-each-cl='data.class_history.grouped_list'
         br
         .tile.tile_ib
-          .title { cl.classdef_name }
+          .title
+            | { cl.classdef_name }
           hr
           .stats
-            div Classes Taught:    { cl.total_classes }
-            div Average Headcount: { cl.avr_headcount }
+            div
+              | Classes Taught:    { cl.total_classes }
+            div
+              | Average Headcount: { cl.avr_headcount }
           hr
           div 
             | MVP List: 
             .mvp_list
               .mvp rv-each-m='cl.mvp_list'
-                span { m.count }
-                span { m.customer_name }
+                span
+                  | { m.count }
+                span
+                  | { m.customer_name }
 
           div
             | History:
             .history_list
-              .class_occ rv-each-h='cl.hist_list'
-                span { h.starttime | shortdt }
-                span { h.classdef_name }
-                span { h.count }
+                .class_occ rv-each-h='cl.hist_list'
+                  span
+                    | { h.starttime | shortdt }
+                  span
+                    | { h.classdef_name }
+                  span
+                    | { h.count }
