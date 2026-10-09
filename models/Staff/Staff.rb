@@ -162,6 +162,35 @@ class Staff < Sequel::Model(:staff)
     ) }.sort_by { |x| -x[:count] } 
   end
 
+  # Return an array of upcoming class entries for this staff member.
+  # Each entry contains: :sched_id, :classdef_id, :classdef_name, :starttime (ISO8601), :headcount, :reservations
+  # Falls back to scanning ClassdefSchedule for schedules that list this staff id when `schedules` is empty.
+  def upcoming_classes(from_time = Time.now)
+    out = []
+    schedules.each do |sched|
+      next_time = sched.next_occurrence(from_time)
+      next if next_time.nil?
+      occ = ClassOccurrence.find(:classdef_id => sched.classdef.id, :staff_id => self.id, :starttime => next_time.to_time.iso8601)
+      headcount = occ ? occ.headcount : 0
+
+      if headcount>0 then
+        reservations = occ.reservation_list.map { |r| { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] } }
+      else
+        reservations = []
+      end
+      
+      out << {
+        sched_id: sched.id,
+        classdef_id: sched.classdef.id,
+        classdef_name: sched.classdef.name,
+        starttime: next_time.to_time.iso8601,
+        headcount: headcount,
+        reservations: reservations
+      }
+    end
+    out
+  end
+
   ############################# REPORTS ##############################
 
 end

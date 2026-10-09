@@ -11,16 +11,20 @@ html
     ==css ['fonts', 'site', 'header', 'footer', 'user/teacher']
     ==js  ['jquery', 'rivets', 'moment', 'rv_dates', 'lib', 'element', 'ev_channel', '/auth/elements/userview', 'menu', 'user/teacher']
 
+    javascript:
+      data = {}
+      data['schedules'] = #{{ customer.staff.schedules.to_json }};
+      data['upcoming'] = #{{ customer.staff.upcoming_classes.to_json }};
+      data['customer'] = #{{ (customer ? customer.to_list_hash : {}).to_json }};
+      data['staff'] = #{{ (customer.staff ? customer.staff.to_list_hash : {}).to_json }};
+      data['class_history'] = #{{ (customer.staff.class_history ? customer.staff.class_history.to_json : {}.to_json) }};
+
   body
   
     #stars
       
     .content
-
-      - staff = (customer && (customer.staff || Staff.where(customer_id: customer.id).first)) unless defined?(staff)
-      - @staff = staff
-      - schedules = staff ? staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| { id: sched.id, classdef_name: sched.classdef.name, rrule: sched.rrule_english, start_time: sched.start_time_12hr } } : []
-
+      
       .tile.tile_ib
         .title Currently Scheduled Classes
         .schedules
@@ -30,21 +34,6 @@ html
             span.time { s.start_time }
 
       br
-
-      - upcoming = staff ? staff.schedules.select{ |x| x[:classdef_id] != 78 }.map { |sched| next_time = (sched.next_occurrence(Time.now) rescue nil); next nil if next_time.nil?; occ = (ClassOccurrence.find(:classdef_id => sched.classdef.id, :staff_id => staff.id, :starttime => next_time.to_time.iso8601) rescue nil); headcount = occ ? occ.headcount : 0; reservations = (occ && headcount > 0) ? occ.reservation_list.map { |r| { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] } } : []; { sched_id: sched.id, classdef_id: sched.classdef.id, classdef_name: sched.classdef.name, starttime: next_time.to_time.iso8601, headcount: headcount, reservations: reservations } }.compact : []
-
-      javascript:
-        data = {}
-        data['schedules'] = #{{ schedules.to_json }};
-        data['upcoming'] = #{{ upcoming.to_json }};
-        data['customer'] = #{{ (customer ? customer.to_list_hash : {}).to_json }};
-        data['staff'] = #{{ (customer.staff ? customer.staff.to_list_hash : {}).to_json }};
-
-      - if params[:debug] || (customer && customer.id == 1)
-        .tile.debug
-          .title Server-side Dump
-          pre
-            = JSON.pretty_generate({ :schedules => schedules, :upcoming => upcoming, :staff => (staff ? staff.to_hash : {}), :customer => (customer ? customer.to_hash : {}) })
 
       .tile.tile_ib.upcoming
         .title Upcoming Classes
@@ -60,57 +49,48 @@ html
                 span.checkin rv-if='res.checked_in' ✓ Checked In
                 button.checkin-btn rv-unless='res.checked_in' rv-attr-data-reservation='res.id' Check In
 
-      - if staff
-        - @class_history = staff.class_history
-      - else
-        - @class_history = { :total_classes => 0, :avr_headcount => 0, :mvp_list => [], :hist_list => [], :grouped_list => [] }
-
       .tile.tile_ib.class_history
         .title Grand Total ( All Classes )
         hr
         .stats
-          div Classes Taught:    #{ @class_history[:total_classes] }
-          div Average Headcount: #{ @class_history[:avr_headcount] }
+          div Classes Taught:    { data.class_history.total_classes }
+          div Average Headcount: { data.class_history.avr_headcount }
         hr
         div 
           | MVP List: 
           .mvp_list
-            - @class_history[:mvp_list].each do |mvp|
-              div.mvp
-                span #{ mvp[:count]         }
-                span #{ mvp[:customer_name] }
+            .mvp rv-each-m='data.class_history.mvp_list'
+              span { m.count }
+              span { m.customer_name }
         hr
         div 
           | History:
           .history_list
-            - @class_history[:hist_list].each do |hist|
-              div.class_occ
-                span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
-                span #{ hist[:classdef_name] }
-                span #{ hist[:count]         }
+            .class_occ rv-each-h='data.class_history.hist_list'
+              span { h.starttime | shortdt }
+              span { h.classdef_name }
+              span { h.count }
 
-      - @class_history[:grouped_list].each do |cls_hist|
+      .grouped-list rv-each-cl='data.class_history.grouped_list'
         br
         .tile.tile_ib
-          .title #{ cls_hist[:classdef_name] }
+          .title { cl.classdef_name }
           hr
           .stats
-            div Classes Taught:    #{ cls_hist[:total_classes] }
-            div Average Headcount: #{ cls_hist[:avr_headcount] }
+            div Classes Taught:    { cl.total_classes }
+            div Average Headcount: { cl.avr_headcount }
           hr
           div 
             | MVP List: 
             .mvp_list
-              - cls_hist[:mvp_list].each do |mvp|
-                div.mvp
-                  span #{ mvp[:count]         }
-                  span #{ mvp[:customer_name] }
+              .mvp rv-each-m='cl.mvp_list'
+                span { m.count }
+                span { m.customer_name }
 
           div
             | History:
             .history_list
-              - cls_hist[:hist_list].each do |hist|
-                div.class_occ
-                  span #{ hist[:starttime].strftime("%Y %a %b %e %l:%M %P") }
-                  span #{ hist[:classdef_name] }
-                  span #{ hist[:count]         }
+              .class_occ rv-each-h='cl.hist_list'
+                span { h.starttime | shortdt }
+                span { h.classdef_name }
+                span { h.count }
