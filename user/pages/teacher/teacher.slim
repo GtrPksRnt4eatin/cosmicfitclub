@@ -38,7 +38,7 @@ html
               .checkin-block
                 .occurrence(rv-each-occ='sched.upcoming')
                   span.time
-                    | { occ.upcoming.start_time | shortdt }
+                    | { occ.upcoming.starttime | shortdt }
                   div.headcount
                     span(rv-text='"Headcount: " + occ.headcount')
                   .attendees rv-if='occ.headcount'
