@@ -35,28 +35,22 @@ html
               | { s.rrule }
             span.time 
               | { s.start_time }
+            .upcoming
+              .occurrence rv-each-occ='s.upcoming'
+                span.time 
+                  | { occ.starttime | shortdt }
+                span.headcount
+                  | Headcount: { occ.headcount }
+                .attendees rv-if='occ.headcount'
+                  div.attendee rv-each-res='occ.reservations'
+                    span
+                      | { res.customer_name }
+                    span.checkin rv-if='res.checked_in'
+                      | ✓ Checked In
+                    button.checkin-btn(rv-unless='res.checked_in' rv-attr-data-reservation='res.id')
+                      | Check In
 
       br
-
-      .tile.tile_ib.upcoming
-        .title Upcoming Classes
-        hr
-        .upcoming-list
-          .occurrence rv-each-occ='data.upcoming'
-            span.name
-              | { occ.classdef_name }
-            span.time
-              | { occ.starttime | shortdt }
-            span.headcount
-              | Headcount: { occ.headcount }
-            .attendees rv-if='occ.headcount'
-              div.attendee rv-each-res='occ.reservations'
-                span
-                  | { res.customer_name }
-                span.checkin rv-if='res.checked_in'
-                  | ✓ Checked In
-                button.checkin-btn(rv-unless='res.checked_in' rv-attr-data-reservation='res.id')
-                  | Check In
 
       .tile.tile_ib.class_history
         .title Grand Total ( All Classes )
