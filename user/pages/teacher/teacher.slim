@@ -39,6 +39,12 @@ html
         data['customer'] = #{{ (customer ? customer.to_list_hash : {}).to_json }};
         data['staff'] = #{{ (staff ? staff.to_list_hash : {}).to_json }};
 
+      - if params[:debug] || (customer && customer.id == 1)
+        .tile.debug
+          .title Server-side Dump
+          pre
+            = JSON.pretty_generate({ :schedules => schedules, :upcoming => upcoming, :staff => (staff ? staff.to_hash : {}), :customer => (customer ? customer.to_hash : {}) })
+
       .tile.tile_ib.upcoming
         .title Upcoming Classes
         hr
