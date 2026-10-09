@@ -220,6 +220,20 @@ class ClassdefSchedule < Sequel::Model
     arr
   end
 
+  def upcoming_occurrences
+    next_time = next_occurrence(Time.now) or return []
+    occ = ClassOccurrence.find(:classdef_id => sched.classdef.id, :staff_id => self.id, :starttime => next_time.to_time.iso8601)
+    headcount = occ ? occ.headcount : 0
+    reservations = headcount>0 ? occ.reservation_list.map(&:to_hash) : []
+    { sched_id: self.id,
+      classdef_id: self.classdef.id,
+      classdef_name: self.classdef.name,
+      starttime: next_time.to_time.iso8601,
+      headcount: headcount,
+      reservations: reservations
+    }
+  end
+
   def details_hash
     { :id => id,
       :classdef   => classdef.to_token,
@@ -229,6 +243,7 @@ class ClassdefSchedule < Sequel::Model
       :capacity   => capacity,
       :image_url  => self.image.try(:image_url),
       :video_url  => self.video.try(:image_url),
+      :upcoming   => self.upcoming_occurrences
     }
   end
 

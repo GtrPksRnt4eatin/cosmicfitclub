@@ -53,6 +53,13 @@ class ClassReservation < Sequel::Model
       :membership_use => self.membership_use.try(:to_token)
     }
   end
+  
+  def to_list_hash
+    { :id         => self.id,
+      :customer   => self.customer.try(:to_token),
+      :checked_in => !!self.checked_in
+    }
+  end
 
   def to_token
     { :id => id,
