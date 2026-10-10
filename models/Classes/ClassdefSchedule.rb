@@ -100,28 +100,12 @@ class ClassdefSchedule < Sequel::Model
     self.icecube_schedule.next_occurrence(from)
   end
 
-  # Return the next `count` planned occurrences for this schedule, starting at `from_time`.
-  # This respects `ClassException` entries: cancelled occurrences are skipped and changed
-  # starttimes are applied. Each returned entry is a hash similar to `get_occurrences_with_exceptions` items,
-  # but focused on the next planned times and includes reservation/headcount info when present.
   def next_occurrences(count = 5, from_time = Time.now)
     out = []
-    cur = from_time
+    cur = Time.local(from_time.year, from_time.month, from_time.day)
     while out.length < count
-      begin
-        next_time = self.next_occurrence(cur)
-      rescue => _e
-        break
-      end
-      break if next_time.nil?
-
-      # Look for an exception tied to this original starttime
-      exception = nil
-      begin
-        exception = ClassException.find( :classdef_id => self.classdef.id, :original_starttime => next_time.to_time.iso8601 )
-      rescue
-        exception = nil
-      end
+      next_time = self.next_occurrence(cur) or break
+      exception = ClassException.find( :classdef_id => self.classdef.id, :original_starttime => next_time.to_time.iso8601 ) rescue nil
 
       # Skip cancelled exceptions
       if exception && exception.try(:changes)
