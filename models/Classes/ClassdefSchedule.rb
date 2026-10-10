@@ -97,7 +97,7 @@ class ClassdefSchedule < Sequel::Model
   end
 
   def next_occurrence(from=nil)
-    self.icecube_schedule.next_occurrence(from)
+    self.icecube_schedule.next_occurrence(from) rescue nil
   end
 
   def next_occurrences(count = 5, from_time = Time.now)
@@ -106,16 +106,8 @@ class ClassdefSchedule < Sequel::Model
     while out.length < count
       next_time = self.next_occurrence(cur) or break
       exception = ClassException.find( :classdef_id => self.classdef.id, :original_starttime => next_time.to_time.iso8601 ) rescue nil
-
-      # Skip cancelled exceptions
-      if exception && exception.try(:changes)
-        cancelled = exception.changes[:cancelled] || exception.changes['cancelled']
-        if cancelled
-          cur = next_time + 1
-          next
-        end
-      end
-
+      next if exception && exception.changes[:cancelled]
+      
       # Apply any starttime change from the exception
       planned_start = next_time
       if exception && exception.try(:changes)
@@ -128,13 +120,7 @@ class ClassdefSchedule < Sequel::Model
         end
       end
 
-      # Try to find an occurrence record for the planned start
-      occ = nil
-      begin
-        occ = ClassOccurrence.find( :classdef_id => self.classdef.id, :starttime => planned_start.to_time.iso8601 )
-      rescue
-        occ = nil
-      end
+      occ = ClassOccurrence.find( :classdef_id => self.classdef.id, :starttime => planned_start.to_time.iso8601 ) rescue nil
 
       headcount = occ ? occ.headcount : 0
       reservations = []
