@@ -102,38 +102,42 @@ class ClassdefSchedule < Sequel::Model
 
   def next_occurrences(count = 5, from_time = Time.now)
     out = []
-    cur = Time.local(from_time.year, from_time.month, from_time.day)
-    while out.length < count
-      next_time = self.next_occurrence(cur) or break
-      exception = ClassException.find( :classdef_id => self.classdef.id, :original_starttime => next_time.to_time.iso8601 ) rescue nil
-      next if exception && exception.changes[:cancelled]
-      
-      # Apply any starttime change from the exception
-      planned_start = next_time
-      if exception && exception.changes
-        new_start = exception.changes[:starttime]
-        planned_start = Time.parse(new_start.to_s) if new_start
+    begin
+      cur = Time.local(from_time.year, from_time.month, from_time.day)
+      while out.length < count
+        next_time = self.next_occurrence(cur) or break
+        exception = ClassException.find( :classdef_id => self.classdef.id, :original_starttime => next_time.to_time.iso8601 ) rescue nil
+        next if exception && exception.changes[:cancelled]
+        
+        # Apply any starttime change from the exception
+        planned_start = next_time
+        if exception && exception.changes
+          new_start = exception.changes[:starttime]
+          planned_start = Time.parse(new_start.to_s) if new_start
+        end
+
+        occ = ClassOccurrence.find( :classdef_id => self.classdef.id, :starttime => planned_start.to_time.iso8601 ) rescue nil
+
+        headcount = occ ? occ.headcount : 0
+        reservations = []
+        if occ && headcount > 0
+          reservations = occ.reservation_list.map { |r| { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] } }
+        end
+
+        out << {
+          :sched_id => self.id,
+          :classdef_id => self.classdef.id,
+          :classdef_name => self.classdef.name,
+          :starttime => planned_start.to_time.iso8601,
+          :headcount => headcount,
+          :reservations => reservations,
+          :exception => exception ? exception.full_details : nil
+        }
+
+        cur = next_time + 1
       end
-
-      occ = ClassOccurrence.find( :classdef_id => self.classdef.id, :starttime => planned_start.to_time.iso8601 ) rescue nil
-
-      headcount = occ ? occ.headcount : 0
-      reservations = []
-      if occ && headcount > 0
-        reservations = occ.reservation_list.map { |r| { id: r[:id], customer_name: r[:customer_name], checked_in: !!r[:checked_in] } }
-      end
-
-      out << {
-        :sched_id => self.id,
-        :classdef_id => self.classdef.id,
-        :classdef_name => self.classdef.name,
-        :starttime => planned_start.to_time.iso8601,
-        :headcount => headcount,
-        :reservations => reservations,
-        :exception => exception ? exception.full_details : nil
-      }
-
-      cur = next_time + 1
+    rescue Exception => e
+      Slack.err('ClassdefSchedule#next_occurrences', e)
     end
     out
   end
