@@ -46,13 +46,16 @@ class ClassException < Sequel::Model
       :starttime   => self.original_starttime,
       :description => self.description,
       :type        => self.type,
-      :changes     => {
-        :sub         => self.teacher.try(:to_token),
-        :starttime   => self.starttime,
-        :endtime     => self.endtime,
-        :cancelled   => self.cancelled,
-        :hidden      => self.hidden,
-      }  
+      :changes     => self.changes
+    }
+  end
+
+  def changes
+    { :sub         => self.teacher.try(:to_token),
+      :starttime   => self.starttime,
+      :endtime     => self.endtime,
+      :cancelled   => self.cancelled,
+      :hidden      => self.hidden,
     }
   end
 
