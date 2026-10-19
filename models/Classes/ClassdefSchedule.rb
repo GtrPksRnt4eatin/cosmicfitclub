@@ -106,18 +106,13 @@ class ClassdefSchedule < Sequel::Model
     while out.length < count
       next_time = self.next_occurrence(cur) or break
       exception = ClassException.find( :classdef_id => self.classdef.id, :original_starttime => next_time.to_time.iso8601 ) rescue nil
-      next if exception && exception.changes[:cancelled]
+      next if exception && exception[:changes][:cancelled]
       
       # Apply any starttime change from the exception
       planned_start = next_time
-      if exception && exception.try(:changes)
-        new_start = exception.changes[:starttime] || exception.changes['starttime']
-        if new_start
-          begin
-            planned_start = Time.parse(new_start.to_s)
-          rescue
-          end
-        end
+      if exception && exception[:changes]
+        new_start = exception[:changes][:starttime]
+        planned_start = Time.parse(new_start.to_s) if new_start
       end
 
       occ = ClassOccurrence.find( :classdef_id => self.classdef.id, :starttime => planned_start.to_time.iso8601 ) rescue nil
