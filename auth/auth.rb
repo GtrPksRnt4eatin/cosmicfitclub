@@ -34,7 +34,12 @@ class CFCAuth < Sinatra::Base
   get( '/login'    ) { render_page :login    }
   get( '/onboard'  ) { render_page :onboard  }
   get( '/reset'    ) { render_page :reset    }
-  get( '/register' ) { render_page :register }
+  get '/register' do
+    Slack.website_access(
+      "Register Route Hit: ip=#{request.ip} referer=#{request.referer || 'none'} ua=#{request.user_agent || 'unknown'}"
+    )
+    render_page :onboard
+  end
   get( '/reset'    ) { render_page :activate }
   get( '/activate' ) {
     if params[:token] then

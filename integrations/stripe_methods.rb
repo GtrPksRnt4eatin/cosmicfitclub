@@ -29,9 +29,30 @@ module StripeMethods
   end
 
   def StripeMethods::PayoutVendor(amount, connected_acct_id, descriptor="Cosmic Fit Club")
-    transfer = Stripe::Transfer.create({ amount: amount, currency:"usd", destination: connected_acct_id, description: descriptor }) unless connected_acct_id=="acct_19PkJECHwAcud5J9"
-    payout = Stripe::Payout.create({ amount: amount, currency: "usd", statement_descriptor: descriptor }, {stripe_account: connected_acct_id })
+    recipient_name = StripeMethods::get_account_display_name(connected_acct_id)
+    payout_description = descriptor.to_s
+    payout_description = "#{descriptor} to #{recipient_name}" if recipient_name && !recipient_name.empty?
+    transfer = Stripe::Transfer.create({ amount: amount, currency:"usd", destination: connected_acct_id, description: payout_description }) unless connected_acct_id=="acct_19PkJECHwAcud5J9"
+    payout = Stripe::Payout.create({ amount: amount, currency: "usd", description: payout_description, statement_descriptor: descriptor }, {stripe_account: connected_acct_id })
     { transfer: transfer, payout: payout }
+  end
+
+  def StripeMethods::get_account_display_name(account_id)
+    return nil if account_id.nil? || account_id.to_s.empty?
+    account = Stripe::Account.retrieve(account_id)
+    name = account.dig('business_profile', 'name')
+    if (name.nil? || name.empty?) && account['individual']
+      first_name = account.dig('individual', 'first_name').to_s
+      last_name = account.dig('individual', 'last_name').to_s
+      full_name = "#{first_name} #{last_name}".strip
+      name = full_name unless full_name.empty?
+    end
+    if (name.nil? || name.empty?) && account['company']
+      name = account.dig('company', 'name')
+    end
+    name
+  rescue
+    nil
   end
 
   ############### Vendor Accounts ############### 
@@ -266,8 +287,8 @@ module StripeMethods
 
       if(x.type=="payout" && !!x.source)
         payout = Stripe::Payout.retrieve( x.source )
-        alt_description = payout && payout.statement_descriptor
-        alt_description += " to Cosmic Fit Club"
+        payout_description = payout && (payout.description || payout.statement_descriptor || "")
+        alt_description = "#{payout_description} to Cosmic Fit Club".strip
       end
       
       transactions << [
