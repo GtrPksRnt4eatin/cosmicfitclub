@@ -267,11 +267,23 @@ module StripeMethods
         payment_type = StripeMethods::payment_type_for_charge(x.source, x.description.to_s)
       end
 
+      description = x.description.to_s
+      if x.type.to_s == 'payout' && x.source
+        begin
+          payout = Stripe::Payout.retrieve(x.source)
+          payout_description = payout && (payout.description || payout.statement_descriptor || "")
+          unless payout_description.to_s.strip.empty?
+            description = "#{payout_description} to Cosmic Fit Club".strip
+          end
+        rescue
+        end
+      end
+
       transactions << {
         created: Time.at(x.created),
         type: x.type.to_s,
         payment_type: payment_type,
-        description: x.description.to_s,
+        description: description,
         amount_cents: x.amount.to_i,
         fee_cents: x.fee.to_i,
         net_cents: x.net.to_i,
@@ -296,7 +308,7 @@ module StripeMethods
       payment.tag
     elsif description =~ /donation/i
       'donation'
-    elsif description =~ /hour|package|pass/i
+    elsif description =~ /hour|package|pass|pack/i
       'package'
     else
       nil
@@ -304,12 +316,13 @@ module StripeMethods
   end
 
   def StripeMethods::transaction_section(type, payment_type, description)
+    return 'Transfers' if type == 'payout'
     return 'Transfers' if type == 'transfer'
     return 'Fees' if type == 'stripe_fee' || description =~ /fee/i
 
     return 'Class Purchases' if ['class_payment', 'event_ticket'].include?(payment_type)
     return 'Point Rentals' if payment_type.to_s =~ /rental/i || description =~ /rental/i
-    return 'Packages' if payment_type.to_s =~ /package/i || description =~ /package|hour|pass/i
+    return 'Packages' if payment_type.to_s =~ /package/i || description =~ /package|hour|pass|pack/i
     return 'Invoices' if payment_type.to_s =~ /invoice/i || description =~ /invoice/i
 
     if type == 'charge'
