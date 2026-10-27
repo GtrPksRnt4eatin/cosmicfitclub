@@ -296,7 +296,7 @@ module StripeMethods
       payment.tag
     elsif description =~ /donation/i
       'donation'
-    elsif description =~ /hour|package/i
+    elsif description =~ /hour|package|pass/i
       'package'
     else
       nil
@@ -309,7 +309,7 @@ module StripeMethods
 
     return 'Class Purchases' if ['class_payment', 'event_ticket'].include?(payment_type)
     return 'Point Rentals' if payment_type.to_s =~ /rental/i || description =~ /rental/i
-    return 'Packages' if payment_type.to_s =~ /package/i || description =~ /package|hour/i
+    return 'Packages' if payment_type.to_s =~ /package/i || description =~ /package|hour|pass/i
     return 'Invoices' if payment_type.to_s =~ /invoice/i || description =~ /invoice/i
 
     if type == 'charge'
