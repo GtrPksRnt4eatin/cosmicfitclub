@@ -244,20 +244,61 @@ module Sheets
   end
 
   def Sheets::monthly_transaction_rows(report)
-    rows = [["Time", "Type", "Description", "Amount", "Fee", "Net", "Currency", "ID", "Source"]]
-    report[:transactions].each do |row|
+    sections = [
+      'Class Purchases',
+      'Point Rentals',
+      'Packages',
+      'Invoices',
+      'Fees',
+      'Transfers',
+      'Other'
+    ]
+
+    rows = [["Stripe Transactions"]]
+
+    by_section = report[:transactions].group_by { |row| row[:section] }
+
+    sections.each do |section|
+      txns = (by_section[section] || []).sort_by { |row| row[:created] }
+      next if txns.empty?
+
+      subtotal_amount = txns.sum { |row| row[:amount_cents] }
+      subtotal_fee = txns.sum { |row| row[:fee_cents] }
+      subtotal_net = txns.sum { |row| row[:net_cents] }
+
+      rows << []
+      rows << [section]
+      rows << ["Time", "Type", "Payment Type", "Description", "Amount", "Fee", "Net", "Currency", "ID", "Source"]
+
+      txns.each do |row|
+        rows << [
+          row[:created].strftime('%Y-%m-%d %H:%M:%S'),
+          row[:type],
+          row[:payment_type].to_s,
+          row[:description],
+          row[:amount_cents].to_f / 100.0,
+          row[:fee_cents].to_f / 100.0,
+          row[:net_cents].to_f / 100.0,
+          row[:currency],
+          row[:id],
+          row[:source]
+        ]
+      end
+
       rows << [
-        row[:created].strftime('%Y-%m-%d %H:%M:%S'),
-        row[:type],
-        row[:description],
-        row[:amount_cents].to_f / 100.0,
-        row[:fee_cents].to_f / 100.0,
-        row[:net_cents].to_f / 100.0,
-        row[:currency],
-        row[:id],
-        row[:source]
+        "Subtotal",
+        "",
+        "",
+        "",
+        subtotal_amount.to_f / 100.0,
+        subtotal_fee.to_f / 100.0,
+        subtotal_net.to_f / 100.0,
+        "",
+        "",
+        ""
       ]
     end
+
     rows
   end
 
