@@ -89,6 +89,14 @@ class StaffRoutes < Sinatra::Base
     { :url => Sheets::create_payroll_sheet(params[:from],params[:to]) }.to_json
   end
 
+  get '/stripe_pnl_sheet' do
+    year = params[:year].to_i
+    month = params[:month].to_i
+    halt 422, { error: 'Year is required' }.to_json if year <= 0
+    halt 422, { error: 'Month must be 1-12' }.to_json if month < 1 || month > 12
+    { :url => Sheets::create_monthly_stripe_pnl_sheet(year, month) }.to_json
+  end
+
   post '/payroll' do
     data = Staff::payroll(params[:from],params[:to])
     proll = Payroll.create({ start_date: params[:from], end_date: params[:to]})

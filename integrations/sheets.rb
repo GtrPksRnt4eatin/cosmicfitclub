@@ -217,4 +217,69 @@ module Sheets
     return file.web_view_link || file.webViewLink
   end
 
+  def Sheets::money(cents)
+    "$ %.2f" % (cents.to_f / 100.0)
+  end
+
+  def Sheets::monthly_pnl_rows(report)
+    s = report[:summary]
+    from = report[:from]
+    to = report[:to]
+
+    [
+      ['Stripe P&L Summary'],
+      ['Period', "#{from} to #{to}"],
+      [],
+      ['Metric', 'Amount'],
+      ['Gross Sales (Charges)', Sheets::money(s[:gross_sales_cents])],
+      ['Refunds', Sheets::money(s[:refunds_cents])],
+      ['Disputes/Reversals', Sheets::money(s[:disputes_cents])],
+      ['Adjustments/Reserves', Sheets::money(s[:adjustments_cents])],
+      ['Stripe Fees', Sheets::money(s[:fees_cents])],
+      ['Transfers', Sheets::money(s[:transfers_cents])],
+      ['Payouts', Sheets::money(s[:payouts_cents])],
+      [],
+      ['Net Stripe Activity', Sheets::money(s[:net_cents])]
+    ]
+  end
+
+  def Sheets::monthly_transaction_rows(report)
+    rows = [["Time", "Type", "Description", "Amount", "Fee", "Net", "Currency", "ID", "Source"]]
+    report[:transactions].each do |row|
+      rows << [
+        row[:created].strftime('%Y-%m-%d %H:%M:%S'),
+        row[:type],
+        row[:description],
+        row[:amount_cents].to_f / 100.0,
+        row[:fee_cents].to_f / 100.0,
+        row[:net_cents].to_f / 100.0,
+        row[:currency],
+        row[:id],
+        row[:source]
+      ]
+    end
+    rows
+  end
+
+  def Sheets::create_monthly_stripe_pnl_sheet(year, month)
+    year = year.to_i
+    month = month.to_i
+    start = Date.new(year, month, 1)
+    finish = start.next_month.prev_day
+
+    report = StripeMethods::monthly_pnl_report(start.to_s, finish.to_s)
+    sheets, drive = Sheets::get_service2
+
+    title = "#{start.strftime('%Y-%m')} Stripe P&L"
+    file = Sheets::create_sheet(drive, title, "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n")
+
+    Sheets::rename_sheet(sheets, file.id, 0, "P&L")
+    Sheets::fill_sheet(sheets, file.id, "P&L", Sheets::monthly_pnl_rows(report))
+
+    Sheets::add_sheet(sheets, file.id, "Transactions")
+    Sheets::fill_sheet(sheets, file.id, "Transactions", Sheets::monthly_transaction_rows(report))
+
+    file.web_view_link || file.webViewLink
+  end
+
 end

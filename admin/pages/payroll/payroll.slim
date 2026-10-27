@@ -24,6 +24,7 @@ html
 
         input rv-daterangefield='data.range' rv-on-change='ctrl.get_data'
         button rv-on-click='ctrl.generate_payroll'   Generate Payroll
+        button rv-on-click='ctrl.generate_stripe_pnl' Generate Stripe P&L Sheet
 
       .tile rv-each-staff='data.payroll'
         table.paystub

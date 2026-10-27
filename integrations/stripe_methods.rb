@@ -40,19 +40,28 @@ module StripeMethods
   def StripeMethods::get_account_display_name(account_id)
     return nil if account_id.nil? || account_id.to_s.empty?
     account = Stripe::Account.retrieve(account_id)
-    name = account.dig('business_profile', 'name')
-    if (name.nil? || name.empty?) && account['individual']
-      first_name = account.dig('individual', 'first_name').to_s
-      last_name = account.dig('individual', 'last_name').to_s
-      full_name = "#{first_name} #{last_name}".strip
-      name = full_name unless full_name.empty?
-    end
-    if (name.nil? || name.empty?) && account['company']
-      name = account.dig('company', 'name')
-    end
-    name
+    first_name = StripeMethods::stripe_value(account, 'individual', 'first_name').to_s
+    last_name = StripeMethods::stripe_value(account, 'individual', 'last_name').to_s
+    full_name = "#{first_name} #{last_name}".gsub(/\s+/, ' ').strip
+    return full_name unless full_name.empty?
+    company = StripeMethods::stripe_value(account, 'company', 'name').to_s.gsub(/\s+/, ' ').strip
+    return company unless company.empty?
+    nil
   rescue
     nil
+  end
+
+  def StripeMethods::stripe_value(object, *keys)
+    value = object
+    keys.each do |key|
+      return nil if value.nil?
+      if value.respond_to?(:[])
+        value = value[key] || value[key.to_s] || value[key.to_sym]
+      else
+        return nil
+      end
+    end
+    value
   end
 
   ############### Vendor Accounts ############### 
@@ -245,6 +254,59 @@ module StripeMethods
     end.map(&:net).reduce(0,:+)
 
     return { :gross => trans.try(:amount), :fees =>  trans.try(:fee), :refunds => refunds, :net => refunds + trans.try(:net),   }
+  end
+
+  def StripeMethods::list_balance_transactions(from, to)
+    transactions = []
+    Stripe::BalanceTransaction.list({
+      created: { gte: Time.parse(from).to_i, lte: Time.parse(to).to_i },
+      limit: 100
+    }).auto_paging_each do |x|
+      transactions << {
+        created: Time.at(x.created),
+        type: x.type.to_s,
+        description: x.description.to_s,
+        amount_cents: x.amount.to_i,
+        fee_cents: x.fee.to_i,
+        net_cents: x.net.to_i,
+        id: x.id.to_s,
+        source: x.source.to_s,
+        currency: x.currency.to_s.upcase
+      }
+    end
+    transactions.sort_by { |row| row[:created] }
+  end
+
+  def StripeMethods::monthly_pnl_report(from, to)
+    transactions = StripeMethods::list_balance_transactions(from, to)
+
+    by_type = transactions.group_by { |row| row[:type] }
+    amount_for = lambda { |type| (by_type[type] || []).sum { |row| row[:amount_cents] } }
+
+    gross_sales_cents = amount_for.call('charge')
+    refunds_cents = amount_for.call('refund')
+    disputes_cents = amount_for.call('payment_reversal') + amount_for.call('payment_failure_refund')
+    adjustments_cents = amount_for.call('adjustment') + amount_for.call('reserve_transaction')
+    payouts_cents = amount_for.call('payout')
+    transfers_cents = amount_for.call('transfer')
+    fees_cents = transactions.sum { |row| row[:fee_cents] }
+    net_cents = transactions.sum { |row| row[:net_cents] }
+
+    {
+      from: Date.parse(from),
+      to: Date.parse(to),
+      summary: {
+        gross_sales_cents: gross_sales_cents,
+        refunds_cents: refunds_cents,
+        disputes_cents: disputes_cents,
+        adjustments_cents: adjustments_cents,
+        payouts_cents: payouts_cents,
+        transfers_cents: transfers_cents,
+        fees_cents: fees_cents,
+        net_cents: net_cents
+      },
+      transactions: transactions
+    }
   end
 
   def StripeMethods::get_transactions(from, to)
