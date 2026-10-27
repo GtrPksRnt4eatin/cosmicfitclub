@@ -303,7 +303,7 @@ module StripeMethods
     if payment.tickets.count > 0
       'event_ticket'
     elsif payment.class_reservation_id
-      'class_payment'
+      description =~ /point/i ? 'rental' : 'class_payment'  
     elsif payment.tag && !payment.tag.empty?
       payment.tag
     elsif description =~ /donation/i
