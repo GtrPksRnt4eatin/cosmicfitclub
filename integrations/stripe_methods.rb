@@ -262,19 +262,61 @@ module StripeMethods
       created: { gte: Time.parse(from).to_i, lte: Time.parse(to).to_i },
       limit: 100
     }).auto_paging_each do |x|
+      payment_type = nil
+      if x.type.to_s == 'charge' && x.source
+        payment_type = StripeMethods::payment_type_for_charge(x.source, x.description.to_s)
+      end
+
       transactions << {
         created: Time.at(x.created),
         type: x.type.to_s,
+        payment_type: payment_type,
         description: x.description.to_s,
         amount_cents: x.amount.to_i,
         fee_cents: x.fee.to_i,
         net_cents: x.net.to_i,
         id: x.id.to_s,
         source: x.source.to_s,
-        currency: x.currency.to_s.upcase
+        currency: x.currency.to_s.upcase,
+        section: StripeMethods::transaction_section(x.type.to_s, payment_type, x.description.to_s)
       }
     end
     transactions.sort_by { |row| row[:created] }
+  end
+
+  def StripeMethods::payment_type_for_charge(source_id, description)
+    payment = CustomerPayment.find(:stripe_id => source_id) rescue nil
+    return nil if payment.nil?
+
+    if payment.tickets.count > 0
+      'event_ticket'
+    elsif payment.class_reservation_id
+      'class_payment'
+    elsif payment.tag && !payment.tag.empty?
+      payment.tag
+    elsif description =~ /donation/i
+      'donation'
+    elsif description =~ /hour|package/i
+      'package'
+    else
+      nil
+    end
+  end
+
+  def StripeMethods::transaction_section(type, payment_type, description)
+    return 'Transfers' if type == 'transfer'
+    return 'Fees' if type == 'stripe_fee' || description =~ /fee/i
+
+    return 'Class Purchases' if ['class_payment', 'event_ticket'].include?(payment_type)
+    return 'Point Rentals' if payment_type.to_s =~ /rental/i || description =~ /rental/i
+    return 'Packages' if payment_type.to_s =~ /package/i || description =~ /package|hour/i
+    return 'Invoices' if payment_type.to_s =~ /invoice/i || description =~ /invoice/i
+
+    if type == 'charge'
+      return 'Class Purchases'
+    end
+
+    'Other'
   end
 
   def StripeMethods::monthly_pnl_report(from, to)
