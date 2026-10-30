@@ -302,23 +302,72 @@ module Sheets
     rows
   end
 
-  def Sheets::create_monthly_stripe_pnl_sheet(year, month)
-    year = year.to_i
-    month = month.to_i
-    start = Date.new(year, month, 1)
-    finish = start.next_month.prev_day
+  def Sheets::month_slices(from_date, to_date)
+    current = Date.new(from_date.year, from_date.month, 1)
+    last = Date.new(to_date.year, to_date.month, 1)
+    slices = []
 
-    report = StripeMethods::monthly_pnl_report(start.to_s, finish.to_s)
+    while current <= last
+      month_start = [current, from_date].max
+      month_end = [current.next_month.prev_day, to_date].min
+      slices << [month_start, month_end]
+      current = current.next_month
+    end
+
+    slices
+  end
+
+  def Sheets::pnl_month_tab_rows(month_start, month_end)
+    report = StripeMethods::monthly_pnl_report(month_start.to_s, month_end.to_s)
+    rows = []
+    rows.concat(Sheets::monthly_pnl_rows(report))
+    rows << []
+    rows.concat(Sheets::monthly_transaction_rows(report))
+    rows
+  end
+
+  def Sheets::create_monthly_stripe_pnl_sheet(year_or_from, month_or_to)
+    if year_or_from.to_s =~ /^\d{4}$/ && month_or_to.to_s =~ /^\d{1,2}$/
+      year = year_or_from.to_i
+      month = month_or_to.to_i
+      start = Date.new(year, month, 1)
+      finish = start.next_month.prev_day
+    else
+      start = Date.parse(year_or_from.to_s)
+      finish = Date.parse(month_or_to.to_s)
+      start, finish = finish, start if finish < start
+    end
+
+    month_ranges = Sheets::month_slices(start, finish)
     sheets, drive = Sheets::get_service2
 
-    title = "#{start.strftime('%Y-%m')} Stripe P&L"
+    title = if month_ranges.length > 1
+      "#{start.strftime('%Y-%m-%d')} to #{finish.strftime('%Y-%m-%d')} Stripe P&L"
+    else
+      "#{start.strftime('%Y-%m')} Stripe P&L"
+    end
+
     file = Sheets::create_sheet(drive, title, "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n")
 
-    Sheets::rename_sheet(sheets, file.id, 0, "P&L")
-    Sheets::fill_sheet(sheets, file.id, "P&L", Sheets::monthly_pnl_rows(report))
+    if month_ranges.length > 1
+      first_start, first_end = month_ranges.first
+      first_tab = first_start.strftime('%b %Y')
+      Sheets::rename_sheet(sheets, file.id, 0, first_tab)
+      Sheets::fill_sheet(sheets, file.id, first_tab, Sheets::pnl_month_tab_rows(first_start, first_end))
 
-    Sheets::add_sheet(sheets, file.id, "Transactions")
-    Sheets::fill_sheet(sheets, file.id, "Transactions", Sheets::monthly_transaction_rows(report))
+      month_ranges[1..-1].each do |month_start, month_end|
+        tab_name = month_start.strftime('%b %Y')
+        Sheets::add_sheet(sheets, file.id, tab_name)
+        Sheets::fill_sheet(sheets, file.id, tab_name, Sheets::pnl_month_tab_rows(month_start, month_end))
+      end
+    else
+      report = StripeMethods::monthly_pnl_report(start.to_s, finish.to_s)
+      Sheets::rename_sheet(sheets, file.id, 0, "P&L")
+      Sheets::fill_sheet(sheets, file.id, "P&L", Sheets::monthly_pnl_rows(report))
+
+      Sheets::add_sheet(sheets, file.id, "Transactions")
+      Sheets::fill_sheet(sheets, file.id, "Transactions", Sheets::monthly_transaction_rows(report))
+    end
 
     file.web_view_link || file.webViewLink
   end

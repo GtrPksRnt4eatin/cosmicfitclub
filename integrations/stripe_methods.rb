@@ -316,6 +316,7 @@ module StripeMethods
   end
 
   def StripeMethods::transaction_section(type, payment_type, description)
+    return 'Class Purchases' if type == 'refund'
     return 'Transfers' if type == 'payout'
     return 'Transfers' if type == 'transfer'
     return 'Fees' if type == 'stripe_fee' || description =~ /fee/i
