@@ -90,9 +90,23 @@ class StaffRoutes < Sinatra::Base
   end
 
   get '/stripe_pnl_sheet' do
+    from = params[:from].to_s.strip
+    to = params[:to].to_s.strip
+
+    if !from.empty? && !to.empty?
+      begin
+        Date.parse(from)
+        Date.parse(to)
+      rescue
+        halt 422, { error: 'from and to must be valid dates (YYYY-MM-DD)' }.to_json
+      end
+
+      return({ :url => Sheets::create_monthly_stripe_pnl_sheet(from, to) }.to_json)
+    end
+
     year = params[:year].to_i
     month = params[:month].to_i
-    halt 422, { error: 'Year is required' }.to_json if year <= 0
+    halt 422, { error: 'Provide either from/to or year/month' }.to_json if year <= 0
     halt 422, { error: 'Month must be 1-12' }.to_json if month < 1 || month > 12
     { :url => Sheets::create_monthly_stripe_pnl_sheet(year, month) }.to_json
   end
