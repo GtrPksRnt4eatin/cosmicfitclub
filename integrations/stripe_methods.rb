@@ -287,6 +287,7 @@ module StripeMethods
       end
 
       description = x.description.to_s
+      description = StripeMethods::invoice_description_with_recipient(description, x.source, payment_type)
       if x.type.to_s == 'payout' && x.source
         begin
           payout = Stripe::Payout.retrieve(x.source)
@@ -332,6 +333,74 @@ module StripeMethods
     else
       nil
     end
+  end
+
+  def StripeMethods::charge_recipient_name(source_id)
+    return nil if source_id.nil? || source_id.to_s.empty?
+    key = source_id.to_s
+    @charge_recipient_cache ||= {}
+    return @charge_recipient_cache[key] if @charge_recipient_cache.key?(key)
+
+    payment = CustomerPayment.find(:stripe_id => key) rescue nil
+    if payment && payment.customer
+      name = payment.customer.name.to_s.gsub(/\s+/, ' ').strip
+      recipient = name.empty? ? payment.customer.email.to_s.gsub(/\s+/, ' ').strip : name
+      @charge_recipient_cache[key] = recipient.empty? ? nil : recipient
+      return @charge_recipient_cache[key]
+    end
+
+    recipient = nil
+
+    charge = Stripe::Charge.retrieve(key) rescue nil
+    if charge
+      name = StripeMethods::stripe_value(charge, 'billing_details', 'name').to_s.gsub(/\s+/, ' ').strip
+      email = StripeMethods::stripe_value(charge, 'billing_details', 'email').to_s.gsub(/\s+/, ' ').strip
+      receipt_email = StripeMethods::stripe_value(charge, 'receipt_email').to_s.gsub(/\s+/, ' ').strip
+      recipient = name unless name.empty?
+      recipient = email if recipient.nil? || recipient.empty?
+      recipient = receipt_email if (recipient.nil? || recipient.empty?) && !receipt_email.empty?
+
+      if recipient.nil? || recipient.empty?
+        customer_id = StripeMethods::stripe_value(charge, 'customer').to_s
+        if !customer_id.empty?
+          stripe_customer = Stripe::Customer.retrieve(customer_id) rescue nil
+          customer_name = StripeMethods::stripe_value(stripe_customer, 'name').to_s.gsub(/\s+/, ' ').strip
+          customer_email = StripeMethods::stripe_value(stripe_customer, 'email').to_s.gsub(/\s+/, ' ').strip
+          recipient = customer_name unless customer_name.empty?
+          recipient = customer_email if (recipient.nil? || recipient.empty?) && !customer_email.empty?
+        end
+      end
+
+      if recipient.nil? || recipient.empty?
+        invoice_id = StripeMethods::stripe_value(charge, 'invoice').to_s
+        if !invoice_id.empty?
+          invoice = Stripe::Invoice.retrieve(invoice_id) rescue nil
+          invoice_name = StripeMethods::stripe_value(invoice, 'customer_name').to_s.gsub(/\s+/, ' ').strip
+          invoice_email = StripeMethods::stripe_value(invoice, 'customer_email').to_s.gsub(/\s+/, ' ').strip
+          recipient = invoice_name unless invoice_name.empty?
+          recipient = invoice_email if (recipient.nil? || recipient.empty?) && !invoice_email.empty?
+        end
+      end
+    end
+
+    recipient = recipient.to_s.gsub(/\s+/, ' ').strip
+    @charge_recipient_cache[key] = recipient.empty? ? nil : recipient
+    @charge_recipient_cache[key]
+  rescue
+    nil
+  end
+
+  def StripeMethods::invoice_description_with_recipient(description, source_id, payment_type=nil)
+    text = description.to_s.strip
+    is_invoice = payment_type.to_s =~ /invoice/i || text =~ /invoice/i
+    return text unless is_invoice
+
+    recipient = StripeMethods::charge_recipient_name(source_id)
+    return text if recipient.nil? || recipient.empty?
+    return text if text =~ /\bto\s+#{Regexp.escape(recipient)}\s*$/i
+    return "Invoice to #{recipient}" if text.empty?
+
+    "#{text} to #{recipient}"
   end
 
   def StripeMethods::transaction_section(type, payment_type, description)
@@ -427,12 +496,14 @@ module StripeMethods
         payout_description = payout && (payout.description || payout.statement_descriptor || "")
         alt_description = "#{payout_description} to Cosmic Fit Club".strip
       end
+
+      description = StripeMethods::invoice_description_with_recipient(x.description.to_s, x.source, payment_type)
       
       transactions << [
         Time.at(x.created).to_s,
         x.type.to_s,
         payment_type,
-        alt_description || x.description.to_s,
+        alt_description || description,
         (x.amount / 100.0),
         (x.fee / 100.0),
         (x.net / 100.0),

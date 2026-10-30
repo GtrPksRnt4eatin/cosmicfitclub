@@ -258,8 +258,23 @@ module Sheets
 
     by_section = report[:transactions].group_by { |row| row[:section] }
 
+    transfer_recipient = lambda do |row|
+      description = row[:description].to_s.strip
+      match = description.match(/\bto\s+(.+)\z/i)
+      recipient = match && !match[1].to_s.strip.empty? ? match[1].to_s.strip : description
+      recipient.empty? ? 'Unknown' : recipient
+    end
+
     sections.each do |section|
-      txns = (by_section[section] || []).sort_by { |row| row[:created] }
+      txns = by_section[section] || []
+      txns = if section == 'Transfers'
+        txns.sort_by do |row|
+          recipient_key = transfer_recipient.call(row).downcase
+          [recipient_key, row[:created]]
+        end
+      else
+        txns.sort_by { |row| row[:created] }
+      end
       next if txns.empty?
 
       subtotal_amount = txns.sum { |row| row[:amount_cents] }
@@ -270,19 +285,60 @@ module Sheets
       rows << [section]
       rows << ["Time", "Type", "Payment Type", "Description", "Amount", "Fee", "Net", "Currency", "ID", "Source"]
 
-      txns.each do |row|
-        rows << [
-          row[:created].strftime('%Y-%m-%d %H:%M:%S'),
-          row[:type],
-          row[:payment_type].to_s,
-          row[:description],
-          row[:amount_cents].to_f / 100.0,
-          row[:fee_cents].to_f / 100.0,
-          row[:net_cents].to_f / 100.0,
-          row[:currency],
-          row[:id],
-          row[:source]
-        ]
+      if section == 'Transfers'
+        grouped = txns.group_by { |row| transfer_recipient.call(row) }
+        grouped.keys.sort.each do |recipient|
+          recipient_rows = grouped[recipient].sort_by { |row| row[:created] }
+          recipient_amount = recipient_rows.sum { |row| row[:amount_cents] }
+          recipient_fee = recipient_rows.sum { |row| row[:fee_cents] }
+          recipient_net = recipient_rows.sum { |row| row[:net_cents] }
+
+          rows << []
+          rows << ["Recipient: #{recipient}"]
+
+          recipient_rows.each do |row|
+            rows << [
+              row[:created].strftime('%Y-%m-%d %H:%M:%S'),
+              row[:type],
+              row[:payment_type].to_s,
+              row[:description],
+              row[:amount_cents].to_f / 100.0,
+              row[:fee_cents].to_f / 100.0,
+              row[:net_cents].to_f / 100.0,
+              row[:currency],
+              row[:id],
+              row[:source]
+            ]
+          end
+
+          rows << [
+            "Recipient Subtotal",
+            "",
+            "",
+            "",
+            recipient_amount.to_f / 100.0,
+            recipient_fee.to_f / 100.0,
+            recipient_net.to_f / 100.0,
+            "",
+            "",
+            ""
+          ]
+        end
+      else
+        txns.each do |row|
+          rows << [
+            row[:created].strftime('%Y-%m-%d %H:%M:%S'),
+            row[:type],
+            row[:payment_type].to_s,
+            row[:description],
+            row[:amount_cents].to_f / 100.0,
+            row[:fee_cents].to_f / 100.0,
+            row[:net_cents].to_f / 100.0,
+            row[:currency],
+            row[:id],
+            row[:source]
+          ]
+        end
       end
 
       rows << [
