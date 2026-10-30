@@ -5,6 +5,25 @@ Stripe.api_key = ENV['STRIPE_SECRET']
 
 module StripeMethods
 
+  def StripeMethods::stripe_created_bounds(from, to)
+    from_str = from.to_s.strip
+    to_str = to.to_s.strip
+
+    from_time = Time.parse(from_str)
+    to_time = Time.parse(to_str)
+
+    from_date_only = from_str =~ /^\d{4}-\d{2}-\d{2}$/
+    to_date_only = to_str =~ /^\d{4}-\d{2}-\d{2}$/
+
+    from_time = Time.parse("#{from_str} 00:00:00") if from_date_only
+    to_time = Time.parse("#{to_str} 00:00:00") if to_date_only
+
+    from_time, to_time = to_time, from_time if to_time < from_time
+    to_exclusive = to_date_only ? (to_time + 86_400) : to_time
+
+    { gte: from_time.to_i, lt: to_exclusive.to_i }
+  end
+
   ############### Vendor Accounts ############### 
 
   def StripeMethods::create_new_vendor_account(email)
@@ -259,7 +278,7 @@ module StripeMethods
   def StripeMethods::list_balance_transactions(from, to)
     transactions = []
     Stripe::BalanceTransaction.list({
-      created: { gte: Time.parse(from).to_i, lte: Time.parse(to).to_i },
+      created: StripeMethods::stripe_created_bounds(from, to),
       limit: 100
     }).auto_paging_each do |x|
       payment_type = nil
@@ -316,12 +335,12 @@ module StripeMethods
   end
 
   def StripeMethods::transaction_section(type, payment_type, description)
-    return 'Class Purchases' if type == 'refund'
     return 'Transfers' if type == 'payout'
     return 'Transfers' if type == 'transfer'
     return 'Fees' if type == 'stripe_fee' || description =~ /fee/i
 
-    return 'Class Purchases' if ['class_payment', 'event_ticket'].include?(payment_type)
+    return 'Event Tickets' if payment_type == 'event_ticket'
+    return 'Class Purchases' if payment_type == 'class_payment'
     return 'Point Rentals' if payment_type.to_s =~ /rental/i || description =~ /rental/i
     return 'Packages' if payment_type.to_s =~ /package/i || description =~ /package|hour|pass|pack/i
     return 'Invoices' if payment_type.to_s =~ /invoice/i || description =~ /invoice/i
@@ -368,7 +387,7 @@ module StripeMethods
   def StripeMethods::get_transactions(from, to)
     transactions = []
     Stripe::BalanceTransaction.list({ 
-      created: { gte: Time.parse(from).to_i, lte: Time.parse(to).to_i }, 
+      created: StripeMethods::stripe_created_bounds(from, to), 
       limit: 100
     }).auto_paging_each do |x|
       payment_type = nil

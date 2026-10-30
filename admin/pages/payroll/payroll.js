@@ -28,9 +28,7 @@ ctrl = {
   },
   generate_stripe_pnl: function(e,m) {
     if(!(data['from'] && data['to'])) { return; }
-    var dt = moment.parseZone(data['from']);
-    if(!dt.isValid()) { alert('Pick a valid date range first'); return; }
-    $.get('/models/staff/stripe_pnl_sheet', { year: dt.year(), month: dt.month() + 1 }, on_save_to_drive)
+    $.get('/models/staff/stripe_pnl_sheet', { from: data['from'], to: data['to'] }, on_save_to_drive)
      .fail(function(err) { alert('Failed to create Stripe P&L sheet'); console.log(err); });
   },
   generate_payroll: function(e,m) {
