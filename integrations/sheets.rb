@@ -259,10 +259,7 @@ module Sheets
     by_section = report[:transactions].group_by { |row| row[:section] }
 
     transfer_recipient = lambda do |row|
-      description = row[:description].to_s.strip
-      parts = description.split(/\bto\b/i).map { |part| part.to_s.strip }.reject(&:empty?)
-      recipient = parts.length > 1 ? parts.last : description
-      recipient.empty? ? 'Unknown' : recipient
+      Sheets::transfer_recipient_from_description(row[:description])
     end
 
     sections.each do |section|
@@ -358,6 +355,152 @@ module Sheets
     rows
   end
 
+  def Sheets::transfer_recipient_from_description(description)
+    text = description.to_s.strip
+    parts = text.split(/\bto\b/i).map { |part| part.to_s.strip }.reject(&:empty?)
+    recipient = parts.length > 1 ? parts.last : text
+    recipient.empty? ? 'Unknown' : recipient
+  end
+
+  def Sheets::transfer_totals_by_recipient(report)
+    totals = Hash.new(0)
+    report[:transactions].each do |row|
+      next unless row[:section] == 'Transfers'
+      recipient = Sheets::transfer_recipient_from_description(row[:description])
+      totals[recipient] += row[:amount_cents].to_i.abs
+    end
+    totals
+  end
+
+  def Sheets::period_metrics(report)
+    by_section = report[:transactions].group_by { |row| row[:section] }
+    sum_section = lambda { |name| (by_section[name] || []).sum { |row| row[:amount_cents].to_i } }
+
+    {
+      class_payments_cents: sum_section.call('Class Purchases'),
+      point_rentals_cents: sum_section.call('Point Rentals'),
+      packages_cents: sum_section.call('Packages'),
+      event_tickets_cents: sum_section.call('Event Tickets'),
+      room_rentals_cents: sum_section.call('Invoices'),
+      refunds_cents: report[:summary][:refunds_cents].to_i.abs,
+      stripe_fees_cents: report[:summary][:fees_cents].to_i.abs,
+      transfer_totals_cents: Sheets::transfer_totals_by_recipient(report)
+    }
+  end
+
+  def Sheets::transfer_total_for(metrics, label)
+    key = metrics[:transfer_totals_cents].keys.find { |name| name.to_s.downcase == label.to_s.downcase }
+    key ? metrics[:transfer_totals_cents][key].to_i : 0
+  end
+
+  def Sheets::metrics_value(metrics, key)
+    cosmic_fit = Sheets::transfer_total_for(metrics, 'Cosmic Fit Club')
+    cosmic_loft = Sheets::transfer_total_for(metrics, 'Cosmic Loft')
+    others = metrics[:transfer_totals_cents]
+      .reject { |name, _| ['cosmic fit club', 'cosmic loft'].include?(name.to_s.downcase) }
+      .values
+      .sum
+
+    income_total =
+      metrics[:class_payments_cents].to_i +
+      metrics[:point_rentals_cents].to_i +
+      metrics[:packages_cents].to_i +
+      metrics[:event_tickets_cents].to_i +
+      metrics[:room_rentals_cents].to_i
+
+    expenses_total =
+      metrics[:refunds_cents].to_i +
+      metrics[:stripe_fees_cents].to_i +
+      cosmic_fit + cosmic_loft + others
+
+    if key.is_a?(String)
+      return Sheets::transfer_total_for(metrics, key)
+    end
+
+    case key
+    when :class_payments_cents then metrics[:class_payments_cents].to_i
+    when :point_rentals_cents then metrics[:point_rentals_cents].to_i
+    when :packages_cents then metrics[:packages_cents].to_i
+    when :event_tickets_cents then metrics[:event_tickets_cents].to_i
+    when :room_rentals_cents then metrics[:room_rentals_cents].to_i
+    when :paypal_income_cents then nil
+    when :total_income_cents then income_total
+    when :income_less_room_cents then income_total - metrics[:room_rentals_cents].to_i
+    when :refunds_cents then metrics[:refunds_cents].to_i
+    when :stripe_fees_cents then metrics[:stripe_fees_cents].to_i
+    when :cosmic_fit_club_cents then cosmic_fit
+    when :cosmic_loft_cents then cosmic_loft
+    when :other_transfer_total_cents then others
+    when :chase_expenses_cents then nil
+    when :paypal_expenses_cents then nil
+    when :total_expenses_cents then expenses_total
+    when :net_cents then income_total - expenses_total
+    when :net_less_loft_cents then (income_total - expenses_total) - cosmic_loft
+    else
+      nil
+    end
+  end
+
+  def Sheets::period_summary_row(label, key, month_metrics, period_metrics)
+    values = month_metrics.map do |metrics|
+      cents = Sheets::metrics_value(metrics, key)
+      cents.nil? ? nil : (cents.to_f / 100.0)
+    end
+
+    total_cents = Sheets::metrics_value(period_metrics, key)
+    total_value = total_cents.nil? ? nil : (total_cents.to_f / 100.0)
+
+    [label, ""] + values + ["", total_value]
+  end
+
+  def Sheets::period_summary_rows(month_ranges, month_reports, period_report)
+    month_labels = month_ranges.map { |month_start, _month_end| month_start.strftime('%b').upcase }
+    month_metrics = month_reports.map { |report| Sheets::period_metrics(report) }
+    period_metrics = Sheets::period_metrics(period_report)
+
+    other_recipients = period_metrics[:transfer_totals_cents].keys
+      .reject { |name| ['cosmic fit club', 'cosmic loft'].include?(name.to_s.downcase) }
+      .sort
+
+    rows = []
+    rows << ['Stripe Period Summary']
+    rows << ['Category', ''] + month_labels + ['', "#{period_report[:from]} to #{period_report[:to]}"]
+    rows << []
+
+    rows << Sheets::period_summary_row('class_payments', :class_payments_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('point_rentals', :point_rentals_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('packages', :packages_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('event_tickets', :event_tickets_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('room_rentals', :room_rentals_cents, month_metrics, period_metrics)
+    rows << []
+    rows << Sheets::period_summary_row('paypal_income', :paypal_income_cents, month_metrics, period_metrics)
+    rows << []
+    rows << Sheets::period_summary_row('TOTAL INCOME', :total_income_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('INCOME LESS ROOM RENTALS', :income_less_room_cents, month_metrics, period_metrics)
+    rows << []
+    rows << Sheets::period_summary_row('refunds', :refunds_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('stripe_fees', :stripe_fees_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('Cosmic Fit Club', :cosmic_fit_club_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('Cosmic Loft', :cosmic_loft_cents, month_metrics, period_metrics)
+
+    other_recipients.each do |recipient|
+      rows << Sheets::period_summary_row(recipient, recipient, month_metrics, period_metrics)
+    end
+
+    rows << []
+    rows << Sheets::period_summary_row('PAYROLL TOTAL', :other_transfer_total_cents, month_metrics, period_metrics)
+    rows << []
+    rows << Sheets::period_summary_row('Chase Expenses', :chase_expenses_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('Paypal Expenses', :paypal_expenses_cents, month_metrics, period_metrics)
+    rows << []
+    rows << Sheets::period_summary_row('TOTAL EXPENSES', :total_expenses_cents, month_metrics, period_metrics)
+    rows << []
+    rows << Sheets::period_summary_row('NET', :net_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('NET LESS LOFT', :net_less_loft_cents, month_metrics, period_metrics)
+
+    rows
+  end
+
   def Sheets::month_slices(from_date, to_date)
     current = Date.new(from_date.year, from_date.month, 1)
     last = Date.new(to_date.year, to_date.month, 1)
@@ -375,6 +518,10 @@ module Sheets
 
   def Sheets::pnl_month_tab_rows(month_start, month_end)
     report = StripeMethods::monthly_pnl_report(month_start.to_s, month_end.to_s)
+    Sheets::pnl_month_tab_rows_from_report(report)
+  end
+
+  def Sheets::pnl_month_tab_rows_from_report(report)
     rows = []
     rows.concat(Sheets::monthly_pnl_rows(report))
     rows << []
@@ -395,6 +542,10 @@ module Sheets
     end
 
     month_ranges = Sheets::month_slices(start, finish)
+    month_reports = month_ranges.map do |month_start, month_end|
+      StripeMethods::monthly_pnl_report(month_start.to_s, month_end.to_s)
+    end
+    period_report = StripeMethods::monthly_pnl_report(start.to_s, finish.to_s)
     sheets, drive = Sheets::get_service2
 
     title = if month_ranges.length > 1
@@ -405,24 +556,18 @@ module Sheets
 
     file = Sheets::create_sheet(drive, title, "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n")
 
-    if month_ranges.length > 1
-      first_start, first_end = month_ranges.first
-      first_tab = first_start.strftime('%b %Y')
-      Sheets::rename_sheet(sheets, file.id, 0, first_tab)
-      Sheets::fill_sheet(sheets, file.id, first_tab, Sheets::pnl_month_tab_rows(first_start, first_end))
+    Sheets::rename_sheet(sheets, file.id, 0, "Summary")
+    Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, period_report))
 
-      month_ranges[1..-1].each do |month_start, month_end|
-        tab_name = month_start.strftime('%b %Y')
+    month_ranges.each_with_index do |(month_start, _month_end), index|
+      tab_name = month_start.strftime('%b %Y')
+      report = month_reports[index]
+      if index == 0
         Sheets::add_sheet(sheets, file.id, tab_name)
-        Sheets::fill_sheet(sheets, file.id, tab_name, Sheets::pnl_month_tab_rows(month_start, month_end))
+      else
+        Sheets::add_sheet(sheets, file.id, tab_name)
       end
-    else
-      report = StripeMethods::monthly_pnl_report(start.to_s, finish.to_s)
-      Sheets::rename_sheet(sheets, file.id, 0, "P&L")
-      Sheets::fill_sheet(sheets, file.id, "P&L", Sheets::monthly_pnl_rows(report))
-
-      Sheets::add_sheet(sheets, file.id, "Transactions")
-      Sheets::fill_sheet(sheets, file.id, "Transactions", Sheets::monthly_transaction_rows(report))
+      Sheets::fill_sheet(sheets, file.id, tab_name, Sheets::pnl_month_tab_rows_from_report(report))
     end
 
     file.web_view_link || file.webViewLink
