@@ -260,8 +260,8 @@ module Sheets
 
     transfer_recipient = lambda do |row|
       description = row[:description].to_s.strip
-      match = description.match(/\bto\s+(.+)\z/i)
-      recipient = match && !match[1].to_s.strip.empty? ? match[1].to_s.strip : description
+      parts = description.split(/\bto\b/i).map { |part| part.to_s.strip }.reject(&:empty?)
+      recipient = parts.length > 1 ? parts.last : description
       recipient.empty? ? 'Unknown' : recipient
     end
 
