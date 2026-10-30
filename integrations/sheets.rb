@@ -453,10 +453,38 @@ module Sheets
     [label, ""] + values + ["", total_value]
   end
 
-  def Sheets::period_summary_rows(month_ranges, month_reports, period_report)
+  def Sheets::aggregate_period_metrics(month_metrics)
+    totals = {
+      class_payments_cents: 0,
+      point_rentals_cents: 0,
+      packages_cents: 0,
+      event_tickets_cents: 0,
+      room_rentals_cents: 0,
+      refunds_cents: 0,
+      stripe_fees_cents: 0,
+      transfer_totals_cents: Hash.new(0)
+    }
+
+    month_metrics.each do |metrics|
+      totals[:class_payments_cents] += metrics[:class_payments_cents].to_i
+      totals[:point_rentals_cents] += metrics[:point_rentals_cents].to_i
+      totals[:packages_cents] += metrics[:packages_cents].to_i
+      totals[:event_tickets_cents] += metrics[:event_tickets_cents].to_i
+      totals[:room_rentals_cents] += metrics[:room_rentals_cents].to_i
+      totals[:refunds_cents] += metrics[:refunds_cents].to_i
+      totals[:stripe_fees_cents] += metrics[:stripe_fees_cents].to_i
+      metrics[:transfer_totals_cents].each do |recipient, amount|
+        totals[:transfer_totals_cents][recipient] += amount.to_i
+      end
+    end
+
+    totals
+  end
+
+  def Sheets::period_summary_rows(month_ranges, month_reports, period_start, period_end)
     month_labels = month_ranges.map { |month_start, _month_end| month_start.strftime('%b').upcase }
     month_metrics = month_reports.map { |report| Sheets::period_metrics(report) }
-    period_metrics = Sheets::period_metrics(period_report)
+    period_metrics = Sheets::aggregate_period_metrics(month_metrics)
 
     other_recipients = period_metrics[:transfer_totals_cents].keys
       .reject { |name| ['cosmic fit club', 'cosmic loft'].include?(name.to_s.downcase) }
@@ -464,7 +492,7 @@ module Sheets
 
     rows = []
     rows << ['Stripe Period Summary']
-    rows << ['Category', ''] + month_labels + ['', "#{period_report[:from]} to #{period_report[:to]}"]
+    rows << ['Category', ''] + month_labels + ['', "#{period_start} to #{period_end}"]
     rows << []
 
     rows << Sheets::period_summary_row('class_payments', :class_payments_cents, month_metrics, period_metrics)
@@ -545,7 +573,6 @@ module Sheets
     month_reports = month_ranges.map do |month_start, month_end|
       StripeMethods::monthly_pnl_report(month_start.to_s, month_end.to_s)
     end
-    period_report = StripeMethods::monthly_pnl_report(start.to_s, finish.to_s)
     sheets, drive = Sheets::get_service2
 
     title = if month_ranges.length > 1
@@ -557,7 +584,7 @@ module Sheets
     file = Sheets::create_sheet(drive, title, "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n")
 
     Sheets::rename_sheet(sheets, file.id, 0, "Summary")
-    Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, period_report))
+    Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, start, finish))
 
     month_ranges.each_with_index do |(month_start, _month_end), index|
       tab_name = month_start.strftime('%b %Y')
