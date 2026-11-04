@@ -288,6 +288,21 @@ module StripeMethods
 
       description = x.description.to_s
       description = StripeMethods::invoice_description_with_recipient(description, x.source, payment_type)
+      if x.type.to_s == 'transfer' && x.source
+        begin
+          transfer = Stripe::Transfer.retrieve(x.source)
+          transfer_description = transfer && (transfer.description || "")
+          recipient_name = StripeMethods::get_account_display_name(transfer.destination)
+          if recipient_name && !recipient_name.to_s.strip.empty?
+            base = transfer_description.to_s.strip.empty? ? description.to_s : transfer_description.to_s
+            base = 'Transfer' if base.to_s.strip.empty?
+            description = "#{base} to #{recipient_name}".strip
+          elsif !transfer_description.to_s.strip.empty?
+            description = transfer_description.to_s
+          end
+        rescue
+        end
+      end
       if x.type.to_s == 'payout' && x.source
         begin
           payout = Stripe::Payout.retrieve(x.source)

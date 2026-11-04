@@ -411,7 +411,7 @@ module Sheets
     expenses_total =
       metrics[:refunds_cents].to_i +
       metrics[:stripe_fees_cents].to_i +
-      cosmic_fit + cosmic_loft + others
+      cosmic_loft + others
 
     if key.is_a?(String)
       return Sheets::transfer_total_for(metrics, key)
@@ -430,6 +430,7 @@ module Sheets
     when :stripe_fees_cents then metrics[:stripe_fees_cents].to_i
     when :cosmic_fit_club_cents then cosmic_fit
     when :cosmic_loft_cents then cosmic_loft
+    when :transfers_out_bank_cents then cosmic_fit
     when :other_transfer_total_cents then others
     when :chase_expenses_cents then nil
     when :paypal_expenses_cents then nil
@@ -508,8 +509,6 @@ module Sheets
     rows << []
     rows << Sheets::period_summary_row('refunds', :refunds_cents, month_metrics, period_metrics)
     rows << Sheets::period_summary_row('stripe_fees', :stripe_fees_cents, month_metrics, period_metrics)
-    rows << Sheets::period_summary_row('Cosmic Fit Club', :cosmic_fit_club_cents, month_metrics, period_metrics)
-    rows << Sheets::period_summary_row('Cosmic Loft', :cosmic_loft_cents, month_metrics, period_metrics)
 
     other_recipients.each do |recipient|
       rows << Sheets::period_summary_row(recipient, recipient, month_metrics, period_metrics)
@@ -517,6 +516,7 @@ module Sheets
 
     rows << []
     rows << Sheets::period_summary_row('PAYROLL TOTAL', :other_transfer_total_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('Cosmic Loft', :cosmic_loft_cents, month_metrics, period_metrics)
     rows << []
     rows << Sheets::period_summary_row('Chase Expenses', :chase_expenses_cents, month_metrics, period_metrics)
     rows << Sheets::period_summary_row('Paypal Expenses', :paypal_expenses_cents, month_metrics, period_metrics)
@@ -525,6 +525,7 @@ module Sheets
     rows << []
     rows << Sheets::period_summary_row('NET', :net_cents, month_metrics, period_metrics)
     rows << Sheets::period_summary_row('NET LESS LOFT', :net_less_loft_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('Cosmic Fit Club (Transfer Out)', :transfers_out_bank_cents, month_metrics, period_metrics)
 
     rows
   end
@@ -555,6 +556,46 @@ module Sheets
     rows << []
     rows.concat(Sheets::monthly_transaction_rows(report))
     rows
+  end
+
+  def Sheets::paypal_transactions_rows(from, to)
+    from_input = from.to_s
+    to_input = to.to_s
+
+    from_for_paypal = from_input =~ /^\d{4}-\d{2}-\d{2}$/ ? "#{from_input} 00:00:00" : from_input
+    to_for_paypal = to_input =~ /^\d{4}-\d{2}-\d{2}$/ ? "#{to_input} 23:59:59" : to_input
+
+    transactions = PayPalSDK::list_transactions(from_for_paypal, to_for_paypal) || []
+
+    rows = []
+    rows << ['PayPal Transactions']
+    rows << ['Period', "#{from} to #{to}"]
+    rows << []
+    rows << ['Date', 'Time', 'Payer Name', 'Payer Email', 'Amount', 'Fee', 'Status', 'Note', 'Transaction ID']
+
+    transactions.each do |row|
+      rows << [
+        row[:date],
+        row[:time],
+        row[:name],
+        row[:email],
+        row[:amount].to_f,
+        row[:fee].to_s.empty? ? nil : row[:fee].to_f,
+        row[:status],
+        row[:note],
+        row[:id]
+      ]
+    end
+
+    rows
+  rescue => e
+    Slack.err('PayPal Transactions Sheet Error', e)
+    [
+      ['PayPal Transactions'],
+      ['Period', "#{from} to #{to}"],
+      [],
+      ['Error', 'Unable to load PayPal transactions for this range']
+    ]
   end
 
   def Sheets::create_monthly_stripe_pnl_sheet(year_or_from, month_or_to)
@@ -596,6 +637,9 @@ module Sheets
       end
       Sheets::fill_sheet(sheets, file.id, tab_name, Sheets::pnl_month_tab_rows_from_report(report))
     end
+
+    Sheets::add_sheet(sheets, file.id, 'PayPal Transactions')
+    Sheets::fill_sheet(sheets, file.id, 'PayPal Transactions', Sheets::paypal_transactions_rows(start, finish))
 
     file.web_view_link || file.webViewLink
   end
