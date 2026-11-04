@@ -26,8 +26,9 @@ module PayPalSDK
     finish = ( finish > Time.now ) ? Time.now.iso8601 : finish.iso8601
 
     data = api.get("v1/reporting/transactions", { :start_date=> start, :end_date=> finish, :fields=>'all', :page_size=>500 } )
+    details = data && data['transaction_details'] ? data['transaction_details'] : []
 
-    data['transaction_details'].map do |t|
+    details.map do |t|
       trans_t = Time.parse(t['transaction_info']['transaction_initiation_date'])
       { :date   => trans_t.strftime("%m/%d/%Y"),
         :time   => trans_t.strftime("%l:%M %P"),
@@ -49,6 +50,7 @@ module PayPalSDK
     finish = ( finish > Time.now ) ? Time.now.iso8601 : finish.iso8601
 
     data = api.get("v1/reporting/transactions", { :start_date=> start, :end_date=> finish, :fields=>'all', :page_size=>500 } )
+    details = data && data['transaction_details'] ? data['transaction_details'] : []
     csv = CSV.new("")
     csv << ["Account #", data['account_number']]
     csv << ["Start", Date.parse(data['start_date']).strftime("%m/%d/%Y")]
@@ -56,7 +58,7 @@ module PayPalSDK
     csv << []
     csv << [ "Transaction Date", "Transaction Time", "Payer Name", "Transaction Amount", "Fee Amount", "Payer Email", "Transaction Status", "Transaction Note", "Transaction ID" ]
     csv << []
-    data['transaction_details'].each do |t|
+    details.each do |t|
       trans_t = Time.parse(t['transaction_info']['transaction_initiation_date'])
       csv << [ 
         trans_t.strftime("%m/%d/%Y"),
