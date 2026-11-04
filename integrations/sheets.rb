@@ -389,15 +389,43 @@ module Sheets
   end
 
   def Sheets::transfer_total_for(metrics, label)
+    if label.to_s.downcase == 'cosmic fit club'
+      return metrics[:transfer_totals_cents]
+        .select { |name, _| Sheets::cosmic_fit_recipient?(name) }
+        .values
+        .sum
+    end
+
+    if label.to_s.downcase == 'cosmic loft'
+      return metrics[:transfer_totals_cents]
+        .select { |name, _| Sheets::cosmic_loft_recipient?(name) }
+        .values
+        .sum
+    end
+
     key = metrics[:transfer_totals_cents].keys.find { |name| name.to_s.downcase == label.to_s.downcase }
     key ? metrics[:transfer_totals_cents][key].to_i : 0
+  end
+
+  def Sheets::recipient_normalized(name)
+    name.to_s.downcase.gsub(/[^a-z0-9]/, '')
+  end
+
+  def Sheets::cosmic_fit_recipient?(name)
+    normalized = Sheets::recipient_normalized(name)
+    normalized.include?('cosmicfitclub')
+  end
+
+  def Sheets::cosmic_loft_recipient?(name)
+    normalized = Sheets::recipient_normalized(name)
+    normalized.include?('cosmicloft')
   end
 
   def Sheets::metrics_value(metrics, key)
     cosmic_fit = Sheets::transfer_total_for(metrics, 'Cosmic Fit Club')
     cosmic_loft = Sheets::transfer_total_for(metrics, 'Cosmic Loft')
     others = metrics[:transfer_totals_cents]
-      .reject { |name, _| ['cosmic fit club', 'cosmic loft'].include?(name.to_s.downcase) }
+      .reject { |name, _| Sheets::cosmic_fit_recipient?(name) || Sheets::cosmic_loft_recipient?(name) }
       .values
       .sum
 
@@ -488,7 +516,7 @@ module Sheets
     period_metrics = Sheets::aggregate_period_metrics(month_metrics)
 
     other_recipients = period_metrics[:transfer_totals_cents].keys
-      .reject { |name| ['cosmic fit club', 'cosmic loft'].include?(name.to_s.downcase) }
+      .reject { |name| Sheets::cosmic_fit_recipient?(name) || Sheets::cosmic_loft_recipient?(name) }
       .sort
 
     rows = []
@@ -638,8 +666,18 @@ module Sheets
       Sheets::fill_sheet(sheets, file.id, tab_name, Sheets::pnl_month_tab_rows_from_report(report))
     end
 
-    Sheets::add_sheet(sheets, file.id, 'PayPal Transactions')
-    Sheets::fill_sheet(sheets, file.id, 'PayPal Transactions', Sheets::paypal_transactions_rows(start, finish))
+    begin
+      Sheets::add_sheet(sheets, file.id, 'PayPal Transactions')
+      Sheets::fill_sheet(sheets, file.id, 'PayPal Transactions', Sheets::paypal_transactions_rows(start, finish))
+    rescue => e
+      Slack.err('PayPal Sheet Tab Error', e)
+      begin
+        Sheets::add_sheet(sheets, file.id, 'PayPal')
+        Sheets::fill_sheet(sheets, file.id, 'PayPal', Sheets::paypal_transactions_rows(start, finish))
+      rescue => e2
+        Slack.err('PayPal Sheet Fallback Tab Error', e2)
+      end
+    end
 
     file.web_view_link || file.webViewLink
   end
