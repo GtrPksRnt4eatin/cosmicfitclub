@@ -497,6 +497,8 @@ module StripeMethods
       packages_cents: sum_section.call('Packages'),
       event_tickets_cents: sum_section.call('Event Tickets'),
       room_rentals_cents: sum_section.call('Invoices'),
+      paypal_income_cents: 0,
+      paypal_expenses_cents: 0,
       refunds_cents: report[:summary][:refunds_cents].to_i.abs,
       stripe_fees_cents: report[:summary][:fees_cents].to_i.abs,
       transfer_totals_cents: StripeMethods::transfer_totals_by_recipient(report)
@@ -549,11 +551,13 @@ module StripeMethods
       metrics[:point_rentals_cents].to_i +
       metrics[:packages_cents].to_i +
       metrics[:event_tickets_cents].to_i +
-      metrics[:room_rentals_cents].to_i
+      metrics[:room_rentals_cents].to_i +
+      metrics[:paypal_income_cents].to_i
 
     expenses_total =
       metrics[:refunds_cents].to_i +
       metrics[:stripe_fees_cents].to_i +
+      metrics[:paypal_expenses_cents].to_i +
       cosmic_loft + others
 
     if key.is_a?(String)
@@ -566,7 +570,7 @@ module StripeMethods
     when :packages_cents then metrics[:packages_cents].to_i
     when :event_tickets_cents then metrics[:event_tickets_cents].to_i
     when :room_rentals_cents then metrics[:room_rentals_cents].to_i
-    when :paypal_income_cents then nil
+    when :paypal_income_cents then metrics[:paypal_income_cents].to_i
     when :total_income_cents then income_total
     when :income_less_room_cents then income_total - metrics[:room_rentals_cents].to_i
     when :refunds_cents then metrics[:refunds_cents].to_i
@@ -576,7 +580,7 @@ module StripeMethods
     when :transfers_out_bank_cents then cosmic_fit
     when :other_transfer_total_cents then others
     when :chase_expenses_cents then nil
-    when :paypal_expenses_cents then nil
+    when :paypal_expenses_cents then metrics[:paypal_expenses_cents].to_i
     when :total_expenses_cents then expenses_total
     when :net_cents then income_total - expenses_total
     when :net_less_loft_cents then (income_total - expenses_total) - cosmic_loft

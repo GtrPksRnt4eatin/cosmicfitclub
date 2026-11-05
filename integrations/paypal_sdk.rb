@@ -172,6 +172,37 @@ module PayPalSDK
     ]
   end
 
+  def PayPalSDK::amount_to_cents(value)
+    return 0 if value.nil?
+    ((value.to_s.to_f) * 100.0).round
+  end
+
+  def PayPalSDK::external_transaction?(row)
+    !row[:name].to_s.strip.empty?
+  end
+
+  def PayPalSDK::summary_cents(from, to)
+    transactions = PayPalSDK::list_transactions(from, to) || []
+    external = transactions.select { |row| PayPalSDK::external_transaction?(row) }
+
+    income_cents = external.sum do |row|
+      amount_cents = PayPalSDK::amount_to_cents(row[:amount])
+      amount_cents > 0 ? amount_cents : 0
+    end
+
+    expense_cents = external.sum do |row|
+      PayPalSDK::amount_to_cents(row[:fee]).abs
+    end
+
+    {
+      paypal_income_cents: income_cents,
+      paypal_expenses_cents: expense_cents
+    }
+  rescue => e
+    Slack.err('PayPal Summary Error', e)
+    { paypal_income_cents: 0, paypal_expenses_cents: 0 }
+  end
+
   def PayPalSDK::payout_batch_header 
     { recipient_type: 'EMAIL',
       email_message: 'SDK Payouts Test',

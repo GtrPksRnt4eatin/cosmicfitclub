@@ -376,6 +376,8 @@ module Sheets
       packages_cents: 0,
       event_tickets_cents: 0,
       room_rentals_cents: 0,
+      paypal_income_cents: 0,
+      paypal_expenses_cents: 0,
       refunds_cents: 0,
       stripe_fees_cents: 0,
       transfer_totals_cents: Hash.new(0)
@@ -387,6 +389,8 @@ module Sheets
       totals[:packages_cents] += metrics[:packages_cents].to_i
       totals[:event_tickets_cents] += metrics[:event_tickets_cents].to_i
       totals[:room_rentals_cents] += metrics[:room_rentals_cents].to_i
+      totals[:paypal_income_cents] += metrics[:paypal_income_cents].to_i
+      totals[:paypal_expenses_cents] += metrics[:paypal_expenses_cents].to_i
       totals[:refunds_cents] += metrics[:refunds_cents].to_i
       totals[:stripe_fees_cents] += metrics[:stripe_fees_cents].to_i
       metrics[:transfer_totals_cents].each do |recipient, amount|
@@ -399,12 +403,16 @@ module Sheets
 
   def Sheets::period_summary_rows(month_ranges, month_reports, period_start, period_end)
     month_labels = month_ranges.map { |month_start, _month_end| month_start.strftime('%b').upcase }
-    month_metrics = month_reports.map { |report| StripeMethods::period_metrics(report) }
+    month_metrics = month_reports.each_with_index.map do |report, index|
+      month_start, month_end = month_ranges[index]
+      paypal_metrics = PayPalSDK::summary_cents("#{month_start} 00:00:00", "#{month_end} 23:59:59")
+      StripeMethods::period_metrics(report).merge(paypal_metrics)
+    end
     period_metrics = Sheets::aggregate_period_metrics(month_metrics)
 
     other_recipients = period_metrics[:transfer_totals_cents].keys
       .reject { |name| StripeMethods::cosmic_fit_recipient?(name) || StripeMethods::cosmic_loft_recipient?(name) }
-      .sort
+      .sort_by { |name| [-StripeMethods::transfer_total_for(period_metrics, name).to_i, name.to_s.downcase] }
 
     rows = []
     rows << ['Stripe Period Summary']
@@ -420,10 +428,11 @@ module Sheets
     rows << Sheets::period_summary_row('paypal_income', :paypal_income_cents, month_metrics, period_metrics)
     rows << []
     rows << Sheets::period_summary_row('TOTAL INCOME', :total_income_cents, month_metrics, period_metrics)
-    rows << Sheets::period_summary_row('INCOME LESS ROOM RENTALS', :income_less_room_cents, month_metrics, period_metrics)
     rows << []
     rows << Sheets::period_summary_row('refunds', :refunds_cents, month_metrics, period_metrics)
     rows << Sheets::period_summary_row('stripe_fees', :stripe_fees_cents, month_metrics, period_metrics)
+    rows << Sheets::period_summary_row('paypal_expenses', :paypal_expenses_cents, month_metrics, period_metrics)
+    rows << []
 
     other_recipients.each do |recipient|
       rows << Sheets::period_summary_row(recipient, recipient, month_metrics, period_metrics)
