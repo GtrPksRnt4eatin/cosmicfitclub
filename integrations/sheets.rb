@@ -604,11 +604,32 @@ module Sheets
     }
   end
 
-  def Sheets::safe_monthly_pnl_report(month_start, month_end)
-    StripeMethods::monthly_pnl_report(month_start.to_s, month_end.to_s)
+  def Sheets::safe_period_pnl_report(from_date, to_date)
+    StripeMethods::monthly_pnl_report(from_date.to_s, to_date.to_s)
   rescue => e
-    Slack.err("Stripe Monthly P&L Report Error (#{month_start} to #{month_end})", e)
-    Sheets::empty_pnl_report(month_start, month_end)
+    Slack.err("Stripe Period P&L Report Error (#{from_date} to #{to_date})", e)
+    Sheets::empty_pnl_report(from_date, to_date)
+  end
+
+  def Sheets::report_from_transactions(transactions, from_date, to_date)
+    by_type = transactions.group_by { |row| row[:type] }
+    amount_for = lambda { |type| (by_type[type] || []).sum { |row| row[:amount_cents].to_i } }
+
+    {
+      from: from_date,
+      to: to_date,
+      summary: {
+        gross_sales_cents: amount_for.call('charge'),
+        refunds_cents: amount_for.call('refund'),
+        disputes_cents: amount_for.call('payment_reversal') + amount_for.call('payment_failure_refund'),
+        adjustments_cents: amount_for.call('adjustment') + amount_for.call('reserve_transaction'),
+        payouts_cents: amount_for.call('payout'),
+        transfers_cents: amount_for.call('transfer'),
+        fees_cents: transactions.sum { |row| row[:fee_cents].to_i },
+        net_cents: transactions.sum { |row| row[:net_cents].to_i }
+      },
+      transactions: transactions
+    }
   end
 
   def Sheets::paypal_transactions_rows(from, to)
@@ -664,8 +685,17 @@ module Sheets
     end
 
     month_ranges = Sheets::month_slices(start, finish)
+    period_report = Sheets::safe_period_pnl_report(start, finish)
+    period_transactions = period_report[:transactions] || []
+
     month_reports = month_ranges.map do |month_start, month_end|
-      Sheets::safe_monthly_pnl_report(month_start, month_end)
+      monthly_transactions = period_transactions.select do |row|
+        created = row[:created]
+        next false if created.nil?
+        day = created.to_date
+        day >= month_start && day <= month_end
+      end
+      Sheets::report_from_transactions(monthly_transactions, month_start, month_end)
     end
     sheets, drive = Sheets::get_service2
 
