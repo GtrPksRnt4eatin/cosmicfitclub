@@ -37,38 +37,77 @@ module PayPalSDK
     })
   end
 
-  def PayPalSDK::transaction_row(detail)
-    transaction_info = detail['transaction_info'] || {}
-    payer_info = detail['payer_info'] || {}
+  def PayPalSDK::transactions_report(start, finish)
+    data = PayPalSDK::fetch_transactions_data(start, finish)
+    details = data && data['transaction_details'] ? data['transaction_details'] : []
+    rows = details.map { |detail| PayPalSDK::transaction_row(detail) }.compact
+    { data: data || {}, rows: rows }
+  end
 
+  def PayPalSDK::normalize_row_hash(item)
+    return nil unless item.is_a?(Hash)
+
+    transaction_info = item['transaction_info']
+    return nil unless transaction_info
+
+    payer_info = item['payer_info'] || {}
     trans_t = Time.parse(transaction_info['transaction_initiation_date'])
     has_payer = !!payer_info['payer_status']
 
     {
       :timestamp => trans_t.utc.iso8601,
-      :date   => trans_t.strftime("%m/%d/%Y"),
-      :time   => trans_t.strftime("%l:%M %P"),
-      :name   => has_payer ? payer_info.dig('payer_name', 'alternate_full_name').to_s : '',
-      :email  => has_payer ? payer_info['email_address'].to_s : '',
+      :date => trans_t.strftime("%m/%d/%Y"),
+      :time => trans_t.strftime("%l:%M %P"),
+      :name => has_payer ? payer_info.dig('payer_name', 'alternate_full_name').to_s : '',
+      :email => has_payer ? payer_info['email_address'].to_s : '',
       :amount => transaction_info.dig('transaction_amount', 'value'),
-      :fee    => transaction_info['fee_amount'] ? transaction_info['fee_amount']['value'] : '',
+      :fee => transaction_info['fee_amount'] ? transaction_info['fee_amount']['value'] : '',
       :status => transaction_info['transaction_status'],
-      :note   => transaction_info['transaction_note'],
-      :id     => transaction_info['transaction_id']
+      :note => transaction_info['transaction_note'],
+      :id => transaction_info['transaction_id']
     }
   rescue
     nil
   end
 
+  def PayPalSDK::row_array(row, numeric: true)
+    return nil if row.nil?
+
+    amount_value = numeric ? row[:amount].to_f : row[:amount]
+    fee_value = if row[:fee].to_s.empty?
+      numeric ? nil : ''
+    else
+      numeric ? row[:fee].to_f : row[:fee]
+    end
+
+    [
+      row[:date],
+      row[:time],
+      row[:name],
+      row[:email],
+      amount_value,
+      fee_value,
+      row[:status],
+      row[:note],
+      row[:id]
+    ]
+  end
+
+  def PayPalSDK::transaction_row(item)
+    PayPalSDK::normalize_row_hash(item)
+  rescue
+    nil
+  end
+
   def PayPalSDK::list_transactions(start,finish) 
-    data = PayPalSDK::fetch_transactions_data(start, finish)
-    details = data && data['transaction_details'] ? data['transaction_details'] : []
-    details.map { |detail| PayPalSDK::transaction_row(detail) }.compact
+    PayPalSDK::transactions_report(start, finish)[:rows]
   end
 
   def PayPalSDK::list_transactions_csv(start,finish)
-    data = PayPalSDK::fetch_transactions_data(start, finish)
-    details = data && data['transaction_details'] ? data['transaction_details'] : []
+    report = PayPalSDK::transactions_report(start, finish)
+    data = report[:data]
+    rows = report[:rows]
+
     csv = CSV.new("")
     csv << ["Account #", data['account_number']]
     csv << ["Start", Date.parse(data['start_date']).strftime("%m/%d/%Y")]
@@ -77,20 +116,9 @@ module PayPalSDK
     csv << ["Transaction Date", "Transaction Time", "Payer Name", "Transaction Amount", "Fee Amount", "Payer Email", "Transaction Status", "Transaction Note", "Transaction ID"]
     csv << []
 
-    details.each do |detail|
-      row = PayPalSDK::transaction_row(detail)
-      next if row.nil?
-      csv << [
-        row[:date],
-        row[:time],
-        row[:name],
-        row[:amount],
-        row[:fee],
-        row[:email],
-        row[:status],
-        row[:note],
-        row[:id]
-      ]
+    rows.each do |row|
+      table_row = PayPalSDK::row_array(row, numeric: false)
+      csv << table_row if table_row
     end
 
     csv.rewind
@@ -225,17 +253,8 @@ module PayPalSDK
       rows << ['Date', 'Time', 'Payer Name', 'Payer Email', 'Amount', 'Fee', 'Status', 'Note', 'Transaction ID']
 
       month[:transactions].each do |row|
-        rows << [
-          row[:date],
-          row[:time],
-          row[:name],
-          row[:email],
-          row[:amount].to_f,
-          row[:fee].to_s.empty? ? nil : row[:fee].to_f,
-          row[:status],
-          row[:note],
-          row[:id]
-        ]
+        table_row = PayPalSDK::row_array(row, numeric: true)
+        rows << table_row if table_row
       end
 
       rows << [
