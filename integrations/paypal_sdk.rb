@@ -20,60 +20,156 @@ module PayPalSDK
     @@client
   end
 
+  def PayPalSDK::normalize_range(start, finish)
+    start_iso = start.iso8601 rescue Time.parse(start.to_s).iso8601
+    finish_time = finish.is_a?(Time) ? finish : Time.parse(finish.to_s)
+    finish_iso = (finish_time > Time.now) ? Time.now.iso8601 : finish_time.iso8601
+    [start_iso, finish_iso]
+  end
+
+  def PayPalSDK::fetch_transactions_data(start, finish)
+    start_iso, finish_iso = PayPalSDK::normalize_range(start, finish)
+    api.get("v1/reporting/transactions", {
+      :start_date => start_iso,
+      :end_date => finish_iso,
+      :fields => 'all',
+      :page_size => 500
+    })
+  end
+
+  def PayPalSDK::transaction_row(detail)
+    transaction_info = detail['transaction_info'] || {}
+    payer_info = detail['payer_info'] || {}
+
+    trans_t = Time.parse(transaction_info['transaction_initiation_date'])
+    has_payer = !!payer_info['payer_status']
+
+    {
+      :date   => trans_t.strftime("%m/%d/%Y"),
+      :time   => trans_t.strftime("%l:%M %P"),
+      :name   => has_payer ? payer_info.dig('payer_name', 'alternate_full_name').to_s : '',
+      :email  => has_payer ? payer_info['email_address'].to_s : '',
+      :amount => transaction_info.dig('transaction_amount', 'value'),
+      :fee    => transaction_info['fee_amount'] ? transaction_info['fee_amount']['value'] : '',
+      :status => transaction_info['transaction_status'],
+      :note   => transaction_info['transaction_note'],
+      :id     => transaction_info['transaction_id']
+    }
+  rescue
+    nil
+  end
+
   def PayPalSDK::list_transactions(start,finish) 
-    start  = start.iso8601 rescue Time.parse(start).iso8601
-    finish = ( finish.is_a? Time ) ? finish : Time.parse(finish)
-    finish = ( finish > Time.now ) ? Time.now.iso8601 : finish.iso8601
-
-    data = api.get("v1/reporting/transactions", { :start_date=> start, :end_date=> finish, :fields=>'all', :page_size=>500 } )
+    data = PayPalSDK::fetch_transactions_data(start, finish)
     details = data && data['transaction_details'] ? data['transaction_details'] : []
-
-    details.map do |t|
-      trans_t = Time.parse(t['transaction_info']['transaction_initiation_date'])
-      { :date   => trans_t.strftime("%m/%d/%Y"),
-        :time   => trans_t.strftime("%l:%M %P"),
-        :name   => t['payer_info']['payer_status'] ? t['payer_info']['payer_name']['alternate_full_name'] : '',
-        :email  => t['payer_info']['payer_status'] ? t['payer_info']['email_address'] : '',
-        :amount => t['transaction_info']['transaction_amount']['value'],
-        :fee    => t['transaction_info']['fee_amount'] ? t['transaction_info']['fee_amount']['value'] : '',
-        :status => t['transaction_info']['transaction_status'],
-        :note   => t['transaction_info']['transaction_note'],
-        :id     => t['transaction_info']['transaction_id']
-      }
-    end
-
+    details.map { |detail| PayPalSDK::transaction_row(detail) }.compact
   end
 
   def PayPalSDK::list_transactions_csv(start,finish)
-    start  = start.iso8601 rescue Time.parse(start).iso8601
-    finish = ( finish.is_a? Time ) ? finish : Time.parse(finish)
-    finish = ( finish > Time.now ) ? Time.now.iso8601 : finish.iso8601
-
-    data = api.get("v1/reporting/transactions", { :start_date=> start, :end_date=> finish, :fields=>'all', :page_size=>500 } )
+    data = PayPalSDK::fetch_transactions_data(start, finish)
     details = data && data['transaction_details'] ? data['transaction_details'] : []
     csv = CSV.new("")
     csv << ["Account #", data['account_number']]
     csv << ["Start", Date.parse(data['start_date']).strftime("%m/%d/%Y")]
     csv << ["End", Date.parse(data['end_date']).strftime("%m/%d/%Y")]
     csv << []
-    csv << [ "Transaction Date", "Transaction Time", "Payer Name", "Transaction Amount", "Fee Amount", "Payer Email", "Transaction Status", "Transaction Note", "Transaction ID" ]
+    csv << ["Transaction Date", "Transaction Time", "Payer Name", "Transaction Amount", "Fee Amount", "Payer Email", "Transaction Status", "Transaction Note", "Transaction ID"]
     csv << []
-    details.each do |t|
-      trans_t = Time.parse(t['transaction_info']['transaction_initiation_date'])
-      csv << [ 
-        trans_t.strftime("%m/%d/%Y"),
-        trans_t.strftime("%l:%M %P"),
-        t['payer_info']['payer_status'] ? t['payer_info']['payer_name']['alternate_full_name'] : '',
-        t['transaction_info']['transaction_amount']['value'],
-        t['transaction_info']['fee_amount'] ? t['transaction_info']['fee_amount']['value'] : '',
-        t['payer_info']['payer_status'] ? t['payer_info']['email_address'] : '',
-        t['transaction_info']['transaction_status'],
-        t['transaction_info']['transaction_note'],
-        t['transaction_info']['transaction_id']
+
+    details.each do |detail|
+      row = PayPalSDK::transaction_row(detail)
+      next if row.nil?
+      csv << [
+        row[:date],
+        row[:time],
+        row[:name],
+        row[:amount],
+        row[:fee],
+        row[:email],
+        row[:status],
+        row[:note],
+        row[:id]
       ]
     end
+
     csv.rewind
     csv
+  end
+
+  def PayPalSDK::month_slices(from_date, to_date)
+    current = Date.new(from_date.year, from_date.month, 1)
+    last = Date.new(to_date.year, to_date.month, 1)
+    slices = []
+
+    while current <= last
+      month_start = [current, from_date].max
+      month_end = [current.next_month.prev_day, to_date].min
+      slices << [month_start, month_end]
+      current = current.next_month
+    end
+
+    slices
+  end
+
+  def PayPalSDK::transactions_sheet_rows(from, to)
+    from_date = from.is_a?(Date) ? from : Date.parse(from.to_s)
+    to_date = to.is_a?(Date) ? to : Date.parse(to.to_s)
+    from_date, to_date = to_date, from_date if to_date < from_date
+
+    transactions = []
+    seen_ids = {}
+
+    PayPalSDK::month_slices(from_date, to_date).each do |slice_start, slice_end|
+      from_for_paypal = "#{slice_start} 00:00:00"
+      to_for_paypal = "#{slice_end} 23:59:59"
+      slice_transactions = PayPalSDK::list_transactions(from_for_paypal, to_for_paypal) || []
+
+      slice_transactions.each do |row|
+        row_id = row[:id].to_s
+        dedupe_key = row_id.empty? ? "#{row[:date]}|#{row[:time]}|#{row[:amount]}|#{row[:email]}" : row_id
+        next if seen_ids[dedupe_key]
+        seen_ids[dedupe_key] = true
+        transactions << row
+      end
+    end
+
+    transactions.sort_by! do |row|
+      begin
+        Time.parse("#{row[:date]} #{row[:time]}")
+      rescue
+        Time.at(0)
+      end
+    end
+
+    rows = []
+    rows << ['PayPal Transactions']
+    rows << ['Period', "#{from_date} to #{to_date}"]
+    rows << []
+    rows << ['Date', 'Time', 'Payer Name', 'Payer Email', 'Amount', 'Fee', 'Status', 'Note', 'Transaction ID']
+
+    transactions.each do |row|
+      rows << [
+        row[:date],
+        row[:time],
+        row[:name],
+        row[:email],
+        row[:amount].to_f,
+        row[:fee].to_s.empty? ? nil : row[:fee].to_f,
+        row[:status],
+        row[:note],
+        row[:id]
+      ]
+    end
+
+    rows
+  rescue => e
+    Slack.err('PayPal Transactions Sheet Error', e)
+    [
+      ['PayPal Transactions'],
+      ['Period', "#{from} to #{to}"],
+      [],
+      ['Error', 'Unable to load PayPal transactions for this range']
+    ]
   end
 
   def PayPalSDK::payout_batch_header 

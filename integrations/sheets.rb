@@ -639,67 +639,6 @@ module Sheets
     }
   end
 
-  def Sheets::paypal_transactions_rows(from, to)
-    from_date = from.is_a?(Date) ? from : Date.parse(from.to_s)
-    to_date = to.is_a?(Date) ? to : Date.parse(to.to_s)
-    from_date, to_date = to_date, from_date if to_date < from_date
-
-    transactions = []
-    seen_ids = {}
-
-    Sheets::month_slices(from_date, to_date).each do |slice_start, slice_end|
-      from_for_paypal = "#{slice_start} 00:00:00"
-      to_for_paypal = "#{slice_end} 23:59:59"
-      slice_transactions = PayPalSDK::list_transactions(from_for_paypal, to_for_paypal) || []
-
-      slice_transactions.each do |row|
-        row_id = row[:id].to_s
-        dedupe_key = row_id.empty? ? "#{row[:date]}|#{row[:time]}|#{row[:amount]}|#{row[:email]}" : row_id
-        next if seen_ids[dedupe_key]
-        seen_ids[dedupe_key] = true
-        transactions << row
-      end
-    end
-
-    transactions.sort_by! do |row|
-      begin
-        Time.parse("#{row[:date]} #{row[:time]}")
-      rescue
-        Time.at(0)
-      end
-    end
-
-    rows = []
-    rows << ['PayPal Transactions']
-    rows << ['Period', "#{from_date} to #{to_date}"]
-    rows << []
-    rows << ['Date', 'Time', 'Payer Name', 'Payer Email', 'Amount', 'Fee', 'Status', 'Note', 'Transaction ID']
-
-    transactions.each do |row|
-      rows << [
-        row[:date],
-        row[:time],
-        row[:name],
-        row[:email],
-        row[:amount].to_f,
-        row[:fee].to_s.empty? ? nil : row[:fee].to_f,
-        row[:status],
-        row[:note],
-        row[:id]
-      ]
-    end
-
-    rows
-  rescue => e
-    Slack.err('PayPal Transactions Sheet Error', e)
-    [
-      ['PayPal Transactions'],
-      ['Period', "#{from} to #{to}"],
-      [],
-      ['Error', 'Unable to load PayPal transactions for this range']
-    ]
-  end
-
   def Sheets::create_monthly_stripe_pnl_sheet(year_or_from, month_or_to)
     if year_or_from.to_s =~ /^\d{4}$/ && month_or_to.to_s =~ /^\d{1,2}$/
       year = year_or_from.to_i
@@ -751,12 +690,12 @@ module Sheets
 
     begin
       Sheets::add_sheet(sheets, file.id, 'PayPal Transactions')
-      Sheets::fill_sheet(sheets, file.id, 'PayPal Transactions', Sheets::paypal_transactions_rows(start, finish))
+      Sheets::fill_sheet(sheets, file.id, 'PayPal Transactions', PayPalSDK::transactions_sheet_rows(start, finish))
     rescue => e
       Slack.err('PayPal Sheet Tab Error', e)
       begin
         Sheets::add_sheet(sheets, file.id, 'PayPal')
-        Sheets::fill_sheet(sheets, file.id, 'PayPal', Sheets::paypal_transactions_rows(start, finish))
+        Sheets::fill_sheet(sheets, file.id, 'PayPal', PayPalSDK::transactions_sheet_rows(start, finish))
       rescue => e2
         Slack.err('PayPal Sheet Fallback Tab Error', e2)
       end
