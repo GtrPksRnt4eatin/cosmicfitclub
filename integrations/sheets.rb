@@ -401,22 +401,20 @@ module Sheets
     totals
   end
 
-  def Sheets::period_summary_rows(month_ranges, month_reports, period_start, period_end)
+  def Sheets::period_summary_rows(month_ranges, month_reports, period_start, period_end, paypal_payload=nil)
     month_labels = month_ranges.map { |month_start, _month_end| month_start.strftime('%b').upcase }
-    paypal_transactions = PayPalSDK::transactions_for_period(period_start, period_end)
+    paypal_payload ||= PayPalSDK::monthly_transactions_payload(period_start, period_end)
+    paypal_by_month = {}
+    paypal_payload[:months].each do |month|
+      paypal_by_month[month[:start].strftime('%Y-%m')] = {
+        paypal_income_cents: month[:paypal_income_cents].to_i,
+        paypal_expenses_cents: month[:paypal_expenses_cents].to_i
+      }
+    end
 
     month_metrics = month_reports.each_with_index.map do |report, index|
       month_start, month_end = month_ranges[index]
-      month_paypal_transactions = paypal_transactions.select do |row|
-        begin
-          ts = row[:timestamp] ? Time.parse(row[:timestamp]) : Time.parse("#{row[:date]} #{row[:time]}")
-          day = ts.to_date
-          day >= month_start && day <= month_end
-        rescue
-          false
-        end
-      end
-      paypal_metrics = PayPalSDK::summary_cents_from_transactions(month_paypal_transactions)
+      paypal_metrics = paypal_by_month[month_start.strftime('%Y-%m')] || { paypal_income_cents: 0, paypal_expenses_cents: 0 }
       StripeMethods::period_metrics(report).merge(paypal_metrics)
     end
     period_metrics = Sheets::aggregate_period_metrics(month_metrics)
@@ -429,7 +427,6 @@ module Sheets
     rows << ['Stripe Period Summary']
     rows << ['Category', ''] + month_labels + ['', "#{period_start} to #{period_end}"]
     rows << []
-
     rows << Sheets::period_summary_row('class_payments', :class_payments_cents, month_metrics, period_metrics)
     rows << Sheets::period_summary_row('point_rentals', :point_rentals_cents, month_metrics, period_metrics)
     rows << Sheets::period_summary_row('packages', :packages_cents, month_metrics, period_metrics)
@@ -537,6 +534,7 @@ module Sheets
     month_ranges = Sheets::month_slices(start, finish)
     period_report = Sheets::safe_period_pnl_report(start, finish)
     period_transactions = period_report[:transactions] || []
+    paypal_payload = PayPalSDK::monthly_transactions_payload(start, finish)
 
     month_reports = month_ranges.map do |month_start, month_end|
       monthly_transactions = period_transactions.select do |row|
@@ -558,7 +556,7 @@ module Sheets
     file = Sheets::create_sheet(drive, title, "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n")
 
     Sheets::rename_sheet(sheets, file.id, 0, "Summary")
-    Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, start, finish))
+    Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, start, finish, paypal_payload))
 
     month_ranges.each_with_index do |(month_start, _month_end), index|
       tab_name = month_start.strftime('%b %Y')
@@ -573,12 +571,12 @@ module Sheets
 
     begin
       Sheets::add_sheet(sheets, file.id, 'PayPal Transactions')
-      Sheets::fill_sheet(sheets, file.id, 'PayPal Transactions', PayPalSDK::transactions_sheet_rows(start, finish))
+      Sheets::fill_sheet(sheets, file.id, 'PayPal Transactions', PayPalSDK::transactions_sheet_rows(start, finish, paypal_payload))
     rescue => e
       Slack.err('PayPal Sheet Tab Error', e)
       begin
         Sheets::add_sheet(sheets, file.id, 'PayPal')
-        Sheets::fill_sheet(sheets, file.id, 'PayPal', PayPalSDK::transactions_sheet_rows(start, finish))
+        Sheets::fill_sheet(sheets, file.id, 'PayPal', PayPalSDK::transactions_sheet_rows(start, finish, paypal_payload))
       rescue => e2
         Slack.err('PayPal Sheet Fallback Tab Error', e2)
       end

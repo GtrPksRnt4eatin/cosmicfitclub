@@ -112,44 +112,6 @@ module PayPalSDK
     slices
   end
 
-  def PayPalSDK::transactions_sheet_rows(from, to)
-    from_date = from.is_a?(Date) ? from : Date.parse(from.to_s)
-    to_date = to.is_a?(Date) ? to : Date.parse(to.to_s)
-    from_date, to_date = to_date, from_date if to_date < from_date
-
-    transactions = PayPalSDK::transactions_for_period(from_date, to_date)
-
-    rows = []
-    rows << ['PayPal Transactions']
-    rows << ['Period', "#{from_date} to #{to_date}"]
-    rows << []
-    rows << ['Date', 'Time', 'Payer Name', 'Payer Email', 'Amount', 'Fee', 'Status', 'Note', 'Transaction ID']
-
-    transactions.each do |row|
-      rows << [
-        row[:date],
-        row[:time],
-        row[:name],
-        row[:email],
-        row[:amount].to_f,
-        row[:fee].to_s.empty? ? nil : row[:fee].to_f,
-        row[:status],
-        row[:note],
-        row[:id]
-      ]
-    end
-
-    rows
-  rescue => e
-    Slack.err('PayPal Transactions Sheet Error', e)
-    [
-      ['PayPal Transactions'],
-      ['Period', "#{from} to #{to}"],
-      [],
-      ['Error', 'Unable to load PayPal transactions for this range']
-    ]
-  end
-
   def PayPalSDK::transactions_for_period(from, to)
     from_date = from.is_a?(Date) ? from : Date.parse(from.to_s)
     to_date = to.is_a?(Date) ? to : Date.parse(to.to_s)
@@ -185,15 +147,6 @@ module PayPalSDK
     []
   end
 
-  def PayPalSDK::amount_to_cents(value)
-    return 0 if value.nil?
-    ((value.to_s.to_f) * 100.0).round
-  end
-
-  def PayPalSDK::external_transaction?(row)
-    !row[:name].to_s.strip.empty?
-  end
-
   def PayPalSDK::summary_cents_from_transactions(transactions)
     external = (transactions || []).select { |row| PayPalSDK::external_transaction?(row) }
 
@@ -210,6 +163,110 @@ module PayPalSDK
       paypal_income_cents: income_cents,
       paypal_expenses_cents: expense_cents
     }
+  end
+
+  def PayPalSDK::monthly_transactions_payload(from, to)
+    from_date = from.is_a?(Date) ? from : Date.parse(from.to_s)
+    to_date = to.is_a?(Date) ? to : Date.parse(to.to_s)
+    from_date, to_date = to_date, from_date if to_date < from_date
+
+    all_transactions = PayPalSDK::transactions_for_period(from_date, to_date)
+
+    months = PayPalSDK::month_slices(from_date, to_date).map do |slice_start, slice_end|
+      month_transactions = all_transactions.select do |row|
+        begin
+          ts = row[:timestamp] ? Time.parse(row[:timestamp]) : Time.parse("#{row[:date]} #{row[:time]}")
+          day = ts.to_date
+          day >= slice_start && day <= slice_end
+        rescue
+          false
+        end
+      end
+
+      summary = PayPalSDK::summary_cents_from_transactions(month_transactions)
+      {
+        start: slice_start,
+        end: slice_end,
+        transactions: month_transactions,
+        paypal_income_cents: summary[:paypal_income_cents],
+        paypal_expenses_cents: summary[:paypal_expenses_cents]
+      }
+    end
+
+    { from: from_date, to: to_date, months: months }
+  end
+
+  def PayPalSDK::amount_to_cents(value)
+    return 0 if value.nil?
+    ((value.to_s.to_f) * 100.0).round
+  end
+
+  def PayPalSDK::external_transaction?(row)
+    !row[:name].to_s.strip.empty?
+  end
+
+  def PayPalSDK::transactions_sheet_rows(from, to, payload=nil)
+    payload ||= PayPalSDK::monthly_transactions_payload(from, to)
+
+    rows = []
+    rows << ['PayPal Transactions']
+    rows << ['Period', "#{payload[:from]} to #{payload[:to]}"]
+    rows << []
+
+    payload[:months].each do |month|
+      rows << [month[:start].strftime('%b %Y')]
+      rows << ['Date', 'Time', 'Payer Name', 'Payer Email', 'Amount', 'Fee', 'Status', 'Note', 'Transaction ID']
+
+      month[:transactions].each do |row|
+        rows << [
+          row[:date],
+          row[:time],
+          row[:name],
+          row[:email],
+          row[:amount].to_f,
+          row[:fee].to_s.empty? ? nil : row[:fee].to_f,
+          row[:status],
+          row[:note],
+          row[:id]
+        ]
+      end
+
+      rows << [
+        'Income Subtotal (external only)',
+        '',
+        '',
+        '',
+        month[:paypal_income_cents].to_f / 100.0,
+        '',
+        '',
+        '',
+        ''
+      ]
+
+      rows << [
+        'Expense Subtotal (external only)',
+        '',
+        '',
+        '',
+        '',
+        month[:paypal_expenses_cents].to_f / 100.0,
+        '',
+        '',
+        ''
+      ]
+
+      rows << []
+    end
+
+    rows
+  rescue => e
+    Slack.err('PayPal Transactions Sheet Error', e)
+    [
+      ['PayPal Transactions'],
+      ['Period', "#{from} to #{to}"],
+      [],
+      ['Error', 'Unable to load PayPal transactions for this range']
+    ]
   end
 
   def PayPalSDK::summary_cents(from, to)
