@@ -155,9 +155,16 @@ module PayPalSDK
       amount_cents > 0 ? amount_cents : 0
     end
 
-    expense_cents = external.sum do |row|
+    amount_expense_cents = external.sum do |row|
+      amount_cents = PayPalSDK::amount_to_cents(row[:amount])
+      amount_cents < 0 ? amount_cents.abs : 0
+    end
+
+    fee_expense_cents = external.sum do |row|
       PayPalSDK::amount_to_cents(row[:fee]).abs
     end
+
+    expense_cents = amount_expense_cents + fee_expense_cents
 
     {
       paypal_income_cents: income_cents,
