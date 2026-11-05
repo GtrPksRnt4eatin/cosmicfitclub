@@ -470,6 +470,142 @@ module StripeMethods
     }
   end
 
+  def StripeMethods::transfer_recipient_from_description(description)
+    text = description.to_s.strip
+    parts = text.split(/\bto\b/i).map { |part| part.to_s.strip }.reject(&:empty?)
+    recipient = parts.length > 1 ? parts.last : text
+    recipient.empty? ? 'Unknown' : recipient
+  end
+
+  def StripeMethods::transfer_totals_by_recipient(report)
+    totals = Hash.new(0)
+    report[:transactions].each do |row|
+      next unless row[:section] == 'Transfers'
+      recipient = StripeMethods::transfer_recipient_from_description(row[:description])
+      totals[recipient] += row[:amount_cents].to_i.abs
+    end
+    totals
+  end
+
+  def StripeMethods::period_metrics(report)
+    by_section = report[:transactions].group_by { |row| row[:section] }
+    sum_section = lambda { |name| (by_section[name] || []).sum { |row| row[:amount_cents].to_i } }
+
+    {
+      class_payments_cents: sum_section.call('Class Purchases'),
+      point_rentals_cents: sum_section.call('Point Rentals'),
+      packages_cents: sum_section.call('Packages'),
+      event_tickets_cents: sum_section.call('Event Tickets'),
+      room_rentals_cents: sum_section.call('Invoices'),
+      refunds_cents: report[:summary][:refunds_cents].to_i.abs,
+      stripe_fees_cents: report[:summary][:fees_cents].to_i.abs,
+      transfer_totals_cents: StripeMethods::transfer_totals_by_recipient(report)
+    }
+  end
+
+  def StripeMethods::recipient_normalized(name)
+    name.to_s.downcase.gsub(/[^a-z0-9]/, '')
+  end
+
+  def StripeMethods::cosmic_fit_recipient?(name)
+    normalized = StripeMethods::recipient_normalized(name)
+    normalized.include?('cosmicfitclub')
+  end
+
+  def StripeMethods::cosmic_loft_recipient?(name)
+    normalized = StripeMethods::recipient_normalized(name)
+    normalized.include?('cosmicloft')
+  end
+
+  def StripeMethods::transfer_total_for(metrics, label)
+    if label.to_s.downcase == 'cosmic fit club'
+      return metrics[:transfer_totals_cents]
+        .select { |name, _| StripeMethods::cosmic_fit_recipient?(name) }
+        .values
+        .sum
+    end
+
+    if label.to_s.downcase == 'cosmic loft'
+      return metrics[:transfer_totals_cents]
+        .select { |name, _| StripeMethods::cosmic_loft_recipient?(name) }
+        .values
+        .sum
+    end
+
+    key = metrics[:transfer_totals_cents].keys.find { |name| name.to_s.downcase == label.to_s.downcase }
+    key ? metrics[:transfer_totals_cents][key].to_i : 0
+  end
+
+  def StripeMethods::metrics_value(metrics, key)
+    cosmic_fit = StripeMethods::transfer_total_for(metrics, 'Cosmic Fit Club')
+    cosmic_loft = StripeMethods::transfer_total_for(metrics, 'Cosmic Loft')
+    others = metrics[:transfer_totals_cents]
+      .reject { |name, _| StripeMethods::cosmic_fit_recipient?(name) || StripeMethods::cosmic_loft_recipient?(name) }
+      .values
+      .sum
+
+    income_total =
+      metrics[:class_payments_cents].to_i +
+      metrics[:point_rentals_cents].to_i +
+      metrics[:packages_cents].to_i +
+      metrics[:event_tickets_cents].to_i +
+      metrics[:room_rentals_cents].to_i
+
+    expenses_total =
+      metrics[:refunds_cents].to_i +
+      metrics[:stripe_fees_cents].to_i +
+      cosmic_loft + others
+
+    if key.is_a?(String)
+      return StripeMethods::transfer_total_for(metrics, key)
+    end
+
+    case key
+    when :class_payments_cents then metrics[:class_payments_cents].to_i
+    when :point_rentals_cents then metrics[:point_rentals_cents].to_i
+    when :packages_cents then metrics[:packages_cents].to_i
+    when :event_tickets_cents then metrics[:event_tickets_cents].to_i
+    when :room_rentals_cents then metrics[:room_rentals_cents].to_i
+    when :paypal_income_cents then nil
+    when :total_income_cents then income_total
+    when :income_less_room_cents then income_total - metrics[:room_rentals_cents].to_i
+    when :refunds_cents then metrics[:refunds_cents].to_i
+    when :stripe_fees_cents then metrics[:stripe_fees_cents].to_i
+    when :cosmic_fit_club_cents then cosmic_fit
+    when :cosmic_loft_cents then cosmic_loft
+    when :transfers_out_bank_cents then cosmic_fit
+    when :other_transfer_total_cents then others
+    when :chase_expenses_cents then nil
+    when :paypal_expenses_cents then nil
+    when :total_expenses_cents then expenses_total
+    when :net_cents then income_total - expenses_total
+    when :net_less_loft_cents then (income_total - expenses_total) - cosmic_loft
+    else
+      nil
+    end
+  end
+
+  def StripeMethods::report_from_transactions(transactions, from_date, to_date)
+    by_type = transactions.group_by { |row| row[:type] }
+    amount_for = lambda { |type| (by_type[type] || []).sum { |row| row[:amount_cents].to_i } }
+
+    {
+      from: from_date,
+      to: to_date,
+      summary: {
+        gross_sales_cents: amount_for.call('charge'),
+        refunds_cents: amount_for.call('refund'),
+        disputes_cents: amount_for.call('payment_reversal') + amount_for.call('payment_failure_refund'),
+        adjustments_cents: amount_for.call('adjustment') + amount_for.call('reserve_transaction'),
+        payouts_cents: amount_for.call('payout'),
+        transfers_cents: amount_for.call('transfer'),
+        fees_cents: transactions.sum { |row| row[:fee_cents].to_i },
+        net_cents: transactions.sum { |row| row[:net_cents].to_i }
+      },
+      transactions: transactions
+    }
+  end
+
   def StripeMethods::get_transactions(from, to)
     transactions = []
     Stripe::BalanceTransaction.list({ 
