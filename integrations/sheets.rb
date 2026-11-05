@@ -4,6 +4,7 @@ require 'googleauth'
 require 'googleauth/stores/file_token_store'
 require 'fileutils'
 require 'stringio'
+require 'securerandom'
 
 module Sheets
 
@@ -740,6 +741,56 @@ module Sheets
     end
 
     file.web_view_link || file.webViewLink
+  end
+
+  module PNL
+    @@jobs = {}
+    @@jobs_mutex = Mutex.new
+
+    def self.start_job(year_or_from, month_or_to)
+      job_id = SecureRandom.uuid
+      created_at = Time.now
+
+      @@jobs_mutex.synchronize do
+        @@jobs[job_id] = {
+          status: 'queued',
+          job_id: job_id,
+          created_at: created_at,
+          updated_at: created_at,
+          url: nil,
+          error: nil
+        }
+      end
+
+      Thread.new do
+        begin
+          self.update_job(job_id, status: 'running', updated_at: Time.now)
+          url = Sheets::create_monthly_stripe_pnl_sheet(year_or_from, month_or_to)
+          self.update_job(job_id, status: 'completed', url: url, updated_at: Time.now)
+        rescue => e
+          Slack.err('Stripe P&L Background Job Error', e)
+          self.update_job(job_id, status: 'failed', error: e.message, updated_at: Time.now)
+        end
+      end
+
+      { job_id: job_id, status: 'queued' }
+    end
+
+    def self.job_status(job_id)
+      return nil if job_id.nil? || job_id.to_s.strip.empty?
+
+      @@jobs_mutex.synchronize do
+        job = @@jobs[job_id.to_s]
+        job ? job.dup : nil
+      end
+    end
+
+    def self.update_job(job_id, attrs)
+      @@jobs_mutex.synchronize do
+        return unless @@jobs[job_id]
+        @@jobs[job_id] = @@jobs[job_id].merge(attrs)
+      end
+    end
   end
 
 end

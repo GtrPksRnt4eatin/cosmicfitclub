@@ -102,7 +102,8 @@ class StaffRoutes < Sinatra::Base
       end
 
       begin
-        return({ :url => Sheets::create_monthly_stripe_pnl_sheet(from, to) }.to_json)
+        status 202
+        return Sheets::PNL.start_job(from, to).to_json
       rescue => e
         Slack.err('Stripe P&L Sheet Error', e)
         halt 500, { error: "Failed to create Stripe P&L sheet: #{e.message}" }.to_json
@@ -114,11 +115,22 @@ class StaffRoutes < Sinatra::Base
     halt 422, { error: 'Provide either from/to or year/month' }.to_json if year <= 0
     halt 422, { error: 'Month must be 1-12' }.to_json if month < 1 || month > 12
     begin
-      { :url => Sheets::create_monthly_stripe_pnl_sheet(year, month) }.to_json
+      status 202
+      Sheets::PNL.start_job(year, month).to_json
     rescue => e
       Slack.err('Stripe P&L Sheet Error', e)
       halt 500, { error: "Failed to create Stripe P&L sheet: #{e.message}" }.to_json
     end
+  end
+
+  get '/stripe_pnl_sheet_status' do
+    job_id = params[:job_id].to_s.strip
+    halt 422, { error: 'job_id is required' }.to_json if job_id.empty?
+
+    job = Sheets::PNL.job_status(job_id)
+    halt 404, { error: 'Job not found' }.to_json if job.nil?
+
+    job.to_json
   end
 
   post '/payroll' do
