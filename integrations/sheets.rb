@@ -605,7 +605,12 @@ module Sheets
   end
 
   def Sheets::safe_period_pnl_report(from_date, to_date)
-    StripeMethods::monthly_pnl_report(from_date.to_s, to_date.to_s)
+    StripeMethods::monthly_pnl_report(
+      from_date.to_s,
+      to_date.to_s,
+      include_invoice_recipients: false,
+      include_transfer_recipients: true
+    )
   rescue => e
     Slack.err("Stripe Period P&L Report Error (#{from_date} to #{to_date})", e)
     Sheets::empty_pnl_report(from_date, to_date)

@@ -275,7 +275,9 @@ module StripeMethods
     return { :gross => trans.try(:amount), :fees =>  trans.try(:fee), :refunds => refunds, :net => refunds + trans.try(:net),   }
   end
 
-  def StripeMethods::list_balance_transactions(from, to)
+  def StripeMethods::list_balance_transactions(from, to, options = {})
+    include_invoice_recipients = options.fetch(:include_invoice_recipients, true)
+    include_transfer_recipients = options.fetch(:include_transfer_recipients, true)
     transactions = []
     Stripe::BalanceTransaction.list({
       created: StripeMethods::stripe_created_bounds(from, to),
@@ -287,8 +289,8 @@ module StripeMethods
       end
 
       description = x.description.to_s
-      description = StripeMethods::invoice_description_with_recipient(description, x.source, payment_type)
-      if x.type.to_s == 'transfer' && x.source
+      description = StripeMethods::invoice_description_with_recipient(description, x.source, payment_type) if include_invoice_recipients
+      if include_transfer_recipients && x.type.to_s == 'transfer' && x.source
         begin
           transfer = Stripe::Transfer.retrieve(x.source)
           transfer_description = transfer && (transfer.description || "")
@@ -436,8 +438,8 @@ module StripeMethods
     'Other'
   end
 
-  def StripeMethods::monthly_pnl_report(from, to)
-    transactions = StripeMethods::list_balance_transactions(from, to)
+  def StripeMethods::monthly_pnl_report(from, to, options = {})
+    transactions = StripeMethods::list_balance_transactions(from, to, options)
 
     by_type = transactions.group_by { |row| row[:type] }
     amount_for = lambda { |type| (by_type[type] || []).sum { |row| row[:amount_cents] } }
