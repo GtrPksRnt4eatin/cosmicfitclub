@@ -403,9 +403,20 @@ module Sheets
 
   def Sheets::period_summary_rows(month_ranges, month_reports, period_start, period_end)
     month_labels = month_ranges.map { |month_start, _month_end| month_start.strftime('%b').upcase }
+    paypal_transactions = PayPalSDK::transactions_for_period(period_start, period_end)
+
     month_metrics = month_reports.each_with_index.map do |report, index|
       month_start, month_end = month_ranges[index]
-      paypal_metrics = PayPalSDK::summary_cents("#{month_start} 00:00:00", "#{month_end} 23:59:59")
+      month_paypal_transactions = paypal_transactions.select do |row|
+        begin
+          ts = row[:timestamp] ? Time.parse(row[:timestamp]) : Time.parse("#{row[:date]} #{row[:time]}")
+          day = ts.to_date
+          day >= month_start && day <= month_end
+        rescue
+          false
+        end
+      end
+      paypal_metrics = PayPalSDK::summary_cents_from_transactions(month_paypal_transactions)
       StripeMethods::period_metrics(report).merge(paypal_metrics)
     end
     period_metrics = Sheets::aggregate_period_metrics(month_metrics)
@@ -448,7 +459,6 @@ module Sheets
     rows << Sheets::period_summary_row('TOTAL EXPENSES', :total_expenses_cents, month_metrics, period_metrics)
     rows << []
     rows << Sheets::period_summary_row('NET', :net_cents, month_metrics, period_metrics)
-    rows << Sheets::period_summary_row('NET LESS LOFT', :net_less_loft_cents, month_metrics, period_metrics)
     rows << Sheets::period_summary_row('Cosmic Fit Club (Transfer Out)', :transfers_out_bank_cents, month_metrics, period_metrics)
 
     rows

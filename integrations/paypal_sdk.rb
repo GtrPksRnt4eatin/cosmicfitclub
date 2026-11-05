@@ -45,6 +45,7 @@ module PayPalSDK
     has_payer = !!payer_info['payer_status']
 
     {
+      :timestamp => trans_t.utc.iso8601,
       :date   => trans_t.strftime("%m/%d/%Y"),
       :time   => trans_t.strftime("%l:%M %P"),
       :name   => has_payer ? payer_info.dig('payer_name', 'alternate_full_name').to_s : '',
@@ -116,30 +117,7 @@ module PayPalSDK
     to_date = to.is_a?(Date) ? to : Date.parse(to.to_s)
     from_date, to_date = to_date, from_date if to_date < from_date
 
-    transactions = []
-    seen_ids = {}
-
-    PayPalSDK::month_slices(from_date, to_date).each do |slice_start, slice_end|
-      from_for_paypal = "#{slice_start} 00:00:00"
-      to_for_paypal = "#{slice_end} 23:59:59"
-      slice_transactions = PayPalSDK::list_transactions(from_for_paypal, to_for_paypal) || []
-
-      slice_transactions.each do |row|
-        row_id = row[:id].to_s
-        dedupe_key = row_id.empty? ? "#{row[:date]}|#{row[:time]}|#{row[:amount]}|#{row[:email]}" : row_id
-        next if seen_ids[dedupe_key]
-        seen_ids[dedupe_key] = true
-        transactions << row
-      end
-    end
-
-    transactions.sort_by! do |row|
-      begin
-        Time.parse("#{row[:date]} #{row[:time]}")
-      rescue
-        Time.at(0)
-      end
-    end
+    transactions = PayPalSDK::transactions_for_period(from_date, to_date)
 
     rows = []
     rows << ['PayPal Transactions']
@@ -172,6 +150,41 @@ module PayPalSDK
     ]
   end
 
+  def PayPalSDK::transactions_for_period(from, to)
+    from_date = from.is_a?(Date) ? from : Date.parse(from.to_s)
+    to_date = to.is_a?(Date) ? to : Date.parse(to.to_s)
+    from_date, to_date = to_date, from_date if to_date < from_date
+
+    transactions = []
+    seen_ids = {}
+
+    PayPalSDK::month_slices(from_date, to_date).each do |slice_start, slice_end|
+      from_for_paypal = "#{slice_start} 00:00:00"
+      to_for_paypal = "#{slice_end} 23:59:59"
+      slice_transactions = PayPalSDK::list_transactions(from_for_paypal, to_for_paypal) || []
+
+      slice_transactions.each do |row|
+        row_id = row[:id].to_s
+        dedupe_key = row_id.empty? ? "#{row[:date]}|#{row[:time]}|#{row[:amount]}|#{row[:email]}" : row_id
+        next if seen_ids[dedupe_key]
+        seen_ids[dedupe_key] = true
+        transactions << row
+      end
+    end
+
+    transactions.sort_by! do |row|
+      begin
+        row[:timestamp] ? Time.parse(row[:timestamp]) : Time.parse("#{row[:date]} #{row[:time]}")
+      rescue
+        Time.at(0)
+      end
+    end
+    transactions
+  rescue => e
+    Slack.err('PayPal Transactions Period Error', e)
+    []
+  end
+
   def PayPalSDK::amount_to_cents(value)
     return 0 if value.nil?
     ((value.to_s.to_f) * 100.0).round
@@ -181,9 +194,8 @@ module PayPalSDK
     !row[:name].to_s.strip.empty?
   end
 
-  def PayPalSDK::summary_cents(from, to)
-    transactions = PayPalSDK::list_transactions(from, to) || []
-    external = transactions.select { |row| PayPalSDK::external_transaction?(row) }
+  def PayPalSDK::summary_cents_from_transactions(transactions)
+    external = (transactions || []).select { |row| PayPalSDK::external_transaction?(row) }
 
     income_cents = external.sum do |row|
       amount_cents = PayPalSDK::amount_to_cents(row[:amount])
@@ -198,6 +210,11 @@ module PayPalSDK
       paypal_income_cents: income_cents,
       paypal_expenses_cents: expense_cents
     }
+  end
+
+  def PayPalSDK::summary_cents(from, to)
+    transactions = PayPalSDK::transactions_for_period(from, to)
+    PayPalSDK::summary_cents_from_transactions(transactions)
   rescue => e
     Slack.err('PayPal Summary Error', e)
     { paypal_income_cents: 0, paypal_expenses_cents: 0 }
