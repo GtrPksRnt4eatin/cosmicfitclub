@@ -5,6 +5,7 @@ require 'googleauth/stores/file_token_store'
 require 'fileutils'
 require 'stringio'
 require 'securerandom'
+require 'tmpdir'
 
 module Sheets
 
@@ -744,34 +745,61 @@ module Sheets
   end
 
   module PNL
-    @@jobs = {}
-    @@jobs_mutex = Mutex.new
+    def self.job_dir
+      dir = File.join(Dir.tmpdir, 'cosmicfit_pnl_jobs')
+      FileUtils.mkdir_p(dir)
+      dir
+    end
+
+    def self.job_path(job_id)
+      File.join(job_dir, "#{job_id}.json")
+    end
+
+    def self.write_job(job_hash)
+      path = job_path(job_hash[:job_id])
+      tmp_path = "#{path}.tmp"
+      File.write(tmp_path, job_hash.to_json)
+      File.rename(tmp_path, path)
+    end
+
+    def self.read_job(job_id)
+      path = job_path(job_id)
+      return nil unless File.exist?(path)
+      JSON.parse(File.read(path), symbolize_names: true)
+    rescue
+      nil
+    end
 
     def self.start_job(year_or_from, month_or_to)
       job_id = SecureRandom.uuid
-      created_at = Time.now
+      now = Time.now.utc.iso8601
+      self.write_job({
+        status: 'queued',
+        job_id: job_id,
+        created_at: now,
+        updated_at: now,
+        url: nil,
+        error: nil
+      })
 
-      @@jobs_mutex.synchronize do
-        @@jobs[job_id] = {
-          status: 'queued',
-          job_id: job_id,
-          created_at: created_at,
-          updated_at: created_at,
-          url: nil,
-          error: nil
-        }
-      end
-
-      Thread.new do
+      pid = fork do
         begin
-          self.update_job(job_id, status: 'running', updated_at: Time.now)
+          self.update_job(job_id, status: 'running', updated_at: Time.now.utc.iso8601)
           url = Sheets::create_monthly_stripe_pnl_sheet(year_or_from, month_or_to)
-          self.update_job(job_id, status: 'completed', url: url, updated_at: Time.now)
+          self.update_job(job_id, status: 'completed', url: url, updated_at: Time.now.utc.iso8601)
         rescue => e
           Slack.err('Stripe P&L Background Job Error', e)
-          self.update_job(job_id, status: 'failed', error: e.message, updated_at: Time.now)
+          self.update_job(
+            job_id,
+            status: 'failed',
+            error: "#{e.class}: #{e.message}",
+            updated_at: Time.now.utc.iso8601
+          )
+        ensure
+          exit! 0
         end
       end
+      Process.detach(pid)
 
       { job_id: job_id, status: 'queued' }
     end
@@ -779,17 +807,13 @@ module Sheets
     def self.job_status(job_id)
       return nil if job_id.nil? || job_id.to_s.strip.empty?
 
-      @@jobs_mutex.synchronize do
-        job = @@jobs[job_id.to_s]
-        job ? job.dup : nil
-      end
+      self.read_job(job_id.to_s)
     end
 
     def self.update_job(job_id, attrs)
-      @@jobs_mutex.synchronize do
-        return unless @@jobs[job_id]
-        @@jobs[job_id] = @@jobs[job_id].merge(attrs)
-      end
+      current = self.read_job(job_id)
+      return unless current
+      self.write_job(current.merge(attrs))
     end
   end
 
