@@ -29,7 +29,16 @@ ctrl = {
   generate_stripe_pnl: function(e,m) {
     if(!(data['from'] && data['to'])) { return; }
     $.get('/models/staff/stripe_pnl_sheet', { from: data['from'], to: data['to'] }, on_save_to_drive)
-     .fail(function(err) { alert('Failed to create Stripe P&L sheet'); console.log(err); });
+     .fail(function(err) {
+       var msg = 'Failed to create Stripe P&L sheet';
+       if(err && err.responseJSON && err.responseJSON.error) {
+         msg = err.responseJSON.error;
+       } else if(err && err.responseText) {
+         msg = err.responseText;
+       }
+       alert(msg);
+       console.log(err);
+     });
   },
   generate_payroll: function(e,m) {
     $.post('/models/staff/payroll', { from: data['from'], to: data['to'] })

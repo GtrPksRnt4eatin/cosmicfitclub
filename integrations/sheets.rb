@@ -586,6 +586,31 @@ module Sheets
     rows
   end
 
+  def Sheets::empty_pnl_report(from_date, to_date)
+    {
+      from: from_date,
+      to: to_date,
+      summary: {
+        gross_sales_cents: 0,
+        refunds_cents: 0,
+        disputes_cents: 0,
+        adjustments_cents: 0,
+        payouts_cents: 0,
+        transfers_cents: 0,
+        fees_cents: 0,
+        net_cents: 0
+      },
+      transactions: []
+    }
+  end
+
+  def Sheets::safe_monthly_pnl_report(month_start, month_end)
+    StripeMethods::monthly_pnl_report(month_start.to_s, month_end.to_s)
+  rescue => e
+    Slack.err("Stripe Monthly P&L Report Error (#{month_start} to #{month_end})", e)
+    Sheets::empty_pnl_report(month_start, month_end)
+  end
+
   def Sheets::paypal_transactions_rows(from, to)
     from_input = from.to_s
     to_input = to.to_s
@@ -640,7 +665,7 @@ module Sheets
 
     month_ranges = Sheets::month_slices(start, finish)
     month_reports = month_ranges.map do |month_start, month_end|
-      StripeMethods::monthly_pnl_report(month_start.to_s, month_end.to_s)
+      Sheets::safe_monthly_pnl_report(month_start, month_end)
     end
     sheets, drive = Sheets::get_service2
 

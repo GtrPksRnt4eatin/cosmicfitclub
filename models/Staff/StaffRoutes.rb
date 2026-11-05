@@ -101,14 +101,24 @@ class StaffRoutes < Sinatra::Base
         halt 422, { error: 'from and to must be valid dates (YYYY-MM-DD)' }.to_json
       end
 
-      return({ :url => Sheets::create_monthly_stripe_pnl_sheet(from, to) }.to_json)
+      begin
+        return({ :url => Sheets::create_monthly_stripe_pnl_sheet(from, to) }.to_json)
+      rescue => e
+        Slack.err('Stripe P&L Sheet Error', e)
+        halt 500, { error: "Failed to create Stripe P&L sheet: #{e.message}" }.to_json
+      end
     end
 
     year = params[:year].to_i
     month = params[:month].to_i
     halt 422, { error: 'Provide either from/to or year/month' }.to_json if year <= 0
     halt 422, { error: 'Month must be 1-12' }.to_json if month < 1 || month > 12
-    { :url => Sheets::create_monthly_stripe_pnl_sheet(year, month) }.to_json
+    begin
+      { :url => Sheets::create_monthly_stripe_pnl_sheet(year, month) }.to_json
+    rescue => e
+      Slack.err('Stripe P&L Sheet Error', e)
+      halt 500, { error: "Failed to create Stripe P&L sheet: #{e.message}" }.to_json
+    end
   end
 
   post '/payroll' do
