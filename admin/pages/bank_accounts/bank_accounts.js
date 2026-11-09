@@ -90,11 +90,33 @@ function to_iso_date(d) {
 
 function load_accounts() {
   $.get('/integrations/plaid/accounts', function(resp) {
-    data.accounts = (resp && resp.accounts) ? resp.accounts : [];
+    data.accounts = normalize_accounts(resp && resp.accounts ? resp.accounts : []);
     data.message = data.accounts.length ? '' : 'No linked accounts yet.';
   }).fail(function(xhr) {
     data.message = parse_error(xhr, 'Failed to load linked accounts');
   });
+}
+
+function normalize_accounts(value) {
+  if (Array.isArray(value)) { return value; }
+
+  if (typeof value === 'string') {
+    try {
+      var parsed = JSON.parse(value);
+      return normalize_accounts(parsed);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  if (value && typeof value === 'object') {
+    if (Array.isArray(value.accounts)) {
+      return value.accounts;
+    }
+    return Object.keys(value).map(function(key) { return value[key]; });
+  }
+
+  return [];
 }
 
 function open_plaid_link(linkToken) {

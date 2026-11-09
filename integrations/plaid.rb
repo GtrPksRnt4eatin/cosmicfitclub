@@ -23,6 +23,22 @@ module PlaidIntegration
     extract_value(source, key).to_s
   end
 
+  def self.normalize_account_record(record)
+    parsed = if record.is_a?(String)
+      JSON.parse(record) rescue nil
+    else
+      record
+    end
+
+    return nil unless parsed.is_a?(Hash)
+
+    normalized = {}
+    parsed.each { |key, value| normalized[key.to_s] = value }
+    normalized
+  rescue
+    nil
+  end
+
   def self.array_from(value)
     return value if value.is_a?(Array)
     return [] if value.nil?
@@ -116,14 +132,20 @@ module PlaidIntegration
   end
 
   def self.public_accounts
-    stored_accounts.map do |account|
-      account.reject { |key, _| key.to_s == 'access_token' }
-    end
+    array_from(stored_accounts).map do |account|
+      normalized = normalize_account_record(account)
+      next if normalized.nil?
+      normalized.reject { |key, _| key.to_s == 'access_token' }
+    end.compact
   end
 
   def self.remove_account(account_id)
     existing = stored_accounts
-    kept = existing.reject { |row| row['account_id'].to_s == account_id.to_s }
+    kept = existing.reject do |row|
+      normalized = normalize_account_record(row)
+      next false if normalized.nil?
+      normalized['account_id'].to_s == account_id.to_s
+    end
     removed = existing.length - kept.length
     save_accounts(kept)
     removed
@@ -151,7 +173,7 @@ module PlaidIntegration
 
     institution_name = lookup_institution_name(access_token)
 
-    existing = stored_accounts
+    existing = array_from(stored_accounts).map { |row| normalize_account_record(row) }.compact
     saved_count = 0
 
     remote_accounts.each do |remote|
