@@ -165,13 +165,14 @@ module PlaidIntegration
     out << ["Plaid Transactions (#{account['institution_name']} #{account['mask']})"]
     out << ['Period', "#{start_date} to #{end_date}"]
     out << []
-    out << ['Date', 'Name', 'Merchant', 'Amount', 'Currency', 'Category', 'Pending', 'Transaction ID']
+    out << ['Date', 'Name', 'Merchant', 'Description', 'Amount', 'Currency', 'Category', 'Pending', 'Transaction ID']
 
     rows.sort_by { |row| row[:date].to_s }.each do |row|
       out << [
         row[:date],
-        row[:name],
+        row[:display_name].to_s.empty? ? row[:name] : row[:display_name],
         row[:merchant_name],
+        row[:description],
         row[:amount],
         row[:iso_currency_code] || row[:unofficial_currency_code],
         Array(row[:category]).join(' > '),
@@ -341,12 +342,56 @@ module PlaidIntegration
   end
 
   def self.normalize_transaction(transaction)
+    payload = if transaction.respond_to?(:to_hash)
+      transaction.to_hash
+    elsif transaction.is_a?(Hash)
+      transaction
+    else
+      JSON.parse(transaction.to_json) rescue {}
+    end
+
+    payment_meta = payload['payment_meta'] || payload[:payment_meta] || {}
+    payment_meta_name = if payment_meta.is_a?(Hash)
+      payment_meta['payee'] || payment_meta[:payee] ||
+      payment_meta['payer'] || payment_meta[:payer] ||
+      payment_meta['reference_number'] || payment_meta[:reference_number]
+    end
+
+    counterparties = payload['counterparties'] || payload[:counterparties] || []
+    counterparty_name = if counterparties.is_a?(Array) && !counterparties.empty?
+      first = counterparties.first
+      if first.is_a?(Hash)
+        first['name'] || first[:name]
+      elsif first.respond_to?(:name)
+        first.name
+      end
+    end
+
+    merchant_name = transaction.merchant_name.to_s
+    raw_name = transaction.name.to_s
+    original_description = (payload['original_description'] || payload[:original_description]).to_s
+    unofficial_merchant_name = (payload['unofficial_merchant_name'] || payload[:unofficial_merchant_name]).to_s
+
+    display_name = [merchant_name, unofficial_merchant_name, counterparty_name.to_s, raw_name].find { |v| !v.to_s.strip.empty? }.to_s
+    long_description = [
+      original_description,
+      raw_name,
+      merchant_name,
+      unofficial_merchant_name,
+      payment_meta_name.to_s,
+      counterparty_name.to_s
+    ].map { |v| v.to_s.strip }.reject(&:empty?).uniq.join(' | ')
+
     {
       id: transaction.transaction_id,
       account_id: transaction.account_id,
       date: transaction.date,
-      name: transaction.name,
-      merchant_name: transaction.merchant_name,
+      name: raw_name,
+      merchant_name: merchant_name,
+      display_name: display_name,
+      description: long_description,
+      original_description: original_description,
+      unofficial_merchant_name: unofficial_merchant_name,
       amount: transaction.amount,
       iso_currency_code: transaction.iso_currency_code,
       unofficial_currency_code: transaction.unofficial_currency_code,
@@ -520,12 +565,16 @@ class PlaidRoutes < Sinatra::Base
     ).select { |row| row[:account_id].to_s == account_id }
 
     csv = CSV.generate do |out|
-      out << ['date', 'name', 'merchant_name', 'amount', 'currency', 'category', 'pending', 'transaction_id']
+      out << ['date', 'display_name', 'name', 'merchant_name', 'description', 'original_description', 'unofficial_merchant_name', 'amount', 'currency', 'category', 'pending', 'transaction_id']
       rows.each do |row|
         out << [
           row[:date],
+          row[:display_name],
           row[:name],
           row[:merchant_name],
+          row[:description],
+          row[:original_description],
+          row[:unofficial_merchant_name],
           row[:amount],
           row[:iso_currency_code] || row[:unofficial_currency_code],
           Array(row[:category]).join(' > '),
