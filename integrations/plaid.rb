@@ -165,7 +165,7 @@ module PlaidIntegration
     out << ["Plaid Transactions (#{account['institution_name']} #{account['mask']})"]
     out << ['Period', "#{start_date} to #{end_date}"]
     out << []
-    out << ['Date', 'Amount', 'Name', 'Merchant', 'Description', 'Currency', 'Category', 'Pending', 'Transaction ID']
+    out << ['Date', 'Amount', 'Merchant', 'Name', 'Description', 'Transaction ID']
 
     current_month = nil
     rows.sort_by { |row| [row[:date].to_s, row[:id].to_s] }.each do |row|
@@ -183,12 +183,9 @@ module PlaidIntegration
       out << [
         row[:date],
         row[:amount],
-        row[:simplified_name].to_s.empty? ? (row[:display_name].to_s.empty? ? row[:name] : row[:display_name]) : row[:simplified_name],
         row[:merchant_name],
+        row[:simplified_name].to_s.empty? ? (row[:display_name].to_s.empty? ? row[:name] : row[:display_name]) : row[:simplified_name],
         row[:description],
-        row[:iso_currency_code] || row[:unofficial_currency_code],
-        Array(row[:category]).join(' > '),
-        row[:pending] ? 'yes' : 'no',
         row[:id]
       ]
     end
@@ -366,7 +363,7 @@ module PlaidIntegration
     str = text.to_s
     return '' if str.empty?
 
-    match = str.match(/IND\s*ID\s*[:=]\s*([^|,;]+)/i)
+    match = str.match(/IND\s*ID\s*[:=]\s*(.+?)(?=\s+IND\s*NAME\s*:|[|,;]|$)/i)
     return '' if match.nil?
 
     match[1].to_s.strip
@@ -688,7 +685,7 @@ class PlaidRoutes < Sinatra::Base
     ).select { |row| row[:account_id].to_s == account_id }
 
     csv = CSV.generate do |out|
-      out << ['date', 'display_name', 'name', 'raw_name', 'merchant_name', 'plaid_merchant_name', 'description', 'original_description', 'unofficial_merchant_name', 'amount', 'currency', 'category', 'pending', 'transaction_id']
+      out << ['date', 'display_name', 'name', 'raw_name', 'merchant_name', 'plaid_merchant_name', 'description', 'original_description', 'unofficial_merchant_name', 'amount', 'transaction_id']
       rows.each do |row|
         out << [
           row[:date],
@@ -701,9 +698,6 @@ class PlaidRoutes < Sinatra::Base
           row[:original_description],
           row[:unofficial_merchant_name],
           row[:amount],
-          row[:iso_currency_code] || row[:unofficial_currency_code],
-          Array(row[:category]).join(' > '),
-          row[:pending],
           row[:id]
         ]
       end
