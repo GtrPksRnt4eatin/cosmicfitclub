@@ -439,6 +439,54 @@ module Sheets
     {}
   end
 
+  def Sheets::loft_metrics_by_month_for_mask(mask_suffix, period_start, period_end)
+    account = PlaidIntegration.account_by_mask(mask_suffix)
+    return {} if account.nil?
+
+    rows = PlaidIntegration.transactions(
+      access_token: account['access_token'],
+      start_date: period_start,
+      end_date: period_end
+    ).select { |row| row[:account_id].to_s == account['account_id'].to_s }
+
+    grouped = Hash.new do |hash, key|
+      hash[key] = {
+        income_cents: 0,
+        expense_cents: 0,
+        category_totals_cents: Hash.new(0)
+      }
+    end
+
+    rows.each do |row|
+      month_key = begin
+        Date.parse(row[:date].to_s).strftime('%Y-%m')
+      rescue
+        row[:date].to_s[0, 7]
+      end
+
+      amount = if row[:normalized_amount].nil?
+        (row[:amount].to_f * -1.0).round(2)
+      else
+        row[:normalized_amount].to_f
+      end
+      amount_cents = (amount * 100.0).round
+
+      category = PlaidIntegration.loft_category(row)
+      grouped[month_key][:category_totals_cents][category] += amount_cents
+
+      if amount_cents >= 0
+        grouped[month_key][:income_cents] += amount_cents
+      else
+        grouped[month_key][:expense_cents] += amount_cents.abs
+      end
+    end
+
+    grouped
+  rescue => e
+    Slack.err('Loft Metrics Aggregation Error', e)
+    {}
+  end
+
   def Sheets::period_summary_rows(month_ranges, month_reports, period_start, period_end, paypal_payload=nil, chase_expenses_by_month=nil)
     month_labels = month_ranges.map { |month_start, _month_end| month_start.strftime('%b').upcase }
     paypal_payload ||= PayPalSDK::monthly_transactions_payload(period_start, period_end)
@@ -501,19 +549,46 @@ module Sheets
     rows
   end
 
-  def Sheets::loft_summary_rows(month_ranges, period_start, period_end, chase_expenses_by_month, account_mask)
+  def Sheets::loft_summary_rows(month_ranges, period_start, period_end, loft_metrics_by_month, account_mask)
     month_labels = month_ranges.map { |month_start, _month_end| month_start.strftime('%b').upcase }
-    expense_values_cents = month_ranges.map do |month_start, _month_end|
-      chase_expenses_by_month[month_start.strftime('%Y-%m')].to_i
+    income_values_cents = month_ranges.map do |month_start, _month_end|
+      (loft_metrics_by_month[month_start.strftime('%Y-%m')] || {})[:income_cents].to_i
     end
+    expense_values_cents = month_ranges.map do |month_start, _month_end|
+      (loft_metrics_by_month[month_start.strftime('%Y-%m')] || {})[:expense_cents].to_i
+    end
+
+    total_income_cents = income_values_cents.sum
     total_expense_cents = expense_values_cents.sum
+    net_cents = total_income_cents - total_expense_cents
+
+    category_names = month_ranges.map do |month_start, _month_end|
+      month_key = month_start.strftime('%Y-%m')
+      metrics = loft_metrics_by_month[month_key] || {}
+      (metrics[:category_totals_cents] || {}).keys
+    end.flatten.uniq.sort
 
     rows = []
     rows << ['Loft Period Summary']
     rows << ['Account Mask', account_mask]
     rows << ['Category', ''] + month_labels + ['', "#{period_start} to #{period_end}"]
     rows << []
-    rows << ['Chase Expenses', ''] + expense_values_cents.map { |c| c.to_f / 100.0 } + ['', total_expense_cents.to_f / 100.0]
+    rows << ['TOTAL INCOME', ''] + income_values_cents.map { |c| c.to_f / 100.0 } + ['', total_income_cents.to_f / 100.0]
+    rows << ['TOTAL EXPENSES', ''] + expense_values_cents.map { |c| c.to_f / 100.0 } + ['', total_expense_cents.to_f / 100.0]
+    rows << ['NET', ''] + month_ranges.each_with_index.map { |_, idx| (income_values_cents[idx] - expense_values_cents[idx]).to_f / 100.0 } + ['', net_cents.to_f / 100.0]
+
+    unless category_names.empty?
+      rows << []
+      category_names.each do |category|
+        category_values_cents = month_ranges.map do |month_start, _month_end|
+          month_key = month_start.strftime('%Y-%m')
+          metrics = loft_metrics_by_month[month_key] || {}
+          (metrics[:category_totals_cents] || {})[category].to_i
+        end
+        rows << [category, ''] + category_values_cents.map { |c| c.to_f / 100.0 } + ['', category_values_cents.sum.to_f / 100.0]
+      end
+    end
+
     rows
   end
 
@@ -596,6 +671,7 @@ module Sheets
     period_transactions = period_report[:transactions] || []
     paypal_payload = loft_only ? nil : PayPalSDK::monthly_transactions_payload(start, finish)
     chase_expenses_by_month = Sheets::chase_expenses_by_month_for_mask(account_mask, start, finish)
+    loft_metrics_by_month = loft_only ? Sheets::loft_metrics_by_month_for_mask(account_mask, start, finish) : nil
 
     month_reports = if loft_only
       []
@@ -624,7 +700,7 @@ module Sheets
 
     Sheets::rename_sheet(sheets, file.id, 0, "Summary")
     if loft_only
-      Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::loft_summary_rows(month_ranges, start, finish, chase_expenses_by_month, account_mask))
+      Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::loft_summary_rows(month_ranges, start, finish, loft_metrics_by_month || {}, account_mask))
     else
       Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, start, finish, paypal_payload, chase_expenses_by_month))
     end

@@ -164,6 +164,7 @@ module PlaidIntegration
 
     if loft_mode
       rows = apply_loft_pair_labels(rows)
+      rows = sort_loft_rows(rows)
     end
 
     out = []
@@ -266,6 +267,21 @@ module PlaidIntegration
     end
   end
 
+  def self.row_month_key(value)
+    Date.parse(value.to_s).strftime('%Y-%m')
+  rescue
+    value.to_s[0, 7]
+  end
+
+  def self.sort_loft_rows(rows)
+    rows.sort_by do |row|
+      amount = row_amount_value(row)
+      direction_rank = amount >= 0 ? 0 : 1
+      category = loft_category(row)
+      [row_month_key(row[:date]), direction_rank, category.to_s.downcase, row[:date].to_s, row[:id].to_s]
+    end
+  end
+
   def self.loft_category(row)
     merchant = row[:merchant_name].to_s
     simplified_name = row[:simplified_name].to_s
@@ -274,10 +290,10 @@ module PlaidIntegration
 
     return 'Classes' if simplified_name.match?(/^Classes\b/i)
     return 'Point Rentals' if simplified_name.match?(/^Point Rentals\b/i)
-    return 'Room Rental (Zelle)' if text.match?(/zelle/i)
-    return 'Utillities (Con Edison)' if text.match?(/con\s*edison|coned/i)
-    return 'Rent (MANAGEGO)' if text.match?(/managego/i)
-    return 'Taxes (ACC Moshe)' if text.match?(/acc\s*moshe/i)
+    return 'Room Rental' if text.match?(/zelle/i)
+    return 'Utilities' if text.match?(/con\s*edison|coned/i)
+    return 'Rent' if text.match?(/managego/i)
+    return 'Taxes' if text.match?(/acc\s*moshe/i)
 
     'OTHER'
   end
