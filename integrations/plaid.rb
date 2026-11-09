@@ -154,6 +154,7 @@ module PlaidIntegration
   def self.transactions_sheet_rows_for_mask(mask_suffix, start_date, end_date)
     account = account_by_mask(mask_suffix)
     return [] if account.nil?
+    loft_mode = (mask_suffix.to_s == '5785')
 
     rows = transactions(
       access_token: account['access_token'],
@@ -161,11 +162,19 @@ module PlaidIntegration
       end_date: end_date
     ).select { |row| row[:account_id].to_s == account['account_id'].to_s }
 
+    if loft_mode
+      rows = apply_loft_pair_labels(rows)
+    end
+
     out = []
     out << ["Plaid Transactions (#{account['institution_name']} #{account['mask']})"]
     out << ['Period', "#{start_date} to #{end_date}"]
     out << []
-    out << ['Date', 'Amount', 'Merchant', 'Name', 'Description', 'Transaction ID']
+    if loft_mode
+      out << ['Date', 'Category', 'Amount', 'Merchant', 'Name', 'Description', 'Transaction ID']
+    else
+      out << ['Date', 'Amount', 'Merchant', 'Name', 'Description', 'Transaction ID']
+    end
 
     current_month = nil
     current_month_label = nil
@@ -189,9 +198,14 @@ module PlaidIntegration
       else
         row[:normalized_amount].to_f
       end
+      row_category = loft_mode ? loft_category(row) : nil
 
       if !current_month.nil? && row_month != current_month
-        out << ["#{current_month_label} Subtotal", current_month_total.round(2), '', '', '', '']
+        if loft_mode
+          out << ["#{current_month_label} Subtotal", '', current_month_total.round(2), '', '', '', '']
+        else
+          out << ["#{current_month_label} Subtotal", current_month_total.round(2), '', '', '', '']
+        end
         out << []
         current_month_total = 0.0
       end
@@ -200,23 +214,96 @@ module PlaidIntegration
       current_month_total += row_amount
       overall_total += row_amount
 
-      out << [
-        row[:date],
-        row_amount,
-        row[:merchant_name],
-        row[:simplified_name].to_s.empty? ? (row[:display_name].to_s.empty? ? row[:name] : row[:display_name]) : row[:simplified_name],
-        row[:description],
-        row[:id]
-      ]
+      if loft_mode
+        out << [
+          row[:date],
+          row_category,
+          row_amount,
+          row[:merchant_name],
+          row[:simplified_name].to_s.empty? ? (row[:display_name].to_s.empty? ? row[:name] : row[:display_name]) : row[:simplified_name],
+          row[:description],
+          row[:id]
+        ]
+      else
+        out << [
+          row[:date],
+          row_amount,
+          row[:merchant_name],
+          row[:simplified_name].to_s.empty? ? (row[:display_name].to_s.empty? ? row[:name] : row[:display_name]) : row[:simplified_name],
+          row[:description],
+          row[:id]
+        ]
+      end
     end
 
     unless current_month.nil?
-      out << ["#{current_month_label} Subtotal", current_month_total.round(2), '', '', '', '']
+      if loft_mode
+        out << ["#{current_month_label} Subtotal", '', current_month_total.round(2), '', '', '', '']
+      else
+        out << ["#{current_month_label} Subtotal", current_month_total.round(2), '', '', '', '']
+      end
       out << []
-      out << ['GRAND TOTAL', overall_total.round(2), '', '', '', '']
+      if loft_mode
+        out << ['GRAND TOTAL', '', overall_total.round(2), '', '', '', '']
+      else
+        out << ['GRAND TOTAL', overall_total.round(2), '', '', '', '']
+      end
     end
 
     out
+  end
+
+  def self.loft_range_from_name(value)
+    match = value.to_s.match(/(\d{2}\/\d{2}-\d{2}\/\d{2})/)
+    match ? match[1] : ''
+  end
+
+  def self.row_amount_value(row)
+    if row[:normalized_amount].nil?
+      (row[:amount].to_f * -1.0)
+    else
+      row[:normalized_amount].to_f
+    end
+  end
+
+  def self.loft_category(row)
+    merchant = row[:merchant_name].to_s
+    simplified_name = row[:simplified_name].to_s
+    description = row[:description].to_s
+    text = [merchant, simplified_name, description, row[:name].to_s].join(' ')
+
+    return 'Classes' if simplified_name.match?(/^Classes\b/i)
+    return 'Point Rentals' if simplified_name.match?(/^Point Rentals\b/i)
+    return 'Room Rental (Zelle)' if text.match?(/zelle/i)
+    return 'Utillities (Con Edison)' if text.match?(/con\s*edison|coned/i)
+    return 'Rent (MANAGEGO)' if text.match?(/managego/i)
+    return 'Taxes (ACC Moshe)' if text.match?(/acc\s*moshe/i)
+
+    'OTHER'
+  end
+
+  def self.apply_loft_pair_labels(rows)
+    grouped = Hash.new { |h, k| h[k] = [] }
+
+    rows.each do |row|
+      next unless row[:merchant_name].to_s.match?(/cosmic\s*loft/i)
+      range = loft_range_from_name(row[:simplified_name])
+      next if range.empty?
+      grouped[range] << row
+    end
+
+    grouped.each do |range, group_rows|
+      next unless group_rows.length == 2
+
+      sorted = group_rows.sort_by { |row| row_amount_value(row).abs }
+      classes_row = sorted[0]
+      rentals_row = sorted[1]
+
+      classes_row[:simplified_name] = "Classes #{range}"
+      rentals_row[:simplified_name] = "Point Rentals #{range}"
+    end
+
+    rows
   end
 
   def self.link_token(user_id:, redirect_uri: nil)
