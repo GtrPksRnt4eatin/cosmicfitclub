@@ -181,7 +181,20 @@ module PlaidIntegration
     current_month_label = nil
     current_month_total = 0.0
     overall_total = 0.0
-    rows.sort_by { |row| [row[:date].to_s, row[:id].to_s] }.each do |row|
+    current_category_group = nil
+    current_category = nil
+    current_direction = nil
+    current_category_total = 0.0
+
+    emit_loft_category_subtotal = lambda do
+      next if current_category_group.nil?
+      out << ["#{current_direction} #{current_category} Subtotal", current_category, current_category_total.round(2), '', '', '', '']
+      current_category_total = 0.0
+    end
+
+    iter_rows = loft_mode ? rows : rows.sort_by { |row| [row[:date].to_s, row[:id].to_s] }
+
+    iter_rows.each do |row|
       row_month = begin
         Date.parse(row[:date].to_s).strftime('%Y-%m')
       rescue
@@ -200,8 +213,11 @@ module PlaidIntegration
         row[:normalized_amount].to_f
       end
       row_category = loft_mode ? loft_category(row) : nil
+      row_direction = row_amount >= 0 ? 'Income' : 'Expense'
+      row_category_group = loft_mode ? "#{row_month}|#{row_direction}|#{row_category}" : nil
 
       if !current_month.nil? && row_month != current_month
+        emit_loft_category_subtotal.call if loft_mode
         if loft_mode
           out << ["#{current_month_label} Subtotal", '', current_month_total.round(2), '', '', '', '']
         else
@@ -209,11 +225,24 @@ module PlaidIntegration
         end
         out << []
         current_month_total = 0.0
+        current_category_group = nil
       end
+
+      if loft_mode && !current_category_group.nil? && row_category_group != current_category_group
+        emit_loft_category_subtotal.call
+      end
+
       current_month = row_month
       current_month_label = row_month_label
       current_month_total += row_amount
       overall_total += row_amount
+
+      if loft_mode
+        current_category_group = row_category_group
+        current_category = row_category
+        current_direction = row_direction
+        current_category_total += row_amount
+      end
 
       if loft_mode
         out << [
@@ -238,6 +267,7 @@ module PlaidIntegration
     end
 
     unless current_month.nil?
+      emit_loft_category_subtotal.call if loft_mode
       if loft_mode
         out << ["#{current_month_label} Subtotal", '', current_month_total.round(2), '', '', '', '']
       else
@@ -288,12 +318,12 @@ module PlaidIntegration
     description = row[:description].to_s
     text = [merchant, simplified_name, description, row[:name].to_s].join(' ')
 
-    return 'Classes' if simplified_name.match?(/^Classes\b/i)
-    return 'Point Rentals' if simplified_name.match?(/^Point Rentals\b/i)
+    return 'Rent' if text.match?(/managego|bsp\s*smk/i)
     return 'Room Rental' if text.match?(/zelle/i)
     return 'Utilities' if text.match?(/con\s*edison|coned/i)
-    return 'Rent' if text.match?(/managego/i)
     return 'Taxes' if text.match?(/acc\s*moshe/i)
+    return 'Classes' if simplified_name.match?(/^Classes\b/i)
+    return 'Point Rentals' if simplified_name.match?(/^Point Rentals\b/i)
 
     'OTHER'
   end
