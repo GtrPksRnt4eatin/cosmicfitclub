@@ -1,0 +1,393 @@
+require 'plaid'
+require 'json'
+require 'date'
+require 'time'
+require 'csv'
+require 'sinatra/base'
+
+module PlaidIntegration
+  def self.environment
+    (ENV['PLAID_ENV'] || 'production').downcase
+  end
+
+  def self.client
+    return @@client if defined?(@@client) && @@client
+
+    configuration = Plaid::Configuration.new
+    configuration.server_index = Plaid::Configuration::Environment[environment]
+    configuration.api_key['PLAID-CLIENT-ID'] = ENV['PLAID_CLIENT_ID']
+    configuration.api_key['PLAID-SECRET'] = ENV['PLAID_SECRET']
+
+    api_client = Plaid::ApiClient.new(configuration)
+    @@client = Plaid::PlaidApi.new(api_client)
+  end
+
+  def self.link_token(user_id:, redirect_uri: nil)
+    products = (ENV['PLAID_PRODUCTS'] || 'transactions').split(',').map(&:strip)
+    country_codes = (ENV['PLAID_COUNTRY_CODES'] || 'US').split(',').map(&:strip)
+
+    request = Plaid::LinkTokenCreateRequest.new(
+      user: { client_user_id: user_id.to_s },
+      client_name: (ENV['PLAID_CLIENT_NAME'] || 'CosmicFit'),
+      products: products,
+      country_codes: country_codes,
+      language: 'en'
+    )
+
+    if redirect_uri && !redirect_uri.to_s.strip.empty?
+      request.redirect_uri = redirect_uri
+    elsif ENV['PLAID_REDIRECT_URI'] && !ENV['PLAID_REDIRECT_URI'].strip.empty?
+      request.redirect_uri = ENV['PLAID_REDIRECT_URI']
+    end
+
+    response = client.link_token_create(request)
+    response.link_token
+  end
+
+  def self.exchange_public_token(public_token)
+    request = Plaid::ItemPublicTokenExchangeRequest.new(public_token: public_token)
+    response = client.item_public_token_exchange(request)
+    {
+      access_token: response.access_token,
+      item_id: response.item_id,
+      request_id: response.request_id
+    }
+  end
+
+  def self.setting_key
+    'plaid_accounts'
+  end
+
+  def self.stored_accounts
+    setting = Setting[setting_key]
+    return [] if setting.nil? || setting.val.to_s.strip.empty?
+
+    payload = JSON.parse(setting.val)
+    if payload.is_a?(Hash) && payload.key?('val')
+      payload['val'] || []
+    elsif payload.is_a?(Array)
+      payload
+    else
+      []
+    end
+  rescue
+    []
+  end
+
+  def self.save_accounts(accounts)
+    setting = Setting.find_or_create(key: setting_key)
+    setting.update(val: accounts.to_json)
+  end
+
+  def self.public_accounts
+    stored_accounts.map do |account|
+      account.reject { |key, _| key.to_s == 'access_token' }
+    end
+  end
+
+  def self.remove_account(account_id)
+    existing = stored_accounts
+    kept = existing.reject { |row| row['account_id'].to_s == account_id.to_s }
+    removed = existing.length - kept.length
+    save_accounts(kept)
+    removed
+  end
+
+  def self.link_account(public_token)
+    exchange_result = exchange_public_token(public_token)
+    access_token = exchange_result[:access_token]
+    item_id = exchange_result[:item_id]
+
+    accounts_request = Plaid::AccountsGetRequest.new(access_token: access_token)
+    accounts_response = client.accounts_get(accounts_request)
+    accounts_payload = JSON.parse(accounts_response.to_json)
+    remote_accounts = accounts_payload['accounts'] || []
+
+    institution_name = lookup_institution_name(access_token)
+
+    existing = stored_accounts
+
+    remote_accounts.each do |remote|
+      account_id = remote['account_id'].to_s
+      next if account_id.empty?
+
+      record = {
+        'uid' => "#{item_id}:#{account_id}",
+        'item_id' => item_id,
+        'access_token' => access_token,
+        'account_id' => account_id,
+        'name' => remote['name'],
+        'official_name' => remote['official_name'],
+        'mask' => remote['mask'],
+        'type' => remote['type'],
+        'subtype' => remote['subtype'],
+        'institution_name' => institution_name,
+        'added_at' => Time.now.utc.iso8601
+      }
+
+      idx = existing.find_index { |row| row['account_id'].to_s == account_id }
+      if idx.nil?
+        existing << record
+      else
+        existing[idx] = existing[idx].merge(record)
+      end
+    end
+
+    save_accounts(existing)
+    {
+      item_id: item_id,
+      linked_count: remote_accounts.length,
+      accounts: public_accounts
+    }
+  end
+
+  def self.lookup_institution_name(access_token)
+    item_request = Plaid::ItemGetRequest.new(access_token: access_token)
+    item_response = client.item_get(item_request)
+    item_payload = JSON.parse(item_response.to_json)
+    institution_id = item_payload.dig('item', 'institution_id')
+    return '' if institution_id.to_s.strip.empty?
+
+    institution_request = Plaid::InstitutionsGetByIdRequest.new(
+      institution_id: institution_id,
+      country_codes: ['US']
+    )
+    institution_response = client.institutions_get_by_id(institution_request)
+    institution_payload = JSON.parse(institution_response.to_json)
+    institution_payload.dig('institution', 'name').to_s
+  rescue
+    ''
+  end
+
+  def self.transactions(access_token:, start_date:, end_date:, page_size: 200)
+    start_date_obj = start_date.is_a?(Date) ? start_date : Date.parse(start_date.to_s)
+    end_date_obj = end_date.is_a?(Date) ? end_date : Date.parse(end_date.to_s)
+    count = [[page_size.to_i, 500].min, 1].max
+
+    all_transactions = []
+    offset = 0
+
+    loop do
+      request = Plaid::TransactionsGetRequest.new(
+        access_token: access_token,
+        start_date: start_date_obj,
+        end_date: end_date_obj,
+        options: {
+          count: count,
+          offset: offset
+        }
+      )
+
+      response = client.transactions_get(request)
+      transactions = response.transactions || []
+
+      all_transactions.concat(transactions.map { |transaction| normalize_transaction(transaction) })
+
+      offset += transactions.length
+      break if offset >= response.total_transactions.to_i
+    end
+
+    all_transactions
+  end
+
+  def self.normalize_transaction(transaction)
+    {
+      id: transaction.transaction_id,
+      account_id: transaction.account_id,
+      date: transaction.date,
+      name: transaction.name,
+      merchant_name: transaction.merchant_name,
+      amount: transaction.amount,
+      iso_currency_code: transaction.iso_currency_code,
+      unofficial_currency_code: transaction.unofficial_currency_code,
+      category: transaction.category,
+      pending: transaction.pending
+    }
+  end
+end
+
+class PlaidRoutes < Sinatra::Base
+  before do
+    content_type :json unless request.path_info.end_with?('.csv')
+  end
+
+  post '/link_token' do
+    payload = parse_json_body
+    user_id = payload['user_id'] || params['user_id'] || 'cosmicfit-user'
+    redirect_uri = payload['redirect_uri'] || params['redirect_uri']
+
+    link_token = PlaidIntegration.link_token(user_id: user_id, redirect_uri: redirect_uri)
+
+    {
+      success: true,
+      environment: PlaidIntegration.environment,
+      link_token: link_token
+    }.to_json
+  rescue => e
+    log_plaid_error('Plaid Link Token Error', e)
+    status 500
+    { success: false, error: e.message }.to_json
+  end
+
+  post '/exchange_public_token' do
+    payload = parse_json_body
+    public_token = payload['public_token'] || params['public_token']
+
+    if public_token.to_s.strip.empty?
+      halt 400, { success: false, error: 'public_token is required' }.to_json
+    end
+
+    result = PlaidIntegration.exchange_public_token(public_token)
+    {
+      success: true,
+      item_id: result[:item_id],
+      access_token: result[:access_token],
+      request_id: result[:request_id]
+    }.to_json
+  rescue => e
+    log_plaid_error('Plaid Public Token Exchange Error', e)
+    status 500
+    { success: false, error: e.message }.to_json
+  end
+
+  post '/link_account' do
+    payload = parse_json_body
+    public_token = payload['public_token'] || params['public_token']
+
+    if public_token.to_s.strip.empty?
+      halt 400, { success: false, error: 'public_token is required' }.to_json
+    end
+
+    result = PlaidIntegration.link_account(public_token)
+    {
+      success: true,
+      item_id: result[:item_id],
+      linked_count: result[:linked_count],
+      accounts: result[:accounts]
+    }.to_json
+  rescue => e
+    log_plaid_error('Plaid Link Account Error', e)
+    status 500
+    { success: false, error: e.message }.to_json
+  end
+
+  get '/accounts' do
+    {
+      success: true,
+      accounts: PlaidIntegration.public_accounts
+    }.to_json
+  rescue => e
+    log_plaid_error('Plaid Accounts List Error', e)
+    status 500
+    { success: false, error: e.message }.to_json
+  end
+
+  post '/remove_account' do
+    payload = parse_json_body
+    account_id = (payload['account_id'] || params['account_id']).to_s
+
+    if account_id.strip.empty?
+      halt 400, { success: false, error: 'account_id is required' }.to_json
+    end
+
+    removed = PlaidIntegration.remove_account(account_id)
+    {
+      success: true,
+      removed: removed,
+      accounts: PlaidIntegration.public_accounts
+    }.to_json
+  rescue => e
+    log_plaid_error('Plaid Remove Account Error', e)
+    status 500
+    { success: false, error: e.message }.to_json
+  end
+
+  post '/transactions' do
+    payload = parse_json_body
+
+    access_token = payload['access_token'] || params['access_token'] || ENV['PLAID_ACCESS_TOKEN']
+    start_date = payload['start_date'] || params['start_date'] || (Date.today << 1).to_s
+    end_date = payload['end_date'] || params['end_date'] || Date.today.to_s
+
+    if access_token.to_s.strip.empty?
+      halt 400, { success: false, error: 'access_token is required' }.to_json
+    end
+
+    rows = PlaidIntegration.transactions(
+      access_token: access_token,
+      start_date: start_date,
+      end_date: end_date
+    )
+
+    {
+      success: true,
+      count: rows.length,
+      start_date: start_date,
+      end_date: end_date,
+      transactions: rows
+    }.to_json
+  rescue => e
+    log_plaid_error('Plaid Transactions Error', e)
+    status 500
+    { success: false, error: e.message }.to_json
+  end
+
+  get '/transactions.csv' do
+    account_id = params['account_id'].to_s
+    start_date = params['start_date'].to_s.empty? ? (Date.today << 1).to_s : params['start_date'].to_s
+    end_date = params['end_date'].to_s.empty? ? Date.today.to_s : params['end_date'].to_s
+
+    accounts = PlaidIntegration.stored_accounts
+    account = accounts.find { |row| row['account_id'].to_s == account_id }
+    halt 404, 'Account not found' if account.nil?
+
+    rows = PlaidIntegration.transactions(
+      access_token: account['access_token'],
+      start_date: start_date,
+      end_date: end_date
+    ).select { |row| row[:account_id].to_s == account_id }
+
+    csv = CSV.generate do |out|
+      out << ['date', 'name', 'merchant_name', 'amount', 'currency', 'category', 'pending', 'transaction_id']
+      rows.each do |row|
+        out << [
+          row[:date],
+          row[:name],
+          row[:merchant_name],
+          row[:amount],
+          row[:iso_currency_code] || row[:unofficial_currency_code],
+          Array(row[:category]).join(' > '),
+          row[:pending],
+          row[:id]
+        ]
+      end
+    end
+
+    filename = "plaid_transactions_#{account_id}_#{start_date}_#{end_date}.csv"
+    content_type 'text/csv'
+    response['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+    csv
+  rescue => e
+    log_plaid_error('Plaid Transactions CSV Error', e)
+    status 500
+    content_type :json
+    { success: false, error: e.message }.to_json
+  end
+
+  private
+
+  def parse_json_body
+    body = request.body.read.to_s
+    return {} if body.empty?
+
+    JSON.parse(body)
+  rescue
+    {}
+  end
+
+  def log_plaid_error(title, error)
+    if defined?(Slack)
+      Slack.err(title, error)
+    end
+  end
+end

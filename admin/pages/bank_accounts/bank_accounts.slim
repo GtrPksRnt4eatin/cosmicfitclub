@@ -1,0 +1,54 @@
+<!DOCTYPE html
+
+html
+  head
+    == no_scaling
+
+    title Cosmicfit Admin
+
+    == css [ 'fonts', 'site', 'header', 'admin/bank_accounts' ]
+    == js  [ 'jquery', 'rivets', 'lib' ]
+    script src='https://cdn.plaid.com/link/v2/stable/link-initialize.js'
+    == js  [ 'element', 'ev_channel', '/auth/elements/userview', 'admin/bank_accounts' ]
+
+  body
+    #stars
+
+    == include_slim('slim/partials/admin_header')
+
+    #content
+      .tile
+        .title Bank Accounts (Plaid)
+
+        .controls
+          button rv-on-click='ctrl.add_account' Add Account
+          input type='date' rv-value='data.start_date'
+          input type='date' rv-value='data.end_date'
+
+        p.notice Connect account with Plaid Link, then download CSV per account.
+
+      .tile
+        .title Connected Accounts
+
+        table.accounts_table
+          tbody
+            tr
+              th Institution
+              th Name
+              th Mask
+              th Type
+              th Added
+              th Action
+            tr rv-each-account='data.accounts'
+              td[] { account.institution_name }
+              td[] { account.official_name | fallback account.name }
+              td[] { account.mask }
+              td[] { account.type } / { account.subtype }
+              td[] { account.added_at }
+              td
+                button rv-on-click='ctrl.download_csv' rv-data-account_id='account.account_id' Download CSV
+                button rv-on-click='ctrl.remove_account' rv-data-account_id='account.account_id' Remove
+
+      .tile rv-show='data.message'
+        .title Status
+        p[] { data.message }

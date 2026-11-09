@@ -1,0 +1,20 @@
+#content .controls {
+  display: flex;
+  gap: 0.75em;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#content .accounts_table {
+  width: 100%;
+}
+
+#content .accounts_table th,
+#content .accounts_table td {
+  text-align: left;
+  padding: 0.4em 0.3em;
+}
+
+#content .notice {
+  margin-top: 0.75em;
+}

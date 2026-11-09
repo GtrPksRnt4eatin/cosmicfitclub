@@ -179,6 +179,10 @@ map '/integrations/slackbot' do
   run SlackBot
 end
 
+map '/integrations/plaid' do
+  run PlaidRoutes
+end
+
 map "/qrcode" do
   run QrCodeRoutes
 end
