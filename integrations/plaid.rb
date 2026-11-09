@@ -6,6 +6,23 @@ require 'csv'
 require 'sinatra/base'
 
 module PlaidIntegration
+  def self.array_from(value)
+    return value if value.is_a?(Array)
+    return [] if value.nil?
+
+    if value.is_a?(String)
+      parsed = JSON.parse(value) rescue nil
+      return parsed if parsed.is_a?(Array)
+      return parsed['accounts'] if parsed.is_a?(Hash) && parsed['accounts'].is_a?(Array)
+      return []
+    end
+
+    return value['accounts'] if value.is_a?(Hash) && value['accounts'].is_a?(Array)
+    return [value] if value.is_a?(Hash)
+
+    []
+  end
+
   def self.environment
     (ENV['PLAID_ENV'] || 'production').downcase
   end
@@ -63,13 +80,15 @@ module PlaidIntegration
     return [] if setting.nil? || setting.val.to_s.strip.empty?
 
     payload = JSON.parse(setting.val)
-    if payload.is_a?(Hash) && payload.key?('val')
-      payload['val'] || []
-    elsif payload.is_a?(Array)
-      payload
-    else
-      []
+    return payload if payload.is_a?(Array)
+
+    if payload.is_a?(Hash)
+      candidate = payload['val']
+      candidate = payload['accounts'] if candidate.nil?
+      return array_from(candidate)
     end
+
+    array_from(payload)
   rescue
     []
   end
@@ -100,14 +119,20 @@ module PlaidIntegration
 
     accounts_request = Plaid::AccountsGetRequest.new(access_token: access_token)
     accounts_response = client.accounts_get(accounts_request)
-    accounts_payload = JSON.parse(accounts_response.to_json)
-    remote_accounts = accounts_payload['accounts'] || []
+    remote_accounts = if accounts_response.respond_to?(:accounts)
+      array_from(accounts_response.accounts)
+    else
+      accounts_payload = JSON.parse(accounts_response.to_json)
+      array_from(accounts_payload['accounts'])
+    end
 
     institution_name = lookup_institution_name(access_token)
 
     existing = stored_accounts
 
     remote_accounts.each do |remote|
+      next unless remote.is_a?(Hash)
+
       account_id = remote['account_id'].to_s
       next if account_id.empty?
 
