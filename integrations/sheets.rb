@@ -582,6 +582,16 @@ module Sheets
       end
     end
 
+    begin
+      chase_1067_rows = PlaidIntegration.transactions_sheet_rows_for_mask('1067', start, finish)
+      unless chase_1067_rows.empty?
+        Sheets::add_sheet(sheets, file.id, 'Chase 1067 Transactions')
+        Sheets::fill_sheet(sheets, file.id, 'Chase 1067 Transactions', chase_1067_rows)
+      end
+    rescue => e
+      Slack.err('Chase 1067 Sheet Tab Error', e)
+    end
+
     file.web_view_link || file.webViewLink
   end
 

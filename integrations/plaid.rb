@@ -135,6 +135,54 @@ module PlaidIntegration
     removed
   end
 
+  def self.normalized_stored_accounts
+    array_from(stored_accounts).map { |row| normalize_account_record(row) }.compact
+  end
+
+  def self.account_by_mask(mask_suffix)
+    suffix = mask_suffix.to_s.strip
+    return nil if suffix.empty?
+
+    normalized_stored_accounts.find do |account|
+      account_mask = account['mask'].to_s
+      account_name = account['name'].to_s
+      official_name = account['official_name'].to_s
+      account_mask.end_with?(suffix) || account_name.include?(suffix) || official_name.include?(suffix)
+    end
+  end
+
+  def self.transactions_sheet_rows_for_mask(mask_suffix, start_date, end_date)
+    account = account_by_mask(mask_suffix)
+    return [] if account.nil?
+
+    rows = transactions(
+      access_token: account['access_token'],
+      start_date: start_date,
+      end_date: end_date
+    ).select { |row| row[:account_id].to_s == account['account_id'].to_s }
+
+    out = []
+    out << ["Plaid Transactions (#{account['institution_name']} #{account['mask']})"]
+    out << ['Period', "#{start_date} to #{end_date}"]
+    out << []
+    out << ['Date', 'Name', 'Merchant', 'Amount', 'Currency', 'Category', 'Pending', 'Transaction ID']
+
+    rows.sort_by { |row| row[:date].to_s }.each do |row|
+      out << [
+        row[:date],
+        row[:name],
+        row[:merchant_name],
+        row[:amount],
+        row[:iso_currency_code] || row[:unofficial_currency_code],
+        Array(row[:category]).join(' > '),
+        row[:pending] ? 'yes' : 'no',
+        row[:id]
+      ]
+    end
+
+    out
+  end
+
   def self.link_token(user_id:, redirect_uri: nil)
     products = (ENV['PLAID_PRODUCTS'] || 'transactions').split(',').map(&:strip)
     country_codes = (ENV['PLAID_COUNTRY_CODES'] || 'US').split(',').map(&:strip)
@@ -426,7 +474,7 @@ class PlaidRoutes < Sinatra::Base
     start_date = params['start_date'].to_s.empty? ? (Date.today << 1).to_s : params['start_date'].to_s
     end_date = params['end_date'].to_s.empty? ? Date.today.to_s : params['end_date'].to_s
 
-    accounts = PlaidIntegration.stored_accounts.map { |row| PlaidIntegration.normalize_account_record(row) }.compact
+    accounts = PlaidIntegration.normalized_stored_accounts
     account = accounts.find { |row| row['account_id'].to_s == account_id }
     halt 404, 'Account not found' if account.nil?
 
