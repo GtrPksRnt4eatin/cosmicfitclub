@@ -6,6 +6,34 @@ require 'csv'
 require 'sinatra/base'
 
 module PlaidIntegration
+  def self.environment
+    (ENV['PLAID_ENV'] || 'production').downcase
+  end
+
+  def self.client
+    return @@client if defined?(@@client) && @@client
+
+    configuration = Plaid::Configuration.new
+    configuration.server_index = Plaid::Configuration::Environment[environment]
+    configuration.api_key['PLAID-CLIENT-ID'] = ENV['PLAID_CLIENT_ID']
+    configuration.api_key['PLAID-SECRET'] = ENV['PLAID_SECRET']
+
+    api_client = Plaid::ApiClient.new(configuration)
+    @@client = Plaid::PlaidApi.new(api_client)
+  end
+
+  def self.setting_key
+    'plaid_accounts'
+  end
+
+  def self.json_array_like?(value)
+    value.is_a?(Array) || value.class.name == 'Sequel::Postgres::JSONArray'
+  end
+
+  def self.json_hash_like?(value)
+    value.is_a?(Hash) || value.class.name == 'Sequel::Postgres::JSONHash'
+  end
+
   def self.extract_value(source, key)
     return nil if source.nil?
 
@@ -23,6 +51,29 @@ module PlaidIntegration
     extract_value(source, key).to_s
   end
 
+  def self.array_from(value)
+    return value.to_a if json_array_like?(value)
+    return [] if value.nil?
+
+    if value.is_a?(String)
+      parsed = JSON.parse(value) rescue nil
+      return parsed.to_a if json_array_like?(parsed)
+      if json_hash_like?(parsed)
+        parsed_accounts = parsed['accounts'] || parsed[:accounts]
+        return parsed_accounts.to_a if json_array_like?(parsed_accounts)
+      end
+      return []
+    end
+
+    if json_hash_like?(value)
+      value_accounts = value['accounts'] || value[:accounts]
+      return value_accounts.to_a if json_array_like?(value_accounts)
+      return [value]
+    end
+
+    []
+  end
+
   def self.normalize_account_record(record)
     parsed = if record.is_a?(String)
       JSON.parse(record) rescue nil
@@ -30,7 +81,7 @@ module PlaidIntegration
       record
     end
 
-    return nil unless parsed.is_a?(Hash)
+    return nil unless json_hash_like?(parsed)
 
     normalized = {}
     parsed.each { |key, value| normalized[key.to_s] = value }
@@ -39,37 +90,49 @@ module PlaidIntegration
     nil
   end
 
-  def self.array_from(value)
-    return value if value.is_a?(Array)
-    return [] if value.nil?
+  def self.stored_accounts
+    setting = Setting[setting_key]
+    return [] if setting.nil? || setting.val.nil? || setting.val.to_s.strip.empty?
 
-    if value.is_a?(String)
-      parsed = JSON.parse(value) rescue nil
-      return parsed if parsed.is_a?(Array)
-      return parsed['accounts'] if parsed.is_a?(Hash) && parsed['accounts'].is_a?(Array)
-      return []
+    raw = setting.val
+    payload = raw.is_a?(String) ? (JSON.parse(raw) rescue nil) : raw
+    return [] if payload.nil?
+
+    if json_array_like?(payload)
+      return array_from(payload)
     end
 
-    return value['accounts'] if value.is_a?(Hash) && value['accounts'].is_a?(Array)
-    return [value] if value.is_a?(Hash)
+    if json_hash_like?(payload)
+      candidate = payload['val'] || payload[:val]
+      candidate = payload['accounts'] || payload[:accounts] if candidate.nil?
+      return array_from(candidate)
+    end
 
+    array_from(payload)
+  rescue
     []
   end
 
-  def self.environment
-    (ENV['PLAID_ENV'] || 'production').downcase
+  def self.save_accounts(accounts)
+    setting = Setting.find_or_create(key: setting_key)
+    setting.update(val: accounts.to_json)
   end
 
-  def self.client
-    return @@client if defined?(@@client) && @@client
+  def self.public_accounts
+    array_from(stored_accounts).map do |account|
+      normalized = normalize_account_record(account)
+      next if normalized.nil?
 
-    configuration = Plaid::Configuration.new
-    configuration.server_index = Plaid::Configuration::Environment[environment]
-    configuration.api_key['PLAID-CLIENT-ID'] = ENV['PLAID_CLIENT_ID']
-    configuration.api_key['PLAID-SECRET'] = ENV['PLAID_SECRET']
+      normalized.reject { |key, _| key.to_s == 'access_token' }
+    end.compact
+  end
 
-    api_client = Plaid::ApiClient.new(configuration)
-    @@client = Plaid::PlaidApi.new(api_client)
+  def self.remove_account(account_id)
+    existing = array_from(stored_accounts).map { |row| normalize_account_record(row) }.compact
+    kept = existing.reject { |row| row['account_id'].to_s == account_id.to_s }
+    removed = existing.length - kept.length
+    save_accounts(kept)
+    removed
   end
 
   def self.link_token(user_id:, redirect_uri: nil)
@@ -104,61 +167,6 @@ module PlaidIntegration
     }
   end
 
-  def self.setting_key
-    'plaid_accounts'
-  end
-
-  def self.stored_accounts
-    setting = Setting[setting_key]
-    return [] if setting.nil? || setting.val.to_s.strip.empty?
-
-    raw = setting.val
-    payload = if raw.is_a?(String)
-      JSON.parse(raw)
-    else
-      raw
-    end
-
-    return array_from(payload) if payload.is_a?(Array)
-
-    if payload.is_a?(Hash)
-      candidate = payload['val']
-      candidate = payload[:val] if candidate.nil? && payload.respond_to?(:key?) && payload.key?(:val)
-      candidate = payload['accounts'] if candidate.nil?
-      candidate = payload[:accounts] if candidate.nil? && payload.respond_to?(:key?) && payload.key?(:accounts)
-      return array_from(candidate)
-    end
-
-    array_from(payload)
-  rescue
-    []
-  end
-
-  def self.save_accounts(accounts)
-    setting = Setting.find_or_create(key: setting_key)
-    setting.update(val: accounts.to_json)
-  end
-
-  def self.public_accounts
-    array_from(stored_accounts).map do |account|
-      normalized = normalize_account_record(account)
-      next if normalized.nil?
-      normalized.reject { |key, _| key.to_s == 'access_token' }
-    end.compact
-  end
-
-  def self.remove_account(account_id)
-    existing = stored_accounts
-    kept = existing.reject do |row|
-      normalized = normalize_account_record(row)
-      next false if normalized.nil?
-      normalized['account_id'].to_s == account_id.to_s
-    end
-    removed = existing.length - kept.length
-    save_accounts(kept)
-    removed
-  end
-
   def self.link_account(public_token)
     exchange_result = exchange_public_token(public_token)
     access_token = exchange_result[:access_token]
@@ -166,14 +174,15 @@ module PlaidIntegration
 
     accounts_request = Plaid::AccountsGetRequest.new(access_token: access_token)
     accounts_response = client.accounts_get(accounts_request)
+
     remote_accounts = nil
     if accounts_response.respond_to?(:to_hash)
       payload_hash = accounts_response.to_hash
       remote_accounts = array_from(payload_hash[:accounts] || payload_hash['accounts'])
     end
     if remote_accounts.nil? || remote_accounts.empty?
-      accounts_payload = JSON.parse(accounts_response.to_json) rescue {}
-      remote_accounts = array_from(accounts_payload['accounts'])
+      payload_json = JSON.parse(accounts_response.to_json) rescue {}
+      remote_accounts = array_from(payload_json['accounts'])
     end
     if remote_accounts.nil? || remote_accounts.empty?
       remote_accounts = array_from(extract_value(accounts_response, :accounts))
@@ -417,7 +426,7 @@ class PlaidRoutes < Sinatra::Base
     start_date = params['start_date'].to_s.empty? ? (Date.today << 1).to_s : params['start_date'].to_s
     end_date = params['end_date'].to_s.empty? ? Date.today.to_s : params['end_date'].to_s
 
-    accounts = PlaidIntegration.stored_accounts
+    accounts = PlaidIntegration.stored_accounts.map { |row| PlaidIntegration.normalize_account_record(row) }.compact
     account = accounts.find { |row| row['account_id'].to_s == account_id }
     halt 404, 'Account not found' if account.nil?
 
