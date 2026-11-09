@@ -112,12 +112,20 @@ module PlaidIntegration
     setting = Setting[setting_key]
     return [] if setting.nil? || setting.val.to_s.strip.empty?
 
-    payload = JSON.parse(setting.val)
-    return payload if payload.is_a?(Array)
+    raw = setting.val
+    payload = if raw.is_a?(String)
+      JSON.parse(raw)
+    else
+      raw
+    end
+
+    return array_from(payload) if payload.is_a?(Array)
 
     if payload.is_a?(Hash)
       candidate = payload['val']
+      candidate = payload[:val] if candidate.nil? && payload.respond_to?(:key?) && payload.key?(:val)
       candidate = payload['accounts'] if candidate.nil?
+      candidate = payload[:accounts] if candidate.nil? && payload.respond_to?(:key?) && payload.key?(:accounts)
       return array_from(candidate)
     end
 
