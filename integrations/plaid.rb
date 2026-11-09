@@ -165,15 +165,27 @@ module PlaidIntegration
     out << ["Plaid Transactions (#{account['institution_name']} #{account['mask']})"]
     out << ['Period', "#{start_date} to #{end_date}"]
     out << []
-    out << ['Date', 'Name', 'Merchant', 'Description', 'Amount', 'Currency', 'Category', 'Pending', 'Transaction ID']
+    out << ['Date', 'Amount', 'Name', 'Merchant', 'Description', 'Currency', 'Category', 'Pending', 'Transaction ID']
 
-    rows.sort_by { |row| row[:date].to_s }.each do |row|
+    current_month = nil
+    rows.sort_by { |row| [row[:date].to_s, row[:id].to_s] }.each do |row|
+      row_month = begin
+        Date.parse(row[:date].to_s).strftime('%Y-%m')
+      rescue
+        row[:date].to_s[0, 7]
+      end
+
+      if !current_month.nil? && row_month != current_month
+        out << []
+      end
+      current_month = row_month
+
       out << [
         row[:date],
-        row[:display_name].to_s.empty? ? row[:name] : row[:display_name],
+        row[:amount],
+        row[:simplified_name].to_s.empty? ? (row[:display_name].to_s.empty? ? row[:name] : row[:display_name]) : row[:simplified_name],
         row[:merchant_name],
         row[:description],
-        row[:amount],
         row[:iso_currency_code] || row[:unofficial_currency_code],
         Array(row[:category]).join(' > '),
         row[:pending] ? 'yes' : 'no',
@@ -341,6 +353,99 @@ module PlaidIntegration
     all_transactions
   end
 
+  def self.inferred_merchant_name(long_description, raw_name, merchant_name, unofficial_merchant_name, counterparty_name)
+    text = [long_description, raw_name, merchant_name, unofficial_merchant_name, counterparty_name].map { |v| v.to_s }.join(' ')
+
+    return 'Cosmic Loft' if text.match?(/cosmic\s*loft/i)
+    return 'PayPal' if text.match?(/paypal/i)
+
+    [merchant_name, unofficial_merchant_name, counterparty_name, raw_name].find { |v| !v.to_s.strip.empty? }.to_s
+  end
+
+  def self.extract_ind_id(text)
+    str = text.to_s
+    return '' if str.empty?
+
+    match = str.match(/IND\s*ID\s*[:=]\s*([^|,;]+)/i)
+    return '' if match.nil?
+
+    match[1].to_s.strip
+  end
+
+  def self.co_entry_descr_text(text)
+    str = text.to_s
+    return '' if str.empty?
+
+    match = str.match(/CO\s*ENTRY\s*DESCR\s*[:=]\s*([^|]+)/i)
+    return '' if match.nil?
+
+    match[1].to_s.strip
+  end
+
+  def self.infer_reference_year(transaction_date, month)
+    tx_date = begin
+      Date.parse(transaction_date.to_s)
+    rescue
+      Date.today
+    end
+
+    year = tx_date.year
+    year -= 1 if month > (tx_date.month + 6)
+    year += 1 if month < (tx_date.month - 6)
+    year
+  end
+
+  def self.half_month_range_from_co_entry(transaction_date, co_entry)
+    text = co_entry.to_s
+    return '' if text.empty?
+
+    range_match = text.match(/(\d{1,2})[\/\-](\d{1,2})\s*(?:to|\-|–|—)\s*(\d{1,2})[\/\-](\d{1,2})/i)
+    if range_match
+      m1 = range_match[1].to_i
+      d1 = range_match[2].to_i
+      m2 = range_match[3].to_i
+      d2 = range_match[4].to_i
+      return format('%02d/%02d-%02d/%02d', m1, d1, m2, d2)
+    end
+
+    single_match = text.match(/(\d{1,2})[\/\-](\d{1,2})/)
+    return '' if single_match.nil?
+
+    month = single_match[1].to_i
+    day = single_match[2].to_i
+    return '' if month <= 0 || month > 12 || day <= 0 || day > 31
+
+    year = infer_reference_year(transaction_date, month)
+    last_day = Date.new(year, month, -1).day
+
+    period_start_day = day <= 15 ? 1 : 16
+    period_end_day = day <= 15 ? 15 : last_day
+
+    format('%02d/%02d-%02d/%02d', month, period_start_day, month, period_end_day)
+  rescue
+    ''
+  end
+
+  def self.simplified_name_for_transaction(transaction_date:, merchant_name:, long_description:, fallback:)
+    merchant = merchant_name.to_s
+    description = long_description.to_s
+
+    if merchant.match?(/paypal/i)
+      ind_id = extract_ind_id(description)
+      return "PayPal #{ind_id}" unless ind_id.empty?
+      return 'PayPal'
+    end
+
+    if merchant.match?(/cosmic\s*loft/i)
+      co_entry = co_entry_descr_text(description)
+      range = half_month_range_from_co_entry(transaction_date, co_entry)
+      return "Classes #{range}" unless range.empty?
+      return 'Classes'
+    end
+
+    fallback.to_s
+  end
+
   def self.normalize_transaction(transaction)
     payload = if transaction.respond_to?(:to_hash)
       transaction.to_hash
@@ -382,12 +487,30 @@ module PlaidIntegration
       counterparty_name.to_s
     ].map { |v| v.to_s.strip }.reject(&:empty?).uniq.join(' | ')
 
+    inferred_merchant = inferred_merchant_name(
+      long_description,
+      raw_name,
+      merchant_name,
+      unofficial_merchant_name,
+      counterparty_name.to_s
+    )
+
+    fallback_name = [merchant_name, unofficial_merchant_name, counterparty_name.to_s, raw_name].find { |v| !v.to_s.strip.empty? }.to_s
+    simplified_name = simplified_name_for_transaction(
+      transaction_date: transaction.date,
+      merchant_name: inferred_merchant,
+      long_description: long_description,
+      fallback: fallback_name
+    )
+
     {
       id: transaction.transaction_id,
       account_id: transaction.account_id,
       date: transaction.date,
       name: raw_name,
-      merchant_name: merchant_name,
+      simplified_name: simplified_name,
+      merchant_name: inferred_merchant,
+      plaid_merchant_name: merchant_name,
       display_name: display_name,
       description: long_description,
       original_description: original_description,
@@ -565,13 +688,15 @@ class PlaidRoutes < Sinatra::Base
     ).select { |row| row[:account_id].to_s == account_id }
 
     csv = CSV.generate do |out|
-      out << ['date', 'display_name', 'name', 'merchant_name', 'description', 'original_description', 'unofficial_merchant_name', 'amount', 'currency', 'category', 'pending', 'transaction_id']
+      out << ['date', 'display_name', 'name', 'raw_name', 'merchant_name', 'plaid_merchant_name', 'description', 'original_description', 'unofficial_merchant_name', 'amount', 'currency', 'category', 'pending', 'transaction_id']
       rows.each do |row|
         out << [
           row[:date],
           row[:display_name],
+          row[:simplified_name].to_s.empty? ? row[:name] : row[:simplified_name],
           row[:name],
           row[:merchant_name],
+          row[:plaid_merchant_name],
           row[:description],
           row[:original_description],
           row[:unofficial_merchant_name],
