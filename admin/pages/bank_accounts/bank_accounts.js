@@ -109,7 +109,8 @@ function open_plaid_link(linkToken) {
         contentType: 'application/json',
         success: function(resp) {
           var count = resp && resp.linked_count ? resp.linked_count : 0;
-          data.message = 'Linked ' + count + ' account(s).';
+          var saved = resp && resp.saved_count ? resp.saved_count : 0;
+          data.message = 'Linked ' + count + ' account(s), saved ' + saved + '.';
           load_accounts();
         },
         error: function(xhr) {

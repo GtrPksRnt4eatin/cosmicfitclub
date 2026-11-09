@@ -6,6 +6,23 @@ require 'csv'
 require 'sinatra/base'
 
 module PlaidIntegration
+  def self.extract_value(source, key)
+    return nil if source.nil?
+
+    if source.is_a?(Hash)
+      return source[key.to_s] if source.key?(key.to_s)
+      return source[key.to_sym] if source.key?(key.to_sym)
+    end
+
+    return source.public_send(key) if source.respond_to?(key)
+
+    nil
+  end
+
+  def self.string_value(source, key)
+    extract_value(source, key).to_s
+  end
+
   def self.array_from(value)
     return value if value.is_a?(Array)
     return [] if value.nil?
@@ -119,21 +136,26 @@ module PlaidIntegration
 
     accounts_request = Plaid::AccountsGetRequest.new(access_token: access_token)
     accounts_response = client.accounts_get(accounts_request)
-    remote_accounts = if accounts_response.respond_to?(:accounts)
-      array_from(accounts_response.accounts)
-    else
-      accounts_payload = JSON.parse(accounts_response.to_json)
-      array_from(accounts_payload['accounts'])
+    remote_accounts = nil
+    if accounts_response.respond_to?(:to_hash)
+      payload_hash = accounts_response.to_hash
+      remote_accounts = array_from(payload_hash[:accounts] || payload_hash['accounts'])
+    end
+    if remote_accounts.nil? || remote_accounts.empty?
+      accounts_payload = JSON.parse(accounts_response.to_json) rescue {}
+      remote_accounts = array_from(accounts_payload['accounts'])
+    end
+    if remote_accounts.nil? || remote_accounts.empty?
+      remote_accounts = array_from(extract_value(accounts_response, :accounts))
     end
 
     institution_name = lookup_institution_name(access_token)
 
     existing = stored_accounts
+    saved_count = 0
 
     remote_accounts.each do |remote|
-      next unless remote.is_a?(Hash)
-
-      account_id = remote['account_id'].to_s
+      account_id = string_value(remote, :account_id)
       next if account_id.empty?
 
       record = {
@@ -141,11 +163,11 @@ module PlaidIntegration
         'item_id' => item_id,
         'access_token' => access_token,
         'account_id' => account_id,
-        'name' => remote['name'],
-        'official_name' => remote['official_name'],
-        'mask' => remote['mask'],
-        'type' => remote['type'],
-        'subtype' => remote['subtype'],
+        'name' => extract_value(remote, :name),
+        'official_name' => extract_value(remote, :official_name),
+        'mask' => extract_value(remote, :mask),
+        'type' => extract_value(remote, :type),
+        'subtype' => extract_value(remote, :subtype),
         'institution_name' => institution_name,
         'added_at' => Time.now.utc.iso8601
       }
@@ -156,12 +178,14 @@ module PlaidIntegration
       else
         existing[idx] = existing[idx].merge(record)
       end
+      saved_count += 1
     end
 
     save_accounts(existing)
     {
       item_id: item_id,
       linked_count: remote_accounts.length,
+      saved_count: saved_count,
       accounts: public_accounts
     }
   end
@@ -288,6 +312,7 @@ class PlaidRoutes < Sinatra::Base
       success: true,
       item_id: result[:item_id],
       linked_count: result[:linked_count],
+      saved_count: result[:saved_count],
       accounts: result[:accounts]
     }.to_json
   rescue => e
