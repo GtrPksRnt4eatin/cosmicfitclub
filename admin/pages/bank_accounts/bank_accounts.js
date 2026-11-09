@@ -2,7 +2,9 @@ data = {
   accounts: [],
   start_date: '',
   end_date: '',
-  message: ''
+  message: '',
+  stripe_pnl_generating: false,
+  stripe_pnl_button_text: 'Generate Stripe P&L Sheet'
 }
 
 ctrl = {
@@ -55,6 +57,36 @@ ctrl = {
         data.message = parse_error(xhr, 'Failed to remove account');
       }
     });
+  },
+
+  generate_stripe_pnl: function() {
+    if(data['stripe_pnl_generating']) { return; }
+    if(!(data['start_date'] && data['end_date'])) {
+      data.message = 'Select a start and end date first.';
+      return;
+    }
+
+    set_stripe_pnl_generating(true);
+    data.message = 'Starting Stripe P&L generation...';
+
+    $.get('/models/staff/stripe_pnl_sheet', { from: data['start_date'], to: data['end_date'] })
+      .done(function(resp) {
+        if(resp && resp.job_id) {
+          poll_stripe_pnl_job(resp.job_id, 0);
+          return;
+        }
+        if(resp && resp.url) {
+          set_stripe_pnl_generating(false);
+          window.location = resp.url;
+          return;
+        }
+        set_stripe_pnl_generating(false);
+        data.message = 'Stripe P&L job started, but no job id was returned.';
+      })
+      .fail(function(xhr) {
+        set_stripe_pnl_generating(false);
+        data.message = parse_error(xhr, 'Failed to create Stripe P&L sheet');
+      });
   }
 }
 
@@ -157,4 +189,47 @@ function parse_error(xhr, fallback) {
   } catch (e) {
     return fallback;
   }
+}
+
+function poll_stripe_pnl_job(jobId, attempts) {
+  var maxAttempts = 150;
+  var delayMs = 2000;
+
+  if(attempts >= maxAttempts) {
+    set_stripe_pnl_generating(false);
+    data.message = 'Stripe P&L generation timed out. Try a smaller date range.';
+    return;
+  }
+
+  setTimeout(function() {
+    $.get('/models/staff/stripe_pnl_sheet_status', { job_id: jobId })
+      .done(function(resp) {
+        if(!resp || !resp.status) {
+          poll_stripe_pnl_job(jobId, attempts + 1);
+          return;
+        }
+
+        if(resp.status === 'completed' && resp.url) {
+          set_stripe_pnl_generating(false);
+          window.location = resp.url;
+          return;
+        }
+
+        if(resp.status === 'failed') {
+          set_stripe_pnl_generating(false);
+          data.message = resp.error || 'Stripe P&L job failed';
+          return;
+        }
+
+        poll_stripe_pnl_job(jobId, attempts + 1);
+      })
+      .fail(function() {
+        poll_stripe_pnl_job(jobId, attempts + 1);
+      });
+  }, delayMs);
+}
+
+function set_stripe_pnl_generating(isGenerating) {
+  data['stripe_pnl_generating'] = !!isGenerating;
+  data['stripe_pnl_button_text'] = isGenerating ? 'Generating Stripe P&L…' : 'Generate Stripe P&L Sheet';
 }

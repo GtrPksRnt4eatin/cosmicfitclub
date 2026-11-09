@@ -87,6 +87,8 @@ html
             a href='/admin/payroll' Generate Payroll
           div
             a href='/admin/paypal' Paypal
+          div
+            a href='/admin/bank_accounts' Profit and Loss
 
       -if user.has_role? "scheduling"
         .tile
@@ -99,8 +101,6 @@ html
         .tile
           .header Superadmin
           hr
-          div
-            a href='/admin/bank_accounts' Bank Accounts
           div
             a href='/admin/roles' Manage Roles
           div
