@@ -186,13 +186,18 @@ module PlaidIntegration
   def self.link_token(user_id:, redirect_uri: nil)
     products = (ENV['PLAID_PRODUCTS'] || 'transactions').split(',').map(&:strip)
     country_codes = (ENV['PLAID_COUNTRY_CODES'] || 'US').split(',').map(&:strip)
+    days_requested = (ENV['PLAID_DAYS_REQUESTED'] || '730').to_i
+    days_requested = 730 if days_requested <= 0
 
     request = Plaid::LinkTokenCreateRequest.new(
       user: { client_user_id: user_id.to_s },
       client_name: (ENV['PLAID_CLIENT_NAME'] || 'CosmicFit'),
       products: products,
       country_codes: country_codes,
-      language: 'en'
+      language: 'en',
+      transactions: {
+        days_requested: days_requested
+      }
     )
 
     if redirect_uri && !redirect_uri.to_s.strip.empty?
@@ -203,6 +208,15 @@ module PlaidIntegration
 
     response = client.link_token_create(request)
     response.link_token
+  end
+
+  def self.refresh_transactions_for_account_id(account_id)
+    account = normalized_stored_accounts.find { |row| row['account_id'].to_s == account_id.to_s }
+    return false if account.nil?
+
+    request = Plaid::TransactionsRefreshRequest.new(access_token: account['access_token'])
+    client.transactions_refresh(request)
+    true
   end
 
   def self.exchange_public_token(public_token)
@@ -435,6 +449,27 @@ class PlaidRoutes < Sinatra::Base
     }.to_json
   rescue => e
     log_plaid_error('Plaid Remove Account Error', e)
+    status 500
+    { success: false, error: e.message }.to_json
+  end
+
+  post '/refresh_account' do
+    payload = parse_json_body
+    account_id = (payload['account_id'] || params['account_id']).to_s
+
+    if account_id.strip.empty?
+      halt 400, { success: false, error: 'account_id is required' }.to_json
+    end
+
+    ok = PlaidIntegration.refresh_transactions_for_account_id(account_id)
+    halt 404, { success: false, error: 'account not found' }.to_json unless ok
+
+    {
+      success: true,
+      message: 'refresh requested'
+    }.to_json
+  rescue => e
+    log_plaid_error('Plaid Refresh Account Error', e)
     status 500
     { success: false, error: e.message }.to_json
   end
