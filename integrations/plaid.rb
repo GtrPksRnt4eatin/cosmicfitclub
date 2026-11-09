@@ -168,6 +168,9 @@ module PlaidIntegration
     out << ['Date', 'Amount', 'Merchant', 'Name', 'Description', 'Transaction ID']
 
     current_month = nil
+    current_month_label = nil
+    current_month_total = 0.0
+    overall_total = 0.0
     rows.sort_by { |row| [row[:date].to_s, row[:id].to_s] }.each do |row|
       row_month = begin
         Date.parse(row[:date].to_s).strftime('%Y-%m')
@@ -175,19 +178,42 @@ module PlaidIntegration
         row[:date].to_s[0, 7]
       end
 
+      row_month_label = begin
+        Date.parse(row[:date].to_s).strftime('%b %Y')
+      rescue
+        row_month
+      end
+
+      row_amount = if row[:normalized_amount].nil?
+        (row[:amount].to_f * -1.0).round(2)
+      else
+        row[:normalized_amount].to_f
+      end
+
       if !current_month.nil? && row_month != current_month
+        out << ["#{current_month_label} Subtotal", current_month_total.round(2), '', '', '', '']
         out << []
+        current_month_total = 0.0
       end
       current_month = row_month
+      current_month_label = row_month_label
+      current_month_total += row_amount
+      overall_total += row_amount
 
       out << [
         row[:date],
-        row[:amount],
+        row_amount,
         row[:merchant_name],
         row[:simplified_name].to_s.empty? ? (row[:display_name].to_s.empty? ? row[:name] : row[:display_name]) : row[:simplified_name],
         row[:description],
         row[:id]
       ]
+    end
+
+    unless current_month.nil?
+      out << ["#{current_month_label} Subtotal", current_month_total.round(2), '', '', '', '']
+      out << []
+      out << ['GRAND TOTAL', overall_total.round(2), '', '', '', '']
     end
 
     out
@@ -513,6 +539,7 @@ module PlaidIntegration
       original_description: original_description,
       unofficial_merchant_name: unofficial_merchant_name,
       amount: transaction.amount,
+      normalized_amount: (transaction.amount.to_f * -1.0).round(2),
       iso_currency_code: transaction.iso_currency_code,
       unofficial_currency_code: transaction.unofficial_currency_code,
       category: transaction.category,
@@ -685,7 +712,7 @@ class PlaidRoutes < Sinatra::Base
     ).select { |row| row[:account_id].to_s == account_id }
 
     csv = CSV.generate do |out|
-      out << ['date', 'display_name', 'name', 'raw_name', 'merchant_name', 'plaid_merchant_name', 'description', 'original_description', 'unofficial_merchant_name', 'amount', 'transaction_id']
+      out << ['date', 'display_name', 'name', 'raw_name', 'merchant_name', 'plaid_merchant_name', 'description', 'original_description', 'unofficial_merchant_name', 'amount', 'plaid_amount', 'transaction_id']
       rows.each do |row|
         out << [
           row[:date],
@@ -697,6 +724,7 @@ class PlaidRoutes < Sinatra::Base
           row[:description],
           row[:original_description],
           row[:unofficial_merchant_name],
+          row[:normalized_amount].nil? ? (row[:amount].to_f * -1.0).round(2) : row[:normalized_amount],
           row[:amount],
           row[:id]
         ]

@@ -579,7 +579,7 @@ module StripeMethods
     when :cosmic_loft_cents then cosmic_loft
     when :transfers_out_bank_cents then cosmic_fit
     when :other_transfer_total_cents then others
-    when :chase_expenses_cents then nil
+    when :chase_expenses_cents then metrics[:chase_expenses_cents].to_i
     when :paypal_expenses_cents then metrics[:paypal_expenses_cents].to_i
     when :total_expenses_cents then expenses_total
     when :net_cents then income_total - expenses_total

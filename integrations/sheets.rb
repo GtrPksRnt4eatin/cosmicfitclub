@@ -401,9 +401,48 @@ module Sheets
     totals
   end
 
-  def Sheets::period_summary_rows(month_ranges, month_reports, period_start, period_end, paypal_payload=nil)
+  def Sheets::chase_expenses_by_month_for_mask(mask_suffix, period_start, period_end)
+    account = PlaidIntegration.account_by_mask(mask_suffix)
+    return {} if account.nil?
+
+    rows = PlaidIntegration.transactions(
+      access_token: account['access_token'],
+      start_date: period_start,
+      end_date: period_end
+    ).select { |row| row[:account_id].to_s == account['account_id'].to_s }
+
+    grouped = Hash.new(0)
+
+    rows.each do |row|
+      merchant = row[:merchant_name].to_s
+      description = row[:description].to_s
+      next if merchant.match?(/paypal/i) || description.match?(/paypal/i)
+
+      amount = if row[:normalized_amount].nil?
+        (row[:amount].to_f * -1.0).round(2)
+      else
+        row[:normalized_amount].to_f
+      end
+      next unless amount < 0
+
+      month_key = begin
+        Date.parse(row[:date].to_s).strftime('%Y-%m')
+      rescue
+        row[:date].to_s[0, 7]
+      end
+      grouped[month_key] += ((amount.abs) * 100.0).round
+    end
+
+    grouped
+  rescue => e
+    Slack.err('Chase Expenses Aggregation Error', e)
+    {}
+  end
+
+  def Sheets::period_summary_rows(month_ranges, month_reports, period_start, period_end, paypal_payload=nil, chase_expenses_by_month=nil)
     month_labels = month_ranges.map { |month_start, _month_end| month_start.strftime('%b').upcase }
     paypal_payload ||= PayPalSDK::monthly_transactions_payload(period_start, period_end)
+    chase_expenses_by_month ||= {}
     paypal_by_month = {}
     paypal_payload[:months].each do |month|
       paypal_by_month[month[:start].strftime('%Y-%m')] = {
@@ -415,7 +454,8 @@ module Sheets
     month_metrics = month_reports.each_with_index.map do |report, index|
       month_start, month_end = month_ranges[index]
       paypal_metrics = paypal_by_month[month_start.strftime('%Y-%m')] || { paypal_income_cents: 0, paypal_expenses_cents: 0 }
-      StripeMethods::period_metrics(report).merge(paypal_metrics)
+      chase_metrics = { chase_expenses_cents: chase_expenses_by_month[month_start.strftime('%Y-%m')].to_i }
+      StripeMethods::period_metrics(report).merge(paypal_metrics).merge(chase_metrics)
     end
     period_metrics = Sheets::aggregate_period_metrics(month_metrics)
 
@@ -535,6 +575,7 @@ module Sheets
     period_report = Sheets::safe_period_pnl_report(start, finish)
     period_transactions = period_report[:transactions] || []
     paypal_payload = PayPalSDK::monthly_transactions_payload(start, finish)
+    chase_expenses_by_month = Sheets::chase_expenses_by_month_for_mask('1067', start, finish)
 
     month_reports = month_ranges.map do |month_start, month_end|
       monthly_transactions = period_transactions.select do |row|
@@ -556,7 +597,7 @@ module Sheets
     file = Sheets::create_sheet(drive, title, "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n")
 
     Sheets::rename_sheet(sheets, file.id, 0, "Summary")
-    Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, start, finish, paypal_payload))
+    Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, start, finish, paypal_payload, chase_expenses_by_month))
 
     month_ranges.each_with_index do |(month_start, _month_end), index|
       tab_name = month_start.strftime('%b %Y')
