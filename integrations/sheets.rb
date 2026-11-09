@@ -452,7 +452,7 @@ module Sheets
     end
 
     month_metrics = month_reports.each_with_index.map do |report, index|
-      month_start, month_end = month_ranges[index]
+      month_start, _month_end = month_ranges[index]
       paypal_metrics = paypal_by_month[month_start.strftime('%Y-%m')] || { paypal_income_cents: 0, paypal_expenses_cents: 0 }
       chase_metrics = { chase_expenses_cents: chase_expenses_by_month[month_start.strftime('%Y-%m')].to_i }
       StripeMethods::period_metrics(report).merge(paypal_metrics).merge(chase_metrics)
@@ -498,6 +498,22 @@ module Sheets
     rows << Sheets::period_summary_row('NET', :net_cents, month_metrics, period_metrics)
     rows << Sheets::period_summary_row('Cosmic Fit Club (Transfer Out)', :transfers_out_bank_cents, month_metrics, period_metrics)
 
+    rows
+  end
+
+  def Sheets::loft_summary_rows(month_ranges, period_start, period_end, chase_expenses_by_month, account_mask)
+    month_labels = month_ranges.map { |month_start, _month_end| month_start.strftime('%b').upcase }
+    expense_values_cents = month_ranges.map do |month_start, _month_end|
+      chase_expenses_by_month[month_start.strftime('%Y-%m')].to_i
+    end
+    total_expense_cents = expense_values_cents.sum
+
+    rows = []
+    rows << ['Loft Period Summary']
+    rows << ['Account Mask', account_mask]
+    rows << ['Category', ''] + month_labels + ['', "#{period_start} to #{period_end}"]
+    rows << []
+    rows << ['Chase Expenses', ''] + expense_values_cents.map { |c| c.to_f / 100.0 } + ['', total_expense_cents.to_f / 100.0]
     rows
   end
 
@@ -559,7 +575,11 @@ module Sheets
     Sheets::empty_pnl_report(from_date, to_date)
   end
 
-  def Sheets::create_monthly_stripe_pnl_sheet(year_or_from, month_or_to)
+  def Sheets::create_monthly_stripe_pnl_sheet(year_or_from, month_or_to, options = {})
+    account_mask = options[:account_mask].to_s.strip
+    account_mask = '1067' if account_mask.empty?
+    loft_only = (account_mask == '5785')
+
     if year_or_from.to_s =~ /^\d{4}$/ && month_or_to.to_s =~ /^\d{1,2}$/
       year = year_or_from.to_i
       month = month_or_to.to_i
@@ -572,65 +592,80 @@ module Sheets
     end
 
     month_ranges = Sheets::month_slices(start, finish)
-    period_report = Sheets::safe_period_pnl_report(start, finish)
+    period_report = loft_only ? Sheets::empty_pnl_report(start, finish) : Sheets::safe_period_pnl_report(start, finish)
     period_transactions = period_report[:transactions] || []
-    paypal_payload = PayPalSDK::monthly_transactions_payload(start, finish)
-    chase_expenses_by_month = Sheets::chase_expenses_by_month_for_mask('1067', start, finish)
+    paypal_payload = loft_only ? nil : PayPalSDK::monthly_transactions_payload(start, finish)
+    chase_expenses_by_month = Sheets::chase_expenses_by_month_for_mask(account_mask, start, finish)
 
-    month_reports = month_ranges.map do |month_start, month_end|
-      monthly_transactions = period_transactions.select do |row|
-        created = row[:created]
-        next false if created.nil?
-        day = created.to_date
-        day >= month_start && day <= month_end
+    month_reports = if loft_only
+      []
+    else
+      month_ranges.map do |month_start, month_end|
+        monthly_transactions = period_transactions.select do |row|
+          created = row[:created]
+          next false if created.nil?
+          day = created.to_date
+          day >= month_start && day <= month_end
+        end
+        StripeMethods::report_from_transactions(monthly_transactions, month_start, month_end)
       end
-      StripeMethods::report_from_transactions(monthly_transactions, month_start, month_end)
     end
     sheets, drive = Sheets::get_service2
 
     title = if month_ranges.length > 1
-      "#{start.strftime('%Y-%m-%d')} to #{finish.strftime('%Y-%m-%d')} Stripe P&L"
+      suffix = loft_only ? 'Loft P&L' : 'Stripe P&L'
+      "#{start.strftime('%Y-%m-%d')} to #{finish.strftime('%Y-%m-%d')} #{suffix}"
     else
-      "#{start.strftime('%Y-%m')} Stripe P&L"
+      suffix = loft_only ? 'Loft P&L' : 'Stripe P&L'
+      "#{start.strftime('%Y-%m')} #{suffix}"
     end
 
     file = Sheets::create_sheet(drive, title, "1RvnAXjk20LdCrv6AunMWfhzLb81T-_9n")
 
     Sheets::rename_sheet(sheets, file.id, 0, "Summary")
-    Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, start, finish, paypal_payload, chase_expenses_by_month))
-
-    month_ranges.each_with_index do |(month_start, _month_end), index|
-      tab_name = month_start.strftime('%b %Y')
-      report = month_reports[index]
-      if index == 0
-        Sheets::add_sheet(sheets, file.id, tab_name)
-      else
-        Sheets::add_sheet(sheets, file.id, tab_name)
-      end
-      Sheets::fill_sheet(sheets, file.id, tab_name, Sheets::pnl_month_tab_rows_from_report(report))
+    if loft_only
+      Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::loft_summary_rows(month_ranges, start, finish, chase_expenses_by_month, account_mask))
+    else
+      Sheets::fill_sheet(sheets, file.id, "Summary", Sheets::period_summary_rows(month_ranges, month_reports, start, finish, paypal_payload, chase_expenses_by_month))
     end
 
-    begin
-      Sheets::add_sheet(sheets, file.id, 'PayPal Transactions')
-      Sheets::fill_sheet(sheets, file.id, 'PayPal Transactions', PayPalSDK::transactions_sheet_rows(start, finish, paypal_payload))
-    rescue => e
-      Slack.err('PayPal Sheet Tab Error', e)
+    unless loft_only
+      month_ranges.each_with_index do |(month_start, _month_end), index|
+        tab_name = month_start.strftime('%b %Y')
+        report = month_reports[index]
+        if index == 0
+          Sheets::add_sheet(sheets, file.id, tab_name)
+        else
+          Sheets::add_sheet(sheets, file.id, tab_name)
+        end
+        Sheets::fill_sheet(sheets, file.id, tab_name, Sheets::pnl_month_tab_rows_from_report(report))
+      end
+    end
+
+    unless loft_only
       begin
-        Sheets::add_sheet(sheets, file.id, 'PayPal')
-        Sheets::fill_sheet(sheets, file.id, 'PayPal', PayPalSDK::transactions_sheet_rows(start, finish, paypal_payload))
-      rescue => e2
-        Slack.err('PayPal Sheet Fallback Tab Error', e2)
+        Sheets::add_sheet(sheets, file.id, 'PayPal Transactions')
+        Sheets::fill_sheet(sheets, file.id, 'PayPal Transactions', PayPalSDK::transactions_sheet_rows(start, finish, paypal_payload))
+      rescue => e
+        Slack.err('PayPal Sheet Tab Error', e)
+        begin
+          Sheets::add_sheet(sheets, file.id, 'PayPal')
+          Sheets::fill_sheet(sheets, file.id, 'PayPal', PayPalSDK::transactions_sheet_rows(start, finish, paypal_payload))
+        rescue => e2
+          Slack.err('PayPal Sheet Fallback Tab Error', e2)
+        end
       end
     end
 
     begin
-      chase_1067_rows = PlaidIntegration.transactions_sheet_rows_for_mask('1067', start, finish)
-      unless chase_1067_rows.empty?
-        Sheets::add_sheet(sheets, file.id, 'Chase 1067 Transactions')
-        Sheets::fill_sheet(sheets, file.id, 'Chase 1067 Transactions', chase_1067_rows)
+      chase_rows = PlaidIntegration.transactions_sheet_rows_for_mask(account_mask, start, finish)
+      unless chase_rows.empty?
+        tab_name = "Chase #{account_mask} Transactions"
+        Sheets::add_sheet(sheets, file.id, tab_name)
+        Sheets::fill_sheet(sheets, file.id, tab_name, chase_rows)
       end
     rescue => e
-      Slack.err('Chase 1067 Sheet Tab Error', e)
+      Slack.err("Chase #{account_mask} Sheet Tab Error", e)
     end
 
     file.web_view_link || file.webViewLink
@@ -662,12 +697,13 @@ module Sheets
       nil
     end
 
-    def self.start_job(year_or_from, month_or_to)
+    def self.start_job(year_or_from, month_or_to, account_mask='1067')
       job_id = SecureRandom.uuid
       now = Time.now.utc.iso8601
       self.write_job({
         status: 'queued',
         job_id: job_id,
+        account_mask: account_mask,
         created_at: now,
         updated_at: now,
         url: nil,
@@ -677,7 +713,7 @@ module Sheets
       pid = fork do
         begin
           self.update_job(job_id, status: 'running', updated_at: Time.now.utc.iso8601)
-          url = Sheets::create_monthly_stripe_pnl_sheet(year_or_from, month_or_to)
+          url = Sheets::create_monthly_stripe_pnl_sheet(year_or_from, month_or_to, account_mask: account_mask)
           self.update_job(job_id, status: 'completed', url: url, updated_at: Time.now.utc.iso8601)
         rescue => e
           Slack.err('Stripe P&L Background Job Error', e)

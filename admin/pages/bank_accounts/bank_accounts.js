@@ -3,8 +3,7 @@ data = {
   start_date: '',
   end_date: '',
   message: '',
-  stripe_pnl_generating: false,
-  stripe_pnl_button_text: 'Generate Stripe P&L Sheet'
+  stripe_pnl_generating: false
 }
 
 ctrl = {
@@ -59,34 +58,12 @@ ctrl = {
     });
   },
 
-  generate_stripe_pnl: function() {
-    if(data['stripe_pnl_generating']) { return; }
-    if(!(data['start_date'] && data['end_date'])) {
-      data.message = 'Select a start and end date first.';
-      return;
-    }
+  generate_cfc_pnl: function() {
+    start_pnl_generation('1067', 'CFC');
+  },
 
-    set_stripe_pnl_generating(true);
-    data.message = 'Starting Stripe P&L generation...';
-
-    $.get('/models/staff/stripe_pnl_sheet', { from: data['start_date'], to: data['end_date'] })
-      .done(function(resp) {
-        if(resp && resp.job_id) {
-          poll_stripe_pnl_job(resp.job_id, 0);
-          return;
-        }
-        if(resp && resp.url) {
-          set_stripe_pnl_generating(false);
-          window.location = resp.url;
-          return;
-        }
-        set_stripe_pnl_generating(false);
-        data.message = 'Stripe P&L job started, but no job id was returned.';
-      })
-      .fail(function(xhr) {
-        set_stripe_pnl_generating(false);
-        data.message = parse_error(xhr, 'Failed to create Stripe P&L sheet');
-      });
+  generate_loft_pnl: function() {
+    start_pnl_generation('5785', 'Loft');
   }
 }
 
@@ -191,13 +168,47 @@ function parse_error(xhr, fallback) {
   }
 }
 
-function poll_stripe_pnl_job(jobId, attempts) {
+function start_pnl_generation(accountMask, label) {
+  if(data['stripe_pnl_generating']) { return; }
+  if(!(data['start_date'] && data['end_date'])) {
+    data.message = 'Select a start and end date first.';
+    return;
+  }
+
+  set_stripe_pnl_generating(true);
+  data.message = 'Starting ' + label + ' P&L generation...';
+
+  $.get('/models/staff/stripe_pnl_sheet', {
+      from: data['start_date'],
+      to: data['end_date'],
+      account_mask: accountMask
+    })
+    .done(function(resp) {
+      if(resp && resp.job_id) {
+        poll_stripe_pnl_job(resp.job_id, 0, label);
+        return;
+      }
+      if(resp && resp.url) {
+        set_stripe_pnl_generating(false);
+        window.location = resp.url;
+        return;
+      }
+      set_stripe_pnl_generating(false);
+      data.message = label + ' P&L job started, but no job id was returned.';
+    })
+    .fail(function(xhr) {
+      set_stripe_pnl_generating(false);
+      data.message = parse_error(xhr, 'Failed to create ' + label + ' P&L sheet');
+    });
+}
+
+function poll_stripe_pnl_job(jobId, attempts, label) {
   var maxAttempts = 150;
   var delayMs = 2000;
 
   if(attempts >= maxAttempts) {
     set_stripe_pnl_generating(false);
-    data.message = 'Stripe P&L generation timed out. Try a smaller date range.';
+    data.message = label + ' P&L generation timed out. Try a smaller date range.';
     return;
   }
 
@@ -205,7 +216,7 @@ function poll_stripe_pnl_job(jobId, attempts) {
     $.get('/models/staff/stripe_pnl_sheet_status', { job_id: jobId })
       .done(function(resp) {
         if(!resp || !resp.status) {
-          poll_stripe_pnl_job(jobId, attempts + 1);
+          poll_stripe_pnl_job(jobId, attempts + 1, label);
           return;
         }
 
@@ -217,19 +228,18 @@ function poll_stripe_pnl_job(jobId, attempts) {
 
         if(resp.status === 'failed') {
           set_stripe_pnl_generating(false);
-          data.message = resp.error || 'Stripe P&L job failed';
+          data.message = resp.error || (label + ' P&L job failed');
           return;
         }
 
-        poll_stripe_pnl_job(jobId, attempts + 1);
+        poll_stripe_pnl_job(jobId, attempts + 1, label);
       })
       .fail(function() {
-        poll_stripe_pnl_job(jobId, attempts + 1);
+        poll_stripe_pnl_job(jobId, attempts + 1, label);
       });
   }, delayMs);
 }
 
 function set_stripe_pnl_generating(isGenerating) {
   data['stripe_pnl_generating'] = !!isGenerating;
-  data['stripe_pnl_button_text'] = isGenerating ? 'Generating Stripe P&L…' : 'Generate Stripe P&L Sheet';
 }

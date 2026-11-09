@@ -24,7 +24,8 @@ html
           button rv-on-click='ctrl.add_account' Add Account
           input type='date' rv-value='data.start_date'
           input type='date' rv-value='data.end_date'
-          button rv-on-click='ctrl.generate_stripe_pnl' rv-disabled='data.stripe_pnl_generating' { data.stripe_pnl_button_text }
+          button rv-on-click='ctrl.generate_cfc_pnl' rv-disabled='data.stripe_pnl_generating' Generate CFC P&L
+          button rv-on-click='ctrl.generate_loft_pnl' rv-disabled='data.stripe_pnl_generating' Generate Loft P&L
 
         p.notice Connect account with Plaid Link, download CSV per account, and generate Stripe P&L sheets.
 
